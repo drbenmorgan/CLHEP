@@ -1,4 +1,4 @@
-// $Id: ConvertHEPEVT.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ConvertHEPEVT.h,v 1.2 2003/10/10 15:56:34 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ConvertHEPEVT.h
@@ -14,8 +14,8 @@
 //    bool tf = conv.fromGenEvent( evt );
 //
 // ----------------------------------------------------------------------
-#ifndef CONVERTHEPEVT_H
-#define CONVERTHEPEVT_H
+#ifndef CONVERT_HEPEVT_H
+#define CONVERT_HEPEVT_H
 
 #include "CLHEP/HepMC/GenEventConvert.h"
 #include "CLHEP/HepMC/CBhepevt.h"
@@ -27,4 +27,4 @@ typedef  CBInterface<CBhepevt>      FIhepevt;
 
 }
 
-#endif // CONVERTHEPEVT_H
+#endif // CONVERT_HEPEVT_H

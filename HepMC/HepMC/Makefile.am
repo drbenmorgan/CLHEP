@@ -7,8 +7,11 @@ SUBDIRS = include
 pkginclude_HEADERS = \
 	CBhepevt.h	\
 	CBhepevt.icc	\
+	CBherwig.h	\
+	CBherwig.icc	\
 	CBInterface.h	\
 	ConvertHEPEVT.h	\
+	ConvertHerwig.h	\
 	DummyDecayModel.h	\
 	Flow.h		\
 	GenEventConvert.h	\

@@ -1,0 +1,1039 @@
+// $Id: CBherwig.icc,v 1.1 2003/10/10 15:56:34 garren Exp $
+// ----------------------------------------------------------------------
+// CBherwig.icc
+// ----------------------------------------------------------------------
+// Author:  Lynn Garren, Marc Paterno,
+//
+namespace HepMC  {
+
+CBherwig::CBherwig()
+: hptr( & hepevt_ ),
+  itsTrustMothers( false ),
+  itsTrustMothersAndDaughters( true ),
+  itsNoBarcodeGaps( true ),
+  m_herwig_to_pdg_id(100,0)
+{ 
+    //
+    // HepPDT translation tables should be used instead
+    //
+    // These arrays are copied from Lynn Garren's stdhep 5.01.
+    //   see http://www-pat.fnal.gov/stdhep.html
+    // Translation from HERWIG particle ID's to PDG particle ID's.
+    m_herwig_to_pdg_id[1] =1; 
+    m_herwig_to_pdg_id[2] =2;
+    m_herwig_to_pdg_id[3] =3;
+    m_herwig_to_pdg_id[4] =4;
+    m_herwig_to_pdg_id[5] =5;
+    m_herwig_to_pdg_id[6] =6;
+    m_herwig_to_pdg_id[7] =7;
+    m_herwig_to_pdg_id[8] =8;
+
+    m_herwig_to_pdg_id[11] =11;
+    m_herwig_to_pdg_id[12] =12;
+    m_herwig_to_pdg_id[13] =13;
+    m_herwig_to_pdg_id[14] =14;
+    m_herwig_to_pdg_id[15] =15;
+    m_herwig_to_pdg_id[16] =16;
+
+    m_herwig_to_pdg_id[21] =21;
+    m_herwig_to_pdg_id[22] =22;
+    m_herwig_to_pdg_id[23] =23;
+    m_herwig_to_pdg_id[24] =24;
+    m_herwig_to_pdg_id[25] =25;
+    m_herwig_to_pdg_id[26] =51; // <--
+
+    m_herwig_to_pdg_id[32] =32;
+    m_herwig_to_pdg_id[35] =35;
+    m_herwig_to_pdg_id[36] =36;
+    m_herwig_to_pdg_id[37] =37;
+    m_herwig_to_pdg_id[39] =39;
+
+    m_herwig_to_pdg_id[81] =81;
+    m_herwig_to_pdg_id[82] =82;
+    m_herwig_to_pdg_id[83] =83;
+    m_herwig_to_pdg_id[84] =84;
+    m_herwig_to_pdg_id[85] =85;
+    m_herwig_to_pdg_id[86] =86;
+    m_herwig_to_pdg_id[87] =87;
+    m_herwig_to_pdg_id[88] =88;
+    m_herwig_to_pdg_id[89] =89;
+    m_herwig_to_pdg_id[90] =90;
+
+    m_herwig_to_pdg_id[91] =91;
+    m_herwig_to_pdg_id[92] =92;
+    m_herwig_to_pdg_id[93] =93;
+    m_herwig_to_pdg_id[94] =94;
+    m_herwig_to_pdg_id[95] =95;
+    m_herwig_to_pdg_id[96] =96;
+    m_herwig_to_pdg_id[97] =97;
+    m_herwig_to_pdg_id[98] =9920022; // <--
+    m_herwig_to_pdg_id[99] =9922212; // <--
+
+    // These particle ID's have no antiparticle, so aren't allowed.
+    m_no_antiparticles.insert(-21);
+    m_no_antiparticles.insert(-22);
+    m_no_antiparticles.insert(-23);
+    m_no_antiparticles.insert(-25);
+    m_no_antiparticles.insert(-51);
+    m_no_antiparticles.insert(-35);
+    m_no_antiparticles.insert(-36);
+}
+
+int CBherwig::number_children( int index ) 
+{
+    int firstchild = hptr->jdahep[index][0];
+    return ( firstchild>0 ) ? 
+	( 1+hptr->jdahep[index][1]-firstchild ) : 0;
+}
+
+int CBherwig::number_parents( int index ) {
+    int firstparent = hptr->jmohep[index][0];
+    if( firstparent <= 0 ) return 0;
+    int secondparent = hptr->jmohep[index][1];
+    if( secondparent <= 0 ) return 1;
+    return secondparent - firstparent + 1;
+}
+
+inline int CBherwig::first_parent( int index )
+{ 
+    int parent =  hptr->jmohep[index][0]; 
+    return ( parent > 0 && parent <= number_entries() ) ?
+				     parent : 0; 
+}
+
+inline int CBherwig::last_parent( int index )
+{ 
+    // Returns the Index of the LAST parent in the HEPEVT record
+    // for particle with Index index.
+    // If there is only one parent, the last parent is forced to 
+    // be the same as the first parent.
+    // If there are no parents for this particle, both the first_parent
+    // and the last_parent with return 0.
+    // Error checking is done to ensure the parent is always
+    // within range ( 0 <= parent <= nhep )
+    //
+    int firstparent = first_parent(index);
+    int parent = hptr->jmohep[index][1]; 
+    return ( parent > firstparent && parent <= number_entries() ) 
+					       ? parent : firstparent; 
+}
+
+inline int CBherwig::first_child( int index )
+{ 
+    int child = hptr->jdahep[index][0]; 
+    return ( child > 0 && child <= number_entries() ) ?
+				   child : 0; 
+}
+
+inline int CBherwig::last_child( int index )
+{ 
+    // Returns the Index of the LAST child in the HEPEVT record
+    // for particle with Index index.
+    // If there is only one child, the last child is forced to 
+    // be the same as the first child.
+    // If there are no children for this particle, both the first_child
+    // and the last_child with return 0.
+    // Error checking is done to ensure the child is always
+    // within range ( 0 <= parent <= nhep )
+    //
+    int firstchild = first_child(index);
+    int child = hptr->jdahep[index][1]; 
+    return ( child > firstchild && child <= number_entries() ) 
+					    ? child : firstchild;
+}
+
+void CBherwig::print( std::ostream & os ) const
+{
+    os << "CBherwig (gets an event from HEPEVT common block)" << std::endl;
+    os << "  trustMothers:             " << itsTrustMothers << std::endl;
+    os << "  trustMothersAndDaughters: " << itsTrustMothersAndDaughters << std::endl;
+}
+
+void CBherwig::printHEPEVT( std::ostream & os )
+{
+    // dumps the content of this HEPEVT event to os  (Width is 80)
+    os << "________________________________________"
+       << "________________________________________" << std::endl;
+    os << "***** HEPEVT Common Event#: " 
+       << event_number()
+       << ", " << number_entries() << " particles (max "
+       << max_number_entries() << ") *****";
+    os << " Double Precision" << std::endl;
+    print_legend(os);
+    os << "________________________________________"
+       << "________________________________________" << std::endl;
+    for ( int i=1; i <= number_entries(); ++i ) {
+	printHEPEVTparticle( i, os );
+    }
+    os << "________________________________________"
+       << "________________________________________" << std::endl;
+}
+
+void CBherwig::print_legend( std::ostream & os )
+{
+    char outline[81];
+    sprintf( outline,"%4s %4s %4s %5s   %10s, %9s, %9s, %9s, %10s",
+	     "Indx","Stat","Par-","chil-",
+	     "(  P_x","P_y","P_z","Energy","M ) [GeV]");
+    os << outline << std::endl;
+    sprintf( outline,"%9s %4s %4s    %10s, %9s, %9s, %9s) %9s",
+	     "ID ","ents","dren",
+	     "Prod (   X","Y","Z","cT", "[mm]");
+    os << outline << std::endl;
+}	
+
+void CBherwig::printHEPEVTparticle( int i, std::ostream & os )
+{
+    // dumps the content HEPEVT particle entry i   (Width is 120)
+    // here i is the C array index (i.e. it starts at 0 ... whereas the
+    // fortran array index starts at 1) So if there's 100 particles, the
+    // last valid index is 100-1=99
+    char outline[81];
+    sprintf( outline,
+	     "%4d %+4d %4d %4d    (%9.3g, %9.3g, %9.3g, %9.3g, %9.3g)"
+	     ,i, hptr->isthep[i], first_parent(i), first_child(i),
+	     hptr->phep[i][0], hptr->phep[i][1], hptr->phep[i][2], 
+	     hptr->phep[i][3], hptr->phep[i][4] );
+    os << outline << "\n";
+    sprintf( outline,"%+9d %4d %4d    (%9.3g, %9.3g, %9.3g, %9.3g)",
+	     // old version was:" (%+9.2e, %+9.2e, %+9.2e, %+9.2e)"
+	     hptr->idhep[i], last_parent(i), last_child(i), 
+	     hptr->vhep[i][0], hptr->vhep[i][1], hptr->vhep[i][2], 
+	     hptr->vhep[i][3] );
+    os << outline << std::endl;
+}
+
+bool CBherwig::check_hepevt_consistency( std::ostream & os )
+{
+    // This method inspects the HEPEVT common block and looks for 
+    // inconsistencies in the mother/daughter pointers
+    bool isConsistent=true;
+    char header[81];
+    sprintf( header,
+             "\n\n\t**** WARNINGInconsistent HEPEVT input, Event %10d ****"
+	     , CBherwig::event_number() );
+
+    for ( int i = 1; i <= hptr->nhep; ++i ) {
+	// 1. check its mothers
+	int moth1 = CBherwig::first_parent( i );
+	int moth2 = CBherwig::last_parent( i );
+	if ( moth2<moth1 ) {
+	    if ( isConsistent ) {
+		os << header << std::endl;
+		isConsistent = false;
+		print_legend(os);
+	    }
+	    os << "Inconsistent entry " << i 
+	       << " first parent > last parent " << std::endl;
+	    CBherwig::printHEPEVTparticle( i, os );
+	}
+	for ( int m = moth1; m<=moth2 && m!=0; ++m ) {
+	    if ( m>hptr->nhep || m < 0 ) {
+		if ( isConsistent ) {
+		    os << header << std::endl;
+		    isConsistent = false;
+		    print_legend(os);
+		}
+		os << "Inconsistent entry " << i 
+		   << " mother points out of range " << std::endl;
+		CBherwig::printHEPEVTparticle( i, os );
+	    }
+	    int mChild1 = CBherwig::first_child(m);
+	    int mChild2 = CBherwig::last_child(m);
+	    // we don't consider null pointers as inconsistent
+	    if ( mChild1==0 && mChild2==0 ) continue;
+	    if ( i<mChild1 || i>mChild2 ) {
+		if ( isConsistent ) {
+		    os << header << std::endl;
+		    isConsistent = false;
+		    print_legend(os);
+		}
+		os << "Inconsistent mother-daughter relationship between "
+		   << i << " & " << m 
+		   << " (try !trustMother)" << std::endl;
+		CBherwig::printHEPEVTparticle( i, os );
+		CBherwig::printHEPEVTparticle( m, os );
+	    }
+	}
+	// 2. check its daughters
+	int dau1 = CBherwig::first_child( i );
+	int dau2 = CBherwig::last_child( i );
+	if ( dau2<dau1 ) {
+	    if ( isConsistent ) {
+		os << header << std::endl;
+		isConsistent = false;
+		print_legend(os);
+	    }
+	    os << "Inconsistent entry " << i 
+	       << " first child > last child " << std::endl;
+	    CBherwig::printHEPEVTparticle( i, os );
+	}
+	for ( int d = dau1; d<=dau2 && d!=0; ++d ) {
+	    if ( d>hptr->nhep || d < 0 ) {
+		if ( isConsistent ) {
+		    os << header << std::endl;
+		    isConsistent = false;
+		    print_legend(os);
+		}
+		os << "Inconsistent entry " << i 
+		   << " child points out of range " << std::endl;
+		CBherwig::printHEPEVTparticle( i, os );
+	    }
+	    int d_moth1 = CBherwig::first_parent(d);
+	    int d_moth2 = CBherwig::last_parent(d);
+	    // we don't consider null pointers as inconsistent
+	    if ( d_moth1==0 && d_moth2==0 ) continue;
+	    if ( i<d_moth1 || i>d_moth2 ) {
+		if ( isConsistent ) {
+		    os << header << std::endl;
+		    isConsistent = false;
+		    print_legend(os);
+		}
+		os << "Inconsistent mother-daughter relationship between "
+		   << i << " & " << d 
+		   << " (try trustMothers)"<< std::endl;
+		CBherwig::printHEPEVTparticle( i, os );
+		CBherwig::printHEPEVTparticle( d, os );
+	    }
+	}
+    }
+    if (!isConsistent) {
+	os << "Above lists all the inconsistencies in the HEPEVT common "
+	   << "\n block which has been provided as input to HepMC. "
+	   << "\n HepMC WILL have trouble interpreting the mother-daughter"
+	   << "\n relationships ... but all other information "
+	   << "\n (4-vectors etc) will be correctly transferred."
+	   << "\n In order for HepMC to be able to interpret the mother/"
+	   << "\n daughter hierachy, it MUST be given consistent input."
+	   << "\n This is one of the design criteria of HepMC: "
+	   << "\n consistency is enforced by the code.";
+	os << "\nThere is a switch in CBherwig, set-able using "
+	   << "\n CBherwig::setTrustMothers( bool )"
+	   << "\n which you may want to try.";
+	os << "\nNote: if HEPEVT common block has been filled by pythia"
+	   << "\n pyhepc, then the switch MSTP(128)=2 should be used in"
+	   << "\n pythia, which instructs pythia not to put multiple "
+	   << "\n copies of resonances in the event record.\n";
+	os << "To obtain a file summarizing the inconsistency, you should:"
+	   << "\n\t ofstream myFile(\"myInconsistentEvent.txt\"); "
+	   << "\n\t CBherwig::check_hepevt_consistency(myFile); "
+	   << "\n\t CBherwig::printHEPEVT(myFile); "
+	   << "\n[now write the event to HepMC using something like"
+	   << "\n\t\t myIO_HEPEVT->write_event(myEvent); ]"
+	   << "\n\t myEvent->print( myFile ); "
+	   << "      // print event as HepMC sees it"
+	   << "\n ------------------------- Thank-you. \n\n" << std::endl;
+    }
+    return isConsistent;
+}
+
+void CBherwig::clean(  )
+{
+    int i;
+    hptr->nevhep = 0;
+    hptr->nhep = 0;
+    for( i = 0; i < max_number_entries(); ++i ) {
+	hptr->isthep[i] = 0;
+	hptr->idhep[i] = 0;
+	hptr->jmohep[i][0] = 0;
+	hptr->jmohep[i][1] = 0;
+	hptr->jdahep[i][0] = 0;
+	hptr->jdahep[i][1] = 0;
+	hptr->phep[i][0] = 0;
+	hptr->phep[i][1] = 0;
+	hptr->phep[i][2] = 0;
+	hptr->phep[i][3] = 0; 
+	hptr->phep[i][4] = 0; 
+	hptr->vhep[i][0] = 0;
+	hptr->vhep[i][1] = 0;
+	hptr->vhep[i][2] = 0;
+	hptr->vhep[i][3] = 0;
+    }
+}
+
+bool CBherwig::toGenEvent( GenEvent* evt,  bool printErrors ) {
+    // read one event from the Herwig HEPEVT common block and fill GenEvent
+    // return T/F =success/failure
+    //
+
+    // 1. First we have to fix the HEPEVT input, which is all mucked up for
+    //    herwig.
+    repair_hepevt( printErrors );
+
+    evt->set_event_number( hptr->nevhep );
+    //
+    // 2. create a particle instance for each HEPEVT entry and fill a map
+    //    create a vector which maps from the HEPEVT particle index to the 
+    //    GenParticle address
+    //    (+1 in size accounts for hepevt_particle[0] which is unfilled)
+    std::vector<GenParticle*> hepevt_particle( hptr->nhep+1 );
+    hepevt_particle[0] = 0;
+    for ( int i1 = 1; i1 <= hptr->nhep; ++i1 ) {
+	hepevt_particle[i1] = createParticle(i1);
+    }
+    std::set<GenVertex*> new_vertices;
+    //
+    // 3. We need to take special care with the hard process
+    // vertex.  The problem we are trying to avoid is when the
+    // partons entering the hard process also have daughters from
+    // the parton shower. When this happens, each one can get its
+    // own decay vertex, making it difficult to join them
+    // later. We handle it by joining them together first, then
+    // the other daughters get added on later.
+    // Find the partons entering the hard vertex (status codes 121, 122).
+    int index_121 = 0;
+    int index_122 = 0;
+    for ( int i = 1; i <=hptr->nhep; i++ ) {
+	if ( hptr->isthep[i]==121 ) index_121=i;
+	if ( hptr->isthep[i]==122 ) index_122=i;
+	if ( index_121!=0 && index_122!=0 ) break;
+    }
+    if ( index_121 && index_122 ) {
+	GenVertex* hard_vtx = new GenVertex();
+	hard_vtx->add_particle_in( hepevt_particle[index_121] );
+	hard_vtx->add_particle_in( hepevt_particle[index_122] );
+	// evt->add_vertex( hard_vtx ); // not necessary, its done in 
+	                                // set_signal_process_vertex
+	evt->set_signal_process_vertex( hard_vtx );
+    }
+    //
+    // 4. loop over HEPEVT particles AGAIN, this time creating vertices
+    for ( int i = 1; i <= hptr->nhep; ++i ) {
+	// We go through and build EITHER the production or decay 
+	// vertex for each entry in hepevt, depending on the switch
+	// itsTrustMothers (new 2001-02-28)
+	// Note: since the HEPEVT pointers are bi-directional, it is
+	///      sufficient to do one or the other.
+	//
+	// 3. Build the production_vertex (if necessary)
+	if ( itsTrustMothers || 
+	     itsTrustMothersAndDaughters ) {
+	    buildProductionVertex( i, hepevt_particle, evt, printErrors );
+	}
+	//
+	// 4. Build the end_vertex (if necessary) 
+	//    Identical steps as for production vertex
+	if ( !itsTrustMothers || 
+	     itsTrustMothersAndDaughters ) {
+	    buildEndVertex( i, hepevt_particle, evt, printErrors );
+	}
+    }
+    // 5.             01.02.2000
+    // handle the case of particles in HEPEVT which come from nowhere -
+    //  i.e. particles without mothers or daughters.
+    //  These particles need to be attached to a vertex, or else they
+    //  will never become part of the event. check for this situation.
+    for ( int i3 = 1; i3 <= hptr->nhep; ++i3 ) {
+	// Herwig also has some non-physical entries in HEPEVT
+	// like CMS, HARD, and CONE. These are flagged by
+	// repair_hepevt by making their status and id zero. We
+	// delete those particles here.
+	if ( hepevt_particle[i3] && !hepevt_particle[i3]->parent_event()
+	     && !hepevt_particle[i3]->pdg_id()
+	     && !hepevt_particle[i3]->status() ) {
+	    //std::cout << "CBherwig::toGenEvent is deleting null "
+	    //	  << "particle" << std::endl;
+	    //hepevt_particle[i3]->print();
+	    delete hepevt_particle[i3];
+	} else if ( hepevt_particle[i3] && 
+		    !hepevt_particle[i3]->end_vertex() && 
+		    !hepevt_particle[i3]->production_vertex() ) {
+	    GenVertex* prod_vtx = new GenVertex();
+	    prod_vtx->add_particle_out( hepevt_particle[i3] );
+	    evt->add_vertex( prod_vtx );
+	}
+    }
+    return true;
+}
+
+// for internal use only
+void CBherwig::buildProductionVertex(int i, 
+		std::vector<GenParticle*>& hepevt_particle,
+	        GenEvent* evt, bool printInconsistencyErrors ) {
+    // 
+    // for particle in HEPEVT with index i, build a production vertex
+    // if appropriate, and add that vertex to the event
+    GenParticle* p = hepevt_particle[i];
+    // a. search to see if a production vertex already exists
+    int mother = CBherwig::first_parent(i);
+    GenVertex* prod_vtx = p->production_vertex();
+    while ( !prod_vtx && mother > 0 ) {
+	prod_vtx = hepevt_particle[mother]->end_vertex();
+	if ( prod_vtx ) prod_vtx->add_particle_out( p );
+	// increment mother for next iteration
+	if ( ++mother > CBherwig::last_parent(i) ) mother = 0;
+    }
+    // b. if no suitable production vertex exists - and the particle
+    // has atleast one mother or position information to store - 
+    // make one
+    CLHEP::HepLorentzVector prod_pos( hptr->vhep[i][0], hptr->vhep[i][1], 
+			       hptr->vhep[i][2], hptr->vhep[i][3] 
+	                     ); 
+    if ( !prod_vtx && (CBherwig::number_parents(i)>0 
+		       || prod_pos!=CLHEP::HepLorentzVector(0,0,0,0)) )
+    {
+	prod_vtx = new GenVertex();
+	prod_vtx->add_particle_out( p );
+	evt->add_vertex( prod_vtx ); 
+    }
+    // c. if prod_vtx doesn't already have position specified, fill it
+    if ( prod_vtx && prod_vtx->position()==CLHEP::HepLorentzVector(0,0,0,0) ) {
+	prod_vtx->set_position( prod_pos );
+    }
+    // d. loop over mothers to make sure their end_vertices are
+    //     consistent
+    mother = CBherwig::first_parent(i);
+    while ( prod_vtx && mother > 0 ) {
+	if ( !hepevt_particle[mother]->end_vertex() ) {
+	    // if end vertex of the mother isn't specified, do it now
+	    prod_vtx->add_particle_in( hepevt_particle[mother] );
+	} else if (hepevt_particle[mother]->end_vertex() != prod_vtx ) {
+	    // problem scenario --- the mother already has a decay
+	    // vertex which differs from the daughter's produciton 
+	    // vertex. This means there is internal
+	    // inconsistency in the HEPEVT event record. Print an
+	    // error
+	    // Note: we could provide a fix by joining the two 
+	    //       vertices with a dummy particle if the problem
+	    //       arrises often with any particular generator.
+	    if ( printInconsistencyErrors ) {
+	      std::cerr
+		<< "HepMC::CBherwig: inconsistent mother/daugher "
+		<< "information in HEPEVT event " 
+		<< CBherwig::event_number()
+		<< ". \n I recommend you try "
+		<< "inspecting the event first with "
+		<< "\n\tCBherwig::check_hepevt_consistency()"
+		<< "\n This warning can be turned off with the "
+		<< "CBherwig::setInconsitencyErrors switch."
+		<< std::endl;
+	      hepevt_particle[mother]->print(std::cerr);
+	      std::cerr
+		<< "problem vertices are: (prod_vtx, mother)" << std::endl;
+	      if ( prod_vtx ) prod_vtx->print(std::cerr);
+	      hepevt_particle[mother]->end_vertex()->print(std::cerr);
+	    }
+	}
+	if ( ++mother > CBherwig::last_parent(i) ) mother = 0;
+    }
+}
+
+void CBherwig::buildEndVertex( int i, 
+                     std::vector<GenParticle*>& hepevt_particle, 
+		     GenEvent* evt, bool printInconsistencyErrors ) 
+{
+    // 
+    // for particle in HEPEVT with index i, build an end vertex
+    // if appropriate, and add that vertex to the event
+    //    Identical steps as for buildProductionVertex
+    GenParticle* p = hepevt_particle[i];
+    // a.
+    int daughter = CBherwig::first_child(i);
+    GenVertex* end_vtx = p->end_vertex();
+    while ( !end_vtx && daughter > 0 ) {
+	end_vtx = hepevt_particle[daughter]->production_vertex();
+	if ( end_vtx ) end_vtx->add_particle_in( p );
+	if ( ++daughter > CBherwig::last_child(i) ) daughter = 0;
+    }
+    // b. (different from 3c. because HEPEVT particle can not know its
+    //        decay position )
+    if ( !end_vtx && CBherwig::number_children(i)>0 ) {
+	end_vtx = new GenVertex();
+	end_vtx->add_particle_in( p );
+	evt->add_vertex( end_vtx );
+    }
+    // c+d. loop over daughters to make sure their production vertices 
+    //    point back to the current vertex.
+    //    We get the vertex position from the daughter as well.
+    daughter = CBherwig::first_child(i);
+    while ( end_vtx && daughter > 0 ) {
+	if ( !hepevt_particle[daughter]->production_vertex() ) {
+	    // if end vertex of the mother isn't specified, do it now
+	    end_vtx->add_particle_out( hepevt_particle[daughter] );
+	    // 
+	    // 2001-03-29 M.Dobbs, fill vertex the position.
+	    if ( end_vtx->position()==CLHEP::HepLorentzVector(0,0,0,0) ) {
+		CLHEP::HepLorentzVector prod_pos( hptr->vhep[daughter-1][0], 
+					   hptr->vhep[daughter-1][1], 
+					   hptr->vhep[daughter-1][2], 
+					   hptr->vhep[daughter-1][3] 
+		    );
+		if ( prod_pos != CLHEP::HepLorentzVector(0,0,0,0) ) {
+		    end_vtx->set_position( prod_pos );
+		}
+	    }
+	} else if (hepevt_particle[daughter]->production_vertex() 
+		   != end_vtx){
+	    // problem scenario --- the daughter already has a prod
+	    // vertex which differs from the mother's end 
+	    // vertex. This means there is internal
+	    // inconsistency in the HEPEVT event record. Print an
+	    // error
+	    if ( printInconsistencyErrors ) std::cerr
+		<< "HepMC::CBherwig: inconsistent mother/daugher "
+		<< "information in HEPEVT event " 
+		<< CBherwig::event_number()
+		<< ". \n I recommend you try "
+		<< "inspecting the event first with "
+		<< "\n\tCBherwig::check_hepevt_consistency()"
+		<< "\n This warning can be turned off with the "
+		<< "CBherwig::setInconsitencyErrors switch."
+		<< std::endl;
+	}
+	if ( ++daughter > CBherwig::last_child(i) ) daughter = 0;
+    }
+    if ( !p->end_vertex() && !p->production_vertex() ) {
+	// Added 2001-11-04, to try and handle Isajet problems.
+	buildProductionVertex( i, hepevt_particle, evt, printInconsistencyErrors );
+    }
+}
+
+// for internal use only
+GenParticle* CBherwig::createParticle( int index ) 
+{
+    // Builds a particle object corresponding to index in HEPEVT
+    // 
+    GenParticle* p 
+	= new GenParticle( CLHEP::HepLorentzVector( hptr->phep[index-1][0], 
+					     hptr->phep[index-1][1], 
+					     hptr->phep[index-1][2], 
+					     hptr->phep[index-1][3] ),
+			   hptr->idhep[index-1], 
+			   hptr->isthep[index-1] );
+    p->setGeneratedMass( hptr->phep[index-1][4] );
+    p->suggest_barcode( index );
+    return p;
+}
+
+// for internal use only
+int  CBherwig::find( const std::map<GenParticle*,int>& m, GenParticle* p)
+{
+    std::map<GenParticle*,int>::const_iterator iter = m.find(p);
+    if ( iter == m.end() ) return 0;
+    return iter->second;
+}
+
+// for internal use only
+void CBherwig::repair_hepevt( bool printInconsistencyErrors )
+{
+    //  This routine takes the HEPEVT common block as used in HERWIG,
+    //  and converts it into the HEPEVT common block in the standard format
+    //
+    //  This means it:
+    //    - removes the color structure, which herwig overloads 
+    //      into the mother/daughter fields
+    //    - zeros extra entries for hard subprocess, etc.
+    //
+    //
+    // Special HERWIG status codes
+    //   101,102   colliding beam particles
+    //   103       beam-beam collision CMS vector
+    //   120       hard subprocess CMS vector
+    //   121,122   hard subprocess colliding partons
+    //   123-129   hard subprocess outgoing particles
+    //   141-149   (ID=94) mirror image of hard subrpocess particles
+    //   100       (ID=0 cone)
+    //
+    // Special HERWIG particle id's
+    //   91 clusters
+    //   94 jets
+    //   0  others with no pdg code
+
+    // Make sure hepvt isn't empty.
+    if ( hptr->nhep <= 0 ) return;
+
+    // Find the index of the beam-beam collision and of the hard subprocess
+    // Later we will assume that 
+    //              101 ---> 121 \. 
+    //                             X  Hard subprocess
+    //              102 ---> 122 /
+    // 
+    int index_collision = 0;
+    int index_hard = 0;
+    int index_101 = 0;
+    int index_102 = 0;
+    int index_121 = 0;
+    int index_122 = 0;
+
+    for ( int i = 1; i <=hptr->nhep; i++ ) {
+	if ( hptr->isthep[i]==101 ) index_101=i;
+	if ( hptr->isthep[i]==102 ) index_102=i;
+	if ( hptr->isthep[i]==103 ) index_collision=i;
+	if ( hptr->isthep[i]==120 ) index_hard=i;
+	if ( hptr->isthep[i]==121 ) index_121=i;
+	if ( hptr->isthep[i]==122 ) index_122=i;
+	if ( index_collision!=0 && index_hard!=0 && index_101!=0 && 
+	     index_102!=0 && index_121!=0 && index_122!=0 ) break;
+    }
+
+    // The mother daughter information for the hard subprocess entry (120)
+    // IS correct, whereas the information for the particles participating
+    // in the hard subprocess contains instead the color flow relationships
+    // Transfer the hard subprocess info onto the other particles
+    // in the hard subprocess.
+    //
+    // We cannot specify daughters of the incoming hard process particles
+    // because they have some daughters (their showered versions) which 
+    // are not adjacent in the particle record, so we cannot properly 
+    // set the daughter indices in hepevt.
+    //
+    hptr->jmohep[index_121][0] = index_101;
+    hptr->jmohep[index_121][1] = 0;
+    hptr->jdahep[index_121][0] = 0;
+    hptr->jdahep[index_121][1] = 0;
+    hptr->jmohep[index_122][0] = index_102;
+    hptr->jmohep[index_122][1] = 0;
+    hptr->jdahep[index_122][0] = 0;
+    hptr->jdahep[index_122][1] = 0;
+
+    for ( int i = CBherwig::first_child(index_hard);
+	  i <= CBherwig::last_child(index_hard); i++ ) {
+	hptr->jmohep[i][0] = CBherwig::first_parent(index_hard);
+	hptr->jmohep[i][1] = CBherwig::last_parent(index_hard);
+
+	// When the direct descendants of the hard process are hadrons,
+	// then the 2nd child contains color flow information, and so
+	// we zero it.
+	// However, if the direct descendant is status=195, then it is
+	// a non-hadron, and so the 2nd child does contain real mother
+	// daughter relationships. ( particularly relevant for H->WW,
+	//                           April 18, 2003 )
+	if ( hptr->isthep[i] != 195 ) {	      
+	  hptr->jdahep[i][0] = CBherwig::first_child(i);
+	  hptr->jdahep[i][1] = 0;
+	}
+    }
+
+    // now zero the collision and hard entries.
+    zero_hepevt_entry(index_hard);
+    zero_hepevt_entry(index_collision);
+
+    //     Loop over the particles individually and handle oddities
+    for ( int i=1; i <=hptr->nhep; i++ ) {
+
+	//       ----------- Fix ID codes ----------
+	//       particles with ID=94 are mirror images of their mothers:
+	if ( hptr->idhep[i]==94 ) {
+	    hptr->idhep[i] = hptr->idhep[CBherwig::first_parent(i)];
+	}
+
+	//     ----------- fix STATUS codes ------
+	//     status=100 particles are "cones" which carry only color info
+	//     throw them away
+	if ( hptr->isthep[i]==100 ) zero_hepevt_entry(i);
+
+
+	// NOTE: status 101,102 particles are the beam particles.
+	//       status 121,129 particles are the hard subprocess particles
+	// we choose to allow the herwig particles to have herwig
+	// specific codes, and so we don't bother to change these
+	// to status =3.
+
+
+
+
+	//  ----------- fix some MOTHER/DAUGHTER relationships
+	//  Whenever the mother points to the hard process, it is referring
+	//  to a color flow, so we zero it.
+	if ( CBherwig::last_parent(i)==index_hard ) {
+	    hptr->jmohep[i][0] = CBherwig::first_parent(i);
+	    hptr->jmohep[i][1] = 0;
+	}
+
+	// It makes no sense to have a mother that is younger than you are!
+
+	if ( CBherwig::first_parent(i) >= i ) {
+	    hptr->jmohep[i][0] = 0;
+	    hptr->jmohep[i][1] = 0;
+	}
+	if ( CBherwig::last_parent(i) >= i ) {
+	    hptr->jmohep[i][0] = CBherwig::first_parent(i);
+	    hptr->jmohep[i][1] = 0;
+	}
+
+	// Whenever the second mother/daughter has a lower index than the
+	// first, it means the second mother/daughter contains color
+	// info. Purge it.
+	if ( CBherwig::last_parent(i) <= 
+	     CBherwig::first_parent(i) ) {
+	    hptr->jmohep[i][0] = CBherwig::first_parent(i);
+	    hptr->jmohep[i][1] = 0;
+	}
+
+	if ( CBherwig::last_child(i) <= 
+	     CBherwig::first_child(i) ) {
+	    hptr->jdahep[i][0] = CBherwig::first_child(i);
+	    hptr->jdahep[i][1] = 0;
+	}
+
+	// The mothers & daughters of a soft centre of mass (stat=170) seem
+	// to be correct, but they are out of sequence. The information is
+	// elsewhere in the event record, so zero it.
+	//
+	if ( hptr->isthep[i] == 170 ) {
+	    hptr->jmohep[i][0] = 0;
+	    hptr->jmohep[i][1] = 0;
+	    hptr->jdahep[i][0] = 0;
+	    hptr->jdahep[i][1] = 0;
+	}
+
+	// Recognise clusters.
+	// Case 1: cluster has particle parents.  
+	// Clusters normally DO point to its two
+	// correct mothers, but those 2 mothers are rarely adjacent in the
+	// event record ... so the mother information might say something
+	// like 123,48 where index123 and index48 really are the correct
+	// mothers... however the hepevt standard states that the mother
+	// pointers should give the index range. So we would have to
+	// reorder the event record and add entries if we wanted to use
+	// it. Instead we just zero the mothers, since all of that
+	// information is contained in the daughter information of the
+	// mothers.
+	// Case 2: cluster has a soft process centre of mass (stat=170)
+	// as parent. This is ok, keep it.
+	//
+	// Note if we were going directly to HepMC, then we could 
+	//  use this information properly!
+
+	if ( hptr->idhep[i]==91 ) {
+	    // if the cluster comes from a SOFT (id=0,stat=170)
+	    if ( hptr->isthep[CBherwig::first_parent(i)] 
+		 == 170 ) {
+		; // In this case the mothers are ok
+	    } else {
+		hptr->jmohep[i][0] = 0;
+		hptr->jmohep[i][1] = 0;
+	    }
+	}
+    }
+
+    //     ---------- Loop over the particles individually and look 
+    //                for mother/daughter inconsistencies.
+    // We consider a mother daughter relationship to be valid
+    // ONLy when the mother points to the daughter AND the
+    // daughter points back (true valid bidirectional
+    // pointers) OR when a one thing points to the other, but
+    // the other points to zero. If this isn't true, we zero
+    // the offending relationship.
+
+    for ( int i=1; i <=hptr->nhep; i++ ) {
+	// loop over parents
+	int ifirst = CBherwig::first_parent(i);
+	int ilast = CBherwig::last_parent(i);
+	if ( ilast == 0 ) ilast = CBherwig::first_parent(i);
+	bool first_is_acceptable = true;
+	bool last_is_acceptable = true;
+	// check for out of range.
+	if ( ifirst>=i || ifirst<0 ) first_is_acceptable = false;
+	if ( ilast>=i || ilast<ifirst || ilast<0 )last_is_acceptable=false;
+	if ( first_is_acceptable ) {
+	    for ( int j = ifirst; j<=ilast; j++ ) {
+		// these are the acceptable outcomes
+		if ( CBherwig::first_child(j)==i ) {;} 
+		// watch out
+		else if ( CBherwig::first_child(j) <=i && 
+			  CBherwig::last_child(j) >=i ) {;}
+		else if ( CBherwig::first_child(j) ==0 && 
+			  CBherwig::last_child(j) ==0 ) {;}
+
+		// Error Condition:
+		// modified by MADobbs@lbl.gov April 21, 2003
+		// we distinguish between the first parent and all parents
+		//  being incorrect
+		else if (j==ifirst) { first_is_acceptable = false; break; }
+		else { last_is_acceptable = false; break; }
+	    }
+	}
+	// if any one of the mothers gave a bad outcome, zero all mothers
+	if ( !first_is_acceptable ) {
+	  hptr->jmohep[i][0] = 0;
+	  hptr->jmohep[i][1] = 0;
+	} else if ( !last_is_acceptable ) {
+	  hptr->jmohep[i][0] = CBherwig::first_parent(i);
+	  hptr->jmohep[i][1] = 0;
+	}
+    }
+    // Note: it's important to finish the mother loop, before
+    // starting the daughter loop ... since many mother relations
+    // will be zero'd which will validate the daughters.... i.e.,
+    // we want relationships like:
+    //      IHEP    ID      IDPDG IST MO1 MO2 DA1 DA2
+    //        27 TQRK           6   3  26  26  30  30
+    //        30 TQRK           6 155  26  11  31  32
+    // to come out right.
+
+    for ( int i=1; i <=hptr->nhep; i++ ) {
+	// loop over daughters
+	int ifirst = CBherwig::first_child(i);
+	int ilast = CBherwig::last_child(i);
+	if ( ilast==0 ) ilast = CBherwig::first_child(i);
+	bool is_acceptable = true;
+	// check for out of range.
+	if ( ifirst<=i || ifirst<0 ) is_acceptable = false;
+	if ( ilast<=i || ilast<ifirst || ilast<0 ) is_acceptable = false;
+	if ( is_acceptable ) {
+	    for ( int j = ifirst; j<=ilast; j++ ) {
+		// these are the acceptable outcomes
+		if ( CBherwig::first_parent(j)==i ) {;} 
+		else if ( CBherwig::first_parent(j) <=i && 
+			  CBherwig::last_parent(j) >=i ) {;}
+		else if ( CBherwig::first_parent(j) ==0 && 
+			  CBherwig::last_parent(j) ==0 ) {;}
+		else { is_acceptable = false; } // error condition 
+	    }
+	}
+	// if any one of the children gave a bad outcome, zero all children
+	if ( !is_acceptable ) {
+	    hptr->jdahep[i][0] = 0;
+	    hptr->jdahep[i][1] = 0;
+	}
+    }
+
+    // fixme
+
+    for ( int i=1; i <=hptr->nhep; i++ ) {
+        hptr->idhep[i] = translate_herwig_to_pdg_id(hptr->idhep[i], printInconsistencyErrors);
+    }
+
+
+    if ( itsNoBarcodeGaps ) remove_gaps_in_hepevt();
+}
+
+// for internal use only
+void CBherwig::remove_gaps_in_hepevt()
+{
+    // in this scenario, we do not allow there to be zero-ed
+    // entries in the HEPEVT common block, and so be reshuffle
+    // the common block, removing the zeero-ed entries as we
+    // go and making sure we keep the mother/daughter
+    // relationships appropriate
+    std::vector<int> mymap(hptr->nhep+1,0);
+    int ilast = 0;
+    for ( int i=1; i <=hptr->nhep; i++ ) {
+	if (hptr->isthep[i]==0 && hptr->idhep[i]==0) {
+	    // we remove all entries for which stat=0, id=0
+	    mymap[i]=0;
+	} else {
+	    ilast += 1;
+	    if ( ilast != i ) {
+		hptr->isthep[ilast] =  hptr->isthep[i];
+		hptr->idhep[ilast] = hptr->idhep[i];
+		hptr->jmohep[ilast][0] = CBherwig::first_parent(i);
+		hptr->jmohep[ilast][1] = CBherwig::last_parent(i);
+		hptr->jdahep[ilast][0] = CBherwig::first_child(i);
+		hptr->jdahep[ilast][1] = CBherwig::last_child(i);
+		hptr->phep[ilast][0] = hptr->phep[i][0];
+		hptr->phep[ilast][1] = hptr->phep[i][1];
+		hptr->phep[ilast][2] = hptr->phep[i][2];
+		hptr->phep[ilast][3] = hptr->phep[i][3]; 
+		hptr->phep[ilast][4] = hptr->phep[i][4]; 
+		hptr->vhep[ilast][0] = hptr->vhep[i][0];
+		hptr->vhep[ilast][1] = hptr->vhep[i][1];
+		hptr->vhep[ilast][2] = hptr->vhep[i][2];
+		hptr->vhep[ilast][3] = hptr->vhep[i][3];
+	    }
+	    mymap[i]=ilast;
+	}
+    }
+    hptr->nhep = ilast;
+
+    // Finally we need to re-map the mother/daughter pointers.
+
+    for ( int i=1; i <=hptr->nhep; i++ ) {
+	hptr->jmohep[i][0] = mymap[CBherwig::first_parent(i)];
+	hptr->jmohep[i][1] = mymap[CBherwig::last_parent(i)];
+	hptr->jdahep[i][0] = mymap[CBherwig::first_child(i)];
+	hptr->jdahep[i][1] = mymap[CBherwig::last_child(i)];
+    }
+}
+
+// for internal use only
+void CBherwig::zero_hepevt_entry( int i )
+{
+    hptr->isthep[i] = 0;
+    hptr->idhep[i] = 0;
+    hptr->jmohep[i][0] = 0;
+    hptr->jmohep[i][1] = 0;
+    hptr->jdahep[i][0] = 0;
+    hptr->jdahep[i][1] = 0;
+    hptr->phep[i][0] = 0;
+    hptr->phep[i][1] = 0;
+    hptr->phep[i][2] = 0;
+    hptr->phep[i][3] = 0; 
+    hptr->phep[i][4] = 0; 
+    hptr->vhep[i][0] = 0;
+    hptr->vhep[i][1] = 0;
+    hptr->vhep[i][2] = 0;
+    hptr->vhep[i][3] = 0;
+}
+
+// this needs to come from HepPDT
+int CBherwig::translate_herwig_to_pdg_id( int id, bool printInconsistencyErrors ) const 
+{
+    // This routine is copied from Lynn Garren's stdhep 5.01.
+    //   see http://www-pat.fnal.gov/stdhep.html
+
+	                                   // example -9922212
+    int hwtran = id;                       //         -9922212
+    int ida    = abs(id);                  //          9922212
+    int j1     = ida%10;                   //                2
+    int i1     = (ida/10)%10;              //               1
+    int i2     = (ida/100)%10;             //              2
+    int i3     = (ida/1000)%10;            //             2
+    //int i4     =(ida/10000)%10;          //            2
+    //int i5     =(ida/100000)%10;         //           9
+    //int k99    = (ida/100000)%100;       //          9
+    int ksusy  = (ida/1000000)%10;         //         0
+    //int ku     = (ida/10000000)%10;      //        0
+    int kqn    = (ida/1000000000)%10;      //       0
+
+    if ( kqn==1 ) {
+	//  ions not recognized
+	hwtran=0;
+	if ( printInconsistencyErrors ) {
+	    std::cerr << "CBherwig::translate_herwig_to_pdg_id " << id
+		      << "nonallowed ion" << std::endl;
+	}
+    } 
+    else if (ida < 100) {
+	// Higgs, etc.
+	hwtran = m_herwig_to_pdg_id[ida];
+	if ( id < 0 ) hwtran *= -1;
+	// check for illegal antiparticles
+	if ( id < 0 ) {
+	    if ( hwtran>=-99 && hwtran<=-81) hwtran=0;
+	    if ( m_no_antiparticles.count(hwtran) ) hwtran=0;
+	}
+    }
+    else if ( ksusy==1 || ksusy==2 ) { ; }
+    //  SUSY
+    else if ( i1!=0 && i3!=0 && j1==2 ) {;}
+    // spin 1/2 baryons
+    else if ( i1!=0 && i3!=0 && j1==4 ) {;}
+    // spin 3/2 baryons
+    else if ( i1!=0 && i2!=0 && i3==0 ) {
+	// mesons 
+	// check for illegal antiparticles
+	if ( i1==i2 && id<0) hwtran=0;
+    } 
+    else if ( i2!=0 && i3!=0 && i1==0 ) {;}
+    // diquarks
+    else {
+	// undefined
+	hwtran=0;
+    }
+
+    // check for illegal anti KS, KL
+    if ( id==-130 || id==-310 ) hwtran=0;
+
+    if ( hwtran==0 && ida!=0 && printInconsistencyErrors ) {
+	std::cerr 
+	    << "CBherwig::translate_herwig_to_pdg_id HERWIG particle " 
+	    << id << " translates to zero." << std::endl;
+    }
+
+    return hwtran;
+}
+
+
+}	// HepMC

@@ -1,4 +1,4 @@
-// $Id: CBhepevt.h,v 1.2 2003/10/08 19:36:47 garren Exp $
+// $Id: CBhepevt.h,v 1.3 2003/10/10 15:56:34 garren Exp $
 // ----------------------------------------------------------------------
 // CBhepevt.h
 // ----------------------------------------------------------------------
@@ -65,9 +65,9 @@ public:
   bool       addtoHEPEVT( const GenEvent * );     // not yet implemented
   
   void       print( std::ostream & os = std::cout ) const;
-  void       print_hepevt( std::ostream & os = std::cout );
+  void       printHEPEVT( std::ostream & os = std::cout );
   void       print_legend( std::ostream & os = std::cout );
-  void       print_hepevt_particle( int index, std::ostream & os = std::cout );
+  void       printHEPEVTparticle( int index, std::ostream & os = std::cout );
   
   // decide how to deal with HEPEVT
   bool  trustMothers() const { return itsTrustMothers; }

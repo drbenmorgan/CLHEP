@@ -1,4 +1,4 @@
-// $Id: GenEventConvert.h,v 1.2 2003/10/08 19:36:47 garren Exp $
+// $Id: GenEventConvert.h,v 1.3 2003/10/10 15:56:34 garren Exp $
 // ----------------------------------------------------------------------
 //
 // GenEventConvert.h
@@ -41,11 +41,15 @@ public:
   bool       toGenEvent( GenEvent * );
   bool       fromGenEvent( const GenEvent * );
   bool       addtoHEPEVT( const GenEvent * );
-  bool       fill_next_event( GenEvent * evt ) { toGenEvent(evt); }
+  GenEvent * read_next_event() { return getGenEventfromHEPEVT(); }
+  bool       fill_next_event( GenEvent * evt ) { return toGenEvent(evt); }
 
   // decide how to deal with HEPEVT
   bool  printInconsistencyErrors() const { return itsInconsitencyErrors; }
   void  setInconsitencyErrors( bool b ) { itsInconsitencyErrors = b; }
+  
+  // print 
+  void  print_hepevt( std::ostream & os = std::cout );
 
 private:
 

@@ -1,4 +1,4 @@
-// $Id: CBhepevt.icc,v 1.2 2003/10/08 19:36:47 garren Exp $
+// $Id: CBhepevt.icc,v 1.3 2003/10/10 15:56:34 garren Exp $
 // ----------------------------------------------------------------------
 // CBhepevt.icc
 // ----------------------------------------------------------------------
@@ -77,7 +77,7 @@ void CBhepevt::print( std::ostream & os ) const
     os << "  trustMothersAndDaughters: " << itsTrustMothersAndDaughters << std::endl;
 }
 
-void CBhepevt::print_hepevt( std::ostream & os )
+void CBhepevt::printHEPEVT( std::ostream & os )
 {
     // dumps the content of this HEPEVT event to os  (Width is 80)
     os << "________________________________________"
@@ -91,7 +91,7 @@ void CBhepevt::print_hepevt( std::ostream & os )
     os << "________________________________________"
        << "________________________________________" << std::endl;
     for ( int i=1; i <= number_entries(); ++i ) {
-	print_hepevt_particle( i, os );
+	printHEPEVTparticle( i, os );
     }
     os << "________________________________________"
        << "________________________________________" << std::endl;
@@ -99,13 +99,18 @@ void CBhepevt::print_hepevt( std::ostream & os )
 
 void CBhepevt::print_legend( std::ostream & os )
 {
-    os << "Indx Stat Par- chil-   " 
-       << "(  P_x,      P_y,      P_z,   Energy   M ) [GeV]" << std::endl;
-    os << "    ID ents  dren      "
-       << "Prod (   X,    Y,    Z,    cT ) [mm]" << std::endl;
+    char outline[81];
+    sprintf( outline,"%4s %4s %4s %5s   %10s, %9s, %9s, %9s, %10s",
+	     "Indx","Stat","Par-","chil-",
+	     "(  P_x","P_y","P_z","Energy","M ) [GeV]");
+    os << outline << std::endl;
+    sprintf( outline,"%9s %4s %4s    %10s, %9s, %9s, %9s) %9s",
+	     "ID ","ents","dren",
+	     "Prod (   X","Y","Z","cT", "[mm]");
+    os << outline << std::endl;
 }	
 
-void CBhepevt::print_hepevt_particle( int i, std::ostream & os )
+void CBhepevt::printHEPEVTparticle( int i, std::ostream & os )
 {
     // dumps the content HEPEVT particle entry i   (Width is 120)
     // here i is the C array index (i.e. it starts at 0 ... whereas the
@@ -148,7 +153,7 @@ bool CBhepevt::check_hepevt_consistency( std::ostream & os )
 	    }
 	    os << "Inconsistent entry " << i 
 	       << " first parent > last parent " << std::endl;
-	    CBhepevt::print_hepevt_particle( i, os );
+	    CBhepevt::printHEPEVTparticle( i, os );
 	}
 	for ( int m = moth1; m<=moth2 && m!=0; ++m ) {
 	    if ( m>CBhepevt::number_entries() || m < 0 ) {
@@ -159,7 +164,7 @@ bool CBhepevt::check_hepevt_consistency( std::ostream & os )
 		}
 		os << "Inconsistent entry " << i 
 		   << " mother points out of range " << std::endl;
-		CBhepevt::print_hepevt_particle( i, os );
+		CBhepevt::printHEPEVTparticle( i, os );
 	    }
 	    int mChild1 = CBhepevt::first_child(m);
 	    int mChild2 = CBhepevt::last_child(m);
@@ -174,8 +179,8 @@ bool CBhepevt::check_hepevt_consistency( std::ostream & os )
 		os << "Inconsistent mother-daughter relationship between "
 		   << i << " & " << m 
 		   << " (try !trustMother)" << std::endl;
-		CBhepevt::print_hepevt_particle( i, os );
-		CBhepevt::print_hepevt_particle( m, os );
+		CBhepevt::printHEPEVTparticle( i, os );
+		CBhepevt::printHEPEVTparticle( m, os );
 	    }
 	}
 	// 2. check its daughters
@@ -189,7 +194,7 @@ bool CBhepevt::check_hepevt_consistency( std::ostream & os )
 	    }
 	    os << "Inconsistent entry " << i 
 	       << " first child > last child " << std::endl;
-	    CBhepevt::print_hepevt_particle( i, os );
+	    CBhepevt::printHEPEVTparticle( i, os );
 	}
 	for ( int d = dau1; d<=dau2 && d!=0; ++d ) {
 	    if ( d>CBhepevt::number_entries() || d < 0 ) {
@@ -200,7 +205,7 @@ bool CBhepevt::check_hepevt_consistency( std::ostream & os )
 		}
 		os << "Inconsistent entry " << i 
 		   << " child points out of range " << std::endl;
-		CBhepevt::print_hepevt_particle( i, os );
+		CBhepevt::printHEPEVTparticle( i, os );
 	    }
 	    int d_moth1 = CBhepevt::first_parent(d);
 	    int d_moth2 = CBhepevt::last_parent(d);
@@ -215,8 +220,8 @@ bool CBhepevt::check_hepevt_consistency( std::ostream & os )
 		os << "Inconsistent mother-daughter relationship between "
 		   << i << " & " << d 
 		   << " (try trustMothers)"<< std::endl;
-		CBhepevt::print_hepevt_particle( i, os );
-		CBhepevt::print_hepevt_particle( d, os );
+		CBhepevt::printHEPEVTparticle( i, os );
+		CBhepevt::printHEPEVTparticle( d, os );
 	    }
 	}
     }
@@ -240,7 +245,7 @@ bool CBhepevt::check_hepevt_consistency( std::ostream & os )
 	os << "To obtain a file summarizing the inconsistency, you should:"
 	   << "\n\t ofstream myFile(\"myInconsistentEvent.txt\"); "
 	   << "\n\t CBhepevt::check_hepevt_consistency(myFile); "
-	   << "\n\t CBhepevt::print_hepevt(myFile); "
+	   << "\n\t CBhepevt::printHEPEVT(myFile); "
 	   << "\n[now write the event to HepMC using something like"
 	   << "\n\t\t myIO_HEPEVT->write_event(myEvent); ]"
 	   << "\n\t myEvent->print( myFile ); "

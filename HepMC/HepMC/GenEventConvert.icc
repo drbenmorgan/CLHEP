@@ -1,4 +1,4 @@
-// $Id: GenEventConvert.icc,v 1.2 2003/10/08 19:36:47 garren Exp $
+// $Id: GenEventConvert.icc,v 1.3 2003/10/10 15:56:34 garren Exp $
 // ----------------------------------------------------------------------
 //
 // GenEventConvert.icc
@@ -14,6 +14,14 @@
 #include <vector>
 
 namespace HepMC {
+
+template<class S>
+void  GenEventConvert< S >::print_hepevt( std::ostream & os  ) 
+{
+    CBInterface< S > * hep = CBInterface< S >::instance();
+    (*hep)->printHEPEVT( os );
+    return;
+}
 
 template<class S>
 GenEvent * GenEventConvert< S >::getGenEventfromHEPEVT()
