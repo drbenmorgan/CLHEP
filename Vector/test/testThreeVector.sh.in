@@ -1,6 +1,0 @@
-#! /bin/sh
-# @configure_input@
-
-
-./testThreeVector@EXEEXT@ < @srcdir@/testThreeVector.input \
-  | diff -q - @srcdir@/testThreeVector.output > /dev/null

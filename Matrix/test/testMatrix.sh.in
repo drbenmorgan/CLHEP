@@ -1,6 +1,0 @@
-#! /bin/sh
-# @configure_input@
-
-
-./testMatrix@EXEEXT@  \
-  | diff -q - @srcdir@/testMatrix.output > /dev/null

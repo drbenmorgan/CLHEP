@@ -1,6 +1,0 @@
-#! /bin/sh
-# @configure_input@
-
-
-./testRandDists@EXEEXT@ < @srcdir@/testRandDists.input \
-  | diff -q - @srcdir@/testRandDists.output > /dev/null

@@ -1,6 +1,0 @@
-#! /bin/sh
-# @configure_input@
-
-
-./testVectorDists@EXEEXT@ < @srcdir@/testVectorDists.input \
-  | diff -q - @srcdir@/testVectorDists.output > /dev/null

@@ -1,6 +1,0 @@
-#! /bin/sh
-# @configure_input@
-
-
-./testLorentzVector@EXEEXT@ < @srcdir@/testLorentzVector.input \
-  | diff -q - @srcdir@/testLorentzVector.output > /dev/null

@@ -1,6 +1,0 @@
-#! /bin/sh
-# @configure_input@
-
-# ranRestoreTest has no comparison file
-
-./ranRestoreTest@EXEEXT@ > ranRestoreTest.out

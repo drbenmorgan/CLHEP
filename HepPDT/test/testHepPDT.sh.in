@@ -1,7 +1,0 @@
-#! /bin/sh
-# @configure_input@
-
-
-./testHepPDT@EXEEXT@ < testHepPDT.input 
-diff -q testHepPDT.out @srcdir@/testHepPDT.output > /dev/null
-
