@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testBasicVector3D.cc,v 1.2 2003/08/08 13:47:09 garren Exp $
+// $Id: testBasicVector3D.cc,v 1.3 2003/10/24 21:39:45 garren Exp $
 // ---------------------------------------------------------------------------
 
 #include <iostream>
@@ -224,9 +224,9 @@ using namespace HepGeom;
 void CheckPointFloat()   { CHECK(Point3D<float>  , float)  }
 void CheckVectorFloat()  { CHECK(Vector3D<float> , float)  }
 void CheckNormalFloat()  { CHECK(Normal3D<float> , float)  }
-void CheckPointDouble()  { CHECK(HepPoint3D      , double) }
-void CheckVectorDouble() { CHECK(HepVector3D     , double) }
-void CheckNormalDouble() { CHECK(HepNormal3D     , double) }
+void CheckPointDouble()  { CHECK(Point3D<double> , double) }
+void CheckVectorDouble() { CHECK(Vector3D<double>, double) }
+void CheckNormalDouble() { CHECK(Normal3D<double>, double) }
 
 int main()
 {

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Transform3D.cc,v 1.5 2003/08/13 20:00:11 garren Exp $
+// $Id: Transform3D.cc,v 1.6 2003/10/24 21:39:45 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -175,7 +175,7 @@ namespace HepGeom {
   }
 
   // -------------------------------------------------------------------------
-  void Transform3D::getDecomposition(HepScale3D & scale,
+  void Transform3D::getDecomposition(Scale3D & scale,
 				     Rotate3D & rotation,
 				     Translate3D & translation) const
   /***********************************************************************

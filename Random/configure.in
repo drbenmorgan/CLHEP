@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.57)
-AC_INIT(CLHEP Random, 1.9.0.0, CLHEP@cern.ch, Random)
+AC_INIT(CLHEP Random, 2.0.0.0, CLHEP@cern.ch, Random)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/DRand48Engine.cc])
@@ -91,12 +91,6 @@ AH_VERBATIM([PACKAGE_VERSION],[/* Define to the version of this package. */
 AH_VERBATIM([VERSION],[/* Version number of package */
 #ifndef VERSION
 #undef VERSION
-#endif])
-
-## backwards compatibility
-AH_VERBATIM([ENABLE_BACKWARDS_COMPATIBILITY],[/* backwards compatibility will be enabled ONLY in CLHEP 1.9 */
-#ifndef ENABLE_BACKWARDS_COMPATIBILITY
-#define ENABLE_BACKWARDS_COMPATIBILITY
 #endif])
 
 AH_BOTTOM([#endif  // RANDOM_DEFS_H])

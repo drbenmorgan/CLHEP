@@ -29,7 +29,7 @@ namespace HepMC {
     public:
 	Polarization( double theta = 0, double phi = 0 );
 	Polarization( const Polarization& inpolar );
-	Polarization( const HepNormal3D& vec3in );
+	Polarization( const HepGeom::Normal3D<double>& vec3in );
 	virtual       ~Polarization() {}
 
 	Polarization& operator=( const Polarization& inpolar );
@@ -43,13 +43,13 @@ namespace HepMC {
 	////////////////////
 	double        theta() const;    // returns polar angle in radians
 	double        phi() const;      // returns azimuthal angle in radians
-	HepNormal3D   normal3d() const; // unit 3 vector for easy manipulation
+	HepGeom::Normal3D<double>   normal3d() const; // unit 3 vector for easy manipulation
 
 	double        set_theta( double theta );
 	double        set_phi( double phi ); 
 	void          set_theta_phi( double theta, double phi );
 	// sets polarization according to direction of 3 vec
-	HepNormal3D   set_normal3d( const HepNormal3D& vec3in ); 
+	HepGeom::Normal3D<double>   set_normal3d( const HepGeom::Normal3D<double>& vec3in ); 
 
     private:
 	double m_theta; //polar angle of polarization in radians 0< theta <pi

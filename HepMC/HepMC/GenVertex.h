@@ -76,14 +76,14 @@ namespace HepMC {
 	GenParticle* remove_particle( GenParticle* particle );
 
 	operator CLHEP::HepLorentzVector() const; // conversion operator
-	operator HepPoint3D() const; // conversion operator
+	operator HepGeom::Point3D<double>() const; // conversion operator
 
 	////////////////////
 	// access methods //
 	////////////////////
 
 	GenEvent*               parent_event() const;
-	HepPoint3D              point3d() const;
+	HepGeom::Point3D<double>              point3d() const;
 	CLHEP::HepLorentzVector        position() const;
 	void                    set_position( const CLHEP::HepLorentzVector& position 
 					      = CLHEP::HepLorentzVector(0,0,0,0) );
@@ -301,14 +301,14 @@ namespace HepMC {
 
     inline GenVertex::operator CLHEP::HepLorentzVector() const { return position(); }
 
-    inline GenVertex::operator HepPoint3D() const { return point3d(); }
+    inline GenVertex::operator HepGeom::Point3D<double>() const { return point3d(); }
 
     inline CLHEP::HepLorentzVector GenVertex::position() const { return m_position; }
 
     inline GenEvent* GenVertex::parent_event() const { return m_event; }
 
-    inline HepPoint3D GenVertex::point3d() const { 
-	return (HepPoint3D)m_position; 
+    inline HepGeom::Point3D<double> GenVertex::point3d() const { 
+	return (HepGeom::Point3D<double>)m_position; 
     }
 
     inline int GenVertex::id() const { return m_id; }

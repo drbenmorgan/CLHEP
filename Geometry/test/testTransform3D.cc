@@ -1,10 +1,10 @@
 // -*- C++ -*-
-// $Id: testTransform3D.cc,v 1.2 2003/08/08 13:47:09 garren Exp $
+// $Id: testTransform3D.cc,v 1.3 2003/10/24 21:39:45 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
 //
-// This is a test for the HepTransform3D class.
+// This is a test for the HepGeom::Transform3D class.
 //
 #include <assert.h>
 #include "CLHEP/Geometry/Transform3D.h"
@@ -12,13 +12,13 @@
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Units/PhysicalConstants.h"
 
-typedef HepScale3D     Scale;
-typedef HepRotate3D    Rotation;
-typedef HepTranslate3D Translation;
-typedef HepTransform3D Transformation;
-typedef HepPoint3D     Point;
-typedef HepVector3D    Vector;
-typedef HepNormal3D    Normal;
+typedef HepGeom::Scale3D           Scale;
+typedef HepGeom::Rotate3D          Rotation;
+typedef HepGeom::Translate3D       Translation;
+typedef HepGeom::Transform3D       Transformation;
+typedef HepGeom::Point3D<double>   Point;
+typedef HepGeom::Vector3D<double>  Vector;
+typedef HepGeom::Normal3D<double>  Normal;
 
 #define DEL 10.e-16
 
@@ -142,7 +142,7 @@ int main() {
   Translation TT;
   M.getDecomposition(SS,RR,TT);
 
-  S = HepScale3D(2,3,-4);
+  S = HepGeom::Scale3D(2,3,-4);
   T = TT*RR*SS;
   for (i=0; i<4; i++) {
     for (k=0; k<4; k++) {
@@ -154,7 +154,7 @@ int main() {
   // test for isNear()
 
   assert ( T.isNear(M, DEL) );
-  S = HepScale3D(2.01,3,-4);
+  S = HepGeom::Scale3D(2.01,3,-4);
   T = TT*RR*S;
   assert ( !T.isNear(M) );
 
