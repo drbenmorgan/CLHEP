@@ -1,3 +1,9 @@
+2005-01-31  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* src/Matrix.h: fixed error in sub(int, int, int, int), savannah 
+	bug id 6176, added corresponding files (testBug6176*) in test/,
+	updated Makefile.am accordingly to generate tests.
+
 ==============================
 29.11.04 Release CLHEP-1.9.1.2
 ==============================

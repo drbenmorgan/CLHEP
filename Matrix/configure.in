@@ -40,6 +40,7 @@ AC_CONFIG_FILES([Matrix-config], [chmod +x Matrix-config])
 # Test driver program/script:
 AC_CONFIG_FILES([test/testMatrix.sh], [chmod +x test/testMatrix.sh])
 AC_CONFIG_FILES([test/testInversion.sh], [chmod +x test/testInversion.sh])
+AC_CONFIG_FILES([test/testBug6176.sh], [chmod +x test/testBug6176.sh])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:

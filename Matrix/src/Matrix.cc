@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.2.3 2004/09/10 21:26:09 garren Exp $
+// $Id: Matrix.cc,v 1.4.2.4 2005/01/31 20:21:39 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -214,8 +214,7 @@ return mret(max_row-min_row+1,max_col-min_col+1);
     error("HepMatrix::sub: Index out of range");
   mIter a = mret.m.begin();
   int nc = num_col();
-  //-ap mcIter b1 = mret.m.begin() + (min_row - 1) + nc + min_col - 1;
-  mcIter b1 = m.begin() + (min_row - 1) + nc + min_col - 2;
+  mcIter b1 = m.begin() + (min_row - 1) * nc + min_col - 1;
   
   for(int irow=1; irow<=mret.num_row(); irow++) {
     mcIter brc = b1;
