@@ -1,3 +1,20 @@
+Wed Jun 23         2004 Lynn Garren <garren@fnal.gov>
+    
+	* HepMC version is 1.01.00
+	* HepMC: access ParticleData information by name (std::string)
+
+Wed May 19         2004 Lynn Garren <garren@fnal.gov>
+    
+	* HepMC: fix bugs in translation
+	* HepMC: add translation tests
+	
+	* a couple of miscellaneous changes for Solaris
+
+Tue May 11          2004 Lynn Garren <garren@fnal.gov>
+
+	* tagged for CLHEP 1.9.0.2 (CLHEP_1_9_0_2)
+	* library version changed to 1.9.0.2
+       
 Tue May 11          2004 Lynn Garren <garren@fnal.gov>
 
 	* tagged for CLHEP 1.9.0.2 (CLHEP_1_9_0_2)
