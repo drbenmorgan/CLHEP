@@ -1,9 +1,18 @@
+Wed Apr 28          2004 Lynn Garren <garren@fnal.gov>
+
+	*  make CLHEP work with Visual C++
+
 Wed Apr 21          2004 Lynn Garren <garren@fnal.gov>
 
 	* change version to CLHEP 2.0.0.1
 	
 	* fix Herwig and Isajet translation routines in HepPDT
 	  add translation checking tests
+
+Thu Nov 06          2003 Lynn Garren <garren@fnal.gov>
+
+	*  adding ZOOM Exceptions package for FNAL
+	*  adding supporting RefCount and Cast packages
 
 Fri Oct 24          2003 Lynn Garren <garren@fnal.gov>
 

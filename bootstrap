@@ -15,7 +15,7 @@ do
   if [ -e $pkg/configure.in ] 
   then
      cd $pkg
-     bootstrap
+     ./bootstrap
      cd ..
   fi
 done

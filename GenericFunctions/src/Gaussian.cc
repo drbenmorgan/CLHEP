@@ -1,12 +1,14 @@
 // -*- C++ -*-
-// $Id: Gaussian.cc,v 1.5 2003/10/10 17:40:39 garren Exp $
+// $Id: Gaussian.cc,v 1.5.4.1 2004/04/29 00:20:36 garren Exp $
 #include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/Gaussian.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
-#include "CLHEP/Units/PhysicalConstants.h"
 #include <assert.h>
 #include <cmath>      // for exp()
 
+#if (defined __STRICT_ANSI__) || (defined _WIN32)
+#define M_PI            3.14159265358979323846
+#endif // __STRICT_ANSI__
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Gaussian)
@@ -28,7 +30,7 @@ _sigma(right._sigma)
 double Gaussian::operator() (double x) const {
   double s   = _sigma.getValue();
   double x0  = _mean.getValue();
-  return (1.0/(sqrt(CLHEP::twopi)*s))*
+  return (1.0/(sqrt(2*M_PI)*s))*
 	  exp(-(x-x0)*(x-x0)/(2.0*s*s));
 }
 

@@ -9,7 +9,7 @@ top level directory, or you may build any package separately.
 # about linking
 #-------------------------------------------------------------
 
-CLHEP builds libraries for each package instead of a single CLHEP library.
+CLHEP builds libraries for each package in addition to a single CLHEP library.
 This alllows you to link with only the necessary parts of CLHEP.
 We provide a "clheplib" script which gives the list of libraries to link, 
 in the correct order.  The script can be embedded in a makefile.
@@ -53,6 +53,9 @@ of the options that you are likely to find most useful.
                           [default is the same as PREFIX]
   --disable-shared        build only static libraries
   --disable-static        build only shared libraries   
+  --enable-exceptions     use the CLHEP/Exceptions package
+  --disable-exceptions    DO NOT use the CLHEP/Exceptions package
+                          [--disable-exceptions is the default] 
  
 #-------------------------------------------------------------
 # building documents
@@ -71,10 +74,10 @@ Use the following commands to build and install documents:
 You will need current versions of automake, autoconf, and libtool.
 See building autotools below.
 
-cvs co CLHEP/package OR cvs co package
+cvs co CLHEP OR cvs co CLHEP/package
 
-cd [CLHEP/]package
-bootstrap
+cd CLHEP[/package]
+./bootstrap
 
 Now continue with directions as if you unpacked a source code tarball.
 

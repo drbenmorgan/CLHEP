@@ -1,5 +1,5 @@
 # 
-# $Id: GNUmakefile,v 1.2.2.2 2004/04/21 20:13:53 garren Exp $
+# $Id: GNUmakefile,v 1.2.2.3 2004/04/29 00:20:36 garren Exp $
 #
 # makefile for HepPDT examples
 #
@@ -8,8 +8,6 @@
 #           INCDIR=<path to clhep includes>
 #           CXX=<C++ compiler> 
 #                 You can add optional compiler flags to CXX
-
-CLHEP_DIR = /scr/cepa01/garren/clhep/cl19/pdt/install
 
 ifndef DEBUG
     DEBUG = none
@@ -48,10 +46,6 @@ AR=ar
 ARFLG = -urs
 
 CXXFLAGS = $(DFLG) $(INCDIR)
-ifeq "$(CXX)" "KCC"
-  CXXFLAGS +=  +K0 -O0 --no_implicit_include --one_per
-  PDTLIB =  $(CLHEP_DIR)/lib/libCLHEP-KCC.1.7.0.0.a
-endif
 
 SOURCE = $(wildcard *.cc)
 

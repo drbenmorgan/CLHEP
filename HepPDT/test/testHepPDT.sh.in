@@ -3,5 +3,6 @@
 
 
 ./testHepPDT@EXEEXT@ < testHepPDT.input 
-diff -q testHepPDT.out @srcdir@/testHepPDT.output > /dev/null
+sed 's/e-0\([0-9][0-9]\)/e-\1/g ; s/e+0\([0-9][0-9]\)/e+\1/g' testHepPDT.out | \
+  diff -b -q - @srcdir@/testHepPDT.output > /dev/null
 

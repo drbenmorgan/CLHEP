@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: drand48.src,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: drand48.src,v 1.1.1.1.4.1 2004/04/29 00:20:37 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This code is based on a code extracted from GNU C Library 2.1.3 with
@@ -22,12 +22,12 @@
 
 #define IEEE754_DOUBLE_BIAS	0x3ff /* Added to exponent.  */
 
-#ifdef WIN32
-#include <wtypes.h>
-typedef ULONGLONG u_int64_t;
-#else
+//#ifdef WIN32
+//#include <wtypes.h>
+//typedef ULONGLONG u_int64_t;
+//#else
 typedef unsigned long long int u_int64_t;
-#endif
+//#endif
 
 union ieee754_double {
   double d;
