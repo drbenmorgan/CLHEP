@@ -1,3 +1,7 @@
+==============================
+30.06.04 Release CLHEP-1.9.1.0
+==============================
+
 Tue Jun 29         2004 Lynn Garren <garren@fnal.gov>
 
 	* add config for backwards compatibility (CLHEP/config/CLHEP.h)
@@ -13,6 +17,10 @@ Wed May 19         2004 Lynn Garren <garren@fnal.gov>
 	* HepMC: add translation tests
 	
 	* a couple of miscellaneous changes for Solaris
+
+==============================
+11.05.04 Release CLHEP-1.9.0.2
+==============================
 
 Tue May 11          2004 Lynn Garren <garren@fnal.gov>
 
