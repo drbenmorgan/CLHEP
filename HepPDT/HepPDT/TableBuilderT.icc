@@ -1,4 +1,4 @@
-// $Id: TableBuilderT.icc,v 1.2 2003/08/13 20:00:11 garren Exp $
+// $Id: TableBuilderT.icc,v 1.3 2004/05/19 23:29:54 garren Exp $
 // ----------------------------------------------------------------------
 //
 // TableBuilderT.icc
@@ -27,9 +27,15 @@ template< class Config >
 TempParticleData &   TableBuilderT<Config>::getParticleData( ParticleID pid )  
 {
   TempMap::iterator it = tempPDT.find( pid );
-  return ( it == tempPDT.end() )
-       ?  tempPDT[pid] = TempParticleData(pid)  // new one
-       :  it->second;                           // old one
+  // for some reason, Solaris CC can't cope with the more compact code
+  if ( it == tempPDT.end() ) {
+     return tempPDT[pid] = TempParticleData(pid);
+  } else {
+     return it->second;   
+  }
+  //return ( it == tempPDT.end() )
+  //     ?  tempPDT[pid] = TempParticleData(pid)  // new one
+  //     :  it->second;                           // old one
 }
 
 template< class Config >
