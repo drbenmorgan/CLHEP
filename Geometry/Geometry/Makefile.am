@@ -8,5 +8,6 @@ pkginclude_HEADERS = \
 	Plane3D.h	\
 	Point3D.h	\
 	Transform3D.h	\
+	Transform3D.icc	\
 	Vector3D.h	\
 	defs.h

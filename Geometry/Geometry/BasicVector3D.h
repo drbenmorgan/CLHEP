@@ -1,297 +1,552 @@
 // -*- C++ -*-
-// $Id: BasicVector3D.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: BasicVector3D.h,v 1.2 2003/07/17 09:05:28 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
 //
 // History:
-// 12.06.01 Evgeni Chernyaev - CLHEP-1.7: initial version
+// 12.06.01 E.Chernyaev - CLHEP-1.7: initial  version
+// 14.03.03 E.Chernyaev - CLHEP-1.9: template version
 //
 
 #ifndef BASIC_VECTOR3D_H
 #define BASIC_VECTOR3D_H
 
-#include <iostream>
-#include "CLHEP/Vector/ThreeVector.h"
+namespace HepGeom {
+  /**
+   * Base class for Point3D<T>, Vector3D<T> and Normal3D<T>.
+   * It defines only common functionality for those classes and
+   * should not be used as separate class.
+   *
+   * @author Evgeni Chernyaev <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
+   */
+  template<class T> class BasicVector3D {
+  protected:
+    T v_[3];
 
-/**
- * Base class for HepPoint3D, HepVector3D and HepNormal3D.
- * It only defines common functionality for those classes and
- * should not be used as separate class. For this reason the
- * default constructor is protected.
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class BasicVector3D {
-protected:
-  CLHEP::Hep3Vector v_;
+    /**
+     * Default constructor.
+     * It is protected - this class should not be instantiated directly.
+     */
+    BasicVector3D() { v_[0] = 0; v_[1] = 0; v_[2] = 0; }
 
-  // Default constructor. This class should not be instantiated directly.
-  inline BasicVector3D() : v_(0,0,0) {}
+  public:
+    /**
+     * Safe indexing of the coordinates when using with matrices, arrays, etc.
+     */
+    enum {
+      X = 0,                 /**< index for x-component */
+      Y = 1,                 /**< index for y-component */
+      Z = 2,                 /**< index for z-component */
+      NUM_COORDINATES = 3,   /**< number of components  */
+      SIZE = NUM_COORDINATES /**< number of components  */
+    };
 
-  // Constructor from CLHEP::Hep3Vector.
-  inline explicit BasicVector3D(const CLHEP::Hep3Vector & v) : v_(v) {}
+    /**
+     * Constructor from three numbers. */
+    BasicVector3D(T x, T y, T z) { v_[0] = x; v_[1] = y; v_[2] = z; }
 
-public:
-  /// Safe indexing of the coordinates when using with matrices, arrays, etc.
-  enum {
-    X = 0,                      /**< index for x-component */
-    Y = 1,                      /**< index for y-component */
-    Z = 2,                      /**< index for z-component */
-    NUM_COORDINATES = 3,        /**< number of components  */
-    SIZE = NUM_COORDINATES      /**< number of components  */
+    /**
+     * Copy constructor.
+     * Note: BasicVector3D<double> has constructors
+     * from BasicVector3D<double> (provided by compiler) and
+     * from BasicVector3D<float> (defined in this file);
+     * BasicVector3D<float> has only the last one.
+     */
+    BasicVector3D(const BasicVector3D<float> & v) {
+      v_[0] = v.x(); v_[1] = v.y(); v_[2] = v.z();
+    }
+
+    /**
+     * Destructor. */
+    ~BasicVector3D() {}
+
+    // -------------------------
+    // Interface to "good old C"
+    // -------------------------
+
+    /**
+     * Conversion (cast) to ordinary array. */
+    operator T * () { return v_; }
+
+    /**
+     * Conversion (cast) to ordinary const array. */
+    operator const T * () const { return v_; }
+
+    // -----------------------------
+    // General arithmetic operations
+    // -----------------------------
+
+    /**
+     * Assignment. */
+    BasicVector3D<T> & operator= (const BasicVector3D<T> & v) {
+      v_[0] = v.v_[0]; v_[1] = v.v_[1]; v_[2] = v.v_[2]; return *this;
+    }
+    /**
+     * Addition. */
+    BasicVector3D<T> & operator+=(const BasicVector3D<T> & v) {
+      v_[0] += v.v_[0]; v_[1] += v.v_[1]; v_[2] += v.v_[2]; return *this;
+    }
+    /**
+     * Subtraction. */
+    BasicVector3D<T> & operator-=(const BasicVector3D<T> & v) {
+      v_[0] -= v.v_[0]; v_[1] -= v.v_[1]; v_[2] -= v.v_[2]; return *this;
+    }
+    /**
+     * Multiplication by scalar. */
+    BasicVector3D<T> & operator*=(double a) {
+      v_[0] *= a; v_[1] *= a; v_[2] *= a; return *this;
+    }
+    /**
+     * Division by scalar. */
+    BasicVector3D<T> & operator/=(double a) {
+      v_[0] /= a; v_[1] /= a; v_[2] /= a; return *this;
+    }
+
+    // ------------
+    // Subscripting
+    // ------------
+
+    /**
+     * Gets components by index. */
+    T operator()(int i) const { return v_[i]; }
+    /**
+     * Gets components by index. */
+    T operator[](int i) const { return v_[i]; }
+    
+    /**
+     * Sets components by index. */
+    T & operator()(int i) { return v_[i]; }
+    /**
+     * Sets components by index. */
+    T & operator[](int i) { return v_[i]; }
+    
+    // ------------------------------------
+    // Cartesian coordinate system: x, y, z
+    // ------------------------------------
+
+    /**
+     * Gets x-component in cartesian coordinate system. */ 
+    T x() const { return v_[0]; }
+    /**
+     * Gets y-component in cartesian coordinate system. */ 
+    T y() const { return v_[1]; }
+    /**
+     * Gets z-component in cartesian coordinate system. */ 
+    T z() const { return v_[2]; }
+
+    /**
+     * Sets x-component in cartesian coordinate system. */ 
+    void setX(T a) { v_[0] = a; }
+    /**
+     * Sets y-component in cartesian coordinate system. */ 
+    void setY(T a) { v_[1] = a; }
+    /**
+     * Sets z-component in cartesian coordinate system. */ 
+    void setZ(T a) { v_[2] = a; }
+
+    /**
+     * Sets components in cartesian coordinate system.  */
+    void set(T x, T y, T z) { v_[0] = x; v_[1] = y; v_[2] = z; }
+
+    // ------------------------------------------
+    // Cylindrical coordinate system: rho, phi, z
+    // ------------------------------------------
+
+    /**
+     * Gets transverse component squared. */
+    T perp2() const { return x()*x()+y()*y(); }
+    /**
+     * Gets transverse component. */
+    T perp() const { return sqrt(perp2()); }
+    /**
+     * Gets rho-component in cylindrical coordinate system */
+    T rho() const { return perp(); }
+
+    /**
+     * Sets transverse component keeping phi and z constant. */
+    void setPerp(T rh) {
+      T factor = perp();
+      if (factor > 0) {
+	factor = rh/factor; v_[0] *= factor; v_[1] *= factor;
+      } 
+    }
+
+    // ------------------------------------------
+    // Spherical coordinate system: r, phi, theta
+    // ------------------------------------------
+
+    /**
+     * Gets magnitude squared of the vector. */
+    T mag2() const { return x()*x()+y()*y()+z()*z(); }
+    /**
+     * Gets magnitude of the vector. */
+    T mag() const { return sqrt(mag2()); }
+    /**
+     * Gets r-component in spherical coordinate system */
+    T r() const { return mag(); }
+    /**
+     * Gets azimuth angle. */
+    T phi() const {
+      return x() == 0 && y() == 0 ? 0 : atan2(y(),x());
+    }
+    /**
+     * Gets polar angle. */
+    T theta() const {
+      return x() == 0 && y() == 0 && z() == 0 ? 0 : atan2(perp(),z());
+    }
+    /**
+     * Gets cosine of polar angle. */
+    T cosTheta() const { T ma = mag(); return ma == 0 ? 1 : z()/ma; }
+
+    /**
+     * Gets r-component in spherical coordinate system */
+    T getR() const { return r(); }
+    /** 
+     * Gets phi-component in spherical coordinate system */
+    T getPhi() const { return phi(); }
+    /** 
+     * Gets theta-component in spherical coordinate system */
+    T getTheta() const { return theta(); }
+
+    /**
+     * Sets magnitude. */
+    void setMag(T ma) {
+      T factor = mag();
+      if (factor > 0) {
+	factor = ma/factor; v_[0] *= factor; v_[1] *= factor; v_[2] *= factor;
+      } 
+    }
+    /**
+     * Sets r-component in spherical coordinate system. */
+    void setR(T ma) { setMag(ma); }
+    /**
+     * Sets phi-component in spherical coordinate system. */
+    void setPhi(T ph) { T xy = perp(); setX(xy*cos(ph)); setY(xy*sin(ph)); }
+    /**
+     * Sets theta-component in spherical coordinate system. */
+    void setTheta(T th) {
+      T ma = mag();
+      T ph = phi();
+      set(ma*sin(th)*cos(ph), ma*sin(th)*sin(ph), ma*cos(th));
+    }
+
+    // ---------------
+    // Pseudo rapidity
+    // ---------------
+
+    /**
+     * Gets pseudo-rapidity: -ln(tan(theta/2)) */
+    T pseudoRapidity() const;
+    /**
+     * Gets pseudo-rapidity. */
+    T eta() const { return pseudoRapidity(); }
+    /**
+     * Gets pseudo-rapidity. */
+    T getEta() const { return pseudoRapidity(); }
+
+    /**
+     * Sets pseudo-rapidity, keeping magnitude and phi fixed. */
+    void setEta(T a);
+
+    // -------------------
+    // Combine two vectors
+    // -------------------
+
+    /**
+     * Scalar product. */
+    T dot(const BasicVector3D<T> & v) const {
+      return x()*v.x()+y()*v.y()+z()*v.z();
+    }
+
+    /**
+     * Vector product. */
+    BasicVector3D<T> cross(const BasicVector3D<T> & v) const {
+      return BasicVector3D<T>(y()*v.z()-v.y()*z(),
+			      z()*v.x()-v.z()*x(),
+			      x()*v.y()-v.x()*y());
+    }
+
+    /**
+     * Returns transverse component w.r.t. given axis squared. */
+    T perp2(const BasicVector3D<T> & v) const {
+      T tot = v.mag2(), s = dot(v);
+      return tot > 0 ? mag2()-s*s/tot : mag2();
+    }
+
+    /**
+     * Returns transverse component w.r.t. given axis. */
+    T perp(const BasicVector3D<T> & v) const {
+      return sqrt(perp2(v));
+    }
+
+    /**
+     * Returns angle w.r.t. another vector. */
+    T angle(const BasicVector3D<T> & v) const;
+
+    // ---------------
+    // Related vectors
+    // ---------------
+
+    /**
+     * Returns unit vector parallel to this. */ 
+    BasicVector3D<T> unit() const {
+      T len = mag();
+      return (len > 0) ?
+	BasicVector3D<T>(x()/len, y()/len, z()/len) : BasicVector3D<T>();
+    }
+
+    /**
+     * Returns orthogonal vector. */ 
+    BasicVector3D<T> orthogonal() const {
+      T dx = x() < 0 ? -x() : x();
+      T dy = y() < 0 ? -y() : y();
+      T dz = z() < 0 ? -z() : z();
+      if (dx < dy) {
+	return dx < dz ?
+	  BasicVector3D<T>(0,z(),-y()) : BasicVector3D<T>(y(),-x(),0);
+      }else{
+	return dy < dz ?
+	  BasicVector3D<T>(-z(),0,x()) : BasicVector3D<T>(y(),-x(),0);
+      }
+    }
+
+    // ---------
+    // Rotations
+    // ---------
+
+    /**
+     * Rotates around x-axis. */
+    BasicVector3D<T> & rotateX(T a);
+    /**
+     * Rotates around y-axis. */
+    BasicVector3D<T> & rotateY(T a);
+    /**
+     * Rotates around z-axis. */
+    BasicVector3D<T> & rotateZ(T a);
+    /**
+     * Rotates around the axis specified by another vector. */
+    BasicVector3D<T> & rotate(T a, const BasicVector3D<T> & v);
   };
 
-  /// Destructor.
-  ~BasicVector3D() {}
-
-  /// Copy constructor.
-  inline BasicVector3D(const BasicVector3D & v) : v_(v.v_) {}
-
-  /// Constructor from three doubles.
-  inline BasicVector3D(double x, double y, double z) : v_(x,y,z) {}
+  /*************************************************************************
+   *                                                                       *  
+   * Non-member functions for BasicVector3D<float>                         *
+   *                                                                       *  
+   *************************************************************************/
 
   /**
-   * Conversion (cast) to Hep3Vector.
-   * This operator is needed only for backward compatibility and
-   * in principle should not exit.
-   */ 
-  inline operator CLHEP::Hep3Vector () const { return v_; }
+   * Output to stream.
+   * @relates BasicVector3D
+   */
+  std::ostream &
+  operator<<(std::ostream &, const BasicVector3D<float> &);
 
-  /// Assignment.
-  inline BasicVector3D &
-  operator= (const BasicVector3D & v) { v_ = v.v_; return *this; }
-  /// Adds another 3-vector.
-  inline BasicVector3D &
-  operator+=(const BasicVector3D & v) { v_ += v.v_; return *this; }
-  /// Subtracts another 3-vector.
-  inline BasicVector3D &
-  operator-=(const BasicVector3D & v) { v_ -= v.v_; return *this; }
-  /// Multiplies by number.
-  inline BasicVector3D & operator*=(double a) { v_ *= a; return *this; }
-  /// Divides by number.
-  inline BasicVector3D & operator/=(double a) { v_ /= a; return *this; }
+  /**
+   * Input from stream.
+   * @relates BasicVector3D
+   */
+  std::istream &
+  operator>>(std::istream &, BasicVector3D<float> &);
 
-  /// Gets component by index.
-  inline double operator () (int i) const { return v_(i); }
-  /// Gets component by index.
-  inline double operator [] (int i) const { return v_[i]; }
+  /**
+   * Unary plus.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<float>
+  operator+(const BasicVector3D<float> & v) { return v; }
 
-  /// Sets component by index.
-  inline double & operator () (int i) { return v_(i); }
-  /// Sets component by index.
-  inline double & operator [] (int i) { return v_[i]; }
-
-  /// Returns x-component in cartesian coordinate system.
-  inline double x() const { return v_.x(); }
-  /// Returns y-component in cartesian coordinate system.
-  inline double y() const { return v_.y(); }
-  /// Returns z-component in cartesian coordinate system.
-  inline double z() const { return v_.z(); }
-
-  /// Set x-component in cartesian coordinate system.
-  inline void setX(double a) { v_.setX(a); }
-  /// Set y-component in cartesian coordinate system.
-  inline void setY(double a) { v_.setY(a); }
-  /// Set z-component in cartesian coordinate system.
-  inline void setZ(double a) { v_.setZ(a); }
-  /// Sets components in cartesian coordinate system.
-  inline void set(double x, double y, double z) { v_.set(x,y,z); }
-
-  /// Returns phi-component in spherical (polar) coordinate system.
-  inline double phi()      const { return v_.phi(); }
-  /// Returns theta-component in spherical (polar) coordinate system.
-  inline double theta()    const { return v_.theta(); }
-  /// Returns cosine of theta-component in spherical (polar) coordinate system.
-  inline double cosTheta() const { return v_.cosTheta(); }
-  /// Returns magnitude squared of the 3-vector.
-  inline double mag2()     const { return v_.mag2(); }
-  /// Returns magnitude of the 3-vector.
-  inline double mag()      const { return v_.mag(); }
-  /// Returns r-component in spherical (polar) coordinate system.
-  inline double r()        const { return v_.r(); }
-  /// Returns r-component in spherical (polar) coordinate system.
-  inline double getR()     const { return v_.getR(); }
-  /// Returns theta-component in spherical (polar) coordinate system.
-  inline double getTheta() const { return v_.getTheta(); }
-  /// Returns phi-component in spherical (polar) coordinate system.
-  inline double getPhi()   const { return v_.getPhi(); }
-
-  /// Sets phi-component in spherical (polar) coordinate system.
-  inline void setPhi  (double a) { v_.setPhi(a); }
-  /// Sets theta-component in spherical (polar) coordinate system.
-  inline void setTheta(double a) { v_.setTheta(a); }
-  /// Sets magnitude.
-  inline void setMag  (double a) { v_.setMag(a); }
-  /// Sets r-component in spherical (polar) coordinate system.
-  inline void setR    (double a) { v_.setR(a); }
-
-  /// Gets transverse component squared (rho in cylindrical coordinate system).
-  inline double perp2()  const { return v_.perp2(); }
-  /// Gets transverse component (rho in cylindrical coordinate system).
-  inline double perp()   const { return v_.perp(); }
-
-  /// Gets pseudo-rapidity.
-  inline double eta()    const { return v_.eta(); }
-  /// Gets pseudo-rapidity.
-  inline double getEta() const { return v_.getEta(); }
-
-  /// Sets transverse component keeping phi and z constant.
-  inline void setPerp(double a) { v_.setPerp(a); }
-
-  /// Sets pseudo-rapidity, keeping magnitude and phi fixed.
-  inline void setEta(double a) { v_.setEta(a); }
-
-  /// Returns transverse component w.r.t. given axis squared.
-  inline double perp2(const BasicVector3D & v) const { return v_.perp2(v); }
-  /// Returns transverse component w.r.t. given axis.
-  inline double perp(const BasicVector3D & v)  const { return v_.perp(v); }
-
-  /// Returns unit 3-vector.
-  inline BasicVector3D unit() const { return BasicVector3D(v_.unit()); } 
-
-  /// Returns orthogonal 3-vector.
-  inline BasicVector3D orthogonal() const {
-    return BasicVector3D(v_.orthogonal());
+  /**
+   * Addition of two vectors.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<float>
+  operator+(const BasicVector3D<float> & a, const BasicVector3D<float> & b) {
+    return BasicVector3D<float>(a.x()+b.x(), a.y()+b.y(), a.z()+b.z());
   }
 
-  /// Returns scalar product with another 3-vector.
-  inline double dot(const BasicVector3D & v) const { return v_.dot(v.v_); }
-
-  // Returns cross product with another 3-vector.
-  inline BasicVector3D cross(const BasicVector3D & v) const {
-    return BasicVector3D(v_.cross(v.v_));
+  /**
+   * Unary minus.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<float>
+  operator-(const BasicVector3D<float> & v) {
+    return BasicVector3D<float>(-v.x(), -v.y(), -v.z());
   }
 
-  /// Returns angle w.r.t. another 3-vector.
-  inline double angle(const BasicVector3D & v) const {
-    return v_.angle(v.v_);
+  /**
+   * Subtraction of two vectors.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<float>
+  operator-(const BasicVector3D<float> & a, const BasicVector3D<float> & b) {
+    return BasicVector3D<float>(a.x()-b.x(), a.y()-b.y(), a.z()-b.z());
   }
 
-  /// Returns pseudo-rapidity, i.e. -ln(tan(theta/2))
-  inline double pseudoRapidity() const { return v_.pseudoRapidity(); }
+  /**
+   * Multiplication vector by scalar.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<float>
+  operator*(const BasicVector3D<float> & v, double a) {
+    return BasicVector3D<float>(v.x()*a, v.y()*a, v.z()*a);
+  }
+
+  /**
+   * Scalar product of two vectors.
+   * @relates BasicVector3D
+   */
+  inline float
+  operator*(const BasicVector3D<float> & a, const BasicVector3D<float> & b) {
+    return a.dot(b);
+  }
+
+  /**
+   * Multiplication scalar by vector.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<float>
+  operator*(double a, const BasicVector3D<float> & v) {
+    return BasicVector3D<float>(a*v.x(), a*v.y(), a*v.z());
+  }
+
+  /**
+   * Division vector by scalar.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<float>
+  operator/(const BasicVector3D<float> & v, double a) {
+    return BasicVector3D<float>(v.x()/a, v.y()/a, v.z()/a);
+  }
   
-  /// Rotates the 3-vector around x-axis.
-  inline BasicVector3D & rotateX(double a) { v_.rotateX(a); return *this; }
-  /// Rotates the 3-vector around y-axis.
-  inline BasicVector3D & rotateY(double a) { v_.rotateY(a); return *this; }
-  /// Rotates the 3-vector around z-axis.
-  inline BasicVector3D & rotateZ(double a) { v_.rotateZ(a); return *this; }
-
-  /// Rotates around the axis specified by another 3-vector.
-  inline BasicVector3D & rotate(double a, const BasicVector3D & v) {
-    v_.rotate(a,v.v_); return *this;
+  /**
+   * Comparison of two vectors for equality. 
+   * @relates BasicVector3D
+   */
+  inline bool
+  operator==(const BasicVector3D<float> & a, const BasicVector3D<float> & b) {
+    return (a.x()==b.x() && a.y()==b.y() && a.z()==b.z());
   }
-};
 
-/**
- * Output to the stream.
- * @relates BasicVector3D
- */
-inline std::ostream &
-operator<<(std::ostream & os, const BasicVector3D & v) {
-  return (os << (const CLHEP::Hep3Vector &)(v));
-}
+  /**
+   * Comparison of two vectors for inequality. 
+   * @relates BasicVector3D
+   */
+  inline bool
+  operator!=(const BasicVector3D<float> & a, const BasicVector3D<float> & b) {
+    return (a.x()!=b.x() || a.y()!=b.y() || a.z()!=b.z());
+  }
 
-/**
- * Input from the stream.
- * @relates BasicVector3D
- */
-inline std::istream &
-operator>>(std::istream & is, BasicVector3D & v) {
-  CLHEP::Hep3Vector w(v); is >> w; v.set(w.x(),w.y(),w.z()); return is;
-}
+  /*************************************************************************
+   *                                                                       *  
+   * Non-member functions for BasicVector3D<double>                        *
+   *                                                                       *  
+   *************************************************************************/
 
-/**
- * Unary plus.
- * @relates BasicVector3D
- */
-inline BasicVector3D
-operator+(const BasicVector3D & v) {
-  return v;
-}
+  /**
+   * Output to stream.
+   * @relates BasicVector3D
+   */
+  std::ostream &
+  operator<<(std::ostream &, const BasicVector3D<double> &);
 
-/**
- * Addition of two 3-vectors.
- * @relates BasicVector3D
- */
-inline BasicVector3D
-operator+(const BasicVector3D & a, const BasicVector3D & b) {
-  return BasicVector3D(a.x()+b.x(),a.y()+b.y(),a.z()+b.z());
-}
+  /**
+   * Input from stream.
+   * @relates BasicVector3D
+   */
+  std::istream &
+  operator>>(std::istream &, BasicVector3D<double> &);
 
-/**
- * Unary minus.
- * @relates BasicVector3D
- */
-inline BasicVector3D
-operator-(const BasicVector3D & v) {
-  return BasicVector3D(-v.x(),-v.y(),-v.z());
-}
+  /**
+   * Unary plus.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<double>
+  operator+(const BasicVector3D<double> & v) { return v; }
 
-/**
- * Subtraction of two 3-vectors.
- * @relates BasicVector3D
- */
-inline BasicVector3D
-operator-(const BasicVector3D & a, const BasicVector3D & b) {
-  return BasicVector3D(a.x()-b.x(),a.y()-b.y(),a.z()-b.z());
-}
+  /**
+   * Addition of two vectors.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<double>
+  operator+(const BasicVector3D<double> & a,const BasicVector3D<double> & b) {
+    return BasicVector3D<double>(a.x()+b.x(), a.y()+b.y(), a.z()+b.z());
+  }
 
-/**
- * Multiplication 3-vector by scalar.
- * @relates BasicVector3D
- */
-inline BasicVector3D
-operator*(const BasicVector3D & v, double a) {
-  return BasicVector3D(v.x()*a,v.y()*a,v.z()*a);
-}
+  /**
+   * Unary minus.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<double>
+  operator-(const BasicVector3D<double> & v) {
+    return BasicVector3D<double>(-v.x(), -v.y(), -v.z());
+  }
 
-/**
- * Scalar product of two 3-vectors.
- * @relates BasicVector3D
- */
-inline double
-operator*(const BasicVector3D & a, const BasicVector3D & b) {
-  return a.dot(b);
-}
+  /**
+   * Subtraction of two vectors.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<double>
+  operator-(const BasicVector3D<double> & a,const BasicVector3D<double> & b) {
+    return BasicVector3D<double>(a.x()-b.x(), a.y()-b.y(), a.z()-b.z());
+  }
 
-/**
- * Multiplication scalar by 3-vector.
- * @relates BasicVector3D
- */
-inline BasicVector3D
-operator*(double a, const BasicVector3D & v) {
-  return BasicVector3D(a*v.x(),a*v.y(),a*v.z());
-}
+  /**
+   * Multiplication vector by scalar.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<double>
+  operator*(const BasicVector3D<double> & v, double a) {
+    return BasicVector3D<double>(v.x()*a, v.y()*a, v.z()*a);
+  }
 
-/**
- * Division 3-vector by scalar.
- * @relates BasicVector3D
- */
-inline BasicVector3D
-operator/(const BasicVector3D & v, double a) {
-  CLHEP::Hep3Vector w = CLHEP::Hep3Vector(v)/a;
-  return BasicVector3D(w.x(),w.y(),w.z());
-}
+  /**
+   * Scalar product of two vectors.
+   * @relates BasicVector3D
+   */
+  inline double
+  operator*(const BasicVector3D<double> & a,const BasicVector3D<double> & b) {
+    return a.dot(b);
+  }
 
-/**
- * Comparison of two 3-vectors for equality. 
- * @relates BasicVector3D
- */
-inline bool
-operator==(const BasicVector3D & a, const BasicVector3D & b) {
-  return (a.x()==b.x() && a.y()==b.y() && a.z()==b.z());
-}
+  /**
+   * Multiplication scalar by vector.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<double>
+  operator*(double a, const BasicVector3D<double> & v) {
+    return BasicVector3D<double>(a*v.x(), a*v.y(), a*v.z());
+  }
 
-/**
- * Comparison of two 3-vectors for inequality. 
- * @relates BasicVector3D
- */
-inline bool
-operator!=(const BasicVector3D & a, const BasicVector3D & b) {
-  return (a.x()!=b.x() || a.y()!=b.y() || a.z()!=b.z());
-}
+  /**
+   * Division vector by scalar.
+   * @relates BasicVector3D
+   */
+  inline BasicVector3D<double>
+  operator/(const BasicVector3D<double> & v, double a) {
+    return BasicVector3D<double>(v.x()/a, v.y()/a, v.z()/a);
+  }
+  
+  /**
+   * Comparison of two vectors for equality. 
+   * @relates BasicVector3D
+   */
+  inline bool
+  operator==(const BasicVector3D<double> & a, const BasicVector3D<double> & b)
+  {
+    return (a.x()==b.x() && a.y()==b.y() && a.z()==b.z());
+  }
+
+  /**
+   * Comparison of two vectors for inequality. 
+   * @relates BasicVector3D
+   */
+  inline bool
+  operator!=(const BasicVector3D<double> & a, const BasicVector3D<double> & b)
+  {
+    return (a.x()!=b.x() || a.y()!=b.y() || a.z()!=b.z());
+  }
+} /* namespace HepGeom */
 
 #endif /* BASIC_VECTOR3D_H */

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Plane3D.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Plane3D.cc,v 1.2 2003/07/17 09:05:28 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -11,10 +11,23 @@
 // History:
 // 22.09.96 E.Chernyaev - initial version
 // 19.10.96 J.Allison - added == and <<.
+// 15.04.03 E.Chernyaev - CLHEP-1.9: template version
 
+#include <iostream>
 #include "CLHEP/Geometry/Plane3D.h"
 
-std::ostream& operator << (std::ostream& os, const HepPlane3D& p) {
-  return os
-    << '(' << p.a() << ',' << p.b() << ',' << p.c() << ',' << p.d() << ')';
-}
+namespace HepGeom {
+  //--------------------------------------------------------------------------
+  std::ostream &
+  operator<<(std::ostream & os, const Plane3D<float> & p) {
+    return os
+      << '(' << p.a() << ',' << p.b() << ',' << p.c() << ',' << p.d() << ')';
+  }
+
+  //--------------------------------------------------------------------------
+  std::ostream &
+  operator<<(std::ostream & os, const Plane3D<double> & p) {
+    return os
+      << '(' << p.a() << ',' << p.b() << ',' << p.c() << ',' << p.d() << ')';
+  }
+} /* namespace HepGeom */

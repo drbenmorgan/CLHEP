@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Transform3D.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Transform3D.h,v 1.2 2003/07/17 09:05:28 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -21,59 +21,59 @@
 //          ******************************************
 //
 // Identity transformation:
-//   HepTransform3D::Identity   - global identity transformation;
-//   any constructor without parameters, e.g. HepTransform3D();
+//   Transform3D::Identity   - global identity transformation;
+//   any constructor without parameters, e.g. Transform3D();
 //   m.setIdentity()            - set "m" to identity;
 //
 // General transformations:
-//   HepTransform3D(m,v)         - transformation given by HepRotation "m"
-//                                 and Hep3Vector "v";
-//   HepTransform3D(a0,a1,a2, b0,b1,b2) - transformation given by initial
-//                                 and transformed positions of three points;
+//   Transform3D(m,v)         - transformation given by Rotation "m"
+//                              and CLHEP::Hep3Vector "v";
+//   Transform3D(a0,a1,a2, b0,b1,b2) - transformation given by initial
+//                               and transformed positions of three points;
 // Rotations:
-//   HepRotate3D(m)              - rotation given by HepRotation "m";
-//   HepRotate3D(ang,v)          - rotation through the angle "ang" around
-//                                 vector "v";
-//   HepRotate3D(ang,p1,p2)      - rotation through the angle "ang"
-//                                 counterclockwise around the axis given by
-//                                 two points p1->p2;
-//   HepRotate3D(a1,a2, b1,b2)   - rotation around the origin defined by initial
-//                                 and transformed positions of two points;
-//   HepRotateX3D(ang)           - rotation around X-axis;
-//   HepRotateY3D(ang)           - rotation around Y-axis;
-//   HepRotateZ3D(ang)           - rotation around Z-axis;
+//   Rotate3D(m)              - rotation given by CLHEP::HepRotation "m";
+//   Rotate3D(ang,v)          - rotation through the angle "ang" around
+//                              vector "v";
+//   Rotate3D(ang,p1,p2)      - rotation through the angle "ang"
+//                              counterclockwise around the axis given by
+//                              two points p1->p2;
+//   Rotate3D(a1,a2, b1,b2)   - rotation around the origin defined by initial
+//                              and transformed positions of two points;
+//   RotateX3D(ang)           - rotation around X-axis;
+//   RotateY3D(ang)           - rotation around Y-axis;
+//   RotateZ3D(ang)           - rotation around Z-axis;
 //
 // Translations:
-//   HepTranslate3D(v)           - translation given by Hep3Vector "v";
-//   HepTranslate3D(dx,dy,dz)    - translation on vector (dx,dy,dz);
-//   HepTraslateX3D(dx)          - translation along X-axis;
-//   HepTraslateY3D(dy)          - translation along Y-axis;
-//   HepTraslateZ3D(dz)          - translation along Z-axis;
+//   Translate3D(v)           - translation given by CLHEP::Hep3Vector "v";
+//   Translate3D(dx,dy,dz)    - translation on vector (dx,dy,dz);
+//   TraslateX3D(dx)          - translation along X-axis;
+//   TraslateY3D(dy)          - translation along Y-axis;
+//   TraslateZ3D(dz)          - translation along Z-axis;
 //
 // Reflections:
-//   HepReflect3D(a,b,c,d)       - reflection in the plane a*x+b*y+c*z+d=0;
-//   HepReflect3D(normal,p)      - reflection in the plane going through "p"
-//                                 and whose normal is equal to "normal";
-//   HepReflectX3D(a)            - reflect X in the plane x=a (default a=0);
-//   HepReflectY3D(a)            - reflect Y in the plane y=a (default a=0);
-//   HepReflectZ3D(a)            - reflect Z in the plane z=a (default a=0);
+//   Reflect3D(a,b,c,d)       - reflection in the plane a*x+b*y+c*z+d=0;
+//   Reflect3D(normal,p)      - reflection in the plane going through "p"
+//                              and whose normal is equal to "normal";
+//   ReflectX3D(a)            - reflect X in the plane x=a (default a=0);
+//   ReflectY3D(a)            - reflect Y in the plane y=a (default a=0);
+//   ReflectZ3D(a)            - reflect Z in the plane z=a (default a=0);
 //
 // Scalings:
-//   HepScale3D(sx,sy,sz)        - general scaling with factors "sx","sy","sz"
+//   Scale3D(sx,sy,sz)        - general scaling with factors "sx","sy","sz"
 //                                 along X, Y and Z;
-//   HepScale3D(s)               - scaling with constant factor "s" along all 
+//   Scale3D(s)               - scaling with constant factor "s" along all 
 //                                 directions;
-//   HepScaleX3D(sx)             - scale X;
-//   HepScaleY3D(sy)             - scale Y;
-//   HepScaleZ3D(sz)             - scale Z;
+//   ScaleX3D(sx)             - scale X;
+//   ScaleY3D(sy)             - scale Y;
+//   ScaleZ3D(sz)             - scale Z;
 //
 // Inverse transformation:
-//   m.inverse() or             - returns inverse transformation;
+//   m.inverse() or           - returns inverse transformation;
 //
 // Compound transformation:
-//   m3 = m2 * m1               - it is relatively slow in comparison with
-//                                transformation of a vector. Use parenthesis
-//                                to avoid this operation (see remark below);
+//   m3 = m2 * m1             - it is relatively slow in comparison with
+//                              transformation of a vector. Use parenthesis
+//                              to avoid this operation (see example below);
 // Transformation of point:
 //   p2 = m * p1
 //
@@ -97,12 +97,12 @@
 //
 // Example of the usage:
 //
-//   HepTransform3D m1, m2, m3;
+//   Transform3D m1, m2, m3;
 //   HepVector3D    v2, v1(0,0,0);
 //
-//   m1 = HepRotate3D(angle, HepVector3D(1,1,1));
-//   m2 = HepTranslate3D(dx,dy,dz);
-//   m3 = m1^-1;
+//   m1 = Rotate3D(angle, Vector3D(1,1,1));
+//   m2 = Translate3D(dx,dy,dz);
+//   m3 = m1.inverse();
 //
 //   v2 = m3*(m2*(m1*v1));
 //
@@ -121,695 +121,711 @@
 #define HEP_TRANSFROM3D_H
 
 #include "CLHEP/Vector/ThreeVector.h"
-//class CLHEP::Hep3Vector;
-//class CLHEP::HepRotation;
-class HepPoint3D;
-class HepVector3D;
-class HepNormal3D;
 
-class HepTranslate3D;
-class HepRotate3D;
-class HepScale3D;
+namespace HepGeom {
 
-/**
- * Class for transformation of 3D objects from the Geometry module.
- * It allows different translations, rotations, scalings and reflections.
- * Several specialized classes are derived from it:
- *
- * HepTranslateX3D, HepTranslateY3D, HepTranslateZ3D, HepTranslate3D,<br>
- * HepRotateX3D, HepRotateY3D, HepRotateZ3D, HepRotate3D,            <br>
- * HepScaleX3D, HepScaleY3D, HepScaleZ3D, HepScale3D,                <br>
- * HepReflectX3D, HepReflectY3D, HepReflectZ3D, HepReflect3D.
- *
- * The idea behind these classes is to provide some additional constructors
- * for HepTransform3D, they should not be used as separate classes.
- *
- * Example:
- * @code
- *   HepTransform3D m;
- *   m = HepTranslateX3D(10.*cm);
- * @endcode
- *
- * Remark:
- * For the reason that the @e operator* is left associative, the notation
- * @code
- *   v2 = m3*(m2*(m1*v1));
- * @endcode
- * is much more effective then the notation
- * @code
- *   v2 = m3*m2*m1*v1;
- * @endcode
- * In the first case three operations @e Transform*Vector
- * are executed, in the second case two operations @e Transform*Transform and
- * one @e Transform*Vector are perfomed. @e Transform*Transform is roughly
- * 3 times slower than @e Transform*Vector.
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepTransform3D {
- protected:
-  double xx, xy, xz, dx,     // 4x3  Transformation Matrix
-         yx, yy, yz, dy,
-         zx, zy, zz, dz;
+  template<class T> class Point3D;
+  template<class T> class Vector3D;
+  template<class T> class Normal3D;
 
-  // Protected constructor
-  HepTransform3D(double XX, double XY, double XZ, double DX,
-		 double YX, double YY, double YZ, double DY,
-		 double ZX, double ZY, double ZZ, double DZ)
-    : xx(XX), xy(XY), xz(XZ), dx(DX),
-      yx(YX), yy(YY), yz(YZ), dy(DY),
-      zx(ZX), zy(ZY), zz(ZZ), dz(DZ) {}
-
-  // Set transformation matrix
-  void setTransform(double XX, double XY, double XZ, double DX,
-		    double YX, double YY, double YZ, double DY,
-		    double ZX, double ZY, double ZZ, double DZ) {
-    xx = XX; xy = XY; xz = XZ; dx = DX;
-    yx = YX; yy = YY; yz = YZ; dy = DY;
-    zx = ZX; zy = ZY; zz = ZZ; dz = DZ;
-  }
-
- public:
-  /// Global identity transformation
-  static const HepTransform3D Identity;
-
-  // Helper class for implemention of C-style subscripting r[i][j] 
-  class HepTransform3D_row {
-  public:
-    inline HepTransform3D_row(const HepTransform3D &, int);
-    inline double operator [] (int) const;
-  private:
-    const HepTransform3D & rr;
-    int ii;
-  };
-
-  /// Default constructor - sets the Identity transformation.
-  HepTransform3D()
-    : xx(1), xy(0), xz(0), dx(0),
-      yx(0), yy(1), yz(0), dy(0),
-      zx(0), zy(0), zz(1), dz(0) {}
-  
-  /// Constructor: rotation and then translation.
-  inline HepTransform3D(const CLHEP::HepRotation &m, const CLHEP::Hep3Vector &v);
-
-  /// Constructor: transformation of basis (assumed - no reflection).
-  HepTransform3D
-  (const HepPoint3D &fr0, const HepPoint3D &fr1, const HepPoint3D &fr2,
-   const HepPoint3D &to0, const HepPoint3D &to1, const HepPoint3D &to2);
-
-  /// Copy constructor.
-  HepTransform3D(const HepTransform3D & m)
-    : xx(m.xx), xy(m.xy), xz(m.xz), dx(m.dx),
-      yx(m.yx), yy(m.yy), yz(m.yz), dy(m.dy),
-      zx(m.zx), zy(m.zy), zz(m.zz), dz(m.dz) {}
-
-  /// Returns object of the helper class for C-style subscripting r[i][j]
-  inline const HepTransform3D_row operator [] (int) const; 
-
-  /// Fortran-style subscripting: returns (i,j) element of the matrix.
-  double operator () (int, int) const;
-
-  /// Assignment.
-  HepTransform3D& operator=(const HepTransform3D &m) {
-    setTransform(m.xx, m.xy, m.xz, m.dx,
-                 m.yx, m.yy, m.yz, m.dy,
-                 m.zx, m.zy, m.zz, m.dz);
-    return *this;
-  }
-
-  /// Sets the Identity transformation.
-  void setIdentity() { 
-    xy = xz = dx = yx = yz = dy = zx = zy = dz = 0; xx = yy = zz = 1;
-  }
-
-  /// Inverses the transformation.
-  HepTransform3D inverse() const;
-
-  /// Transformation by another HepTransform3D.
-  inline HepTransform3D operator*(const HepTransform3D &b) const;
-
-  /// Transforms the HepPoint3D.
-  inline HepPoint3D operator*(const HepPoint3D &p) const;
-
-  /// Transforms the HepVector3D.
-  inline HepVector3D operator*(const HepVector3D &v) const;
-
-  /// Transforms the HepNormal3D.
-  inline HepNormal3D operator*(const HepNormal3D &n) const;
+  class Translate3D;
+  class Rotate3D;
+  class Scale3D;
 
   /**
-   * Decomposition of general transformation.
-   * This function gets decomposition of the transformation
-   * in three consequentive specific transformations: Scale,
-   * then Rotation, then Translation, i.e.
+   * Class for transformation of 3D geometrical objects.
+   * It allows different translations, rotations, scalings and reflections.
+   * Several specialized classes are derived from it:
+   *
+   * TranslateX3D, TranslateY3D, TranslateZ3D, Translate3D,<br>
+   * RotateX3D,    RotateY3D,    RotateZ3D,    Rotate3D,   <br>
+   * ScaleX3D,     ScaleY3D,     ScaleZ3D,     Scale3D,    <br>
+   * ReflectX3D,   ReflectY3D,   ReflectZ3D,   Reflect3D.
+   *
+   * The idea behind these classes is to provide some additional constructors
+   * for Transform3D, they normally should not be used as separate classes.
+   *
+   * Example:
    * @code
-   *   Transformation = Translation * Rotation * Scale
+   *   HepGeom::Transform3D m;
+   *   m = HepGeom::TranslateX3D(10.*cm);
    * @endcode
    *
-   * @param scale       output: scaling transformation;
-   *                    if there was a reflection, then scale factor for
-   *                    z-component scale(2,2) will be negative.
-   * @param rotation    output: rotation transformaion.
-   * @param translation output: translation transformaion.
+   * Remark:
+   * For the reason that the operator* is left associative, the notation
+   * @code
+   *   v2 = m3*(m2*(m1*v1));
+   * @endcode
+   * is much more effective then the notation
+   * @code
+   *   v2 = m3*m2*m1*v1;
+   * @endcode
+   * In the first case three operations Transform3D*Vector3D are executed,
+   * in the second case two operations Transform3D*Transform3D and one
+   * Transform3D*Vector3D are performed. Transform3D*Transform3D is
+   * roughly three times slower than Transform3D*Vector3D.
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
    */
-  void getDecomposition(HepScale3D & scale,
-			HepRotate3D & rotation,
-			HepTranslate3D & translation) const;
+  class Transform3D {
+  protected:
+    double xx_, xy_, xz_, dx_,     // 4x3  Transformation Matrix
+           yx_, yy_, yz_, dy_,
+           zx_, zy_, zz_, dz_;
+
+    // Protected constructor
+    Transform3D(double XX, double XY, double XZ, double DX,
+		double YX, double YY, double YZ, double DY,
+		double ZX, double ZY, double ZZ, double DZ)
+      : xx_(XX), xy_(XY), xz_(XZ), dx_(DX),
+	yx_(YX), yy_(YY), yz_(YZ), dy_(DY),
+	zx_(ZX), zy_(ZY), zz_(ZZ), dz_(DZ) {}
+
+    // Set transformation matrix
+    void setTransform(double XX, double XY, double XZ, double DX,
+		      double YX, double YY, double YZ, double DY,
+		      double ZX, double ZY, double ZZ, double DZ) {
+      xx_ = XX; xy_ = XY; xz_ = XZ; dx_ = DX;
+      yx_ = YX; yy_ = YY; yz_ = YZ; dy_ = DY;
+      zx_ = ZX; zy_ = ZY; zz_ = ZZ; dz_ = DZ;
+    }
+
+  public:
+    /**
+     * Global identity transformation. */
+    static const Transform3D Identity;
+
+    // Helper class for implemention of C-style subscripting r[i][j] 
+    class Transform3D_row {
+    public:
+      inline Transform3D_row(const Transform3D &, int);
+      inline double operator [] (int) const;
+    private:
+      const Transform3D & rr;
+      int ii;
+    };
+
+    /**
+     * Default constructor - sets the Identity transformation. */
+    Transform3D()
+      : xx_(1), xy_(0), xz_(0), dx_(0),
+	yx_(0), yy_(1), yz_(0), dy_(0),
+	zx_(0), zy_(0), zz_(1), dz_(0) {}
+  
+    /**
+     * Constructor: rotation and then translation. */
+    inline Transform3D(const CLHEP::HepRotation & m, const CLHEP::Hep3Vector & v);
+
+    /**
+     * Constructor: transformation of basis (assumed - no reflection). */
+    Transform3D(const Point3D<double> & fr0,
+		const Point3D<double> & fr1,
+		const Point3D<double> & fr2,
+		const Point3D<double> & to0,
+		const Point3D<double> & to1,
+		const Point3D<double> & to2);
+
+    /**
+     * Copy constructor. */
+    Transform3D(const Transform3D & m)
+      : xx_(m.xx_), xy_(m.xy_), xz_(m.xz_), dx_(m.dx_),
+	yx_(m.yx_), yy_(m.yy_), yz_(m.yz_), dy_(m.dy_),
+	zx_(m.zx_), zy_(m.zy_), zz_(m.zz_), dz_(m.dz_) {}
+
+    /**
+     * Returns object of the helper class for C-style subscripting r[i][j] */
+    inline const Transform3D_row operator [] (int) const; 
+
+    /** Fortran-style subscripting: returns (i,j) element of the matrix. */
+    double operator () (int, int) const;
+
+    /**
+     * Gets xx-element of the transformation matrix. */
+    double xx() const { return xx_; }
+    /**
+     * Gets xy-element of the transformation matrix. */
+    double xy() const { return xy_; }
+    /**
+     * Gets xz-element of the transformation matrix. */
+    double xz() const { return xz_; }
+    /**
+     * Gets yx-element of the transformation matrix. */
+    double yx() const { return yx_; }
+    /**
+     * Gets yy-element of the transformation matrix. */
+    double yy() const { return yy_; }
+    /**
+     * Gets yz-element of the transformation matrix. */
+    double yz() const { return yz_; }
+    /** 
+     * Gets zx-element of the transformation matrix. */
+    double zx() const { return zx_; }
+    /**
+     * Gets zy-element of the transformation matrix. */
+    double zy() const { return zy_; }
+    /**
+     * Gets zz-element of the transformation matrix. */
+    double zz() const { return zz_; }
+    /**
+     * Gets dx-element of the transformation matrix. */
+    double dx() const { return dx_; }
+    /**
+     * Gets dy-element of the transformation matrix. */
+    double dy() const { return dy_; }
+    /**
+     * Gets dz-element of the transformation matrix. */
+    double dz() const { return dz_; }
+    
+    /**
+     * Assignment. */
+    Transform3D & operator=(const Transform3D &m) {
+      xx_= m.xx_; xy_= m.xy_; xz_= m.xz_; dx_= m.dx_;
+      yx_= m.yx_; yy_= m.yy_; yz_= m.yz_; dy_= m.dy_;
+      zx_= m.zx_; zy_= m.zy_; zz_= m.zz_; dz_= m.dz_;
+      return *this;
+    }
+
+    /**
+     * Sets the Identity transformation. */
+    void setIdentity() { 
+      xy_= xz_= dx_= yx_= yz_= dy_= zx_= zy_= dz_= 0; xx_= yy_= zz_= 1;
+    }
+    
+    /**
+     * Returns the inverse transformation. */
+    Transform3D inverse() const;
+    
+    /**
+     * Transformation by another Transform3D. */
+    Transform3D operator*(const Transform3D & b) const;
+    
+    /**
+     * Decomposition of general transformation.
+     * This function gets decomposition of the transformation
+     * in three consequentive specific transformations: Scale3D,
+     * then Rotate3D, then Translate3, i.e.
+     * @code
+     *   Transform3D = Translate3D * Rotate3D * Scale3D
+     * @endcode
+     *
+     * @param scale       output: scaling transformation;
+     *                    if there was a reflection, then scale factor for
+     *                    z-component (scale(2,2)) will be negative.
+     * @param rotation    output: rotation transformaion.
+     * @param translation output: translation transformaion.
+     */
+    void getDecomposition(Scale3D & scale,
+			  Rotate3D & rotation,
+			  Translate3D & translation) const;
+
+    /**
+     * Returns true if the difference between corresponding
+     * matrix elements is less than the tolerance.
+     */
+    bool isNear(const Transform3D & t, double tolerance = 2.2E-14 ) const;
+
+    /**
+     * Extracts the rotation matrix.
+     * This functions is obsolete - use getDecomposition() instead.
+     */
+    inline CLHEP::HepRotation getRotation() const;
+    
+    /**
+     * Extracts the translation vector.
+     * This functions is obsolete - use getDecomposition() instead.
+     */
+    inline CLHEP::Hep3Vector getTranslation() const;
+    
+    /**
+     * Test for equality. */
+    bool operator == (const Transform3D & transform) const;
+    
+    /**
+     * Test for inequality. */
+    bool operator != (const Transform3D & transform) const {
+      return ! operator==(transform);
+    }
+  };
+
+  //   R O T A T I O N S
 
   /**
-   * Returns true if the difference between corresponding
-   * matrix elements is less than the tolerance.
+   * Constructs a rotation transformation.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = Rotate3D(30.*deg, HepVector3D(1.,1.,1.));
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
    */
-  bool isNear(const HepTransform3D & t, double tolerance = 2.2E-14 ) const;
+  class Rotate3D : public Transform3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    Rotate3D() : Transform3D() {}
+    
+    /**
+     * Constructor from CLHEP::HepRotation. */
+    inline Rotate3D(const CLHEP::HepRotation &m);
+
+    /**
+     * Constructor from angle and axis given by two points.
+     * @param a  angle of rotation
+     * @param p1 begin point of the axis
+     * @param p2 end point of the axis
+     */
+    Rotate3D(double a,
+	     const Point3D<double> & p1,
+	     const Point3D<double> & p2);
+    
+    /**
+     * Constructor from angle and axis.
+     * @param a angle of rotation
+     * @param v axis of rotation
+     */
+    inline Rotate3D(double a, const Vector3D<double> & v);
+
+    /**
+     * Constructor for rotation given by original and rotated position of
+     * two points. It is assumed that there is no reflection.
+     * @param fr1 original position of 1st point
+     * @param fr2 original position of 2nd point
+     * @param to1 rotated position of 1st point
+     * @param to2 rotated position of 2nd point
+     */
+    inline Rotate3D(const Point3D<double> & fr1,
+		    const Point3D<double> & fr2,
+		    const Point3D<double> & to1,
+		    const Point3D<double> & to2);
+  };
 
   /**
-   * Extracts the rotation matrix.
-   * This functions is obsolete - use getDecomposition() instead.
+   * Constructs a rotation around x-axis.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = RotateX3D(30.*deg);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
    */
-  inline CLHEP::HepRotation getRotation() const;
+  class RotateX3D : public Rotate3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    RotateX3D() : Rotate3D() {}
+    
+    /**
+     * Constructs a rotation around x-axis by angle a. */
+    RotateX3D(double a) {
+      double cosa = cos(a), sina = sin(a); 
+      setTransform(1,0,0,0,  0,cosa,-sina,0,  0,sina,cosa,0);
+    }
+  };
 
   /**
-   * Extracts the translation vector.
-   * This functions is obsolete - use getDecomposition() instead.
+   * Constructs a rotation around y-axis.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = RotateY3D(30.*deg);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
    */
-  inline CLHEP::Hep3Vector getTranslation() const;
-
-  /// Test for equality.
-  bool operator == (const HepTransform3D & transform) const;
-
-  /// Test for inequality.
-  bool operator != (const HepTransform3D & transform) const {
-    return ! operator==(transform);
-  }
-};
-
-//   R O T A T I O N S
-
-/**
- * Constructs a rotation transformation.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepRotate3D(30.*deg, HepVector3D(1.,1.,1.));
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepRotate3D : public HepTransform3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepRotate3D() : HepTransform3D() {}
-
-  /// Constructor from HepRotation.
-  inline HepRotate3D(const CLHEP::HepRotation &m);
+  class RotateY3D : public Rotate3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    RotateY3D() : Rotate3D() {}
+    
+    /**
+     * Constructs a rotation around y-axis by angle a. */
+    RotateY3D(double a) {
+      double cosa = cos(a), sina = sin(a); 
+      setTransform(cosa,0,sina,0,  0,1,0,0,  -sina,0,cosa,0);
+    }
+  };
 
   /**
-   * Constructor from angle and axis given by two points.
-   * @param a  angle of rotation
-   * @param p1 begin point of the axis
-   * @param p2 end point of the axis
+   * Constructs a rotation around z-axis.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = RotateZ3D(30.*deg);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
    */
-  HepRotate3D(double a, const HepPoint3D &p1, const HepPoint3D &p2);
+  class RotateZ3D : public Rotate3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    RotateZ3D() : Rotate3D() {}
+    
+    /**
+     * Constructs a rotation around z-axis by angle a. */
+    RotateZ3D(double a) {
+      double cosa = cos(a), sina = sin(a); 
+      setTransform(cosa,-sina,0,0,  sina,cosa,0,0,  0,0,1,0);
+    }
+  };
+
+  //   T R A N S L A T I O N S
+  
+  /**
+   * Constructs a translation transformation.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = Translate3D(10.,20.,30.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
+   */
+  class Translate3D : public Transform3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    Translate3D() : Transform3D() {}
+    
+    /**
+     * Constructor from CLHEP::Hep3Vector. */
+    inline Translate3D(const CLHEP::Hep3Vector &v);
+    
+    /**
+     * Constructor from three numbers. */
+    Translate3D(double x, double y, double z)
+      : Transform3D(1,0,0,x, 0,1,0,y, 0,0,1,z) {}
+  };
 
   /**
-   * Constructor from angle and axis.
-   * @param a angle of rotation
-   * @param v axis of rotation
+   * Constructs a translation along x-axis.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = TranslateX3D(10.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
    */
-  inline HepRotate3D(double a, const HepVector3D &v);
+  class TranslateX3D : public Translate3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    TranslateX3D() : Translate3D() {}
+    
+    /**
+     * Constructor from a number. */
+    TranslateX3D(double x) : Translate3D(x, 0, 0) {}
+  };
 
   /**
-   * Constructor for rotation given by original and rotated position of
-   * two points. It is assumed that there is no reflection.
-   * @param fr1 original position of 1st point
-   * @param fr2 original position of 2nd point
-   * @param to1 rotated position of 1st point
-   * @param to2 rotated position of 2nd point
+   * Constructs a translation along y-axis.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = TranslateY3D(10.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
    */
-  inline HepRotate3D(const HepPoint3D &fr1, const HepPoint3D &fr2,
-		     const HepPoint3D &to1, const HepPoint3D &to2);
-};
+  class TranslateY3D : public Translate3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    TranslateY3D() : Translate3D() {}
 
-/**
- * Constructs a rotation around x-axis.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepRotateX3D(30.*deg);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepRotateX3D : public HepRotate3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepRotateX3D() : HepRotate3D() {}
-  /// Constructs a rotation around x-axis by angle a.
-  HepRotateX3D(double a) {
-    double cosa = cos(a), sina = sin(a); 
-    setTransform(1,0,0,0,  0,cosa,-sina,0,  0,sina,cosa,0);
-  }
-};
+    /**
+     * Constructor from a number. */
+    TranslateY3D(double y) : Translate3D(0, y, 0) {}
+  };
 
-/**
- * Constructs a rotation around y-axis.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepRotateY3D(30.*deg);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepRotateY3D : public HepRotate3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepRotateY3D() : HepRotate3D() {}
-  /// Constructs a rotation around y-axis by angle a.
-  HepRotateY3D(double a) {
-    double cosa = cos(a), sina = sin(a); 
-    setTransform(cosa,0,sina,0,  0,1,0,0,  -sina,0,cosa,0);
-  }
-};
+  /**
+   * Constructs a translation along z-axis.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = TranslateZ3D(10.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
+   */
+  class TranslateZ3D : public Translate3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    TranslateZ3D() : Translate3D() {}
 
-/**
- * Constructs a rotation around z-axis.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepRotateZ3D(30.*deg);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepRotateZ3D : public HepRotate3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepRotateZ3D() : HepRotate3D() {}
-  /// Constructs a rotation around z-axis by angle a.
-  HepRotateZ3D(double a) {
-    double cosa = cos(a), sina = sin(a); 
-    setTransform(cosa,-sina,0,0,  sina,cosa,0,0,  0,0,1,0);
-  }
-};
+    /**
+     * Constructor from a number. */
+    TranslateZ3D(double z) : Translate3D(0, 0, z) {}
+  };
 
-//   T R A N S L A T I O N S
+  //   R E F L E C T I O N S
 
-/**
- * Constructs a translation transformation.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepTranslate3D(10.,20.,30.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepTranslate3D : public HepTransform3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepTranslate3D() : HepTransform3D() {}
-  /// Constructor from Hep3Vector.
-  inline HepTranslate3D(const CLHEP::Hep3Vector &v);
-  /// Constructor from three numbers.
-  HepTranslate3D(double x, double y, double z)
-    : HepTransform3D(1,0,0,x, 0,1,0,y, 0,0,1,z) {}
-};
+  /**
+   * Constructs a reflection transformation.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = Reflect3D(1.,1.,1.,0.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
+   */
+  class Reflect3D : public Transform3D {
+  protected:
+    Reflect3D(double XX, double XY, double XZ, double DX,
+		 double YX, double YY, double YZ, double DY,
+		 double ZX, double ZY, double ZZ, double DZ)
+      : Transform3D(XX,XY,XZ,DX, YX,YY,YZ,DY, ZX,ZY,ZZ,DZ) {}
 
-/**
- * Constructs a translation along x-axis.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepTranslateX3D(10.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepTranslateX3D : public HepTranslate3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepTranslateX3D() : HepTranslate3D() {}
-  /// Constructor from a number.
-  HepTranslateX3D(double x) : HepTranslate3D(x, 0, 0) {}
-};
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    Reflect3D() : Transform3D() {}
 
-/**
- * Constructs a translation along y-axis.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepTranslateY3D(10.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepTranslateY3D : public HepTranslate3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepTranslateY3D() : HepTranslate3D() {}
-  /// Constructor from a number.
-  HepTranslateY3D(double y) : HepTranslate3D(0, y, 0) {}
-};
+    /**
+     * Constructor from four numbers.
+     * Sets reflection in a plane a*x+b*y+c*z+d=0
+     */
+    Reflect3D(double a, double b, double c, double d);
 
-/**
- * Constructs a translation along z-axis.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepTranslateZ3D(10.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepTranslateZ3D : public HepTranslate3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepTranslateZ3D() : HepTranslate3D() {}
-  /// Constructor from a number.
-  HepTranslateZ3D(double z) : HepTranslate3D(0, 0, z) {}
-};
+    /**
+     * Constructor from a plane given by its normal and origin. */
+    inline Reflect3D(const Normal3D<double> & normal,
+			const Point3D<double> & point);
+  };
 
-//   R E F L E C T I O N S
-
-/**
- * Constructs a reflection transformation.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepReflect3D(1.,1.,1.,0.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepReflect3D : public HepTransform3D {
- protected:
-  HepReflect3D(double XX, double XY, double XZ, double DX,
-               double YX, double YY, double YZ, double DY,
-               double ZX, double ZY, double ZZ, double DZ)
-    : HepTransform3D(XX,XY,XZ,DX, YX,YY,YZ,DY, ZX,ZY,ZZ,DZ) {}
-
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepReflect3D() : HepTransform3D() {}
-  /// Constructor from four numbers: sets reflection in a plane a*x+b*y+c*z+d=0
-  HepReflect3D(double a, double b, double c, double d);
-  inline HepReflect3D(const HepNormal3D &normal, const HepPoint3D &point);
-};
-
-/**
- * Constructs reflection in a plane x=const.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepReflectX3D(1.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepReflectX3D : public HepReflect3D {
- public:
-  /// Constructor from a number.
-  HepReflectX3D(double x=0) : HepReflect3D(-1,0,0,x+x, 0,1,0,0, 0,0,1,0) {}
-};
+  /**
+   * Constructs reflection in a plane x=const.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = ReflectX3D(1.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
+   */
+  class ReflectX3D : public Reflect3D {
+  public:
+    /**
+     * Constructor from a number. */
+    ReflectX3D(double x=0) : Reflect3D(-1,0,0,x+x, 0,1,0,0, 0,0,1,0) {}
+  };
  
-/**
- * Constructs reflection in a plane y=const.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepReflectY3D(1.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepReflectY3D : public HepReflect3D {
- public:
-  /// Constructor from a number.
-  HepReflectY3D(double y=0) : HepReflect3D(1,0,0,0, 0,-1,0,y+y, 0,0,1,0) {}
-};
+  /**
+   * Constructs reflection in a plane y=const.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = ReflectY3D(1.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
+   */
+  class ReflectY3D : public Reflect3D {
+  public:
+    /**
+     * Constructor from a number. */
+    ReflectY3D(double y=0) : Reflect3D(1,0,0,0, 0,-1,0,y+y, 0,0,1,0) {}
+  };
  
-/**
- * Constructs reflection in a plane z=const.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepReflectZ3D(1.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepReflectZ3D : public HepReflect3D {
- public:
-  /// Constructor from a number.
-  HepReflectZ3D(double z=0) : HepReflect3D(1,0,0,0, 0,1,0,0, 0,0,-1,z+z) {}
-};
+  /**
+   * Constructs reflection in a plane z=const.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = ReflectZ3D(1.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
+   */
+  class ReflectZ3D : public Reflect3D {
+  public:
+    /**
+     *  Constructor from a number. */
+    ReflectZ3D(double z=0) : Reflect3D(1,0,0,0, 0,1,0,0, 0,0,-1,z+z) {}
+  };
  
-//   S C A L I N G S
+  //   S C A L I N G S
 
-/**
- * Constructs a scaling transformation.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepScale3D(2.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepScale3D : public HepTransform3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepScale3D() : HepTransform3D() {}
-  /// Constructor from three numbers (scale factors in different directions).
-  HepScale3D(double x, double y, double z)
-    : HepTransform3D(x,0,0,0, 0,y,0,0, 0,0,z,0) {}
-  /// Constructor from a number: sets uniform scaling in all directions.
-  HepScale3D(double s)
-    : HepTransform3D(s,0,0,0, 0,s,0,0, 0,0,s,0) {}
-};
+  /**
+   * Constructs a scaling transformation.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = Scale3D(2.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
+   */
+  class Scale3D : public Transform3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    Scale3D() : Transform3D() {}
 
-/**
- * Constructs a scaling transformation in x-direction.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepScaleX3D(2.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepScaleX3D : public HepScale3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepScaleX3D() : HepScale3D() {}
-  /// Constructor from a number (scale factor in x-direction).
-  HepScaleX3D(double x) : HepScale3D(x, 1, 1) {}
-};
+    /**
+     * Constructor from three numbers - scale factors in different directions.
+     */
+    Scale3D(double x, double y, double z)
+      : Transform3D(x,0,0,0, 0,y,0,0, 0,0,z,0) {}
 
-/**
- * Constructs a scaling transformation in y-direction.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepScaleY3D(2.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepScaleY3D : public HepScale3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepScaleY3D() : HepScale3D() {}
-  /// Constructor from a number (scale factor in y-direction).
-  HepScaleY3D(double y) : HepScale3D(1, y, 1) {}
-};
+    /**
+     * Constructor from a number: sets uniform scaling in all directions. */
+    Scale3D(double s)
+      : Transform3D(s,0,0,0, 0,s,0,0, 0,0,s,0) {}
+  };
 
-/**
- * Constructs a scaling transformation in z-direction.
- * This class provides additional constructors for HepTransform3D
- * and should not be used as a separate class.
- * 
- * Example of use:
- * @code
- *   HepTransform3D m;
- *   m = HepScaleZ3D(2.);
- * @endcode
- *
- * @author <Evgueni.Tcherniaev@cern.ch>
- * @ingroup geometry
- */
-class HepScaleZ3D : public HepScale3D {
- public:
-  /// Default constructor: sets the Identity transformation.
-  HepScaleZ3D() : HepScale3D() {}
-  /// Constructor from a number (scale factor in z-direction).
-  HepScaleZ3D(double z) : HepScale3D(1, 1, z) {}
-};
+  /**
+   * Constructs a scaling transformation in x-direction.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = ScaleX3D(2.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
+   */
+  class ScaleX3D : public Scale3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    ScaleX3D() : Scale3D() {}
 
-//   I N L I N E S   F O R   T R A N S F O R M A T I O N
+    /**
+     * Constructor from a number (scale factor in x-direction). */
+    ScaleX3D(double x) : Scale3D(x, 1, 1) {}
+  };
 
-#include "CLHEP/Vector/ThreeVector.h"
-#include "CLHEP/Vector/Rotation.h"
-#include "CLHEP/Geometry/Point3D.h"
-#include "CLHEP/Geometry/Vector3D.h"
-#include "CLHEP/Geometry/Normal3D.h"
+  /**
+   * Constructs a scaling transformation in y-direction.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   * 
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = ScaleY3D(2.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
+   */
+  class ScaleY3D : public Scale3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    ScaleY3D() : Scale3D() {}
 
-inline
-HepTransform3D::HepTransform3D_row::HepTransform3D_row
-(const HepTransform3D & r, int i) : rr(r), ii(i) {}
+    /**
+     * Constructor from a number (scale factor in y-direction). */
+    ScaleY3D(double y) : Scale3D(1, y, 1) {}
+  };
 
-inline
-double HepTransform3D::HepTransform3D_row::operator[](int jj) const {
-  return rr(ii,jj);
-}
+  /**
+   * Constructs a scaling transformation in z-direction.
+   * This class provides additional constructors for Transform3D
+   * and should not be used as a separate class.
+   *
+   * Example of use:
+   * @code
+   *   Transform3D m;
+   *   m = ScaleZ3D(2.);
+   * @endcode
+   *
+   * @author <Evgueni.Tcherniaev@cern.ch>
+   * @ingroup geometry
+   */
+  class ScaleZ3D : public Scale3D {
+  public:
+    /**
+     * Default constructor: sets the Identity transformation. */
+    ScaleZ3D() : Scale3D() {}
+    /**
+     * Constructor from a number (scale factor in z-direction). */
+    ScaleZ3D(double z) : Scale3D(1, 1, z) {}
+  };
+} /* namespace HepGeom */
 
-inline const HepTransform3D::HepTransform3D_row
-HepTransform3D::operator[](int i) const {
-  return HepTransform3D_row(*this, i);
-}
+typedef HepGeom::Transform3D  HepTransform3D; 
+typedef HepGeom::Rotate3D     HepRotate3D;
+typedef HepGeom::RotateX3D    HepRotateX3D;
+typedef HepGeom::RotateY3D    HepRotateY3D;
+typedef HepGeom::RotateZ3D    HepRotateZ3D;
+typedef HepGeom::Translate3D  HepTranslate3D;
+typedef HepGeom::TranslateX3D HepTranslateX3D;
+typedef HepGeom::TranslateY3D HepTranslateY3D;
+typedef HepGeom::TranslateZ3D HepTranslateZ3D;
+typedef HepGeom::Reflect3D    HepReflect3D; 
+typedef HepGeom::ReflectX3D   HepReflectX3D;
+typedef HepGeom::ReflectY3D   HepReflectY3D;
+typedef HepGeom::ReflectZ3D   HepReflectZ3D;
+typedef HepGeom::Scale3D      HepScale3D;
+typedef HepGeom::ScaleX3D     HepScaleX3D;
+typedef HepGeom::ScaleY3D     HepScaleY3D;
+typedef HepGeom::ScaleZ3D     HepScaleZ3D;
 
-inline
-HepTransform3D::HepTransform3D(const CLHEP::HepRotation &m, const CLHEP::Hep3Vector &v) {
-  CLHEP::Hep3Vector w;
-  w = m * CLHEP::Hep3Vector(1,0,0); xx = w.x(); yx = w.y(); zx = w.z();
-  w = m * CLHEP::Hep3Vector(0,1,0); xy = w.x(); yy = w.y(); zy = w.z();
-  w = m * CLHEP::Hep3Vector(0,0,1); xz = w.x(); yz = w.y(); zz = w.z();
-  dx = v.x(); dy = v.y(); dz = v.z();
-}
-
-inline
-HepTransform3D HepTransform3D::operator*(const HepTransform3D &b) const {
-  return HepTransform3D
-    (xx*b.xx+xy*b.yx+xz*b.zx, xx*b.xy+xy*b.yy+xz*b.zy,
-     xx*b.xz+xy*b.yz+xz*b.zz, xx*b.dx+xy*b.dy+xz*b.dz+dx,
-     yx*b.xx+yy*b.yx+yz*b.zx, yx*b.xy+yy*b.yy+yz*b.zy,
-     yx*b.xz+yy*b.yz+yz*b.zz, yx*b.dx+yy*b.dy+yz*b.dz+dy,
-     zx*b.xx+zy*b.yx+zz*b.zx, zx*b.xy+zy*b.yy+zz*b.zy,
-     zx*b.xz+zy*b.yz+zz*b.zz, zx*b.dx+zy*b.dy+zz*b.dz+dz);
-}
-
-inline
-HepPoint3D HepTransform3D::operator*(const HepPoint3D &p) const {
-  double x = p.x(), y = p.y(), z = p.z(); 
-  return HepPoint3D(x*xx+y*xy+z*xz+dx, x*yx+y*yy+z*yz+dy, x*zx+y*zy+z*zz+dz);
-}
-
-inline
-HepVector3D HepTransform3D::operator*(const HepVector3D &v) const {
-  double x = v.x(), y = v.y(), z = v.z(); 
-  return HepPoint3D(x*xx+y*xy+z*xz, x*yx+y*yy+z*yz, x*zx+y*zy+z*zz);
-}
-
-inline
-HepNormal3D HepTransform3D::operator*(const HepNormal3D &n) const {
-  double x = n.x(), y = n.y(), z = n.z(); 
-  return HepNormal3D(x*(yy*zz-yz*zy) + y*(yz*zx-yx*zz) + z*(yx*zy-yy*zx),
-		     x*(zy*xz-zz*xy) + y*(zz*xx-zx*xz) + z*(zx*xy-zy*xx),
-		     x*(xy*yz-xz*yy) + y*(xz*yx-xx*yz) + z*(xx*yy-xy*yx));
-}
-
-inline
-CLHEP::HepRotation HepTransform3D::getRotation() const {
-  CLHEP::HepRotation m;
-  return m.rotateAxes(CLHEP::Hep3Vector(xx,yx,zx),
-		      CLHEP::Hep3Vector(xy,yy,zy),
-                      CLHEP::Hep3Vector(xz,yz,zz));
-}
-
-inline
-CLHEP::Hep3Vector HepTransform3D::getTranslation() const {
-  return CLHEP::Hep3Vector(dx,dy,dz); 
-}
-
-//   I N L I N E S   F O R   R O T A T I O N
-
-inline HepRotate3D::HepRotate3D(const CLHEP::HepRotation &m) {
-  CLHEP::Hep3Vector w;
-  w = m * CLHEP::Hep3Vector(1,0,0); xx = w.x(); yx = w.y(); zx = w.z();
-  w = m * CLHEP::Hep3Vector(0,1,0); xy = w.x(); yy = w.y(); zy = w.z();
-  w = m * CLHEP::Hep3Vector(0,0,1); xz = w.x(); yz = w.y(); zz = w.z();
-  dx = 0; dy = 0; dz = 0;
-}
-
-inline HepRotate3D::HepRotate3D(double a, const HepVector3D &v) {
-  *this = HepRotate3D(a, HepPoint3D(0,0,0), HepPoint3D(v.x(),v.y(),v.z()));
-}
-
-inline HepRotate3D::HepRotate3D(const HepPoint3D &fr1, const HepPoint3D &fr2,
-			        const HepPoint3D &to1, const HepPoint3D &to2)
-  : HepTransform3D(HepPoint3D(0,0,0),fr1,fr2, HepPoint3D(0,0,0),to1,to2) {}
-
-//   I N L I N E S   F O R   T R A N S L A T I O N
-
-inline HepTranslate3D::HepTranslate3D(const CLHEP::Hep3Vector &v)
-  : HepTransform3D(1,0,0,v.x(), 0,1,0,v.y(), 0,0,1,v.z()) {}
-
-//   I N L I N E S   F O R   R E F L E C T I O N
-
-inline HepReflect3D::HepReflect3D(const HepNormal3D &n, const HepPoint3D &p) {
-  *this = HepReflect3D(n.x(), n.y(), n.z(), -n*p);
-}
+#include "CLHEP/Geometry/Transform3D.icc"
 
 #endif /* HEP_TRANSFROM3D_H */
