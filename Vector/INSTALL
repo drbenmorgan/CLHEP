@@ -11,11 +11,6 @@ cd <build_directory>
 <source_code_direcotry>/configure --prefix=<install_dir>
    (Note that files will be installed under /usr/local if you do not 
     specify a prefix.)
-    To use Visual C++:
-    <source_code_direcotry>/configure --prefix=<install_dir> CXX=cl CC=cl
-        (You must specify both CXX and CL or configure will attempt to use 
-         gcc/g++ for the unspecified variable.  Also, do not use 
-         environmental varialbles.)
 make
    (Build temporary copies of libraries and executables.)
 make check
@@ -23,6 +18,34 @@ make check
 make install
    (Copy libraries, headers, executables, etc. to relevant 
     subdirectories under <install_dir>.)
+
+#-------------------------------------------------------------
+#  configure options
+#-------------------------------------------------------------
+
+A variety of options can be given to configure.  Below is a list 
+of the options that you are likely to find most useful.
+
+  --help                  provides a partial list of options
+  --prefix=PREFIX         install architecture-independent files in PREFIX
+                          [default is /usr/local]
+  --exec-prefix=EPREFIX   install architecture-dependent files in EPREFIX
+                          [default is the same as PREFIX]
+  --disable-shared        build only static libraries
+  --disable-static        build only shared libraries   
+  --enable-exceptions     use the CLHEP/Exceptions package
+  --disable-exceptions    DO NOT use the CLHEP/Exceptions package
+                          [--disable-exceptions is the default] 
+ 
+#-------------------------------------------------------------
+# building documents
+#-------------------------------------------------------------
+
+Documents are neither built nor installed automatically.  
+Use the following commands to build and install documents:
+
+   make docs
+   make install-docs
 
 #-------------------------------------------------------------
 # building from cvs
@@ -34,7 +57,7 @@ See building autotools below.
 cvs co CLHEP/package OR cvs co package
 
 cd [CLHEP/]package
-bootstrap
+./bootstrap
 
 Now continue with directions as if you unpacked a source code tarball.
 

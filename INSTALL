@@ -74,10 +74,10 @@ Use the following commands to build and install documents:
 You will need current versions of automake, autoconf, and libtool.
 See building autotools below.
 
-cvs co CLHEP/package OR cvs co package
+cvs co CLHEP OR cvs co CLHEP/package
 
-cd [CLHEP/]package
-bootstrap
+cd CLHEP[/package]
+./bootstrap
 
 Now continue with directions as if you unpacked a source code tarball.
 
