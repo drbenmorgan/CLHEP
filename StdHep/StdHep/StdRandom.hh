@@ -38,8 +38,8 @@ public:
   // ---  mutators:
   //
   void  putState( std::istream& );
-  void  putState( std::string& );
-  void  putState( std::vector<unsigned long> );
+  void  putState( std::string const & );
+  void  putState( std::vector<unsigned long> const & );
   void  appendSeed( unsigned long sd );
   void  appendSeed( double sd );
   void  clear(  );

@@ -71,12 +71,12 @@ void  StdRandom::putState( std::istream& ist )
    myRandomState = st.str();
 }
 
-void  StdRandom::putState( std::string& st )
+void  StdRandom::putState( std::string const & st )
 {
    myRandomState = st;
 }
 
-void  StdRandom::putState( std::vector<unsigned long> rs )
+void  StdRandom::putState( std::vector<unsigned long> const & rs )
 {
    std::ostringstream st;
    for( unsigned int i=0; i<rs.size(); ++i ) {
