@@ -169,12 +169,12 @@ examHerwigToStdHepXDR: $(HWGOBJS)
 	$(HerwigLIB) \
 	$(CRNLIB)/libpacklib.a $(LCXX) $(LOCAL)
 
-readPythia:  readPythia$(SFX).o $(READOBJS) $(LIBNAME) 
+readPythia:  readPythia$(SFX).o $(READOBJS) 
 	$(CXX) -o $@ readPythia$(SFX).o $(READOBJS) \
 	$(LIBNAME) \
 	$(CRNLIB)/libpacklib.a $(LCXX) $(LOCAL)
 
-readPythiaHerwig:  readPythiaHerwig$(SFX).o $(READOBJS) $(LIBNAME) 
+readPythiaHerwig:  readPythiaHerwig$(SFX).o $(READOBJS) 
 	$(CXX) -o $@ readPythiaHerwig$(SFX).o $(READOBJS) \
 	$(LIBNAME) \
 	$(CRNLIB)/libpacklib.a $(LCXX) $(LOCAL)

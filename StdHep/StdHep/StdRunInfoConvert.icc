@@ -1,4 +1,4 @@
-// $Id: StdRunInfoConvert.icc,v 1.1.1.1.2.2 2005/03/14 17:36:31 garren Exp $
+// $Id: StdRunInfoConvert.icc,v 1.1.1.1.2.3 2005/03/14 18:27:47 garren Exp $
 // ----------------------------------------------------------------------
 //
 // StdRunInfoConvert.icc
@@ -27,8 +27,8 @@ StdRunInfo * getRunInfoFromSTDCM( int irun )
                                  (double)(*cm)->stdcm1()->stdxsec );
     // convert doubles to longs and save
     std::vector<unsigned long> state(4);
-    DoubleConversion::dto2longs((*cm)->stdcm1()->stdseed1,*state[0],*state[1]);
-    DoubleConversion::dto2longs((*cm)->stdcm1()->stdseed2,*state[2],*state[3]);
+    HepMC::DoubleConversion::dto2longs((*cm)->stdcm1()->stdseed1,state[0],state[1]);
+    HepMC::DoubleConversion::dto2longs((*cm)->stdcm1()->stdseed2,state[2],state[3]);
     run->saveSeeds( state );
     // save names
     std::string gname = (*cm)->stdcm2()->generatorname;
@@ -49,13 +49,13 @@ bool RunInfoToSTDCM( StdRunInfo * run )
     // convert longs to double
     std::vector<unsigned long> state = run->seedArray();
     std::vector<double> result;
-    for( unsigned int i=0; i<(itsSeedList.size()-1); ++i ) {
-       dd = DoubleConversion::longs2double(*state[i],*state[i+1]);
+    for( unsigned int i=0; i<(state.size()-1); ++i ) {
+       double dd = HepMC::DoubleConversion::longs2double(state[i],state[i+1]);
        ++i;
        result.push_back(dd);
     }
-    if( run->size() > 1 ) (*cm)->stdcm1()->stdseed1 = result[0];
-    if( run->size() > 3 ) (*cm)->stdcm1()->stdseed2 = result[1];
+    if( result.size() > 1 ) (*cm)->stdcm1()->stdseed1 = result[0];
+    if( result.size() > 3 ) (*cm)->stdcm1()->stdseed2 = result[1];
     // check run number
     if( run->runNumber() == 0 ) return false;
     return true;
