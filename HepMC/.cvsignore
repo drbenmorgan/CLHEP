@@ -1,3 +1,4 @@
-Makefile
-*.o
-*.a
+Makefile.in
+configure
+aclocal.m4
+autom4te.cache
