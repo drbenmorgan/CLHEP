@@ -1,3 +1,52 @@
+	--------------------  CLHEP 1.9.0.2/2.0.0.2 ------------------
+
+2004-05-11  Lynn Garren  <garren@fnal.gov>
+        
+	integrating changes from HepMC 1.25 into CLHEP/HepMC
+	
+	note that CLHEP/HepMC was already using 
+	std::iterator<std::forward_iterator_tag,GenParticle*,ptrdiff_t>
+	#ifdefs used to retain compatibility with gcc 2.95.2
+	(gcc 2.95.2 compatibility only guaranteed for 1.9.x)
+
+	-------------------- HepMC 1.25 -------------
+
+2004-03-27  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+
+        Removed the #define statements that allow backwards compatibility
+	with gcc 2.95, and specialized the 3.2 compliant iterators to be
+	forward iterators such that they work properly with std
+	algorithms.
+
+	Thanks to Ulrik Egede for pointing this out.
+	
+	* HepMC/GenVertex.h, .cxx HepMC/GenEvent.h, .cxx: changed 
+	std::forward_iterator<GenParticle*,ptrdiff_t>
+	to
+	std::iterator<std::forward_iterator_tag,GenParticle*,ptrdiff_t>
+	for standard
+	compliance, and removed #define statements.
+	
+	* HepMC/IO_Ascii.h,.cxx: changed open_mode to openmode for standard
+	compliance, and removed #define statements.
+	
+
+2003-12-17  David Rousseau  <droussea@lxplus072.cern.ch>
+
+	* cmt/requirements: remove HepMC_libraries
+
+2003-10-22  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+
+	* src/GenEvent.cxx and lots of other files + latex documentation.
+	REmoved any mention of units--- GeV, MeV etc, since HepMC merely
+	accepts whatever is put in. I do this because, though HEPEVT has
+	used GeV/mm, ATLAS plans to use CLHEP units of MeV/mm.
+
+2003-10-15  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+
+	* src/GenParticle.cxx (HepMC): added a default constructor for
+	GenParticle as requested by Giorgos S.
+
 
 	--------------------  CLHEP_1_900 --------------------
 

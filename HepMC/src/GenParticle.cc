@@ -11,6 +11,18 @@
 
 namespace HepMC {
 
+    GenParticle::GenParticle( void ) :
+	m_momentum(0), m_pdg_id(0), m_status(0), m_flow(this),
+        m_polarization(0), m_production_vertex(0), m_end_vertex(0),
+        m_barcode(0),
+        itsGeneratedMass( 0 ),
+	itsCollisionNumber(0),
+	itsParticleData( NULL ),
+	itsDecayData( NULL )
+    {
+	s_counter++;
+    }
+
     GenParticle::GenParticle( const CLHEP::HepLorentzVector& momentum, 
 			int pdg_id, int status, 
 			const Flow& itsflow,
@@ -208,7 +220,7 @@ namespace HepMC {
 		     part.momentum().px(),part.momentum().py(),
 		     part.momentum().pz(),part.momentum().e(),
 		     part.status(),
-		     part.end_vertex() );
+		     (void*)part.end_vertex() );
 	}
 	return ostr << outline;
     }
