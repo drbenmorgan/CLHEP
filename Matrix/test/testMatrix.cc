@@ -1,11 +1,12 @@
 // -*- C++ -*-
-// $Id: testMatrix.cc,v 1.1 2003/07/18 05:31:48 garren Exp $
+// $Id: testMatrix.cc,v 1.2 2003/07/22 20:05:35 garren Exp $
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
 //
 // This is a small program for testing the classes from the HEP Matrix module.
 //
 
+#include "Matrix/defs.h"
 #include "CLHEP/Matrix/Matrix.h"
 #include "CLHEP/Matrix/SymMatrix.h"
 #include "CLHEP/Matrix/DiagMatrix.h"

@@ -1,0 +1,6 @@
+#! /bin/sh
+# @configure_input@
+
+
+./testInversion@EXEEXT@  \
+  | diff -q - @srcdir@/testInversion.output > /dev/null

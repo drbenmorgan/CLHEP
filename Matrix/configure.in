@@ -33,6 +33,7 @@ AC_CONFIG_FILES([test/Makefile])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testMatrix.sh], [chmod +x test/testMatrix.sh])
+AC_CONFIG_FILES([test/testInversion.sh], [chmod +x test/testInversion.sh])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:
