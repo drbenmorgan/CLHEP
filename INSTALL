@@ -55,6 +55,16 @@ of the options that you are likely to find most useful.
   --disable-static        build only shared libraries   
  
 #-------------------------------------------------------------
+# building documents
+#-------------------------------------------------------------
+
+Documents are neither built nor installed automatically.  
+Use the following commands to build and install documents:
+
+   make docs
+   make install-docs
+
+#-------------------------------------------------------------
 # building from cvs
 #-------------------------------------------------------------
 
