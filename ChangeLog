@@ -1,3 +1,15 @@
+Fri Oct 24          2003 Lynn Garren <garren@fnal.gov>
+
+	* tagged for CLHEP 2.0.0.0
+	
+	* backwards compatibility code disabled
+
+Thu Oct 23          2003 Lynn Garren <garren@fnal.gov>
+
+	* tagged for CLHEP 1.9.0.0
+	
+	* backwards compatibility code enabled
+	
 Fri Oct 10          2003 Mark Fischler <mf@fnal.gov>
 
 	* ZMxpv.h and ZMxpv.cc
