@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testConfig.cc,v 1.1.2.2 2004/06/30 15:38:30 garren Exp $
+// $Id: testConfig.cc,v 1.1.2.3 2004/07/01 22:43:50 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -8,6 +8,7 @@
 // function templates.
 //
 
+#include <iostream>
 #include <assert.h>
 #include "CLHEP/config/TemplateFunctions.h"
 #include "CLHEP/config/CLHEP.h"
