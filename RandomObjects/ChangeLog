@@ -1,0 +1,133 @@
+==============================
+11.05.04 Release CLHEP-2.0.0.2
+==============================
+
+==============================
+11.05.04 Release CLHEP-1.9.0.2
+==============================
+    
+==============================
+21.04.04 Release CLHEP-2.0.0.1
+==============================
+
+==============================
+24.10.03 Release CLHEP-2.0.0.0
+==============================
+
+==============================
+23.10.03 Release CLHEP-1.9.0.0
+==============================
+
+==============================
+01.06.02 Release CLHEP-1.8.0.0
+==============================
+
+=========================================
+25.04.02 revised StdHep uses HepMC
+=========================================
+
+=========================================
+08.03.02 HepMC has become a part of CLHEP
+=========================================
+
+==========================================
+09.11.01 HepPDT has become a part of CLHEP
+==========================================
+
+==============================
+15.06.01 Release CLHEP-1.7.0.0
+==============================
+
+Fri Apr  6 11:53:19 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* test/Makefile.in:
+
+	Removed testRandDists and ranRestoreTest:
+	they have been moved to Random/test.
+
+	* Makefile.in,configure.in:
+	* test/testVectorDists.cc:
+	* RandomObjects/RandMultiGauss.cc,RandomVector.cc,RandomVector.h:
+
+	"Tools" has been changed to "RandomObjects".
+	
+Wed Apr  4 10:06:03 2001 Mark Fischler <mf@fnal.gov>
+
+	* Tools/Makefile.in (Removed):
+	* Tools/RandMultiGauss.cc,RandMultiGauss.h (Removed):
+	* Tools/RandomVector.cc,RandomVector.h (Removed):
+	* Tools/RandomVector.icc (Removed): 
+
+	* RandomObjects/Makefile.in (Added):
+	* RandomObjects/RandMultiGauss.cc,RandMultiGauss.h (Added):
+	* RandomObjects/RandomVector.cc,RandomVector.h (Added):
+	* RandomObjects/RandomVector.icc (Added): 
+
+	As agreed, we migrate the Tools involving Random and another
+	CLHEP package into a package which I have chosen to name
+	RandomObjects.
+
+	RandomObjects in principle depends on Random, Matrix, and Vecgtor
+	(though the tools that depend on Vector are not yet present).  
+
+==========================================================================
+18.01.01 ZOOM PhysicsVectors Capabilities have become part of CLHEP/Vector
+==========================================================================
+
+	
+======================================================================
+24.10.00 Generic Functions by Joe Boudreau have become a part of CLHEP
+======================================================================
+
+==============================
+20.10.00 Release CLHEP-1.6.0.0
+==============================
+
+==============================================================================
+12.10.00 Expression Evaluator by Evgueni Tcherniaev has become a part of CLHEP
+         Alist, String and Combination have been disabled
+==============================================================================
+
+
+==============================
+08.05.00 Release CLHEP-1.5.0.0
+==============================
+
+============================================================
+24.04.00 StdHepC++ by Lynn Garren has become a part of CLHEP
+============================================================
+
+==============================
+20.04.99 Release CLHEP-1.4.0.0
+==============================
+
+
+=========================================================================
+16.12.98 Started: merging with BaBar version of CLHEP provided by G.Cosmo
+=========================================================================
+
+Fri Dec 11 11:58:09 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* config/CLHEP.h: 
+	* Matrix/Matrix.cc,Matrix.h,Vector.cc,Vector.h: 
+	* tests/testMatrix.cc:
+
+	Introduced HEP_USE_VECTOR_MODULE flag to facilitate
+	disabling dependence between the Matrix and Vector modules
+
+	* Utilities/CLHEP.h: 
+
+	Added config/TemplateFuntions.h by request of G.Cosmo
+
+==========================
+28.07.98 Release CLHEP-1.3
+==========================
+
+==========================
+05.02.98 Release CLHEP-1.2
+==========================
+
+========================================================
+08.12.97 Release CLHEP-1.1: Geant4 has migrated to CLHEP
+========================================================
+
