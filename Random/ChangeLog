@@ -1,0 +1,1145 @@
+==============================
+11.05.04 Release CLHEP-2.0.0.2
+==============================
+
+==============================
+11.05.04 Release CLHEP-1.9.0.2
+==============================
+
+
+Tue May 11          2004 Mark Fischler <mf@fnal.gov>
+
+	*  RandPoissonT.cc
+	*  RandPoissonQ.cc
+	
+	Repaired misbehavior when mean is precisely 100.0 in these routines. 
+
+	
+Thu Apr 29          2004 Mark Fischler <mf@fnal.gov>
+
+	* RandEngine.cc
+	* RandEngine.h
+	
+	Code to accomodate possible systems where RAND_MAX is not
+	one fo the two "expected" values of 2**15-1 or 2**31-1. 
+
+Wed Apr 28          2004 Lynn Garren <garren@fnal.gov>
+
+	*  make CLHEP work with Visual C++
+
+==============================
+21.04.04 Release CLHEP-2.0.0.1
+==============================
+
+==============================
+24.10.03 Release CLHEP-2.0.0.0
+==============================
+
+==============================
+23.10.03 Release CLHEP-1.9.0.0
+==============================
+
+==============================
+01.06.02 Release CLHEP-1.8.0.0
+==============================
+
+Sat May 25 10:03:13 2002 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/RandStudentT.cc,RandStudentT.h:
+
+	Added #include <float.h>
+	HUGE_VAL --> DBL_MAX
+
+	On Apple/Darwin HUGE_VAL is defined to 1e500 and
+	g++ compiler complains that floating point number exceeds
+	range of `double'
+	
+Fri Apr 12 16:58:58 2002 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/RandGeneral.cc:
+
+	Bug fix in the destructor,
+	thanks to Willy Langeveld <wglp09@SLAC.Stanford.EDU>
+
+	Bug fix: delete [] (theIntegralPdf);
+
+	* doxygen/README,config.doxygen,footer.html,modules.doc (Added):
+
+	Files for generation of the documantation with Doxygen.
+
+	* All_headers:
+
+	For Doxygen: added empty documeting comments for classes.
+	
+Sun Mar 31 10:54:23 2002 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Global_Clean_Up:
+
+	The following macros have been removed from config/CLHEP-target.h.in
+	(the reason is indicated). Respectively checks for them have been
+	removed from configure.in:  
+
+	  HEP_HAVE_STL       - all supported compilers have string, vector, ...
+	  HEP_HAVE_BOOL      - all supported compilers have bool
+	  HEP_HAVE_NAMESPACE - all supported compilers have namespace
+	  HEP_HAVE_EXPLICIT  - all supported compilers have explicit
+	  HEP_HAVE_TYPENAME  - all supported compilers have typename
+	  HEP_HAVE_EMPTY_TEMPLATE_PARAMETER_LIST
+	                     - all supported compilers have template<>
+
+	  HEP_SQR_NEEDS_PARAMETER_WITHOUT_CONST
+	  HEP_ABS_NEEDS_PARAMETER_WITHOUT_CONST
+                      - current definition of sqr() and abs() works everywhere
+
+	  HEP_QSORT_NEEDS_FUNCTION_WITH_EXTERN_C_LINKAGE - qsort() is not used
+
+	The following macros have been removed from config/CLHEP.h:
+
+	  HepStdString
+	  HepStdVector
+	  HepStdList
+	  HEP_TEMPLATE_SPECIALIZATION
+	  HEP_BEGIN_NAMESPACE
+	  HEP_END_NAMESPACE
+	  HEP_USING_NAMESPACE
+
+	The following modifications have been made in the code:
+
+	  HepStdString               -->    HepSTL::string
+	  HepStdVector               -->    HepSTL::vector
+	  HepBoolean                 -->    bool
+	  HepDouble                  -->    double
+	  HepFloat                   -->    float
+	  HepInt                     -->    int
+	  HEP_BEGIN_NAMESPACE(xxx)   -->    namespace xxx {
+	  HEP_END_NAMESPACE(xxx)     -->    } // namespace xxx
+
+	
+=========================================
+08.03.02 HepMC has become a part of CLHEP
+=========================================
+
+Thu Feb 21 16:50:08 2002 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* configure.in:
+	Added -D_GNU_SOURCE for g++.
+	Removed check for HEP_DIFFERENT_EXCEPTIONS.
+       
+	* config/CLHEP-target.h.in:
+	Removed HEP_DIFFERENT_EXCEPTIONS
+
+	* Random/DRand48Engine.cc,DRand48Engine.h:
+	Re-declarations of drand48, srand48 and seed48 have been moved
+	to DRand48Engine.cc
+	
+Thu Nov 29 16:42:17 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* configure.in:
+	Added check for the problem with different exceptions in drand48.
+	This requires also use of -pedantic-errors instead of -pedantic.
+
+	* config/CLHEP-target.h.in:
+	* Random/DRand48Engine.h:
+	Introduced HEP_DIFFERENT_EXCEPTIONS.
+
+	* test/testVectorDists.cc:
+	Minor changes to provide compilation with -pedantic-errors.
+
+==========================================
+09.11.01 HepPDT has become a part of CLHEP
+==========================================
+
+
+Tue Jul 31 09:13:53 2001 Mark Fischler <mf@fnal.gov>
+
+	* Random/RandGeneral.cc:
+
+	Changed from assert (above = below+1) to ==
+	This was first reported by Gregory P. Dubois-Felsmann at SLAC.
+
+Fri Jul 27 2001 Mark Fischler <mf@fnal.gov>
+
+	* Random/doc/html/ (Added):
+	* Random/doc/html/CLHEP-random.html (Added):
+
+	Added this ZOOM documentation page.
+
+=============================
+15.06.01 Release CLHEP-1.7.0.0
+==============================
+
+Wed Apr 11 13:54:51 2001 Mark Fischler <mf@fnal.gov>
+
+	* Random/DualRand.cc,Hurd160Engine.cc,Hurd288Engine.cc:
+	* Random/RanecuEngine.cc,TripleRand.cc:
+
+	Each saveState method ought to output endl after its data.
+
+	* Random/DRand48Engine.h:
+
+	__P replaced with __STRICT_ANSI__ (for the case g++ -ansi).
+
+Fri Apr  6 11:53:19 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* test/Makefile.in:
+
+	Removed testRandDists and ranRestoreTest:
+	they have been moved to Random/test.
+
+	* Makefile.in,configure.in:
+	* test/testVectorDists.cc:
+	* RandomObjects/RandMultiGauss.cc,RandomVector.cc,RandomVector.h:
+
+	"Tools" has been changed to "RandomObjects".
+	
+Wed Apr  4 10:06:03 2001 Mark Fischler <mf@fnal.gov>
+
+	* Tools/Makefile.in (Removed):
+	* Tools/RandMultiGauss.cc,RandMultiGauss.h (Removed):
+	* Tools/RandomVector.cc,RandomVector.h (Removed):
+	* Tools/RandomVector.icc (Removed): 
+
+	* RandomObjects/Makefile.in (Added):
+	* RandomObjects/RandMultiGauss.cc,RandMultiGauss.h (Added):
+	* RandomObjects/RandomVector.cc,RandomVector.h (Added):
+	* RandomObjects/RandomVector.icc (Added): 
+
+	As agreed, we migrate the Tools involving Random and another
+	CLHEP package into a package which I have chosen to name
+	RandomObjects.
+
+	RandomObjects in principle depends on Random, Matrix, and Vecgtor
+	(though the tools that depend on Vector are not yet present).  
+
+	* Vector/AxisAngle.h,EulerAngles.h:
+
+	Eliminated inconsistancy of virtual methods in no-virtual-destructor 
+        class. These classes should not be used polymorphically.
+
+	* test/ranRestoreTest.cc,testRandDists.cc (Removed):
+	* test/testRandDists.input,testRandDists.out.save (Removed):
+
+	These were moved into Random/test
+
+	* Random/test/GNUmakefile,gaussSmall.cc (Added):
+	* Random/test/gaussSpeed.cc,ranRestoreTest.cc (Added): 
+	* Random/test/testRandDists.cc,testRandDists.dat (Added):
+	* Random/test/testRandDists.input,testRandDists.input-long (Added):
+	* Random/test/testRandDists.out.save (Added): 
+
+	Moved detailed and long tests into package-specific test area
+	as agreed.
+
+	* Vector/doc/VectorDefs.tex (Added):
+
+	LaTeX documentation source for details of all the formulas and
+	definitions in the Vector package.
+	
+==========================================================================
+18.01.01 ZOOM PhysicsVectors Capabilities have become part of CLHEP/Vector
+==========================================================================
+
+Thu Jan 18 19:45:00 2001 Mark Fischler <mf@fnal.gov>
+
+	* Random/DRand48Engine.h:
+
+	Placed ifdef to repair problem which when gcc 2.95.2 is used WITHOUT 
+  	-ansi, would have caused the header to fail to complie due to 
+	mismatch in prototypes of drand48() in header and <stdlib.h>.
+
+Tue Jan  9 15:50:00 2001 Mark Fischler <mf@fnal.gov>
+
+	* Random/Random.h:
+
+	Modified comment for createInstance() to reflect the minor fix
+	of Dec 5.
+
+Tue Dec  5 11:18:13 2000 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+	* Random/Random.cc:
+
+	Minor fix in HepRandom::createInstance() and removed useless code.
+
+Wed Nov  8 11:21:44 2000 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/DRand48Engine.cc,DRand48Engine.h:
+	* Random/drand48.src (Added):
+
+	More accurate code for drand48() on NT.	DRand48Engine now produces
+	exactly the same sequences on all platforms.
+	Removed #ifdef in declaration of drand48(), srand48() and seed48().
+
+	* configure.in:
+
+	Added -ansi for g++. After removing #ifdef in declaration
+	of drand48(), srand48() and seed48() it now works fine.
+ 
+======================================================================
+24.10.00 Generic Functions by Joe Boudreau have become a part of CLHEP
+======================================================================
+	
+Mon Oct 23 17:54:56 2000 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* config/CLHEP.h: Added definition of HepSTL.
+
+	* docs/Random.html,validation.doc (Removed):
+	* Random/doc/Random.html,validation.doc (Added):
+
+	Moved docs for Random from docs/ to Random/doc/.
+	
+==============================
+20.10.00 Release CLHEP-1.6.0.0
+==============================
+
+Tue Oct 17 14:55:45 2000 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/Randomize.h: 
+
+	Added distributions introduced in CLHEP-1.5.
+
+	* Random/RandPoissonQ.cc,flatToGaussian.cc:
+	* Tools/RandMultiGauss.h:
+	* test/testRandDists.cc,testVectorDists.cc:
+
+	Corrected warnings on Linux when compile with g++ -pedantic -Wall.
+	
+==============================================================================
+12.10.00 Expression Evaluator by Evgueni Tcherniaev has become a part of CLHEP
+         Alist, String and Combination have been disabled
+==============================================================================
+
+	
+Thu Sep  7 08:18:39 2000 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* Random/RandGauss.h,RandGauss.icc,RandGeneral.h,RandPoisson.icc: 
+
+	Correct warnings encountered by Yana Gaponenko.
+
+
+==============================
+08.05.00 Release CLHEP-1.5.0.0
+==============================
+
+
+Fri May  5 10:32:21 2000 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* Random/JamesRandom.cc,JamesRandom.h:
+
+	<Vincenzo.Innocente@cern.ch>'s mods to JamesRandom are in.
+	
+	* Tools/Random/RandMultiGauss.cc:
+
+	Changed std:: to HepStd::
+	
+	* test/ranRestoreTest.cc,testRandDists.cc:
+
+	Last round of minor warning fixes (in Random package) 
+	before the 1.5 release.
+
+	
+============================================================
+24.04.00 StdHepC++ by Lynn Garren has become a part of CLHEP
+============================================================
+
+
+Sat Apr 22 11:20:22 2000 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* test/Makefile.in: Removed testQuickGauss.
+
+Tue Apr 18 15:36:49 2000 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* test/testRandDists.input,testRandDists.out.save:
+
+	Committing the re-run input and result files.
+	
+	* test/testQuickGauss.cc (Removed):
+	* test/testQuickGauss.input,testQuickGauss.out.save (Removed):
+
+Mon Apr 17 18:00:55 2000 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* Random/RandLandau.cc,RandPoissonQ.cc,flatToGaussian.cc:
+
+	Added explicit convertion from double to int.
+
+	* Random/erfQ.cc,flatToGaussian.cc:
+
+	Included "CLHEP/config/TemplateFunctions.h"
+
+	* Random/Stat.h:
+
+	Made constructor private; removed private destructor.
+
+	* Random/gaussQtables.src,gaussTables.src,poissonTables.src:
+
+	Changed std:: to HepStd::
+	
+
+Tue Apr  4 18:13:08 2000 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/RandFlat.cc,RandGauss.cc:
+	
+	restoreEngineStatus(): changed "char* inputword" to "char inputword[]"
+
+	* Random/Makefile.in: added new files.
+
+	* test/Makefile.in: added new tests.
+
+	* test/ranRestoreTest.cc: changed std:: to HepStd:: 
+
+	* test/ranRestoreTest.cc:
+
+	Changed for( HepInt k=0; ... to HepInt k; for(k=0; ...
+
+	* test/gaussTables.cc (Removed):
+	* Random/gaussTables.src (Added): 
+
+	Moved test/gaussTables.cc to Random/gaussTables.src
+
+	* test/validation.doc (Removed):
+	* docs/validation.doc (Added):
+
+	moved test/validation.doc to docs/validation.doc
+	
+Tue Mar 28 10:40:19 2000 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* Random/Stat.h (Added):
+
+	Added the omitted Stat.h
+
+	* Random/gaussQtables.src,gaussTables.src,poissonTables.src:
+
+	These files are not run routinely but are part of the package
+	to document how the .cdat tables are created.
+	
+	* Random/RandFlat.cc,RandGauss.cc,RandPoissonQ.cc: 
+
+	Removed use of std::string from files.
+	Corrected bare std:: to HepStd::
+
+	* test/ranRestoreTest.cc (Added):       
+	
+	Added a brief test of the save/restore mechanism.
+
+Mon Mar 13 11:12:41 2000 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* Tools/Random/RandMultiGauss.cc,RandMultiGauss.h (Added):
+	* Tools/Random/RandomVector.cc,RandomVector.h,RandomVector.icc (Added):
+	* test/testVectorDists.cc,testVectorDists.input (Added):
+	* test/testVectorDists.out.save (Added): 
+	
+	The vector distribution RandMiultiGauss, this time in its proper
+	place in Tools/Random and with a validity test in test.
+	
+Fri Mar 10 15:59:57 2000 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* Random/RandFlat.cc,RandFlat.h,RandFlat.icc:
+	* Random/RandGauss.cc,Random/RandGauss.h,RandGauss.icc:
+
+	Workaround for the save/restore misbehavior bug.
+
+	* Random/RandPoisson.cc,RandPoisson.h,RandPoisson.icc:
+
+	Provide for inheritors to have access to defaultMean and other
+        necessities.
+
+	RandPoisson.cc: gammln is removed from this file.
+	gammln now is in the library on its own merits, via the HepStat class.
+	However, to retain backward compatibility with codes that may
+	incidentally use ::gammln (since it was already in the library due to
+	RandPoisson.cc) we place that (ugly global) definition into
+	RandPoisson.cc, pointing it to HepStat::gammln.
+
+	* Random/RandBit.cc RandBit.h RandBit.icc (Added):
+
+	RandBit is equivalent to (and derived from) RandFlat. The only 
+	difference is that RandBit is state-free. RandBit::shootBit() 
+	and fireBit() will always use ONE uniform random and return just 
+	one bit. That is slower than RandFlat::shootBit() but will
+	behave correctly with respect to saving and restoring status.
+	(Surprisingly, the static version RandBit::shootBit() (which 
+	uses a JamesRandom engine) appears to be only 2.5 times slower than
+	RandFlat::shootBit() (which caches the word, using the engine more 
+	rarely. I would have expected a factor of 8-15.)
+
+	* Random/RandGaussQ.cc,RandGaussQ.h,RandGaussQ.icc (Added):
+
+	A quicker but less accurate distribution, inheriting from RandGauss
+	so that it may be used as a drop-in replacement. Stateless.
+
+	* Random/RandGaussT.cc,RandGaussT.h,RandGaussT.icc (Added): 
+
+	An accurate and stateless (won't exhibit save/restore bug)
+	table-driven distribution, inheriting from RandGauss so that it
+	may be used as a drop-in replacement.  
+        
+	* Random/RandLandau.cc,RandLandau.h,RandLandau.icc (Added):
+
+	Landau distribution, using the method in CERNLIB.
+
+	* Random/RandPoissonQ.cc,RandPoissonQ.h,RandPoissonQ.icc (Added):
+
+	A quicker but (for mu > 100) less accurate distribution, inheriting 
+	from RandPoisson so that it may be used as a drop-in replacement.  
+	Even at mu > 100, 6-digit accurate or better.
+
+	* Random/RandPoissonT.cc,RandPoissonT.h,RandPoissonT.icc (Added):
+
+	An accurate and stateless (won't exhibit save/restore bug)
+	table-driven distribution, inheriting from RandPoisson so that it
+	may be used as a drop-in replacement. Below mu = 100, this is
+	3-7 times faster than RandPoisson. Recommended as a replacement.
+
+	* Random/erfQ.cc,flatToGaussian.cc,gammln.cc (Added): 
+
+	Various ancillary mathematical functions needed for the distributions.
+        Users may if they wish avail themsleves of this; the list is in the 
+        header Stat.h.
+
+	* Random/gaussQTables.cdat,poissonTables.cdat (Added): 
+
+	Tables for the table-driven forms of Gaussian and Piosson
+	distributions.
+	
+	* test/testRandDists.cc,testRandDists.input,testRandDists.out.save: 
+
+        Include tests of the various new forms of Gaussian and Poisson dists.
+
+	* test/validation.doc (Added):
+
+	A file detailing the validation tests, validation levels, and 
+	approximate timings of each distribution.  Thus far we have validated
+	the gaussian, poisson, and RandGeneral distributions.
+	
+Mon Oct 18 20:09:49 1999 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* config/Makefile.common.in:
+	
+	Added installation of *.cdat files
+
+	* Random/NonRandomEngine.cc,RandGauss.cc:
+	
+	std:: --> HepStd::, some trivial cleaning
+
+	* Random/Makefile.in:
+
+	Added NonRandomEngine.cc
+
+	* test/Makefile.in,gaussTables.cc,testQuickGauss.cc:
+	* test/testRandDists.out.save:
+	* test/testQuickGauss.input testQuickGauss.out.save (Added): 
+
+	Modifications caused by introduction of testQuickGauss.cc
+	and gaussTables.cc
+
+Tue Oct 12 11:13:49 1999 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* Random/RandGauss.cc,RandGauss.h,RandGauss.icc:
+	
+	RandGauss is made stateless, repairing the bug of saveEngineStatus
+	not saving enough info to reproduce the sequence correctly.
+
+	RandGauss now has a method quick() which is the same as fire() but
+	gives deviates which are gaussian to only 6 digit precision -- it
+	runs faster.
+
+	* Random/NonRandomEngine.cc,NonRandomEngine.h (Added):
+	* test/gaussTables.cc,testQuickGauss.cc,gaussTables.cdat (Added):
+	
+	gaussTables.cdat contains 30K of table data needed for RandGauss.  It
+	was generated by gaussTables.cc; that is included just to document how
+	the table was produced. gaussTables.cdat is compiled into RandGauss.cc
+	(by an #include) so that user codes don't have to depend on the table
+	being present (and don't have to waste time reading in the table).
+
+	A new engine, NonRandomEngine, is included primarily for the use of
+	developers testing their code's behavior - it allows you to dictate
+	the sequence of randoms supplied by the engine.
+	
+Fri Aug  6 12:02:20 1999 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* config/CLHEP.h:
+
+	* Combination/Lockable.cc:
+
+	* Geometry/Plane3D.cc,Plane3D.h,Transform3D.cc:
+
+	* Hist/HBookFile.cc,TupleManager.cc:
+	
+	* Matrix/:
+	* DiagMatrix.cc,DiagMatrix.h,GenMatrix.cc,Matrix.cc,Matrix.h: 
+	* Pile.h,SymMatrix.cc,SymMatrix.h,Vector.cc,Vector.h:
+
+	* Random/:
+	* DRand48Engine.cc,DRand48Engine.h,DualRand.cc,DualRand.h: 
+	* Hurd160Engine.cc,Hurd160Engine.h,Hurd288Engine.cc: 
+	* Hurd288Engine.h,JamesRandom.cc,JamesRandom.h,MTwistEngine.cc: 
+	* MTwistEngine.h,RandEngine.cc,RandEngine.h,RandGeneral.cc: 
+	* RanecuEngine.cc,RanecuEngine.h,Ranlux64Engine.cc: 
+	* Ranlux64Engine.h,RanluxEngine.cc,RanluxEngine.h: 
+	* RanshiEngine.cc,RanshiEngine.h,TripleRand.cc,TripleRand.h:
+
+	* String/:
+	* CmdLine.cc,CmdLine.h,Strings.cc,Strings.h,Strings.icc:
+
+	* Vector/:
+	* LorentzRotation.cc,LorentzVector.cc,LorentzVector.h: 
+	* Rotation.cc,ThreeVector.cc,ThreeVector.h,ThreeVector.icc:
+
+	* test/:
+	* testAList.cc,testCmd.cc,testComb.cc,testInversion.cc: 
+	* testLorentzVector.cc,testMatrix.cc,testRandDists.cc: 
+	* testRandom.cc,testStrings.cc,testThreeVector.cc,testUnits.cc: 
+
+	Changed std:: to HepStd:: to avoid problems on OSF
+
+
+Thu May 27 17:04:02 1999 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* Random/:
+	* DualRand.cc,RandFlat.icc,Ranlux64Engine.cc,SeedTable.h: 
+	* TripleRand.cc,TripleRand.h: 
+
+	fixed up things that were causing warnings on pedantic compilers:
+	* order of initialization in RandFlat
+	* added {} around each pair of elements in seedTable
+	* eliminated the funky private accessors in TripleRand
+
+	* test/testRandDists.cc:
+
+	Minor modification to work with NT.
+	Modifications to do better validation:  Moments up to 6th and
+	pdf at intervals of .5 sigma.
+
+Fri May 21 14:37:52 1999 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/:
+	* DRand48Engine.cc,DualRand.cc,Hurd160Engine.cc,Hurd288Engine.cc: 
+	* JamesRandom.cc,MTwistEngine.cc,RandEngine.cc,RanecuEngine.cc: 
+	* Ranlux64Engine.cc,RanluxEngine.cc,RanshiEngine.cc,TripleRand.cc: 
+
+	All char* beginMarker, char* endMarker have been changed to
+	char beginMarker[], char endMarker[] to avoid warnings on HP-aCC
+	
+	* test/testRandDists.cc:
+
+	Changed:
+	#include <math.h>  --> #include "CLHEP/config/TemplateFunctions.h"
+	std:exp(...)       --> exp(...)
+	bool               --> HepBoolean
+
+	* test/testRandDists.dat (Removed):
+	* testRandDists.input (Added):
+
+        Renamed: testRandDists.dat to testRandDists.input
+
+	* test/Makefile.in:
+	* testRandDists.out.save (Added):
+
+	Modifications needed for automatic run of testRandDists
+	
+Thu May 20 09:44:06 1999 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* Random/:
+	* DRand48Engine.cc,DRand48Engine.h,DualRand.cc,DualRand.h: 
+	* Hurd160Engine.cc,Hurd160Engine.h,Hurd288Engine.cc,Hurd288Engine.h:
+	* JamesRandom.cc,JamesRandom.h,MTwistEngine.cc,MTwistEngine.h:
+	* RandBinomial.cc,RandBinomial.h,RandBinomial.icc:
+	* RandBreitWigner.cc,RandBreitWigner.h,RandBreitWigner.icc:
+	* RandChiSquare.cc,RandChiSquare.h,RandChiSquare.icc:
+	* RandEngine.cc,RandEngine.h,RandExponential.cc,RandExponential.h:
+	* RandExponential.icc,RandFlat.cc,RandFlat.h,RandFlat.icc:
+	* RandGamma.cc,RandGamma.h,RandGamma.icc,RandGauss.cc,RandGauss.h:
+	* RandGauss.icc,RandGeneral.cc,RandGeneral.h,RandGeneral.icc:
+	* RandPoisson.cc,RandPoisson.h,RandPoisson.icc:
+	* RandStudentT.cc,RandStudentT.h,RandStudentT.icc:
+	* Random.cc,Random.h,Random.icc,RandomEngine.cc,RandomEngine.h:
+	* RandomEngine.icc,Randomize.h,RanecuEngine.cc,RanecuEngine.h:
+	* Ranlux64Engine.cc,Ranlux64Engine.h,RanluxEngine.cc,RanluxEngine.h:
+	* RanshiEngine.cc,RanshiEngine.h,TripleRand.cc,TripleRand.h: 
+	* SeedTable.h:
+	
+	The merge of G. Cosmos January improvements with the ZOOM enhancements.
+	Details of the modifications:
+
+	* Hurd160Engine.cc,Hurd288Engine.cc:
+
+	Made a mod to correct the following flaw -- given N consectutive
+	calls to operator unsigned int() to get N random 32-bit integers,
+	you can deduce the state of a Hurd engine and thus predict the next
+	number.  The simple expedient of discarding every Nth number plugs
+	this flaw.
+	Also, the earlier version was able to give identical sequences in
+	two forms of the constructors (very unlikely, but possible).  In the
+	newer version, the only way to get the same sequence is to explicitly
+	provide the same seeds in the same way.
+
+	* Ranlux64Engine.cc:
+
+	The early version was using an algorithm which differed from that
+	intended by Luscher (though it passes our ergodicity tests).  The
+	modified one correctly implements the algorithm, so Luscher's
+	randomness arguments hold rigorously.
+
+	* RanshiEngine.cc,DualRand.cc,TripleRand.cc:
+
+	In the early version, the constructor taking explicit seeds still
+	used numEngine to affect the starting state.  This was not the
+	intention, and that has been corrected.  So any program supplying
+	explicit seeds to one of these engines will deliver a different stream
+	than before. (The default constructor is unaffected - the dependence
+	on numEngines is the proper behavior in that case.)
+
+Wed May 19 16:43:17 1999 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* test/testRandDists.cc,testRandDists.dat (Added): 
+
+	Added a validation program for Random distributions.
+	
+==============================
+20.04.99 Release CLHEP-1.4.0.0
+==============================
+
+Tue Mar 30 20:52:58 1999 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/RandGeneral.cc,RandGeneral.h:
+
+	Modifications provided by Stefano Magni
+
+
+Fri Jan 29 02:33:37 1999 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* Random/:
+	* RandBreitWigner.cc,RandExponential.cc,RandExponential.h:
+	* RandExponential.icc,RandFlat.cc,RandFlat.h,RandFlat.icc: 
+	* RandGauss.cc,RandPoisson.cc,Random.cc,Random.h,Randomize.h:
+
+	*** HEPRandom 2.1.1 ***
+	- Fixes for porting on AIX 4.3.2. No functional changes.
+	- Forced call to HepRandom::createInstance() in Randomize.h.
+	- Minor cosmetic changes.
+
+	* docs/Random.html: 
+
+	*** HEPRandom 2.1.1 ***
+	- Updated doc.
+
+Wed Jan 20 23:57:01 1999 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* Random/RandGauss.h: 
+
+	Methods setFlag(false) and setF(false) if invoked in the client
+	code before shoot/fire will force generation of a new couple of
+	values.
+
+Fri Jan  8 00:16:23 1999 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* Random/:
+	* RandBinomial.h,RandBinomial.icc,RandChiSquare.h: 
+	* RandChiSquare.icc,RandGamma.h,RandGamma.icc,RandGauss.cc: 
+	* RandGauss.h,RandGeneral.cc,RandPoisson.cc,RandPoisson.h: 
+	* RandStudentT.h,RandStudentT.icc,Random.cc,Random.h,Random.icc: 
+
+	*** HEPRandom 2.1.0 ***
+	Random (.h.icc.cc)      : relocated Gauss and Poisson data;
+                                  simplified initialisation of static
+	                          generator.
+	RandGauss (.h.cc),
+	RandPoisson (.h.cc)     : relocated static data from HepRandom.
+	RandBinomial (.h.icc),
+	RandChiSquare (.h.icc),
+	RandGamma (.h.icc),
+	RandStudentT (.h.icc)   : cleanup of useless data/methods.
+	RandGeneral (.cc)       : fixed bug in initialisation of
+                                  theIntegralPdf[] in two constructors and
+                                  added validity check (courtesy of M.G.Pia)
+
+	* docs/Random.html: 
+
+	*** HEPRandom 2.1.0 ***
+	- Updated version number. No functional changes.
+	
+
+Sun Dec 20 12:05:12 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/Randomize.h: 
+
+	Changed RandFlat::shoot() to HepRandom::getTheEngine()->flat()
+	in the definition of HepUniformRand().
+
+=========================================================================
+16.12.98 Started: merging with BaBar version of CLHEP provided by G.Cosmo
+=========================================================================
+
+ed Aug 26 11:52:52 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/ :
+	* DualRand.cc,Hurd160Engine.cc,Hurd288Engine.cc,MTwistEngine.cc: 
+	* RanshiEngine.cc,TripleRand.cc:
+
+	Some changes to avoid warnings on HP-CC
+
+Tue Aug 25 12:13:08 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/fc.cc (Removed):
+	
+	* Random/Makefile.in,RandBinomial.cc,RandBinomial.h: 
+
+	fc() has been renamed to StrirlingCorrection() and moved
+	to RandBinomial.cc
+
+Sun Aug 23 19:47:09 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/:
+	* DRand48Engine.cc,DualRand.cc,Hurd160Engine.cc,Hurd288Engine.cc: 
+	* JamesRandom.cc,MTwistEngine.cc,RandEngine.cc,RanecuEngine.cc: 
+	* Ranlux64Engine.cc,RanluxEngine.cc,RanshiEngine.cc: 
+	* TripleRand.cc: 
+
+	Removed #ifdef IRIX_6_2_CC_7_1.
+	All is.setstate(ios::badbit); replaced by
+	is.clear(ios::badbit | is.rdstate());
+
+Sat Aug 22 16:25:47 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/:
+	* DualRand.cc,Hurd160Engine.cc,Hurd288Engine.cc,JamesRandom.cc: 
+	* MTwistEngine.cc,RandomEngine.h,Ranlux64Engine.cc: 
+	* RanluxEngine.cc,RanshiEngine.cc,TripleRand.cc: 
+
+	#include "CLHEP/config/iomanip.h" moved to RandomEngine.h
+
+Fri Aug 21 11:33:33 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch> 
+
+	* Random/:
+	* DualRand.cc,Hurd160Engine.cc,Hurd288Engine.cc,RanshiEngine.cc: 
+	* TripleRand.cc: 
+
+	Changed order of the #include macros: config/iomanip.h should
+	be the last.
+
+	* Random/RandStudentT.cc,fc.cc: Removed #include <math.h>
+	
+	* test/testMatrix.out.save:
+
+	Output for testMatrix has been changed after modification of
+	the Random module
+
+Fri 21 Aug 03:10:24 1998 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* Random/:
+	* DualRand.cc,DualRand.h,Hurd160Engine.cc,Hurd160Engine.h: 
+	* Hurd288Engine.cc,Hurd288Engine.h,MTwistEngine.cc,MTwistEngine.h:
+	* RandBinomial.cc,RandBinomial.h,RandBinomial.icc,RandBreitWigner.icc:
+	* RandChiSquare.cc,RandChiSquare.h,RandChiSquare.icc:
+	* RandExponential.icc,RandGamma.cc,RandGamma.h,RandGamma.icc:
+	* RandGauss.icc,RandGeneral.cc,RandGeneral.h,RandGeneral.icc:
+	* RandPoisson.icc,RandStudentT.cc,RandStudentT.h,RandStudentT.icc:
+	* Ranlux64Engine.cc,Ranlux64Engine.h,RanshiEngine.cc,RanshiEngine.h:
+	* TripleRand.cc,TripleRand.h,fc.cc (Added): 
+
+	* Random/:
+	* DRand48Engine.cc,DRand48Engine.h,JamesRandom.cc,JamesRandom.h: 
+	* Makefile.in,RandBreitWigner.cc,RandBreitWigner.h,RandEngine.cc: 
+	* RandEngine.h,RandExponential.cc,RandExponential.h,RandFlat.cc: 
+	* RandFlat.h,RandFlat.icc,RandGauss.cc,RandGauss.h,RandPoisson.cc:
+	* RandPoisson.h,Random.cc,Random.h,Random.icc,RandomEngine.cc:
+	* RandomEngine.h,RandomEngine.icc,Randomize.h,RanecuEngine.cc:
+	* RanecuEngine.h,RanluxEngine.cc,RanluxEngine.h,SeedTable.h: 
+ 
+	* test/testRandom.cc,testRandom.input: 
+
+	* docs/Random.html:
+
+	*** HEPRandom 2.0.0a ***
+	Merged additions and new developments by FNAL-Zoom group.
+	Added RandGeneral class, courtesy of S.Magni and G.Pieri
+	(INFN-Milano).
+	Needs validation on supported compilers.
+	
+==========================
+28.07.98 Release CLHEP-1.3
+==========================
+
+Thu Jul 23 10:05:36 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* test/testFRandom.f,.cvsignore (Removed): 
+
+	* config/TemplateFunctions.h: 
+
+	CLHEP-default.h replaced by CLHEP.h
+	Added HEP_SQR_NEEDS_PARAMETER_WITHOUT_CONST
+
+	* config/iostream.h:
+
+	Removed declarations for basic_ios and basic_streambuf
+
+	* config/CLHEP-target.h.in:
+
+	Added HEP_SQR_NEEDS_PARAMETER_WITHOUT_CONST
+
+	* configure.in: 
+
+	Changed options for cl and f77 on NT
+	Added HEP_SQR_NEEDS_PARAMETER_WITHOUT_CONST
+
+Tue Jul 14 09:05:20 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* config/TemplateFunctions.h (Added): 
+
+	min(), max(), abs(), sqr() moved from CLHEP.h to TemplateFunctions.h
+
+	* config/CLHEP.h: 
+
+	* Geometry/Transform3D.cc: 
+
+	* Random/RandBreitWigner.cc,RanecuEngine.cc: 
+
+	* String/Strings.cc: 
+
+	* Vector/Rotation.cc: 
+
+	* test/:
+	* testLorentzVector.cc,testMinMaxSqrAbs.cc,testStrings.cc: 
+	* testThreeVector.cc:
+
+	min(), max(), abs(), sqr() moved from CLHEP.h to TemplateFunctions.h
+
+Wed 25 Mar 23:28:54 1998 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* Random/Random.cc,Random.h:
+
+	Some unwanted changes went in ... apologize.
+
+Tue 24 Mar 20:48:39 1998 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* docs/Random.html: -HepRandom 1.9.2-
+
+	* Random/:
+	* DRand48Engine.cc,DRand48Engine.h,JamesRandom.h: 
+	* RandBreitWigner.cc,RandBreitWigner.h,RandEngine.cc: 
+	* RandEngine.h,RandExponential.cc,RandExponential.h,RandFlat.cc: 
+	* RandFlat.h,RandFlat.icc,RandGauss.cc,RandGauss.h,Random.cc: 
+	* Random.h,Random.icc,RandomEngine.cc,RandomEngine.h: 
+	* RandomEngine.icc,RanecuEngine.cc,RanecuEngine.h,RanluxEngine.h: 
+	* SeedTable.h:
+
+	HepRandom: better encapsulation as singleton class;
+	added static table of seeds (moved from HepRandomEngine).
+
+	RanecuEngine: moved L'Ecuyer coefficients from private
+	to protected to allow seed-skipping mechanism.
+
+	RandEngine, DRand48Engine: private copy constructor and operator=.
+
+	Updated documentation and comments.
+
+==========================
+05.02.98 Release CLHEP-1.2
+==========================
+
+Thu Feb  5 01:30:02 1998 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* Random/RandPoisson.h,RandPoisson.cc:
+	
+	Fixed small bug occouring when "crazy" values for mean were given
+	to the Poisson algorithm.
+
+Mon Feb  2 10:41:39 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch> 
+
+	* Random/RanluxEngine.cc: Changed pow(2,24) -> 0x1000000
+
+	* Random/DRand48Engine.h:
+
+	Added declaration of drand48(), srand48() and seed48() for KCC
+
+	* configure.in: Added KCC
+
+	* Makefile.in,configure.in:
+	* Alist/Makefile.in:
+	* Combination/Makefile.in: 
+	* Hist/Makefile.in:
+	* Matrix/Makefile.in:
+	* String/Makefile.in:
+	* Vector/Makefile.in:
+	* test/Makefile.in:
+	* config/CLHEP-target.h.in:
+
+	Removed PersistentIO stuff
+
+Fri Jan 23 16:24:24 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Random/:
+	* DRand48Engine.cc,JamesRandom.cc,RandEngine.cc,RanecuEngine.cc: 
+	* RanluxEngine.cc:
+
+	Removed ios::nocreate; KCC has no such mode
+
+	* Random/RandEngine.cc: 
+
+	Removed 'dummy' to avoid warnings with KCC
+
+	* Combination/Combiner.icc:
+
+	Some corrections to avoid warnings with HP/aCC:
+	done -> HepCombiner<TYPE>::done
+	nlists -> HepCombiner<TYPE>::nlists
+
+	* Combination/Lock.h: 
+
+	Some corrections to avoid warnings with HP/aCC:
+	added void to HepLockAddList() and HepLockRemoveList()
+
+	* Geometry/Plane3D.h:
+	* Matrix/DiagMatrix.h,Matrix.h,SymMatrix.h,Vector.h:
+	* String/CmdLine.h:
+	* Vector/LorentzVector.h,ThreeVector.h: 
+	
+	Declaration class ostream; changed to #include <iostream.h>
+	to avoid problems with KCC
+
+Thu Jan 22 10:53:42 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Makefile.in:
+
+	Added "rm configure Makefile.common CLHEP-*.h" for distclean: target
+
+	* test/Makefile.in:
+
+	Added rm *.ii for clean: target
+
+	* test/testRandom.cc:
+
+	Removed 'pause' to avoid warnings with KCC
+
+	* config/Makefile.common.in:
+
+  	Added rm *.a *.ii for clean: target
+	
+Fri Dec 19 02:35:57 1997 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* Random/Randomize.h: 
+
+ 	Added missing ifdef protection to body
+
+
+========================================================
+08.12.97 Release CLHEP-1.1: Geant4 has migrated to CLHEP
+========================================================
+
+Thu Oct 16 03:28:47 1997 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* Random/Random.h,RandomEngine.h,RanecuEngine.cc,RanecuEngine.h:
+
+	Fixed default argument for setSeed() and setSeeds().
+
+	* docs/Random.html: Added few notes ...
+	
+Wed Oct 15 00:30:42 1997 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* docs/Random.html:
+	* Random/:
+	* DRand48Engine.cc,JamesRandom.cc,RandEngine.cc,
+	* RandFlat.icc,RanluxEngine.cc:
+	
+	*** HepRandom 1.9.1 ***
+	- Fixed old bug inherited from CLHEP0.15 in the algorithm of
+	  RandFlat::shootInt(m,n) (... fireInt(m,n)). Now the method shoots
+	  values in the interval [m,n[ as correctly stated in the docs.
+	  In the old version the interval was wrongly [m,m+n[ ...
+	  Thanks to Massimo Lamanna.
+	- Fixed minor bug still inherited from CLHEP0.15 in setSeeds()
+	  methods of concrete engines.
+	  Thanks to Peter Stamfest.
+	
+Wed Oct  1 15:46:34 1997 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* test/testRandom.cc: Inserted: -*- C++ -*-
+
+Tue Aug 12 02:39:05 1997 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* Random/:
+	* RandBreitWigner.cc,RandBreitWigner.h,RandExponential.cc:
+	* RandExponential.h,RandFlat.cc,RandFlat.h,RandFlat.icc:
+	* RandGauss.cc,RandGauss.h,RandPoisson.cc,RandPoisson.h:
+	* Random.cc,Random.h,Random.icc:
+
+	* docs/Random.html:
+	
+	Updated to release 1.9 of HepRandom.
+	- introduced default values for shoot()/fire();
+	- added shootArray()/fireArray() for every distribution;
+	- defined operator()() using default values for each distribution;
+	- updated doc file Random.html.
+
+Tue Jul 22 03:17:08 1997 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* Random/RandomEngine.h,RanluxEngine.h:
+ 	
+	Added missing default second argument value for setSeed() and
+ 	setSeeds() in RandomEngine and RanluxEngine. If not specified,
+ 	RanluxEngine luxury is set to 3 by default.
+
+Sat Jul 12 23:06:01 1997 Gabriele Cosmo <gcosmo@slac.stanford.edu>
+
+	* Random/:
+	* DRand48Engine.cc,DRand48Engine.h,JamesRandom.h,RandEngine.h: 
+	* RanecuEngine.cc,RanecuEngine.h:   
+	
+	Added abs for setting seed index in RanecuEngine.
+	setSeed() and setSeeds() now have default dummy argument set to zero.
+
+Thu Jul 10 22:04:38 1997 Gabriele Cosmo <gcosmo@slac.stanford.edu> 
+
+        * Random/RanecuEngine.cc: fixed bug in setSeed() and setSeeds()
+	
+Tue Jul 8 16:10:30 1997  Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* OldRandom/:
+	* Makefile.in,JamesRandom.cc,JamesRandom.h,Random.cc:
+	* Random.h,Random.icc,RandomEngine.cc,RandomEngine.h (Removed):
+
+	* test/testOldRandom.cc (Removed):
+
+	* configure.in: Removed references to OldRandom/
+
+Fri Mar 14 18:19:29 1997  Nobu Katayama  <katayama@hpplus10.cern.ch>
+
+	- Vector added more functionality from Geant4 and Babar
+
+	- New Random from Geant4
+
+Wed Mar 12 13:03:47 1997  Nobu Katayama  <katayama@hpplus10.cern.ch>
+
+	- Use HEP_USE_RANDOM instead of USE_RANDOM. Moved Matrix
+	  consturctors using HepRandom from .icc into .cc. They are not
+	  inline anymore.
+
+Wed Feb 19 16:30:14 1997  Leif Lonnblad  <lonnblad@sp053>
+
+	* test/Makefile.in (SOMETESTFILES): Removed target TestRTTI in
+ 	case persistent streams are disabled.
+
+	* Random/RandomEngine.h: Removed dependencies on persistent IO in
+ 	case of HEP_NO_PERSISTENT_STREAMS
+
+	* Random/RandomEngine.cc: Removed dependencies on persistent IO in
+ 	case of HEP_NO_PERSISTENT_STREAMS
+
+	* Random/Random.h: Removed dependencies on persistent IO in
+ 	case of HEP_NO_PERSISTENT_STREAMS
+
+	* Random/Random.cc: Removed dependencies on persistent IO in
+ 	case of HEP_NO_PERSISTENT_STREAMS
+
+	* Random/JamesRandom.h: Removed dependencies on persistent IO in
+ 	case of HEP_NO_PERSISTENT_STREAMS
+
+	* Random/JamesRandom.cc: Removed dependencies on persistent IO in
+ 	case of HEP_NO_PERSISTENT_STREAMS
+
+Fri Feb 14 09:38:37 1997  Leif Lonnblad  <lonnblad@sp053>
+
+	* Random/Random.cc (HepRandom::breitWignerM2): Fixed serious
+ 	bug. Used to be 'if ( gamma = 0.0 )' which is always false and
+ 	causes floating exception in next line.
+

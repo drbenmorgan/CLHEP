@@ -1,0 +1,326 @@
+==============================
+11.05.04 Release CLHEP-2.0.0.2
+==============================
+
+==============================
+11.05.04 Release CLHEP-1.9.0.2
+==============================
+    
+==============================
+21.04.04 Release CLHEP-2.0.0.1
+==============================
+
+==============================
+24.10.03 Release CLHEP-2.0.0.0
+==============================
+
+==============================
+23.10.03 Release CLHEP-1.9.0.0
+==============================
+	
+Tue Aug 27 10:11:14 2002 Mark Fischler <mf@fnal.gov>
+
+	* Matrix/Matrix.cc:
+
+	Fix a BUG that was in trace from time immemorial!
+
+	Trace used to return the sum of the elements in the first column,
+	rather than the sum of the diagonal elements.
+
+	Warning:  This repair may change the behavior of some programs.
+	I claim in those cases, the change is a correction.
+	
+
+==============================
+01.06.02 Release CLHEP-1.8.0.0
+==============================
+
+=========================================
+25.04.02 revised StdHep uses HepMC
+=========================================
+
+=========================================
+08.03.02 HepMC has become a part of CLHEP
+=========================================
+
+==========================================
+09.11.01 HepPDT has become a part of CLHEP
+==========================================
+
+Mon Aug 13 11:21:31 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Matrix/GenMatrix.cc:
+
+	Added #include <string.h> to provide declaration of memset().
+
+	* Matrix/Matrix.cc:
+
+	All "return invertHaywood...(ierr);" statements have been
+	subdivided in two lines: 
+	   invertHaywood...(ierr);
+	   return;
+	to avoid problems on DEC/cxx.
+
+	* Matrix/DiagMatrix.h,SymMatrix.h,Vector.h:
+
+	Removed "explicit" for constructors with two parameters to avoid
+	problems on HP/aCC.
+
+	* Geometry/BasicVector3D.h: Corrected operator>>
+	
+Mon Jul 30 18:31:38 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Matrix/Makefile.in:
+
+	Added MatrixEqRotation.cc, MatrixInvert.cc, SymMatrixInvert.cc.
+
+Mon Jul 30 11:19:43 2001 Mark Fischler <mf@fnal.gov>
+
+	* Matrix/MatrixInvert.cc,SymMatrixInvert.cc (Added):
+
+	These files contain invertHaywood 4, 5, and 6
+	and invertChoelsky 4, 5, 6.
+	
+Fri Jul 27 2001 Mark Fischler <mf@fnal.gov>
+
+	* Matrix/SymMatrix.h,SymMatrix.cc,Matrix.h,Matrix.cc:
+	* Matrix/SymMatrixInvert.cc,MatrixINvert.cc (Added):
+
+	Implemented speed-improved inversion for 4x4, 5x5 and 6x6 matrices.
+	Inserted the Haywood-style implemtation of inversion for 4x4, 5x5,
+	and 6x6 matrices. The speed increase is consdierable for some cases,
+	and a bit less in others. In particular, 5x5 symmetric positive
+	definite matrices go quite fast now, and these are importat for
+	tracking.
+
+	* Matrix/GenMatrix.cc,GenMatrix.icc:
+
+	Zero the elements in the case of pre-allocated storage.
+	When constructing a matrix small enough to use pre-allocated array,
+	still zero the array data. Lack of this was causing CDF code to crash.
+
+	* Matrix/Vector.h,Matrix.h:
+
+	Made ctor from int explicit.
+
+==============================
+15.06.01 Release CLHEP-1.7.0.0
+==============================
+	
+==========================================================================
+18.01.01 ZOOM PhysicsVectors Capabilities have become part of CLHEP/Vector
+==========================================================================
+	
+======================================================================
+24.10.00 Generic Functions by Joe Boudreau have become a part of CLHEP
+======================================================================
+
+==============================
+20.10.00 Release CLHEP-1.6.0.0
+==============================
+
+==============================================================================
+12.10.00 Expression Evaluator by Evgueni Tcherniaev has become a part of CLHEP
+         Alist, String and Combination have been disabled
+==============================================================================
+
+	
+Tue Aug 22 11:33:33 2000 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* Matrix/GenMatrix.cc:
+
+	Correction to operator==, to use indices 1-3 rather than 0-2.
+
+==============================
+08.05.00 Release CLHEP-1.5.0.0
+==============================
+
+============================================================
+24.04.00 StdHepC++ by Lynn Garren has become a part of CLHEP
+============================================================
+
+
+Fri Jul  2 19:02:10 1999 Mark Fischler <mf@fncrdn.fnal.gov>
+
+	* Matrix/Vector.h:
+
+	class HepSymMatrix;
+	class HepDiagMatrix;
+	needed to be forward-declared in Vector.h
+	so that some rather strict compilers would not issue a message.
+
+==============================
+20.04.99 Release CLHEP-1.4.0.0
+==============================
+	
+Thu Feb  4 11:38:32 1999 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* test/testMatrix.out.save:
+
+	Update: the initial random sequence is now different
+
+
+Wed Jan 13 09:59:26 1999 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Matrix/SymMatrix.cc,test/testInversion.cc: 
+
+	Removed declaration of unused variables
+
+Wed Jan  6 17:34:18 1999 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Matrix/SymMatrix.cc,SymMatrix.h: 
+
+	New invert() based on "Bunch-Kaufman" algorithm.
+
+	* test/Makefile.in:
+	* test/testInversion.cc,testInversion.out.save (Added):
+
+	Added test for new inversion algorithm.
+
+Fri Dec 18 11:00:23 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Matrix/Matrix.cc,Matrix.h,SymMatrix.cc,Vector.cc:
+
+	Changed dfact() and dfinv() to dfact_matrix() and dfinv_matrix()
+	to avoid conflicts with correspondent CERNLIB symbols.
+
+	* Matrix/GenMatrix.cc,GenMatrix.h: Added operator== 
+
+	* Matrix/GenMatrix.icc: 
+
+	Added implementations of operator[] for GenMatrix_row
+	and GenMatrix_row_const.
+	Commented-out (temporary solution) pile-up mechanism
+	in delete_m() and new_m() since responsible of huge mwmory leaks.
+
+	* Matrix/Matrix.cc:
+
+	Fixed bug in dfact_matrix() and introduced "epsilon" constant.
+
+	* Matrix/Pile.h:
+
+	Moved private data on bottom and destructor on top:
+	trick needed to fix a bug in VxWorks which requires destructors
+	of template classes to be declared at the begining.
+
+=========================================================================
+16.12.98 Started: merging with BaBar version of CLHEP provided by G.Cosmo
+=========================================================================
+
+Fri Dec 11 11:58:09 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* config/CLHEP.h: 
+	* Matrix/Matrix.cc,Matrix.h,Vector.cc,Vector.h: 
+	* tests/testMatrix.cc:
+
+	Introduced HEP_USE_VECTOR_MODULE flag to facilitate
+	disabling dependence between the Matrix and Vector modules
+
+	* Utilities/CLHEP.h: 
+
+	Added config/TemplateFuntions.h by request of G.Cosmo
+
+Mon Sep 28 09:06:56 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* configure.in: 
+
+	Some modifications for a case NT & g++
+
+	* Matrix/DiagMatrix.icc: 
+
+	Bug fix: ncol has been changed to nrow by request of Nobu Katayama
+
+==========================
+28.07.98 Release CLHEP-1.3
+==========================
+
+Fri Jul 17 09:08:52 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Matrix/DiagMatrix.cc:	Bug fix in operator+= and operator-=
+
+Fri Jul  3 15:44:38 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Matrix/DiagMatrix.cc: 
+
+	Added ierr = 0; in void HepDiagMatrix::invert().
+	Thanks to Andre.Holzner@cern.ch
+
+Thu Feb 19 10:19:45 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Matrix/Matrix.cc:
+
+	Bug fix in dfact() provided by Nobu Katayama.
+	The bug affected calculation of determinant.
+
+
+Tue Feb 10 17:44:35 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Matrix/Matrix.cc: 
+
+	Changed HepDouble *mm(m); -> HepDouble *mm; mm = m;
+	to avoid problems on Windows NT
+
+==========================
+05.02.98 Release CLHEP-1.2
+==========================
+
+Fri Jan 30 17:10:59 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Matrix/:
+	* DiagMatrix.cc,DiagMatrix.h,DiagMatrix.icc,GenMatrix.cc: 
+	* GenMatrix.h,GenMatrix.icc,Matrix.cc,Matrix.h,Matrix.icc: 
+	* MatrixLinear.cc,Pile.h,SymMatrix.cc,SymMatrix.h,SymMatrix.icc:
+	* Vector.cc,Vector.h,Vector.icc: 
+
+	Removed PersistentIO stuff. Changes in comments
+
+	* Matrix/:
+	* DiagMatrix.cc,DiagMatrix.h,GenMatrix.cc,GenMatrix.h,Matrix.cc: 
+	* Matrix.h,SymMatrix.cc,SymMatrix.h,Vector.cc,Vector.h: 
+
+ 	#include <iostream.h> isolated in GenMatrix.h and Pile.h
+
+Wed Jan 28 09:55:53 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Matrix/Matrix.cc: 
+
+	Bug fix in HepMatrix::operator=(const HepRotation &m2)
+
+Fri Jan 23 16:24:24 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+
+	* Geometry/Plane3D.h:
+	* Matrix/DiagMatrix.h,Matrix.h,SymMatrix.h,Vector.h:
+	* String/CmdLine.h:
+	* Vector/LorentzVector.h,ThreeVector.h: 
+	
+	Declaration class ostream; changed to #include <iostream.h>
+	to avoid problems with KCC
+
+========================================================
+08.12.97 Release CLHEP-1.1: Geant4 has migrated to CLHEP
+========================================================
+	
+Fri Mar 14 19:24:41 1997  Nobu KATAYAMA  <katayama@hpca02.cern.ch>
+
+	- Added Matrix = Rotation
+
+Fri Feb  7 12:31:52 1997  Leif Lonnblad  <lonnblad@sp053>
+
+
+	* Matrix/Vector.cc: Wraped the #include of PIStream.h and
+ 	POStream.h inside a #ifndef HEP_NO_PERSISTENT_STREAMS.
+
+	* Matrix/SymMatrix.cc: Wraped the #include of PIStream.h and
+ 	POStream.h inside a #ifndef HEP_NO_PERSISTENT_STREAMS.
+
+	* Matrix/Matrix.cc: Wraped the #include of PIStream.h and
+ 	POStream.h inside a #ifndef HEP_NO_PERSISTENT_STREAMS.
+
+	* Matrix/DiagMatrix.icc (fast): Changed the 'static const double
+ 	zero = 0.0' statement to 'static double zero = 0.0' to avoid
+ 	problems on some compilers.
+
+	* Matrix/DiagMatrix.cc: Wraped the #include of PIStream.h and
+ 	POStream.h inside a #ifndef HEP_NO_PERSISTENT_STREAMS.
+
