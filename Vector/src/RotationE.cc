@@ -7,6 +7,9 @@
 // were introduced when ZOOM PhysicsVectors was merged in, and which involve
 // Euler Angles representation.
 //
+// Apr 28, 2003  mf  Modified way of computing Euler angles to avoid flawed
+//                   answers in the case where theta is near 0 of pi, and
+//                   the matrix is not a perfect rotation (due to roundoff).
 
 #ifdef GNUPRAGMA
 #pragma implementation
@@ -75,35 +78,26 @@ double HepRotation::phi  () const {
   }
   const double sinTheta = sqrt( s2 );
 
-  if (sinTheta != 0) {
-
-    const double cscTheta = 1/sinTheta;
-    double cosabsphi =  - rzy * cscTheta;
-    if ( fabs(cosabsphi) > 1 ) {	// NaN-proofing
-      ZMthrowC ( ZMxpvImproperRotation (
-	"HepRotation::phi() finds | cos phi | > 1 "));
-      cosabsphi = 1;
-    }
-    const double absPhi = acos ( cosabsphi );
-    if (rzx > 0) {
-      return   absPhi;
-    } else if (rzx < 0) {
-      return  -absPhi;
-    } else {
-      return  (rzy < 0) ? 0 : M_PI;
-    }
-
-  } else {              // sinTheta == 0 so |Rzz| = 1
-
-    const double absPhi = .5 * safe_acos (rxx);
-    if (rxy > 0) {
-      return   absPhi;
-    } else if (rxy < 0) {
-      return  -absPhi;
-    } else {
-      return (rxx > 0) ? 0 : M_PI/2;
-    }
-
+  if (sinTheta < .01) { // For theta close to 0 or PI, use the more stable
+  			// algorithm to get all three Euler angles
+    HepEulerAngles ea = eulerAngles();
+    return ea.phi();
+  }
+  
+  const double cscTheta = 1/sinTheta;
+  double cosabsphi =  - rzy * cscTheta;
+  if ( fabs(cosabsphi) > 1 ) {	// NaN-proofing
+    ZMthrowC ( ZMxpvImproperRotation (
+      "HepRotation::phi() finds | cos phi | > 1 "));
+    cosabsphi = 1;
+  }
+  const double absPhi = acos ( cosabsphi );
+  if (rzx > 0) {
+    return   absPhi;
+  } else if (rzx < 0) {
+    return  -absPhi;
+  } else {
+    return  (rzy < 0) ? 0 : M_PI;
   }
 
 } // phi()
@@ -116,101 +110,157 @@ double HepRotation::theta() const {
 
 double HepRotation::psi  () const {
 
-  const double sinTheta = sqrt( 1.0 - rzz*rzz );
+  double sinTheta;
+  if ( fabs(rzz) > 1 ) {	// NaN-proofing
+    ZMthrowC ( ZMxpvImproperRotation (
+      "HepRotation::psi() finds | rzz | > 1"));
+    sinTheta = 0;
+  } else { 
+    sinTheta = sqrt( 1.0 - rzz*rzz );
+  }
+  
+  if (sinTheta < .01) { // For theta close to 0 or PI, use the more stable
+  			// algorithm to get all three Euler angles
+    HepEulerAngles ea = eulerAngles();
+    return ea.psi();
+  }
 
-  if (sinTheta != 0) {
-
-    const double cscTheta = 1/sinTheta;
-    double cosabspsi =  ryz * cscTheta;
-    if ( fabs(cosabspsi) > 1 ) {	// NaN-proofing
-      ZMthrowC ( ZMxpvImproperRotation (
-	"HepRotation::psi() finds | cos psi | > 1"));
-      cosabspsi = 1;
-    }
-    const double absPsi = acos ( cosabspsi );
-    if (rxz > 0) {
-      return   absPsi;
-    } else if (rxz < 0) {
-      return  -absPsi;
-    } else {
-      return  (ryz > 0) ? 0 : M_PI;
-    }
-
-  } else {              // sinTheta == 0 so |Rzz| = 1
-
-    const double absPsi = .5 * safe_acos (rxx);
-    if (ryx > 0) {
-      return  -absPsi;
-    } else if (ryx < 0) {
-      return   absPsi;
-    } else {
-      return (rxx > 0) ? 0 : rzz * M_PI/2;
-    }
-
+  const double cscTheta = 1/sinTheta;
+  double cosabspsi =  ryz * cscTheta;
+  if ( fabs(cosabspsi) > 1 ) {	// NaN-proofing
+    ZMthrowC ( ZMxpvImproperRotation (
+      "HepRotation::psi() finds | cos psi | > 1"));
+    cosabspsi = 1;
+  }
+  const double absPsi = acos ( cosabspsi );
+  if (rxz > 0) {
+    return   absPsi;
+  } else if (rxz < 0) {
+    return  -absPsi;
+  } else {
+    return  (ryz > 0) ? 0 : M_PI;
   }
 
 } // psi()
 
 
+// Helpers for eulerAngles():
+
+static		     
+void correctByPi ( double& psi, double& phi ) {
+  if (psi > 0) {
+    psi -= M_PI;
+  } else {
+    psi += M_PI;
+  }
+  if (phi > 0) {
+    phi -= M_PI;
+  } else {
+    phi += M_PI;
+  }  
+}
+
+static
+void correctPsiPhi ( double rxz, double rzx, double ryz, double rzy, 
+		     double& psi, double& phi ) {
+
+  // set up quatities which would be positive if sin and cosine of
+  // psi and phi were positive:
+  double w[4];
+  w[0] = rxz; w[1] = rzx; w[2] = ryz; w[3] = -rzy;
+
+  // find biggest relevant term, which is the best one to use in correcting.
+  double maxw = abs(w[0]); 
+  int imax = 0;
+  for (int i = 1; i < 4; ++i) {
+    if (abs(w[i]) > maxw) {
+      maxw = abs(w[i]);
+      imax = i;
+    }
+  }
+  // Determine if the correction needs to be applied:  The criteria are 
+  // different depending on whether a sine or cosine was the determinor: 
+  switch (imax) {
+    case 0:
+      if (w[0] > 0 && psi < 0)           correctByPi ( psi, phi );
+      if (w[0] < 0 && psi > 0)           correctByPi ( psi, phi );
+      break;
+    case 1:
+      if (w[1] > 0 && phi < 0)           correctByPi ( psi, phi );
+      if (w[1] < 0 && phi > 0)           correctByPi ( psi, phi );
+      break;
+    case 2:
+      if (w[2] > 0 && abs(psi) > M_PI/2) correctByPi ( psi, phi );    
+      if (w[2] < 0 && abs(psi) < M_PI/2) correctByPi ( psi, phi );    
+      break;
+    case 3:
+      if (w[3] > 0 && abs(phi) > M_PI/2) correctByPi ( psi, phi );    
+      if (w[3] < 0 && abs(phi) < M_PI/2) correctByPi ( psi, phi );    
+      break;
+  }          
+}
+
+
 HepEulerAngles HepRotation::eulerAngles() const {
 
+  // Please see the mathematical justification in eulerAngleComputations.ps
+
   double phi, theta, psi;
-
+  double psiPlusPhi, psiMinusPhi;
+  
   theta = safe_acos( rzz );
-
-  double s2 =  1.0 - rzz*rzz;
-  if (s2 < 0) {
+  
+  if (rzz > 1 || rzz < -1) {
     ZMthrowC ( ZMxpvImproperRotation (
         "HepRotation::eulerAngles() finds | rzz | > 1 "));
-    s2 = 0;
   }
-  const double sinTheta = sqrt( s2 );
+  
+  double cosTheta = rzz;
+  if (cosTheta > 1)  cosTheta = 1;
+  if (cosTheta < -1) cosTheta = -1;
 
-  if (sinTheta != 0) {
+  if (cosTheta == 1) {
+    psiPlusPhi = atan2 ( rxy - ryx, rxx + ryy );
+    psiMinusPhi = 0;     
 
-    const double cscTheta = 1/sinTheta;
-    double cosabspsi =  ryz * cscTheta;
-    if ( fabs(cosabspsi) > 1 ) {	// NaN-proofing
-      ZMthrowC ( ZMxpvImproperRotation (
-	"HepRotation::eulerAngles() finds | cos psi | > 1"));
-      cosabspsi = 1;
-    }
-    double cosabsphi =  - rzy * cscTheta;
-    if ( fabs(cosabsphi) > 1 ) {	// NaN-proofing
-      ZMthrowC ( ZMxpvImproperRotation (
-	"HepRotation::eulerAngles() finds | cos phi | > 1 "));
-      cosabsphi = 1;
-    }
-    const double absPhi = acos ( cosabsphi );
-    const double absPsi = acos ( cosabspsi );
+  } else if (cosTheta >= 0) {
 
-    phi = (rzx > 0) ?  absPhi
-        : (rzx < 0) ? -absPhi
-        : (rzy < 0) ?       0
-        :                    M_PI;
+    // In this realm, the atan2 expression for psi + phi is numerically stable
+    psiPlusPhi = atan2 ( rxy - ryx, rxx + ryy );
 
-    psi = (rxz > 0) ?  absPsi
-        : (rxz < 0) ? -absPsi
-        : (ryz > 0) ?       0
-        :                    M_PI;
+    // psi - phi is potentially more subtle, but when unstable it is moot
+    double s = -rxy - ryx; // sin (psi-phi) * (1 - cos theta)
+    double c =  rxx - ryy; // cos (psi-phi) * (1 - cos theta)
+    psiMinusPhi = atan2 ( s, c );
+        
+  } else if (cosTheta > -1) {
 
-  } else {              // sinTheta == 0 so |Rzz| = 1
+    // In this realm, the atan2 expression for psi - phi is numerically stable
+    psiMinusPhi = atan2 ( -rxy - ryx, rxx - ryy );
 
-    const double absPhi = .5 * safe_acos (rxx);
+   // psi + phi is potentially more subtle, but when unstable it is moot
+    double s = rxy - ryx; // sin (psi+phi) * (1 + cos theta)
+    double c = rxx + ryy; // cos (psi+phi) * (1 + cos theta)
+    psiPlusPhi = atan2 ( s, c );
 
-    phi = (rxy > 0) ?  absPhi
-        : (rxy < 0) ? -absPhi
-        : (rxx > 0) ?       0
-        :                M_PI / 2;
+  } else { // cosTheta == -1
 
-    psi = (rzz > 0) ?  phi
-        :               -phi;
+    psiMinusPhi = atan2 ( -rxy - ryx, rxx - ryy );
+    psiPlusPhi = 0;
 
   }
+  
+  psi = .5 * (psiPlusPhi + psiMinusPhi); 
+  phi = .5 * (psiPlusPhi - psiMinusPhi); 
 
+  // Now correct by pi if we have managed to get a value of psiPlusPhi
+  // or psiMinusPhi that was off by 2 pi:
+  correctPsiPhi ( rxz, rzx, ryz, rzy, psi, phi );
+  
   return  HepEulerAngles( phi, theta, psi );
 
 } // eulerAngles()
+
 
 
 void HepRotation::setPhi (double phi) {
