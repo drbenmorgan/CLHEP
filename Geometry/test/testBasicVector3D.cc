@@ -1,7 +1,8 @@
 // -*- C++ -*-
-// $Id: testBasicVector3D.cc,v 1.2.2.1 2004/04/27 17:46:08 garren Exp $
+// $Id: testBasicVector3D.cc,v 1.2.2.2 2004/11/29 18:41:22 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 
+#include <cmath>
 #include <iostream>
 #include <assert.h>
 #include "CLHEP/Geometry/Point3D.h"
