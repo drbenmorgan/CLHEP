@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: DiagMatrix.h,v 1.3 2003/10/23 21:29:50 garren Exp $
+// $Id: DiagMatrix.h,v 1.3.4.1 2004/09/24 21:28:13 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -50,6 +50,8 @@
 #ifdef GNUPRAGMA
 #pragma interface
 #endif
+
+#include <vector>
 
 #include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/GenMatrix.h"
@@ -212,7 +214,11 @@ private:
    friend HepMatrix operator*(const HepMatrix &m1, const HepDiagMatrix &m2);
    friend HepVector operator*(const HepDiagMatrix &m1, const HepVector &m2);
 
-   double *m;
+#ifdef DISABLE_ALLOC
+   std::vector<double > m;
+#else
+   std::vector<double,Alloc<double,25> > m;
+#endif
    int nrow;
 #if defined(__sun) || !defined(__GNUG__)
 //

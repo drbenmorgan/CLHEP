@@ -1,3 +1,11 @@
+Fri Sep 24          2004 Lynn Garren <garren@fnal.gov>
+
+	* Matrix: remove unnecessary copy and disable allocator
+
+==============================
+23.07.04 Release CLHEP-2.0.1.0
+==============================
+
 ==============================
 11.05.04 Release CLHEP-2.0.0.2
 ==============================

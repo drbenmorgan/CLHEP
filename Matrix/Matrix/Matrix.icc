@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.icc,v 1.2 2003/07/18 05:31:48 garren Exp $
+// $Id: Matrix.icc,v 1.2.4.1 2004/09/24 21:28:13 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -56,7 +56,7 @@ inline double & HepMatrix::operator()(int row, int col)
   if(row<1 || row>num_row() || col<1 || col>num_col())
     error("Range error in HepMatrix::operator()");
 #endif
-  return *(m+(row-1)*ncol+col-1);
+  return *(m.begin()+(row-1)*ncol+col-1);
 }
 
 inline const double & HepMatrix::operator()(int row, int col) const 
@@ -65,7 +65,7 @@ inline const double & HepMatrix::operator()(int row, int col) const
   if(row<1 || row>num_row() || col<1 || col>num_col())
     error("Range error in HepMatrix::operator()");
 #endif
-  return *(m+(row-1)*ncol+col-1);
+  return *(m.begin()+(row-1)*ncol+col-1);
 }
 
 inline HepMatrix::HepMatrix_row HepMatrix::operator[] (int r)
@@ -95,7 +95,7 @@ inline double &HepMatrix::HepMatrix_row::operator[](int c) {
   if (_r<0 || _r>=_a.num_row() || c<0 || c>=_a.num_col())
     HepGenMatrix::error("Range error in HepMatrix::operator[][]");
 #endif
-  return *(_a.m+_r*_a.ncol+c);
+  return *(_a.m.begin()+_r*_a.ncol+c);
 }
 
 inline const double &HepMatrix::HepMatrix_row_const::operator[](int c) const
@@ -104,7 +104,7 @@ inline const double &HepMatrix::HepMatrix_row_const::operator[](int c) const
   if (_r<0 || _r>=_a.num_row() || c<0 || c>=_a.num_col())
     HepGenMatrix::error("Range error in HepMatrix::operator[][]");
 #endif
-  return *(_a.m+_r*_a.ncol+c);
+  return *(_a.m.begin()+_r*_a.ncol+c);
 }
 
 inline HepMatrix::HepMatrix_row::HepMatrix_row(HepMatrix&a,int r) 
@@ -122,12 +122,14 @@ inline HepMatrix::HepMatrix_row_const::HepMatrix_row_const
 // This function swaps two Matrices without doing a full copy.
 inline void swap(HepMatrix &m1,HepMatrix &m2) {
   HepGenMatrix::swap(m1.m,m2.m);
+/*** commented
   HepGenMatrix::swap(m1.nrow,m2.nrow);
   HepGenMatrix::swap(m1.ncol,m2.ncol);
   HepGenMatrix::swap(m1.size,m2.size);
+*/
 }
 
-inline HepMatrix HepMatrix::inverse(int &ierr) const
+  /*-ap inline */ HepMatrix HepMatrix::inverse(int &ierr) const
 #ifdef HEP_GNU_OPTIMIZED_RETURN
   return mTmp(*this);
 {

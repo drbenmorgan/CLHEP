@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: Matrix.cc,v 1.4.4.1 2004/09/24 21:28:14 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -60,23 +60,23 @@ namespace CLHEP {
 
 // Simple operation for all elements
 
-#define SIMPLE_UOP(OPER)          \
-   register double *a=m;            \
-   register double *e=m+num_size(); \
-   for(;a<e; a++) (*a) OPER t;
+#define SIMPLE_UOP(OPER)                            \
+   register mIter a=m.begin();                      \
+   register mIter e=m.end();                        \
+   for(;a!=e; a++) (*a) OPER t;
 
-#define SIMPLE_BOP(OPER)          \
-   register double *a=m;            \
-   register double *b=m2.m;         \
-   register double *e=m+num_size(); \
-   for(;a<e; a++, b++) (*a) OPER (*b);
+#define SIMPLE_BOP(OPER)                            \
+   register HepMatrix::mIter a=m.begin();                      \
+   register HepMatrix::mcIter b=m2.m.begin();                  \
+   register HepMatrix::mIter e=m.end();                        \
+   for(;a!=e; a++, b++) (*a) OPER (*b);
 
-#define SIMPLE_TOP(OPER)          \
-   register double *a=m1.m;            \
-   register double *b=m2.m;         \
-   register double *t=mret.m;         \
-   register double *e=m1.m+m1.size; \
-   for( ;a<e; a++, b++, t++) (*t) = (*a) OPER (*b);
+#define SIMPLE_TOP(OPER)                            \
+   register HepMatrix::mcIter a=m1.m.begin();       \
+   register HepMatrix::mcIter b=m2.m.begin();       \
+   register HepMatrix::mIter t=mret.m.begin();      \
+   register HepMatrix::mcIter e=m1.m.end();         \
+   for(;a!=e; a++, b++, t++) (*t) = (*a) OPER (*b);
 
 // Static functions.
 
@@ -93,19 +93,15 @@ namespace CLHEP {
 // Constructors. (Default constructors are inlined and in .icc file)
 
 HepMatrix::HepMatrix(int p,int q)
-   : nrow(p), ncol(q)
+   : m(p*q), nrow(p), ncol(q)
 {
   size = nrow * ncol;
-  m = new_m(size);
 }
 
 HepMatrix::HepMatrix(int p,int q,int init)
-   : nrow(p), ncol(q)
+   : m(p*q), nrow(p), ncol(q)
 {
    size = nrow * ncol;
-   m = new_m(size);
-
-   memset(m, 0, size * sizeof(double));
 
    if (size > 0) {
       switch(init)
@@ -116,8 +112,8 @@ HepMatrix::HepMatrix(int p,int q,int init)
       case 1:
 	 {
 	    if ( ncol == nrow ) {
-	       double *a = m;
-	       double *b = m + size;
+ 	       mIter a = m.begin();
+ 	       mIter b = m.end();
 	       for( ; a<b; a+=(ncol+1)) *a = 1.0;
 	    } else {
 	       error("Invalid dimension in HepMatrix(int,int,1).");
@@ -131,43 +127,40 @@ HepMatrix::HepMatrix(int p,int q,int init)
 }
 
 HepMatrix::HepMatrix(int p,int q, HepRandom &r)
-   : nrow(p), ncol(q)
+   : m(p*q), nrow(p), ncol(q)
 {
    size = nrow * ncol;
-   m = new_m(size);
 
-   double *a = m;
-   double *b = m + size;
+   mIter a = m.begin();
+   mIter b = m.end();
    for(; a<b; a++) *a = r();
 }
 //
 // Destructor
 //
 HepMatrix::~HepMatrix() {
-  delete_m(size, m);
 }
 
 HepMatrix::HepMatrix(const HepMatrix &m1)
-   : nrow(m1.nrow), ncol(m1.ncol), size(m1.size)
+   : m(m1.size), nrow(m1.nrow), ncol(m1.ncol), size(m1.size)
 {
-   m = new_m(size);
-   memcpy(m, m1.m, size*sizeof(double));
+   m = m1.m;
+
 }
 
 HepMatrix::HepMatrix(const HepSymMatrix &m1)
-   : nrow(m1.nrow), ncol(m1.nrow)
+   : m(m1.nrow*m1.nrow), nrow(m1.nrow), ncol(m1.nrow)
 {
    size = nrow * ncol;
-   m = new_m(size);
 
    int n = ncol;
-   double *sjk = m1.m;
-   double *m1j = m;
-   double *mj = m;
+   mcIter sjk = m1.m.begin();
+   mIter m1j = m.begin();
+   mIter mj  = m.begin();
    // j >= k
    for(int j=1;j<=nrow;j++) {
-      double *mjk = mj;
-      double *mkj = m1j;
+      mIter mjk = mj;
+      mIter mkj = m1j;
       for(int k=1;k<=j;k++) {
 	 *(mjk++) = *sjk;
 	 if(j!=k) *mkj = *sjk;
@@ -180,15 +173,13 @@ HepMatrix::HepMatrix(const HepSymMatrix &m1)
 }
 
 HepMatrix::HepMatrix(const HepDiagMatrix &m1)
-   : nrow(m1.nrow), ncol(m1.nrow)
+   : m(m1.nrow*m1.nrow), nrow(m1.nrow), ncol(m1.nrow)
 {
    size = nrow * ncol;
-   m = new_m(size);
 
    int n = num_row();
-   memset(m, 0, size * sizeof(double));
-   double *mrr = m;
-   double *mr = m1.m;
+   mIter mrr = m.begin();
+   mcIter mr = m1.m.begin();
    for(int r=1;r<=n;r++) {
       *mrr = *(mr++);
       mrr += (n+1);
@@ -196,13 +187,13 @@ HepMatrix::HepMatrix(const HepDiagMatrix &m1)
 }
 
 HepMatrix::HepMatrix(const HepVector &m1)
-   : nrow(m1.nrow), ncol(1)
+   : m(m1.nrow), nrow(m1.nrow), ncol(1)
 {
-   size = nrow;
-   m = new_m(size);
 
-   memcpy(m, m1.m, size*sizeof(double));
+   size = nrow;
+   m = m1.m;
 }
+
 
 //
 //
@@ -221,12 +212,13 @@ return mret(max_row-min_row+1,max_col-min_col+1);
 #endif
   if(max_row > num_row() || max_col >num_col())
     error("HepMatrix::sub: Index out of range");
-  double *a = mret.m;
+  mIter a = mret.m.begin();
   int nc = num_col();
-  double *b1 = m + (min_row - 1) * nc + min_col - 1;
+  //-ap mcIter b1 = mret.m.begin() + (min_row - 1) + nc + min_col - 1;
+  mcIter b1 = m.begin() + (min_row - 1) + nc + min_col - 2;
   
   for(int irow=1; irow<=mret.num_row(); irow++) {
-    double *brc = b1;
+    mcIter brc = b1;
     for(int icol=1; icol<=mret.num_col(); icol++) {
       *(a++) = *(brc++);
     }
@@ -240,12 +232,12 @@ void HepMatrix::sub(int row,int col,const HepMatrix &m1)
   if(row <1 || row+m1.num_row()-1 > num_row() || 
      col <1 || col+m1.num_col()-1 > num_col()   )
     error("HepMatrix::sub: Index out of range");
-  double *a = m1.m;
+  mcIter a = m1.m.begin();
   int nc = num_col();
-  double *b1 = m + (row - 1) * nc + col - 1;
+  mIter b1 = m.begin() + (row - 1) * nc + col - 1;
   
   for(int irow=1; irow<=m1.num_row(); irow++) {
-    double *brc = b1;
+    mIter brc = b1;
     for(int icol=1; icol<=m1.num_col(); icol++) {
       *(brc++) = *(a++);
     }
@@ -284,9 +276,9 @@ HepMatrix HepMatrix::operator- () const
 {
    HepMatrix m2(nrow, ncol);
 #endif
-   register double *a=m;
-   register double *b=m2.m;
-   register double *e=m+num_size();
+   register mcIter a=m.begin();
+   register mIter b=m2.m.begin();
+   register mcIter e=m.end();
    for(;a<e; a++, b++) (*b) = -(*a);
    return m2;
 }
@@ -385,11 +377,11 @@ HepMatrix operator*(const HepMatrix &m1,const HepMatrix &m2)
      for (int j=0; j<m1cols; j++) 
      {
 	register double temp = m1.m[i*m1cols+j];
-	register double *pt = mret.m + i*m2cols;
+	register HepMatrix::mIter pt = mret.m.begin() + i*m2cols;
 	
 	// Loop over k (the column index in matrix m2)
-	register double *pb = m2.m + m2cols*j;
-	const double *pblast = pb + m2cols;
+	register HepMatrix::mcIter pb = m2.m.begin() + m2cols*j;
+	const HepMatrix::mcIter pblast = pb + m2cols;
 	while (pb < pblast)
 	{
 	   (*pt) += temp * (*pb);
@@ -434,15 +426,14 @@ HepMatrix & HepMatrix::operator*=(double t)
 
 HepMatrix & HepMatrix::operator=(const HepMatrix &m1)
 {
-   if(m1.nrow*m1.ncol != size)
+   if(m1.nrow*m1.ncol != size) //??fixme?? m1.size != size
    {
-      delete_m(size,m);
       size = m1.nrow * m1.ncol;
-      m = new_m(size);
+      m.resize(size); //??fixme?? if (size < m1.size) m.resize(m1.size);
    }
    nrow = m1.nrow;
    ncol = m1.ncol;
-   memcpy(m,m1.m,size*sizeof(double));
+   m = m1.m;
    return (*this);
 }
 
@@ -480,10 +471,10 @@ return mret(ncol,nrow);
 {
    HepMatrix mret(ncol,nrow);
 #endif
-   register double *pl = m + size;
-   register double *pme = m;
-   register double *pt = mret.m;
-   register double *ptl = mret.m + size;
+   register mcIter pl = m.end();
+   register mcIter pme = m.begin();
+   register mIter pt = mret.m.begin();
+   register mIter ptl = mret.m.end();
    for (; pme < pl; pme++, pt+=nrow)
    {
       if (pt >= ptl) pt -= (size-1);
@@ -500,8 +491,8 @@ return mret(num_row(),num_col());
 {
   HepMatrix mret(num_row(),num_col());
 #endif
-  double *a = m;
-  double *b = mret.m;
+  mcIter a = m.begin();
+  mIter b = mret.m.begin();
   for(int ir=1;ir<=num_row();ir++) {
     for(int ic=1;ic<=num_col();ic++) {
       *(b++) = (*f)(*(a++), ir, ic);
@@ -519,28 +510,28 @@ int HepMatrix::dfinv_matrix(int *ir) {
   double s31, s32;
   register double s33, s34;
 
-  double *m11 = m;
-  double *m12 = m11 + 1;
-  double *m21 = m11 + n;
-  double *m22 = m12 + n;
+  mIter m11 = m.begin();
+  mIter m12 = m11 + 1;
+  mIter m21 = m11 + n;
+  mIter m22 = m12 + n;
   *m21 = -(*m22) * (*m11) * (*m21);
   *m12 = -(*m12);
   if (n>2) {
-    double *mi = m + 2 * n;
-    double *mii= m + 2 * n + 2;
-    double *mimim = m + n + 1;
+    mIter mi = m.begin() + 2 * n;
+    mIter mii= m.begin() + 2 * n + 2;
+    mIter mimim = m.begin() + n + 1;
     for (int i=3;i<=n;i++) {
       int im2 = i - 2;
-      double *mj = m;
-      double *mji = mj + i - 1;
-      double *mij = mi;
+      mIter mj = m.begin();
+      mIter mji = mj + i - 1;
+      mIter mij = mi;
       for (int j=1;j<=im2;j++) { 
 	s31 = 0.0;
 	s32 = *mji;
-	double *mkj = mj + j - 1;
-	double *mik = mi + j - 1;
-	double *mjkp = mj + j;
-	double *mkpi = mj + n + i - 1;
+	mIter mkj = mj + j - 1;
+	mIter mik = mi + j - 1;
+	mIter mjkp = mj + j;
+	mIter mkpi = mj + n + i - 1;
 	for (int k=j;k<=im2;k++) {
 	  s31 += (*mkj) * (*(mik++));
 	  s32 += (*(mjkp++)) * (*mkpi);
@@ -560,17 +551,17 @@ int HepMatrix::dfinv_matrix(int *ir) {
       mii += (n+1);
     }
   }
-  double *mi = m;
-  double *mii = m;
+  mIter mi = m.begin();
+  mIter mii = m.begin();
   for (int i=1;i<n;i++) {
     int ni = n - i;
-    double *mij = mi;
+    mIter mij = mi;
     int j;
     for (j=1; j<=i;j++) {
       s33 = *mij;
-      register double *mikj = mi + n + j - 1;
-      register double *miik = mii + 1;
-      double *min_end = mi + n;
+      register mIter mikj = mi + n + j - 1;
+      register mIter miik = mii + 1;
+      mIter min_end = mi + n;
       for (;miik<min_end;) {
 	s33 += (*mikj) * (*(miik++));
 	mikj += n;
@@ -579,8 +570,8 @@ int HepMatrix::dfinv_matrix(int *ir) {
     }
     for (j=1;j<=ni;j++) {
       s34 = 0.0;
-      double *miik = mii + j;
-      double *mikij = mii + j * n + j;
+      mIter miik = mii + j;
+      mIter mikij = mii + j * n + j;
       for (int k=j;k<=ni;k++) {
 	s34 += *mikij * (*(miik++));
 	mikij += n;
@@ -597,12 +588,12 @@ int HepMatrix::dfinv_matrix(int *ir) {
     int ij = ir[k];
     int i = ij >> 12;
     int j = ij%4096;
-    double *mki = m + i - 1;
-    double *mkj = m + j - 1;
+    mIter mki = m.begin() + i - 1;
+    mIter mkj = m.begin() + j - 1;
     for (k=1; k<=n;k++) {
-      register double ti = *mki;
+      register mIter ti = mki;
       *mki = *mkj;
-      *mkj = ti;
+      *mkj = *ti;
       mki += n;
       mkj += n;
     }
@@ -634,13 +625,13 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
   jfail = jrange;
   int nxch = 0;
   det = 1.0;
-  double *mj = m;
-  double *mjj = mj;
+  mIter mj = m.begin();
+  mIter mjj = mj;
   for (int j=1;j<=n;j++) {
     int k = j;
     p = (fabs(*mjj));
     if (j!=n) {
-      double *mij = mj + n + j - 1; 
+      mIter mij = mj + n + j - 1; 
       for (int i=j+1;i<=n;i++) {
 	q = (fabs(*(mij)));
 	if (q > p) {
@@ -659,8 +650,8 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
 	det = -det; // in this case the sign of the determinant
 	            // must not change. So I change it twice. 
       }
-      double *mjl = mj;
-      double *mkl = m + (k-1)*n;
+      mIter mjl = mj;
+      mIter mkl = m.begin() + (k-1)*n;
       for (int l=1;l<=n;l++) {
         tf = *mjl;
         *(mjl++) = *mkl;
@@ -687,17 +678,17 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
       if (jfail==jrange) jfail = jover;
     }
     if (j!=n) {
-      double *mk = mj + n;
-      double *mkjp = mk + j;
-      double *mjk = mj + j;
+      mIter mk = mj + n;
+      mIter mkjp = mk + j;
+      mIter mjk = mj + j;
       for (k=j+1;k<=n;k++) {
 	s11 = - (*mjk);
 	s12 = - (*mkjp);
 	if (j!=1) {
-	  double *mik = m + k - 1;
-	  double *mijp = m + j;
-	  double *mki = mk;
-	  double *mji = mj;
+	  mIter mik = m.begin() + k - 1;
+	  mIter mijp = m.begin() + j;
+	  mIter mki = mk;
+	  mIter mji = mj;
 	  for (int i=1;i<j;i++) {
 	    s11 += (*mik) * (*(mji++));
 	    s12 += (*mijp) * (*(mki++));
@@ -739,31 +730,31 @@ void HepMatrix::invert(int &ierr) {
   case 3:
     double c11,c12,c13,c21,c22,c23,c31,c32,c33;
     ifail = 0;
-    c11 = (*(m+4)) * (*(m+8)) - (*(m+5)) * (*(m+7));
-    c12 = (*(m+5)) * (*(m+6)) - (*(m+3)) * (*(m+8));
-    c13 = (*(m+3)) * (*(m+7)) - (*(m+4)) * (*(m+6));
-    c21 = (*(m+7)) * (*(m+2)) - (*(m+8)) * (*(m+1));
-    c22 = (*(m+8)) * (*m) - (*(m+6)) * (*(m+2));
-    c23 = (*(m+6)) * (*(m+1)) - (*(m+7)) * (*m);
-    c31 = (*(m+1)) * (*(m+5)) - (*(m+2)) * (*(m+4));
-    c32 = (*(m+2)) * (*(m+3)) - (*m) * (*(m+5));
-    c33 = (*m) * (*(m+4)) - (*(m+1)) * (*(m+3));
-    t1 = fabs(*m);
-    t2 = fabs(*(m+3));
-    t3 = fabs(*(m+6));
+    c11 = (*(m.begin()+4)) * (*(m.begin()+8)) - (*(m.begin()+5)) * (*(m.begin()+7));
+    c12 = (*(m.begin()+5)) * (*(m.begin()+6)) - (*(m.begin()+3)) * (*(m.begin()+8));
+    c13 = (*(m.begin()+3)) * (*(m.begin()+7)) - (*(m.begin()+4)) * (*(m.begin()+6));
+    c21 = (*(m.begin()+7)) * (*(m.begin()+2)) - (*(m.begin()+8)) * (*(m.begin()+1));
+    c22 = (*(m.begin()+8)) * (*m.begin()) - (*(m.begin()+6)) * (*(m.begin()+2));
+    c23 = (*(m.begin()+6)) * (*(m.begin()+1)) - (*(m.begin()+7)) * (*m.begin());
+    c31 = (*(m.begin()+1)) * (*(m.begin()+5)) - (*(m.begin()+2)) * (*(m.begin()+4));
+    c32 = (*(m.begin()+2)) * (*(m.begin()+3)) - (*m.begin()) * (*(m.begin()+5));
+    c33 = (*m.begin()) * (*(m.begin()+4)) - (*(m.begin()+1)) * (*(m.begin()+3));
+    t1 = fabs(*m.begin());
+    t2 = fabs(*(m.begin()+3));
+    t3 = fabs(*(m.begin()+6));
     if (t1 >= t2) {
       if (t3 >= t1) {
-      temp = *(m+6);
+      temp = *(m.begin()+6);
       det = c23*c12-c22*c13;
       } else {
-	temp = *m;
+	temp = *(m.begin());
 	det = c22*c33-c23*c32;
       }
     } else if (t3 >= t2) {
-      temp = *(m+6);
+      temp = *(m.begin()+6);
       det = c23*c12-c22*c13;
     } else {
-      temp = *(m+3);
+      temp = *(m.begin()+3);
       det = c13*c32-c12*c33;
     }
     if (det==0) {
@@ -772,7 +763,7 @@ void HepMatrix::invert(int &ierr) {
     }
     {
       double s = temp/det;
-      double *mm = m;
+      mIter mm = m.begin();
       *(mm++) = s*c11;
       *(mm++) = s*c21;
       *(mm++) = s*c31;
@@ -786,25 +777,25 @@ void HepMatrix::invert(int &ierr) {
     break;
   case 2:
     ifail = 0;
-    det = (*m)*(*(m+3)) - (*(m+1))*(*(m+2));
+    det = (*m.begin())*(*(m.begin()+3)) - (*(m.begin()+1))*(*(m.begin()+2));
     if (det==0) {
       ierr = 1;
       return;
     }
     s = 1.0/det;
-    temp = s*(*(m+3));
-    *(m+1) *= -s;
-    *(m+2) *= -s;
-    *(m+3) = s*(*m);
-    *m = temp;
+    temp = s*(*(m.begin()+3));
+    *(m.begin()+1) *= -s;
+    *(m.begin()+2) *= -s;
+    *(m.begin()+3) = s*(*m.begin());
+    *(m.begin()) = temp;
     break;
   case 1:
     ifail = 0;
-    if ((*m)==0) {
+    if ((*(m.begin()))==0) {
       ierr = 1;
       return;
     }
-    *m = 1.0/(*m);
+    *(m.begin()) = 1.0/(*(m.begin()));
     break;
   case 4:
     invertHaywood4(ierr);
@@ -847,8 +838,7 @@ double HepMatrix::determinant() const {
 
 double HepMatrix::trace() const {
    double t = 0.0;
-   double *end = m + size;
-   for (double *d = m; d < end; d += (ncol+1) )
+   for (mcIter d = m.begin(); d < m.end(); d += (ncol+1) )
       t += *d;
    return t;
 }

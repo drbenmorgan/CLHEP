@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: MatrixLinear.cc,v 1.2 2003/07/18 05:31:48 garren Exp $
+// $Id: MatrixLinear.cc,v 1.2.4.1 2004/09/24 21:28:14 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -94,11 +94,11 @@ void back_solve(const HepMatrix &R, HepVector *b)
    (*b)(b->num_row()) /= R(b->num_row(),b->num_row());
    int n = R.num_col();
    int nb = b->num_row();
-   double *br = b->m + b->num_row() - 2;
-   double *Rrr = R.m + (nb-2) * (n+1);
+   HepMatrix::mIter br = b->m.begin() + b->num_row() - 2;
+   HepMatrix::mcIter Rrr = R.m.begin() + (nb-2) * (n+1);
    for (int r=b->num_row()-1;r>=1;--r) {
-      double *bc = br+1;
-      double *Rrc = Rrr+1;
+      HepMatrix::mIter bc = br+1;
+      HepMatrix::mcIter Rrc = Rrr+1;
       for (int c=r+1;c<=b->num_row();c++) {
 	 (*br)-=(*(Rrc++))*(*(bc++));
       }
@@ -119,14 +119,14 @@ void back_solve(const HepMatrix &R, HepMatrix *b)
    int n = R.num_col();
    int nb = b->num_row();
    int nc = b->num_col();
-   double *bbi = b->m + (nb - 2) * nc;
+   HepMatrix::mIter bbi = b->m.begin() + (nb - 2) * nc;
    for (int i=1;i<=b->num_col();i++) {
       (*b)(b->num_row(),i) /= R(b->num_row(),b->num_row());
-      double *Rrr = R.m + (nb-2) * (n+1);
-      double *bri = bbi;
+      HepMatrix::mcIter Rrr = R.m.begin() + (nb-2) * (n+1);
+      HepMatrix::mIter bri = bbi;
       for (int r=b->num_row()-1;r>=1;--r) {
-	 double *bci = bri + nc;
-	 double *Rrc = Rrr+1;
+	 HepMatrix::mIter bci = bri + nc;
+	 HepMatrix::mcIter Rrc = Rrr+1;
 	 for (int c=r+1;c<=b->num_row();c++) {
 	    (*bri)-= (*(Rrc++)) * (*bci);
 	    bci += nc;
@@ -150,8 +150,8 @@ void col_givens(HepMatrix *A, double c,double s,
 		int k1, int k2, int row_min, int row_max) {
    if (row_max<=0) row_max = A->num_row();
    int n = A->num_col();
-   double *Ajk1 = A->m + (row_min - 1) * n + k1 - 1;
-   double *Ajk2 = A->m + (row_min - 1) * n + k2 - 1;
+   HepMatrix::mIter Ajk1 = A->m.begin() + (row_min - 1) * n + k1 - 1;
+   HepMatrix::mIter Ajk2 = A->m.begin() + (row_min - 1) * n + k2 - 1;
    for (int j=row_min;j<=row_max;j++) {
       double tau1=(*Ajk1); double tau2=(*Ajk2);
       (*Ajk1)=c*tau1-s*tau2;(*Ajk2)=s*tau1+c*tau2;
@@ -182,14 +182,14 @@ void col_house(HepMatrix *a,const HepMatrix &v,double vnormsq,
 
    HepVector w(a->num_col()-col+1,0);
 /* not tested */
-   double *wptr = w.m;
+   HepMatrix::mIter wptr = w.m.begin();
    int n = a->num_col();
    int nv = v.num_col();
-   double *acrb = a->m + (col-1) * n + (row-1);
+   HepMatrix::mIter acrb = a->m.begin() + (col-1) * n + (row-1);
    int c;
    for (c=col;c<=a->num_col();c++) {
-      double *vp = v.m + (row_start-1) * nv + (col_start-1);
-      double *acr = acrb;
+      HepMatrix::mcIter vp = v.m.begin() + (row_start-1) * nv + (col_start-1);
+      HepMatrix::mcIter acr = acrb;
       for (int r=row;r<=a->num_row();r++) {
 	 (*wptr)+=(*(acr++))*(*vp);
 	 vp += nv;
@@ -201,11 +201,11 @@ void col_house(HepMatrix *a,const HepMatrix &v,double vnormsq,
   
    // Fast way of calculating A.sub=A.sub+w*v.T()
 
-   double *arcb = a->m + (row-1) * n + col-1;
-   wptr = w.m;
+   HepMatrix::mIter arcb = a->m.begin() + (row-1) * n + col-1;
+   wptr = w.m.begin();
    for (int r=row; r<=a->num_row();r++) {
-      double *arc = arcb;
-      double *vp = v.m + (row_start-1) * nv + col_start;
+      HepMatrix::mIter arc = arcb;
+      HepMatrix::mcIter vp = v.m.begin() + (row_start-1) * nv + col_start;
       for (c=col;c<=a->num_col();c++) {
 	 (*(arc++))+=(*vp)*(*wptr);
 	 vp += nv;
@@ -229,7 +229,7 @@ double condition(const HepSymMatrix &m)
    max=min=fabs(mcopy(1,1));
 
    int n = mcopy.num_row();
-   double *mii = mcopy.m + 2;
+   HepMatrix::mIter mii = mcopy.m.begin() + 2;
    for (int i=2; i<=n; i++) {
       if (max<fabs(*mii)) max=fabs(*mii);
       if (min>fabs(*mii)) min=fabs(*mii);
@@ -254,9 +254,9 @@ void diag_step(HepSymMatrix *t,int begin,int end)
 	 (d+sign(d)*sqrt(d*d+ t->fast(end,end-1)*t->fast(end,end-1)));
    double x=t->fast(begin,begin)-mu;
    double z=t->fast(begin+1,begin);
-   double *tkk = t->m + (begin+2)*(begin-1)/2;
-   double *tkp1k = tkk + begin;
-   double *tkp2k = tkk + 2 * begin + 1;
+   HepMatrix::mIter tkk = t->m.begin() + (begin+2)*(begin-1)/2;
+   HepMatrix::mIter tkp1k = tkk + begin;
+   HepMatrix::mIter tkp2k = tkk + 2 * begin + 1;
    for (int k=begin;k<=end-1;k++) {
       double c,s;
       givens(x,z,&c,&s);
@@ -297,9 +297,9 @@ void diag_step(HepSymMatrix *t,HepMatrix *u,int begin,int end)
 	 (d+sign(d)*sqrt(d*d+ t->fast(end,end-1)*t->fast(end,end-1)));
    double x=t->fast(begin,begin)-mu;
    double z=t->fast(begin+1,begin);
-   double *tkk = t->m + (begin+2)*(begin-1)/2;
-   double *tkp1k = tkk + begin;
-   double *tkp2k = tkk + 2 * begin + 1;
+   HepMatrix::mIter tkk = t->m.begin() + (begin+2)*(begin-1)/2;
+   HepMatrix::mIter tkp1k = tkk + begin;
+   HepMatrix::mIter tkp2k = tkk + 2 * begin + 1;
    for (int k=begin;k<=end-1;k++) {
       double c,s;
       givens(x,z,&c,&s);
@@ -346,8 +346,8 @@ HepMatrix diagonalize(HepSymMatrix *s)
    int end=s->num_row();
    while(begin!=end)
    {
-      double *sii = s->m + (begin+2)*(begin-1)/2;
-      double *sip1i = sii + begin;
+      HepMatrix::mIter sii = s->m.begin() + (begin+2)*(begin-1)/2;
+      HepMatrix::mIter sip1i = sii + begin;
       for (int i=begin;i<=end-1;i++) {
 	 if (fabs(*sip1i)<=
 	    tolerance*(fabs(*sii)+fabs(*(sip1i+1)))) {
@@ -375,8 +375,8 @@ HepVector house(const HepSymMatrix &a,int row,int col)
 {
    HepVector v(a.num_row()-row+1);
 /* not tested */
-   double *vp = v.m;
-   double *aci = a.m + col * (col - 1) / 2 + row - 1;
+   HepMatrix::mIter vp = v.m.begin();
+   HepMatrix::mcIter aci = a.m.begin() + col * (col - 1) / 2 + row - 1;
    int i;
    for (i=row;i<=col;i++) {
       (*(vp++))=(*(aci++));
@@ -394,8 +394,8 @@ HepVector house(const HepMatrix &a,int row,int col)
    HepVector v(a.num_row()-row+1);
 /* not tested */
    int n = a.num_col();
-   double *aic = a.m + (row - 1) * n + (col - 1) ;
-   double *vp = v.m;
+   HepMatrix::mcIter aic = a.m.begin() + (row - 1) * n + (col - 1) ;
+   HepMatrix::mIter vp = v.m.begin();
    for (int i=row;i<=a.num_row();i++) {
       (*(vp++))=(*aic);
       aic += n;
@@ -418,9 +418,9 @@ void house_with_update(HepMatrix *a,int row,int col)
 {
    HepVector v(a->num_row()-row+1);
 /* not tested */
-   double *vp = v.m;
+   HepMatrix::mIter vp = v.m.begin();
    int n = a->num_col();
-   double *arc = a->m + (row-1) * n + (col-1);
+   HepMatrix::mIter arc = a->m.begin() + (row-1) * n + (col-1);
    int r;
    for (r=row;r<=a->num_row();r++) {
       (*(vp++))=(*arc);
@@ -432,7 +432,7 @@ void house_with_update(HepMatrix *a,int row,int col)
    v(1)+=sign((*a)(row,col))*norm;
    normsq+=v(1)*v(1);
    (*a)(row,col)=-sign((*a)(row,col))*norm;
-   arc = a->m + row * n + (col-1);
+   arc = a->m.begin() + row * n + (col-1);
    for (r=row+1;r<=a->num_row();r++) {
       (*arc)=0;
       arc += n;
@@ -447,8 +447,8 @@ void house_with_update(HepMatrix *a,HepMatrix *v,int row,int col)
    double normsq=0;
    int nv = v->num_col();
    int na = a->num_col();
-   double *vrc = v->m + (row-1) * nv + (col-1);
-   double *arc = a->m + (row-1) * na + (col-1);
+   HepMatrix::mIter vrc = v->m.begin() + (row-1) * nv + (col-1);
+   HepMatrix::mIter arc = a->m.begin() + (row-1) * na + (col-1);
    int r;
    for (r=row;r<=a->num_row();r++) {
       (*vrc)=(*arc);
@@ -457,12 +457,12 @@ void house_with_update(HepMatrix *a,HepMatrix *v,int row,int col)
       arc += na;
    }
    double norm=sqrt(normsq);
-   vrc = v->m + (row-1) * nv + (col-1);
+   vrc = v->m.begin() + (row-1) * nv + (col-1);
    normsq-=(*vrc)*(*vrc);
    (*vrc)+=sign((*a)(row,col))*norm;
    normsq+=(*vrc)*(*vrc);
    (*a)(row,col)=-sign((*a)(row,col))*norm;
-   arc = a->m + row * na + (col-1);
+   arc = a->m.begin() + row * na + (col-1);
    for (r=row+1;r<=a->num_row();r++) {
       (*arc)=0;
       arc += na;
@@ -481,8 +481,8 @@ void house_with_update2(HepSymMatrix *a,HepMatrix *v,int row,int col)
 {
    double normsq=0;
    int nv = v->num_col();
-   double *vrc = v->m + (row-1) * nv + (col-1);
-   double *arc = a->m + (row-1) * row / 2 + (col-1);
+   HepMatrix::mIter vrc = v->m.begin() + (row-1) * nv + (col-1);
+   HepMatrix::mIter arc = a->m.begin() + (row-1) * row / 2 + (col-1);
    int r;
    for (r=row;r<=a->num_row();r++)
    {
@@ -492,8 +492,8 @@ void house_with_update2(HepSymMatrix *a,HepMatrix *v,int row,int col)
       vrc += nv;
    }
    double norm=sqrt(normsq);
-   vrc = v->m + (row-1) * nv + (col-1);
-   arc = a->m + (row-1) * row / 2 + (col-1);
+   vrc = v->m.begin() + (row-1) * nv + (col-1);
+   arc = a->m.begin() + (row-1) * row / 2 + (col-1);
    (*vrc)+=sign(*arc)*norm;
    (*arc)=-sign(*arc)*norm;
    arc += row;
@@ -605,8 +605,8 @@ void row_givens(HepMatrix *A, double c,double s,
    /* not tested */
    if (col_max==0) col_max = A->num_col();
    int n = A->num_col();
-   double *Ak1j = A->m + (k1-1) * n + (col_min-1);
-   double *Ak2j = A->m + (k2-1) * n + (col_min-1);
+   HepMatrix::mIter Ak1j = A->m.begin() + (k1-1) * n + (col_min-1);
+   HepMatrix::mIter Ak2j = A->m.begin() + (k2-1) * n + (col_min-1);
    for (int j=col_min;j<=col_max;j++) {
       double tau1=(*Ak1j); double tau2=(*Ak2j);
       (*(Ak1j++))=c*tau1-s*tau2;(*(Ak2j++))=s*tau1+c*tau2;
@@ -635,12 +635,12 @@ void row_house(HepMatrix *a,const HepVector &v,double vnormsq,
    HepVector w(a->num_col()-col+1,0);
 /* not tested */
    int na = a->num_col();
-   double *wptr = w.m;
-   double *arcb = a->m + (row-1) * na + (col-1);
+   HepMatrix::mIter wptr = w.m.begin();
+   HepMatrix::mIter arcb = a->m.begin() + (row-1) * na + (col-1);
    int c;
    for (c=col;c<=a->num_col();c++) {
-      double *vp = v.m;
-      double *arc = arcb;
+      HepMatrix::mcIter vp = v.m.begin();
+      HepMatrix::mIter arc = arcb;
       for (int r=row;r<=a->num_row();r++) {
 	 (*wptr)+=(*arc)*(*(vp++));
 	 arc += na;
@@ -652,11 +652,11 @@ void row_house(HepMatrix *a,const HepVector &v,double vnormsq,
   
    // Fast way of calculating A.sub=A.sub+v*w.T()
 
-   arcb = a->m + (row-1) * na + (col-1);
-   double *vp = v.m;
+   arcb = a->m.begin() + (row-1) * na + (col-1);
+   HepMatrix::mcIter vp = v.m.begin();
    for (int r=row; r<=a->num_row();r++) {
-      double *wptr = w.m;
-      double *arc = arcb;
+      HepMatrix::mIter wptr = w.m.begin();
+      HepMatrix::mIter arc = arcb;
       for (c=col;c<=a->num_col();c++) {
 	 (*(arc++))+=(*vp)*(*(wptr++));
       }
@@ -673,13 +673,13 @@ void row_house(HepMatrix *a,const HepMatrix &v,double vnormsq,
    HepVector w(a->num_col()-col+1,0);
    int na = a->num_col();
    int nv = v.num_col();
-   double *wptr = w.m;
-   double *arcb = a->m + (row-1) * na + (col-1);
-   double *vpcb = v.m + (row_start-1) * nv + (col_start-1);
+   HepMatrix::mIter wptr = w.m.begin();
+   HepMatrix::mIter arcb = a->m.begin() + (row-1) * na + (col-1);
+   HepMatrix::mcIter vpcb = v.m.begin() + (row_start-1) * nv + (col_start-1);
    int c;
    for (c=col;c<=a->num_col();c++) {
-      double *arc = arcb;
-      double *vpc = vpcb;
+      HepMatrix::mIter arc = arcb;
+      HepMatrix::mcIter vpc = vpcb;
       for (int r=row;r<=a->num_row();r++) {
 	 (*wptr)+=(*arc)*(*vpc);
 	 arc += na;
@@ -690,11 +690,11 @@ void row_house(HepMatrix *a,const HepMatrix &v,double vnormsq,
    }
    w*=beta;
 
-   arcb = a->m + (row-1) * na + (col-1);
-   double *vpc = v.m + (row_start-1) * nv + (col_start-1);
+   arcb = a->m.begin() + (row-1) * na + (col-1);
+   HepMatrix::mcIter vpc = v.m.begin() + (row_start-1) * nv + (col_start-1);
    for (int r=row; r<=a->num_row();r++) {
-      double *arc = arcb;
-      double *wptr = w.m;
+      HepMatrix::mIter arc = arcb;
+      HepMatrix::mIter wptr = w.m.begin();
       for (c=col;c<=a->num_col();c++) {
 	 (*(arc++))+=(*vpc)*(*(wptr++));
       }
@@ -724,12 +724,12 @@ HepVector qr_solve(HepMatrix *A,const HepVector &b)
    HepMatrix Q=qr_decomp(A);
    // Quick way to to Q.T*b.
    HepVector b2(Q.num_col(),0);
-   double *b2r = b2.m;
-   double *Qr = Q.m;
+   HepMatrix::mIter b2r = b2.m.begin();
+   HepMatrix::mIter Qr = Q.m.begin();
    int n = Q.num_col();
    for (int r=1;r<=b2.num_row();r++) {
-      double *bc = b.m;
-      double *Qcr = Qr;
+      HepMatrix::mcIter bc = b.m.begin();
+      HepMatrix::mIter Qcr = Qr;
       for (int c=1;c<=b.num_row();c++) {
 	 *b2r += (*Qcr) * (*(bc++));
 	 Qcr += n;
@@ -754,14 +754,14 @@ HepMatrix qr_solve(HepMatrix *A,const HepMatrix &b)
    HepMatrix b2(Q.num_col(),b.num_col(),0);
    int nb = b.num_col();
    int nq = Q.num_col();
-   double *b1i = b.m;
-   double *b21i = b2.m;
+   HepMatrix::mcIter b1i = b.m.begin();
+   HepMatrix::mIter b21i = b2.m.begin();
    for (int i=1;i<=b.num_col();i++) {
-      double *Q1r = Q.m;
-      double *b2ri = b21i;
+      HepMatrix::mIter Q1r = Q.m.begin();
+      HepMatrix::mIter b2ri = b21i;
       for (int r=1;r<=b2.num_row();r++) {
-	 double *Qcr = Q1r;
-	 double *bci = b1i;
+	 HepMatrix::mIter Qcr = Q1r;
+	 HepMatrix::mcIter bci = b1i;
 	 for (int c=1;c<=b.num_row();c++) {
 	    *b2ri += (*Qcr) * (*bci);
 	    Qcr += nq;
@@ -793,14 +793,14 @@ void tridiagonal(HepSymMatrix *a,HepMatrix *hsm)
       // transformation.
 
       double scale=0;
-      double *ajk = a->m + k * (k+5) / 2;
+      HepMatrix::mIter ajk = a->m.begin() + k * (k+5) / 2;
       int j;
       for (j=k+2;j<=a->num_row();j++) {
 	 scale+=fabs(*ajk);
 	 ajk += j;
       }
       if (scale ==0) {
-	 double *hsmjkp = hsm->m + k * (nh+1) - 1;
+	 HepMatrix::mIter hsmjkp = hsm->m.begin() + k * (nh+1) - 1;
 	 for (j=k+1;j<=hsm->num_row();j++) {
 	    *hsmjkp = 0;
 	    hsmjkp += nh;
@@ -808,7 +808,7 @@ void tridiagonal(HepSymMatrix *a,HepMatrix *hsm)
       } else {
 	 house_with_update2(a,hsm,k+1,k);
 	 double normsq=0;
-	 double *hsmrptrkp = hsm->m + k * (nh+1) - 1;
+	 HepMatrix::mIter hsmrptrkp = hsm->m.begin() + k * (nh+1) - 1;
 	 int rptr;
 	 for (rptr=k+1;rptr<=hsm->num_row();rptr++) {
 	    normsq+=(*hsmrptrkp)*(*hsmrptrkp);
@@ -816,10 +816,10 @@ void tridiagonal(HepSymMatrix *a,HepMatrix *hsm)
 	 }
 	 HepVector p(a->num_row()-k,0);
 	 rptr=k+1;
-	 double *pr = p.m;
+	 HepMatrix::mIter pr = p.m.begin();
 	 int r;
 	 for (r=1;r<=p.num_row();r++) {
-	    double *hsmcptrkp = hsm->m + k * (nh+1) - 1;
+	    HepMatrix::mIter hsmcptrkp = hsm->m.begin() + k * (nh+1) - 1;
 	    int cptr;
 	    for (cptr=k+1;cptr<=rptr;cptr++) {
 	       (*pr)+=a->fast(rptr,cptr)*(*hsmcptrkp);
@@ -834,25 +834,25 @@ void tridiagonal(HepSymMatrix *a,HepMatrix *hsm)
 	    pr++;
 	 }
 	 double pdotv=0;
-	 pr = p.m;
-	 hsmrptrkp = hsm->m + k * (nh+1) - 1;
+	 pr = p.m.begin();
+	 hsmrptrkp = hsm->m.begin() + k * (nh+1) - 1;
 	 for (r=1;r<=p.num_row();r++) {
 	    pdotv+=(*(pr++))*(*hsmrptrkp);
 	    hsmrptrkp += nh;
 	 }
-	 pr = p.m;
-	 hsmrptrkp = hsm->m + k * (nh+1) - 1;
+	 pr = p.m.begin();
+	 hsmrptrkp = hsm->m.begin() + k * (nh+1) - 1;
 	 for (r=1;r<=p.num_row();r++) {
 	    (*(pr++))-=pdotv*(*hsmrptrkp)/normsq;
 	    hsmrptrkp += nh;
 	 }
 	 rptr=k+1;
-	 pr = p.m;
-	 hsmrptrkp = hsm->m + k * (nh+1) - 1;
+	 pr = p.m.begin();
+	 hsmrptrkp = hsm->m.begin() + k * (nh+1) - 1;
 	 for (r=1;r<=p.num_row();r++) {
 	    int cptr=k+1;
-	    double *pc = p.m;
-	    double *hsmcptrkp = hsm->m + k * (nh+1) - 1;
+	    HepMatrix::mIter pc = p.m.begin();
+	    HepMatrix::mIter hsmcptrkp = hsm->m.begin() + k * (nh+1) - 1;
 	    for (int c=1;c<=r;c++) {
 	       a->fast(rptr,cptr)-= (*hsmrptrkp)*(*(pc++))+(*pr)*(*hsmcptrkp);
 	       cptr++;
@@ -889,7 +889,7 @@ void col_house(HepMatrix *a,const HepMatrix &v,int row,int col,
    col_house(a,v,normsq,row,col,row_start,col_start);
 }
 
-void givens(double a, double b, double *c,double *s) 
+void givens(double a, double b, double *c, double *s) 
 {
    if (b ==0) { *c=1; *s=0; }
    else {
