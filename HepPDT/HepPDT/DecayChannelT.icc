@@ -1,4 +1,4 @@
-// $Id: DecayChannelT.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: DecayChannelT.icc,v 1.2 2004/04/21 07:38:30 pfeiffer Exp $
 // ----------------------------------------------------------------------
 //
 // DecayChannelT.icc
@@ -12,7 +12,7 @@ namespace HepPDT {
 template< class Config >
 DecayChannelT<Config>::DecayChannelT( const std::string & name, 
                  const Measurement & branchFrac, 
-                 const std::vector<PD > & decaylist, 
+                 const ProductMap & decaylist, 
                  const std::vector<double> & dmparam )
 : itsDecayName            ( name ),
   itsBranchingFraction    ( branchFrac ),
