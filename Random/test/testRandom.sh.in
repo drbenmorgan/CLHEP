@@ -1,0 +1,6 @@
+#! /bin/sh
+# @configure_input@
+
+
+./testRandom@EXEEXT@ < @srcdir@/testRandom.input \
+  | diff -q - @srcdir@/testRandom.output > /dev/null
