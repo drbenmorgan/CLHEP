@@ -1,3 +1,10 @@
+Wed Apr 21          2004 Lynn Garren <garren@fnal.gov>
+
+	* change version to CLHEP 2.0.0.1
+	
+	* fix Herwig and Isajet translation routines in HepPDT
+	  add translation checking tests
+
 Fri Oct 24          2003 Lynn Garren <garren@fnal.gov>
 
 	* tagged for CLHEP 2.0.0.0
