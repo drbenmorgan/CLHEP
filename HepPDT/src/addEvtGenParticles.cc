@@ -1,4 +1,4 @@
-// $Id: addEvtGenParticles.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: addEvtGenParticles.cc,v 1.2 2003/07/16 13:01:04 garren Exp $
 // ----------------------------------------------------------------------
 //
 // addEvtGenParticles.cc
@@ -9,6 +9,7 @@
 
 #include <string>
 #include <algorithm>	// min()
+#include <iostream>
 
 #include "HepPDT/defs.h"
 #if HAVE_SSTREAM
@@ -16,7 +17,6 @@
 #else
 #include "CLHEP/HepPDT/StringStream.h"
 #endif
-#include <iostream>
 #include "CLHEP/HepPDT/TempParticleData.hh"
 
 namespace HepPDT {

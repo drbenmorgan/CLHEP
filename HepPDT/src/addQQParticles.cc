@@ -1,4 +1,4 @@
-// $Id: addQQParticles.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: addQQParticles.cc,v 1.2 2003/07/16 13:01:04 garren Exp $
 // ----------------------------------------------------------------------
 //
 // addQQParticles.cc
@@ -9,6 +9,7 @@
 
 #include <iostream>
 
+#include "HepPDT/defs.h"
 #include "CLHEP/HepPDT/TempParticleData.hh"
 #include "CLHEP/HepPDT/QQStructs.hh"
 #include "CLHEP/HepPDT/QQDecay.hh"
