@@ -1,6 +1,12 @@
 ==============================
 29.11.04 Release CLHEP-1.9.1.2
 ==============================
+
+Tue Nov 30   2004 Andreas Pfeiffer <andreas.pfeiffer@cern.ch>
+
+	* Geometry/Plane3D.h: replaced wrong <float> by <T> in
+	Point3D<T> point(const Point3D<float> & p) const {
+
 ==============================
 10.10.04 Release CLHEP-1.9.1.1
 ==============================
