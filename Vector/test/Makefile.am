@@ -1,6 +1,7 @@
 # Applicable to each test program:
 INCLUDES = -I../
-LDADD = -L${top_builddir}/src  @Vector_LIBS@	# libraries to link, and whence
+# libraries to link, and whence
+LDADD = $(top_builddir)/@SRCLIB@/libCLHEP-@PACKAGE@-@VERSION@@LIBEXTENSION@	
 
 # Identify executables needed during testing:
 check_PROGRAMS = \

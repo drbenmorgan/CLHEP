@@ -56,6 +56,8 @@ AC_SUBST(Vector_LIBS)
 AC_SUBST(Vector_LDFLAGS)
 
 AC_SUBST(COPY_P)
+AC_SUBST(SRCLIB)
+AC_SUBST(LIBEXTENSION)
 
 # ----------------------------------------------------------------------
 # Supply boilerplate for Vector/defs.h source header:
@@ -185,6 +187,24 @@ powerpc-apple-darwin*)
   c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
   *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;; 
+esac
+
+# deal with libraries
+case "$target" in
+*-*-win32*)
+  case "$CXX" in
+  cl)  SRCLIB="src/.libs";LIBEXTENSION=".lib";;
+  g++) SRCLIB="src";LIBEXTENSION=".la";;
+  c++) SRCLIB="src";LIBEXTENSION=".la"
+  esac;;
+*-*-cygwin*)
+  case "$CXX" in
+  cl)  SRCLIB="src/.libs";LIBEXTENSION=".lib";;
+  g++) SRCLIB="src";LIBEXTENSION=".la";;
+  c++) SRCLIB="src";LIBEXTENSION=".la"
+  esac;;
+*-*-*)
+  SRCLIB="src";LIBEXTENSION=".la";;
 esac
 
 
