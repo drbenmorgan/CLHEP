@@ -1,0 +1,6 @@
+#! /bin/sh
+# @configure_input@
+
+
+./testXF@EXEEXT@ < @srcdir@/testXF.input \
+  | diff -q - @srcdir@/testXF.output > /dev/null
