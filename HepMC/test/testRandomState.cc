@@ -4,9 +4,9 @@
 // This program tests the random state information in GenEvent
 // The remainder of GenEvent is irrelevant for this test
 // 
-// This test uses the random() generator, which does not return state information
+// This test uses the rand() generator, which does not return state information
 // Therefore, we save the state by knowing the initial seed and 
-// how many times we called random()
+// how many times we called rand()
 // 
 //////////////////////////////////////////////////////////////////////////
 
@@ -32,8 +32,8 @@ long myRestore( const std::vector<unsigned long>& rv )
     long rnd=0;
     is = rv[0];
     ns = rv[1];
-    srandom(is);
-    for( iseq=0; iseq<ns; ++iseq ) { rnd = random(); }
+    srand(is);
+    for( iseq=0; iseq<ns; ++iseq ) { rnd = rand(); }
     return rnd;
 }
 
@@ -55,13 +55,13 @@ int main() {
     // clear our copy
     rs.clear(); 
     // set the seed for random
-    srandom(iseed);
-    for( iseq=0; iseq<12; ++iseq ) { rnd = random(); }
+    srand(iseed);
+    for( iseq=0; iseq<12; ++iseq ) { rnd = rand(); }
     savernd = rnd;
     std::cout << " saving state that produced " << rnd << std::endl;
     rs = myState( iseed, iseq);
     evt.set_random_states( rs );
-    for( iseq=0; iseq<14; ++iseq ) { rnd = random(); }
+    for( iseq=0; iseq<14; ++iseq ) { rnd = rand(); }
     std::cout << " throw more numbers, arriving at " << rnd << std::endl;
     rs = evt.random_states( );
     rnd = myRestore( rs );
