@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testUnits.cc,v 1.1 2003/07/22 16:38:04 garren Exp $
+// $Id: testUnits.cc,v 1.2 2003/08/06 18:31:22 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -19,9 +19,9 @@ int main() {
 
   double m=0;
   for (int i=0; i<7; i++, m++) { assert(m == double(i)); } 
-  assert(m != meter);  
+  assert(m != CLHEP::meter);  
 
   std::cout << "Speed of light is " << std::setw(10) << std::setprecision(8)
-	    << c_light << std::endl;
+	    << CLHEP::c_light << std::endl;
   return 0;
 }

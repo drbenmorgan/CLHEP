@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SystemOfUnits.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: SystemOfUnits.h,v 1.2 2003/08/06 18:31:22 garren Exp $
 // ----------------------------------------------------------------------
 // HEP coherent system of Units
 //
@@ -41,6 +41,7 @@
 #ifndef HEP_SYSTEM_OF_UNITS_H
 #define HEP_SYSTEM_OF_UNITS_H
 
+namespace CLHEP {
 
 // 
 // Length [L]
@@ -272,5 +273,7 @@ static const double lux = lumen/meter2;
 static const double perCent     = 0.01 ;
 static const double perThousand = 0.001;
 static const double perMillion  = 0.000001;
+
+}  // namespace CLHEP
 
 #endif /* HEP_SYSTEM_OF_UNITS_H */

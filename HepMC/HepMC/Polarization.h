@@ -16,7 +16,7 @@
 
 namespace HepMC {
 
-    static const double HepMC_pi = pi; // use pi from CLHEP
+    static const double HepMC_pi = CLHEP::pi; // use pi from CLHEP
     
     /**
      * @author

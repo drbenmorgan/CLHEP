@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: PhysicalConstants.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: PhysicalConstants.h,v 1.2 2003/08/06 18:31:22 garren Exp $
 // ----------------------------------------------------------------------
 // HEP coherent Physical Constants
 //
@@ -38,6 +38,8 @@
 #define HEP_PHYSICAL_CONSTANTS_H
 
 #include "CLHEP/Units/SystemOfUnits.h"
+
+namespace CLHEP {
 
 //
 //
@@ -124,6 +126,8 @@ static const double kGasThreshold   = 10.*mg/cm3;
 //
 //
 static const double universe_mean_density = 1.e-25*g/cm3;
+
+}  // namespace CLHEP
 
 #endif /* HEP_PHYSICAL_CONSTANTS_H */
 
