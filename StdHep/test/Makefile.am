@@ -27,7 +27,7 @@ TESTS = \
 XFAIL_TESTS = 
 
 # Identify the dependencies on a per-test basis:
-testStdRandom_SOURCES      = testStdRandom.cc
+testStdRandom_SOURCES      = testStdRandom.cc SimpleRand.cc
 
 # Identify input data file(s) and prototype output file(s):
 #EXTRA_DIST = 
