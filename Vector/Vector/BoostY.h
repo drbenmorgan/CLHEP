@@ -168,7 +168,7 @@ public:
 
   // ---------- Operations in the group of 4-Rotations
 
-  inline HepBoostY   operator * (const HepBoostY & b) const;
+  HepBoostY   operator * (const HepBoostY & b) const;
   HepLorentzRotation operator * (const HepBoost & b) const;
   HepLorentzRotation operator * (const HepRotation & r) const;
   HepLorentzRotation operator * (const HepLorentzRotation & lt) const;
@@ -210,6 +210,10 @@ protected:
   double  gamma_;
 
 };  // HepBoostY
+
+inline   
+std::ostream & operator << 
+	( std::ostream & os, const HepBoostY& b ) {return b.print(os);}
 
 }  // namespace CLHEP
 

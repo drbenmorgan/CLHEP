@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Rotation.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Rotation.icc,v 1.2 2003/10/10 21:42:35 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -342,7 +342,7 @@ inline HepRotation operator * (const HepRotationZ & rz, const HepRotation & r){
   double s = rz.yx();
   return HepRotation (  c*m.xx_-s*m.yx_, c*m.xy_-s*m.yy_, c*m.xz_-s*m.yz_,
                         s*m.xx_+c*m.yx_, s*m.xy_+c*m.yy_, s*m.xz_+c*m.yz_,
-                              m.zx_,           m.zy_,          m.xz_       );
+                              m.zx_,           m.zy_,          m.zz_       );
 }
 
 }  // namespace CLHEP

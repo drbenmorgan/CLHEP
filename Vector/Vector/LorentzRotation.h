@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: LorentzRotation.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: LorentzRotation.h,v 1.2 2003/10/10 21:42:35 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -65,8 +65,14 @@ public:
   inline  HepLorentzRotation       (const HepLorentzRotation & r);
   // Copy constructor.
 
-  inline  HepLorentzRotation       (const HepRotation & r);
-  inline  HepLorentzRotation       (const HepBoost    & b);
+  inline           HepLorentzRotation (const HepRotation  & r);
+  inline  explicit HepLorentzRotation (const HepRotationX & r);
+  inline  explicit HepLorentzRotation (const HepRotationY & r);
+  inline  explicit HepLorentzRotation (const HepRotationZ & r);
+  inline           HepLorentzRotation (const HepBoost  &    b);
+  inline  explicit HepLorentzRotation (const HepBoostX &    b);
+  inline  explicit HepLorentzRotation (const HepBoostY &    b);
+  inline  explicit HepLorentzRotation (const HepBoostZ &    b);
   // Constructors from special cases.  
 
   inline HepLorentzRotation & operator = (const HepLorentzRotation & m);
@@ -74,9 +80,16 @@ public:
   inline HepLorentzRotation & operator = (const HepBoost           & m);
   // Assignment.
 
-  HepLorentzRotation & set (double bx, double by, double bz);
+         HepLorentzRotation & set (double bx, double by, double bz);
   inline HepLorentzRotation & set (const Hep3Vector & p);
+  inline HepLorentzRotation & set (const HepRotation  & r);
+  inline HepLorentzRotation & set (const HepRotationX & r);
+  inline HepLorentzRotation & set (const HepRotationY & r);
+  inline HepLorentzRotation & set (const HepRotationZ & r);
   inline HepLorentzRotation & set (const HepBoost & boost);
+  inline HepLorentzRotation & set (const HepBoostX & boost);
+  inline HepLorentzRotation & set (const HepBoostY & boost);
+  inline HepLorentzRotation & set (const HepBoostZ & boost);
   inline HepLorentzRotation (double bx, double by, double bz);
   inline HepLorentzRotation (const Hep3Vector & p);
   // Other Constructors giving a Lorentz-boost.
@@ -295,10 +308,6 @@ public:
   inline HepLorentzRotation inverse() const;
   // Return the inverse.
 
-  inline friend HepLorentzRotation inverseOf 
-					( const Hep4RotationInterface & lt );
-  // global method to invert.
-
   inline HepLorentzRotation & invert();
   // Inverts the LorentzRotation matrix.
 
@@ -334,6 +343,36 @@ protected:
   // The matrix elements.
 
 };  // HepLorentzRotation
+
+inline std::ostream & operator<<
+		( std::ostream & os, const  HepLorentzRotation& lt ) 
+  {return lt.print(os);}
+
+inline bool operator==(const HepRotation &r, const HepLorentzRotation & lt)
+  { return lt==r; }
+inline bool operator!=(const HepRotation &r, const HepLorentzRotation & lt)
+  { return lt!=r; }
+inline bool operator<=(const HepRotation &r, const HepLorentzRotation & lt)
+  { return lt<=r; }
+inline bool operator>=(const HepRotation &r, const HepLorentzRotation & lt)
+  { return lt>=r; }
+inline bool operator<(const HepRotation &r, const HepLorentzRotation & lt)
+  { return lt<r; }
+inline bool operator>(const HepRotation &r, const HepLorentzRotation & lt)
+  { return lt>r; }
+
+inline bool operator==(const HepBoost &b, const HepLorentzRotation & lt)
+  { return lt==b; }
+inline bool operator!=(const HepBoost &b, const HepLorentzRotation & lt)
+  { return lt!=b; }
+inline bool operator<=(const HepBoost &b, const HepLorentzRotation & lt)
+  { return lt<=b; }
+inline bool operator>=(const HepBoost &b, const HepLorentzRotation & lt)
+  { return lt>=b; }
+inline bool operator<(const HepBoost &b, const HepLorentzRotation & lt)
+  { return lt<b; }
+inline bool operator>(const HepBoost &b, const HepLorentzRotation & lt)
+  { return lt>b; }
 
 }  // namespace CLHEP
 

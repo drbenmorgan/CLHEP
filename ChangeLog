@@ -1,3 +1,55 @@
+Fri Oct 10          2003 Mark Fischler <mf@fnal.gov>
+
+	* ZMxpv.h and ZMxpv.cc
+	
+	Modified the ZZMthrowA and ZMthrowC macros such that the package
+	never calls exit(), throwing an exception instead.  Existing code
+	in entire package was already instrumented to throw the various
+	exceptions. 
+	
+	* Boost.h and Boost.icc and Boost.cc
+	
+	Correct a typo in Boost::vectorMutiplication() [that is, boost*4vector].
+	This affected off-axis boosts applied to a LorentzVector when the 
+	x- and/or y- components of both the Boost and the LorentzVector are 
+	not small. Boosts in the z-direction are unaffected and Boosts 
+	dominantly in the z-direction suffered only second-order effects. 
+
+	Repair a bug in LorentzVector::deltaR() which could return large 
+	values when the phi values are close to + and - pi respectively,
+	for two vectors which are actually near each other.
+	
+	Rectify misbehaviour when isNear() is taken between a specialized
+	or general Boost and a general LorentzRotation.
+	
+	Supply output operator.
+
+	* BoostX.cc, BoostY.cc, BoostZ.cc
+	
+	Rectify misbehaviour when isNear() is taken between a specialized
+	or general Boost and a general LorentzRotation.
+
+	Supply output operators.
+	
+	* LorentzRotation.cc
+	
+	Multiplication by specialized rotations
+
+	More efficient multiplicatio by a rotation
+
+	*LorentzVectorC.cc
+
+	Correction in isNear for two vectors both close to -Z axis.
+	
+	* RotationE.cc	
+	
+	Methods to find EUler angles phi() and psi() now forgiving of
+	cos phi apparently slightly above 1 due to roundoff error.
+
+Fri Oct 10          2003 Lynn Garren <garren@fnal.gov>
+
+	* HepMC 1.24 changes merged with CLHEP/HepMC
+
 Tue Jul 22 17:40:39 CDT 2003  Lynn Garren <garren@fnal.gov>
 
 	* Alpha release of the CLHEP split

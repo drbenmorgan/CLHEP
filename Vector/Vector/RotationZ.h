@@ -226,9 +226,6 @@ public:
 
  // ---------- Operations in the group of Rotations
 
-  inline HepRotation operator * (const Hep3RotationInterface & r) const;
-  // Product of two rotations (this) * r - matrix multiplication
-
   inline HepRotationZ operator * (const HepRotationZ & rz) const;
   // Product of two Z rotations:  (this) * rz is known to be RotationZ.
 
@@ -275,6 +272,10 @@ protected:
   // Put an angle into the range of (-PI, PI].  Useful helper method.
 
 };  // HepRotationZ
+
+inline   
+std::ostream & operator << 
+	( std::ostream & os, const HepRotationZ & r ) {return r.print(os);}
 
 // ---------- Free-function operations in the group of Rotations
 

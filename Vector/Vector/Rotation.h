@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: Rotation.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Rotation.h,v 1.2 2003/10/10 21:42:35 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -404,6 +404,10 @@ private:
                       Hep3Vector & v2,
                       Hep3Vector & v3) const;
 };  // HepRotation
+
+inline   
+std::ostream & operator << 
+	( std::ostream & os, const HepRotation & r ) {return r.print(os);}
 
 }  // namespace CLHEP
 

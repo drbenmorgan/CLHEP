@@ -273,6 +273,10 @@ protected:
 };  // HepRotationX
 // ---------- Free-function operations in the group of Rotations
 
+inline   
+std::ostream & operator << 
+	( std::ostream & os, const HepRotationX & r ) {return r.print(os);}
+
 }  // namespace CLHEP
 
 #include "CLHEP/Vector/RotationX.icc"

@@ -11,13 +11,17 @@
 //  With no special defines, this file will produce code for pure CLHEP 
 //  building -- no ZOOM Exceptions are involved.
 //
-//  To force a build using ZOOM Exceptions where the ZMthorw macros appear,
+//  To force a build using ZOOM Exceptions where the ZMthrow macros appear,
 //  compile with ENABLE_ZOOM_EXCEPTIONS defined.
 //
 // ----------------------------------------------------------------------
 
-#undef  ENABLE_ZOOM_EXCEPTIONS 	// For CLHEP builds 
+//#undef  ENABLE_ZOOM_EXCEPTIONS 	// For CLHEP builds 
 //#define ENABLE_ZOOM_EXCEPTIONS    	// For ZOOM  builds
+
+// There should be some external way to control this.  We haven't found it yet.
+// Right now, this must be changed by hand when going between CLHEP and ZOOM.
+#undef  ENABLE_ZOOM_EXCEPTIONS 	
 
   // Member functions of the Vector classes are capable of ZMthrow-ing the
   // following ZMexception's:
@@ -107,40 +111,74 @@
 //  This is the CLHEP version.  When compiled for CLHEP, the basic CLHEP 
 //  Vector classes will not (at least for now) depend on ZOOM Exceptions.  
 //  Though this header lists the various sorts of Exceptions that could be 
-//  thrown, ZMthrow.h in the pure CLHEP context will make ZMthrowA and 
-//  ZMthrowC do what CLHEP has always done:  whine to cerr about the problem 
-//  and exit (or continue in the ZMthrowC case).
+//  thrown, ZMthrow.h in the pure CLHEP context will make ZMthrowC  
+//  do what CLHEP has always done:  whine to cerr about the problem 
+//  and continue.
+//  ZMthrowA will whine to cerr and throw an exception; by catching the
+//  exception as a std::exception, the outside code can call e.what() to 
+//  find the message string.
 //
 //	If CLHEP ever embraces the ZOOM Exceptions mechanism, we will simply
 //	modify this file.
 
+#include <string>
+#include <exception>
 
-#define ZMthrowA(A) do { std::cerr << A << "\n" <<                \
-  "at line " << __LINE__ << " in file " << __FILE__ << "\n"; \
-  std::exit(-1); } while (0)
+#define ZMthrowA(A) do { std::cerr << A.name() << " thrown:\n" 	   \
+             <<   A.what() << "\n" 					   \
+	     << "at line " << __LINE__ << " in file " << __FILE__ << "\n"; \
+  throw A;} while (0)
 
-#define ZMthrowC(A) do { std::cerr << A << "\n" <<                \
-  "at line " << __LINE__ << " in file " << __FILE__ << "\n"; \
+#define ZMthrowC(A) do { std::cerr << A.name() << ":\n" 		   \
+             <<   A.what() << "\n" 					   \
+	     << "at line " << __LINE__ << " in file " << __FILE__ << "\n"; \
   } while (0)
 
-#define ZMxPhysicsVectors(x) x
-#define ZMxpvInfiniteVector(x) x
-#define ZMxpvZeroVector(x) x
-#define ZMxpvTachyonic(x) x
-#define ZMxpvSpacelike(x) x
-#define ZMxpvInfinity(x) x
-#define ZMxpvNegativeMass(x) x
-#define ZMxpvAmbiguousAngle(x) x
-#define ZMxpvNegativeR(x) x
-#define ZMxpvUnusualTheta(x) x
-#define ZMxpvVectorInputFails(x) x
-#define ZMxpvParallelCols(x) x
-#define ZMxpvImproperRotation(x) x
-#define ZMxpvImproperTransformation(x) x
-#define ZMxpvIndexRange(x) x
-#define ZMxpvNotOrthogonal(x) x
-#define ZMxpvNotSymplectic(x) x
-#define ZMxpvFixedAxis(x) x
+class CLHEP_vector_exception : public std::exception {
+public:
+    CLHEP_vector_exception ( const std::string & s ) throw();
+    virtual const char* what() const throw();
+    virtual const char* name() const throw() = 0; 
+    virtual ~CLHEP_vector_exception() throw() {} 
+  private:								
+    std::string message;  
+};
+
+#define CLHEP_vector_exception_header(NAME) 				\
+  class NAME : public CLHEP_vector_exception {				\
+  public:								\
+    NAME ( const std::string & s ) throw();				\
+    virtual const char* name() const throw();  				\
+    virtual ~NAME() throw() {}						\
+  };
+
+
+// The following exceptions might be encountered via ZMtrhowA
+
+CLHEP_vector_exception_header( ZMxPhysicsVectors )
+CLHEP_vector_exception_header( ZMxpvSpacelike )
+CLHEP_vector_exception_header( ZMxpvNegativeMass )
+CLHEP_vector_exception_header( ZMxpvVectorInputFails )
+CLHEP_vector_exception_header( ZMxpvIndexRange )
+CLHEP_vector_exception_header( ZMxpvFixedAxis )
+
+// The following are sometimes ZMthrowA and sometimes ZMthrowC
+
+CLHEP_vector_exception_header( ZMxpvTachyonic )
+CLHEP_vector_exception_header( ZMxpvZeroVector )
+CLHEP_vector_exception_header( ZMxpvImproperTransformation )
+CLHEP_vector_exception_header( ZMxpvInfiniteVector )
+CLHEP_vector_exception_header( ZMxpvInfinity )
+CLHEP_vector_exception_header( ZMxpvImproperRotation )
+CLHEP_vector_exception_header( ZMxpvAmbiguousAngle )
+
+// THe following won't throw; they are encountered via ZMthrowC
+
+CLHEP_vector_exception_header( ZMxpvNegativeR )
+CLHEP_vector_exception_header( ZMxpvUnusualTheta )
+CLHEP_vector_exception_header( ZMxpvParallelCols )
+CLHEP_vector_exception_header( ZMxpvNotOrthogonal )
+CLHEP_vector_exception_header( ZMxpvNotSymplectic )
 
 #endif // endif for ifndef ENABLE_ZOOM_EXCEPTIONS 
 

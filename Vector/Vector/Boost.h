@@ -70,6 +70,13 @@ public:
   inline HepBoost       (const Hep3Vector & boost);
   // Constructor from a 3-vector of less than unit length
 
+  inline HepBoost & set (const HepBoostX & boost);
+  inline HepBoost & set (const HepBoostY & boost);
+  inline HepBoost & set (const HepBoostZ & boost);
+  inline HepBoost       (const HepBoostX & boost);
+  inline HepBoost       (const HepBoostY & boost);
+  inline HepBoost       (const HepBoostZ & boost);
+
   // ----------  Accessors:
 
   inline double  beta()  const;
@@ -217,9 +224,9 @@ protected:
 
   inline HepBoost
        (double xx, double xy, double xz, double xt,
-		      double yy, double yz, double yt,
-				    double zz, double zt,
-						  double tt);
+		   double yy, double yz, double yt,
+			      double zz, double zt,
+					 double tt);
   // Protected constructor.
   // DOES NOT CHECK FOR VALIDITY AS A LORENTZ BOOST.
 
@@ -228,6 +235,10 @@ protected:
   HepRep4x4Symmetric rep_;
 
 };  // HepBoost
+
+inline   
+std::ostream & operator << 
+	( std::ostream & os, const HepBoost& b ) {return b.print(os);}
 
 }  // namespace CLHEP
 

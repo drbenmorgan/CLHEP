@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: LorentzVector.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: LorentzVector.icc,v 1.2 2003/10/10 21:42:35 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -234,7 +234,7 @@ inline double HepLorentzVector::eta( const Hep3Vector & ref ) const {
 
 inline HepLorentzVector &
 HepLorentzVector::operator *= (const HepRotation & m) {
-  pp *= m;
+  pp.transform(m);
   return *this;
 }
 

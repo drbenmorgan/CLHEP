@@ -225,9 +225,6 @@ public:
   // Multiplication with a HepLorentzVector.
 
   // ---------- Operations in the group of Rotations
-                    
-  inline HepRotation operator * (const Hep3RotationInterface & r) const;
-  // Product of two rotations: (this) * r - matrix multiplication
 
   inline HepRotationY operator * (const HepRotationY & ry) const;
   // Product of two Y rotations (this) * ry is known to be RotationY.
@@ -275,6 +272,10 @@ protected:
 };  // HepRotationY
 
 // ---------- Free-function operations in the group of Rotations
+
+inline   
+std::ostream & operator << 
+	( std::ostream & os, const HepRotationY & r ) {return r.print(os);}
 
 }  // namespace CLHEP
 

@@ -74,7 +74,7 @@ Formulas and Definitions}
 
 \author{
 Fermilab ``ZOOM'' Physics Class Library Task Force}
-\date{Version 2.0, November 22, 2000}
+\date{Version 2.3, September 2, 2003}
 \maketitle
 
 The CLHEP Vector package implements 3-vectors, 4-vectors, rotations, 
@@ -95,7 +95,7 @@ mathematical definitions.
 In this document we somewhat abbreviate the signatures of methods,
 since coders will look at the header files anyway.  
 Any arguments specified without an explicit data type
-are of the scalar type {\tt double}, which is just {\tt double} on
+are of the scalar type {\tt HepDouble}, which is just {\tt double} on
 virtually every system.
 Unless otherwise indicated,
 parameter passage for scalars is by value,
@@ -193,8 +193,8 @@ The following class-wide (static) functions are used
 to obtain and set the default tolerance for nearness.
 
 \begin{shortlist}
-  \item double setTolerance( tol )	\see{\ref{eq:epsildef}}
-  \item double getTolerance(~)
+  \item HepDouble setTolerance( tol )	\see{\ref{eq:epsildef}}
+  \item HepDouble getTolerance(~)
 \end{shortlist}
 
 
@@ -205,22 +205,22 @@ to obtain and set the default tolerance for nearness.
   \item istream \& operator$>>$( istream \& is, Hep3Vector \& v )
 \end{shortlist}
 \begin{shortlist}
-  \item double dot( v ) \see{\ref{eq:dot}}
+  \item HepDouble dot( v ) \see{\ref{eq:dot}}
   \item Hep3Vector cross( v ) \see{\ref{eq:cross}}
-  \item double diff2( v ) \see{\ref{eq:diff2}}
+  \item HepDouble diff2( v ) \see{\ref{eq:diff2}}
   \item bool isParallel( v, epsilon ) \see{\ref{eq:isPar}}
   \item bool isOrthogonal( v, epsilon ) \see{\ref{eq:isOrtho}}
-  \item double howParallel( v ) \see{\ref{eq:howPar}, \ref{eq:howPar:2}}
-  \item double howOrthogonal( v ) \see{\ref{eq:howOrtho}, \ref{eq:howOrtho:2}}
+  \item HepDouble howParallel( v ) \see{\ref{eq:howPar}, \ref{eq:howPar:2}}
+  \item HepDouble howOrthogonal( v ) \see{\ref{eq:howOrtho}, \ref{eq:howOrtho:2}}
 \end{shortlist}
 
 \begin{shortlist}
-  \item double mag2(~) \see{\ref{eq:mag2}}
-  \item double mag(~) \see{\ref{eq:mag}, \ref{eq:mag:2}}
-  \item double beta(~) \see{\ref{eq:beta}}
-  \item double gamma(~) \see{\ref{eq:gamma}}
-  \item double pseudoRapidity(~) \see{\ref{eq:spherical}}
-  \item double coLinearRapidity(~) \see{\ref{eq:coLinRap}}
+  \item HepDouble mag2(~) \see{\ref{eq:mag2}}
+  \item HepDouble mag(~) \see{\ref{eq:mag}, \ref{eq:mag:2}}
+  \item HepDouble beta(~) \see{\ref{eq:beta}}
+  \item HepDouble gamma(~) \see{\ref{eq:gamma}}
+  \item HepDouble pseudoRapidity(~) \see{\ref{eq:spherical}}
+  \item HepDouble coLinearRapidity(~) \see{\ref{eq:coLinRap}}
   \item Hep3Vector unit(~) \see{\ref{eq:svunit}}
   \item Hep3Vector orthogonal(~) \see{\ref{eq:orthogonal}}
 \end{shortlist}
@@ -232,18 +232,19 @@ the reference direction are also supplied---$\hat{z}$ is implied in these
 cases and the methods take advantage of the simpler form.
 
 \begin{shortlist}
-  \item double perp( u ) \see{\ref{eq:perp}}
-  \item double perp2( u ) \see{\ref{eq:perp2}}
+  \item HepDouble perp( u ) \see{\ref{eq:perp}}
+  \item HepDouble perp2( u ) \see{\ref{eq:perp2}}
   \item SpaceVector perpPart( u ) \see{\ref{eq:perpPart}}
   \item SpaceVector project( u ) \see{\ref{eq:project}}
-  \item double angle( u ) \see{\ref{eq:angle}}
-  \item double theta( u ) \see{\ref{eq:theta}}
-  \item double cosTheta( u ) \see{\ref{eq:cosTheta}}
-  \item double cos2Theta( u ) \see{\ref{eq:cos2Theta}}
-  \item double eta( u ) \see{\ref{eq:eta}, \ref{eq:eta:2}, \ref{eq:eta:3}, \ref{eq:eta:4}}
-  \item double polarAngle( v2, u ) \see{\ref{eq:polarA}, \ref{eq:polarA:2}}
-  \item double azimAngle( v2, u ) \see{\ref{eq:azim}, \ref{eq:azim:2}}
-  \item double rapidity( u ) \see{\ref{eq:rap}, \ref{eq:rap:2}}
+  \item HepDouble angle( u ) \see{\ref{eq:angle}}
+  \item HepDouble theta( u ) \see{\ref{eq:theta}}
+  \item HepDouble cosTheta( u ) \see{\ref{eq:cosTheta}}
+  \item HepDouble cos2Theta( u ) \see{\ref{eq:cos2Theta}}
+  \item HepDouble eta( u ) \see{\ref{eq:eta}, \ref{eq:eta:2}, \ref{eq:eta:3}, \ref{eq:eta:4}}
+  \item HepDouble polarAngle( v2, u ) \see{\ref{eq:polarA}, \ref{eq:polarA:2}}
+  \item HepDouble deltaPhi( v2 ) \see{\ref{eq:azim}}
+  \item HepDouble azimAngle( v2, u ) \see{\ref{eq:azim}, \ref{eq:azim:2}}
+  \item HepDouble rapidity( u ) \see{\ref{eq:rap}, \ref{eq:rap:2}}
 \end{shortlist}
 
 \subsubsection{Rotations}
@@ -420,10 +421,10 @@ An enum is nested in the {\tt HepLorentzVector} class to help clarify this:
 
 The spatial components can also be accessed in spherical coordinates:
 \begin{shortlist}
-  \item double theta() const;
-  \item double cosTheta() const;
-  \item double phi() const;
-  \item double rho() const;
+  \item HepDouble theta() const;
+  \item HepDouble cosTheta() const;
+  \item HepDouble phi() const;
+  \item HepDouble rho() const;
 \end{shortlist}
 
 \noindent
@@ -433,13 +434,13 @@ one component in Cartesian or spherical coordinates, or the $\rho$
 cylindrical coordinate,
 keeping the other components in that system constant.  
 \begin{shortlist}
-  \item setX(double);  \/\/\/ setPx(double);  
-  \item setY(double);  \/\/\/ setPy(double);  
-  \item setZ(double);  \/\/\/ setPz(double);  
-  \item setT(double);  \/\/\/ setE(double);  
-  \item setTheta(double); \see{\ref{eq:polar}}
-  \item setPhi(double);   \see{\ref{eq:polar}}
-  \item setRho(double); \/\/\/  setPerp(double); 
+  \item setX(HepDouble);  \/\/\/ setPx(HepDouble);  
+  \item setY(HepDouble);  \/\/\/ setPy(HepDouble);  
+  \item setZ(HepDouble);  \/\/\/ setPz(HepDouble);  
+  \item setT(HepDouble);  \/\/\/ setE(HepDouble);  
+  \item setTheta(HepDouble); \see{\ref{eq:polar}}
+  \item setPhi(HepDouble);   \see{\ref{eq:polar}}
+  \item setRho(HepDouble); \/\/\/  setPerp(HepDouble); 
 						\see{\ref{eq:cylindrical}}
 \end{shortlist}
 
@@ -447,7 +448,7 @@ The entire spatial component can be set at once, keeping the time component
 constant.
 
 \begin{shortlist}
-  \item setVect(double);  \/\/\/ setV(double);  
+  \item setVect(HepDouble);  \/\/\/ setV(HepDouble);  
 \end{shortlist}
 
 \noindent
@@ -496,12 +497,12 @@ to check for equality, etc., within a relative tolerance.
 
 \begin{shortlist}
   \item bool isNear( p, epsilon ) \see{\ref{eq:wisNear}}
-  \item double howNear( p ) \see{\ref{eq:whowNear}, \ref{eq:whowNear:2}}
+  \item HepDouble howNear( p ) \see{\ref{eq:whowNear}, \ref{eq:whowNear:2}}
   \item bool isNearCM( p, epsilon ) \see{\ref{eq:wisNearCM}, \ref{eq:wisNearCM:2}}
-  \item double howNearCM( p ) \see{\ref{eq:whowNearCM}, \ref{eq:whowNearCM:2}}
+  \item HepDouble howNearCM( p ) \see{\ref{eq:whowNearCM}, \ref{eq:whowNearCM:2}}
   \item bool isParallel( p, epsilon ) \see{\ref{eq:wisPar}, \ref{eq:wisPar:2}}
-  \item double howParallel( p) \see{\ref{eq:whowPar}, \ref{eq:whowPar:2}}
-  \item double deltaR( p ) \see{\ref{eq:deltaR}}
+  \item HepDouble howParallel( p) \see{\ref{eq:whowPar}, \ref{eq:whowPar:2}}
+  \item HepDouble deltaR( p ) \see{\ref{eq:deltaR}}
 \end{shortlist}
 
 \noindent
@@ -510,8 +511,8 @@ The following class-wide (static) functions are used
 to obtain and set the default tolerance for nearness.
 
 \begin{shortlist}
-  \item double setTolerance( double tol )
-  \item double getTolerance(~)
+  \item HepDouble setTolerance( HepDouble tol )
+  \item HepDouble getTolerance(~)
 \end{shortlist}
 
 \subsubsection{Methods}
@@ -534,28 +535,28 @@ TimePositive to the TimeNegative metric):
   \item bool isSpacelike(~) \see{\ref{eq:wisSl}}
   \item bool isTimelike(~) \see{\ref{eq:wisTl}}
   \item bool isLightlike( epsilon ) \see{\ref{eq:wisLl}}
-  \item double howLightlike(~) \see{\ref{eq:whowLl}, \ref{eq:whowLl:2}}
-  \item double plus(~)  \see{\ref{eq:wplus}}
-  \item double minus(~) \see{\ref{eq:wminus}}
-  \item double euclideanNorm2(~)  \see{\ref{eq:wENorm2}}
-  \item double euclideanNorm(~)  \see{\ref{eq:wENorm}}
-  \item double restMass2(~) \see{\ref{eq:wrestM2}}
-  \item double restMass(~) \see{\ref{eq:wrestM}}
-  \item double m2(~) \see{\ref{eq:winvMass2}}
-  \item double invariantMass2(~) \see{\ref{eq:winvMass2}}
-  \item double m(~) \/\/\/ mag(~) \see{\ref{eq:wmag}}
-  \item double invariantMass(~) \see{\ref{eq:winvMass}}
-  \item double mt2(~) \see{\ref{eq:wmt2}}
-  \item double mt(~) \see{\ref{eq:wmt}}
-  \item double et2(~) \see{\ref{eq:wet2}}
-  \item double et(~) \see{\ref{eq:wet}}
+  \item HepDouble howLightlike(~) \see{\ref{eq:whowLl}, \ref{eq:whowLl:2}}
+  \item HepDouble plus(~)  \see{\ref{eq:wplus}}
+  \item HepDouble minus(~) \see{\ref{eq:wminus}}
+  \item HepDouble euclideanNorm2(~)  \see{\ref{eq:wENorm2}}
+  \item HepDouble euclideanNorm(~)  \see{\ref{eq:wENorm}}
+  \item HepDouble restMass2(~) \see{\ref{eq:wrestM2}}
+  \item HepDouble restMass(~) \see{\ref{eq:wrestM}}
+  \item HepDouble m2(~) \see{\ref{eq:winvMass2}}
+  \item HepDouble invariantMass2(~) \see{\ref{eq:winvMass2}}
+  \item HepDouble m(~) \/\/\/ mag(~) \see{\ref{eq:wmag}}
+  \item HepDouble invariantMass(~) \see{\ref{eq:winvMass}}
+  \item HepDouble mt2(~) \see{\ref{eq:wmt2}}
+  \item HepDouble mt(~) \see{\ref{eq:wmt}}
+  \item HepDouble et2(~) \see{\ref{eq:wet2}}
+  \item HepDouble et(~) \see{\ref{eq:wet}}
   \item LorentzVector rest4Vector(~) \see{\ref{eq:wrest4V}}
   \item SpaceVector boostVector(~) \see{\ref{boostvector}}
-  \item double beta(~) \see{\ref{eq:wbeta}}
-  \item double gamma(~) \see{\ref{eq:wgamma}}
-  \item double eta(~) \see{\ref{eq:weta}, \ref{eq:weta:2}, \ref{eq:weta:3}}
-  \item double rapidity(~) \see{\ref{eq:wrapid}, \ref{eq:wrapid:2}}
-  \item double coLinearRapidity(~) \see{\ref{eq:wcoLinRap}, \ref{eq:wcoLinRap:2}}
+  \item HepDouble beta(~) \see{\ref{eq:wbeta}}
+  \item HepDouble gamma(~) \see{\ref{eq:wgamma}}
+  \item HepDouble eta(~) \see{\ref{eq:weta}, \ref{eq:weta:2}, \ref{eq:weta:3}}
+  \item HepDouble rapidity(~) \see{\ref{eq:wrapid}, \ref{eq:wrapid:2}}
+  \item HepDouble coLinearRapidity(~) \see{\ref{eq:wcoLinRap}, \ref{eq:wcoLinRap:2}}
   \item SpaceVector findBoostToCM(~) \see{\ref{eq:wfindBoost}}
 \end{shortlist}
 
@@ -564,28 +565,28 @@ Metric-dependent properties of this 4-vector:
 (the results of these methods change sign if you go from the
 TimePositive to the TimeNegative metric):
 \begin{shortlist}
-  \item double mag2(~) \see{\ref{eq:wmag2}}
+  \item HepDouble mag2(~) \see{\ref{eq:wmag2}}
 \end{shortlist}
 
 \noindent
 Metric-independent methods combining two 4-vectors:
 \begin{shortlist}
-  \item double delta2Euclidean( p ) \see{\ref{eq:wdelta2E}}
-  \item double plus( p ) \see{\ref{eq:wplus:2}}
-  \item double minus( p ) \see{\ref{eq:wminus:2}}
-  \item double eta( p ) \see{\ref{eq:weta}, \ref{eq:weta:2}, \ref{eq:weta:3}, \ref{eq:weta:4}}
-  \item double rapidity( p ) \see{\ref{eq:wrapid}, \ref{eq:wrapid:2}, \ref{eq:wrapid:3}, \ref{eq:wrapid:4}}  
-  \item double invariantMass2( p ) \see{\ref{eq:winvMass2}}
-  \item double invariantMass( p ) \see{\ref{eq:winvMass}}
+  \item HepDouble delta2Euclidean( p ) \see{\ref{eq:wdelta2E}}
+  \item HepDouble plus( p ) \see{\ref{eq:wplus:2}}
+  \item HepDouble minus( p ) \see{\ref{eq:wminus:2}}
+  \item HepDouble eta( p ) \see{\ref{eq:weta}, \ref{eq:weta:2}, \ref{eq:weta:3}, \ref{eq:weta:4}}
+  \item HepDouble rapidity( p ) \see{\ref{eq:wrapid}, \ref{eq:wrapid:2}, \ref{eq:wrapid:3}, \ref{eq:wrapid:4}}  
+  \item HepDouble invariantMass2( p ) \see{\ref{eq:winvMass2}}
+  \item HepDouble invariantMass( p ) \see{\ref{eq:winvMass}}
   \item SpaceVector findBoostToCM( p ) \see{\ref{eq:wfindBoost}}
 \end{shortlist}
 
 \noindent
 Metric-dependent methods combining two 4-vectors:
 \begin{shortlist}
-  \item double dot( p ) \see{\ref{eq:wdot}, \ref{eq:wdot:2}}
-  \item double operator*( p ) \see{\ref{eq:wdot}, \ref{eq:wdot:2}}
-  \item double diff2( p ) \see{\ref{eq:wdiff2}}
+  \item HepDouble dot( p ) \see{\ref{eq:wdot}, \ref{eq:wdot:2}}
+  \item HepDouble operator*( p ) \see{\ref{eq:wdot}, \ref{eq:wdot:2}}
+  \item HepDouble diff2( p ) \see{\ref{eq:wdiff2}}
 \end{shortlist}
 
 
@@ -596,14 +597,14 @@ syntax is shorter).
 Most of these take a reference direction v; if v is omitted,
 $\hat{z}$ is implied and the methods take advantage of the simpler form.
 \begin{shortlist}
-  \item double perp( v ) \see{\ref{eq:perp}}
-  \item double perp2( v ) \see{\ref{eq:perp2}}
-  \item double angle(~) \see{\ref{eq:angle}}
-  \item setVectM(double); \/\/\/  setVectMag(double); 
+  \item HepDouble perp( v ) \see{\ref{eq:perp}}
+  \item HepDouble perp2( v ) \see{\ref{eq:perp2}}
+  \item HepDouble angle(~) \see{\ref{eq:angle}}
+  \item setVectM(HepDouble); \/\/\/  setVectMag(HepDouble); 
 						\see{\ref{eq:polar}}
-  \item setRho(double); \/\/\/  setPerp(double); 
+  \item setRho(HepDouble); \/\/\/  setPerp(HepDouble); 
 						\see{\ref{eq:cylindrical}}
-  \item double pseudoRapidity(~) \see{\ref{eq:spherical}}
+  \item HepDouble pseudoRapidity(~) \see{\ref{eq:spherical}}
 \end{shortlist}
 
 
@@ -766,8 +767,8 @@ The following class-wide (static) functions are used
 to obtain and set the default tolerance for nearness.
 
 \begin{shortlist}
-  \item double setTolerance( tol )	\see{\ref{eq:epsildef}}
-  \item double getTolerance(~)
+  \item HepDouble setTolerance( tol )	\see{\ref{eq:epsildef}}
+  \item HepDouble getTolerance(~)
 \end{shortlist}
 
 
@@ -780,17 +781,17 @@ cases the definitions match those for \SV:
   \item ostream \& operator$<<$( ostream \& os, s )
 \end{shortlist}
 \begin{shortlist}
-  \item double dot( v ) \see{\ref{eq:dot}}
+  \item HepDouble dot( v ) \see{\ref{eq:dot}}
   \item bool isParallel( v, epsilon ) \see{\ref{eq:isPar}}
   \item bool isOrthogonal( v, epsilon ) \see{\ref{eq:isOrtho}}
-  \item double howParallel( v ) \see{\ref{eq:howPar}, \ref{eq:howPar:2}}
-  \item double howOrthogonal( v ) \see{\ref{eq:howOrtho}, \ref{eq:howOrtho:2}}
-  \item double angle( s2 ) \see{\ref{eq:angle}}
+  \item HepDouble howParallel( v ) \see{\ref{eq:howPar}, \ref{eq:howPar:2}}
+  \item HepDouble howOrthogonal( v ) \see{\ref{eq:howOrtho}, \ref{eq:howOrtho:2}}
+  \item HepDouble angle( s2 ) \see{\ref{eq:angle}}
 \end{shortlist}
 
 \begin{shortlist}
-  \item double mag2(~) \see{\ref{eq:mag2}}
-  \item double mag(~) \see{\ref{eq:mag}, \ref{eq:mag:2}}
+  \item HepDouble mag2(~) \see{\ref{eq:mag2}}
+  \item HepDouble mag(~) \see{\ref{eq:mag}, \ref{eq:mag:2}}
   \item Hep2Vector unit(~) \see{\ref{eq:svunit}}
 \end{shortlist}
 
@@ -897,7 +898,7 @@ The following methods alter one component of a \Ro, in some way of viewing
 that rotation:
 
 \begin{shortlist}
-  \item setPhi(double) \/\/\/ setTheta(double) \/\/\/ setPsi(double) 
+  \item setPhi(HepDouble) \/\/\/ setTheta(HepDouble) \/\/\/ setPsi(HepDouble) 
 		\see{\ref{eq:eulerrotR}}
   \item setAxis(Hep3Vector)	\/\/\/ setDelta(Hep3Vector)
 		\see{\ref{eq:axisrotR}}
@@ -921,11 +922,11 @@ may be applied to \Ro\ as well.
 
 % // relative comparison:
 \begin{shortlist}
-  \item static double getTolerance(~)	\see{\ref{eq:epsildefR}}
-  \item static double setTolerance( tol )
+  \item static HepDouble getTolerance(~)	\see{\ref{eq:epsildefR}}
+  \item static HepDouble setTolerance( tol )
   \item bool isNear( r, epsilon )		\see{\ref{eq:nearrot}}
-  \item double howNear( r ) 			\see{\ref{eq:nearrot}}
-  \item double distance2( r )		\see{\ref{eq:dist2rot}}
+  \item HepDouble howNear( r ) 			\see{\ref{eq:nearrot}}
+  \item HepDouble distance2( r )		\see{\ref{eq:dist2rot}}
 \end{shortlist}
 
 % // ordering comparison:
@@ -945,8 +946,8 @@ may be applied to \Ro\ as well.
 
 
 \begin{shortlist}
-  \item double norm2(~)		\see{\ref{eq:norm2rot}}
-  \item double isIdentity(~)		
+  \item HepDouble norm2(~)		\see{\ref{eq:norm2rot}}
+  \item HepDouble isIdentity(~)		
 
   \item ostream \& print ( ostream \& os )
   \item ostream \& operator$<<$( ostream \& os, const RotationInterface \& r )
@@ -1302,6 +1303,10 @@ specify the pseudorapidity $\eta$ instead of $\theta$.
   \label{eq:spherical}
 \end{eqnarray}
 
+When accessing the angles in Sperical coordinates, the values obtained will
+always be in the range  $0 \leq \theta \leq \pi$ and $-\pi < \phi \leq +\pi$. 
+
+
 \subsection {Dot and Cross Products}
 
 \noindent
@@ -1470,7 +1475,7 @@ It is defined by
 \end{equation}
 \noindent
 where of course the angular $\phi$ difference is corrected to lie in the range
-$(-\pi, \pi]$.
+$(-\pi, \pi]$ (the {\tt deltaPhi()} method is used).
 
 When one vector or the other is zero,
 
@@ -1636,8 +1641,11 @@ apply:
     \label{eq:polarA:2} \\
   \vec{v}\mbox{.azimAngle} (\vec{v_2})
     \equiv \vec{v}\mbox{.azimAngle} (\vec{v_2}, \hat{z}) =
-    \vec{v_2}\mbox{.phi()} - \vec{v}\mbox{.phi()}
+    \vec{v_2}\mbox{.phi()} - \vec{v}\mbox{.phi()} ^*
     \label{eq:azim} \\
+  \vec{v}\mbox{.deltaPhi} (\vec{v_2})
+    \equiv \vec{v}\mbox{.azimAngle} (\vec{v_2}) 
+    \label{eq:deltaPhi} \\
   \vec{v}\mbox{.azimAngle} (\vec{v_2}, \hat{u}) =
     \theta_{\vec{v_2}\mbox{.perpPart}(\hat{u}),
     \vec{v}\mbox{.perpPart}(\hat{u})}
@@ -1646,10 +1654,17 @@ apply:
 \end{eqnarray}
 
 \noindent
-The azimuthal angle between two vectors, as shown above, is found by
-projecting them both into the plane defined by the reference direction,
+
+* Equation (\ref{eq:azim}) is not quite definitive:  
+The azimuthal angle between two vectors (or delta phi)
+will always be translated into an 
+equivalent angle in the range $(-\pi,\pi]$.
+
+The azimuthal angle between two vectors with respect to a reference direction,
+as shown in equation (\ref{eq:azim:2}) above, is found by
+projecting both vectors into the plane defined by the reference direction,
 and taking the angle between those projections, in the clockwise sense about
-the reference axis.
+the reference axis.  Again, this will be in the range $(-\pi,\pi]$.
 
 \subsection{Direct Vector Rotations}
 \label{rotations}
@@ -2296,6 +2311,11 @@ method will return a test for exact equality.
 w_1 \stackrel{\mbox{\tiny CM}}{\approx} w|2 \Longleftrightarrow w_1 = v_2
 \end{eqnarray}
 
+\subsubsection{DeltaR for \protect\LV s}
+Another method to compare two \LV s is {\tt w1.deltaR(w2)}, which acts only
+on the 3-vector components of the \LV s and applies {\tt deltaR} as defined
+by equation (\ref{eq:deltaR}).
+
 \subsubsection{Ordering Comparisons for \protect\LV s}
 
 The comparison operators \verb$ ( >, >=, <, <= )$ for \LV\ act by comparing
@@ -2429,8 +2449,8 @@ If $w = (v,t)$
 \begin{eqnarray}
 \label{eq:whowLl}
   w\mbox{.howLightlike}() = \max \left(
-    \frac { \left| t^2 - |\vec{v}|^2 \right| { 2 t^2 }
-    } \; , \; 1 \right)
+    \frac { \left| t^2 - |\vec{v}|^2 \right| } { 2 t^2 }
+     \; , \; 1 \right)
 \end{eqnarray}
 
 \noindent
@@ -2705,21 +2725,33 @@ It is worth noting that equations (\ref{eq:axisrot}) and (\ref{eq:eulerrot})
 are not single-valued when extracting $ ( \hat{u}, \delta) $ or
 $ ( \phi, \theta, \psi ) $ from a \Rotation\ matrix.  We adhere to the
 following conventions to resolve that ambiguity whenever forming an
-\Ax\ or \Es\ from a \Rotation $R$:
-
+\Ax\ from a \Rotation\ $R$:
 \begin{eqnarray}
   R = {\bf I} \Longrightarrow \delta = 0, \; \hat{u} = \hat{z}
 	\\
-  R \longrightarrow ( \hat{u}, \delta ) \Longrightarrow 0 \leq \delta \leq \pi
-	\\
 	\label{eq:deltaconv}
+  R \longrightarrow ( \hat{u}, \delta ) \Longrightarrow 0 \leq \delta \leq \pi
+\end{eqnarray}
+
+And we adhere to the
+following conventions to resolve that ambiguity whenever forming an
+\Es\ from a \Rotation\ $R$:
+\begin{eqnarray}
+ \label{eq:thetaconv}
   R \longrightarrow ( \phi, \theta, \psi )
 	\Longrightarrow 0 \leq \theta \leq \pi
-	\label{eq:thetaconv}
 	\\
+ \label{eq:tphiconv}
+  R \longrightarrow ( \phi, \theta, \psi )
+	\Longrightarrow -\pi < \phi \leq \pi
+	\\
+ \label{eq:psiconv}
+  R \longrightarrow ( \phi, \theta, \psi )
+	\Longrightarrow -\pi < \psi \leq \pi
+	\\
+ \label{eq:phipsiconv}
   R \longrightarrow ( \phi, \; \theta = 0, \; \psi )
 	\Longrightarrow -\pi/2 < \phi = \psi \leq \pi/2
-	\label{eq:phipsiconv}
 	\\
   R \longrightarrow ( \phi, \; \theta = \pi, \; \psi )
 	\Longrightarrow -\pi/2 < \phi = -\psi \leq \pi/2
@@ -2730,7 +2762,6 @@ we return $(0, 0, 0)$ whenever the rotation is
 equivalent to the identity, and return $(0, \pi, 0)$ in preference to
 the equivalent $(\pi, \pi, \pi)$.
 
-\noindent
 In particular, special case rotations such as
 {\tt HepRotationX} with $\delta$ supplied as zero or $\pi$
 obey these conventions:  even though for $\delta = \pi - |\epsilon|$
@@ -2739,10 +2770,12 @@ when $\delta = \pi$ exactly, the Euler angles are $(0, \delta=\pi, 0)$.
 
 These conventions for how methods return values for Euler angles
 do not affect the user's right to supply explicit values for
-$ ( \hat{u}, \delta) $ or $ ( \phi, \theta, \psi ) $ when defining one of those
-structures.
+or $ ( \phi, \theta, \psi ) $ which may not obey the conventions,
+when defining an \Es\ structure or a \Rotation--it is just that when
+such a \Rotation\ is read back as Euler angles, the values will not be
+the ones originally supplied.
 Similarly, the conventions for reading axis and angle do not affect the
-user's ability to supply arbitrary values for the angle $\delta$.
+user's ability to supply arbitrary $ ( \hat{u}, \delta) $ values.
 
 Obeying the above rules, Euler angles returned for
 rotations about coordinate axes behave as follows:
@@ -2777,7 +2810,7 @@ rotations about coordinate axes behave as follows:
 	\label{eq:rotZconv}
 \end{equation}
 \noindent always assuming that $\delta$ represents an angle of active rotation
-between $\-pi$ and $\pi$.
+between $-\pi$ and $\pi$.
 
 \subsection{Nearness Measure for \protect\Ro s, \protect\Ax s, and \protect\Es\ }
 
@@ -2874,6 +2907,9 @@ case where one $\delta$ is near $\pi$ and the other near $-\pi$.
 
 \subsection{Comparison for \protect\Ro s, \protect\Ax s, and \protect\Es\ }
 
+It is useful to have definitions of the various comparison operators
+so that \Ro s, \Ax s, and \Es\ can be placed into {\tt std::} containers.
+
 Of the three classes, \Ax\ has a natural meaning for ordering comparisons,
 taking advantage of the ordering relation already available for the \UV\
 axes:
@@ -2885,17 +2921,14 @@ axes:
 	\delta_1 > \delta_2  \right]
 \end{equation}
 
-For \Rotation, we use the ordering induced by its \Ax\ expression:
-\begin{equation}
-  r_1 > r_2 \mbox{ iff } r_1 \mbox{.axisAngle()} > r_1 \mbox{.axisAngle()}
-\end{equation}
-\noindent
-Extracting the \Ax\ corresponding to a \Ro\ is a fairly simple task.  
-However, for testing equality or inequality, the package uses the even
-easier method of element-by-element equality checking.
+For \Rotation, we could use the ordering induced by its \Ax\ expression;
+extracting the \Ax\ corresponding to a \Ro\ is a fairly simple task.  
+But that is unnecessarily complex--instead, we use dictionary ordering,
+starting with $zz, zy, zx, yz, \ldots, xx$.  This agrees with the definition
+used in the orignal CLHEP Vector package.
 
 For \Es, rather than laboriously going over to \Ro s and then using the
-induced \Ax\ comparison, we adapt simple dictionary ordering:
+induced dictionary ordering comparison, we adapt simple dictionary ordering:
 \begin{eqnarray}
   ( \phi_1 , \theta_1, \psi_1 ) > ( \phi_2 , \theta_2, \psi_2 ) \mbox{ if }
 	\nonumber \\
@@ -2907,10 +2940,13 @@ induced \Ax\ comparison, we adapt simple dictionary ordering:
 	\nonumber \\
 	\left[
 	\phi_1 = \phi_2  \mbox { and } 	\theta_1 = \theta_2
-	\mbox { and } \psi_1 = \psi_2
+	\mbox { and } \psi_1 > \psi_2
 	\right]
 \end{eqnarray}
 
+Because we use dictionary ordering comparisons, one \Ro\ may be considered
+greater than another, but if you take may Euler angles (or for that matter
+their \Ax\ structures), the comparison may have the opposite sense.
 
 \subsection{The Rotation Group}
 
@@ -2921,10 +2957,8 @@ the inverse matches the transpose:
 \]
 
 Multiplication is available in three syntaxes:
-
 \begin{eqnarray}
 \label{eq:opmulrot}
-	\\
 	\mbox{ R = R1 * R2} \Longrightarrow {\boldmath R = R_1 R_2}
 \label{eq:opstrot}
 	\\
@@ -3359,6 +3393,145 @@ and rotation.
   \mbox {R.rectify()} 		    \nonumber \\
   T = R \mbox{ Boost}(\beta)
 \end{eqnarray}
+
+\newpage
+\section{When Exceptions Occur}
+
+
+Although this section is not about mathematical definitions, it may be useful
+to understand what will happen if the user code sends a method  
+data which does not make physical or mathematical sense.  For example, 
+a user may supply a vector of magnitude greater than one, to a method
+which will use that data to form a Boost.  The resulting tachyonic boost
+is unlikely to be the result the user had intended.
+
+\subsection{How Problems Are Dealt With}
+
+In general, the package is configurable in one of three ways:
+\begin{enumerate}
+\item
+If {\tt ENABLE\_ZOOM\_EXCEPTIONS} is defined, then the Zoom Exceptions
+package is used.  This allows the user code to control the behaviour to 
+a considerable extent, including ignoring versus handling specific types
+of exceptional conditions and checking a stack of prior potential throws.
+Ultimately, an unhandled exception which is deemed or serious severity will
+throw a C++ exception, which if un-caught will cause the program to terminate.
+\item
+If {\tt ENABLE\_ZOOM\_EXCEPTIONS} is defined, but C++ exceptions are not
+enabled (some compilers have a switch to do this; some experiments choose
+to use this switch in an effort to improve performance) then the behavior
+for an unhandled serios exception is to explicitly abort.
+\item
+If {\tt ENABLE\_ZOOM\_EXCEPTIONS} is defined, then this compilation is designed
+for CLHEP, which currently does not use the Zoom Exception package.
+In that case, each problem will cause a message to be emitted on {\em cerr}.
+In addition, the various problems which were deemed too severe to
+ignore will throw actual C++ exceptions.  These are all derived from
+a class {\tt CLHEP\_vector\_exception} which is in turn derived from 
+the {\tt std::exception} class - see section 14.10 in Stroustrup.  
+User code catching a general {\tt CLHEP\_vector\_exception} can call the
+virtual method {\em what()} to get a complete text message, or {\em name()}
+to just get the exception name.  
+\end{enumerate}
+
+\subsection{Possible Exceptions}
+
+The following sorts of problems may be detected (and reported to {\em cerr}
+by the Vector package,
+and may in some circumstances be non-ignorable.  
+If the problem can't be ignored, then the corresponding exception 
+(derived from {\tt CLHEP\_vector\_exception} is thrown.
+
+\begin{description} 
+\item [ZMxPhysicsVectors]
+Parent exception of all ZMexceptions
+particular to classes in the package.
+\item [ZMxpvInfiniteVector]
+Mathematical operation will lead
+to infinity or NAN in a component
+of a result vector.
+\item [ZMxpvZeroVector]
+A zero vector was used to specify
+a direction based on vector.unit().
+\item [ZMxpvTachyonic]
+A relativistic kinematic function was
+taken, involving a vector representing
+a speed at or beyond that of light (=1).
+\item [ZMxpvSpacelike]
+A spacelike 4-vector was used in a
+context where its restMass or gamma
+needs to be computed:  The result is
+formally imaginary (a zero result is
+supplied).
+\item [ZMxpvInfinity]
+Mathematical operation will lead
+to infinity as a Scalar result.
+\item [ZMxpvNegativeMass]
+Kinematic operation, e.g. invariant
+mass, rendered meaningless by an input
+with negative time component.
+\item [ZMxpvVectorInputFails]
+Input to a SpaceVector or Lorentz
+Vector failed due to bad format or EOF.
+\item [ZMxpvParallelCols]
+Purportedly orthogonal col's supplied
+to form a Rotation are exactly
+parallel instead.
+\item [ZMxpvImproperRotation]
+ Orthogonal col's supplied form a
+ refection (determinant -1) more
+ nearly than rather than a rotation.
+\item [ZMxpvImproperTransformation]
+Orthogonalized rows supplied form a
+tachyonic boost, a reflection, or
+a combination of those flaws,
+more nearly than a proper Lorentz
+transformation.
+\item [ZMxpvFixedAxis]
+Attempt to change a RotationX,
+RotationY, or RotationZ in such a way
+that the axis might no longer be X,
+Y, or Z respectively.
+\item [ZMxpvIndexRange]
+When using the syntax of v(i) to get
+a vector component, i is out of range.
+\end{description}
+
+
+The following sorts of problems may be detected (and reported to {\em cerr}
+by the Vector package, as warnings.  
+In these cases, the methdos have sensible behaviors avaialble, and will continue
+processing after reporting the warning.
+
+\begin{description} 
+\item [ZMxpvNotOrthogonal]
+Purportedly orthogonal col's supplied
+to form a Rotation or LT are not
+orthogonal within the tolerance.
+\item [ZMxpvNotSymplectic]
+A row supplied to form a Lorentz
+transformation has a value of restmass
+incorrect by more than the tolerance:
+It should be -1 for rows 1-3,
++1 for row 4.
+\item [ZMxpvAmbiguousAngle]
+Method involves taking an angle against
+a reference vector of zero length, or
+phi in polar coordinates of a vector
+along the Z axis.
+\item [ZMxpvNegativeR]
+R of a supplied vector is negative.
+The mathematical operation done is
+still formally valid.
+\item [ZMxpvUnusualTheta]
+Theta supplied to construct or set
+a vector is outside the range [0,PI].
+The mathematical operation done is
+still formally valid.  But note that
+when sin(theta) < 0, phi becomes an
+angle against the -X axis.
+\end{description}
+
 
 \newpage
 \section{Names and Keywords}

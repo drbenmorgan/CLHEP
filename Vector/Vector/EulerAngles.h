@@ -104,7 +104,7 @@ namespace zmpv {
 
 typedef CLHEP::HepEulerAngles EulerAngles;
 
-}  // namespace zmpv
+}  // end of namespace zmpv
 
 #define EULERANGLES_ICC
 #include "CLHEP/Vector/EulerAngles.icc"

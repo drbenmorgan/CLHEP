@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: LorentzRotation.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: LorentzRotation.icc,v 1.2 2003/10/10 21:42:35 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -27,8 +27,26 @@ inline HepLorentzRotation::HepLorentzRotation(const HepLorentzRotation & r) :
 inline HepLorentzRotation::HepLorentzRotation(const HepRotation & r) {
     set (r.rep4x4());
 }
+inline HepLorentzRotation::HepLorentzRotation(const HepRotationX & r) {
+    set (r.rep4x4());
+}
+inline HepLorentzRotation::HepLorentzRotation(const HepRotationY & r) {
+    set (r.rep4x4());
+}
+inline HepLorentzRotation::HepLorentzRotation(const HepRotationZ & r) {
+    set (r.rep4x4());
+}
 
 inline HepLorentzRotation::HepLorentzRotation(const HepBoost & b) {
+    set (b.rep4x4());
+}
+inline HepLorentzRotation::HepLorentzRotation(const HepBoostX & b) {
+    set (b.rep4x4());
+}
+inline HepLorentzRotation::HepLorentzRotation(const HepBoostY & b) {
+    set (b.rep4x4());
+}
+inline HepLorentzRotation::HepLorentzRotation(const HepBoostZ & b) {
     set (b.rep4x4());
 }
 
@@ -55,7 +73,29 @@ HepLorentzRotation & HepLorentzRotation::set (const Hep3Vector & p) {
   return set (p.x(), p.y(), p.z());
 }
 
+inline HepLorentzRotation & HepLorentzRotation::set (const HepRotation & r) {
+  return set (r.rep4x4());
+}
+inline HepLorentzRotation & HepLorentzRotation::set (const HepRotationX & r) {
+  return set (r.rep4x4());
+}
+inline HepLorentzRotation & HepLorentzRotation::set (const HepRotationY & r) {
+  return set (r.rep4x4());
+}
+inline HepLorentzRotation & HepLorentzRotation::set (const HepRotationZ & r) {
+  return set (r.rep4x4());
+}
+
 inline HepLorentzRotation & HepLorentzRotation::set (const HepBoost & boost) {
+  return set (boost.rep4x4());
+}
+inline HepLorentzRotation & HepLorentzRotation::set (const HepBoostX & boost) {
+  return set (boost.rep4x4());
+}
+inline HepLorentzRotation & HepLorentzRotation::set (const HepBoostY & boost) {
+  return set (boost.rep4x4());
+}
+inline HepLorentzRotation & HepLorentzRotation::set (const HepBoostZ & boost) {
   return set (boost.rep4x4());
 }
 
