@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: BasicVector3D.h,v 1.3.2.2 2004/11/03 18:02:10 garren Exp $
+// $Id: BasicVector3D.h,v 1.3.2.3 2005/02/01 10:00:47 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -392,7 +392,7 @@ namespace HepGeom {
    * @relates BasicVector3D
    */
   inline BasicVector3D<float>
-  operator*(const BasicVector3D<float> & v, double a) {
+  operator*(const BasicVector3D<float> & v, float a) {
     return BasicVector3D<float>(v.x()*a, v.y()*a, v.z()*a);
   }
 
@@ -410,7 +410,7 @@ namespace HepGeom {
    * @relates BasicVector3D
    */
   inline BasicVector3D<float>
-  operator*(double a, const BasicVector3D<float> & v) {
+  operator*(float a, const BasicVector3D<float> & v) {
     return BasicVector3D<float>(a*v.x(), a*v.y(), a*v.z());
   }
 
@@ -419,7 +419,7 @@ namespace HepGeom {
    * @relates BasicVector3D
    */
   inline BasicVector3D<float>
-  operator/(const BasicVector3D<float> & v, double a) {
+  operator/(const BasicVector3D<float> & v, float a) {
     return BasicVector3D<float>(v.x()/a, v.y()/a, v.z()/a);
   }
   

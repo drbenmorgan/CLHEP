@@ -1,3 +1,9 @@
+2005-02-01  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* Geometry/BasicVector3D.h : changed template specialisations for 
+	multiplication of vector<float> with scalar and division of vector<float>
+	by scalar to use float scalars instead of double (savannah bug id 6523)
+
 ==============================
 29.11.04 Release CLHEP-1.9.1.2
 ==============================
