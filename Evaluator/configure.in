@@ -30,7 +30,7 @@ AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 
 # Test driver program/script:
-AC_CONFIG_FILES([test/testEvaluator.sh])
+AC_CONFIG_FILES([test/testEvaluator.sh], [chmod +x test/testEvaluator.sh])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:

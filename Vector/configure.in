@@ -33,7 +33,7 @@ AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([Vector-config], [chmod +x Vector-config])
 
 # Test driver program/script:
-AC_CONFIG_FILES([test/testThreeVector.sh])
+AC_CONFIG_FILES([test/testThreeVector.sh], [chmod +x test/testThreeVector.sh])
 
 
 # ----------------------------------------------------------------------
