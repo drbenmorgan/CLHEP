@@ -12,7 +12,12 @@ DOC_INCLUDES = graph_interpretation.eps \
                HepMC_UML.eps \
 	       html.sty
 
-SUFFIXES = .ps .tex
+SUFFIXES = .ps .dvi .tex
+
+.dvi.ps:
+	dvips -o $@ $(@:.ps=.dvi)
+
+all: docs
 
 all-local: docs
 
