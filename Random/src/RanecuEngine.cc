@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RanecuEngine.cc,v 1.2 2003/07/16 12:35:41 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -31,6 +31,7 @@
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/RanecuEngine.h"
 #include <string.h>
+#include <cmath>
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 

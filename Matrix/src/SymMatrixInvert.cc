@@ -12,6 +12,7 @@
 #include "Matrix/defs.h"
 #include <string.h>
 #include <float.h>        // for DBL_EPSILON
+#include <cmath>
 
 #include "CLHEP/Matrix/SymMatrix.h"
 

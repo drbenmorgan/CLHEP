@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: NonRandomEngine.cc,v 1.2 2003/07/16 12:35:41 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -9,7 +9,9 @@
 // M. Fischler    - Created 9/30/99
 //=========================================================================
 
+#include "Random/defs.h"
 #include "CLHEP/Random/NonRandomEngine.h"
+#include <stdlib.h>
 
 NonRandomEngine::NonRandomEngine() : nextHasBeenSet(false), 
 				     sequenceHasBeenSet(false),

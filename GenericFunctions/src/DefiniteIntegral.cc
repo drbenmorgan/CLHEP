@@ -1,9 +1,11 @@
 // -*- C++ -*-
-// $Id: DefiniteIntegral.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: DefiniteIntegral.cc,v 1.2 2003/07/16 12:35:41 garren Exp $
 #include "GenericFunctions/defs.h"
 
 #include "CLHEP/GenericFunctions/DefiniteIntegral.hh"
 #include "CLHEP/GenericFunctions/AbsFunction.hh"
+#include <cmath>
+
 namespace Genfun {
 
 const int DefiniteIntegral::_K =5;

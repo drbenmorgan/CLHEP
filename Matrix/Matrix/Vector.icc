@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Vector.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Vector.icc,v 1.2 2003/07/16 12:35:41 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -35,8 +35,11 @@
 // held liable for any liability with respect to any claim by the user or any
 // other party arising from use of the program.
 //
-// Swap two vectors without doing a full copy.
 
+#include <cmath>
+#include <stdlib.h>
+
+// Swap two vectors without doing a full copy.
 inline void swap(HepVector &v1,HepVector &v2) {
   HepGenMatrix::swap(v1.m,v2.m);
   HepGenMatrix::swap(v1.nrow,v2.nrow);

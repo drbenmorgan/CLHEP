@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: JamesRandom.cc,v 1.2 2003/07/16 12:35:41 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -27,9 +27,11 @@
 // V. Innocente   - changed pointers to indices     3 may 2000
 // =======================================================================
 
+#include "Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/JamesRandom.h"
 #include <string.h>
+#include <cmath>
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
