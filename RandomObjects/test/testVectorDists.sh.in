@@ -3,4 +3,4 @@
 
 
 ./testVectorDists@EXEEXT@ < @srcdir@/testVectorDists.input \
-  | diff -q - @srcdir@/testVectorDists.output > /dev/null
+  | diff -b -q - @srcdir@/testVectorDists.output > /dev/null
