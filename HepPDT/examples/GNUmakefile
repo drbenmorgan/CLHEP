@@ -1,5 +1,5 @@
 # 
-# $Id: GNUmakefile,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+# $Id: GNUmakefile,v 1.2 2003/10/24 21:44:45 garren Exp $
 #
 # makefile for HepPDT examples
 #
@@ -23,11 +23,11 @@ ifndef CXX
 endif
 
 ifndef PDTLIB
-    PDTLIB = ../../../lib/libCLHEP-g++.1.8.0.0.a
+    PDTLIB =  $(CLHEP_DIR)/lib/libCLHEP-2.0.0.0.a
 endif
 
 ifndef INCDIR
-    INCDIR = -I../../../include
+    INCDIR = -I$(CLHEP_DIR)/include
 endif
 
 AR=ar
@@ -36,7 +36,7 @@ ARFLG = -urs
 CXXFLAGS = $(DFLG) $(INCDIR)
 ifeq "$(CXX)" "KCC"
   CXXFLAGS +=  +K0 -O0 --no_implicit_include --one_per
-  PDTLIB = ../../../lib/libCLHEP-KCC.1.7.0.0.a
+  PDTLIB =  $(CLHEP_DIR)/lib/libCLHEP-KCC.1.7.0.0.a
 endif
 
 SOURCE = $(wildcard *.cc)
