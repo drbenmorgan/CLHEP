@@ -148,7 +148,7 @@
  Pythia:               chi_2b         555   HepPDT:           chi_b2(1P)         555
  Pythia:              pomeron         990   HepPDT:              pomeron         990
  Pythia:                 dd_1        1103   HepPDT:                 dd_1        1103
- Pythia:              dd_1bar       -1103   HepPDT:                                0
+ Pythia:              dd_1bar       -1103   HepPDT:                dd_1~       -1103
  Pythia:               Delta-        1114   HepPDT:               Delta-        1114
  Pythia:            Deltabar+       -1114   HepPDT:              Delta~+       -1114
  Pythia:                 ud_0        2101   HepPDT:                 ud_0        2101
@@ -160,7 +160,7 @@
  Pythia:               Delta0        2114   HepPDT:               Delta0        2114
  Pythia:            Deltabar0       -2114   HepPDT:              Delta~0       -2114
  Pythia:                 uu_1        2203   HepPDT:                 uu_1        2203
- Pythia:              uu_1bar       -2203   HepPDT:                                0
+ Pythia:              uu_1bar       -2203   HepPDT:                uu_1~       -2203
  Pythia:                   p+        2212   HepPDT:                   p+        2212
  Pythia:                pbar-       -2212   HepPDT:                  p~-       -2212
  Pythia:               Delta+        2214   HepPDT:               Delta+        2214
@@ -190,7 +190,7 @@
  Pythia:              Sigma*+        3224   HepPDT:              Sigma*+        3224
  Pythia:           Sigma*bar-       -3224   HepPDT:             Sigma*~-       -3224
  Pythia:                 ss_1        3303   HepPDT:                 ss_1        3303
- Pythia:              ss_1bar       -3303   HepPDT:                                0
+ Pythia:              ss_1bar       -3303   HepPDT:                ss_1~       -3303
  Pythia:                  Xi-        3312   HepPDT:                  Xi-        3312
  Pythia:               Xibar+       -3312   HepPDT:                 Xi~+       -3312
  Pythia:                 Xi*-        3314   HepPDT:                 Xi*-        3314
@@ -244,7 +244,7 @@
  Pythia:            Omega*_c0        4334   HepPDT:            Omega*_c0        4334
  Pythia:         Omega*_cbar0       -4334   HepPDT:           Omega*_c~0       -4334
  Pythia:                 cc_1        4403   HepPDT:                 cc_1        4403
- Pythia:              cc_1bar       -4403   HepPDT:                                0
+ Pythia:              cc_1bar       -4403   HepPDT:                cc_1~       -4403
  Pythia:               Xi_cc+        4412   HepPDT:               Xi_cc+        4412
  Pythia:            Xi_ccbar-       -4412   HepPDT:              Xi_cc~-       -4412
  Pythia:              Xi*_cc+        4414   HepPDT:              Xi*_cc+        4414
@@ -328,7 +328,7 @@
  Pythia:          Omega*_bcc+        5444   HepPDT:          Omega*_bcc+        5444
  Pythia:       Omega*_bccbar-       -5444   HepPDT:         Omega*_bcc~-       -5444
  Pythia:                 bb_1        5503   HepPDT:                 bb_1        5503
- Pythia:              bb_1bar       -5503   HepPDT:                                0
+ Pythia:              bb_1bar       -5503   HepPDT:                bb_1~       -5503
  Pythia:               Xi_bb-        5512   HepPDT:               Xi_bb-        5512
  Pythia:            Xi_bbbar+       -5512   HepPDT:              Xi_bb~+       -5512
  Pythia:              Xi*_bb-        5514   HepPDT:              Xi*_bb-        5514

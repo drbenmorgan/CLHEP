@@ -3,7 +3,7 @@ HepPDT-ParticleDataTable-begin
              *****  ParticleDataTable  *****
              Table Name : Pythia Table
                   ( 529 entries )
-PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L   MASS                     WIDTH                    LIFETIME
+PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L  MASS                       WIDTH                    LIFETIME
 p_diffrbar-             -9912212      -1     0  0.5    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 n_diffrbar0             -9912112       0     0  0.5    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 pi_diffr-               -9910211      -1     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00

@@ -1,4 +1,4 @@
-// $Id: translateHerwig.cc,v 1.1.2.1 2005/03/15 23:57:32 garren Exp $
+// $Id: translateHerwig.cc,v 1.1.2.2 2005/03/17 22:42:53 garren Exp $
 // ------------------------------------
 //
 // translateHerwig.cc
@@ -511,11 +511,15 @@ PDTHerwigMap const & getPDTHerwigMap()
 int translateHerwigtoPDT( const int id )
 {
     static HerwigPDTMap const & hmap = getHerwigPDTMap();
-
+    
     HerwigPDTMap::const_iterator const cit = hmap.find( id );
-    return ( cit == hmap.end() )
-         ? 0
-	 : cit->second;
+    // found it in the map
+    if ( cit != hmap.end() ) { return cit->second; }
+    // check to see if someone has defined a valid particle type
+    // that isn't in the map
+    ParticleID pid( id );
+    if( pid.isValid() ) { return id; }
+    return 0;
 }
 
 int translatePDTtoHerwig( const int id )
@@ -523,9 +527,13 @@ int translatePDTtoHerwig( const int id )
     static PDTHerwigMap const & pmap = getPDTHerwigMap();
 
     PDTHerwigMap::const_iterator const cit = pmap.find( id );
-    return ( cit == pmap.end() )
-         ? 0
-	 : cit->second;
+    // found it in the map
+    if ( cit != pmap.end() ) { return cit->second; }
+    // check to see if someone has defined a valid particle type
+    // that isn't in the map
+    ParticleID pid( id );
+    if( pid.isValid() ) { return id; }
+    return 0;
 }
 
 }	// HepPDT

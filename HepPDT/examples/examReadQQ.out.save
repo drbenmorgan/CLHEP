@@ -523,7 +523,7 @@ HepPDT-ParticleDataTable-begin
              *****  ParticleDataTable  *****
              Table Name : QQ Table
                   ( 386 entries )
-PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L   MASS                     WIDTH                    LIFETIME
+PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L  MASS                       WIDTH                    LIFETIME
 A0-                     -9000211      -1     0    0    0    0  9.82400e-01+/-0.00000e+00  5.7000e-02+/-0.0000e+00  1.1548e-23+/-0.0000e+00
           0 0.9
           0 0.1

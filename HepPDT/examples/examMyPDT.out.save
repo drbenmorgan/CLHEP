@@ -3,7 +3,7 @@ HepPDT-ParticleDataTable-begin
              *****  ParticleDataTable  *****
              Table Name :  
                   ( 5 entries )
-PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L   MASS                     WIDTH                    LIFETIME
+PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L  MASS                       WIDTH                    LIFETIME
 W-                           -24      -1     0    1    0    0  8.03960e+01+/-0.00000e+00  2.0600e+00+/-0.0000e+00  3.1952e-25+/-0.0000e+00
 u~                            -2 -0.3333     0  0.5    0    0  0.00000e+00+/-0.00000e+00 -1.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 d                              1 -0.6667     0  0.5    0    0  0.00000e+00+/-0.00000e+00 -1.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00

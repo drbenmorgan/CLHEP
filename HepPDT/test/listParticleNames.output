@@ -1278,6 +1278,8 @@
   PDT number:        -8874  PDT name: Omega*_t't'b'~-
   PDT number:         8884  PDT name: Omega*_t't't'++
   PDT number:        -8884  PDT name: Omega*_t't't'~--
+  PDT number:      9221132  PDT name: Theta+
+  PDT number:      9331122  PDT name: Phi--
   PDT number:   1001001002  PDT name: Hydrogen
   PDT number:   1002001002  PDT name: Deuteron
   PDT number:   1003001002  PDT name: Tritium

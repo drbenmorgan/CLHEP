@@ -3,7 +3,7 @@ HepPDT-ParticleDataTable-begin
              *****  ParticleDataTable  *****
              Table Name : EvtGen Table
                   ( 451 entries )
-PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L   MASS                     WIDTH                    LIFETIME
+PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L  MASS                       WIDTH                    LIFETIME
 anti-alpha           -1004002001      -2     0    0    0    0  3.72742e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-He3             -1003002001      -2     0  0.5    0    0  2.80923e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-tritium         -1003001001      -1     0  0.5    0    0  2.80925e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00

@@ -1,4 +1,4 @@
-// $Id: ParticleName.cc,v 1.1.4.3 2005/03/17 01:07:01 garren Exp $
+// $Id: ParticleName.cc,v 1.1.4.4 2005/03/17 22:42:53 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleName.cc
@@ -1323,6 +1323,8 @@ ParticleNameMap const &  ParticleNameInit()
       {      -8874, "Omega*_t't'b'~-" },
       {       8884, "Omega*_t't't'++" },
       {      -8884, "Omega*_t't't'~--" },
+      {    9221132, "Theta+" },
+      {    9331122, "Phi--" },
       { 1001001002, "Hydrogen" },
       { 1002001002, "Deuteron" },
       { 1003001002, "Tritium" },
@@ -1479,6 +1481,20 @@ void  listHepPDTParticleNames( std::ostream & os  )
 		}
 	    }
 	}
+    }
+    // pentaquarks
+    for( l=1; l<9; ++l ) {
+        for ( m=1; m<9; ++m ) {
+	    for( q3=1; q3<9; ++q3) {
+		for( q2=1; q2<9; ++q2) {
+		    for( q1=1; q1<9; ++q1) {
+			id = 9*1000000+l*100000+m*10000+1000*q3+100*q2+10*q1+2;
+        		writeParticleNameLine(  id, os );
+        		writeParticleNameLine( -id, os );
+		    }
+		}
+	    }
+        }
     }
     // ions
     for( i=1; i<3; ++i) {

@@ -1,4 +1,4 @@
-// $Id: ParticleDataTableT.hh,v 1.1.1.1.2.1 2004/06/23 23:27:07 garren Exp $
+// $Id: ParticleDataTableT.hh,v 1.1.1.1.2.2 2005/03/17 22:42:53 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleDataTableT.hh
@@ -69,7 +69,10 @@ public:
   inline ParticleData       * operator [] ( std::string );
   inline ParticleData const * operator [] ( std::string ) const;
 
+  // writeParticleData prints all information in the PDT
+  // writeParticleInfo prints all information about a particle EXCEPT its decays
   void writeParticleData( std::ostream & outstr );
+  void writeParticleInfo( std::ostream & outstr );
   
   void convertTemporaryMap( TempMap & tempPDT, std::ostream & err );
 

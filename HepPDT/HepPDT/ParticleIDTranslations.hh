@@ -16,12 +16,10 @@ namespace HepPDT {
 // translate between generator ID's and standard numbering scheme
 int translateQQtoPDT( const int qqID);
 int translateGeanttoPDT( const int geantID);
-int translatePDGtabletoPDT( const int pdgID);
 int translateEvtGentoPDT( const int evtGenID );
 
 int translatePDTtoQQ( const int pid );
 int translatePDTtoGeant( const int pid );
-int translatePDTtoPDGtable( const int pid );
 int translatePDTtoEvtGen( const int pid );
 
 // Herwig translations
@@ -47,6 +45,14 @@ PythiaPDTMap const & getPythiaPDTMap();
 PDTPythiaMap const & getPDTPythiaMap();
 int translatePythiatoPDT( const int pythiaID );
 int translatePDTtoPythia( const int pid );
+
+// PDG table translations
+typedef  std::map< int, int >  PDGtoPDTMap;
+typedef  std::map< int, int >  PDTtoPDGMap;
+PDGtoPDTMap const & getPDGtoPDTMap();
+PDTtoPDGMap const & getPDTtoPDGMap();
+int translatePDGtabletoPDT( const int pdgID);
+int translatePDTtoPDGtable( const int pid );
 
 }  // namespace HepPDT
 

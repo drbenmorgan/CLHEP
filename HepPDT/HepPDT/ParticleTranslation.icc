@@ -1,4 +1,4 @@
-// $Id: ParticleTranslation.icc,v 1.1.4.1 2004/04/21 23:06:33 garren Exp $
+// $Id: ParticleTranslation.icc,v 1.1.4.2 2005/03/17 22:42:53 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleTranslation.icc
@@ -62,6 +62,20 @@ void ParticleTranslation::write( std::ostream & os ) const
     os << name();
     os.width(12);
     os << pid() << std::endl;
+    
+    return;
+}
+
+void ParticleTranslation::writeComparison( std::ostream & os ) const
+{ 
+    // this is a more compact listing that facilitates checking translations
+    os << " " ;
+    os.width(20);
+    os << itsOriginalName << " " ;
+    os.width(12);
+    os << itsOriginalID << " -> " ;
+    os.width(12);
+    os << pid() << " " << name() << std::endl;
     
     return;
 }

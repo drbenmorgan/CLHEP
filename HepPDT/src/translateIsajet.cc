@@ -697,6 +697,7 @@ int translatePDTtoIsajet( const int id )
     static PDTIsajetMap const & pmap = getPDTIsajetMap();
 
     PDTIsajetMap::const_iterator const cit = pmap.find( id );
+    // for Isajet, if it isn't in the map, then it isn't a valid particle
     return ( cit == pmap.end() )
          ? 0
 	 : cit->second;
@@ -707,6 +708,7 @@ int translateIsajettoPDT( const int id )
     static IsajetPDTMap const & hmap = getIsajetPDTMap();
 
     IsajetPDTMap::const_iterator const cit = hmap.find( id );
+    // for Isajet, if it isn't in the map, then it isn't a valid particle
     return ( cit == hmap.end() )
          ? 0
 	 : cit->second;

@@ -195,6 +195,7 @@ PythiaPDTMap const & PythiaPDTMapInit()
     {          553,          553 },
     {          555,          555 },
     {         1103,         1103 },
+    {        -1103,        -1103 },
     {         1114,         1114 },
     {        -1114,        -1114 },
     {         2101,         2101 },
@@ -208,6 +209,7 @@ PythiaPDTMap const & PythiaPDTMapInit()
     {         2114,         2114 },
     {        -2114,        -2114 },
     {         2203,         2203 },
+    {        -2203,        -2203 },
     {         2210,      9912212 },
     {        -2210,     -9912212 },
     {         2212,         2212 },
@@ -239,6 +241,7 @@ PythiaPDTMap const & PythiaPDTMapInit()
     {         3224,         3224 },
     {        -3224,        -3224 },
     {         3303,         3303 },
+    {        -3303,        -3303 },
     {         3312,         3312 },
     {        -3312,        -3312 },
     {         3314,         3314 },
@@ -292,6 +295,7 @@ PythiaPDTMap const & PythiaPDTMapInit()
     {         4334,         4334 },
     {        -4334,        -4334 },
     {         4403,         4403 },
+    {        -4403,        -4403 },
     {         4412,         4412 },
     {        -4412,        -4412 },
     {         4414,         4414 },
@@ -375,6 +379,7 @@ PythiaPDTMap const & PythiaPDTMapInit()
     {         5444,         5444 },
     {        -5444,        -5444 },
     {         5503,         5503 },
+    {        -5503,        -5503 },
     {         5512,         5512 },
     {        -5512,        -5512 },
     {         5514,         5514 },
@@ -619,9 +624,13 @@ int translatePythiatoPDT( const int id )
     static PythiaPDTMap const & hmap = getPythiaPDTMap();
 
     PythiaPDTMap::const_iterator const cit = hmap.find( id );
-    return ( cit == hmap.end() )
-         ? 0
-	 : cit->second;
+    // found it in the map
+    if ( cit != hmap.end() ) { return cit->second; }
+    // check to see if someone has defined a valid particle type
+    // that isn't in the map
+    ParticleID pid( id );
+    if( pid.isValid() ) { return id; }
+    return 0;
 }
 
 int translatePDTtoPythia( const int id )
@@ -629,9 +638,13 @@ int translatePDTtoPythia( const int id )
     static PDTPythiaMap const & pmap = getPDTPythiaMap();
 
     PDTPythiaMap::const_iterator const cit = pmap.find( id );
-    return ( cit == pmap.end() )
-         ? 0
-	 : cit->second;
+    // found it in the map
+    if ( cit != pmap.end() ) { return cit->second; }
+    // check to see if someone has defined a valid particle type
+    // that isn't in the map
+    ParticleID pid( id );
+    if( pid.isValid() ) { return id; }
+    return 0;
 }
 
 }	// HepPDT

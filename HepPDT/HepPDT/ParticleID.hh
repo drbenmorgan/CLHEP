@@ -1,4 +1,4 @@
-// $Id: ParticleID.hh,v 1.1.1.1.2.2 2005/03/15 23:57:31 garren Exp $
+// $Id: ParticleID.hh,v 1.1.1.1.2.3 2005/03/17 22:42:53 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleID.hh
@@ -86,6 +86,7 @@ public:
   bool isHadron( )  const;
   bool isLepton( )  const;
   bool isNucleus( ) const;
+  bool isPentaquark( ) const;
   //
   inline bool hasUp( )      const;
   inline bool hasDown( )    const;

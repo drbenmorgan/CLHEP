@@ -1,4 +1,4 @@
-// $Id: ParticleDataT.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ParticleDataT.hh,v 1.1.1.1.2.1 2005/03/17 22:42:53 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleDataT.hh
@@ -112,7 +112,10 @@ public:
   DDID   getDecayData()            const { return itsDDID; }
   CPDID  getCommonParticleData()   const { return itsCPDID; }
   
+  // write prints all information about a particle INCLUDING its decays
+  // writeParticleInfo prints all information about a particle EXCEPT its decays
   inline void write( std::ostream & os ) const;
+  inline void writeParticleInfo( std::ostream & os ) const;
 
   // ---  booleans:
   //

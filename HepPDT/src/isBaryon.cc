@@ -1,9 +1,9 @@
-// $Id: isBaryon.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: isBaryon.cc,v 1.1.1.1.2.1 2005/03/17 22:42:53 garren Exp $
 // ----------------------------------------------------------------------
 //
 // isBaryon.cc
 //
-//  check to see if this is a valid meson
+//  check to see if this is a valid baryon
 //
 // ----------------------------------------------------------------------
 

@@ -35,6 +35,7 @@ libCLHEP_HepPDT_@VERSION@_a_SOURCES = \
 	isLepton.cc		\
 	isMeson.cc		\
 	isNucleus.cc		\
+	isPentaquark.cc		\
 	isValid.cc		\
 	jSpin.cc		\
 	lSpin.cc		\
@@ -52,10 +53,9 @@ libCLHEP_HepPDT_@VERSION@_a_SOURCES = \
 	translateHerwig.cc	\
 	translateIsajet.cc	\
 	translatePythia.cc	\
-	translatePDGtabletoPDT.cc	\
+	translatePDG.cc	\
 	translatePDTtoEvtGen.cc	\
 	translatePDTtoGeant.cc	\
-	translatePDTtoPDGtable.cc	\
 	translatePDTtoQQ.cc	\
 	translateQQtoPDT.cc	\
 	version.cc		\
