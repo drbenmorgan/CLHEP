@@ -1,8 +1,12 @@
 ## Process this file with automake to produce Makefile.in
 
+doc_srcdir = $(top_srcdir)/doc
+doc_builddir = $(top_builddir)/doc
+doc_installdir = $(prefix)/doc/@PACKAGE@
+
 install-docs:
-	$(mkinstalldirs) $(DESTDIR)$(prefix)/doc/@PACKAGE@
-	$(INSTALL_DATA) $(top_srcdir)/doc/Random.html $(DESTDIR)$(prefix)/doc/@PACKAGE@/Random.html
-	$(INSTALL_DATA) $(top_srcdir)/doc/validation.doc $(DESTDIR)$(prefix)/doc/@PACKAGE@/validation.doc
-	$(INSTALL_DATA) $(top_srcdir)/doc/html/CLHEP-random.html $(DESTDIR)$(prefix)/doc/@PACKAGE@/CLHEP-random.html
+	$(mkinstalldirs) $(DESTDIR)$(doc_installdir)
+	$(INSTALL_DATA) $(doc_srcdir)/Random.html $(DESTDIR)$(doc_installdir)/Random.html
+	$(INSTALL_DATA) $(doc_srcdir)/validation.doc $(DESTDIR)$(doc_installdir)/validation.doc
+	$(INSTALL_DATA) $(doc_srcdir)/html/CLHEP-random.html $(DESTDIR)$(doc_installdir)/CLHEP-random.html
 

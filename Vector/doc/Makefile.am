@@ -1,19 +1,29 @@
 ## Process this file with automake to produce Makefile.in
 
 TEX = latex
+doc_srcdir = $(top_srcdir)/doc
+doc_builddir = $(top_builddir)/doc
+doc_installdir = $(prefix)/doc/@PACKAGE@
+
+DOC_POSTSCRIPT = VectorDefs.ps eulerAngleComputation.ps
 
 SUFFIXES = .ps .dvi .tex
 
 .dvi.ps:
 	dvips -o $@ $(@:.ps=.dvi)
 
-all: VectorDefs.ps eulerAngleComputation.ps
+all: docs
+
+docs: $(DOC_POSTSCRIPT)
 
 install-docs:
-	$(mkinstalldirs) $(DESTDIR)$(prefix)/doc/@PACKAGE@
-	$(INSTALL_DATA) $(top_builddir)/doc/VectorDefs.ps $(DESTDIR)$(prefix)/doc/@PACKAGE@/VectorDefs.ps
-	$(INSTALL_DATA) $(top_builddir)/doc/eulerAngleComputation.ps $(DESTDIR)$(prefix)/doc/@PACKAGE@/eulerAngleComputation.ps
-	$(INSTALL_DATA) $(top_srcdir)/doc/keyMergeIssues.doc $(DESTDIR)$(prefix)/doc/@PACKAGE@/keyMergeIssues.doc
-	$(INSTALL_DATA) $(top_srcdir)/doc/merge-details.doc $(DESTDIR)$(prefix)/doc/@PACKAGE@/merge-details.doc
-	$(INSTALL_DATA) $(top_srcdir)/doc/minorMergeIssues.doc $(DESTDIR)$(prefix)/doc/@PACKAGE@/minorMergeIssues.doc
+	$(mkinstalldirs) $(DESTDIR)$(doc_installdir)
+	$(INSTALL_DATA) $(doc_builddir)/VectorDefs.ps $(DESTDIR)$(doc_installdir)/VectorDefs.ps
+	$(INSTALL_DATA) $(doc_builddir)/eulerAngleComputation.ps $(DESTDIR)$(doc_installdir)/eulerAngleComputation.ps
+	$(INSTALL_DATA) $(doc_srcdir)/keyMergeIssues.doc $(DESTDIR)$(doc_installdir)/keyMergeIssues.doc
+	$(INSTALL_DATA) $(doc_srcdir)/merge-details.doc $(DESTDIR)$(doc_installdir)/merge-details.doc
+	$(INSTALL_DATA) $(doc_srcdir)/minorMergeIssues.doc $(DESTDIR)$(doc_installdir)/minorMergeIssues.doc
 
+
+# Identify generated file(s) to be removed when 'make clean' is requested:
+CLEANFILES = $(DOC_POSTSCRIPT) *.aux *.log *.toc *.dvi

@@ -1,6 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 
+doc_srcdir = $(top_srcdir)/doc
+doc_builddir = $(top_builddir)/doc
+doc_installdir = $(prefix)/doc/@PACKAGE@
+
 install-docs:
-	$(mkinstalldirs) $(DESTDIR)$(prefix)/doc/@PACKAGE@
-	$(INSTALL_DATA) $(top_srcdir)/doc/HepMC_user_manual.ps $(DESTDIR)$(prefix)/doc/@PACKAGE@/HepMC_user_manual.ps
+	$(mkinstalldirs) $(DESTDIR)$(doc_installdir)
+	$(INSTALL_DATA) $(doc_srcdir)/HepMC_user_manual.ps $(DESTDIR)$(doc_installdir)/HepMC_user_manual.ps
 
