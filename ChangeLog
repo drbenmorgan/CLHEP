@@ -3,6 +3,11 @@
 	* configure.in: install step creates libCLHEP.a, libCLHEP.so,
 	and/or libCLHEP.dylib by adding a symbolic link.
 
+	* HepMC/GenParticle.h: define HepMC::GenParticle::setParticleID 
+
+	* HepPDT: define HepPDT::QQDecayTable::writeTable,
+	HepPDT::QQChannel::write, and HepPDT::QQDecay::write
+
 2005-02-02  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
 
 	* */configure.in: modified compiler flags for windows:
