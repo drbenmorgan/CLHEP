@@ -1,3 +1,7 @@
+2005-02-03  Lynn Garren  <garren@fnal.gov>
+
+	* HepMC/GenParticle.h: define HepMC::GenParticle::setParticleID 
+
 2005-01-31  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
 
 	* doc/Makefile.am: update rule for creation of PS file to avoid s
