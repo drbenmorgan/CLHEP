@@ -1,0 +1,18 @@
+
+# for clhep compilation, set the following as autoconf
+# places the g++ _before_ cl and the other platform 
+# specific ones:
+
+export CPP='cl -E'
+export CC='cl '
+export CXXCPP='cl -E'
+export CXX='cl '
+export LD='cl '
+
+# include and lib are interpreted by the compiler, so use win syntax
+export INCLUDE="c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/include;C:\Program Files\Microsoft Visual Studio .NET 2003\SDK\v1.1\include"
+export LIB="c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/lib;C:\Program Files\Microsoft Visual Studio .NET 2003\SDK\v1.1\Lib"
+
+# to avoid useless complaints from the compiler
+export CXXFLAGS='-EHsc'
+

@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+# use copying of files instead of symlinks as VC doesn't know how to deal with them
+find ../CLHEP -name Makefile.in -exec sed -i -e 's|LN_S = \@LN_S\@|LN_S =/usr/bin/cp|' {} \;
+
+# now run configure (adapt your prefix !)
+../CLHEP/configure --prefix=`pwd`/../win32_vc71
+
+# run the following commands in your build/ directory _after_ running the <path/to/CLHEP-sources>/configure:
+# (if you re-configure, you have to repeat this part !)
+
+# add the source code for drand48 et al to library in Random:
+cp ../CLHEP/Random/src/drand48.src ../CLHEP/Random/src/drand48.cc
+sed -i -e 's|DRand48Engine.cc|DRand48Engine.cc drand48.cc|' Random/src/Makefile
+sed -i -e 's|DRand48Engine.lo|DRand48Engine.lo drand48.lo|' Random/src/Makefile
+
+# to be able to link the test-executables:
+sed -i -e 's|\(.*\)-L${top_builddir}/src[ \t]*-l\(.*-2.0.0.0\)\(.*\)|\1${top_builddir}/src/.libs/lib\2.lib \3|' */test/Makefile
+
+# for the tests in Matrix
+sed -i -e 's|\(.*\)-L${top_builddir}/\(\.\..*/src\)[ \t]*-l\(.*-2.0.0.0\)\(.*\)|\1${top_builddir}/\2/.libs/lib\3.lib \4|' */test/Makefile
+

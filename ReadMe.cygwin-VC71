@@ -1,0 +1,73 @@
+
+For the compilation under cygwin using VC 7.1 (Version 13.10.3077)
+you have to make sure that the PATH contains the path to the
+installation of Visual Studio .NET 2003. 
+
+Before starting the build, you need to set up a 
+couple of environment variables as g++ (from
+cygwin will otherwise be found and used):
+
+export CPP='cl -E'
+export CC='cl '
+export CXXCPP='cl -E'
+export CXX='cl '
+export LD='cl '
+
+The compiler also needs the following variables set up (and 
+as these are interpreted by the compiler, they have to be in 
+"windows-syntax"):
+
+export INCLUDE="c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/include;C:\Program Files\Microsoft Visual Studio .NET 2003\SDK\v1.1\include"
+export LIB="c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/lib;C:\Program Files\Microsoft Visual Studio .NET 2003\SDK\v1.1\Lib"
+
+You may have to adapt to your installation path, if different.
+
+As the compiler will complain about this, we also set:
+export CXXFLAGS='-EHsc'
+
+Now you can go back into your "build directory" but don't
+just start typing "configure" yet ... as the compiler does
+not know about symlinks, we need to fix a couple of files
+and we need to treat some more files in order to get the
+build done. In a future version, this may become more 
+streamlined (feel free to contribute ! :-) ). 
+We assume that you are in the build directory and that the
+source directory is in ../CLHEP for the following commands:
+
+Before running configure, treat the symlinks:
+
+find ../CLHEP -name Makefile.in -exec sed -i -e 's|LN_S = \@LN_S\@|LN_S =/usr/bin/cp|' {} \;
+
+now run configure (feel free to use your own prefix :-) ):
+
+../CLHEP/configure --prefix=`pwd`/../win32_vc71
+
+now, before building the stuff, fix a few items (if 
+you re-configure, you have to repeat this part !):
+
+add the source code for drand48 et al to library in Random:
+cp ../CLHEP/Random/src/drand48.src ../CLHEP/Random/src/drand48.cc
+sed -i -e 's|DRand48Engine.cc|DRand48Engine.cc drand48.cc|' Random/src/Makefile
+sed -i -e 's|DRand48Engine.lo|DRand48Engine.lo drand48.lo|' Random/src/Makefile
+
+to be able to link the test-executables:
+sed -i -e 's|\(.*\)-L${top_builddir}/src[ \t]*-l\(.*-2.0.0.0\)\(.*\)|\1${top_builddir}/src/.libs/lib\2.lib \3|' */test/Makefile
+
+for the tests in the Matrix package:
+sed -i -e 's|\(.*\)-L${top_builddir}/\(\.\..*/src\)[ \t]*-l\(.*-2.0.0.0\)\(.*\)|\1${top_builddir}/\2/.libs/lib\3.lib \4|' */test/Makefile
+
+That's it ! And since you read until here, you can shorten
+the whole procedure by doing (from the build directory,
+assuming it can reach the source by ../CLHEP):
+
+source ../CLHEP/setup.cygwin-VC71
+../CLHEP/doBuild-VC71
+
+(you probably want to adapt the prefix in the doBuild script)
+
+
+Please report problems using the bug-tracker of the 
+savannah portal at: 
+
+http://savannah.cern.ch/projects/clhep
+
