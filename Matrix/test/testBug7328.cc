@@ -130,7 +130,8 @@ int checkHeap (	double * &hNew,
 int main(int, char **) {
   int ret=0;
   int rhp;
-  for (int i = 1; i < 50; i++) {
+  int i,j;
+  for ( i = 0; i < 50; i++) {
     ret = test_inversion(i);
     if (ret) return ret;
   }
@@ -140,8 +141,8 @@ int main(int, char **) {
   int n1 = 4000;
   int n2 = 25;
   heapAddresses ( hNew, hMalloc, hNew10000, hMalloc80000 );
-  for (int i=1; i<n1; i++) {
-    for (int j=1; j < n2; j++) {
+  for (i=0; i<n1; i++) {
+    for (j=1; j < n2; j++) {
       ret = test_inversion(j);
       if (ret) return ret;
     }
@@ -154,10 +155,10 @@ int main(int, char **) {
   ret |= rhp;
   
   heapAddresses ( hNew, hMalloc, hNew10000, hMalloc80000 );
-  for (int i=1; i<2; i++) {
-    for (int j=1; j < 20; j++) {
-      ret |= test_inversion(25+2*j);
-      if (ret) return ret;
+  for (i=1; i<2; i++) {
+    for (j=1; j < 20; j++) {
+      rhp = test_inversion(25+2*j);
+      if (rhp) return rhp;
     }
   }
   heapAddresses ( xhNew, xhMalloc, xhNew10000, xhMalloc80000 );
