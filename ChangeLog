@@ -1,3 +1,19 @@
+Thu Apr 29          2004 Mark Fischler <mf@fnal.gov>
+
+	*  LorentzVectorK.cc 
+	
+	Modified behavior when rapidity of a light-like vector moving 
+	in the -z direction is taken.  Previously, would have tried to take
+	log(0.0). 
+	
+Thu Apr 29          2004 Mark Fischler <mf@fnal.gov>
+
+	* RandEngine.cc
+	* RandEngine.h
+	
+	Code to accomodate possible systems where RAND_MAX is not
+	one fo the two "expected" values of 2**15-1 or 2**31-1. 
+
 Wed Apr 28          2004 Lynn Garren <garren@fnal.gov>
 
 	*  make CLHEP work with Visual C++
