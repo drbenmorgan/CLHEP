@@ -1,3 +1,12 @@
+==============================
+11.05.04 Release CLHEP-2.0.0.2
+==============================
+
+==============================
+11.05.04 Release CLHEP-1.9.0.2
+==============================
+
+
 Tue May 11          2004 Lynn Garren <garren@fnal.gov>
 
 	* tagged for CLHEP 1.9.0.2 (CLHEP_1_9_0_2)
@@ -42,6 +51,10 @@ Wed Apr 28          2004 Lynn Garren <garren@fnal.gov>
 
 	*  make CLHEP work with Visual C++
 
+==============================
+21.04.04 Release CLHEP-2.0.0.1
+==============================
+
 Wed Apr 21          2004 Lynn Garren <garren@fnal.gov>
 
 	* change version to CLHEP 2.0.0.1
@@ -54,11 +67,19 @@ Thu Nov 06          2003 Lynn Garren <garren@fnal.gov>
 	*  adding ZOOM Exceptions package for FNAL
 	*  adding supporting RefCount and Cast packages
 
+==============================
+24.10.03 Release CLHEP-2.0.0.0
+==============================
+
 Fri Oct 24          2003 Lynn Garren <garren@fnal.gov>
 
 	* tagged for CLHEP 2.0.0.0
 	
 	* backwards compatibility code disabled
+
+==============================
+23.10.03 Release CLHEP-1.9.0.0
+==============================
 
 Thu Oct 23          2003 Lynn Garren <garren@fnal.gov>
 
