@@ -20,6 +20,7 @@
 
 int test_inversion (int N) {
 
+  int i,j;
   HepSymMatrix S(N,0); 
   int i,j;
   for(i=1;i<=N;++i) { 
@@ -65,11 +66,7 @@ int test_inversion (int N) {
 #define DET_ALSO
 #ifdef  DET_ALSO
   double detS  =  S.determinant();
-//    std::cout<<"Determinant   N = " << N << 
-//    	"  =  " << detS <<std::endl;   
   double detSS = SS.determinant();
-//    std::cout<<"Determinant Inverse  N = " << N << 
-//    	"  =  " << detSS <<std::endl; 
   if (fabs((detS-1.0/detSS)/detS) > 1.0e-6) {
     std::cout<<"Determinant incorrect  N = " << N << 
     			" error =  " << fabs((detS-1.0/detSS)/detS) <<std::endl; 
@@ -130,18 +127,18 @@ int main(int, char **) {
   int ret=0;
   int rhp;
   int i,j;
-  for ( i = 0; i < 50; i++) {
+  for ( i = 1; i <= 50; i++) {
     ret = test_inversion(i);
     if (ret) return ret;
   }
   double *hNew, *hMalloc, *hNew10000, *hMalloc80000;
   double *xhNew, *xhMalloc, *xhNew10000, *xhMalloc80000;
 
-  int n1 = 4000;
+  int n1 = 400;
   int n2 = 25;
   heapAddresses ( hNew, hMalloc, hNew10000, hMalloc80000 );
   for (i=0; i<n1; i++) {
-    for (j=1; j < n2; j++) {
+    for (j=1; j <= n2; j++) {
       ret = test_inversion(j);
       if (ret) return ret;
     }
@@ -154,7 +151,7 @@ int main(int, char **) {
   ret |= rhp;
   
   heapAddresses ( hNew, hMalloc, hNew10000, hMalloc80000 );
-  for (i=1; i<2; i++) {
+  for (i=0; i<2; i++) {
     for (j=1; j < 20; j++) {
       rhp = test_inversion(25+2*j);
       if (rhp) return rhp;

@@ -1,3 +1,14 @@
+2005-03-23  Mark Fischler  <mf@fnal.gov>
+
+	* SymMatrix.cc, testBug7328.cc
+
+	Repair bug introduced into determinant of large matrices, and exposed
+	by testBug7328 when it is run on VC++ 7.1.
+	Also clean up the test program to avoid declaring loop indices
+	in the for loop statement when indices of the same name will be used
+	later -- VC++ still fouls up when this is done, though it is proper 
+	C++.
+
 2005-03-15  Mark Fischler  <mf@fnal.gov>
 
 	* SymMatrix.cc, testBug7328.cc

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.7 2005/03/21 21:46:39 fischler Exp $
+// $Id: SymMatrix.cc,v 1.3.2.8 2005/03/23 17:57:54 fischler Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -953,8 +953,9 @@ void HepSymMatrix::invert(int &ifail) {
 
 double HepSymMatrix::determinant() const {
   static const int max_array = 20;
-  static std::vector<int> ir_vec (max_array); 
-  if (ir_vec.size() < static_cast<unsigned int>(nrow)) ir_vec.resize(nrow);
+  // ir must point to an array which is ***1 longer than*** nrow
+  static std::vector<int> ir_vec (max_array+1); 
+  if (ir_vec.size() <= static_cast<unsigned int>(nrow)) ir_vec.resize(nrow+1);
   int * ir = &ir_vec[0];   
 
   double det;
