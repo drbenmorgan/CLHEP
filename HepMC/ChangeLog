@@ -1,3 +1,7 @@
+Wed Nov  3 2004     Lynn Garren <garren@fnal.gov>
+
+	* use HepGeom namespace instead of old names for Geometry classes
+
 ==============================
 10.10.04 Release CLHEP-1.9.1.1
 ==============================

@@ -1,4 +1,12 @@
 echo ""
+echo "Executing       ---------> examplePythiaWriteHepMC.exe"
+examplePythiaWriteHepMC.exe
+
+echo ""
+echo "Executing       ---------> exampleReadHepMC.exe"
+exampleReadHepMC.exe
+
+echo ""
 echo "Executing       ---------> test_MakeUsingIteratorsInput.exe"
 test_MakeUsingIteratorsInput.exe
 
@@ -6,10 +14,6 @@ echo ""
 echo "Executing       ---------> example_UsingIterators.exe"
 echo "        (relies on output from test_MakeUsingIteratorsInput.exe)"
 example_UsingIterators.exe
-
-echo ""
-echo "Executing       ---------> example_ReadPDGtable.exe"
-example_ReadPDGtable.exe
 
 echo ""
 echo "Executing       ---------> example_MyPythiaWithEventSelection.exe"
@@ -24,5 +28,5 @@ echo "Executing       ---------> example_MyPythia.exe"
 example_MyPythia.exe
 
 echo ""
-echo "Executing       ---------> example_EventSelection.exe"
-example_EventSelection.exe
+echo "Executing       ---------> example_MyHerwig.exe"
+example_MyHerwig.exe
