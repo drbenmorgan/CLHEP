@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: testRandDists.cc,v 1.3 2003/08/06 18:30:41 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -37,11 +37,14 @@
 #include "CLHEP/Random/RandPoissonT.h"
 #include "Random/defs.h"
 #include <iostream>
+#include <cmath>		// double abs()
+#include <stdlib.h>		// int abs()
 
 using std::cin;
 using std::cout;
 using std::cerr;
 using std::endl;
+using std::abs;
 using namespace CLHEP;
 //#ifndef _WIN32
 //using std::exp;
