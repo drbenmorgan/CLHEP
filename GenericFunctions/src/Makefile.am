@@ -11,6 +11,7 @@ libCLHEP_GenericFunctions_@VERSION@_la_SOURCES = \
 	AbsParameter.cc       \
 	ACos.cc       \
 	AnalyticConvolution.cc       \
+	ArrayFunction.cc       \
 	ASin.cc       \
 	AssociatedLaguerre.cc       \
 	AssociatedLegendre.cc       \
@@ -50,6 +51,8 @@ libCLHEP_GenericFunctions_@VERSION@_la_SOURCES = \
 	LikelihoodFunctional.cc       \
 	Ln.cc       \
 	LogGamma.cc       \
+	LogisticFunction.cc       \
+	Mod.cc       \
 	Parameter.cc       \
 	ParameterDifference.cc       \
 	ParameterNegation.cc       \
@@ -59,8 +62,12 @@ libCLHEP_GenericFunctions_@VERSION@_la_SOURCES = \
 	PeriodicRectangular.cc       \
 	Power.cc       \
 	Psi2Hydrogen.cc       \
+	PtRelFcn.cc       \
+	RCBase.cc       \
 	Rectangular.cc       \
 	ReverseExponential.cc       \
+	RKIntegrator.cc       \
+	Sigma.cc	\
 	Sin.cc       \
 	Sqrt.cc       \
 	Square.cc       \

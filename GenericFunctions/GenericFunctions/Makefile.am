@@ -11,6 +11,7 @@ pkginclude_HEADERS = \
 	AnalyticConvolution.hh         \
 	Argument.hh         \
 	ArgumentList.hh         \
+	ArrayFunction.hh	\
 	ASin.hh         \
 	AssociatedLaguerre.hh         \
 	AssociatedLegendre.hh         \
@@ -59,6 +60,8 @@ pkginclude_HEADERS = \
 	LikelihoodFunctional.hh         \
 	Ln.hh         \
 	LogGamma.hh         \
+	LogisticFunction.hh         \
+	Mod.hh         \
 	ParameterDifference.hh         \
 	Parameter.hh         \
 	ParameterNegation.hh         \
@@ -70,8 +73,12 @@ pkginclude_HEADERS = \
 	PeriodicRectangular.hh         \
 	Power.hh         \
 	Psi2Hydrogen.hh         \
+	PtRelFcn.hh        \
+	RCBase.hh        \
 	Rectangular.hh         \
 	ReverseExponential.hh         \
+	RKIntegrator.hh         \
+	Sigma.hh         \
 	Sin.hh         \
 	SphericalBessel.hh         \
 	SphericalBessel.icc	\
