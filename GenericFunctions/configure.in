@@ -95,7 +95,18 @@ AH_VERBATIM([ENABLE_BACKWARDS_COMPATIBILITY],[/* backwards compatibility will be
 #define ENABLE_BACKWARDS_COMPATIBILITY
 #endif])
 
-AH_BOTTOM([#endif  // GENERICFUNCTIONS_DEFS_H])
+AH_BOTTOM([/*  use correct std::ios_base or std::ios (old) */
+#ifdef HAVE_IOS_BASE
+#define HepIOS std::ios_base 
+#define HepIOSOpenMode std::ios_base::openmode
+#define HepIOSBadBit std::ios_base::badbit  
+#else 
+#define HepIOS std::ios 
+#define HepIOSOpenMode std::ios::open_mode
+#define HepIOSBadBit std::ios::badbit
+#endif
+
+#endif  // GENERICFUNCTIONS_DEFS_H])
 
 
 # ----------------------------------------------------------------------
@@ -196,11 +207,19 @@ esac
 # Check for needed header files:
 # ----------------------------------------------------------------------
 
+AC_CHECK_HEADERS([sstream])
 
 # ----------------------------------------------------------------------
 # Check for needed typedefs, structures, and compiler characteristics:
 # ----------------------------------------------------------------------
 
+AC_MSG_CHECKING([for ios_base])
+iosbase=no
+AC_COMPILE_IFELSE(
+   [AC_LANG_PROGRAM([[#include <fstream>
+   std::ios_base::openmode mode;]])],
+   [AC_DEFINE([HAVE_IOS_BASE], [], [have std::ios_base]) iosbase=yes] )
+AC_MSG_RESULT([$iosbase])
 
 # ----------------------------------------------------------------------
 # Check for needed library functions:

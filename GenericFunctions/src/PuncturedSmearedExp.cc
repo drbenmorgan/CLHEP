@@ -1,7 +1,12 @@
 // -*- C++ -*-
-// $Id: PuncturedSmearedExp.cc,v 1.2.2.1 2004/04/27 17:35:29 garren Exp $
+// $Id: PuncturedSmearedExp.cc,v 1.2.2.2 2004/04/27 22:38:27 garren Exp $
 #include "CLHEP/GenericFunctions/PuncturedSmearedExp.hh"
+#include "CLHEP/GenericFunctions/defs.h"
+#if HAVE_SSTREAM
 #include <sstream>
+#else
+#include "CLHEP/GenericFunctions/StringStream.h"
+#endif
 #include <cmath>
 namespace Genfun {
 FUNCTION_OBJECT_IMP(PuncturedSmearedExp)
