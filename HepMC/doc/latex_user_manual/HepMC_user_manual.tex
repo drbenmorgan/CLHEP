@@ -81,15 +81,15 @@
 
 \vspace{2cm}
 
-\htmladdnormallink{http://cern.ch/HepMC/}
-{http://cern.ch/HepMC/}
+\htmladdnormallink{https://savannah.cern.ch/projects/clhep/}
+{https://savannah.cern.ch/projects/clhep/}
 
 \vspace{1cm}
 
-{\Large User Manual Version 1.20} \\
-January 23, 2002
+{\Large User Manual Version 1.22} \\
+October 7, 2002
 
-\vspace{3cm}
+\vspace{2cm}
 
 {\huge Matt Dobbs} \\
 University of Victoria, Canada
@@ -98,6 +98,11 @@ University of Victoria, Canada
 
 {\huge J$\o$rgen Beck Hansen} \\
 CERN
+
+\vspace{.5cm}
+
+{\Large Lynn Garren} \\
+FNAL
 
 \vspace{1cm}
 
@@ -133,7 +138,7 @@ CERN
 
 This user manual is intended as a companion to the 
 \htmladdnormallinkfoot{online documentation}
-{http://cern.ch/HepMC/}, and together with the examples
+{https://savannah.cern.ch/projects/clhep/}, and together with the examples
 should provide a friendly introduction to the HepMC event record. A
 general overview is available in Ref.~\cite{dobbs:2000CompPhysComm}.
 
@@ -248,7 +253,8 @@ of the event record.
 \item ability to store the state of random number generators (as
   integers)
 \item ability to store an arbitrary number of event weights
-\item strategies for input/output to/from HEPEVT and ascii files which
+\item strategies for conversion to/from HEPEVT 
+\item strategies for input/output to/from ascii files which
   are easily extendible to support other event records and forms of
   persistency
 \end{itemize}
@@ -278,14 +284,9 @@ which allow easy directed access to information in the C++ Standard
 Template Library (STL) style.
 
 Data for each particle type (mass, lifetime, charge, etc.) can be
-stored as particle data objects for which a particle data table
-container is provided. There are no dependencies between the particle
-data objects and the other elements of the event - the relationship
-exists only by means of the particle id which is used to lookup
-information from within a particle data table. As such the data table
-and event record are separate modular entities which need not be used
-in conjunction (a user may choose to employ the event record while
-using his own particle data classes).
+stored as particle data objects for using the HepPDT particle data table classes. 
+Each particle contains a pointer to a particle data object and a 
+decay data object.  These pointers are NULL by default.
 
 The event record class relationships and the particle
 data class relationships are shown in Figure~\ref{UML_diagrams}.
@@ -296,29 +297,26 @@ data class relationships are shown in Figure~\ref{UML_diagrams}.
   \end{center}
   \caption{\label{UML_diagrams} Class diagrams for the event record
     classes (GenEvent, GenVertex, and GenParticle), the data table
-    classes (ParticleData and ParticleDataTable) and the IO strategies
+    classes (HepPDT::ParticleData and HepPDT::ParticleDataTable) and the IO strategies
     are shown in the UML notation.}
 \end{figure}
 
-Several input/output strategies are provided. The interface for these
-strategies is defined by an abstract base class, IO\_BaseClass.  These
-strategies are capable of input/output of events and particle data
+A simple ascii input/output strategy is provided in ReadHepMC.h and WriteHepMC.h.
+These strategy is capable of input/output of events and particle data
 tables - as such they depend directly on both the event record classes
 and particle data table classes.
 
 The package consists of about 5500~lines of code including
-$\approx$1500~comments. There are 9 core classes (GenEvent,
-GenVertex, GenParticle, Flow, Polarization, WeightContainer,
-ParticleData, ParticleDataTable,
-IO\_BaseClass) and several utility classes (i.e.\ IO\_HEPEVT, IO\_Ascii,
-IO\_PDG\_ParticleDataTable, HEPEVT\_Wrapper, PythiaWrapper, \ldots).
+$\approx$1500~comments. There are 6 core classes (GenEvent,
+GenVertex, GenParticle, Flow, Polarization, WeightContainer, )
+and several utility classes (i.e., CBInterface, PythiaWrapper, \ldots).
 
 \subsection{Dependencies}
 
-The HepMC package dependencies have been limited to the C++ Standard
+The HepMC package depends on HepPDT, the C++ Standard
 Template Library~\cite{stl} (STL) and the vector classes from the
 Class Library for High Energy Physics~\cite{clhep} (CLHEP).  A simple
-wrapper for Pythia 6.1~\cite{Sjostrand:1994yb} is supplied with the
+wrapper for Pythia 6.2~\cite{Sjostrand:2001yb} is supplied with the
 package to allow the inclusion of event generation examples.
 
 \subsection{Namespace}
@@ -326,10 +324,9 @@ package to allow the inclusion of event generation examples.
 The HepMC package is written within the HepMC:: namespace. Outside of
 this namespace all class names will need to be prefixed by HepMC::.
 
-% This allows the classes to use simple names (such as Particle) which
-% might otherwise conflict with class names from other packages.
-
 \subsection{Performance}
+
+{\large numbers need to be run again}
 
 The CPU time performance of the HepMC event record has been quantified
 by generating 1000 LHC $W\gamma$ production events using Pythia 5.7
@@ -423,8 +420,8 @@ rest of the event record.
     of the event}
   \myitem{weights}{a container of an arbitrary number of 8 byte 
     floating point event weights}
-  \myitem{random\_states}{a container of an arbitrary number of 4 byte
-    integers which define the random number generator state just
+  \myitem{random\_states}{a container of an arbitrary number of doubles
+    which define the random number generator state just
     before the event generation}
 \end{myitemize}
 \begin{myitemize}{Notes and Conventions}
@@ -459,7 +456,7 @@ possibilities is open ended and specific to the application -
 and would clutter the HepMC package. Implementing a predicate is
 simple (about 4 lines of code).
 Examples are given in the GenEvent header file and in
-\verb!example_UsingIterators.cxx! (Section~\ref{examples}).
+\verb!example_UsingIterators.cc! (Section~\ref{examples}).
 
 The signal\_process\_id is packaged with each event (rather than being
 associated with a run class for example) to handle the possibility of
@@ -543,9 +540,14 @@ spirit.
 \begin{myitemize}{Important Public Methods}
   \myitem{operator HepLorentzVector}{conversion operator -
     resolves the particle as a 4-vector according to its momentum}
+  \myitem{mass}{nominal mass, i.e., from the PDG}
+  \myitem{generatedMass}{generated mass}
+  \myitem{momentum().m()}{on shell mass}
 \end{myitemize}
 \begin{myitemize}{Data Members}
   \myitem{momentum}{$\vec{p},cE$ in [GeV] stored as CLHEP LorentzVector}
+  \myitem{generatedMass}{generated mass for this particle 
+           (needed if the particle is off-shell)}
   \myitem{pdg\_id}{unique integer ID specifying the particle type}
   \myitem{status}{integer specifying the particle's status
   (i.e.\ decayed or not)}
@@ -559,12 +561,14 @@ spirit.
     can only be set by the vertex}
   \myitem{barcode}{an integer which uniquely identifies the GenParticle
     within the event. For particles the barcodes are always positive integers.}
+  \myitem{HepPDT::ParticleData}{pointer to particle data entry in particle data table}
+  \myitem{HepPDT::DecayData}{pointer to decay data entry in particle data table.}
 \end{myitemize}
 \begin{myitemize}{Notes and Conventions}
   \item the particle ID should be specified according to the 
     PDG standard~\cite{Caso:1998tx}
   \item status codes are as defined for
-    HEPEVT~\cite{stdhep4.08}\footnote{
+    HEPEVT~\cite{stdhep5.01}\footnote{
       For convenience the HEPEVT standard status codes are enumerated:
       \begin{tabbing}
         0 \hspace{1cm} \= null entry \\
@@ -579,7 +583,7 @@ spirit.
         tracking in the detector
       \end{tabbing}
       }
-
+  \item You can ask for 3 masses:  nominal mass, generated mass, and on shell  mass.
 \end{myitemize}
 
 The particle is the basic unit within the event record. The GenParticle
@@ -665,134 +669,67 @@ can be returned as a CLHEP normal 3-vector as well.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 
-\subsection{HepMC::ParticleData}
+\subsection{HepPDT::ParticleData}
 \begin{myitemize}{Relevant Data Members}
   \myitem{name}{std::string giving an ascii description of the
     particle type}
-  \myitem{pdg\_id}{unique ID integer denoting the particle type 
+  \myitem{pid}{unique ID integer denoting the particle type 
     as defined by the PDG}
   \myitem{charge}{in fraction of proton charge}
   \myitem{mass}{in [GeV/c$^2$]}
-  \myitem{c$\times$lifetime}{particle lifetime in [mm]}
-  \myitem{spin}{}
+  \myitem{totalWidth}{particle width}
+  \myitem{lifetime}{particle lifetime}
+  \myitem{spin}{spin state}
+  \myitem{HepPDT::DecayData}{pointer to decay table entry}
 \end{myitemize}
 \begin{myitemize}{Notes and Conventions}
-  \item the lifetime can be set by specifying either 
-    the lifetime or the width
-  \item c$\times$lifetime=-1 specifies a stable particle (zero width)
+  \item a stable particle will have a null DecayData pointer
 \end{myitemize}
 
-ParticleData class stores information about a particular particle
+The HepPDT::ParticleData class stores information about a particular particle
 type. It is intended that a different ParticleData object is created 
 for each particle and each anti-particle - necessary for CP violation
-cases. The charge and spin are stored internally as integers representing
-$\frac{\mbox{proton charge}}{3}$ and $\frac{\mbox{photon spin}}{2}$
-respectively. 
+cases.  See the HepPDT manual for more information about the 
+ParticleData, ParticleDataTable, and DecayData classes.
+
 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 
-\subsection{HepMC::ParticleDataTable}
+\subsection{HepMC::ConvertHEPEVT}
 \begin{myitemize}{Important Public Methods}
-  \myitem{find}{returns the ParticleData instance with the specified
-    pdg\_id}
-  \myitem{operator[]}{equivalent to find}
-  \myitem{insert}{includes the specifed ParticleData instance in the
-    table}
-  \myitem{erase}{removes the specified ParticleData instance from the
-    table but does not delete it}
-  \myitem{iterator/const\_iterator}{iterates over all entries in the
-    table} 
-  \myitem{make\_antiparticles\_from\_particles}{for each charged entry
-    in the table, makes an equivalent entry with opposite charge and
-    pdg\_id.} 
-  \myitem{delete\_all}{removes all ParticleData instances from the
-    table and deletes them}
-  \myitem{merge\_table}{merges the entries from the specified
-    ParticleDataTable if they are not already in the current table}
-  \myitem{print}{gives a formatted printout of the table to the
-    specified output stream}
-\end{myitemize}
-\begin{myitemize}{Relevant Data Members}
-  \myitem{description}{ascii description of the table stored as
-    std::string} 
-  \myitem{data\_table}{container of pointers to ParticleData instances
-    mapped onto their associated pdg\_id's}
+  \myitem{getGenEventfromHEPEVT}{creates GenEvent object using the information 
+                in the HEPEVT common block} 
 \end{myitemize}
 
-ParticleDataTable is a container for ParticleData instances - it is
-basically just an interface to an STL map, and STL naming conventions
-are employed. A ParticleData instance may belong to any number of
-ParticleDataTables. The ParticleDataTable is not the owner of the
-ParticleData instances and is not responsible for deleting them
-(though a delete\_all method is provided). Two ParticleData instances
-with identical pdg\_id's are forbidden from entering the same
-ParticleDataTable. 
+ConvertHEPEVT relies on the helper class CBhepevt.  An example using 
+ConvertHEPEVT to convert Pythia information to a GenEvent object is in 
+examplePythiaWriteHepMC.cc.
 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 
-\subsection{HepMC::IO\_BaseClass}
+\subsection{HepMC Read/Write Methods}
 \begin{myitemize}{Important Public Methods}
-  \myitem{write\_event}{writes out the specified event to the output
-    strategy} 
-  \myitem{read\_next\_event}{reads the next event from the input
-    strategy into memory}
-  \myitem{write\_particle\_data\_table}{writes out the specified
-    particle data table to the output strategy} 
-  \myitem{read\_particle\_data\_table}{reads a particle data table from
-    the input strategy}
+  \myitem{writeGenEvent}{writes out the specified event to the specified
+      output stream} 
+  \myitem{readGenEvent}{reads the next event from the specified input
+    stream into memory}
   \myitem{operator$<<$,operator$>>$}{overloaded to give the
-    same results as any of the above methods}
+    same results as writeGenEvent and readGenEvent}
+  \myitem{writeComment}{writes out a specified comment} 
+  \myitem{writeLegend}{writes a legend for deciphering the ascii file} 
 \end{myitemize}
 
-IO\_BaseClass is the abstract base class defining the interface and
-syntax for input and output strategies of events and particle data tables.
+The read/write methods read and write events 
+to files in machine readable ascii, thereby providing a
+form of persistency for the event record. Events, particle data
+tables, and other information, may be contained within the same file 
+(recommend to write the particle data table first to save access time) 
+together with an unlimited number of comments. 
 
-Several IO strategies are supplied:
-\begin{itemize}\setlength{\itemsep}{0pt}
-  \item {\bf IO\_Ascii} reads and writes events and particle data
-    tables to files in machine readable ascii, thereby providing a
-    form of persistency for the event record. Events and particle data
-    tables may be contained within the same file (recommend to write
-    the particle data table first to save access time) together with
-    an unlimited number of comments. The majority of examples listed in
-    Section~\ref{examples} make use of this class.
-  \item {\bf IO\_HEPEVT} reads and writes events to/from the Fortran HEPEVT
-    common block. It relies on a helper class HEPEVT\_Wrapper which
-    is the interface to the common block
-    (which is defined in the header file HEPEVT\_Wrapper.h\footnote{
-      Different conventions exist for the fortran HEPEVT common
-      block. 4 or 8-byte floating point numbers may be used, and the
-      number of entries is often taken as 2000 or 4000. To account for
-      all possibilities the precision (float or double) and number of
-      entries can be set for the wrapper at run time,
-      \begin{tabbing}
-      i.e.\ \hspace{1cm} \= HEPEVT\_Wrapper::set\_max\_number\_entries(4000);\\
-                         \> HEPEVT\_Wrapper::set\_sizeof\_real(8); 
-            \hspace{1cm} .
-      \end{tabbing}
-      To interface properly to HEPEVT and avoid non-sense
-      results, it is essential to get these definitions right
-      {\it for your application}. See example\_MyPythia.cxx
-      (Section~\ref{examples}) for an example.
-      }).
-    This IO strategy
-    provides the means for interfacing to Fortran event
-    generators. Other strategies which interface directly to the
-    specific event record of a generator could be easily implemented
-    in this style. An example of using IO\_HEPEVT to transfer events
-    from Pythia into HepMC is given in \verb!example_MyPythia.cxx! 
-    (Section~\ref{examples}).
-  \item {\bf IO\_PDG\_ParticleDataTable} reads a particle data table
-    from an ascii file in the \htmladdnormallinkfoot
-    {PDG machine readable
-      format.}{http://pdg.lbl.gov/computer\_read.html}
-    An example is given in \verb!example_ReadPDGtable.cxx! 
-    (Section~\ref{examples}).
-\end{itemize}
 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -802,7 +739,7 @@ Several IO strategies are supplied:
 \label{iterators}
 
 Examples of using the particle/vertex iterators are provided in
-\verb!example_UsingIterators.cxx! (Section~\ref{examples}).
+\verb!example_UsingIterators.cc! (Section~\ref{examples}).
 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -951,22 +888,16 @@ Examples are provided at
 \begin{itemize}\setlength{\itemsep}{0pt}
 
   \myitem{Using the HepMC Vertex and Particle Iterators}{} \\
-  Refer to \verb!examples/example_UsingIterators.cxx!
+  Refer to \verb!examples/example_UsingIterators.cc!
 
   \myitem{Using HepMC with Pythia (F77)}{} \\
-  Refer to \verb!examples/example_MyPythia.cxx!
+  Refer to \verb!examplePythiaWriteHepMC.cc!
+
+  \myitem{Reading a events from an ASCII file}{} \\
+  Refer to \verb!exampleReadHepMC.cc!
 
   \myitem{An Event Selection with Pythia Events}{} \\
-  Refer to \verb!examples/example_MyPythiaWithEventSelection.cxx!
-
-  \myitem{Event Selection and Ascii IO}{} \\
-  Refer to \verb!examples/example_EventSelection.cxx!
-
-  \myitem{Reading PDG Data Tables}{} \\
-  Refer to \verb!examples/example_ReadPDGtable.cxx!
-
-  \myitem{Building an Event from Scratch in the HepMC Framework}{} \\
-  Refer to \verb!examples/example_BuildEventFromScratch.cxx!
+  Refer to \verb!examples/example_MyPythiaWithEventSelection.cc!
 
 \end{itemize}
 %
@@ -1031,8 +962,8 @@ E.~Boos {\it et al.},
 ``Generic user process interface for event generators,''
 arXiv:hep-ph/0109068.
 
-\bibitem{stdhep4.08}
-  L.~Garren, ``StdHep 4.08 Monte Carlo Standardization at FNAL,''
+\bibitem{stdhep5.01}
+  L.~Garren, ``StdHep 5.01 Monte Carlo Standardization at FNAL,''
   Fermilab PM0091. Available from \htmladdnormallink
   {http://www-pat.fnal.gov/stdhep.html}{http://www-pat.fnal.gov/stdhep.html}.
 
@@ -1056,10 +987,10 @@ arXiv:hep-ph/0109068.
   {http://wwwinfo.cern.ch/asd/lhc++/clhep/}
   {http://wwwinfo.cern.ch/asd/lhc++/clhep/}.
 
-\bibitem{Sjostrand:1994yb}
-  T.~Sjostrand,
-  ``High-energy physics event generation with PYTHIA 5.7 and JETSET 7.4,''
-  Comput.\ Phys.\ Commun.\  {\bf 82}, 74 (1994).
+\bibitem{Sjostrand:2001yb}
+  T.~Sjöstrand, P.~Edén, C.~Friberg, L.~Lönnblad, G.~Miu, S.~Mrenna and E.~Norrbin,
+  ``High-Energy-Physics Event Generation with PYTHIA 6.1,''
+  Comput.\ Phys.\ Commun.\  {\bf 135}, 238 (2001).
 
 \bibitem{evtgen}
   A.~Ryd, D.~Lange,
