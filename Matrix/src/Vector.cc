@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Vector.cc,v 1.3.2.3 2004/09/10 21:26:09 garren Exp $
+// $Id: Vector.cc,v 1.3.2.4 2005/02/01 20:21:24 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -165,7 +165,6 @@ return vret(max_row-min_row+1);
   return vret;
 }
 
-#ifdef HEP_CC_NEED_SUB_WITHOUT_CONST
 HepVector HepVector::sub(int min_row, int max_row)
 {
   HepVector vret(max_row-min_row+1);
@@ -177,7 +176,6 @@ HepVector HepVector::sub(int min_row, int max_row)
   for(;a<e;) *(a++) = *(b++);
   return vret;
 }
-#endif
 
 void HepVector::sub(int row,const HepVector &v1)
 {

@@ -1,3 +1,9 @@
+2005-02-01  Lynn Garren  <garren@fnal.gov>
+
+	* Matrix: remove HEP_CC_NEED_SUB_WITHOUT_CONST ifdefs
+	HEP_CC_NEED_SUB_WITHOUT_CONST has been defined to 1 in all 
+	cases for a long time.
+
 2005-01-31  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
 
 	* src/Matrix.h: fixed error in sub(int, int, int, int), savannah 
