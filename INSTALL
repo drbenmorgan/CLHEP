@@ -40,6 +40,21 @@ make install
     subdirectories under <install_dir>.)
 
 #-------------------------------------------------------------
+#  configure options
+#-------------------------------------------------------------
+
+A variety of options can be given to configure.  Below is a list 
+of the options that you are likely to find most useful.
+
+  --help                  provides a partial list of options
+  --prefix=PREFIX         install architecture-independent files in PREFIX
+                          [default is /usr/local]
+  --exec-prefix=EPREFIX   install architecture-dependent files in EPREFIX
+                          [default is the same as PREFIX]
+  --disable-shared        build only static libraries
+  --disable-static        build only shared libraries   
+ 
+#-------------------------------------------------------------
 # building from cvs
 #-------------------------------------------------------------
 
