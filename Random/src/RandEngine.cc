@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandEngine.cc,v 1.5 2004/04/29 02:47:31 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -27,9 +27,9 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandEngine.h"
 #include "CLHEP/Random/Random.h"
-#include "CLHEP/Random/RandomFunc.h"
 #include <string.h>
 #include <cmath>	// for pow()
+#include <stdlib.h>	// for int()
 
 namespace CLHEP {
 

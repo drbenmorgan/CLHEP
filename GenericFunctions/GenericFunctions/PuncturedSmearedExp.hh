@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: PuncturedSmearedExp.hh,v 1.1 2004/02/05 15:35:25 boudreau Exp $
+// $Id: PuncturedSmearedExp.hh,v 1.2 2004/04/29 02:47:30 garren Exp $
 // ------------------------------------------------------------------------------//
 // This function-object makes an exponential with acceptance holes ("punctures") //
 // smeared by a resolution function.                                             //

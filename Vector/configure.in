@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.57)
-AC_INIT(CLHEP Vector, 2.0.0.0, CLHEP@cern.ch, Vector)
+AC_INIT(CLHEP Vector, 2.0.0.1, CLHEP@cern.ch, Vector)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/AxisAngle.cc])
@@ -56,8 +56,6 @@ AC_SUBST(Vector_LIBS)
 AC_SUBST(Vector_LDFLAGS)
 
 AC_SUBST(COPY_P)
-AC_SUBST(SRCLIB)
-AC_SUBST(LIBEXTENSION)
 
 # ----------------------------------------------------------------------
 # Supply boilerplate for Vector/defs.h source header:
@@ -182,25 +180,6 @@ powerpc-apple-darwin*)
   *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;; 
 esac
-
-# deal with libraries
-case "$target" in
-*-*-win32*)
-  case "$CXX" in
-  cl)  SRCLIB="src/.libs";LIBEXTENSION=".lib";;
-  g++) SRCLIB="src";LIBEXTENSION=".la";;
-  c++) SRCLIB="src";LIBEXTENSION=".la"
-  esac;;
-*-*-cygwin*)
-  case "$CXX" in
-  cl)  SRCLIB="src/.libs";LIBEXTENSION=".lib";;
-  g++) SRCLIB="src";LIBEXTENSION=".la";;
-  c++) SRCLIB="src";LIBEXTENSION=".la"
-  esac;;
-*-*-*)
-  SRCLIB="src";LIBEXTENSION=".la";;
-esac
-
 
 # ----------------------------------------------------------------------
 # Set system-dependent options:

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: PuncturedSmearedExp.cc,v 1.2 2004/04/20 15:03:52 pfeiffer Exp $
+// $Id: PuncturedSmearedExp.cc,v 1.3 2004/04/29 02:47:30 garren Exp $
 #include "CLHEP/GenericFunctions/PuncturedSmearedExp.hh"
 #include <sstream>
 #include <cmath>
