@@ -1,3 +1,9 @@
+2005-02-02  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* */configure.in: modified compiler flags for windows:
+	added "-O -GR -GX -MD" as this is needed for the multi-thread
+	environments used.
+
 2005-02-01  Lynn Garren  <garren@fnal.gov>
 
 	* config: remove HEP_CC_NEED_SUB_WITHOUT_CONST from config/CLHEP.h.

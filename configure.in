@@ -101,7 +101,7 @@ c++)
    *) AM_CXXFLAGS="-O -ansi -pedantic -Wall"
    esac;;
 cl)  
-   AM_CXXFLAGS="-EHsc"
+   AM_CXXFLAGS="-EHsc -O -GR -GX -MD"
    ;;
 CC)  
    case "$target" in
