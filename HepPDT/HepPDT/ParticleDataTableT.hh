@@ -1,4 +1,4 @@
-// $Id: ParticleDataTableT.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ParticleDataTableT.hh,v 1.1.1.1.2.1 2004/06/23 23:27:07 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleDataTableT.hh
@@ -9,6 +9,7 @@
 #define PARTICLEDATATABLET_HH
 
 #include <iostream>
+#include <string>
 #include <map>
 
 #include "CLHEP/HepPDT/ParticleID.hh"
@@ -38,8 +39,10 @@ public:
 
   typedef  std::map<ParticleID,TempParticleData>  TempMap;
   typedef  std::map<ParticleID,ParticleData>      PDTMap;
+  typedef  std::map<std::string,ParticleData>  PDTNameMap;
 
-  typedef typename  PDTMap::const_iterator  const_iterator;
+  typedef typename  PDTMap::const_iterator      const_iterator;
+  typedef typename  PDTNameMap::const_iterator  const_iteratorByName;
 
   // ---  birth/death:
   //
@@ -51,13 +54,20 @@ public:
   int             size()  const { return itsMap.size(); }
   const_iterator  begin() const { return itsMap.begin(); }
   const_iterator  end()   const { return itsMap.end(); }
+  int                   sizeNameMap()  const { return itsNameMap.size(); }
+  const_iteratorByName  beginNameMap() const { return itsNameMap.begin(); }
+  const_iteratorByName  endNameMap()   const { return itsNameMap.end(); }
   std::string     tableName() const { return itsTableName; }
 
   inline ParticleData const * particle( ParticleID ) const;
   inline ParticleData       * particle( ParticleID );
+  inline ParticleData const * particle( std::string ) const;
+  inline ParticleData       * particle( std::string );
 
   inline ParticleData       * operator [] ( ParticleID );
   inline ParticleData const * operator [] ( ParticleID ) const;
+  inline ParticleData       * operator [] ( std::string );
+  inline ParticleData const * operator [] ( std::string ) const;
 
   void writeParticleData( std::ostream & outstr );
   
@@ -70,6 +80,7 @@ private:
   CPDlist     itsCPDlist;
   DDlist      itsDDlist;
   PDTMap      itsMap;
+  PDTNameMap  itsNameMap;
   std::string itsTableName;
 
   // ---  copying; forbidden:
@@ -80,6 +91,7 @@ private:
   void addParticle( ParticleData const & p );
   CPDID addParticleData( CPD const & cpd );
   typedef typename  PDTMap::iterator        iterator;
+  typedef typename  PDTNameMap::iterator    nameIterator;
   //?iterator        begin()       { return itsMap.begin(); }
   //?iterator        end()       { return itsMap.end(); }
 

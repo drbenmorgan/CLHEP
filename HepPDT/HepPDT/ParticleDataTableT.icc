@@ -1,4 +1,4 @@
-// $Id: ParticleDataTableT.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ParticleDataTableT.icc,v 1.1.1.1.2.1 2004/06/23 23:27:07 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleDataTableT.icc
@@ -60,6 +60,44 @@ typename ParticleDataTableT<Config>::ParticleData const * ParticleDataTableT<Con
 }
 
 template< class Config >
+typename ParticleDataTableT<Config>::ParticleData * ParticleDataTableT<Config>::particle( std::string nkey)
+{ 
+  nameIterator it;
+  it = itsNameMap.find( nkey );
+  if( it != itsNameMap.end() ) {
+    return & it->second;
+  } else {
+    //std::cerr << "cannot find particle " << nkey << " in map" << std::endl;
+    return NULL;
+  }
+}
+
+template< class Config >
+typename ParticleDataTableT<Config>::ParticleData const * ParticleDataTableT<Config>::particle( std::string nkey ) const
+{ 
+  const_iteratorByName cit;
+  cit = itsNameMap.find( nkey );
+  if( cit != itsNameMap.end() ) {
+    return & cit->second;
+  } else {
+    //std::cerr << "cannot find particle " << nkey << " in map" << std::endl;
+    return NULL;
+  }
+}
+
+template< class Config >
+typename ParticleDataTableT<Config>::ParticleData * ParticleDataTableT<Config>::operator [] ( std::string nkey )
+{
+  return particle( nkey );
+}
+
+template< class Config >
+typename ParticleDataTableT<Config>::ParticleData const * ParticleDataTableT<Config>::operator [] ( std::string nkey ) const
+{
+  return particle( nkey );
+}
+
+template< class Config >
 void ParticleDataTableT<Config>::writeParticleData( std::ostream & outstr )
 {
   // write header
@@ -106,7 +144,9 @@ template< class Config >
 void ParticleDataTableT<Config>::addParticle( ParticleData const & p )
 {
   ParticleID id=p.ID();
+  //std::string nid(p.name());
   itsMap.insert( std::make_pair( id, p )); 
+  itsNameMap.insert( std::make_pair( p.name(), p )); 
 }
 
 }	// HepPDT
