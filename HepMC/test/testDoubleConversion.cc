@@ -21,15 +21,12 @@ int main() {
   }
   unsigned long a1 = 0x40100000;
   unsigned long a2 = 0;
-  std::vector<unsigned long> v;
-  v.push_back(a1);
-  v.push_back(a2);
-  double d4 = DoubleConversion::longs2double(v);
+  double d4 = DoubleConversion::longs2double(a1,a2);
 #ifdef VERBOSE
   std::cout << "d4 (should be 4.0) is " << d4 << "\n";
 #endif
   if (d4 != 4.0) {
-    std::cout << "longs2double(v): double represented by 0x4010000000000000 is "
+    std::cout << "longs2double(a1,a2): double represented by 0x4010000000000000 is "
   	<< d4 << "\n                 which should be 4.0\n"; 
     return 2;  
   }    
@@ -56,20 +53,15 @@ int main() {
 	<< "\n                 which should be 42f0060504030201\n"; 
     return 3;
   }
-  v = DoubleConversion::dto2longs(x);
+  DoubleConversion::dto2longs(x,a1,a2);
 #ifdef VERBOSE
   std::cout << "Longs representing x are " 
-  	<< std::hex << v[0] << ", " << std::hex << v[1] << "\n";
+  	<< std::hex << a1 << ", " << std::hex << a2 << "\n";
 #endif
-  if (v.size() != 2) {
-    std::cout << "dto2longs(double): Longs representing x are vector of size " 
-  	<< v.size() <<  "\n";
-    return 4;
-  }
-  if ( (v[0] != 0x42f00605ul) || (v[1] != 0x04030201ul) ) {
-    std::cout << "dto2longs(double): Longs representing x are\n" 
+  if ( (a1 != 0x42f00605ul) || (a2 != 0x04030201ul) ) {
+    std::cout << "dto2longs(double,long,long): Longs representing x are\n" 
   	      << "                   " 
-	      << std::hex << v[0] << ", " << std::hex << v[1] << "\n"
+	      << std::hex << a1 << ", " << std::hex << a2 << "\n"
 	      << "        (should be 42f00605, 4030201\n";
     return 5;
   } 

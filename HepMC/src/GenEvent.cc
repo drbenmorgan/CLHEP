@@ -354,16 +354,13 @@ namespace HepMC {
 
     std::vector<double> GenEvent::random_states_double() const 
     { 
-        std::vector<unsigned long> two(2);
 	std::vector<double> result;
 	double dd;
 	// take two longs and make a double
 	// we assume here that these were initially passed in as doubles
-	for( unsigned int i=0; i<(m_random_states.size()-1); ++i ) {
-	   two[0]=m_random_states[i];
-	   ++i;
-	   two[1]=m_random_states[i];
-	   dd = DoubleConversion::longs2double(two);
+	for( unsigned int i=0; i<(m_random_states.size()-1); ++i) {
+	   dd = DoubleConversion::longs2double(m_random_states[i],m_random_states[i+1]);
+           ++i;
 	   result.push_back(dd);
 	}
 	return result;
@@ -372,11 +369,11 @@ namespace HepMC {
     void GenEvent::set_random_states_double( const std::vector<double>& randomstates )
     {
         // convert doubles to longs and save
-        std::vector<unsigned long> two(2);
+	unsigned long l1, l2;
 	for( unsigned int i=0; i<randomstates.size(); ++i ) {
-	   two = DoubleConversion::dto2longs(randomstates[i]);
-	   m_random_states.push_back(two[0]);
-	   m_random_states.push_back(two[1]);
+	   DoubleConversion::dto2longs(randomstates[i], l1, l2);
+	   m_random_states.push_back(l1);
+	   m_random_states.push_back(l2);
 	}
     }
 

@@ -95,11 +95,9 @@ void  RandomState::appendSeed( unsigned long sd )
 void  RandomState::appendSeed( double sd )
 {
    std::ostringstream st(myRandomState);
-   std::vector<unsigned long> two;
-   two = HepMC::DoubleConversion::dto2longs(sd);
-   if (two.size() > 1 ) {
-       st << " " << two[0] << " " << two[1];
-   }
+   unsigned long i1, i2;
+   HepMC::DoubleConversion::dto2longs(sd,i1,i2);
+   st << " " << i1 << " " << i2;
    myRandomState = st.str();
 }
 

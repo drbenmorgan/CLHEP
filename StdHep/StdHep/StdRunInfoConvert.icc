@@ -1,4 +1,4 @@
-// $Id: StdRunInfoConvert.icc,v 1.1.1.1.2.1 2005/03/07 18:30:27 garren Exp $
+// $Id: StdRunInfoConvert.icc,v 1.1.1.1.2.2 2005/03/14 17:36:31 garren Exp $
 // ----------------------------------------------------------------------
 //
 // StdRunInfoConvert.icc
@@ -27,8 +27,8 @@ StdRunInfo * getRunInfoFromSTDCM( int irun )
                                  (double)(*cm)->stdcm1()->stdxsec );
     // convert doubles to longs and save
     std::vector<unsigned long> state(4);
-    state[0] = DoubleConversion::dto2longs((*cm)->stdcm1()->stdseed1);
-    state[2] = DoubleConversion::dto2longs((*cm)->stdcm1()->stdseed2);
+    DoubleConversion::dto2longs((*cm)->stdcm1()->stdseed1,*state[0],*state[1]);
+    DoubleConversion::dto2longs((*cm)->stdcm1()->stdseed2,*state[2],*state[3]);
     run->saveSeeds( state );
     // save names
     std::string gname = (*cm)->stdcm2()->generatorname;
@@ -50,7 +50,7 @@ bool RunInfoToSTDCM( StdRunInfo * run )
     std::vector<unsigned long> state = run->seedArray();
     std::vector<double> result;
     for( unsigned int i=0; i<(itsSeedList.size()-1); ++i ) {
-       dd = DoubleConversion::longs2double(state[i]);
+       dd = DoubleConversion::longs2double(*state[i],*state[i+1]);
        ++i;
        result.push_back(dd);
     }

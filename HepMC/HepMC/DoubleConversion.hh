@@ -2,7 +2,6 @@
 #define DOUBLE_CONVERSION_HH
 
 #include <string>
-#include <vector>
 #include <exception>
 
 namespace HepMC {
@@ -19,27 +18,27 @@ private:
 class DoubleConversion {
 public:
 
-  // dto2longs(d) returns (in a vector) two unsigned longs string containing the
+  // dto2longs(d,l1,l2) returns two unsigned longs containing the
   // representation of its double input.  This is byte-ordering 
   // independant, and depends for complete portability ONLY on adherance 
   // to the IEEE 754 standard for 64-bit floating point representation.
   // The first unsigned long contains the high-order bits in IEEE; thus
   // 1.0 will always be 0x3FF00000, 00000000
-  static std::vector<unsigned long> dto2longs(double d);
+  static void dto2longs(const double& d, unsigned long &, unsigned long & );
 
-  // longs2double (v) returns a double containing the value represented by its  
-  // input, which must be a vector containing 2 unsigned longs.  
+  // longs2double (l1,l2) returns a double containing the value represented  
+  // by its input, which must be 2 unsigned longs.  
   // The input is taken to be the representation according to
   // the IEEE 754 standard for a 64-bit floating point number, whose value
   // is returned as a double.  The byte-ordering of the double result is, 
   // of course, tailored to the proper byte-ordering for the system.
-  static double longs2double (const std::vector<unsigned long> & v);
+  static double longs2double ( const unsigned long&, const unsigned long& );
 
   // dtox(d) returns a 16-character string containing the (zero-filled) hex 
   // representation of its double input.  This is byte-ordering 
   // independant, and depends for complete portability ONLY on adherance 
   // to the IEEE 754 standard for 64-bit floating point representation.
-  static std::string d2x(double d);
+  static std::string d2x(const double& d);
  
 private:
   union DB8 {

@@ -75,7 +75,8 @@ void DoubleConversion::fill_byte_order () {
   return;
 }
 
-std::string DoubleConversion::d2x(double d) {
+std::string DoubleConversion::d2x(const double& d) 
+{
   if ( !byte_order_known ) fill_byte_order ();
   DB8 db;
   db.d = d;
@@ -87,34 +88,35 @@ std::string DoubleConversion::d2x(double d) {
   return ss.str();
 }
 
-std::vector<unsigned long> DoubleConversion::dto2longs(double d) {
-  std::vector<unsigned long> v(2);
+void DoubleConversion::dto2longs(const double& d, unsigned long & i1, unsigned long & i2) 
+{
   if ( !byte_order_known ) fill_byte_order ();
   DB8 db;
   db.d = d;
-  v[0] =   ((static_cast<unsigned long>(db.b[byte_order[0]])) << 24)
+  i1 =   ((static_cast<unsigned long>(db.b[byte_order[0]])) << 24)
          | ((static_cast<unsigned long>(db.b[byte_order[1]])) << 16)
          | ((static_cast<unsigned long>(db.b[byte_order[2]])) <<  8)
          | ((static_cast<unsigned long>(db.b[byte_order[3]]))      );
-  v[1] =   ((static_cast<unsigned long>(db.b[byte_order[4]])) << 24)
+  i2 =   ((static_cast<unsigned long>(db.b[byte_order[4]])) << 24)
          | ((static_cast<unsigned long>(db.b[byte_order[5]])) << 16)
          | ((static_cast<unsigned long>(db.b[byte_order[6]])) <<  8)
          | ((static_cast<unsigned long>(db.b[byte_order[7]]))      );
-  return v; 
+
 }
 
-double DoubleConversion::longs2double (const std::vector<unsigned long> & v) {
+double DoubleConversion::longs2double (const unsigned long& i1, const unsigned long& i2) 
+{
   DB8 db;
   unsigned char bytes[8];
   if ( !byte_order_known ) fill_byte_order ();
-  bytes[0] = static_cast<unsigned char>((v[0] >> 24) & 0xFF);
-  bytes[1] = static_cast<unsigned char>((v[0] >> 16) & 0xFF);
-  bytes[2] = static_cast<unsigned char>((v[0] >>  8) & 0xFF);
-  bytes[3] = static_cast<unsigned char>((v[0]      ) & 0xFF);
-  bytes[4] = static_cast<unsigned char>((v[1] >> 24) & 0xFF);
-  bytes[5] = static_cast<unsigned char>((v[1] >> 16) & 0xFF);
-  bytes[6] = static_cast<unsigned char>((v[1] >>  8) & 0xFF);
-  bytes[7] = static_cast<unsigned char>((v[1]      ) & 0xFF);
+  bytes[0] = static_cast<unsigned char>((i1 >> 24) & 0xFF);
+  bytes[1] = static_cast<unsigned char>((i1 >> 16) & 0xFF);
+  bytes[2] = static_cast<unsigned char>((i1 >>  8) & 0xFF);
+  bytes[3] = static_cast<unsigned char>((i1      ) & 0xFF);
+  bytes[4] = static_cast<unsigned char>((i2 >> 24) & 0xFF);
+  bytes[5] = static_cast<unsigned char>((i2 >> 16) & 0xFF);
+  bytes[6] = static_cast<unsigned char>((i2 >>  8) & 0xFF);
+  bytes[7] = static_cast<unsigned char>((i2      ) & 0xFF);
   for (int i=0; i<8; ++i) {
     db.b[byte_order[i]] =  bytes[i];
   }  
