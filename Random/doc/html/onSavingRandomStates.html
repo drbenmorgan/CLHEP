@@ -31,6 +31,15 @@ there can be no user-controlled flexibility in how to deal with trouble
 Each distribution saves the state of the engine it is using.  If several 
 distributions share a single instance of an engine, then this wastes I/O
 time and space on multiple copies of the same data.
+<li>
+There was never a way to save an engine, and then have another program
+instantiate a <em>HepRandomEngine*</em> and read back the state to create 
+an engine of the appropriate type, without knowing what sort of engine was 
+saved.  We call this functionallity an "engine factory."
+<li>
+For cases where the user program has its own scheme to persist numbers (for
+example, unsigned longs), there is no way to cause an engine to produce
+its state (or restore from a saved state) as a vector of unsigned longs.
 </ul>
 
 The usual idiom for saving data would be to write to an ostream and read
@@ -40,10 +49,15 @@ It is assumed that users know how to construct an <em>fstream</em>
 using these 
 <em>fstream</em>s as <em>ostream</em>s and <em>istream</em>s.
 <p>
-We are adding methods that stick to this idiom, which 
+We have added methods that stick to this idiom, which 
 greatly helps matters.  (In fact, 
 the first two of these inconveniences are immediately resolved, 
 and the structure is right for dealing with the third.)
+<p>
+We have also added engine factory 
+capability to deal with anonymous engine saves,
+and we have given every engine the ability to save and restore to/from
+a vector of unsigned longs.
 
 <ul>
 <li> <a href="#usecases"> Use Cases </a>
@@ -139,6 +153,14 @@ knowledge of which engine type this will be.
 For example, the saved engine may be a product of a simulation job 
 where the engine created was determined by run-time input.
 
+<h3> Saving and restoring state via a vector of unsigned longs </h3>
+
+An experiment framework has a means of imbedding an array of numbers into 
+the data for an event, and would wish to use this to hold the state of
+the engine(s) used.  Here, the model of saving to a stream is less convenient
+and much less efficient.  HepMC assumes random engines can produce their
+states in the form of a vector of unsigned longs.
+  
 <font color=blue>
 <h2> Added Methods in CLHEP Random </h2>
 </font>
@@ -318,6 +340,16 @@ istream& RandomEngine::get(istream&);
 Outputs or inputs engine state, including identifying name.  <br>
 Used by operator<< and operator>>.
 </ul>
+<font size=+1, color=red>  
+<pre>
+vector < unsigned long > RandomEngine::put() const;
+bool RandomEngine::get(const vector<unsigned long> &);
+</pre>
+</font>
+<ul>
+Writes or sets engine state, including 32-bit identifier, 
+to a vector of unsigned longs.  
+</ul>
 
 Methods for I/O of engine states to streams are already present.  
 Though not "additional methods," this are listed here because they
@@ -336,17 +368,20 @@ to help catch mismatches where erroneous code tries to use an engine state
 as the state of a different kind of engine.
 </ul>
 
-Finally, the base class <font size=+1><pre>HepRandomEngine </pre></font>
-has a method to obtain a pointer to a new engine based on 
+Finally, the base class <em>HepRandomEngine </em>
+has a pair of methods to obtain a pointer to a new engine based on 
 "generic" or anonymous engine input:  
 
 <font size=+1, color=red>  
 <pre>
 static HepRandomEngine* HepRandomEngine::newEngine(istream& is);
+static HepRandomEngine* HepRandomEngine::newEngine
+				(const vector<unsigned long> & v);
 </pre>
 </font>
 <ul>
-Based on the contents of the istream, which must contain the output of
+Based on the contents of the istream or vector, 
+which must contain the output of
 saving some engine, this instantiates a <em>new</em> engine of the
 saved type, and returns a pointer to that object.  The semantics are
 that of <em>new</em>:  It is the user's responsibility to invoke delete 
@@ -540,6 +575,36 @@ The "restoring job" does:
 </pre>
 </font>
 
+<h3> Saving and restoring state via a vector of unsigned longs </h3>
+  
+The "saving job" does:
+ 
+<font color=blue> 
+<pre>
+  HepJamesRandom e = new HepJamesRandom(12343211);  
+  codeUsing_e (e);
+  std::vector < unsigned long > v;
+<font size=+1, color=red><b> 
+  v = e.put();
+</b></font>
+  eventData.add_a_vector (v);
+</pre>
+</font>
+
+The "restoring job" does:
+
+<font color=blue> 
+<pre>
+  eventData.add_a_vector (v);
+  HepJamesRandom e;
+<font size=+1, color=red><b> 
+  bool ok = e.get(v);
+  if (!ok) throw "problem restoring an engine";
+</b></font>
+  codeUsing_e(e);  
+</pre>
+</font>
+
 
 <p>
 <center>
@@ -551,7 +616,7 @@ The "restoring job" does:
 Author: <address><a href="mailto:mf@fnal.gov">Mark Fischler</a></address>
 <p>
 <!-- hhmts start -->
-Last modified: December 13, 2004
+Last modified: March 15, 2005
 <!-- hhmts end -->
 </body>
 </html>

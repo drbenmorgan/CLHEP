@@ -1,4 +1,4 @@
-// $Id: MTwistEngine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: MTwistEngine.cc,v 1.4.2.3 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -30,12 +30,14 @@
 // M. Fischler    - Methods for distrib. instacne save/restore  12/8/04    
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
 //		    
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/MTwistEngine.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>	// for ldexp()
 #include <stdlib.h>	// for abs(int)
@@ -87,7 +89,7 @@ MTwistEngine::MTwistEngine(long seed)
   for( int i=0; i < 2000; ++i ) flat();      // Warm up just a bit
 }
 
-MTwistEngine::MTwistEngine(int rowIndex, int colIndex)  
+MTwistEngine::MTwistEngine(int rowIndex, int colIndex) 
 {
   powersOfTwo();
   int cycle = abs(int(rowIndex/maxIndex));
@@ -126,7 +128,7 @@ MTwistEngine & MTwistEngine::operator=( const MTwistEngine & p ) {
 double MTwistEngine::flat() {
   unsigned int y;
 
-  if( count624 >= N ) {
+   if( count624 >= N ) {
     register int i;
 
     for( i=0; i < NminusM; ++i ) {
@@ -301,6 +303,16 @@ std::ostream & MTwistEngine::put ( std::ostream& os ) const
    return os;
 }
 
+std::vector<unsigned long> MTwistEngine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<MTwistEngine>());
+  for (int i=0; i<624; ++i) {
+     v.push_back(static_cast<unsigned long>(mt[i]));
+  }
+  v.push_back(count624); 
+  return v;
+}
+
 std::istream &  MTwistEngine::get ( std::istream& is )
 {
   char beginMarker [MarkerLen];
@@ -339,6 +351,28 @@ std::istream &  MTwistEngine::getState ( std::istream& is )
      return is;
    }
    return is;
+}
+
+bool MTwistEngine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<MTwistEngine>()) {
+    std::cerr << 
+    	"\nMTwistEngine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool MTwistEngine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != 626 ) {
+    std::cerr << 
+    	"\nMTwistEngine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  for (int i=0; i<624; ++i) {
+     mt[i]=v[i+1];
+  }
+  count624 = v[625];
+  return true;
 }
 
 }  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: RanshiEngine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: RanshiEngine.cc,v 1.4.2.3 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -33,6 +33,7 @@
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RanshiEngine.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>	// for ldexp()
 
@@ -251,6 +252,18 @@ std::ostream& RanshiEngine::put (std::ostream& os ) const {
   return os;
 }
 
+std::vector<unsigned long> RanshiEngine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<RanshiEngine>());
+  for (int i = 0; i < numBuff; ++i) {
+    v.push_back(static_cast<unsigned long>(buffer[i]));
+  }
+  v.push_back(static_cast<unsigned long>(redSpin));
+  v.push_back(static_cast<unsigned long>(numFlats));
+  v.push_back(static_cast<unsigned long>(halfBuff));  
+  return v;
+}
+
 std::istream& RanshiEngine::get (std::istream& is) {
   char beginMarker [MarkerLen];
   is >> std::ws;
@@ -289,6 +302,30 @@ std::istream& RanshiEngine::getState (std::istream& is) {
     return is;
   }
   return is;
+}
+
+bool RanshiEngine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<RanshiEngine>()) {
+    std::cerr << 
+    	"\nRanshiEngine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool RanshiEngine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != numBuff + 4 ) {
+    std::cerr << 
+    	"\nRanshiEngine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  for (int i = 0; i < numBuff; ++i) {
+    buffer[i] = v[i+1];
+  }
+  redSpin  = v[numBuff+1];
+  numFlats = v[numBuff+2]; 
+  halfBuff = v[numBuff+3];
+  return true;
 }
 
 }  // namespace CLHEP

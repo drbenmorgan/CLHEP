@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ranRestoreTest.cc,v 1.3.2.6 2005/03/01 23:45:24 fischler Exp $
+// $Id: ranRestoreTest.cc,v 1.3.2.7 2005/03/15 21:20:42 fischler Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
@@ -28,6 +28,7 @@
 #define TEST_SAVE_STATIC_STATES
 #define TEST_ANONYMOUS_ENGINE_RESTORE
 #define TEST_ANONYMOUS_RESTORE_STATICS
+#define TEST_VECTOR_ENGINE_RESTORE
 
 // Normally off for routine validation:
 
@@ -1142,6 +1143,91 @@ int anonymousRestoreStatics() {
   return stat;  
 }
 
+// ----------- Vector restore of engines -----------
+
+template <class E>
+std::vector<unsigned long> vectorRestore1(int n, std::vector<double> & v) {
+  output << "Vector restore for " << E::engineName() << "\n";
+  E e(97538466);				    
+  double r=0;					    
+  for (int i=0; i<n; i++) r += e.flat();	    
+  std::vector<unsigned long> state = e.put();	    
+  for (int j=0; j<25; j++) v.push_back(e.flat());   
+#ifdef VERBOSER2
+  output << "First four of v are: " 
+    	<< v[0] << ",  " << v[1] << ",  " << v[2] << ",  " << v[3] << "\n";
+#endif
+  return state;
+}
+
+template <>
+std::vector<unsigned long>
+vectorRestore1<NonRandomEngine> (int n, std::vector<double> & v) {
+#ifdef VERBOSER2
+  output << "Vector restore for " << NonRandomEngine::engineName() << "\n";
+#endif
+  std::vector<double> nonRand = aSequence(500);
+  NonRandomEngine e; 
+  e.setRandomSequence(&nonRand[0], nonRand.size());
+  double r=0;
+  for (int i=0; i<n; i++) r += e.flat();
+  std::vector<unsigned long> state = e.put();	    
+  for (int j=0; j<25; j++) v.push_back(e.flat()); 
+#ifdef VERBOSER2
+  output << "First four of v are: " 
+    	<< v[0] << ",  " << v[1] << ",  " << v[2] << ",  " << v[3] << "\n";
+#endif
+  return state;
+}
+
+template <class E>
+int vectorRestore2(const std::vector<unsigned long> state,
+		   const std::vector<double> & v) {
+  int stat = 0;
+  std::vector<double> k;
+  HepRandomEngine * a;
+  a = HepRandomEngine::newEngine(state);
+  if (!a) {
+      std::cout << "???? could not restore engine state from vector for " 
+    		<< E::engineName() << "\n"; 
+      stat |= 1048576;
+      return stat;
+  }
+  if (a->name() != E::engineName()) {
+      std::cout << "???? restored engine state from vector for " 
+    		<< E::engineName() << "to different type of engine: "
+		<< a->name() << "\n"
+	<< "There is probably a clash in CRC hashes for these two names!\n"; 
+      stat |= 1048576;
+      return stat;
+  }
+  for (int j=0; j<25; j++) k.push_back(a->flat());
+  delete a;
+#ifdef VERBOSER2
+  output << "First four of k are: " 
+    	<< k[0] << ",  " << k[1] << ",  " << k[2] << ",  " << k[3] << "\n";
+#endif
+  for (int m=0; m<25; m++) {
+    if ( v[m] != k[m] ) {
+      std::cout << "???? Incorrect vector restored value for anonymous engine: " 
+    		<< E::engineName() << "\n"; 
+      stat |= 1048576;
+      return stat;
+    }
+  }
+  return stat;       
+}
+
+
+template <class E>
+int vectorRestore(int n) {
+  std::vector<double> v;
+  std::vector<unsigned long> state = vectorRestore1<E>(n,v);
+  return vectorRestore2<E>(state, v);  
+}
+
+
+
 // ---------------------------------------------
 // ---------------------------------------------
 // ---------------------------------------------
@@ -1392,6 +1478,29 @@ int main() {
   stat |= anonymousRestoreStatics<TripleRand,     TripleRand>     ( );
   stat |= anonymousRestoreStatics<HepJamesRandom, HepJamesRandom> ( );
 #endif
+
+#ifdef TEST_VECTOR_ENGINE_RESTORE
+  output << "\n=================================\n";
+  output << "         Part IX \n";
+  output << "Save/restore of engines to vectors\n";
+  output << "=================================\n\n";
+
+  stat |= vectorRestore<DualRand>(113);
+  stat |= vectorRestore<DRand48Engine>(114);
+  stat |= vectorRestore<Hurd160Engine>(115);
+  stat |= vectorRestore<Hurd288Engine>(116);
+  stat |= vectorRestore<HepJamesRandom>(117);
+  stat |= vectorRestore<MTwistEngine>(118);
+  stat |= vectorRestore<RanecuEngine>(139);
+  stat |= vectorRestore<Ranlux64Engine>(119);
+  stat |= vectorRestore<RanluxEngine>(120);
+  stat |= vectorRestore<RanshiEngine>(121);
+  stat |= vectorRestore<TripleRand>(122);
+  stat |= vectorRestore<NonRandomEngine>(123);
+  stat |= vectorRestore<RandEngine>(129);
+#endif
+
+
 
  
   output << "\n=============================================\n\n";

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DRand48Engine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: DRand48Engine.cc,v 1.4.2.3 2005/03/15 21:20:42 fischler Exp $
 // -----------------------------------------------------------------------
 //                             HEP Random
 //                        --- DRand48Engine ---
@@ -25,6 +25,7 @@
 // M. Fischler    - Methods for distrib. instacne save/restore  12/8/04    
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/8/05
 //
 // =======================================================================
 
@@ -32,6 +33,7 @@
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/DRand48Engine.h"
 #include "CLHEP/Random/RandomFunc.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 
 namespace CLHEP {
@@ -209,6 +211,19 @@ std::ostream & DRand48Engine::put ( std::ostream& os ) const
    return os;
 }
 
+std::vector<unsigned long> DRand48Engine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<DRand48Engine>());
+  unsigned short dummy[] = { 0, 0, 0 };
+  unsigned short* cseed = seed48(dummy);
+  for (int i=0; i<3; ++i) {
+    dummy[i] = cseed[i];
+    v.push_back (static_cast<unsigned long>(cseed[i]));
+  }
+  seed48(dummy);   
+  return v;
+}
+
 std::istream & DRand48Engine::get ( std::istream& is )
 {
   char beginMarker [MarkerLen];
@@ -250,6 +265,29 @@ std::istream & DRand48Engine::getState ( std::istream& is )
    }
    seed48(cseed);
    return is;
+}
+
+bool DRand48Engine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<DRand48Engine>()) {
+    std::cerr << 
+    	"\nDRand48Engine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool DRand48Engine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != 4 ) {
+    std::cerr << 
+    	"\nDRand48Engine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  unsigned short cseed[3];
+  for (int i=0; i<3; ++i) {
+    cseed[i] = static_cast<unsigned short>(v[i+1]);
+  }
+  seed48(cseed);
+  return true;
 }
 
 }  // namespace CLHEP

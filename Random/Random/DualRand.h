@@ -1,4 +1,4 @@
-// $Id: DualRand.h,v 1.3.2.4 2004/12/28 16:11:33 fischler Exp $
+// $Id: DualRand.h,v 1.3.2.5 2005/03/15 21:20:41 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -32,6 +32,7 @@
 //  Ken Smith	   - Added conversion operators:  6th Aug 1998             
 //  Mark Fischler    methods for distrib. instance save/restore 12/8/04    
 //  Mark Fischler    methods for anonymous save/restore 12/27/04    
+// Mark Fischler  - methods for vector save/restore 3/7/05    
 // =======================================================================
 
 
@@ -94,6 +95,10 @@ public:
   std::string name() const;
   static std::string engineName() {return "DualRand";}
 
+  std::vector<unsigned long> put () const;
+  bool get (const std::vector<unsigned long> & v);
+  bool getState (const std::vector<unsigned long> & v);
+  
 private:
 
   static int numEngines;
@@ -111,7 +116,9 @@ private:
     Tausworthe(unsigned int seed);
     operator unsigned int();
     void put(std::ostream & os) const;
+    void put(std::vector<unsigned long> & v) const;
     void get(std::istream & is);
+    bool get(std::vector<unsigned long>::const_iterator & iv);
   private:
     int wordIndex;
     unsigned int words[4];
@@ -123,7 +130,9 @@ private:
     IntegerCong(unsigned int seed, int streamNumber);
     operator unsigned int();
     void put(std::ostream & os) const;
+    void put(std::vector<unsigned long> & v) const;
     void get(std::istream & is);
+    bool get(std::vector<unsigned long>::const_iterator & iv);
   private:
     unsigned int state, multiplier, addend;
   }; // IntegerCong

@@ -3,9 +3,11 @@
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
 libCLHEP_Random_@VERSION@_a_SOURCES = \
+	DoubConv.cc	\
 	DRand48Engine.cc	\
 	DualRand.cc	\
 	EngineFactory.cc	\
+	engineIDulong.cc	\
 	erfQ.cc	\
 	flatToGaussian.cc	\
 	gammln.cc	\

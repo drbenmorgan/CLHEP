@@ -1,4 +1,4 @@
-// $Id: Hurd160Engine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: Hurd160Engine.cc,v 1.4.2.3 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -23,12 +23,14 @@
 // M. Fischler    - Methods put, get for instance save/restore   12/8/04    
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
 //		    
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/Hurd160Engine.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>	// for ldexp()
 #include <stdlib.h>	// for abs(int)
@@ -246,6 +248,17 @@ std::ostream& Hurd160Engine::put(std::ostream& os) const {
   return os;
 }
 
+std::vector<unsigned long> Hurd160Engine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<Hurd160Engine>());
+  v.push_back(static_cast<unsigned long>(wordIndex));
+  for (int i = 0; i < 5; ++i) {
+    v.push_back(static_cast<unsigned long>(words[i]));
+  }
+  return v;
+}
+
+
 std::istream& Hurd160Engine::get(std::istream& is) {
   char beginMarker [MarkerLen];
   is >> std::ws;
@@ -284,5 +297,29 @@ std::istream& Hurd160Engine::getState(std::istream& is) {
   }
   return is;
 }
+
+
+bool Hurd160Engine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<Hurd160Engine>()) {
+    std::cerr << 
+    	"\nHurd160Engine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool Hurd160Engine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != 7 ) {
+    std::cerr << 
+    	"\nHurd160Engine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  wordIndex = v[1];
+  for (int i = 0; i < 5; ++i) {
+    words[i] = v[i+2];
+  }
+  return true;
+}
+
 
 }  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.4.2.4 2004/12/28 16:11:34 fischler Exp $
+// $Id: RandEngine.cc,v 1.4.2.5 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -33,12 +33,14 @@
 // M. Fischler    - Methods for distrib. instance save/restore  12/8/04    
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
 //                                                                            
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandEngine.h"
 #include "CLHEP/Random/Random.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>	// for pow()
 #include <stdlib.h>	// for int()
@@ -358,6 +360,14 @@ std::ostream & RandEngine::put ( std::ostream& os ) const
      return os;
 }
 
+std::vector<unsigned long> RandEngine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<RandEngine>());
+  v.push_back(static_cast<unsigned long>(theSeed));
+  v.push_back(static_cast<unsigned long>(seq));
+  return v;
+}
+
 std::istream & RandEngine::get ( std::istream& is )
 {
    // The only way to restore the status of RandEngine is to
@@ -404,4 +414,25 @@ std::istream & RandEngine::getState ( std::istream& is )
    return is;
 }
 
+bool RandEngine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<RandEngine>()) {
+    std::cerr << 
+    	"\nRandEngine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool RandEngine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != 3 ) {
+    std::cerr << 
+    	"\nRandEngine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  theSeed   = v[1];
+  int count = v[2];
+  setSeed(theSeed,0);
+  while (seq < count) flat();  
+  return true;
+}
 }  // namespace CLHEP

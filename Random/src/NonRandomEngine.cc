@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.cc,v 1.4.2.3 2005/03/11 23:24:36 garren Exp $
+// $Id: NonRandomEngine.cc,v 1.4.2.4 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -11,10 +11,16 @@
 // M. Fischler    - Modifications to capture sequence as a vector, which
 //		    are needed to retain sanity when put and get are involved.
 // Mark Fischler  - Methods for distrib. instance save/restore 12/8/04    
+// M. Fischler	  - Initialization of all state data (even those parts unused)
+//                - at ctor time, to thwart a VC++ i/o bug.
+// M. Fischler    - put/get for vectors of ulongs		3/15/05
+//
 //=========================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/NonRandomEngine.h"
+#include "CLHEP/Random/engineIDulong.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <stdlib.h>
 #include <iostream>
 #include <string>
@@ -108,6 +114,26 @@ std::ostream & NonRandomEngine::put (std::ostream & os) const {
   return os;
 }
 
+std::vector<unsigned long> NonRandomEngine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<NonRandomEngine>());
+  std::vector<unsigned long> t;
+  v.push_back(static_cast<unsigned long>(nextHasBeenSet));
+  v.push_back(static_cast<unsigned long>(sequenceHasBeenSet));
+  v.push_back(static_cast<unsigned long>(intervalHasBeenSet));
+  t = DoubConv::dto2longs(nextRandom);
+  v.push_back(t[0]); v.push_back(t[1]);
+  v.push_back(static_cast<unsigned long>(nInSeq));
+  t = DoubConv::dto2longs(randomInterval);
+  v.push_back(t[0]); v.push_back(t[1]);
+  v.push_back(static_cast<unsigned long>(sequence.size()));
+  for (int i=0; i<sequence.size(); ++i) {
+    t = DoubConv::dto2longs(sequence[i]);
+    v.push_back(t[0]); v.push_back(t[1]);
+  }
+  return v;
+}
+
 std::istream & NonRandomEngine::get (std::istream & is) {
   std::string beginMarker = "NonRandomEngine-begin";
   is >> beginMarker;
@@ -146,6 +172,38 @@ std::istream & NonRandomEngine::getState (std::istream & is) {
   }
   return is;
 }
+
+bool NonRandomEngine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<NonRandomEngine>()) {
+    std::cerr << 
+    	"\nNonRandomEngine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool NonRandomEngine::getState (const std::vector<unsigned long> & v) {
+  unsigned int seqSize = v[9];
+  if (v.size() != 2*seqSize + 10 ) {
+    std::cerr << 
+   "\nNonRandomEngine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  std::vector<unsigned long> t(2);
+  nextHasBeenSet     = (v[1]!=0);
+  sequenceHasBeenSet = (v[2]!=0);
+  intervalHasBeenSet = (v[3]!=0);
+  t[0] = v[4]; t[1] = v[5]; nextRandom = DoubConv::longs2double(t);
+  nInSeq = v[6];
+  t[0] = v[7]; t[1] = v[8]; randomInterval = DoubConv::longs2double(t);
+  sequence.clear();
+  for (int i=0; i<seqSize; ++i) {
+    t[0] = v[2*i+10]; t[1] = v[2*i+11];
+    sequence.push_back(DoubConv::longs2double(t));
+  }
+  return true;
+}
+
 
 }  // namespace CLHEP
 

@@ -57,12 +57,13 @@ std::istream & StaticRandomStates::restore(std::istream & is) {
     // Because e has const data members, cannot simply do *e = *ne
     std::ostringstream os;
     os << *ne;
-    std::istringstream is(os.str());
-    is >> *e;
-    if (!is) {
+    std::istringstream istst(os.str());
+    istst >> *e;
+    if (!istst) {
       std::cerr << "???? Unexpected behavior in StaticRandomStates::restore:\n"
         << "The new engine, which had been input successfully from istream\n"
 	<< "has encountered a problem when used to set state of theEngine\n";
+      is.clear(std::ios::badbit | is.rdstate());
       return is;
     }
   } else {

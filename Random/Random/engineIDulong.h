@@ -3,29 +3,28 @@
 //
 // -----------------------------------------------------------------------
 //                             HEP Random
-//                       --- EngineFactory ---
-//                          class header file
+//                       --- engineIDulong ---
+//                          function header file
 // -----------------------------------------------------------------------
 
 // Class generating new engines from streamed saves.
 
 // =======================================================================
-// M Fischler     - Created:  12/21/04
+// M Fischler     - Created:  Mar. 8, 2005
 // =======================================================================
 
-#ifndef EngineFactory_h
-#define EngineFactory_h 1
-
-#include "CLHEP/Random/defs.h"
-#include "CLHEP/Random/RandomEngine.h"
+#ifndef engineIDulong_h
+#define engineIDulong_h 1
 
 namespace CLHEP {
 
-class EngineFactory {
-public:
-  static HepRandomEngine* newEngine(std::istream & is);
-  static HepRandomEngine* newEngine(std::vector<unsigned long> const & v);    
-};
+unsigned long crc32ul(const std::string & s);
+
+template <class E> 
+unsigned long engineIDulong() {
+  static unsigned long id = crc32ul(E::engineName());
+  return id;
+}
 
 }  // namespace CLHEP
 

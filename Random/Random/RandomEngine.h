@@ -1,4 +1,4 @@
-// $Id: RandomEngine.h,v 1.3.2.5 2005/02/11 23:10:32 fischler Exp $
+// $Id: RandomEngine.h,v 1.3.2.6 2005/03/15 21:20:41 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -42,6 +42,7 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
+#include <vector>
 #include "CLHEP/Random/defs.h"
 
 namespace CLHEP {
@@ -100,7 +101,15 @@ public:
 
   static HepRandomEngine* newEngine(std::istream & is);
   // Instantiates on the heap a new engine of type specified by content of is
-     
+
+  static HepRandomEngine* newEngine(const std::vector<unsigned long> & v);
+  // Instantiates on the heap a new engine of type specified by content of v
+
+  virtual std::vector<unsigned long> put () const;
+  virtual bool get (const std::vector<unsigned long> & v);
+  virtual bool getState (const std::vector<unsigned long> & v);
+  // Save and restore to/from vectors
+
   long getSeed() const { return theSeed; }
   // Gets the current seed.
 

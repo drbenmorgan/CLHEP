@@ -1,4 +1,4 @@
-// $Id: RanluxEngine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: RanluxEngine.cc,v 1.4.2.3 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -32,12 +32,14 @@
 // M. Fischler    - Methods put, getfor instance save/restore       12/8/04    
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
 //
 // ===============================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/RanluxEngine.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>
 #include <stdlib.h>	// for abs(int)
@@ -472,6 +474,22 @@ std::ostream & RanluxEngine::put ( std::ostream& os ) const
    return os;
 }
 
+std::vector<unsigned long> RanluxEngine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<RanluxEngine>());
+  for (int i=0; i<24; ++i) {
+    v.push_back
+    	(static_cast<unsigned long>(float_seed_table[i]/mantissa_bit_24));
+  }
+  v.push_back(static_cast<unsigned long>(i_lag));
+  v.push_back(static_cast<unsigned long>(j_lag));
+  v.push_back(static_cast<unsigned long>(carry));
+  v.push_back(static_cast<unsigned long>(count24));
+  v.push_back(static_cast<unsigned long>(luxury));
+  v.push_back(static_cast<unsigned long>(nskip));
+  return v;
+}
+
 std::istream & RanluxEngine::get ( std::istream& is )
 {
   char beginMarker [MarkerLen];
@@ -514,6 +532,33 @@ std::istream & RanluxEngine::getState ( std::istream& is )
      return is;
   }
   return is;
+}
+
+bool RanluxEngine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<RanluxEngine>()) {
+    std::cerr << 
+    	"\nRanluxEngine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool RanluxEngine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != 31 ) {
+    std::cerr << 
+    	"\nRanluxEngine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  for (int i=0; i<24; ++i) {
+    float_seed_table[i] = v[i+1]*mantissa_bit_24;
+  }
+  i_lag    = v[25];
+  j_lag    = v[26];
+  carry    = v[27];
+  count24  = v[28];
+  luxury   = v[29];
+  nskip    = v[30];
+  return true;
 }
 
 }  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: RandEngine.h,v 1.3.2.5 2004/12/28 16:11:33 fischler Exp $
+// $Id: RandEngine.h,v 1.3.2.6 2005/03/15 21:20:41 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -97,6 +97,10 @@ public:
   std::string name() const;
   static std::string engineName() {return "RandEngine";}
 
+  std::vector<unsigned long> put () const;
+  bool get (const std::vector<unsigned long> & v);
+  bool getState (const std::vector<unsigned long> & v);
+  
 private:
 
   RandEngine(const RandEngine &p);

@@ -1,4 +1,4 @@
-// $Id: Ranlux64Engine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: Ranlux64Engine.cc,v 1.4.2.3 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -48,12 +48,15 @@
 // M. Fischler    - put get Methods for distrib instance save/restore 12/8/04    
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
 //
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/Ranlux64Engine.h"
+#include "CLHEP/Random/engineIDulong.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <string.h>
 #include <cmath>	// for ldexp() and abs()
 #include <stdlib.h>	// for abs(int)
@@ -497,6 +500,22 @@ std::ostream & Ranlux64Engine::put( std::ostream& os ) const
    return os;
 }
 
+std::vector<unsigned long> Ranlux64Engine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<Ranlux64Engine>());
+  std::vector<unsigned long> t;
+  for (int i=0; i<12; ++i) {
+    t = DoubConv::dto2longs(randoms[i]);
+    v.push_back(t[0]); v.push_back(t[1]);
+  }
+  t = DoubConv::dto2longs(carry);
+  v.push_back(t[0]); v.push_back(t[1]);
+  v.push_back(static_cast<unsigned long>(index));
+  v.push_back(static_cast<unsigned long>(luxury));
+  v.push_back(static_cast<unsigned long>(pDiscard));
+  return v;
+}
+
 std::istream & Ranlux64Engine::get ( std::istream& is )
 {
   char beginMarker [MarkerLen];
@@ -540,6 +559,34 @@ std::istream & Ranlux64Engine::getState ( std::istream& is )
      return is;
   }
   return is;
+}
+
+bool Ranlux64Engine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<Ranlux64Engine>()) {
+    std::cerr << 
+    	"\nRanlux64Engine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool Ranlux64Engine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != 30 ) {
+    std::cerr << 
+    	"\nRanlux64Engine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  std::vector<unsigned long> t(2);
+  for (int i=0; i<12; ++i) {
+    t[0] = v[2*i+1]; t[1] = v[2*i+2];
+    randoms[i] = DoubConv::longs2double(t);
+  }
+  t[0] = v[25]; t[1] = v[26];
+  carry    = DoubConv::longs2double(t);
+  index    = v[27];
+  luxury   = v[28];
+  pDiscard = v[29]; 
+  return true;
 }
 
 }  // namespace CLHEP

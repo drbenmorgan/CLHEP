@@ -5,9 +5,11 @@ tempincludedir = $(TEMPDIR)/CLHEP/@PACKAGE@
 COPY_P = @COPY_P@
 
 pkginclude_HEADERS = \
+	DoubConv.hh	\
 	DRand48Engine.h	\
 	DualRand.h	\
 	EngineFactory.h \
+	engineIDulong.h \
 	Hurd160Engine.h	\
 	Hurd288Engine.h	\
 	JamesRandom.h	\

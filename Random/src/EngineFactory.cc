@@ -27,6 +27,7 @@
 #include "CLHEP/Random/RanshiEngine.h"
 #include "CLHEP/Random/TripleRand.h"
 #include "CLHEP/Random/NonRandomEngine.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <iostream>
 #include <string>
 
@@ -40,6 +41,17 @@ makeAnEngine (const std::string & tag,
   HepRandomEngine* eptr = new E;
   eptr->getState(is);
   if (!is) return 0;
+  return eptr;	      
+}	      
+
+template<class E>
+static HepRandomEngine* 
+makeAnEngine (const std::vector<unsigned long> & v) {
+  if ( v[0] != engineIDulong<E>() ) return 0;
+  HepRandomEngine* eptr = new E;
+  bool success = eptr->getState(v);
+  if (!success) return 0;
+  // std::cerr << "makeAnEngine made " << E::engineName() << "\n"; 
   return eptr;	      
 }	      
 
@@ -65,6 +77,29 @@ HepRandomEngine* EngineFactory::newEngine(std::istream& is) {
   	"Input mispositioned or bad in reading anonymous engine\n"
 	    << "\nBegin-tag read was: " << tag 
 	    << "\nInput stream is probably fouled up\n";
+  return eptr;
+}
+
+HepRandomEngine* 
+EngineFactory::newEngine(std::vector<unsigned long> const & v) {
+  HepRandomEngine* eptr; 
+  eptr = makeAnEngine <HepJamesRandom>  (v); if (eptr) return eptr;
+  eptr = makeAnEngine <RanecuEngine>    (v); if (eptr) return eptr;
+  eptr = makeAnEngine <Ranlux64Engine>  (v); if (eptr) return eptr;
+  eptr = makeAnEngine <MTwistEngine>    (v); if (eptr) return eptr;
+  eptr = makeAnEngine <DRand48Engine>   (v); if (eptr) return eptr;
+  eptr = makeAnEngine <TripleRand>      (v); if (eptr) return eptr;
+  eptr = makeAnEngine <DualRand>        (v); if (eptr) return eptr;
+  eptr = makeAnEngine <Hurd160Engine>   (v); if (eptr) return eptr;
+  eptr = makeAnEngine <Hurd288Engine>   (v); if (eptr) return eptr;
+  eptr = makeAnEngine <RandEngine>      (v); if (eptr) return eptr;
+  eptr = makeAnEngine <RanluxEngine>    (v); if (eptr) return eptr;
+  eptr = makeAnEngine <RanshiEngine>    (v); if (eptr) return eptr;
+  eptr = makeAnEngine <NonRandomEngine> (v); if (eptr) return eptr;
+  std::cerr << 
+  	"Cannot correctly get anonymous engine from vector\n"
+	    << "First unsigned long was: " << v[0] 
+	    << " Vector size was: " << v.size() <<"\n";
   return eptr;
 }
 

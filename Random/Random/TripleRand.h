@@ -1,4 +1,4 @@
-// $Id: TripleRand.h,v 1.3.2.4 2004/12/28 16:11:33 fischler Exp $
+// $Id: TripleRand.h,v 1.3.2.5 2005/03/15 21:20:41 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -98,6 +98,10 @@ public:
   std::string name() const;
   static std::string engineName() {return "TripleRand";}
 
+  std::vector<unsigned long> put () const;
+  bool get (const std::vector<unsigned long> & v);
+  bool getState (const std::vector<unsigned long> & v);
+  
 private:
 
   static int numEngines;
@@ -115,7 +119,9 @@ public:
   operator unsigned int();
 
   void put( std::ostream & os ) const;
+  void put(std::vector<unsigned long> & v) const;
   void get( std::istream & is );
+  bool get(std::vector<unsigned long>::const_iterator & iv);
 
 private:
  
@@ -136,7 +142,9 @@ public:
   operator unsigned int();
 
   void put( std::ostream & os ) const;
+  void put(std::vector<unsigned long> & v) const;
   void get( std::istream & is );
+  bool get(std::vector<unsigned long>::const_iterator & iv);
  
 private:
   

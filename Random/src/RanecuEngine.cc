@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: RanecuEngine.cc,v 1.4.2.3 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -29,12 +29,14 @@
 // M. Fischler    - Methods for distrib. instance save/restore  12/8/04    
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
 //		    
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/RanecuEngine.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>
 #include <stdlib.h>
@@ -277,6 +279,15 @@ std::ostream & RanecuEngine::put( std::ostream& os ) const
    return os;
 }
 
+std::vector<unsigned long> RanecuEngine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<RanecuEngine>());
+  v.push_back(static_cast<unsigned long>(theSeed));
+  v.push_back(static_cast<unsigned long>(table[theSeed][0]));
+  v.push_back(static_cast<unsigned long>(table[theSeed][1]));
+  return v;
+}
+
 std::istream & RanecuEngine::get ( std::istream& is )
 {
   char beginMarker [MarkerLen];
@@ -320,5 +331,28 @@ std::istream & RanecuEngine::getState ( std::istream& is )
    seq = int(theSeed);
    return is;
 }
+
+bool RanecuEngine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<RanecuEngine>()) {
+    std::cerr << 
+    	"\nRanecuEngine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool RanecuEngine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != 4 ) {
+    std::cerr << 
+    	"\nRanecuEngine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  theSeed           = v[1];
+  table[theSeed][0] = v[2];
+  table[theSeed][1] = v[3];
+  seq = int(theSeed);
+  return true;
+}
+
 
 }  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: DualRand.cc,v 1.3.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: DualRand.cc,v 1.3.2.3 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -46,10 +46,12 @@
 // M. Fischler    - methods for distrib. instacne save/restore  12/8/04    
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
+// Mark Fischler  - methods for vector save/restore 		3/7/05    
 //=========================================================================
 
 #include "CLHEP/Random/DualRand.h"
 #include "CLHEP/Random/defs.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>	// for ldexp()
 
@@ -213,6 +215,14 @@ std::ostream & DualRand::put(std::ostream & os) const {
   return os;
 }
 
+std::vector<unsigned long> DualRand::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<DualRand>());
+  tausworthe.put(v);
+  integerCong.put(v);
+  return v;
+}
+
 std::istream & DualRand::get(std::istream & is) {
   char beginMarker [MarkerLen];
   is >> std::ws;
@@ -251,6 +261,32 @@ std::istream & DualRand::getState ( std::istream & is ) {
   return is;
 }
 
+bool DualRand::get(const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<DualRand>()) {
+    std::cerr << 
+    	"\nDualRand get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  if (v.size() != 9) {
+    std::cerr << "\nDualRand get:state vector has wrong size: " 
+    << v.size() << " - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool DualRand::getState (const std::vector<unsigned long> & v) {
+  std::vector<unsigned long>::const_iterator iv = v.begin()+1;
+  if (!tausworthe.get(iv)) return false;
+  if (!integerCong.get(iv)) return false;
+  if (iv != v.end()) {
+    std::cerr << 
+    	"\nDualRand get:state vector has wrong size: " << v.size() 
+	<< "\n         Apparently " << iv-v.begin() << " words were consumed\n";
+    return false;
+  }
+  return true;
+}
 
 DualRand::Tausworthe::Tausworthe() {
   words[0] = 1234567;
@@ -338,6 +374,13 @@ void DualRand::Tausworthe::put(std::ostream & os) const {
   os.precision(pr);
 }
 
+void DualRand::Tausworthe::put(std::vector<unsigned long> & v) const {
+  for (int i = 0; i < 4; ++i) {
+    v.push_back(static_cast<unsigned long>(words[i]));
+  }
+  v.push_back(static_cast<unsigned long>(wordIndex)); 
+}
+
 void DualRand::Tausworthe::get(std::istream & is) {
   char beginMarker [MarkerLen];
   char endMarker   [MarkerLen];
@@ -365,6 +408,15 @@ void DualRand::Tausworthe::get(std::istream & is) {
     std::cerr << "\nTausworthe state description incomplete."
 	      << "\nInput stream is probably mispositioned now." << std::endl;
   }
+}
+
+bool 
+DualRand::Tausworthe::get(std::vector<unsigned long>::const_iterator & iv){
+  for (int i = 0; i < 4; ++i) {
+    words[i] = *iv++;
+  }
+  wordIndex = *iv++;
+  return true;
 }
 
 DualRand::IntegerCong::IntegerCong() 
@@ -410,6 +462,12 @@ void DualRand::IntegerCong::put(std::ostream & os) const {
   os.precision(pr);
 }
 
+void DualRand::IntegerCong::put(std::vector<unsigned long> & v) const {
+  v.push_back(static_cast<unsigned long>(state));
+  v.push_back(static_cast<unsigned long>(multiplier));
+  v.push_back(static_cast<unsigned long>(addend));
+}
+
 void DualRand::IntegerCong::get(std::istream & is) {
   char beginMarker [MarkerLen];
   char endMarker   [MarkerLen];
@@ -434,6 +492,14 @@ void DualRand::IntegerCong::get(std::istream & is) {
     std::cerr << "\nIntegerCong state description incomplete."
 	      << "\nInput stream is probably mispositioned now." << std::endl;
   }
+}
+
+bool 
+DualRand::IntegerCong::get(std::vector<unsigned long>::const_iterator & iv) {
+  state      = *iv++;
+  multiplier = *iv++;
+  addend     = *iv++;
+  return true;
 }
 
 }  // namespace CLHEP

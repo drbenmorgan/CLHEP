@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4.2.4 2005/02/14 19:54:54 fischler Exp $
+// $Id: JamesRandom.cc,v 1.4.2.5 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -31,12 +31,15 @@
 //                  getState() for anonymous restores           12/27/04    
 // M. Fischler    - Enforcement that seeds be non-negative
 //		    (lest the sequence be non-random)	         2/14/05    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
 //		    
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/JamesRandom.h"
+#include "CLHEP/Random/engineIDulong.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <string.h>
 #include <cmath>
 #include <stdlib.h>
@@ -300,6 +303,25 @@ std::ostream & HepJamesRandom::put ( std::ostream& os ) const {
    return os;
 }
 
+std::vector<unsigned long> HepJamesRandom::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<HepJamesRandom>());
+  std::vector<unsigned long> t;
+  for (int i=0; i<97; ++i) {
+    t = DoubConv::dto2longs(u[i]);
+    v.push_back(t[0]); v.push_back(t[1]);
+  }
+  t = DoubConv::dto2longs(c);
+  v.push_back(t[0]); v.push_back(t[1]);
+  t = DoubConv::dto2longs(cd);
+  v.push_back(t[0]); v.push_back(t[1]);
+  t = DoubConv::dto2longs(cm);
+  v.push_back(t[0]); v.push_back(t[1]);
+  v.push_back(static_cast<unsigned long>(j97));
+  return v;
+}
+
+
 std::istream & HepJamesRandom::get  ( std::istream& is) {
   char beginMarker [MarkerLen];
   is >> std::ws;
@@ -344,6 +366,34 @@ std::istream & HepJamesRandom::getState  ( std::istream& is) {
   i97 = ipos;
   j97 = jpos;
   return is;
+}
+
+bool HepJamesRandom::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<HepJamesRandom>()) {
+    std::cerr << 
+    	"\nHepJamesRandom get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool HepJamesRandom::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != 202 ) {
+    std::cerr << 
+    	"\nHepJamesRandom get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  std::vector<unsigned long> t(2);
+  for (int i=0; i<97; ++i) {
+    t[0] = v[2*i+1]; t[1] = v[2*i+2];
+    u[i] = DoubConv::longs2double(t);
+  }
+  t[0] = v[195]; t[1] = v[196]; c  = DoubConv::longs2double(t);
+  t[0] = v[197]; t[1] = v[198]; cd = DoubConv::longs2double(t);
+  t[0] = v[199]; t[1] = v[200]; cm = DoubConv::longs2double(t);
+  j97  = v[201];
+  i97  = (64+j97)%97; 
+  return true;
 }
 
 }  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: RandomEngine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: RandomEngine.cc,v 1.4.2.3 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // ------------------------------------------------------------------------
@@ -76,9 +76,27 @@ std::istream & HepRandomEngine::getState ( std::istream & is ) {
   return is;
 }
 
+std::vector<unsigned long> HepRandomEngine::put () const {
+  std::cerr << "v=HepRandomEngine::put() called -- no data!\n";
+  std::vector<unsigned long> v;
+  return v;
+}
+bool HepRandomEngine::get (const std::vector<unsigned long> & v) {
+  std::cerr << "HepRandomEngine::get(v) called -- no effect!\n";
+  return false;
+}
+bool HepRandomEngine::getState (const std::vector<unsigned long> & v) {
+  std::cerr << "HepRandomEngine::getState(v) called -- no effect!\n";
+  return false;
+}
+
 HepRandomEngine* HepRandomEngine::newEngine(std::istream& is) {
-  HepRandomEngine* r;
   return EngineFactory::newEngine(is);
+}
+
+HepRandomEngine* 
+HepRandomEngine::newEngine(const std::vector<unsigned long> & v) {
+  return EngineFactory::newEngine(v);
 }
 
 std::ostream & operator<< (std::ostream & os, const HepRandomEngine & e) {

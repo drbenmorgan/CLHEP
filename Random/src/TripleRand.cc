@@ -1,4 +1,4 @@
-// $Id: TripleRand.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: TripleRand.cc,v 1.4.2.3 2005/03/15 21:20:42 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -32,11 +32,13 @@
 // M. Fischler    - Methods put, get for instance save/restore   12/8/04    
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
 //
 // =======================================================================
 
 #include "CLHEP/Random/TripleRand.h"
 #include "CLHEP/Random/defs.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>	// for ldexp()
 
@@ -211,6 +213,18 @@ std::ostream & TripleRand::put (std::ostream & os ) const {
   return os;
 }
 
+std::vector<unsigned long> TripleRand::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<TripleRand>());
+  tausworthe.put(v);
+  integerCong.put(v);
+  std::vector<unsigned long> vHurd = hurd.put();
+  for (unsigned int i = 0; i < vHurd.size(); ++i) {
+    v.push_back (vHurd[i]);
+  }
+  return v;
+}
+
 std::istream & TripleRand::get (std::istream & is) {
   char beginMarker [MarkerLen];
   is >> std::ws;
@@ -248,6 +262,36 @@ std::istream & TripleRand::getState (std::istream & is) {
     return is;
   }
   return is;
+}
+
+bool TripleRand::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<TripleRand>()) {
+    std::cerr << 
+    	"\nTripleRand get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  if (v.size() != 20) {
+    std::cerr << "\nTripleRand get:state vector has wrong size: " 
+    << v.size() << " - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool TripleRand::getState (const std::vector<unsigned long> & v) {
+  std::vector<unsigned long>::const_iterator iv = v.begin()+1;
+  if (!tausworthe.get(iv)) return false;
+  if (!integerCong.get(iv)) return false;
+  std::vector<unsigned long> vHurd;
+  while (iv != v.end()) {
+    vHurd.push_back(*iv++);
+  }
+  if (!hurd.get(vHurd)) {
+    std::cerr << 
+    "\nTripleRand get from vector: problem getting the hurd sub-engine state\n";
+    return false;
+  }     
+  return true;
 }
 
 //********************************************************************
@@ -341,6 +385,13 @@ void TripleRand::Tausworthe::put( std::ostream & os ) const {
   os.precision(pr);
 }
 
+void TripleRand::Tausworthe::put(std::vector<unsigned long> & v) const {
+  for (int i = 0; i < 4; ++i) {
+    v.push_back(static_cast<unsigned long>(words[i]));
+  }
+  v.push_back(static_cast<unsigned long>(wordIndex)); 
+}
+
 void TripleRand::Tausworthe::get( std::istream & is ) {
   char beginMarker [MarkerLen];
   char endMarker   [MarkerLen];
@@ -366,6 +417,15 @@ void TripleRand::Tausworthe::get( std::istream & is ) {
     std::cerr << "\nTausworthe state description incomplete."
               << "\nInput stream is probably mispositioned now." << std::endl;
   }
+}
+
+bool 
+TripleRand::Tausworthe::get(std::vector<unsigned long>::const_iterator & iv){
+  for (int i = 0; i < 4; ++i) {
+    words[i] = *iv++;
+  }
+  wordIndex = *iv++;
+  return true;
 }
 
 //********************************************************************
@@ -415,6 +475,12 @@ void TripleRand::IntegerCong::put( std::ostream & os ) const {
   os.precision(pr);
 }
 
+void TripleRand::IntegerCong::put(std::vector<unsigned long> & v) const {
+  v.push_back(static_cast<unsigned long>(state));
+  v.push_back(static_cast<unsigned long>(multiplier));
+  v.push_back(static_cast<unsigned long>(addend));
+}
+
 void TripleRand::IntegerCong::get( std::istream & is ) {
   char beginMarker [MarkerLen];
   char endMarker   [MarkerLen];
@@ -437,6 +503,14 @@ void TripleRand::IntegerCong::get( std::istream & is ) {
     std::cerr << "\nIntegerCong state description incomplete."
               << "\nInput stream is probably mispositioned now." << std::endl;
   }
+}
+
+bool 
+TripleRand::IntegerCong::get(std::vector<unsigned long>::const_iterator & iv) {
+  state      = *iv++;
+  multiplier = *iv++;
+  addend     = *iv++;
+  return true;
 }
 
 }  // namespace CLHEP
