@@ -1,3 +1,7 @@
+Thu Jul 22         2004 Lynn Garren <garren@fnal.gov>
+	
+	* more changes for Solaris tests
+
 ==============================
 30.06.04 Release CLHEP-1.9.1.0
 ==============================
@@ -8,13 +12,13 @@ Tue Jun 29         2004 Lynn Garren <garren@fnal.gov>
     
 Wed Jun 23         2004 Lynn Garren <garren@fnal.gov>
     
-	* HepMC version is 1.01.00
-	* HepMC: access ParticleData information by name (std::string)
+	* HepPDT version is 1.01.00
+	* HepPDT: access ParticleData information by name (std::string)
 
 Wed May 19         2004 Lynn Garren <garren@fnal.gov>
     
-	* HepMC: fix bugs in translation
-	* HepMC: add translation tests
+	* HepPDT: fix bugs in translation
+	* HepPDT: add translation tests
 	
 	* a couple of miscellaneous changes for Solaris
 

@@ -3,4 +3,4 @@
 
 
 ./testEvaluator@EXEEXT@ < @srcdir@/testEvaluator.input \
-  | @DIFF_Q@ -b - @srcdir@/testEvaluator.output > /dev/null
+  | @DIFF_Q@ - @srcdir@/testEvaluator.output > /dev/null

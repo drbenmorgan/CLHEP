@@ -3,4 +3,4 @@
 
 
 ./testBasicVector3D@EXEEXT@ < @srcdir@/testBasicVector3D.input \
-  | @DIFF_Q@ -b - @srcdir@/testBasicVector3D.output > /dev/null
+  | @DIFF_Q@ - @srcdir@/testBasicVector3D.output > /dev/null

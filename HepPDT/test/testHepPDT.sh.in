@@ -5,5 +5,5 @@
 ./testHepPDT@EXEEXT@ < testHepPDT.input 
 sed 's/e-0\([0-9][0-9]\)/e-\1/g' testHepPDT.out | \
   sed 's/e+0\([0-9][0-9]\)/e+\1/g'  | \
-  @DIFF_Q@ -b - @srcdir@/testHepPDT.output > /dev/null
+  @DIFF_Q@ - @srcdir@/testHepPDT.output > /dev/null
 

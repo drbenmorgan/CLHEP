@@ -3,5 +3,5 @@
 
 
 ./listParticleNames@EXEEXT@ 
-@DIFF_Q@ -b listParticleNames.out @srcdir@/listParticleNames.output > /dev/null
+@DIFF_Q@ listParticleNames.out @srcdir@/listParticleNames.output > /dev/null
 
