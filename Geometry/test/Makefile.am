@@ -1,4 +1,8 @@
 # Applicable to each test program:
+
+if USE_GMAKE
+  MAKE = gmake
+endif
 INCLUDES = -I$(top_builddir)/
 # libraries to link, and whence
 if BUILD_STATIC

@@ -1,4 +1,8 @@
 # Applicable to each test program:
+
+if USE_GMAKE
+  MAKE = gmake
+endif
 INCLUDES = -I$(top_builddir)/
 LDADD = @config_LDFLAGS@  @config_LIBS@	# libraries to link, and whence
 

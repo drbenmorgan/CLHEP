@@ -1,5 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 doc_srcdir = $(top_srcdir)/doc
 doc_builddir = $(top_builddir)/doc
 doc_installdir = $(prefix)/doc/@PACKAGE@

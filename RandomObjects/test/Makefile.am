@@ -1,4 +1,8 @@
 # run gaussSpeed and gaussSmall interactively
+
+if USE_GMAKE
+  MAKE = gmake
+endif
 # Applicable to each test program:
 INCLUDES = -I$(top_builddir)/
 # libraries to link, and whence

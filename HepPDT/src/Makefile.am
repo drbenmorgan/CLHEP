@@ -1,5 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 INCLUDES = -I$(top_builddir)
 
 libCLHEP_HepPDT_@VERSION@_a_SOURCES = \

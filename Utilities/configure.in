@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP Utilities, 1.9.1.2, CLHEP@cern.ch, Utilities)
+AC_INIT(CLHEP Utilities, 1.9.2.0, CLHEP@cern.ch, Utilities)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE(1.9 foreign)
@@ -38,6 +38,15 @@ AC_ARG_ENABLE(static,
           *)   build_static="yes";;
         esac],
         [build_static="yes"])
+
+AC_ARG_ENABLE(gmake,
+   AC_HELP_STRING([--enable-gmake],[use gmake (default is make)]),
+        [case "${enableval}" in
+          yes) use_gmake="yes";;
+          no)  use_gmake="no";;
+          *)   use_gmake="no";;
+        esac],
+        [use_gmake="no"])
 
 # ----------------------------------------------------------------------
 # Identify the files that 'configure' is to produce:
@@ -135,6 +144,7 @@ case "$target" in
   ;;
 *-*-solaris*)
   COPY_P="cp -p";DIFF_Q="diff -b"
+  use_gmake="yes"
   ;;
 *-*-linux*)
   COPY_P="cp -p";DIFF_Q="diff -q -b"
@@ -142,6 +152,8 @@ case "$target" in
 *)
   COPY_P="cp -p";DIFF_Q="diff -q -b"
 esac
+
+AM_CONDITIONAL(USE_GMAKE, test x$use_gmake = xyes)
 
 AC_SUBST(COPY_P)
 AC_SUBST(DIFF_Q)
