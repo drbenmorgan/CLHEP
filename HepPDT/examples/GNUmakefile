@@ -1,5 +1,5 @@
 # 
-# $Id: GNUmakefile,v 1.2 2003/10/24 21:44:45 garren Exp $
+# $Id: GNUmakefile,v 1.2.2.1 2004/04/21 16:14:51 garren Exp $
 #
 # makefile for HepPDT examples
 #
@@ -8,6 +8,8 @@
 #           INCDIR=<path to clhep includes>
 #           CXX=<C++ compiler> 
 #                 You can add optional compiler flags to CXX
+
+CLHEP_DIR = /scr/cepa01/garren/clhep/cl19/pdt/install
 
 ifndef DEBUG
     DEBUG = none
@@ -23,11 +25,23 @@ ifndef CXX
 endif
 
 ifndef PDTLIB
-    PDTLIB =  $(CLHEP_DIR)/lib/libCLHEP-2.0.0.0.a
+    PDTLIB =  $(CLHEP_DIR)/lib/libCLHEP-HepPDT-2.0.0.0.a
 endif
 
 ifndef INCDIR
     INCDIR = -I$(CLHEP_DIR)/include
+endif
+
+ifdef HERWIG_DIR
+    INCDIR += -I$(HERWIG_DIR)/src
+endif
+
+ifndef F77
+    F77 = g77
+endif
+
+ifndef FFLAGS
+    FFLAGS = $(DFLG) -fno-second-underscore $(INCDIR)
 endif
 
 AR=ar
@@ -46,6 +60,8 @@ include $(SOURCE:.cc=.d)
 #------------------------------------------
 
 all: build_test run_test
+
+list: examListHerwig examListIsajet
 
 test:  run_test
 
@@ -83,6 +99,21 @@ examReadEvtGen: examReadEvtGen.o $(PDTLIB)
 		$(PDTLIB) -lm
 	rm -rf ti_files
 
+examListHerwig: examListHerwig.o examListHerwigInterface.o $(PDTLIB)
+	$(CXX) $(CXXFLAGS) -o $@ \
+		examListHerwig.o examListHerwigInterface.o \
+		$(HERWIG_DIR)/lib/hwudat.o \
+		-L$(HERWIG_DIR)/lib -lherwig -lherdum \
+		$(PDTLIB) -lm -lg2c
+	rm -rf ti_files
+
+examListIsajet: examListIsajet.o examListIsajetInterface.o $(PDTLIB)
+	$(CXX) $(CXXFLAGS) -o $@ \
+		examListIsajet.o examListIsajetInterface.o \
+		$(ISAJET_DIR)/isajet.a \
+		$(PDTLIB) -lm -lg2c
+	rm -rf ti_files
+
 run_test: examReadPDG examReadPythia examReadEvtGen examMyPDT examReadQQ
 	examReadPDG  > examReadPDG.log
 	diff examReadPDG.out examReadPDG.out.save
@@ -105,15 +136,16 @@ clean:
 	rm -f *.d
 	rm -rf ti_files
 	rm -f examReadPDG examReadPythia examReadEvtGen 
-	rm -f examMyPDT examDMF examReadQQ
+	rm -f examMyPDT examDMF examReadQQ examListHerwig examListIsajet
 	rm -f *.out *.log
+
 
 #------------------------------------------
 
 .PHONY:  clean cleanobjs
 
 .SUFFIXES :             # cancel implicit rules
-.SUFFIXES : .o .cc .cpp
+.SUFFIXES : .o .cc .cpp .F .inc .h .hh
 
 %.d: %.cc
 	@$(SHELL) -ec '$(CXX) -M $(CXXFLAGS) $< | sed '\''s/$*.o/& $@/g'\'' > $@'
@@ -132,3 +164,10 @@ clean:
 
 %_g.o: %.cpp %.d
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+%.o: %.F
+	$(F77) $(FFLAGS) -c -o $@ $<
+	
+%_g.o: %.F
+	$(F77) $(FFLAGS) -c -o $@ $<
+ 

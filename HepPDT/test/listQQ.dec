@@ -1,7 +1,10 @@
 ;
-; $Id: listQQ.dec,v 1.1 2004/04/14 23:56:28 garren Exp $
+; $Id: listQQ.dec,v 1.1.2.1 2004/04/21 16:14:52 garren Exp $
 ;
 ; $Log: listQQ.dec,v $
+; Revision 1.1.2.1  2004/04/21 16:14:52  garren
+; merge in changes and translation bug fix from HEAD
+;
 ; Revision 1.1  2004/04/14 23:56:28  garren
 ; fix bugs in translation
 ; add translation tests
