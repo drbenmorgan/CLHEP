@@ -1,0 +1,34 @@
+Exceptions Package Release Notes
+--------------------------------
+
+(NON-Release) Beta version	21-Nov-1997		W E Brown
+
+This version of the Exceptions package is incorporated into pre-released
+versions of ZOOM packages including HepTuple, and is tested on the supported 
+platforms.  The exceptions will, by default, log in a sensible way.
+
+Users obtaining ZOOM packages that may ZMthrow exceptions should be able to
+do all the necessary activities:  Setting handlers and loggers, catching
+exceptions ultimately thrown rather than ignored, and so forth.
+
+Formal release is delayed until documentation supporting user-defined
+ZOOM exceptions is prepared, and until the HepTuple package ZMexception
+instrumentation is tested.
+
+- - - 
+
+Alpha release			07-Oct-1997		W E Brown
+
+This version of the Exceptions package is now available for testing
+by knowledgeable users.  Its documentation is currently in preparation;
+the current working draft may be found online at:
+
+fnal.gov/docs/working-groups/fpcltf/Pkg/Exceptions/doc/html/0Exceptions.html
+
+User feedback is actively solicited.  Please direct your questions,
+comments, or bug reports to wb@fnal.gov.
+
+fnal.gov/docs/working-groups/fpcltf/Pkg/Exceptions/doc/html/0Exceptions.html
+
+User feedback is actively solicited.  Please direct your questions,
+comments, or bug reports to wb@fnal.gov.

@@ -1,0 +1,158 @@
+#ifndef ZMEXCEPTION_ICC
+#error "Exceptions/ZMexception.icc included without Exceptions/ZMexception.h"
+#endif
+
+
+// ----------------------------------------------------------------------
+//
+// ZMexception.icc
+//
+// Constructor ZMexception
+//	message()
+//	count()
+//	wasThrown()
+//	handlerUsed()
+//	severity()
+//	location(line, filename)
+//	fileName()
+//	line()
+//
+// Revision History:
+//      970912  MF	Initial version after separating .icc versus .cc
+//      970916  WEB	Updated per code review
+//      970917  WEB	Updated per code review 2
+//	971211	WEB	Updated per code walkthrough
+//      980421  WEB     Moved name() and facility() from .icc to .cc
+//	980617	WEB	Added namespace support
+//	990318  MF	Modified intializer list orders to avoid warnings
+//
+// ----------------------------------------------------------------------
+
+
+namespace zmex  {
+
+
+// ********************************
+//
+// Member functions in base class
+//
+// ********************************
+
+
+//**********************
+// Constructor
+//**********************
+
+inline ZMexception::ZMexception(
+  const std::string  & mesg
+, const ZMexSeverity howBad
+, int                count
+)  :
+  message_(mesg)
+, line_( 0 )
+, sourceFileName_( "not ZMthrow'n as of yet" )
+, mySeverity_( howBad == ZMexSEVERITYenumLAST ? _classInfo.severity() : howBad )
+, myCount_( count )
+, wasThrown_( false )
+{ }
+
+//**********************
+// Information accessors
+//**********************
+
+// message()
+//----------
+
+inline std::string ZMexception::message() const {
+  return  message_;
+}
+
+// count()
+//--------
+
+inline int ZMexception::count() const {
+  return  myCount_;
+}
+
+// wasThrown()
+//------------
+
+inline bool ZMexception::wasThrown() const {
+  return  wasThrown_;
+}
+
+inline void ZMexception::wasThrown( bool b ) const {
+#ifdef DEFECT_NO_MUTABLE
+  ZMexception * localThis = const_cast<ZMexception * const>(this);
+  localThis->wasThrown_ = b;
+#else
+  wasThrown_ = b;
+#endif
+}
+
+
+//**************
+// handler names
+//**************
+
+// handlerUsed()
+//--------------
+
+inline std::string ZMexception::handlerUsed() const {
+  return  handlerUsed_;
+}
+
+inline void ZMexception::handlerUsed( const std::string handlerName ) const {
+#ifdef DEFECT_NO_MUTABLE
+  ZMexception * localThis = const_cast<ZMexception * const>(this);
+  localThis->handlerUsed_ = handlerName;
+#else
+  handlerUsed_ = handlerName;
+#endif
+}
+
+
+//***********
+// severity()
+//***********
+
+inline ZMexSeverity ZMexception::severity() const {
+  return  mySeverity_;
+}
+
+
+
+//******************************
+// location setter and accessors
+//******************************
+
+// location(line, filename)
+// fileName()
+// line()
+//-------------------------
+
+inline void ZMexception::location( int line, const std::string filename ) const  {
+#ifdef DEFECT_NO_MUTABLE
+  ZMexception * localThis = const_cast<ZMexception * const>(this);
+  localThis->line_ = line;
+  localThis->sourceFileName_ = filename;
+#else
+  line_ = line;
+  sourceFileName_ = filename;
+#endif
+}
+
+inline std::string ZMexception::fileName() const {
+  return  sourceFileName_;
+}
+
+inline int ZMexception::line() const {
+  return  line_;
+}
+
+inline bool ZMexception::OKtoLog() const {
+  return  classInfo().OKtoLog();
+}
+
+
+}  // namespace zmex

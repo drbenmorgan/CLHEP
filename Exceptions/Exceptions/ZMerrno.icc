@@ -1,0 +1,99 @@
+#ifndef ZMERRNO_ICC
+#error "Exceptions/ZMerrno.icc included without Exceptions/ZMerrno.h"
+#endif
+
+
+// ----------------------------------------------------------------------
+//
+// ZMerrno.icc -- inline implementations for the error list mechanism.
+//
+//
+// The following methods of ZMerrnoList are defined here:
+//      ZMerrnoList();
+//	unsigned int size();
+//      void clear();
+//	int count();
+//	int countSinceCleared();
+//
+// Revision History:
+//	970916	WEB	Updated per code review
+//	970917	WEB	Updated per code review 2
+//	980617	WEB	Added namespace support
+//	011030	MF	Changed return type of size to unsigned
+//
+// ----------------------------------------------------------------------
+
+
+namespace zmex  {
+
+
+//**************
+//
+// ZMerrnoList()
+//
+//**************
+
+// Constructor
+
+inline ZMerrnoList::ZMerrnoList() :
+  max_( ZMERRNO_LENGTH )
+, count_( 0 )
+, countSinceCleared_( 0 )
+{
+}
+
+
+//********************
+//
+// countSinceCleared()
+//
+//********************
+
+inline int ZMerrnoList::countSinceCleared() const {
+  // Return the number of exceptions written to the ZMerrnoList since
+  // last cleared
+  return countSinceCleared_;
+}
+
+
+//********
+//
+// size()
+//
+//********
+
+//
+// unsigned int size() const;
+// return the number of entries currently on the exception stack
+
+inline unsigned int ZMerrnoList::size() const {
+  return errors_.size();
+}
+
+//********
+//
+// count()
+//
+//********
+
+//
+// int count() const;
+// return the number of entries ever ZMerrno.write() to the exception stack
+
+inline int ZMerrnoList::count() const {
+  return count_;
+}
+
+//********
+//
+// clear()
+//
+//********
+
+inline void ZMerrnoList::clear() {
+
+  countSinceCleared_ = 0;
+}
+
+
+}  // namespace zmex

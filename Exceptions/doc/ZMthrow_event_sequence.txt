@@ -1,0 +1,149 @@
+			   ZMthrow event sequence
+			  W. E. Brown, 21-Dec-1998
+
+
+These notes document the sequence of significant events set into motion
+by execution of a single ZMthrow().  A number of details are elided for
+the sake of clear exposition.
+
+
+1.  ZMthrow( usersException )
+
+  ZMthrow() is a macro.  It expands mainly into a call of ZMthrow_(),
+  passing on the usersException, hereinafter known simply as x,
+  together with the line number and file name from which the macro is
+  invoked.
+
+  It is mandatory that x be of a type derived from class ZMexception.
+
+  The result of ZMthrow_() is a code indicating whether x is to be
+    a) thrown, or
+    b) ignored
+  as the macro's final act.
+
+
+2.  ZMthrow_( x, lineNum, fileName )
+
+  ZMthrow_() is a global function of the ZMex namespace.
+
+  This function first pokes the lineNum and fileName information into
+  x, and then calls x.handleMe(), thus initiating x's handling and
+  logging.
+
+  Next, ZMthrow_() inspects x's severity to decide whether x is to be
+  copied to ZMerrno.  If the severity is at least ZMexERROR, the copy
+  is made.
+
+  Finally, ZMthrow_() returns a code for use by ZMthrow(), as indicated
+  above.  This code is identical to the code returned by handleMe().
+
+
+3.  x.handleMe()
+
+  handleMe() is a virtual member function of class ZMexception and of
+  exception classes descended from ZMexception.
+
+  handleMe's primary task is to determine the handler currently
+  associated with x's class, and to invoke that handler's takeCareOf()
+  method, passing it the user exception x.
+
+  The result of takeCareOf(x) is used to decide whether the exception
+  has been sufficiently handled; if not, another handleMe() function is
+  called, namely the one associated with the parent class of x's class.
+
+  Finally, handleMe() returns a code [obtained from takeCareOf()] for
+  ZMthrow_() to return, as documented above.
+
+
+4.  takeCareOf( x )
+
+  takeCareOf() is a virtual member function of ZMexHandler and of
+  handler classes descended from ZMexHandler.
+
+  This is a forwarding function that
+    a) calls the takeCareOf() method associated with the
+       ZMexHandlerBehavior with which the current handler was
+       instantiated, and
+    b) returns that function's result as its own result.
+
+
+5.  takeCareOf( x )
+
+  This takeCareOf() method is a virtual member function of a
+  ZMexHandlerBehavior class.
+
+  For most such behavior classes, this method calls standardHandling()
+  with arguments giving the exception x together with a throw/ignore
+  flag.
+
+  takeCareOf() returns the same result given as the result of
+  standardHandling().
+
+
+6.  standardHandling( x, flag )
+
+  standardHandling() is a member function of ZMexHandlerBehavior.
+
+  It first pokes, into x, the name of the handler being used together
+  with the value of the throw/ignore flag.
+
+  Based on filtering criteria, standardHandling() determines whether
+  this exception is to be logged.  If so, it calls the logMe() function
+  associated with x's class.
+
+  Finally, standardHandling() returns a code directly derived from the
+  throw/ignore flag.
+
+
+7.  x.logMe()
+
+  logMe() is a virtual member function of ZMexception and of exception
+  classes descended from ZMexception.
+
+  logMe's primary task is to determine the logger currently associated
+  with x's class, and to invoke that logger's emit() method, passing it
+  the user exception x.
+
+  The result of emit() is used to decide whether the exception has been
+  sufficiently logged; if not, another logMe() function is called,
+  namely the one associated with the parent class of x's class.
+
+  Finally, logMe() returns a code [obtained from emit()] for
+  standardHandling() to interrogate, if it wishes.
+
+
+8.  emit( x )
+
+  emit() is a member function of ZMexLogger and of logger classes
+  descended from ZMexLogger.
+
+  This is a forwarding function that
+    a) calls x.logMessage() to obtain the complete formatted text of
+       user exception x,
+    a) passes that text to the emit() method associated with the
+       ZMexLoggerBehavior with which the current logger was instantiated,
+       and
+    b) returns that function's result as its own result.
+
+
+9.  x.logMessage()
+
+  logMessage() is a virtual member function of ZMexception and of
+  exception classes descended from ZMexception.
+
+  logMessage() is responsible for formatting the complete text of the
+  exception being logged; this formatted text is the function's string
+  result.
+
+
+10.  emit( s )
+
+  This emit() method is a virtual member function of a
+  ZMexLoggerBehavior class.
+
+  For most such behavior classes, this method sends the formatted
+  string s to the ostream destination specified when the logger was
+  instantiated.
+
+  emit() returns, as its result, a code describing what, if any, action
+  it actually took.

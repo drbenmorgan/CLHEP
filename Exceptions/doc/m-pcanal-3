@@ -1,0 +1,227 @@
+From pcanal@fndaub  Wed Jul  9 16:17:45 1997
+
+>
+> I thought handler(whatever) was the routine that establishes the handler.
+> Yes, we can distinguish the two by signature, but to me that feels like
+> having a write(val) and a value=read() method, only calling the read method
+> value=write().  Possible but not as clear.
+
+I agree with this point ... so settling for setHandler() and handler() seems
+appropriate
+
+
+
+From mf  Wed Jul  9 14:02:47 1997
+
+Philippe Canal writes:
+>
+>
+>> 4 - The status of what was set up for ignoring and handling may be probed, so
+>>    temporary control be havior can be set and then put back to what it was:>
+>>
+>>	GetHandler() returns the estabished handler (and we have to decide how
+>>	to cope with the two different handler signatures!!).>>
+>>
+>>	int ignoreStatus();  //  1 - ignore was specified
+>>			     // -1 - dontIgnore was specified
+>>			     //  0 - neither was specified; use status from
+>>			     //      parent
+>>	void setIgnoreStatus(int);
+>
+>A few comments:
+>
+>the documents may (or may not) need to be updated in its ealier part (
+>it talks about the ignore() and dontIgnore() methods).
+>
+
+I think it is OK there.
+
+>the return ignoreStatus() returns may be more flexible with the following
+>semantics:
+>	-1: always ignore
+>	 0: don't Ignore
+>	1-999999: ignore this number of times.
+>
+
+I prefer to let the user set up "ignore this number of times" by having a
+handler.  However, perhaps our "ignore" concept should be extended to include
+a possibility meaning  "ignore completely without even calling handler".  In
+that case, modifying the ignore and dontIgnore() methods to control this
+would be sensible.
+
+>Comestically (unless ZOOM has any other standard) GetHandler might just
+>as well be called handler().
+>
+
+I thought handler(whatever) was the routine that establishes the handler.
+Yes, we can distinguish the two by signature, but to me that feels like
+having a write(val) and a value=read() method, only calling the read method
+value=write().  Possible but not as clear.
+
+>It should be make clear where handler() and ignoreStatus return the
+>information contained in the current class OR the information that will be
+>actually used for the class (those two will be different if the a top class
+>have been set while the sub class has not).
+
+Good point.
+The intent was the info in the current class.  But maybe there needs to be a
+method for the other.
+
+>
+>I dont remember if the document explained what happen if:
+>
+>HepTuple::ZMxGeneral::handler() == MyGeneralHandler()
+>HepTuple::ZMxCapture::ignoreStatus() == don't ignore ....
+>HepTuple::ZMxCapture::handler() == NULL
+>
+>If I ZMthrow a HepTuple::ZMxCapture is going to:
+>	run MyGeneralHandler()
+		I did not think about establishing a NULL handler explicitly.
+		Probably the way to establish a trivial handler just to
+		prevent the invoking of a parent handler is to make one
+		and set the handler to that, rather than to use NULL.
+		The way I had it, the above code WOULD call MyGeneralHandler,
+		but I don't know this is the right way to work it.
+>	throw a HepTuple::ZMxCapture::
+		Should do so only if MyGeneralHandler() returns true.
+
+>How to I tell force it to throw a HepTuple::ZMxCapture:: ?
+
+	write a handler that always returns true.  Or have a trivial
+	handler (or no handler up the line) and set the dontIgnore.
+
+
+		I RAN OUT OF TIME TO ANSWER REST OF THIS, WILL ANSWER LATER.
+
+>Do I need to set an handler that returns false ?
+>
+>In a more general sense what is the interaction/precedence of
+>the ignoreStatus and the handler pointer
+>
+>Do we still have two different handler signatures ?
+>
+>Philippe.
+>
+
+From pcanal@fndaub  Wed Jul  9 13:32:43 1997
+
+>
+> No, according to Mengel there are some circumstances in which it misbehaves a
+nd
+> others where it is OK.
+>
+
+Do we know the circunstance where it does not misbehave ?
+
+From pcanal@fndaub  Wed Jul  9 12:02:43 1997
+Status: RO
+
+Hi,
+
+I suspect that you are aware of the fact that
+as of gcc 2.7.2, exception do not work on
+MIPS platforms.  (actually it just ignore the
+throw).
+
+Philippe Canal, pcanal@fnal.gov, 630-840-2545.
+
+From pcanal@fndaub  Wed Jul  9 16:17:45 1997
+
+d handler() seems
+appropriate
+
+
+From pcanal@fndaub  Wed Jul  9 11:12:43 1997
+
+
+> 4 - The status of what was set up for ignoring and handling may be probed, so
+>    temporary control be havior can be set and then put back to what it was:>
+>
+>	GetHandler() returns the estabished handler (and we have to decide how
+>	to cope with the two different handler signatures!!).>>
+>
+>	int ignoreStatus();  //  1 - ignore was specified
+>			     // -1 - dontIgnore was specified
+>			     //  0 - neither was specified; use status from
+>			     //      parent
+>	void setIgnoreStatus(int);
+
+A few comments:
+
+the documents may (or may not) need to be updated in its ealier part (
+it talks about the ignore() and dontIgnore() methods).
+
+the return ignoreStatus() returns may be more flexible with the following
+semantics:
+	-1: always ignore
+	 0: don't Ignore
+	1-999999: ignore this number of times.
+
+Comestically (unless ZOOM has any other standard) GetHandler might just
+as well be called handler().
+
+It should be make clear where handler() and ignoreStatus return the
+information contained in the current class OR the information that will be
+actually used for the class (those two will be different if the a top class
+have been set while the sub class has not).
+
+I dont remember if the document explained what happen if:
+
+HepTuple::ZMxGeneral::handler() == MyGeneralHandler()
+HepTuple::ZMxCapture::ignoreStatus() == don't ignore ....
+HepTuple::ZMxCapture::handler() == NULL
+
+If I ZMthrow a HepTuple::ZMxCapture is going to:
+	throw a HepTuple::ZMxCapture::
+	run MyGeneralHandler()
+How to I tell force it to throw a HepTuple::ZMxCapture:: ?
+Do I need to set an handler that returns false ?
+
+In a more general sense what is the interaction/precedence of
+the ignoreStatus and the handler pointer
+
+Do we still have two different handler signatures ?
+
+Philippe.
+
+From pcanal@fndaub  Tue Jul  8 14:17:39 1997
+
+>
+> I think you are right.  The first argument should be a ZMexception&.  Then
+> when we do
+> 	class ZMxCapture : public ZMexception { ... }
+> 		:
+> 		:
+> 	ZMexcept ( ZMxCapture ("a message"), line, file, data, time );
+>
+> And
+> 	ZMexcept ( ZMexception &x, int line,
+>  				char file[], char data[], char time[]) {
+> 		:
+> 		:
+> 	  throw x;
+> 	}
+>
+> this will (I think) throw the ZMxCapture.  If not, we will need to make it
+> a ZMexception* and do:
+>
+> 	class ZMxCapture : public ZMexception { ... }
+> 		:
+> 		:
+> 	ZMexcept ( *ZMxCapture ("a message"), line, file, data, time );
+>
+> And
+> 	ZMexcept ( ZMexception *x, int line,
+>  				char file[], char data[], char time[]) {
+> 		:
+> 		:
+> 	  throw *x;
+> 	}
+>
+> which is less elegant but may be necessary.
+
+Actually I think the right solution is to have ZMexcept being a template:
+
+template <class exception>
+void ZMexcept ( exception x, int line,
+		char file[], char date[], char time[]);
