@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.2.2 2004/09/08 22:50:24 garren Exp $
+// $Id: Matrix.cc,v 1.4.2.3 2004/09/10 21:26:09 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -93,21 +93,13 @@ namespace CLHEP {
 // Constructors. (Default constructors are inlined and in .icc file)
 
 HepMatrix::HepMatrix(int p,int q)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(p*q)), nrow(p), ncol(q)
-#else
-   : m(std::vector<double,Alloc<double,25> >(p*q)), nrow(p), ncol(q)
-#endif
+   : m(p*q), nrow(p), ncol(q)
 {
   size = nrow * ncol;
 }
 
 HepMatrix::HepMatrix(int p,int q,int init)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(p*q)), nrow(p), ncol(q)
-#else
-   : m(std::vector<double,Alloc<double,25> >(p*q)), nrow(p), ncol(q)
-#endif
+   : m(p*q), nrow(p), ncol(q)
 {
    size = nrow * ncol;
 
@@ -135,11 +127,7 @@ HepMatrix::HepMatrix(int p,int q,int init)
 }
 
 HepMatrix::HepMatrix(int p,int q, HepRandom &r)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(p*q)), nrow(p), ncol(q)
-#else
-   : m(std::vector<double,Alloc<double,25> >(p*q)), nrow(p), ncol(q)
-#endif
+   : m(p*q), nrow(p), ncol(q)
 {
    size = nrow * ncol;
 
@@ -154,22 +142,14 @@ HepMatrix::~HepMatrix() {
 }
 
 HepMatrix::HepMatrix(const HepMatrix &m1)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(m1.size)), nrow(m1.nrow), ncol(m1.ncol), size(m1.size)
-#else
-   : m(std::vector<double,Alloc<double,25> >(m1.size)), nrow(m1.nrow), ncol(m1.ncol), size(m1.size)
-#endif
+   : m(m1.size), nrow(m1.nrow), ncol(m1.ncol), size(m1.size)
 {
    m = m1.m;
 
 }
 
 HepMatrix::HepMatrix(const HepSymMatrix &m1)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(m1.nrow*m1.nrow)), nrow(m1.nrow), ncol(m1.nrow)
-#else
-   : m(std::vector<double,Alloc<double,25> >(m1.nrow*m1.nrow)), nrow(m1.nrow), ncol(m1.nrow)
-#endif
+   : m(m1.nrow*m1.nrow), nrow(m1.nrow), ncol(m1.nrow)
 {
    size = nrow * ncol;
 
@@ -193,11 +173,7 @@ HepMatrix::HepMatrix(const HepSymMatrix &m1)
 }
 
 HepMatrix::HepMatrix(const HepDiagMatrix &m1)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(m1.nrow*m1.nrow)), nrow(m1.nrow), ncol(m1.nrow)
-#else
-   : m(std::vector<double,Alloc<double,25> >(m1.nrow*m1.nrow)), nrow(m1.nrow), ncol(m1.nrow)
-#endif
+   : m(m1.nrow*m1.nrow), nrow(m1.nrow), ncol(m1.nrow)
 {
    size = nrow * ncol;
 
@@ -211,11 +187,7 @@ HepMatrix::HepMatrix(const HepDiagMatrix &m1)
 }
 
 HepMatrix::HepMatrix(const HepVector &m1)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(m1.nrow)), nrow(m1.nrow), ncol(1)
-#else
-   : m(std::vector<double,Alloc<double,25> >(m1.nrow)), nrow(m1.nrow), ncol(1)
-#endif
+   : m(m1.nrow), nrow(m1.nrow), ncol(1)
 {
 
    size = nrow;

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.2 2004/09/08 22:50:24 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.3 2004/09/10 21:26:09 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -89,22 +89,14 @@ namespace CLHEP {
 // Constructors. (Default constructors are inlined and in .icc file)
 
 HepSymMatrix::HepSymMatrix(int p)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(p*(p+1)/2)), nrow(p)
-#else
-   : m(std::vector<double,Alloc<double,25> >(p*(p+1)/2)), nrow(p)
-#endif
+   : m(p*(p+1)/2), nrow(p)
 {
    size = nrow * (nrow+1) / 2;
    m.assign(size,0);
 }
 
 HepSymMatrix::HepSymMatrix(int p, int init)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(p*(p+1)/2)), nrow(p)
-#else
-   : m(std::vector<double,Alloc<double,25> >(p*(p+1)/2)), nrow(p)
-#endif
+   : m(p*(p+1)/2), nrow(p)
 {
    size = nrow * (nrow+1) / 2;
 
@@ -129,11 +121,7 @@ HepSymMatrix::HepSymMatrix(int p, int init)
 }
 
 HepSymMatrix::HepSymMatrix(int p, HepRandom &r)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(p*(p+1)/2)), nrow(p)
-#else
-   : m(std::vector<double,Alloc<double,25> >(p*(p+1)/2)), nrow(p)
-#endif
+   : m(p*(p+1)/2), nrow(p)
 {
    size = nrow * (nrow+1) / 2;
    HepMatrix::mIter a = m.begin();
@@ -148,21 +136,13 @@ HepSymMatrix::~HepSymMatrix() {
 }
 
 HepSymMatrix::HepSymMatrix(const HepSymMatrix &m1)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(m1.size)), nrow(m1.nrow), size(m1.size)
-#else
-   : m(std::vector<double,Alloc<double,25> >(m1.size)), nrow(m1.nrow), size(m1.size)
-#endif
+   : m(m1.size), nrow(m1.nrow), size(m1.size)
 {
    m = m1.m;
 }
 
 HepSymMatrix::HepSymMatrix(const HepDiagMatrix &m1)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(m1.nrow*(m1.nrow+1)/2)), nrow(m1.nrow)
-#else
-   : m(std::vector<double,Alloc<double,25> >(m1.nrow*(m1.nrow+1)/2)), nrow(m1.nrow)
-#endif
+   : m(m1.nrow*(m1.nrow+1)/2), nrow(m1.nrow)
 {
    size = nrow * (nrow+1) / 2;
 

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Vector.cc,v 1.3.2.2 2004/09/08 22:50:24 garren Exp $
+// $Id: Vector.cc,v 1.3.2.3 2004/09/10 21:26:09 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -86,20 +86,12 @@ namespace CLHEP {
 // Constructors. (Default constructors are inlined and in .icc file)
 
 HepVector::HepVector(int p)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(p)), nrow(p)
-#else
-   : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
-#endif
+   : m(p), nrow(p)
 {
 }
 
 HepVector::HepVector(int p, int init)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(p)), nrow(p)
-#else
-   : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
-#endif
+   : m(p), nrow(p)
 {
    switch (init)
    {
@@ -120,11 +112,7 @@ HepVector::HepVector(int p, int init)
 }
 
 HepVector::HepVector(int p, HepRandom &r)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(p)), nrow(p)
-#else
-   : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
-#endif
+   : m(p), nrow(p)
 {
    HepGenMatrix::mIter a = m.begin();
    HepGenMatrix::mIter b = m.begin() + nrow;
@@ -139,11 +127,7 @@ HepVector::~HepVector() {
 }
 
 HepVector::HepVector(const HepVector &m1)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(m1.nrow)), nrow(m1.nrow)
-#else
-   : m(std::vector<double,Alloc<double,25> >(m1.nrow)), nrow(m1.nrow)
-#endif
+   : m(m1.nrow), nrow(m1.nrow)
 {
    m = m1.m;
 }
@@ -154,11 +138,7 @@ HepVector::HepVector(const HepVector &m1)
 
 
 HepVector::HepVector(const HepMatrix &m1)
-#if defined __GNUC__ && (__GNUC__ < 3)
-   : m(std::vector<double >(m1.nrow)), nrow(m1.nrow)
-#else
-   : m(std::vector<double,Alloc<double,25> >(m1.nrow)), nrow(m1.nrow)
-#endif
+   : m(m1.nrow), nrow(m1.nrow)
 {
    if (m1.num_col() != 1)
       error("Vector::Vector(Matrix) : Matrix is not Nx1");
