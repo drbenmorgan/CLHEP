@@ -1,4 +1,4 @@
-// $Id: examReadPythia.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: examReadPythia.cc,v 1.2 2003/08/26 21:56:39 garren Exp $
 // ----------------------------------------------------------------------
 // examReadPythia.cc
 //
@@ -6,8 +6,8 @@
 //
 // ----------------------------------------------------------------------
 
-#include "CLHEP/config/CLHEP.h"
-#include "CLHEP/config/fstream.h"
+#include "CLHEP/HepPDT/defs.h"
+#include <fstream>
 
 #include "CLHEP/HepPDT/DefaultConfig.hh"
 #include "CLHEP/HepPDT/TableBuilder.hh"

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////
 //
 // File: TestDMF.cc
-// $Id: examDMF.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: examDMF.cc,v 1.2 2003/08/26 21:56:39 garren Exp $
 // Purpose: Test of the DMFactory class template
 //
 // Author:  Marc Paterno
@@ -14,8 +14,8 @@
 #pragma warning (disable: 4786)
 #endif
 
-#include "CLHEP/config/CLHEP.h"
-#include "CLHEP/config/iostream.h"
+#include "CLHEP/HepPDT/defs.h"
+#include <iostream>
 
 #include <string>
 #include <cassert>
