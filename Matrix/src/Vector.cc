@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Vector.cc,v 1.3 2003/08/13 20:00:12 garren Exp $
+// $Id: Vector.cc,v 1.3.2.1 2004/08/25 18:37:41 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -56,21 +56,21 @@ namespace CLHEP {
 // Simple operation for all elements
 
 #define SIMPLE_UOP(OPER)          \
-   register double *a=m;            \
-   register double *e=m+num_size(); \
+   register HepGenMatrix::mIter a=m.begin();            \
+   register HepGenMatrix::mIter e=m.begin()+num_size(); \
    for(;a<e; a++) (*a) OPER t;
 
 #define SIMPLE_BOP(OPER)          \
-   register double *a=m;            \
-   register double *b=m2.m;         \
-   register double *e=m+num_size(); \
+   register mIter a=m.begin();            \
+   register mcIter b=m2.m.begin();               \
+   register mcIter e=m.begin()+num_size(); \
    for(;a<e; a++, b++) (*a) OPER (*b);
 
 #define SIMPLE_TOP(OPER)          \
-   register double *a=m1.m;            \
-   register double *b=m2.m;         \
-   register double *t=mret.m;         \
-   register double *e=m1.m+m1.num_size(); \
+   register HepGenMatrix::mcIter a=m1.m.begin();            \
+   register HepGenMatrix::mcIter b=m2.m.begin();         \
+   register HepGenMatrix::mIter t=mret.m.begin();         \
+   register HepGenMatrix::mcIter e=m1.m.begin()+m1.num_size(); \
    for( ;a<e; a++, b++, t++) (*t) = (*a) OPER (*b);
 
 #define CHK_DIM_2(r1,r2,c1,c2,fun) \
@@ -86,25 +86,23 @@ namespace CLHEP {
 // Constructors. (Default constructors are inlined and in .icc file)
 
 HepVector::HepVector(int p)
-   : nrow(p)
+   : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
 {
-   m = new_m(nrow);
 }
 
 HepVector::HepVector(int p, int init)
-   : nrow(p)
+   : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
 {
-   m = new_m(nrow);
    switch (init)
    {
    case 0:
-      memset(m, 0, p * sizeof(double));
+      m.assign(p,0);
       break;
       
    case 1:
       {
-	 double *e = m + nrow;
-	 for (double *i=m; i<e; i++) *i = 1.0;
+	 mIter e = m.begin() + nrow;
+	 for (mIter i=m.begin(); i<e; i++) *i = 1.0;
 	 break;
       }
       
@@ -114,11 +112,10 @@ HepVector::HepVector(int p, int init)
 }
 
 HepVector::HepVector(int p, HepRandom &r)
-   : nrow(p)
+   : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
 {
-   m = new_m(nrow);
-   double *a = m;
-   double *b = m + nrow;
+   HepGenMatrix::mIter a = m.begin();
+   HepGenMatrix::mIter b = m.begin() + nrow;
    for(;a<b;a++) *a = r();
 }
 
@@ -127,14 +124,12 @@ HepVector::HepVector(int p, HepRandom &r)
 // Destructor
 //
 HepVector::~HepVector() {
-   delete_m(nrow, m);
 }
 
 HepVector::HepVector(const HepVector &m1)
-   : nrow(m1.nrow)
+   : m(std::vector<double,Alloc<double,25> >(m1.nrow)), nrow(m1.nrow)
 {
-   m = new_m(nrow);
-   memcpy(m, m1.m, nrow*sizeof(double));
+   m = m1.m;
 }
 
 //
@@ -143,13 +138,12 @@ HepVector::HepVector(const HepVector &m1)
 
 
 HepVector::HepVector(const HepMatrix &m1)
-   : nrow(m1.nrow)
+   : m(std::vector<double,Alloc<double,25> >(m1.nrow)), nrow(m1.nrow)
 {
    if (m1.num_col() != 1)
       error("Vector::Vector(Matrix) : Matrix is not Nx1");
    
-   m = new_m(nrow);
-   memcpy(m,m1.m,nrow*sizeof(double));
+   m = m1.m;
 }
 
 // Sub matrix
@@ -164,9 +158,9 @@ return vret(max_row-min_row+1);
 #endif
   if(max_row > num_row())
     error("HepVector::sub: Index out of range");
-  double *a = vret.m;
-  double *b = m + min_row - 1;
-  double *e = vret.m + vret.num_row();
+  HepGenMatrix::mIter a = vret.m.begin();
+  HepGenMatrix::mcIter b = m.begin() + min_row - 1;
+  HepGenMatrix::mIter e = vret.m.begin() + vret.num_row();
   for(;a<e;) *(a++) = *(b++);
   return vret;
 }
@@ -177,9 +171,9 @@ HepVector HepVector::sub(int min_row, int max_row)
   HepVector vret(max_row-min_row+1);
   if(max_row > num_row())
     error("HepVector::sub: Index out of range");
-  double *a = vret.m;
-  double *b = m + min_row - 1;
-  double *e = vret.m + vret.num_row();
+  HepGenMatrix::mIter a = vret.m.begin();
+  HepGenMatrix::mIter b = m.begin() + min_row - 1;
+  HepGenMatrix::mIter e = vret.m.begin() + vret.num_row();
   for(;a<e;) *(a++) = *(b++);
   return vret;
 }
@@ -189,9 +183,9 @@ void HepVector::sub(int row,const HepVector &v1)
 {
   if(row <1 || row+v1.num_row()-1 > num_row())
     error("HepVector::sub: Index out of range");
-  double *a = v1.m;
-  double *b = m + row - 1;
-  double *e = v1.m + v1.num_row();
+  HepGenMatrix::mcIter a = v1.m.begin();
+  HepGenMatrix::mIter b = m.begin() + row - 1;
+  HepGenMatrix::mcIter e = v1.m.begin() + v1.num_row();
   for(;a<e;) *(b++) = *(a++);
 }
 
@@ -226,9 +220,9 @@ HepVector HepVector::operator- () const
 {
    HepVector m2(nrow);
 #endif
-   register double *a=m;
-   register double *b=m2.m;
-   register double *e=m+num_size();
+   register HepGenMatrix::mcIter a=m.begin();
+   register HepGenMatrix::mIter b=m2.m.begin();
+   register HepGenMatrix::mcIter e=m.begin()+num_size();
    for(;a<e; a++, b++) (*b) = -(*a);
    return m2;
 }
@@ -369,13 +363,14 @@ HepVector operator*(const HepMatrix &m1,const HepVector &m2)
   HepVector mret(m1.num_row());
 #endif
   CHK_DIM_1(m1.num_col(),m2.num_row(),*);
-  double *m1p,*m2p,*m3p,*vp;
+  HepGenMatrix::mcIter m1p,m2p,vp;
+  HepGenMatrix::mIter m3p;
   double temp;
-  m3p=mret.m;
-  for(m1p=m1.m;m1p<m1.m+m1.num_row()*m1.num_col();m1p=m2p)
+  m3p=mret.m.begin();
+  for(m1p=m1.m.begin();m1p<m1.m.begin()+m1.num_row()*m1.num_col();m1p=m2p)
     {
       temp=0;
-      vp=m2.m;
+      vp=m2.m.begin();
       m2p=m1p;
       while(m2p<m1p+m1.num_col())
 	temp+=(*(m2p++))*(*(vp++));
@@ -393,11 +388,11 @@ HepMatrix operator*(const HepVector &m1,const HepMatrix &m2)
   HepMatrix mret(m1.num_row(),m2.num_col());
 #endif
   CHK_DIM_1(1,m2.num_row(),*);
-  double *m1p;
-  double *m2p;
-  double *mrp=mret.m;
-  for(m1p=m1.m;m1p<m1.m+m1.num_row();m1p++)
-    for(m2p=m2.m;m2p<m2.m+m2.num_col();m2p++)
+  HepGenMatrix::mcIter m1p;
+  HepMatrix::mcIter m2p;
+  HepMatrix::mIter mrp=mret.m.begin();
+  for(m1p=m1.m.begin();m1p<m1.m.begin()+m1.num_row();m1p++)
+    for(m2p=m2.m.begin();m2p<m2.m.begin()+m2.num_col();m2p++)
       *(mrp++)=*m1p*(*m2p);
   return mret;
 }
@@ -464,13 +459,12 @@ HepMatrix & HepMatrix::operator=(const HepVector &m1)
 {
    if(m1.nrow != size)
    {
-      delete_m(size,m);
       size = m1.nrow;
-      m = new_m(size);
+      m.resize(size);
    }
    nrow = m1.nrow;
    ncol = 1;
-   memcpy(m,m1.m,size*sizeof(double));
+   m = m1.m;
    return (*this);
 }
 
@@ -478,11 +472,10 @@ HepVector & HepVector::operator=(const HepVector &m1)
 {
    if(m1.nrow != nrow)
    {
-      delete_m(nrow, m);
       nrow = m1.nrow;
-      m = new_m(nrow);
+      m.resize(nrow);
    }
-   memcpy(m,m1.m,num_size()*sizeof(double));
+   m = m1.m;
    return (*this);
 }
 
@@ -493,11 +486,10 @@ HepVector & HepVector::operator=(const HepMatrix &m1)
    
    if(m1.nrow != nrow)
    {
-      delete_m(nrow, m);
       nrow = m1.nrow;
-      m = new_m(nrow);
+      m.resize(nrow);
    }
-   memcpy(m,m1.m,num_size()*sizeof(double));
+   m = m1.m;
    return (*this);
 }
 
@@ -505,9 +497,8 @@ HepVector & HepVector::operator=(const Hep3Vector &v)
 {
    if(nrow != 3)
    {
-      delete_m(nrow, m);
       nrow = 3;
-      m = new_m(nrow);
+      m.resize(nrow);
    }
    m[0] = v.x();
    m[1] = v.y();
@@ -547,7 +538,7 @@ return mret(1,num_row());
 {
   HepMatrix mret(1,num_row());
 #endif
-  memcpy(mret.m,m,num_size()*sizeof(double));
+  mret.m = m;
   return mret;
 }
 
@@ -556,9 +547,9 @@ double dot(const HepVector &v1,const HepVector &v2)
   if(v1.num_row()!=v2.num_row())
      HepGenMatrix::error("v1 and v2 need to be the same size in dot(HepVector, HepVector)");
   double d= 0;
-  double *a = v1.m;
-  double *b = v2.m;
-  double *e = a + v1.num_size();
+  HepGenMatrix::mcIter a = v1.m.begin();
+  HepGenMatrix::mcIter b = v2.m.begin();
+  HepGenMatrix::mcIter e = a + v1.num_size();
   for(;a<e;) d += (*(a++)) * (*(b++));
   return d;
 }
@@ -572,8 +563,8 @@ return mret(num_row());
 {
   HepVector mret(num_row());
 #endif
-  double *a = m;
-  double *b = mret.m;
+  HepGenMatrix::mcIter a = m.begin();
+  HepGenMatrix::mIter b = mret.m.begin();
   for(int ir=1;ir<=num_row();ir++) {
     *(b++) = (*f)(*(a++), ir);
   }

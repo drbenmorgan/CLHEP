@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: Matrix.h,v 1.3 2003/10/23 21:29:50 garren Exp $
+// $Id: Matrix.h,v 1.3.2.1 2004/08/25 18:37:41 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -228,6 +228,8 @@
 #pragma interface
 #endif
 
+#include <vector>
+
 #include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/GenMatrix.h"
 
@@ -426,7 +428,7 @@ private:
    int dfinv_matrix(int *ir);
    // invert the matrix. See CERNLIB DFINV.
 
-   double *m;
+   std::vector<double,Alloc<double,25> > m;
    int nrow, ncol;
    int size;
 };

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: SymMatrix.h,v 1.3 2003/10/23 21:29:50 garren Exp $
+// $Id: SymMatrix.h,v 1.3.2.1 2004/08/25 18:37:41 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 // 
@@ -108,6 +108,8 @@
 #ifdef GNUPRAGMA
 #pragma interface
 #endif
+
+#include <vector>
 
 #include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/GenMatrix.h"
@@ -298,7 +300,7 @@ private:
    friend HepSymMatrix vT_times_v(const HepVector &v);
    // Returns v * v.T();
 
-   double *m;
+   std::vector<double,Alloc<double,25> > m;
    int nrow;
    int size;				     // total number of elements
 

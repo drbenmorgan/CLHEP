@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.icc,v 1.2 2003/07/18 05:31:48 garren Exp $
+// $Id: SymMatrix.icc,v 1.2.2.1 2004/08/25 18:37:41 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -55,7 +55,7 @@ inline double & HepSymMatrix::fast(int row,int col)
   if(row<1||row>num_row() || col<1||col>num_col())
     error("Range error in HepSymMatrix::fast()");
 #endif
-  return *(m+(row*(row-1))/2+(col-1));
+  return *(m.begin()+(row*(row-1))/2+(col-1));
 }
 inline const double & HepSymMatrix::fast(int row,int col) const
 {
@@ -63,7 +63,7 @@ inline const double & HepSymMatrix::fast(int row,int col) const
   if(row<1||row>num_row() || col<1||col>num_col())
     error("Range error in HepSymMatrix::fast()");
 #endif
-  return *(m+(row*(row-1))/2+(col-1));
+  return *(m.begin()+(row*(row-1))/2+(col-1));
 }
 
 inline double & HepSymMatrix::operator()(int row, int col)
@@ -105,9 +105,9 @@ inline double &HepSymMatrix::HepSymMatrix_row::operator[](int c)
       error("Range error in HepSymMatrix::operator[][]");
 #endif
    if (_r >= c ) {
-      return *(_a.m + (_r+1)*_r/2 + c);
+      return *(_a.m.begin() + (_r+1)*_r/2 + c);
    } else {
-      return *(_a.m + (c+1)*c/2 + _r);
+      return *(_a.m.begin() + (c+1)*c/2 + _r);
    }
 }
 
@@ -119,9 +119,9 @@ HepSymMatrix::HepSymMatrix_row_const::operator[](int c) const
       error("Range error in HepSymMatrix::operator[][]");
 #endif
    if (_r >= c ) {
-      return *(_a.m + (_r+1)*_r/2 + c);
+      return *(_a.m.begin() + (_r+1)*_r/2 + c);
    } else {
-      return *(_a.m + (c+1)*c/2 + _r);
+      return *(_a.m.begin() + (c+1)*c/2 + _r);
    }
 }
 

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DiagMatrix.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: DiagMatrix.cc,v 1.4.2.1 2004/08/25 18:37:41 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -59,21 +59,21 @@ namespace CLHEP {
 // Simple operation for all elements
 
 #define SIMPLE_UOP(OPER)          \
-  register double *a=m;            \
-  register double *e=m+num_size(); \
+  register HepMatrix::mIter a=m.begin();            \
+  register HepMatrix::mIter e=m.begin()+num_size(); \
   for(;a<e; a++) (*a) OPER t;
 
 #define SIMPLE_BOP(OPER)          \
-   register double *a=m;            \
-   register double *b=m2.m;         \
-   register double *e=m+num_size(); \
+   register HepMatrix::mIter a=m.begin();            \
+   register HepMatrix::mcIter b=m2.m.begin();         \
+   register HepMatrix::mIter e=m.begin()+num_size(); \
    for(;a<e; a++, b++) (*a) OPER (*b);
 
 #define SIMPLE_TOP(OPER)          \
-   register double *a=m1.m;            \
-   register double *b=m2.m;         \
-   register double *t=mret.m;         \
-   register double *e=m1.m+m1.nrow; \
+   register HepMatrix::mcIter a=m1.m.begin();            \
+   register HepMatrix::mcIter b=m2.m.begin();         \
+   register HepMatrix::mIter t=mret.m.begin();         \
+   register HepMatrix::mcIter e=m1.m.begin()+m1.nrow; \
    for( ;a<e; a++, b++, t++) (*t) = (*a) OPER (*b);
 
 #define CHK_DIM_2(r1,r2,c1,c2,fun) \
@@ -100,26 +100,23 @@ const double HepDiagMatrix::zero = 0;
 // Constructors. (Default constructors are inlined and in .icc file)
 
 HepDiagMatrix::HepDiagMatrix(int p)
-   : nrow(p)
+   : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
 {
-   m = new_m(nrow);
 }
 
 HepDiagMatrix::HepDiagMatrix(int p, int init)
-   : nrow(p)
-{
-   m = new_m(nrow);
-   
+   : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
+{   
    switch(init)
    {
    case 0:
-      memset(m, 0, nrow * sizeof(double));
+      m.assign(nrow,0);
       break;
 
    case 1:
       {
-	 double *a=m;
-	 double *b=m + p;
+	 HepMatrix::mIter a=m.begin();
+	 HepMatrix::mIter b=m.begin() + p;
 	 for( ; a<b; a++) *a = 1.0;
 	 break;
       }
@@ -129,25 +126,22 @@ HepDiagMatrix::HepDiagMatrix(int p, int init)
 }
 
 HepDiagMatrix::HepDiagMatrix(int p, HepRandom &r)
-  : nrow(p)
+  : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
 {
-   m = new_m(nrow);
-   double *a = m;
-   double *b = m + num_size();
+   HepMatrix::mIter a = m.begin();
+   HepMatrix::mIter b = m.begin() + num_size();
    for(;a<b;a++) *a = r();
 }
 //
 // Destructor
 //
 HepDiagMatrix::~HepDiagMatrix() {
-   delete_m(nrow, m);
 }
 
 HepDiagMatrix::HepDiagMatrix(const HepDiagMatrix &m1)
-   : nrow(m1.nrow)
+   : m(std::vector<double,Alloc<double,25> >(m1.nrow)), nrow(m1.nrow)
 {
-   m = new_m(nrow);
-   memcpy(m, m1.m, nrow*sizeof(double));
+   m = m1.m;
 }
 
 //
@@ -166,9 +160,9 @@ return mret(max_row-min_row+1);
 #endif
   if(max_row > num_row())
     error("HepDiagMatrix::sub: Index out of range");
-  double *a = mret.m;
-  double *b = m + min_row - 1;
-  double *e = mret.m + mret.num_row();
+  HepMatrix::mIter a = mret.m.begin();
+  HepMatrix::mcIter b = m.begin() + min_row - 1;
+  HepMatrix::mIter e = mret.m.begin() + mret.num_row();
   for(;a<e;) *(a++) = *(b++);
   return mret;
 }
@@ -179,9 +173,9 @@ HepDiagMatrix HepDiagMatrix::sub(int min_row, int max_row)
   HepDiagMatrix mret(max_row-min_row+1);
   if(max_row > num_row())
     error("HepDiagMatrix::sub: Index out of range");
-  double *a = mret.m;
-  double *b = m + min_row - 1;
-  double *e = mret.m + mret.num_row();
+  HepMatrix::mIter a = mret.m.begin();
+  HepMatrix::mIter b = m.begin() + min_row - 1;
+  HepMatrix::mIter e = mret.m.begin() + mret.num_row();
   for(;a<e;) *(a++) = *(b++);
   return mret;
 }
@@ -191,9 +185,9 @@ void HepDiagMatrix::sub(int row,const HepDiagMatrix &m1)
 {
   if(row <1 || row+m1.num_row()-1 > num_row() )
     error("HepDiagMatrix::sub: Index out of range");
-  double *a = m1.m;
-  double *b = m + row - 1;
-  double *e = m1.m + m1.num_row();
+  HepMatrix::mcIter a = m1.m.begin();
+  HepMatrix::mIter b = m.begin() + row - 1;
+  HepMatrix::mcIter e = m1.m.begin() + m1.num_row();
   for(;a<e;) *(b++) = *(a++);
 }
 
@@ -224,9 +218,9 @@ HepDiagMatrix HepDiagMatrix::operator- () const
 {
    HepDiagMatrix m2(nrow);
 #endif
-   register double *a=m;
-   register double *b=m2.m;
-   register double *e=m+num_size();
+   register HepMatrix::mcIter a=m.begin();
+   register HepMatrix::mIter b=m2.m.begin();
+   register HepMatrix::mcIter e=m.begin()+num_size();
    for(;a<e; a++, b++) (*b) = -(*a);
    return m2;
 }
@@ -421,10 +415,10 @@ HepMatrix operator*(const HepMatrix &m1,const HepDiagMatrix &m2)
     HepMatrix mret(m1.num_row(),m2.num_col());
 #endif
     CHK_DIM_1(m1.num_col(),m2.num_row(),*);
-    double *mit1=m1.m;
-    double *mir=mret.m;
+    HepMatrix::mcIter mit1=m1.m.begin();
+    HepMatrix::mIter mir=mret.m.begin();
     for(int irow=1;irow<=m1.num_row();irow++) {
-      double *mcc = m2.m;
+      HepMatrix::mcIter mcc = m2.m.begin();
       for(int icol=1;icol<=m1.num_col();icol++) {
 	*(mir++) = *(mit1++) * (*(mcc++));
       }
@@ -441,9 +435,9 @@ HepMatrix operator*(const HepDiagMatrix &m1,const HepMatrix &m2)
   HepMatrix mret(m1.num_row(),m2.num_col());
 #endif
   CHK_DIM_1(m1.num_col(),m2.num_row(),*);
-  double *mit1=m2.m;
-  double *mir=mret.m;
-  double *mrr = m1.m;
+  HepMatrix::mcIter mit1=m2.m.begin();
+  HepMatrix::mIter mir=mret.m.begin();
+  HepMatrix::mcIter mrr = m1.m.begin();
   for(int irow=1;irow<=m2.num_row();irow++) {
     for(int icol=1;icol<=m2.num_col();icol++) {
       *(mir++) = *(mit1++) * (*mrr);
@@ -462,10 +456,10 @@ HepDiagMatrix operator*(const HepDiagMatrix &m1,const HepDiagMatrix &m2)
   HepDiagMatrix mret(m1.num_row());
 #endif
   CHK_DIM_1(m1.num_col(),m2.num_row(),*);
-  double *a = mret.m;
-  double *b = m1.m;
-  double *c = m2.m;
-  double *e = mret.m + m1.num_col();
+  HepMatrix::mIter a = mret.m.begin();
+  HepMatrix::mcIter b = m1.m.begin();
+  HepMatrix::mcIter c = m2.m.begin();
+  HepMatrix::mIter e = mret.m.begin() + m1.num_col();
   for(;a<e;) *(a++) = *(b++) * (*(c++));
   return mret;
 }
@@ -479,7 +473,8 @@ HepVector operator*(const HepDiagMatrix &m1,const HepVector &m2)
   HepVector mret(m1.num_row());
 #endif
   CHK_DIM_1(m1.num_col(),m2.num_row(),*);
-  double *mir=mret.m, *mi1 = m1.m, *mi2 = m2.m;
+  HepGenMatrix::mIter mir=mret.m.begin();
+  HepGenMatrix::mcIter mi1 = m1.m.begin(), mi2 = m2.m.begin();
   for(int icol=1;icol<=m1.num_col();icol++) {
     *(mir++) = *(mi1++) * *(mi2++);
   }
@@ -494,8 +489,8 @@ HepMatrix & HepMatrix::operator+=(const HepDiagMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),+=);
   int n = num_row();
-  double *mrr = m;
-  double *mr = m2.m;
+  mIter mrr = m.begin();
+  HepMatrix::mcIter mr = m2.m.begin();
   for(int r=1;r<=n;r++) {
     *mrr += *(mr++);
     mrr += (n+1);
@@ -506,8 +501,8 @@ HepMatrix & HepMatrix::operator+=(const HepDiagMatrix &m2)
 HepSymMatrix & HepSymMatrix::operator+=(const HepDiagMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),+=);
-  register double *a=m;
-  register double *b=m2.m;
+  register HepMatrix::mIter a=m.begin();
+  register HepMatrix::mcIter b=m2.m.begin();
   for(int i=1;i<=num_row();i++) {
     *a += *(b++);
     a += (i+1);
@@ -526,8 +521,8 @@ HepMatrix & HepMatrix::operator-=(const HepDiagMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),-=);
   int n = num_row();
-  double *mrr = m;
-  double *mr = m2.m;
+  mIter mrr = m.begin();
+  HepMatrix::mcIter mr = m2.m.begin();
   for(int r=1;r<=n;r++) {
     *mrr -= *(mr++);
     mrr += (n+1);
@@ -538,8 +533,8 @@ HepMatrix & HepMatrix::operator-=(const HepDiagMatrix &m2)
 HepSymMatrix & HepSymMatrix::operator-=(const HepDiagMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),+=);
-  register double *a=m;
-  register double *b=m2.m;
+  register HepMatrix::mIter a=m.begin();
+  register HepMatrix::mcIter b=m2.m.begin();
   for(int i=1;i<=num_row();i++) {
     *a -= *(b++);
     a += (i+1);
@@ -570,16 +565,15 @@ HepMatrix & HepMatrix::operator=(const HepDiagMatrix &m1)
 {
    if(m1.nrow*m1.nrow != size)
    {
-      delete_m(size,m);
       size = m1.nrow * m1.nrow;
-      m = new_m(size);
+      m.resize(size);
    }
    nrow = m1.nrow;
    ncol = m1.nrow;
    int n = nrow;
-   memset(m, 0, size * sizeof(double));
-   double *mrr = m;
-   double *mr = m1.m;
+   m.assign(size,0); 
+   mIter mrr = m.begin();
+   HepMatrix::mcIter mr = m1.m.begin();
    for(int r=1;r<=n;r++) {
       *mrr = *(mr++);
       mrr += (n+1);
@@ -591,11 +585,10 @@ HepDiagMatrix & HepDiagMatrix::operator=(const HepDiagMatrix &m1)
 {
    if(m1.nrow != nrow)
    {
-      delete_m(nrow,m);
       nrow = m1.nrow;
-      m = new_m(nrow);
+      m.resize(nrow);
    }
-   memcpy(m,m1.m,nrow*sizeof(double));
+   m=m1.m;
    return (*this);
 }
 
@@ -631,8 +624,8 @@ return mret(num_row());
 {
   HepDiagMatrix mret(num_row());
 #endif
-  double *a = m;
-  double *b = mret.m;
+  HepMatrix::mcIter a = m.begin();
+  HepMatrix::mIter b = mret.m.begin();
   for(int ir=1;ir<=num_row();ir++) {
     *(b++) = (*f)(*(a++), ir, ir);
   }
@@ -643,12 +636,11 @@ void HepDiagMatrix::assign (const HepMatrix &m1)
 {
    if(m1.num_row()!=nrow)
    {
-      delete_m(nrow, m);
       nrow = m1.num_row();
-      m = new_m(nrow);
+      m.resize(nrow);
    }
-   double *a = m1.m;
-   double *b = m;
+   HepMatrix::mcIter a = m1.m.begin();
+   HepMatrix::mIter b = m.begin();
    for(int r=1;r<=nrow;r++) {
       *(b++) = *a;
       a += (nrow+1);
@@ -659,12 +651,11 @@ void HepDiagMatrix::assign(const HepSymMatrix &m1)
 {
    if(m1.num_row()!=nrow)
    {
-      delete_m(nrow, m);
       nrow = m1.num_row();
-      m = new_m(nrow);
+      m.resize(nrow);
    }
-   double *a = m1.m;
-   double *b = m;
+   HepMatrix::mcIter a = m1.m.begin();
+   HepMatrix::mIter b = m.begin();
    for(int r=1;r<=nrow;r++) {
       *(b++) = *a;
       a += (r+1);
@@ -683,14 +674,14 @@ HepSymMatrix HepDiagMatrix::similarity(const HepMatrix &m1) const
 //  HepMatrix temp = m1*(*this);
 // If m1*(*this) has correct dimensions, then so will the m1.T multiplication.
 // So there is no need to check dimensions again.
-  double *mrc = mret.m;
+  HepMatrix::mIter mrc = mret.m.begin();
   for(int r=1;r<=mret.num_row();r++) {
-    double *mrr = m1.m+(r-1)*m1.num_col();
-    double *mc = m1.m;
+    HepMatrix::mcIter mrr = m1.m.begin()+(r-1)*m1.num_col();
+    HepMatrix::mcIter mc = m1.m.begin();
     for(int c=1;c<=r;c++) {
-      double *mi = m;
+      HepMatrix::mcIter mi = m.begin();
       register double tmp = 0;
-      double *mr = mrr;
+      HepMatrix::mcIter mr = mrr;
       for(int i=0;i<m1.num_col();i++)
 	tmp+=*(mr++) * *(mc++) * *(mi++);
       *(mrc++) = tmp;
@@ -703,8 +694,8 @@ double HepDiagMatrix::similarity(const HepVector &m1) const
 {
   register double mret;
   CHK_DIM_1(num_row(),m1.num_row(),similarity);
-  double *mi = m;
-  double *mv = m1.m;
+  HepMatrix::mcIter mi = m.begin();
+  HepMatrix::mcIter mv = m1.m.begin();
   mret = *(mv)* *(mv)* *(mi++);
   mv++;
   for(int i=2;i<=m1.num_row();i++) {
@@ -729,7 +720,7 @@ HepSymMatrix HepDiagMatrix::similarityT(const HepMatrix &m1) const
   for(int r=1;r<=mret.num_row();r++)
     for(int c=1;c<=r;c++)
       {
-	double *mi = m;
+	HepMatrix::mcIter mi = m.begin();
 	register double tmp = m1(1,r)*m1(1,c)* *(mi++);
 	for(int i=2;i<=m1.num_row();i++)
 	  tmp+=m1(i,r)*m1(i,c)* *(mi++);
@@ -741,13 +732,13 @@ HepSymMatrix HepDiagMatrix::similarityT(const HepMatrix &m1) const
 void HepDiagMatrix::invert(int &ierr) {
   int n = num_row();
   ierr = 1;
-  double *mm = m;
+  HepMatrix::mIter mm = m.begin();
   int i;
   for(i=0;i<n;i++) {
     if(*(mm++)==0) return;
   }
   ierr = 0;
-  mm = m;
+  mm = m.begin();
   for(i=0;i<n;i++) {
     *mm = 1.0 / *mm;
     mm++;
@@ -756,16 +747,16 @@ void HepDiagMatrix::invert(int &ierr) {
 
 double HepDiagMatrix::determinant() const {
    double d = 1.0;
-   double *end = m + nrow;
-   for (double *p=m; p < end; p++)
+   HepMatrix::mcIter end = m.begin() + nrow;
+   for (HepMatrix::mcIter p=m.begin(); p < end; p++)
       d *= *p;
    return d;
 }
 
 double HepDiagMatrix::trace() const {
    double d = 0.0;
-   double *end = m + nrow;
-   for (double *p=m; p < end; p++)
+   HepMatrix::mcIter end = m.begin() + nrow;
+   for (HepMatrix::mcIter p=m.begin(); p < end; p++)
       d += *p;
    return d;
 }

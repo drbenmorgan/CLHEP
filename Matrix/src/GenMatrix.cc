@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: GenMatrix.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: GenMatrix.cc,v 1.4.2.1 2004/08/25 18:37:41 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -132,17 +132,23 @@ void HepGenMatrix::delete_m(int size, double* m)
 
 double* HepGenMatrix::new_m(int size)
 {
-  if (size == 0) return 0;
-  else {
-    if ( size <= size_max ) {
-      memset(data_array, 0, size * sizeof(double));
-      return data_array;
-    } else {
-      double * nnn = new double[size];
-      memset(nnn, 0, size * sizeof(double));
-      return nnn;
-    }
-  }
+  /*-ap: data_array is replaced by the std::vector<double>,
+   *     so we simply return 0 here
+   * 
+   *   if (size == 0) return 0;
+   *   else {
+   *     if ( size <= size_max ) {
+   *       memset(data_array, 0, size * sizeof(double));
+   *       return data_array;
+   *     } else {
+   *       double * nnn = new double[size];
+   *       memset(nnn, 0, size * sizeof(double));
+   *       return nnn;
+   *     }
+   *   }
+   *-ap end 
+   */
+  return 0;
 }
 
 }  // namespace CLHEP

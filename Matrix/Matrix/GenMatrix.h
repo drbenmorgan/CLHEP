@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: GenMatrix.h,v 1.3 2003/10/23 21:29:50 garren Exp $
+// $Id: GenMatrix.h,v 1.3.2.1 2004/08/25 18:37:41 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -49,6 +49,8 @@
 #pragma interface
 #endif
 
+#include <vector>
+
 #include <iostream>
 #include "CLHEP/Matrix/defs.h"
 
@@ -63,9 +65,43 @@ class HepGenMatrix;
  * @ingroup matrix
  */
 class HepGenMatrix {
-
+ 
 public:
    virtual ~HepGenMatrix() {}
+
+
+
+   template <class T, size_t size> class Alloc 
+   {
+ 
+   public:  
+     typedef T value_type;  
+     typedef size_t size_type;  
+     typedef ptrdiff_t difference_type;  
+     typedef T* pointer;  
+     typedef const T* const_pointer;  
+     typedef T& reference;  
+     typedef const T& const_reference;
+ 
+     pointer address(reference r) const { return &r; }  
+     const_pointer address(const_reference r) const { return &r; }  
+     Alloc() throw() {}  
+     Alloc(const Alloc<T,size>&) throw() {}   
+     ~Alloc() throw() {}  
+     pointer allocate(size_type n ) { if( n <= size ) return pool; else return new T[n]; }  
+     void deallocate(pointer p, size_type n) { if (p == pool ) return; delete [] p; }  
+     void construct(pointer p, const T& val ) { new(p) T(val); }  
+     void destroy(pointer p) { p->~T(); }  
+     size_type max_size() const throw() { size_type c = (size_type)(-1) /sizeof(T); return (0 < c ? c : 1); }  
+     template<class O> struct rebind { typedef Alloc<O,size> other; };
+ 
+   private:  
+     T pool[size];
+   };
+   
+
+   typedef std::vector<double,Alloc<double,25> >::iterator mIter;
+   typedef std::vector<double,Alloc<double,25> >::const_iterator mcIter;
 
    virtual int num_row() const = 0;
    virtual int num_col() const = 0;
@@ -103,7 +139,7 @@ public:
    // ** Note that the indexing starts from [0][0]. **
 
    inline static void swap(int&,int&);
-   inline static void swap(double *&, double *&);
+   inline static void swap(std::vector<double,Alloc<double,25> >&, std::vector<double,Alloc<double,25> >&);
 
    virtual bool operator== ( const HepGenMatrix& ) const;
    // equality operator for matrices (BaBar)
@@ -131,8 +167,8 @@ private:
    friend class HepGenMatrix_row;
    friend class HepGenMatrix_row_const;
 
-   double data_array[size_max];
-
+   //-ap: removed this as it is taken over by the std::vector<double>
+   //-ap  double data_array[size_max];  
 };
 
 double norm(const HepGenMatrix &m);
