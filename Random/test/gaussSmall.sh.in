@@ -1,0 +1,6 @@
+#! /bin/sh
+# @configure_input@
+
+# gaussSmall has no comparison file
+
+./gaussSmall@EXEEXT@  > gaussSmall.out

@@ -1,0 +1,9 @@
+*.f
+*.o
+*.dat
+*.out
+*.lpt
+examHerwigToStdHep
+examPythiaToStdHep
+readPythia
+readPythiaHerwig

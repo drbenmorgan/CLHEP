@@ -1,0 +1,43 @@
+// $Id: convertTemporaryMap.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// ----------------------------------------------------------------------
+//
+// convertTemporaryMap.icc
+// Author: Lynn Garren, Walter Brown
+//
+// ----------------------------------------------------------------------
+
+namespace HepPDT {
+
+template< class Config >
+void ParticleDataTableT<Config>::convertTemporaryMap( TempMap & tempPDT, std::ostream & os )
+{
+  TempMap::iterator cit;
+  std::vector<TempDecayData>::const_iterator cit2;
+  for( cit=tempPDT.begin(); cit != tempPDT.end(); ++cit ) {
+    TempParticleData & tempd = cit->second;
+    // create CPD and add it to the list
+    CPD cpd( tempd );
+    CPDID cid = addParticleData( cpd );
+    // convert TempDecayData to DecayChannel
+    std::vector<DecayChannelT<Config> > dv;
+    for( cit2=tempd.tempDecayList.begin(); cit2 != tempd.tempDecayList.end(); ++cit2 ) {
+      TempDecayData tdd = *cit2;
+      // every PD mentioned here must already be in the list........
+      std::vector<ParticleDataT<Config> > decaylist;
+      DecayChannelT<Config>  dc( tdd.tempDecayName, 
+                                  Measurement( tdd.tempBranchingFraction, 0.),
+                                  decaylist, 
+				  tdd.tempDecayParameters );
+      dv.push_back( dc );
+    }
+    // create DD and add it to the list
+    DecayData dd( dv );
+    DDID did = addDecayData( dd );
+    // now create ParticleData and add it to the map
+    ParticleData pd( cid, did );
+    // std::cout << "adding " << pd->ID().pid() << std::endl;
+    addParticle( pd );
+  }
+}
+
+}	// HepPDT

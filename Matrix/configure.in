@@ -1,0 +1,210 @@
+# ======================================================================
+# This is the Matrix configuration input file
+# Process this file with autoconf to produce a configure script.
+# ======================================================================
+
+
+# ----------------------------------------------------------------------
+# Identify the package and initialize the autotools:
+# ----------------------------------------------------------------------
+
+AC_PREREQ(2.57)
+AC_INIT(CLHEP Matrix, 2.0.0.0, CLHEP@cern.ch, Matrix)
+AC_CONFIG_AUX_DIR(autotools)
+AC_CANONICAL_TARGET
+AC_CONFIG_SRCDIR([src/DiagMatrix.cc])
+AM_INIT_AUTOMAKE(1.6 foreign)
+AC_PROG_LIBTOOL
+AC_PROG_LN_S
+AC_PROG_INSTALL
+
+
+# ----------------------------------------------------------------------
+# Identify the files that 'configure' is to produce:
+# ----------------------------------------------------------------------
+
+# Header containing #defines:
+AM_CONFIG_HEADER([Matrix/defs.h])
+
+# Makefiles:
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Matrix/Makefile])
+AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([Matrix-deps])
+
+# Test driver program/script:
+AC_CONFIG_FILES([test/testMatrix.sh], [chmod +x test/testMatrix.sh])
+AC_CONFIG_FILES([test/testInversion.sh], [chmod +x test/testInversion.sh])
+
+# ----------------------------------------------------------------------
+# Capture post-install information:
+# ----------------------------------------------------------------------
+
+Matrix_CPPFLAGS="-I$includedir"
+Matrix_LDFLAGS="-L$libdir"
+Matrix_LIBS="-lCLHEP-$PACKAGE-$VERSION -lCLHEP-Random-$VERSION -lCLHEP-Vector-$VERSION"
+
+AC_SUBST(Matrix_CPPFLAGS)
+AC_SUBST(Matrix_LIBS)
+AC_SUBST(Matrix_LDFLAGS)
+
+
+# ----------------------------------------------------------------------
+# Supply boilerplate for Matrix/defs.h source header:
+# ----------------------------------------------------------------------
+
+AH_TOP([#ifndef MATRIX_DEFS_H
+#define MATRIX_DEFS_H])
+
+## the undefs are converted by configure
+AH_VERBATIM([PACKAGE],[/* Name of package */
+#ifndef PACKAGE
+#undef PACKAGE
+#endif])
+AH_VERBATIM([PACKAGE_BUGREPORT],[/* Define to the address where bug reports for this package should be sent. */
+#ifndef PACKAGE_BUGREPORT
+#undef PACKAGE_BUGREPORT
+#endif])
+AH_VERBATIM([PACKAGE_NAME],[/* Define to the full name of this package. */
+#ifndef PACKAGE_NAME
+#undef PACKAGE_NAME
+#endif])
+AH_VERBATIM([PACKAGE_STRING],[/* Define to the full name and version of this package. */
+#ifndef PACKAGE_STRING
+#undef PACKAGE_STRING
+#endif])
+AH_VERBATIM([PACKAGE_TARNAME],[/* Define to the one symbol short name of this package. */
+#ifndef PACKAGE_TARNAME
+#undef PACKAGE_TARNAME
+#endif])
+AH_VERBATIM([PACKAGE_VERSION],[/* Define to the version of this package. */
+#ifndef PACKAGE_VERSION
+#undef PACKAGE_VERSION
+#endif])
+AH_VERBATIM([VERSION],[/* Version number of package */
+#ifndef VERSION
+#undef VERSION
+#endif])
+
+AH_BOTTOM([#endif  // MATRIX_DEFS_H])
+
+
+# ----------------------------------------------------------------------
+# Account for any user configuration options:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Check for needed programs:
+# ----------------------------------------------------------------------
+
+# Locate a C++ compiler:
+AC_PROG_CXX(g++ c++ aCC CC cxx cc++ cl FCC KCC RCC xlC_r xlC gpp)
+
+# Use it hereinafter:
+AC_LANG(C++)
+
+# Ensure we've found a preprocessor:
+AC_REQUIRE_CPP
+
+# worry about compiler flags
+case "$target" in
+*-*-win32*)
+  case "$CXX" in
+  cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";;
+  g++) CXXFLAGS="-O";;
+  c++) CXXFLAGS="-O";;
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+  esac;;
+*-*-cygwin*)
+  case "$CXX" in
+  cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+  esac;;
+*-*-solaris*)
+  case "$CXX" in
+  CC)  CXXFLAGS="-O -mt";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+  esac;;
+*-*-linux*)
+  case "$CXX" in
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+  esac;;
+alpha*-dec-osf*)
+  case "$CXX" in
+  cxx) CXXFLAGS="-O -std strict_ansi -timplicit_local";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+  esac;;
+*-*-hpux*)
+  case "$CXX" in
+  aCC) CXXFLAGS="-O -Aa +DAportable +Onolimit";;
+  CC)  CXXFLAGS="+O3 +DAportable +a1 -z -pta +Onolimit";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+  esac;; 
+*-*-aix*)
+  case "$CXX" in
+  xlC) CXXFLAGS="-O3 -qtwolink -+";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+  esac;; 
+*-*-irix*)
+  case "$CXX" in
+  CC)  CXXFLAGS="-O -OPT:Olimit=0 -pta";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+  esac;; 
+powerpc-apple-darwin*)
+  case "$CXX" in
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+  esac;; 
+esac
+
+
+# ----------------------------------------------------------------------
+# Set system-dependent options:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Check for needed libraries:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Check for needed header files:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Check for needed typedefs, structures, and compiler characteristics:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Check for needed library functions:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Finish up:
+# ----------------------------------------------------------------------
+
+AC_OUTPUT
+
+
+# ======================================================================

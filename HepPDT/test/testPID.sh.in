@@ -1,0 +1,7 @@
+#! /bin/sh
+# @configure_input@
+
+
+./testPID@EXEEXT@  \
+  | diff -q - @srcdir@/testPID.output > /dev/null
+

@@ -1,0 +1,119 @@
+// -*- C++ -*-
+// $Id: DoubleParamToArgAdaptor.icc,v 1.2 2003/09/06 14:04:13 boudreau Exp $
+#include "CLHEP/GenericFunctions/DoubleParamToArgAdaptor.hh"
+#include <assert.h>
+#include <iostream>
+
+namespace Genfun {
+
+
+//FUNCTION_OBJECT_IMP(DoubleParamToArgAdaptor) Do it by hand here:
+
+template <class F>
+FunctionComposition DoubleParamToArgAdaptor<F>::operator()(const AbsFunction & function) const
+{                                            
+  return AbsFunction::operator() (function); 
+}     
+                 
+template <class F>                      
+DoubleParamToArgAdaptor<F> *DoubleParamToArgAdaptor<F>::clone () const {       
+  return (DoubleParamToArgAdaptor<F> *) _clone();             
+}
+                                            
+template <class F>                      
+AbsFunction *DoubleParamToArgAdaptor<F>::_clone () const {    
+  return new DoubleParamToArgAdaptor<F>(*this);                       
+}
+
+
+
+template<class F> 
+DoubleParamToArgAdaptor<F>::DoubleParamToArgAdaptor(const F        &function,
+				        DoubleParamToArgAdaptor<F>::ScopedMethodPtr parameterFetchMethod0,
+                                        DoubleParamToArgAdaptor<F>::ScopedMethodPtr parameterFetchMethod1):
+  _scaleFactor0("Scale 0",  1.0,  0, 10),
+  _scaleFactor1("Scale 1",  1.0,  0, 10),
+  _function(function.clone()),
+  _parameterFetchMethod0(parameterFetchMethod0),
+  _parameterFetchMethod1(parameterFetchMethod1)
+{
+  _parameterFetchMethod0(*_function).setLowerLimit(-std::numeric_limits<double>::max());
+  _parameterFetchMethod0(*_function).setUpperLimit(+std::numeric_limits<double>::max());
+  _parameterFetchMethod1(*_function).setLowerLimit(-std::numeric_limits<double>::max());
+  _parameterFetchMethod1(*_function).setUpperLimit(+std::numeric_limits<double>::max());
+}
+
+template <class F>
+DoubleParamToArgAdaptor<F>::~DoubleParamToArgAdaptor() {
+  delete _function;
+}
+
+template <class F>
+DoubleParamToArgAdaptor<F>::DoubleParamToArgAdaptor(const DoubleParamToArgAdaptor & right):
+  _scaleFactor0(right._scaleFactor0),
+  _scaleFactor1(right._scaleFactor1),
+  _parameterFetchMethod0(right._parameterFetchMethod0),
+  _parameterFetchMethod1(right._parameterFetchMethod1),
+  _function(right._function->clone())
+{
+  _parameterFetchMethod0(*_function).setLowerLimit(-std::numeric_limits<double>::max());
+  _parameterFetchMethod0(*_function).setUpperLimit(+std::numeric_limits<double>::max());
+  _parameterFetchMethod1(*_function).setLowerLimit(-std::numeric_limits<double>::max());
+  _parameterFetchMethod1(*_function).setUpperLimit(+std::numeric_limits<double>::max());
+}
+
+
+template <class F>
+double DoubleParamToArgAdaptor<F>::operator ()(double x) const
+{
+  std::cerr
+    << "Warning.  DoubleParamToArgAdaptor called with scalar argument"
+    << std::endl;
+  assert(0);
+  return 0;
+}
+
+template <class F>
+Parameter & DoubleParamToArgAdaptor<F>::scaleFactor0() {
+  return _scaleFactor0;
+}
+
+template <class F>
+const Parameter & DoubleParamToArgAdaptor<F>::scaleFactor0() const {
+  return _scaleFactor0;
+}
+
+template <class F>
+Parameter & DoubleParamToArgAdaptor<F>::scaleFactor1() {
+  return _scaleFactor1;
+}
+
+template <class F>
+const Parameter & DoubleParamToArgAdaptor<F>::scaleFactor1() const {
+  return _scaleFactor1;
+}
+
+template <class F>
+unsigned int DoubleParamToArgAdaptor<F>::dimensionality() const {
+  return _function->dimensionality()+1;
+}
+
+template <class F> 
+double DoubleParamToArgAdaptor<F>::operator() (const Argument & a) const {
+  if (dimensionality()!= a.dimension()) {
+    std::cerr
+      << "Warning: DoubleParamToArgAdaptor function/argument dimension mismatch"
+      <<  std::endl;
+    assert(0);
+    return 0;
+  }
+  int dMinus = a.dimension()-1;
+  Argument aPrime(dMinus);
+  for (int i=0;i<dMinus;i++) aPrime[i]=a[i];
+  (_parameterFetchMethod0(*_function)).setValue(_scaleFactor0.getValue()*a[dMinus]);
+  (_parameterFetchMethod1(*_function)).setValue(_scaleFactor1.getValue()*a[dMinus]);
+  return (*_function)(a);
+}
+
+} // end of namespace Genfun 
+

@@ -1,0 +1,71 @@
+// -*- C++ -*-
+// $Id: SphericalNeumann.icc,v 1.2 2003/09/06 14:04:13 boudreau Exp $
+#include "CLHEP/GenericFunctions/Sin.hh"
+#include "CLHEP/GenericFunctions/Cos.hh"
+#include "CLHEP/GenericFunctions/Variable.hh"
+#include "gsl/gsl_sf_bessel.h"
+#include <signal.h>
+
+namespace Genfun {
+
+FUNCTION_OBJECT_IMP(SphericalNeumann)
+
+//----------------------------------------------------------------------------------//
+// Implementation notes:  The Spherical Neumann function is implemented in terms of //
+// lower order spherical neumann functions.  This is possible thanks to a recursion //
+// relation.                                                                        //
+//----------------------------------------------------------------------------------//
+
+SphericalNeumann::SphericalNeumann(unsigned int l):
+  _l(l)
+{
+  create();
+}
+
+SphericalNeumann::~SphericalNeumann() {
+  delete _function;
+}
+
+SphericalNeumann::SphericalNeumann(const SphericalNeumann & right):
+_l(right._l)
+{
+  create();
+}
+
+double SphericalNeumann::operator() (double x) const {
+  //
+  // First try the GSL implementation:
+  //
+  gsl_sf_result result;
+  int status =gsl_sf_bessel_yl_e(_l, x,&result);
+  if (status!=0) {
+    std::cerr << "Warning, GSL function gsl_sf_bessel_yl_impl" 
+	      << " return code" << status << std::endl;
+    raise(SIGFPE);
+  }
+  return result.val;
+  //return (*_function)(x);
+}
+
+unsigned int SphericalNeumann::l() const {
+  return _l;
+}
+
+void SphericalNeumann::create() {
+  Sin   sine;
+  Cos cosine;
+  Variable     x;
+  if (_l==0) {
+    _function = (-cosine/x).clone();
+  }
+  else if (_l==1) {
+    _function = (-cosine/x/x - sine/x).clone();
+  }
+  else {
+    SphericalNeumann j_minus(_l-1);
+    SphericalNeumann j_minus_minus(_l-2);
+    _function = ((2*_l-1)*j_minus/x - j_minus_minus).clone();;
+  }
+} 
+
+} // end of namespace Genfun 

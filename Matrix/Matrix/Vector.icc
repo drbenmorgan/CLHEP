@@ -1,0 +1,124 @@
+// -*- C++ -*-
+// $Id: Vector.icc,v 1.3 2003/07/18 05:31:48 garren Exp $
+// ---------------------------------------------------------------------------
+//
+// This file is a part of the CLHEP - a Class Library for High Energy Physics.
+//
+// 
+// Copyright Cornell University 1993, 1996, All Rights Reserved.
+// 
+// This software written by Nobu Katayama and Mike Smyth, Cornell University.
+// 
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+// 1. Redistributions of source code must retain the above copyright
+//    notice and author attribution, this list of conditions and the
+//    following disclaimer. 
+// 2. Redistributions in binary form must reproduce the above copyright
+//    notice and author attribution, this list of conditions and the
+//    following disclaimer in the documentation and/or other materials
+//    provided with the distribution.
+// 3. Neither the name of the University nor the names of its contributors
+//    may be used to endorse or promote products derived from this software
+//    without specific prior written permission.
+// 
+// Creation of derivative forms of this software for commercial
+// utilization may be subject to restriction; written permission may be
+// obtained from Cornell University.
+// 
+// CORNELL MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED.  By way
+// of example, but not limitation, CORNELL MAKES NO REPRESENTATIONS OR
+// WARRANTIES OF MERCANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT
+// THE USE OF THIS SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY PATENTS,
+// COPYRIGHTS, TRADEMARKS, OR OTHER RIGHTS.  Cornell University shall not be
+// held liable for any liability with respect to any claim by the user or any
+// other party arising from use of the program.
+//
+
+#include <cmath>
+#include <stdlib.h>
+
+namespace CLHEP {
+
+// Swap two vectors without doing a full copy.
+inline void swap(HepVector &v1,HepVector &v2) {
+  HepGenMatrix::swap(v1.m,v2.m);
+  HepGenMatrix::swap(v1.nrow,v2.nrow);
+}
+
+inline HepVector::HepVector()
+   : m(0), nrow(0)
+{}
+
+inline double HepVector::normsq() const {return dot((*this),(*this));}
+inline double HepVector::norm() const {return sqrt(normsq());}
+inline int HepVector::num_row() const {return nrow;} 
+inline int HepVector::num_size() const {return nrow;} 
+inline int HepVector::num_col() const { return 1; }
+
+inline double & HepVector::operator()(int row)
+{
+#ifdef MATRIX_BOUND_CHECK
+  if(row<1 || row>nrow)
+    error("Range error in HepVector::operator()");
+#endif
+
+  return *(m+row-1);
+}
+inline const double & HepVector::operator()(int row) const 
+{
+#ifdef MATRIX_BOUND_CHECK
+  if(row<1 || row>nrow)
+    error("Range error in HepVector::operator()");
+#endif
+
+  return *(m+row-1);
+}
+inline double & HepVector::operator[](int row)
+{
+#ifdef MATRIX_BOUND_CHECK
+   if(row<0 || row>=nrow)
+    error("Range error in HepVector::operator[]");
+#endif
+
+  return *(m+row);
+}
+inline const double & HepVector::operator[](int row) const 
+{
+#ifdef MATRIX_BOUND_CHECK
+  if(row<0 || row>=nrow)
+    error("Range error in HepVector::operator[]");
+#endif
+
+  return *(m+row);
+}
+
+#ifdef MATRIX_BOUND_CHECK
+inline double & HepVector::operator()(int row, int col)
+{
+  if( col!=1 || row<1 || row>nrow)
+     error("Range error in HepVector::operator(i,j)");
+#else
+inline double & HepVector::operator()(int row, int)
+{
+#endif
+
+  return *(m+(row-1));
+}
+
+#ifdef MATRIX_BOUND_CHECK
+inline const double & HepVector::operator()(int row, int col) const 
+{
+  if( col!=1 || row<1 || row>nrow)
+     error("Range error in HepVector::operator(i,j)");
+#else
+inline const double & HepVector::operator()(int row, int) const 
+{
+#endif
+
+  return *(m+(row-1));
+}
+
+}  // namespace CLHEP
+

@@ -1,0 +1,305 @@
+
+
+	Templates in the Particle Data Group Classes in StdHepC++
+	---------------------------------------------------------------
+
+The PDG classes have templates "under the covers."  While users need never
+see this unless they are dealing directly with particle decays, we explain
+here the issues which argue for the design decision to templatize various
+classes.
+
+The use of templates in the PDG classes stems from the goal of
+
+  "provide a way to organize information about each decay mode of 
+   each type of particle"
+
+We call this information the DecayModel associated with that mode, 
+and it can encompass some arbitrary structure of data, along with 
+a specification of a function to use that data and provide an answer
+describing the new particles produced.  We call such a function the
+DecayFunction.
+
+Clearly the DecayModel has to be designed to be extended from, because 
+we can't pre-judge what sort of data is needed to describe a decay mode,
+(it may even differ depending on the mode) and we shouldn't be in the
+business of writing DecayFunctions; that is best left to the experts who
+write event generators, or to individual physicists who may have specific 
+needs beyond those anticipated by the generators.  So the use case we have
+in mind is that the user -- in typical cases an event generator program -- 
+prepares a class MyDecayModel (or multiple similar classes) which is derived 
+from the base class DecayModel.  This class meets the information needs for
+a decay to be done, probably including an implementation of a DecayFunction.
+
+Then when a particle is to be decayed, the user program finds its DecayTable,
+selects from that a DecayMode, grabs the DecayModel associated with that mode
+-- which is actually a MyDecayModel -- and applies the DecayFunction using
+that data.  In "cartoon-code" form, we have
+
+	MyParticle myParticle; 
+	ParticleData * properties = myParticle.particleData();
+	DecayData * dlist = properties->decayData();
+	DecayMode mode = dlist.select(myRandomNumber);
+	daughterParticleDatas = mode.decayProducts();
+	MyDecayModel * model = mode.decayModel();
+	vector <SomeParticle> daughters;
+	model->decay(myParticle, daughterParticleDatas, daughters);
+
+where in the last line, myParticle and daughterParticleDatas are constant
+input arguments but daughters is a non-const reference:  The method decay()
+will fill that with a vector of actual particles of type MyParticle.  
+
+We can see that signature of the DecayFucntion model->decay() involves
+the type MyParticle of actual particles being decayed and produced, not
+just ParticleData and other classes within the PDG package.  And this is 
+fundamental:  DecayModel (or at least its descendant MyDecayModel) knows 
+about MyParticle.  (In HepMC, that would be GenParticle.)   Our design can 
+try to partly hide that dependence so that applications that don't concern
+decays don't see this, but if we ignore the dependence altogether then we
+can't meet the goal of providing a way to organize information about decay 
+modes.
+
+A natural approach to this utilizes the templated mechanism.  We will 
+state the implications of this approach, and show that for reasons set 
+forth below, that templating ripples all the way up to the ParticleData and 
+ParticleDataTable classes.  Though this is certainly OK, it is mildly 
+annoying that an application which does not involve decays will also see
+this templatization, so we have (extensively) explored alternatives.  We 
+will present an alternative approach and discuss the burden associated with
+it.  
+
+The Template Approach
+=====================
+
+We are in a fairly common situation here: "My class contains a method which 
+has a signature involving some other class.  And I can't know the details of
+that other class; the future user of my class has not yet invented it."
+The way, in C++, to express that concept, is to say that my class is templated 
+with the other class as a template parameter.  In our case, this implies
+
+	template <class ParticleType> DecayModel {
+	// ...
+	virtual void decay ( const ParticleType & decayingParticle,
+			     const vector <DecayData> & daughterParticleDatas,
+		     	     vector <ParticleType> daughters );
+	};
+
+And this decay() method is virtual so that when you derive MyDecayModel from
+DecayModel, you can use the DecayModel* to call decay() and get the right
+fucntion, with the absolute minimum of overhead:
+
+	class MyDecayModel : public DecayModel<MyParticleType> {
+	// ...
+	void decay ( const MyParticleType & decayingParticle,
+		     const vector <DecayData> & daughterParticleDatas,
+		     vector <MyParticleType> daughters );
+	};
+
+This is natural and very nice; even if you derive several different classes 
+from DecayModel<MyParticleType> and they may have very different 
+implementations of decay, when you call mode.decayModel()->decay() for any
+mode you get the right model and the right decay fucntion.  But let's see
+if any other classes are forced to be templated:
+
+DecayMode contains a pointer to DecayModel.  But now this is not just a
+DecayModel*, it is DecayModel<ParticleType>*.  And this pretty much forces 
+DecayMode to become templated off <ParticleType>.  (We have explored some
+ways to cut the chain of templating at this point; they are discussed below
+as "Rejected Alternatives."  Basically they either introduce kludgy and costly
+lookups, or dynamic casting in an awkward way.)
+
+DecayData contains a vector of DecayModes, which is now a of 
+vector<DecayMode<ParticleType> >.  
+So this becomes a template as well: DecayData<ParticleType>.   
+
+ParticleData has a pointer to DecayData<ParticleType> -- so ParticleData
+has to be templated off ParticleType.  (The concrete actual particle class,
+which we in illustrations call MyParticle, also has a pointer to DecayData.
+Forcing that to be templated would be undesirable.  Fortunately, that is 
+not necessary:  the type of that pointer is DecayData<MyParticle> -- and
+MyParticle is not a template parameter it is the class itself; no problem.)
+
+And ParticleDataTable has a map of involving ParticleData.  You guessed it,
+it becomes ParticleDataTable<ParticleType>.  
+
+This explains why "all these classes" have become templates off ParticleType.
+But what would people do in applications which "couldn't care less" about 
+decays?  Applications might not even define any concrete MyParticle class if
+they happen to be interested only in general particle properties.  What do
+such users do?  
+
+Well the answer, of course, is that the package does not provide 
+  template <class ParticleType> ParticleDataTable { ...
+it provides
+  template <class ParticleType> ParticleDataTable_ { // note the underscore!
+And the file we present as ParticleDataTable.h merely makes use of this class, 
+doing
+  typedef ParticleDataTable_<SomeParticle> ParticleDataTable;
+and similarly for ParticleData, DecayData, DecayMode, and DecayModel.
+We can provide a simple minimal SomeParticle class, or even just use void 
+instead.  In the HepMC or StdHepC++ package, a header which uses GenParticle
+for this purpose is a natural.
+
+Applications which will want to use the decay organization capabilities
+and which have different sorts of particle classes, can merely substitute 
+their own headers, saying things like
+  typedef ParticleDataTable_<MyParticle> ParticleDataTable;
+
+The Alternative Approach
+========================
+
+Instead of designing the package to make decay usage as natural as possible 
+and recommending how other applications can best ignore the templating this
+necessitates, we can explore the opposite attitude:
+
+Assuming we don't templatize, let's step back and see if we can define a 
+clean recipe that we could provide for event generators to use this package
+to organize decay models.  That recipe may include templatization; we are
+not bothered at all by the decay-conscious applications needed to do that, 
+since inherently that class whcih contains the decay function must know about
+MyParticle.
+
+On the other had, we do have to solve the problem of selecting which 
+(subclass of) DecayModel to use when invoking decay().  So the virtual 
+mechanism must be in play, and it must be in play in a class which does
+know about MyParticle.
+
+So now we assume DecayModel is an ordinary non-template class.  The following 
+recipe works:
+
+  template <class ParticleType> class MyDecayBase : public DecayModel {
+	public:
+	virtual void decay ( const ParticleType & decayingParticle,
+			     const vector <DecayData> & daughterParticleDatas,
+		     	     vector <ParticleType> daughters ) = 0;
+  };
+
+  class MyDecayModelA : public MyDecayBase <MyParticle> {
+	public:
+	        void decay ( const ParticleType & decayingParticle,
+			     const vector <DecayData> & daughterParticleDatas,
+		     	     vector <ParticleType> daughters );
+        private:
+		// data needed to parameterize the instance of decay mode
+  };        
+
+  class MyDecayModelB : public MyDecayBase <MyParticle> { // ... };
+
+And the way this is used is then almost exactly the same as the "cartoon-code"
+illustration; only the line marked $ has changed:
+
+	MyParticle myParticle; 
+	ParticleData * properties = myParticle.particleData();
+	DecayData * dlist = properties->decayData();
+	DecayMode mode = dlist.select(myRandomNumber);
+	daughterParticleDatas = mode.decayProducts();
+/* $ */	MyDecayBase<MyParticle> * model = 
+/* $ */		dynamic_cast< MyDecayBase<MyParticle> > mode.decayModel();
+	vector <SomeParticle> daughters;
+	model->decay(myParticle, daughterParticleDatas, daughters);
+
+Here we have a single dynamic cast to safely downcast from a general 
+DecayMode* to the derived class MyDecayBase<MyParticle>, but we don't have 
+the horrible multiple dynamic casts requisite in "rejected alternative 1."
+We utilize the virtual mechanism as a lightning-fast way to get to the 
+proper fucntion knowing the proper information about the particular object
+describing this decay model. 
+
+(On compilers which do not know about dynamic_cast, you can take the 
+hair-raising measure of substituting a C-style cast.  Or get yourself
+a genuine C++ compiler.  Note that for CDF, which is RTTI-averse, we are
+still OK because they are not asking this package (yet) for a structure to 
+decay their particles.)
+
+You can also do this without any templating, but it makes our recipe have
+more of "fill in your name here" places:
+
+  class MyDecayBase : public DecayModel {
+	virtual void decay ( const MyParticle & decayingParticle,
+			     const vector <DecayData> & daughterParticleDatas,
+		     	     vector <MyParticle> daughters );
+  };
+
+So why do we choose the template route, rather than this alternative?
+Well, given the trick of the typedef-ing headers described above, the
+non-decay user sees pretty much the same thing in each case.  The tradoff 
+has the following positives for this alternative:
+ +  The application involving decays does not need to replace the simple
+    typedef-ing .h headers with its own.
+ +  All users can look at the {Class}.h files to see its methods, rather than
+    looking at {Class}_.h which looks a bit more complex because it contains 
+    a templated class.
+But it has the following negatives:
+ -  That dynamic_cast is pure overhead (though not that costly) and is
+    not a very familiar construct among our physicist users.
+ -  Requireing RTTI for any application dealing with decays is undesirable.
+ -  The user has had to create one extra level of hierarchy (MyDecayBase).
+
+Other, Rejected, Alternatives
+=============================
+
+We "know" that DecayModel wants to be templated because its decay() method
+involves ParticleType in its signature.  Can we cut the chain of templating 
+at this point, leaving DecayMode an ordinary class?  Here is what we tried:
+
+1 - No templates at all, using dynamic_cast
+
+A first attempt was to say that no templating is involved at all, at any
+point.  DecayModel is not templated.  The applicatoin derives one or more
+classes from DecayModel, say MyDecayModelA and MyDecayModelB.  And these of
+course can know about MyParticle because they are specifice for this 
+application; they have MyParticle hardwired in.
+
+Then when we tried to illustrate a use case, the code to decay a particle
+contained code like the following snippet:
+  // ...
+  DecayModel* model = mode.decayModel();
+  if ( MyDecayModelA* ma = dynamic_cast<MyDecayModelA> (model) ) {
+    ma->decay ( particle, daughterDatas, daughters );
+  } else if { (MyDecayModelB* mb = dynamic_cast<MyDecayModelB> (model) 
+    mb->decay ( particle, daughterDatas, daughters );
+  }
+And you can see that when the number of decay models exceeds just one, 
+this becomes both unwieldy and probably (if several decay models exist)
+overly inefficient. 
+
+2 - No templates at all, using C-style casts
+
+The user "is certain" that the only things that have been put in the 
+DecayModel*'s are actual classes derived from DecayModel.  So to heck with
+that ugly and time-consuming dynamic_cast:
+  // ...
+  MyDecayModel* model = (MyDecayModel*) mode.decayModel();
+  model->decay ( particle, daughterDatas, daughters );
+Leaving aside the headache of how you handle multiple classes derived from
+DecayModel, this "solution" is worse than ugly: it is dangerous.  There is no
+guarantee that MyDecayModel will have its function pointers in the same 
+arrangement as DecayModel.  While this approach would probably work in most
+cases with most compilers, recommending a mantra wihich the standard says 
+will give "unpredictable results would be lunacy.
+
+3 - Breaking the chain and using a table to bridge from mode to model
+
+The idea is that DecayMode contains, instead of a DecayModel*, a key
+(which is not templated at all) that allows you to determine which 
+DecayModel* to use.  And then DecayModel is itself templated off
+ParticleType so its decay() fucntion can work properly.  All the problems
+are swept into the matter of that bridge from the key owned by DecayMode,
+to the DecayMode*.  
+
+This approach actually had enough going for it that we fleshed out a
+design diagram.  Unfortunately, the templated bridge class, which is the 
+weakest link, has too much pressure on it.  At a time-critical point, we
+have added a map lookup from key to DecayModel*.  And there is no particularly
+natural representation to use for the key; an int will be quite arbitrary
+and mysterious, while a string naming the model would be better but even more 
+costly.  Note that each mode for each particle can in principle have its
+own instance of MyDecayModel, even though there might be only one class
+derived from DecayModel, since each mode might have its own data parameters.
+So this map will be huge, lookups will be time-critical, there is no natural
+scheme for keys.  We tried to solve each of these, and each time were led to
+more and more unnatural design decisions.  
+
+Mark Fischler (630) 840-4339
+(mf on the fnal.gov systems)
+
+

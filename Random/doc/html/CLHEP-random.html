@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<BODY bgcolor="FFFFFF">
+<title>
+          Fermi Physics Class Libraries Package: CLHEP-Random
+</title>
+
+<h1>ZOOM <img src="http://www.fnal.gov/docs/working-groups/fpcltf/icons/
+particle_coll_bar_463_grey.gif" align="center"> ZOOM </h1>
+
+<center><font color=ff0000>
+<h1> ZOOM Validated CLHEP Random Package </h1> <p>
+</font></center>
+<p>
+
+<a name="Random"></a>
+
+<A HREF=
+"http://wwwinfo.cern.ch/asd/lhc++/clhep/manual/RefGuide/random.html"> 
+<b> HEP Random </b> </A> is a collection of
+random number engines and a variety of 
+distributions which use those engines to generate pseudo-random
+numbers. <p>
+The ZOOM validation consists of 
+<ul>
+<li> Verifying correct statistical properties of the engines and distributions
+<li> Testing the original code and correcting minor bugs 
+<li> Providing a few additional methods requested by the Run II user community
+<li> Completing the set of distributions, to include the full list 
+Review of Particle Properties.
+</ul>
+<p> 
+The source code for headers and implementations of the ZOOM version of CLHEP
+Random may be browsed <a href="random-headers.html"> <u>here</u> </a>. 
+
+<p>
+The extensions, corrections and validations on this page are completed and 
+reflected in the Random sub-package of the ZOOM distribution of CLHEP.
+
+<p><hr><p>
+
+<h3> What is new:  </h3>
+
+<em> 10/23/98 </em> <br>
+<font color=0000ff> New Distribution:  <b>RandMultiGauss </b>
+</font>
+Multivariate Gaussian Distribution, as per page 170 of the new 
+<it>Review of Particle Physics</it>.  
+Returns a <b>HepVector</b> of random variates according to a given 
+HepVector means <b>mu</b> and <b>HepSymMatrix</b> 
+covariance about the mean <b>S</b>.
+
+<p>
+<em> 10/23/98 </em> <br>
+<font color=0000ff> Tests of Distributions:  
+</font>
+<p>
+<b>testRandDists</b> 
+has Tests based on generating a large number of variates and verifying that 
+known properties of each distribution hold.  
+Distributions tested thus far are:
+<dl compact>
+<dt> <b> RandGauss </b> 
+  <dd> Mean and first four moments.
+  <dd> Counts at 1, 2, 3, 4, and 5+ sigma.
+<dt> <b> RandMultiGauss </b> 
+  <dd> Mean.
+  <dd> Covariance matrix.
+</dl>
+
+
+<em> 9/17/98 </em> <br>
+<font color=0000ff> Cleanup of the new random engines: </font>
+<dl compact>
+<dt> <b> Ranlux64 </b> <dd>
+The earlier CLHEP implementation of this did not accurately follow Luscher's
+prescription.  Though it passed all the usual tests, it would likely have a
+shorter period that the correct algorithm.  The implementation has been 
+corrected to match Luscher's ranlxd.
+<dt> <b> Hurd288Engine, Hurd160Engine, TripleRand, Mtwist </b> <dd>
+These have had several cleanups associated with the translation from integer
+bit streams to doubles.  
+<dt> <b> (float) </b> and <b> (unsigned int) </b> <dd>
+Methods returning random variables of single precision are included.  As
+compared with <b>flat()</b>, for engines which take the trouble to ensure
+randomness out to 53 bits of mantissa, <b> (float) </b> and 
+<b> (unsigned int) </b> run faster by generating fewer random bits. <dd>
+</dl>
+
+<p>
+<em> 8/25/98 </em> <br>
+<font color=0000ff> Several new random engines have been added: </font>
+<dl compact>
+<dt> <b> TripleRand </b> <dd>
+is a combination of the DualRand and the Hurd288 engines, with a
+period of over 2**400.  This is intended as a small-state (60 bytes)
+reasonably fast "mother of all generators" for applications that are
+fairly  paranoid.
+<dt> <b> Hurd288Engine </b> <dd>
+<dt> <b> Hurd160ENgine </b> <dd>
+are a  pair of linearly interconnected shift register engines, based
+on the paper by William Hurd (not to be confused with GNU Hurd) 
+in IEEE Transactions on Computers, C23 No. 2 page 146.  This 
+method is claimed to remove some unsatisfactory properties in 
+the Tausworthe methods, stemming from the latter using trinomial 
+primitive polynomials.  We implement 160 and 288 bit instances,
+based on lines 9 and 10 of table I in that paper.  
+
+
+</dl>
+
+<p>
+<a href="CLHEP-random-archive.html"> Older "Whats New" Items </a>
+
+<p><hr><p>
+
+<h3> Testing for Proper Behavior of CLHEP Random sub-package </h3>
+	<ul>
+	<li> <font color=0000ff> Random Engine Validation
+	 <ul> </font>
+	    We have applied the "DIEHARD" suite of statistical tests for
+	    uniformly distributed random numbers to each of the engines
+	    in CLHEP Random.  <br>
+	    <a href="diehard.html">Results</a> show that several engines
+	    pass the full suite of tests:
+		<ul>
+		<li> DualRand
+		<li> Hurd288Engine
+		<li> MTwistEngine
+		<li> RanecuEngine
+		<li> RanluxEngine on luxury level 2 or higher
+		<li> Ranlux64Engine
+		<li> RanshiEngine
+		<li> TripleRand
+		</ul>
+	Other engines fail one or more tests of randomness; in particular
+	RandEngine and RanluxEngine on level zero fail several significant
+	tests and should not be considered reliably random.  RanshiEngine and 
+	Hurd288Engine are about as fast as these (and much faster for 
+	32-bit interger generation) and should be considered as substitutes.
+	 </ul>
+<font color=0000ff>
+	<li> Distribution Generator Validation
+	 <ul> </font>
+		Validation of proper behavior of each distribution is
+		mathematically subtle in some cases.  This validation is
+		has been done for:
+	  	<ul>
+		<li> RandGauss
+		<li> RandMultiGauss
+		</ul>
+		Run <b>testRandDists</b> to execute these tests.
+	 </ul>
+	</ul>
+	</ul>
+<p>
+<p><hr><p>
+<h3> ZOOM-supplied Extensions  </h3>
+A couple of extensions to the basic interface are useful 
+to our community.  These are in the area of internally
+saving and restoring state, and support for large collections
+of generators without getting identical sequences.
+<p>
+  (In no case will these extensions modify or eliminate existing correct
+   functionality.  
+  <br> Any bug fixes which may change behavior will be indicated explicitly.)
+  <br> Changes (fed back to CLHEP) are discussed 
+	<a href="random-changes.html">here</a>.
+	<p>
+	<li> <a href="random-newMethods.html"> 
+		<b>Additional Constructors </b> </a> 
+	<ul>
+		<li> The default constructors for random engines tracks
+		starting seeds, so that multiple instances of engine 
+		instantiated by default constructors give different
+		starting points in the random sequence.  The following
+		code will work and give to each distribution an independent 
+		engines with a unique starting seed:
+			<ul>
+			<code> <font color=0000ff>  
+			  RandGauss g1 (JamesRandom j1); <br>
+			  RandGauss g2 (JamesRandom j2); <br>
+			  RandGauss g3 (JamesRandom j3);
+			</font></code>
+			</ul>
+		<p>
+		<li> The constructors for all engines now follow the same 
+		     pattern.  Along with the default constructor and a copy
+		     consturctor to duplicate the state, 
+			<ul>
+			<li> Each engine has 
+		     a constructor taking a single <b>long</b> argument.
+		     This exhibits the identical behavior to that constructor
+		     in CLHEP; in new engines the long is used in a direct way
+		     to form the state.
+			<li> Each egine has a constructor taking 
+		     two <b>int</b> arguments.  For engines in CLHEP that
+		     already had such a constructor (top access a seed table)
+		     the behavior is left intact.
+		     For all other engines, this constructor establishes 
+		     the starting state based on those ints.  
+		         </ul>
+			In generators
+		     with 64-bits of state or more, the states which can 
+		     be established by default constructor, by supplying one
+		     </b>long</b>, and by supplying two </b>int</b>s are all
+		     distinct from one another.
+		<p>
+		<li> Each <em>distribution</b>
+		class has a default constructor, which
+		instantiates its own (default) instance of <b>RanLuxEngine</b>.
+		The following code would give an array of standard-parameter
+		Gaussian distributions, with
+		independent engines with different starting seeds for each 
+		distribution:
+			<ul>
+			<code> <font color=0000ff> 
+			  ZMRandGauss gs [100];
+			</font></code>
+			</ul>
+		<p>
+		<li> <a name="params"></a>
+		Distributions have a form of constructor that accepts 
+		a set a parameters to use as defaults for that distribution 
+		instance, when <b>fire()</b> is done without supplying
+		parameters.
+			<ul>
+			<code> <font color=0000ff> 
+			  ZMRandGauss g(5.0,2.5); <br>
+			  double x = g.fire();  <br>
+			</font>
+			// x is distrbuted with mean = 5, sigma = 2.5 <br>
+<font color=0000ff> 	  double y  = g.fire(3, 2);  <br>
+			</font>
+			// y is distrbuted with mean = 3, sigma = 2 <br>
+			</code>
+			</ul>
+		Of course, if parameters are explicitly supplied to an
+		invocation of <b>fire()</b>, those supplied parameters 
+		are used.  And if no
+		parameters are provided when constructing the distribution
+		instance, the standard values are used as before.
+			<ul>
+			<code> <font color=0000ff>  
+			  ZMRandGauss g(e, 0.0, 1.0); <br>
+			  </font> // same as: <br>
+<font color=0000ff>  	  ZMRandGauss g(e);
+			</font></code>
+			</ul>
+
+	</ul>
+
+	<li> <a href="random-newMethods.html"> <b> Additional Methods </b> </a> 
+		<ul>
+		<li> Saving and restoring engine state to file with
+			<em>user-supplied</em> name. 
+			<ul>
+			<code> <font color=0000ff> 
+			  RanluxEngine e; <br>
+			  e.saveStatus    ( "myFile.conf" );   <br>
+			  e.restoreStatus ( "yourFile.conf" );
+			</font></code>
+			</ul>
+		<p>
+		<li> Engine state stream output via <b> &lt&lt </b> and
+			input via <b> >> </b>.  There are also constructors
+			accepting an istream to determine the state.
+			<ul>
+			<code> <font color=0000ff>  
+			  RanluxEngine e; <br>
+			  cin >> e; <br>
+			  cout << e; <br>
+			  RanLuxEngine e2 ( cin ); <br>
+			</font></code>
+			</ul>
+		<p> 
+		<li>
+	The flat() methods in all added engines supply double precision
+	numbers random out to the last bit.  If the underlying engine works
+	with 32-bit numbers, this requires a bit of extra work.  We will
+	provide conversion constructors for each engine, which can be used
+	as in:
+<ul>
+<pre>
+DualRand e;
+double x; float f; unsigned int u;
+<font color=blue>x = double(e);</font>        // Exactly equivalent to x = e.flat();
+<font color=blue>f = float(e);</font>         // Equivalent to f = e.flat(); 
+                      // but somewhat faster
+<font color=blue>u = unsigned int(e);</font>  // Equivalient to u=pow(2.0, 32)*e.flat() 
+                      // but supplies the 32-bits obtained from
+                      // the algorithm kernel, without the "middleman"
+</pre>
+</ul>
+	A shorter syntax will also work, but is disparaged because it looks
+	too mysterious:
+<ul>
+<pre>
+<font color=blue>x = e;</font>                // Will come out x = double(e);
+<font color=blue>f = e;</font>                // Will come out f = float(e);
+<font color=blue>u = e;</font>                // Will come out f = unsigned int(e);
+</pre>
+</ul>
+	For consistency, the double, float and unsigned int operators are also 
+	be provided for the original engines, but these save no time.
+
+
+	</ul>
+	<p>
+
+<a name="newdistribs">
+<li> <font color=0000ff> <b> Additional Distributions </b> </font> 
+	<p>
+	The package now include the following distributions:
+		<ul>
+		<li>All eight distributions in table
+		28.1 of the <em>Review of Particle Properties</em>.  
+		Of these, Uniform, Poisson, and Gaussian were already
+		present in HEP Random.  The ZOOM work adds:
+			<ol>
+			<li> Binomial -- RandBinomial
+			<li> Chi-squared -- RandChiSquare
+			<li> Student's <em>t</em> -- RandStudentT
+			<li> Gamma -- RandGamma
+			<li> Multivariate Gaussian -- RandMultiGauss
+			</ol>
+		<li> The two special cases of these 
+		(Exponential and Breit-Wigner)
+		provided in the original CLHEP Random.
+		</ul>
+	<p>
+
+<a name="newengines">
+<li> <font color=0000ff> <b> Additional Random Engines </b> </font>
+	<dl>
+	<dt> <b> DualRand </b> <dd>
+	A new random engine, implementing one which is in wide use in the 
+	Lattice Gauge Monte Carlo community.  It is a combination of a
+	(127,97) Tausworthe shift register generator and ordinary 
+	32-bit integer congruence.  
+	This passes
+	the statistical tests in the Diehard suite, and is rather fast.
+	It also has the property that two instances based on different seeds
+	will give truly different streams, and not two separated segments of 
+	the same long stream.
+	<dt> <b>  Ranshi </b> <dd>
+	A huge-state  (2K bytes) generator based on F. Gutbrod's method of 
+	that same name.
+	It repeatedly simulates throwing spinning balls onto a large 
+	collection of other spinning  balls.  One instance of Ranshi 
+	uses as a state one 32-bit "red ball" and 512 32-bit "black ball"
+	spins.  Techniques to avoid "trap" sequences are employed.
+	Though the properties of this process have not been studied
+	with any rigor, the huge state lends confidence in a good random 
+ 	sequence of long period.  Despite the huge state, the time taken to
+	generate a single random is excellent.
+	<dt> <b>  Ranlux64 </b> <dd>
+	A 64-bit variant of the Ranlux engine, again from Europe.  This (along 
+	with all the ZOOM-supplied additional engines) supplies doubles which 
+	are random out to all 53 bits of mantissa, rather than just 32 as the
+	original Ranlux does.
+	<dt> <b>  MTwist </b> <dd>
+	The <a href="http://www.math.keio.ac.jp/~matumoto/emt.html"> 
+	Mersenne Twister </a> engine.  This is a huge-state (~2.5 Kbytes) 
+	engine which has mathematically proven outstanding randomness 
+	properties and a period of 2**19,937 -1.  Our implementation is
+	from the algorithm in the paper; there is a culture on the web page
+	of speed improvements but it is rather fast as it is, and we wanted
+	as few risks of incorrectness as possible.  This is probably the best
+ 	huge-state engine available.
+
+	<dt> <b>  TripleRand </b> <dd>
+	is a combination of the DualRand and the Hurd288 engines, with a
+	period of over 2**400.  This is intended as a small-state (60 bytes)
+	reasonably fast "mother of all generators" for applications that are
+	fairly  paranoid.  The Hurd288 engine implements a set of 
+	linearly interconnected shift register engines, based
+	on the paper by William Hurd (not to be confused with GNU Hurd) 
+	in IEEE Transactions on Computers, C23 No. 2 page 146.  This 
+	method is claimed to remove some unsatisfactory properties in 
+	the Tausworthe methods, stemming from the latter using trinomial 
+	primitive polynomials.  We implement 160 and 288 bit instances,
+	based on lines 9 and 10 of table I in that paper.  
+
+</dl>
+
+<p><hr><p>
+<h3> Corrections </h3>
+	Several minor <a href="random-changes.html"> changes </a> 
+	were made in the behavior of these classes,
+	either to conform to the clearly intended behavior,
+	or to conform to normal semantics a user would expect in C++:
+	<ul>
+	<li> When engines were constructed, they were supposed to be given 
+	zero-terminated arrays of seed numbers as arguments.  They were not, 
+	and in the case of <b>RanLuxEngine</b> this made a difference.  In
+	principle, this could lead to access violations; in
+	typical use, the only effect would be that two identically seeded
+	distributions would after a short while begin to diverge.  This bug
+	has been fixed, for all the distribution classes.
+	<p>
+	<li> The previous behavior of default constructors of random engines 
+	was such that if the user instantiated two intances of the same engine 
+	class using the default constructor each time, the sequences obtained
+	would be identical.  This is very trappy, and contradicts the most
+	probable purpose of using this syntax.  We now provide a different 
+	starting state each time.  The user can get two matching sequences by
+	explicitly supplying a 	<em>specific</em> seed, or by copying the engine
+	object itself.
+
+</ul>
+
+<hr> 
+<p>
+<h2> Validation and Extensions in Progress </h2>
+<p>
+<li> <a href="random-newMethods.html"> <b> Additional Methods </b> </a> 
+  
+	<ul> 
+
+	<p>	<li>
+	Default constructors will be provided for each of the distributions.
+	These will conform to the following semantics:  When a distribution
+	is instantiated without specifying a specific engine, a new instance
+	of a good random engine will be constructed, and will be owned only
+	by the new distribution instance.
+
+	<P>
+	<li> Copy constructors and assignment operators will be provided for 
+	each distribution.  The semantics for what engine is used when
+	copying a distribution 	are as yet undecided.  The three 
+	possibilities are:
+		<ol>
+		<li> A clone of the same class of engine as used in the 
+		original distribution is instantiated and associated with 	
+		the copy distribution.  Thus the original and the copy
+		distributions will have two completely independent streams.
+		<li> The copy distribution will share the same engine as the 
+		original.  Thus firing either will advance the state of the
+		other.
+		<li> A copy of the engine associated with the original will
+		be made and associated with the copy distribution.  Thus
+		the distribution and its copy will fire identical streams of
+		randoms.
+		</ol>
+	We are leaning toward the first of these possibilities.  we
+	<a href="mailto:mf@fnal.gov">welcome</a> comments as to which 
+	choice people feel is most useful.
+	<p>
+	</ul>
+</ul>
+<li> <font color=0000ff> <b> Additional Distributions </b> </font>
+	<ul>
+	<li> Distributions for fluctuation of ionization energy loss:
+		<ol>
+		<li> Landau distribution.
+		<li> Vavilov distribution, 
+			an approximation-free version
+			of the Landau distribution with energy 
+			cutoff.
+			<ul> This version will be quicker 
+			     than the CERNLIB versions of Vavilov.
+			</ul>
+		<li> Vavilov distribution corrected for spin-1/2 
+		     particles.
+		</ol>
+	</ul>
+
+<p>
+<li> <font color=0000ff> <b> Additional Engines </b> </font>
+  <ul>
+	<dl>
+	<dt> <b> RanUniEngine </b> <dd>
+	Another engine in use in the Lattice Gauge community.  This
+	comes from Marsaglia, and appears to be a lagged addition
+	Fibonacci, added mod 1 to a simple c*d mod m.  Since the set
+	of other engines do not include a lagged Fibonacci, we will likely
+	incorporate this one.
+	</dl>
+	<p>
+	The following engines are also logical candidates for inclusion but
+	we presently do not plan to provide them:
+	<dl>
+	<dd> <b>Ran2</b> from Numerical recipes, which is related to Ranecu.
+	<dd> <b>Ran4</b> from Numerical recipes, which is related to the DES
+		encryption standard.
+	<dd> <b>GFSR</b>, a 4-tap feedback shift register discussed by R. Ziff 
+	in Computers in Physics, July 1998.
+	</dl>
+  </ul>
+<p>
+<li> <font color=0000ff> <b> Validation </b> </font>
+<ul>
+There have been problems in the past understanding the results of the DIEHARD
+tests.
+<p>
+There is work in progress to:
+<ul>
+<li>put this Marsaglia suite into clear C++;
+<li>correct a suspected flaw in the Minimum Distance test, possibly introduced 
+in the course of going from the original Fortran through f2c; 
+<li>add a 
+couple of other tests which would have been impractical before the available
+computing power was at today's level.
+</ul>
+</ul>
+<p>
+<img src="http://www.fnal.gov/docs/working-groups/fpcltf/icons/bar.gif"><p>
+<center>
+
+<a href="http://www.fnal.gov/docs/working-groups/fpcltf/fpcltf.html">
+ZOOM Home Page </a> -  
+
+<a href="http://www.fnal.gov/faw/">Fermilab at Work</a> -  
+
+<a href="http://www.fnal.gov/">Fermilab Home</a>       
+</center>
+
+<p>
+<hr>
+<address><a href="mailto:mf@fnal.gov">Mark Fischler</a></address>
+<!-- hhmts start -->
+Last modified: October 23, 1998
+<!-- hhmts end -->
+</body>
+</html>

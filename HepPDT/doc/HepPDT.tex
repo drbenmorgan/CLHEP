@@ -1,0 +1,43 @@
+% this is latex
+\documentclass[twoside,12pt]{article}
+\usepackage{epsfig}
+\setlength{\textheight}{230mm}
+\setlength{\topmargin}{0mm}
+
+%define page size: 
+\setlength{\headheight}{0mm}
+\setlength{\headsep}{0mm}
+\setlength{\footskip}{5mm}
+\setlength{\textwidth}{170mm}
+\setlength{\oddsidemargin}{0mm}
+\setlength{\evensidemargin}{0mm}
+
+\raggedbottom
+
+%line spacing
+%%\renewcommand{\baselinestretch}{1.5}
+\newcommand{\tstrut}{\protect\rule{0in}{0.2in}\hspace{1em}}
+\def\etal{{\it et al.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\cpp}{C+\kern-0.35ex{}+}
+
+%%%\input pslogos
+
+\begin{document}
+
+\input intro
+
+\input body
+\input refer
+
+\begin{appendix}
+\input readdata
+\setlength{\oddsidemargin}{-15mm}
+\setlength{\evensidemargin}{-15mm}
+\input elem
+\input meson
+\input baryon
+\end{appendix}
+
+\end{document}
+

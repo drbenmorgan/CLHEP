@@ -1,0 +1,24 @@
+#! /bin/sh
+
+# turn on echo
+set -x
+
+# run autotool commands
+cp Vector/autotools/ltmain.sh .
+aclocal
+automake --add-missing --copy
+autoconf
+
+#run autotool commands in each subdirectory
+for pkg in `ls`
+do
+  if [ -e $pkg/configure.in ] 
+  then
+     cd $pkg
+     bootstrap
+     cd ..
+  fi
+done
+
+
+# ready to make a source code distribution tarball

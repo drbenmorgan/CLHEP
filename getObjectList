@@ -1,0 +1,17 @@
+#!/bin/sh
+ 
+# get a list of object files
+ 
+# getObjectList <subdir list>
+
+filelist=""
+for subdir in "$@"
+do
+  if test -d $subdir/src/.libs
+  then
+      thispkg=`ls $subdir/src/*.lo`
+      filelist="$filelist $thispkg"
+  fi
+done
+
+echo $filelist
