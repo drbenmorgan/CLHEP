@@ -34,6 +34,6 @@ do
     if [ -e $srccodedir/CLHEP/$pkg/configure.in ] 
     then
         cd $srccodedir;
-        tar -cf $tardir/CLHEP-$pkg-@VERSION@-src.tar CLHEP/$pkg
+        tar -cf $tardir/clhep-$pkg-@VERSION@-src.tar CLHEP/$pkg
     fi
 done

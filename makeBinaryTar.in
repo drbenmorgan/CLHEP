@@ -33,13 +33,4 @@ cd $thisdir
 cd $1; tardir=`pwd`
 
 cd $binarydir;
-tar -cf $tardir/clhep-@VERSION@$extra.tar CLHEP
-
-for pkg in `ls $binarydir/CLHEP`
-do
-    if [ -e $binarydir/CLHEP/$pkg/configure.in ] 
-    then
-        cd $binarydir;
-        tar -cf $tardir/CLHEP-$pkg-@VERSION@$extra.tar CLHEP/$pkg
-    fi
-done
+tar -cf $tardir/clhep-@VERSION@$extra.tar bin include lib data
