@@ -2,6 +2,8 @@
 
 includedir = $(prefix)/include/CLHEP
 
+SUBDIRS = include 
+
 pkginclude_HEADERS = \
 	CBhepevt.h	\
 	CBhepevt.icc	\

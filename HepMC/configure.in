@@ -26,6 +26,7 @@ AM_CONFIG_HEADER([HepMC/defs.h])
 # Makefiles:
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([HepMC/Makefile])
+AC_CONFIG_FILES([HepMC/include/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 #AC_CONFIG_FILES([test/Makefile])
 
