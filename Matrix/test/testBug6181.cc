@@ -15,10 +15,12 @@
 
 int test_inversion (int N) {
 
+  int i;
+  int j;
   HepMatrix M(N,N,0); 
   HepSymMatrix S(N,0); 
-  for(int i=1;i<=N;++i) { 
-    for(int j=1;j<=N;++j) { 
+  for(i=1;i<=N;++i) { 
+    for(j=1;j<=N;++j) { 
       if(i<=j) { 
 	S (i,j) = 10*i+j;
 	M (i,j) = 10*i+j; 
@@ -52,8 +54,6 @@ int test_inversion (int N) {
   MS = S;
   MSS = SS;
   SI = MSS*MS;
-  int i;
-  int j;
   for(i=1;i<=N;++i) { 
     for(j=1;j<=N;++j) { 
       if(i!=j) { 
