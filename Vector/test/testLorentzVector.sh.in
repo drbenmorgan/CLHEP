@@ -3,4 +3,4 @@
 
 
 ./testLorentzVector@EXEEXT@ < @srcdir@/testLorentzVector.input \
-  | diff -q - @srcdir@/testLorentzVector.output > /dev/null
+  | diff -b -q - @srcdir@/testLorentzVector.output > /dev/null
