@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+includedir = $(prefix)/include/CLHEP
+
 pkginclude_HEADERS = \
 	BasicVector3D.h	\
 	Normal3D.h	\

@@ -1,5 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
+includedir = $(prefix)/include/CLHEP
+pkgincludedir = $(prefix)/include/CLHEP/@PACKAGE@
+
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(pkgincludedir)/include
 	$(INSTALL_DATA) $(srcdir)/herwig61.inc $(DESTDIR)$(pkgincludedir)/include/herwig61.inc
