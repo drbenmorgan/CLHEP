@@ -22,7 +22,6 @@ int test_inversion (int N) {
 
   int i,j;
   HepSymMatrix S(N,0); 
-  int i,j;
   for(i=1;i<=N;++i) { 
     for(j=1;j<=N;++j) { 
       if(i<=j) { 
