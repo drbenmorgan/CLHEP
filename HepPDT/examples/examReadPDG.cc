@@ -1,4 +1,4 @@
-// $Id: examReadPDG.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: examReadPDG.cc,v 1.2 2003/08/26 20:49:21 garren Exp $
 // ----------------------------------------------------------------------
 // examReadPDG.cc
 //
@@ -19,7 +19,7 @@ template class HepPDT::DMFactory<DefaultConfig>;
 
 int main()
 {
-    const char pdgfile[] = "../data/pdg_mass.tbl";
+    const char pdgfile[] = "../data/PDG_mass_width_2002.mc";
     const char outfile[] = "examReadPDG.out";
     // open input file
     std::ifstream pdfile( pdgfile );
