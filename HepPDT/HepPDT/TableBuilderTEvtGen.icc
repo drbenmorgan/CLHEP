@@ -1,4 +1,4 @@
-// $Id: TableBuilderTEvtGen.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: TableBuilderTEvtGen.icc,v 1.1.1.1.4.1 2004/04/29 20:24:47 garren Exp $
 // ----------------------------------------------------------------------
 //
 // TableBuilderTEvtGen.icc
@@ -126,7 +126,7 @@ void findAliasDecayModel( TempAliasData & tad, TableBuilderT<Config> & tb )
 {
     int cit, it, ddend, iend;
     std::string name;
-    for( cit=0; cit < tad.tempDecayList.size(); ++cit ) {
+    for( cit=0; cit < tad.tempAliasDecayList.size(); ++cit ) {
         TempDecayData & tdd = tad.tempAliasDecayList[cit];
 	ddend = 0;
 	for( it=0; it < tdd.tempDaughterList.size(); ++it ) {

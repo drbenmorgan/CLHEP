@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.4.4.1 2004/04/29 00:20:37 garren Exp $
+// $Id: RandEngine.cc,v 1.4.4.2 2004/04/29 20:24:47 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -22,6 +22,15 @@
 //                  obtained by concatenation: 15th Feb 1998
 // Ken Smith      - Added conversion operators:  6th Aug 1998
 // J. Marraffino  - Remove dependence on hepString class  13 May 1999
+// M. Fischler    - Rapaired bug that in flat() that relied on rand() to      
+//                  deliver 15-bit results.  This bug was causing flat()      
+//                  on Linux systems to yield randoms with mean of 5/8(!)     
+//                - Modified algorithm such that on systems with 31-bit rand()
+//                  it will call rand() only once instead of twice. Feb 2004  
+// M. Fischler    - Modified the general-case template for RandEngineBuilder  
+//                  such that when RAND_MAX is an unexpected value the routine
+//                  will still deliver a sensible flat() random.              
+//                                                                            
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -32,6 +41,21 @@
 #include <stdlib.h>	// for int()
 
 namespace CLHEP {
+
+#ifdef NOTDEF 
+// The way to test for proper behavior of the RandEngineBuilder
+// for arbitrary RAND_MAX, on a system where RAND_MAX is some
+// fixed specialized value and rand() behaves accordingly, is 
+// to set up a fake RAND_MAX and a fake version of rand() 
+// by enabling this block.                               
+#undef  RAND_MAX                            
+#define RAND_MAX 9382956                    
+#include "CLHEP/Random/MTwistEngine.h"      
+#include "CLHEP/Random/RandFlat.h"          
+MTwistEngine * fakeFlat = new MTwistEngine; 
+RandFlat rflat (fakeFlat, 0, RAND_MAX+1);   
+int rand() { return (int)rflat(); }         
+#endif                                      
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
@@ -166,19 +190,140 @@ void RandEngine::showStatus() const
    std::cout << "----------------------------------------" << std::endl;
 }
 
-double RandEngine::flat()
-{
-   // rand() is such a horrible generator, it only generates 15 bits.
-   // The quick fix here to get it to at LEAST 32 bits is to grab two values,
-   // and concatenate them, but that still leaves two bits empty and these
-   // we grab from the number of times flat() has been called, i.e. seq. 
+// ====================================================
+// Implementation of flat() (along with needed helpers)
+// ====================================================
 
-   return double( (unsigned int)(        (rand() << 17) |   // bits 31-17
-                                      (seq++ & 0x3  << 15) |   // bits 16,15
-                                                    rand()     // bits 14-0
-                                   ) * mantissa_bit_32
-                   );
-}
+// Here we set up such that **at compile time**, the compiler decides based on  
+// RAND_MAX how to form a random double with 32 leading random bits, using      
+// one or two calls to rand().  Some of the lowest order bits of 32 are allowed 
+// to be as weak as mere XORs of some higher bits, but not to be always fixed.  
+//                                                                              
+// The method decision is made at compile time, rather than using a run-time    
+// if on the value of RAND_MAX.  Although it is possible to cope with arbitrary 
+// values of RAND_MAX of the form 2**N-1, with the same efficiency, the         
+// template techniques needed would look mysterious and perhaps over-stress     
+// some older compilers.  We therefore only treat RAND_MAX = 2**15-1 (as on     
+// most older systems) and 2**31-1 (as on the later Linux systems) as special   
+// and super-efficient cases.  We detect any different value, and use an        
+// algorithm which is correct even if RAND_MAX is not one less than a power     
+// of 2.  
+
+  template <int> struct RandEngineBuilder {     // RAND_MAX any arbitrary value
+  static unsigned int thirtyTwoRandomBits() {               
+                                                            
+  static bool prepared = false;                             
+  static unsigned int iT;                                   
+  static unsigned int iK;                                   
+  static unsigned int iS;                                   
+  static int iN;                                            
+  static double fS;                                         
+  static double fT;                                         
+                                                            
+  if ( (RAND_MAX >> 31) > 0 )                               
+  {                                                         
+    // Here, we know that integer arithmetic is 64 bits.    
+    if ( !prepared ) {                                      
+      iS = RAND_MAX + 1;                     
+      iK = 1;                                
+//    int StoK = S;                          
+      int StoK = iS;                         
+      if ( (RAND_MAX >> 32) == 0) {          
+        iK = 2;                              
+//      StoK = S*S;                          
+        StoK = iS*iS;                        
+      }                                      
+      int m;                                 
+      for ( m = 0; m < 64; ++m ) {           
+        StoK >>= 1;                          
+        if (StoK == 0) break;                
+      }                                      
+      iT = 1 << m;                           
+      prepared = true;                       
+    }                                        
+    int v = 0;                               
+    do {                                     
+      for ( int i = 0; i < iK; ++i ) {       
+        v = iS*v+rand();                     
+      }                                      
+    } while (v < iT);                        
+    return v & 0xFFFFFFFF;                   
+                                             
+  }                                          
+                                             
+  else if ( (RAND_MAX >> 26) == 0 )                                       
+  {                                                                       
+    // Here, we know it is safe to work in terms of doubles without loss  
+    // of precision, but we have no idea how many randoms we will need to 
+    // generate 32 bits.                                                  
+    if ( !prepared ) {                                                    
+      fS = RAND_MAX + 1;                                                  
+      double twoTo32 = ldexp(1.0,32);                                     
+      double StoK = fS;                                                   
+      for ( iK = 1; StoK < twoTo32; StoK *= fS, iK++ ) { }                
+      int m;                                                              
+      fT = 1.0;                                                           
+      for ( m = 0; m < 64; ++m ) {                                        
+        StoK *= .5;                                                       
+        if (StoK < 1.0) break;                                            
+        fT *= 2.0;                                                        
+      }                                                                   
+      prepared = true;                                                    
+    }                                                                     
+    double v = 0;                                                         
+    do {                                                                  
+      for ( int i = 0; i < iK; ++i ) {                                    
+        v = fS*v+rand();                                                  
+      }                                                                   
+    } while (v < fT);                                                     
+    return ((unsigned int)v) & 0xFFFFFFFF;                                
+                                                                          
+  }                                                                       
+  else                                                                    
+  {                                                                       
+    // Here, we know that 16 random bits are available from each of       
+    // two random numbers.                                                
+    if ( !prepared ) {                                                    
+      iS = RAND_MAX + 1;                                                  
+      int SshiftN = iS;                                                   
+      for (iN = 0; SshiftN > 1; SshiftN >>= 1, iN++) { }                  
+      iN -= 17;                                                           
+    prepared = true;                                                      
+    }                                                                     
+    unsigned int x1, x2;                                                  
+    do { x1 = rand(); } while (x1 < (1<<16) );                            
+    do { x2 = rand(); } while (x2 < (1<<16) );                            
+    return x1 | (x2 << 16);                                               
+  }                                                                       
+                                                                          
+  }                                                                       
+};                                                                        
+                                                                          
+template <> struct RandEngineBuilder<2147483647> { // RAND_MAX = 2**31 - 1
+  inline static unsigned int thirtyTwoRandomBits() {                      
+    unsigned int x = rand() << 1;       // bits 31-1                      
+    x ^= ( (x>>23) ^ (x>>7) ) ^1;       // bit 0 (weakly pseudo-random)   
+    return x & 0xFFFFFFFF;              // mask in case int is 64 bits    
+    }                                                                     
+};                                                                        
+                                                                          
+                                                                           
+template <> struct RandEngineBuilder<32767> { // RAND_MAX = 2**15 - 1      
+  inline static unsigned int thirtyTwoRandomBits() {                       
+    unsigned int x = rand() << 17;      // bits 31-17                      
+    x ^= rand() << 2;                   // bits 16-2                       
+    x ^= ( (x>>23) ^ (x>>7) ) ^3;       // bits  1-0 (weakly pseudo-random)
+    return x & 0xFFFFFFFF;              // mask in case int is 64 bits     
+    }                                                                      
+};                                                                         
+                                                                           
+double RandEngine::flat()                                      
+{                                                              
+  double r;                                                    
+  do { r = RandEngineBuilder<RAND_MAX>::thirtyTwoRandomBits();
+     } while ( r == 0 ); 
+  return r/4294967296.0; 
+}  
 
 void RandEngine::flatArray(const int size, double* vect)
 {
@@ -189,7 +334,7 @@ void RandEngine::flatArray(const int size, double* vect)
 }
 
 RandEngine::operator unsigned int() {
-  return (unsigned int)( (rand() << 17) | ((seq++&0x3) << 15) | rand() );
+  return RandEngineBuilder<RAND_MAX>::thirtyTwoRandomBits();
 }
 
 std::ostream & operator << ( std::ostream& os, const RandEngine& e ) 
