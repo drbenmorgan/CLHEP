@@ -1,8 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
-install-data-local:
-	$(mkinstalldirs) $(DESTDIR)$(datadir)
-	$(INSTALL_DATA) $(top_srcdir)/doc/Random.html $(DESTDIR)$(datadir)/Random.html
-	$(INSTALL_DATA) $(top_srcdir)/doc/validation.doc $(DESTDIR)$(datadir)/validation.doc
-	$(INSTALL_DATA) $(top_srcdir)/doc/html/CLHEP-random.html $(DESTDIR)$(datadir)/CLHEP-random.html
+install-docs:
+	$(mkinstalldirs) $(DESTDIR)$(prefix)/doc/@PACKAGE@
+	$(INSTALL_DATA) $(top_srcdir)/doc/Random.html $(DESTDIR)$(prefix)/doc/@PACKAGE@/Random.html
+	$(INSTALL_DATA) $(top_srcdir)/doc/validation.doc $(DESTDIR)$(prefix)/doc/@PACKAGE@/validation.doc
+	$(INSTALL_DATA) $(top_srcdir)/doc/html/CLHEP-random.html $(DESTDIR)$(prefix)/doc/@PACKAGE@/CLHEP-random.html
 

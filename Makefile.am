@@ -28,6 +28,17 @@ $(TEMPCLHEP)/$(CLHEPLIBSHARE):
 	$(CC) -shared $$liblist -Wl,-soname -o $(TEMPCLHEP)/$(CLHEPLIBSHARE).0.0.0; \
 	cd $(TEMPCLHEP); ln -s $(CLHEPLIBSHARE).0.0.0 $(CLHEPLIBSHARE)
 
+docs:
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  if test -d "$$subdir"/doc; then (cd $$subdir; $(MAKE) $(AM_MAKEFLAGS) docs; cd .. ); fi; \
+	done
+
+install-docs:
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  if test -d "$$subdir"/doc; then (cd $$subdir; $(MAKE) $(AM_MAKEFLAGS) install-docs; cd .. ); fi; \
+	done
+
+
 install: install-recursive $(prefix)/lib/$(CLHEPLIB) $(prefix)/lib/$(CLHEPLIBSHARE)
 
 $(prefix)/lib/$(CLHEPLIB): $(TEMPCLHEP)/$(CLHEPLIB)

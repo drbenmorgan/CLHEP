@@ -9,3 +9,9 @@ all-local: $(top_builddir)/CLHEP
 
 $(top_builddir)/CLHEP:
 	$(top_srcdir)/makeCLHEPdir  $(top_srcdir)/..
+
+docs:
+	cd doc; $(MAKE) $(AM_MAKEFLAGS)
+
+install-docs:
+	cd doc; $(MAKE) $(AM_MAKEFLAGS) install-docs

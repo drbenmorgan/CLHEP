@@ -1,18 +1,18 @@
 ## Process this file with automake to produce Makefile.in
 
-##  WARNING - this is not yet working - tex is invoked instead of latex
+TEX = latex
 
 SUFFIXES = .ps .dvi .tex
-
-$(srcdir)/%.tex: %.dvi
-	latex -o $@ $<
 
 .dvi.ps:
 	dvips -o $@ $(@:.ps=.dvi)
 
-all: genericFunctions.ps
+all: get-includes genericFunctions.ps
 
-install-data-local:
-	$(mkinstalldirs) $(DESTDIR)$(datadir)
-	$(INSTALL_DATA) $(top_builddir)/doc/genericFunctions.ps $(DESTDIR)$(datadir)/genericFunctions.ps
+get-includes:
+	cp $(srcdir)/*.ps .
+
+install-docs:
+	$(mkinstalldirs) $(DESTDIR)$(prefix)/doc/@PACKAGE@
+	$(INSTALL_DATA) $(top_builddir)/doc/genericFunctions.ps $(DESTDIR)$(prefix)/doc/@PACKAGE@/genericFunctions.ps
 
