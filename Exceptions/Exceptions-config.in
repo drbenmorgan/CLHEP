@@ -8,7 +8,7 @@ includedir=@includedir@
 
 usage()
 {
-    cat >2 <<EOF
+    cat <<EOF
 Usage: Exceptions-config [OPTION]
 
 Known values for OPTION are:

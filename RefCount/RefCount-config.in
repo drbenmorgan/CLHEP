@@ -8,7 +8,7 @@ includedir=@includedir@
 
 usage()
 {
-    cat >2 <<EOF
+    cat <<EOF
 Usage: RefCount-config [OPTION]
 
 Known values for OPTION are:
