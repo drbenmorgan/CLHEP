@@ -1,9 +1,9 @@
 # Applicable to each test program:
 INCLUDES = -I../
 # libraries to link, and whence
-LDADD = -L${top_builddir}/src -lCLHEP-@PACKAGE@-@VERSION@ \
-        -L${top_builddir}/../Random/src -lCLHEP-Random-@VERSION@ \
-	-L${top_builddir}/../Vector/src -lCLHEP-Vector-@VERSION@
+LDADD = $(top_builddir)/src/.libs/libCLHEP-@PACKAGE@-@VERSION@.lib    \
+        ${top_builddir}/../Random/src/.libs/libCLHEP-Random-@VERSION@.lib \
+	${top_builddir}/../Vector/src/.libs/libCLHEP-Vector-@VERSION@.lib
 # add -D needed by testInversion
 CXXFLAGS = @CXXFLAGS@ -DINSTALLATION_CHECK
 

@@ -1,6 +1,6 @@
 # Applicable to each test program:
 INCLUDES = -I../
-LDADD = -L${top_builddir}/src  @GenericFunctions_LIBS@	# libraries to link, and whence
+LDADD =  $(top_builddir)/src/.libs/libCLHEP-@PACKAGE@-@VERSION@.lib	# libraries to link, and whence
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
