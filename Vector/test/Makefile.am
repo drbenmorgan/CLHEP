@@ -1,7 +1,7 @@
 # Applicable to each test program:
 INCLUDES = -I../
 # libraries to link, and whence
-LDADD = $(top_builddir)/@SRCLIB@/libCLHEP-@PACKAGE@-@VERSION@@LIBEXTENSION@	
+LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.la
 
 # Identify executables needed during testing:
 check_PROGRAMS = \

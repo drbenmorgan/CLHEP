@@ -1,20 +1,5 @@
 
-# Set up to find the VC71 compiler (assuming a standard 
-# installation) and the other tools used by it ...
-
-export VSPATH="/cygdrive/c/Program Files/Microsoft Visual Studio .NET 2003"
-
-export PATH="/cygdrive/c/WINNT/Microsoft.NET/Framework/v1.1.4322":${PATH}
-
-export PATH="${VSPATH}/SDK/v1.1/bin":${PATH}
-export PATH="${VSPATH}/Common7/Tools/bin":${PATH}
-export PATH="${VSPATH}/Common7/Tools/bin/prerelease":${PATH}
-export PATH="${VSPATH}/Common7/Tools/":${PATH}
-
-export PATH="${VSPATH}/Vc7/bin":${PATH}
-export PATH="${VSPATH}/Common7/IDE":${PATH}
-
-# For clhep compilation, set the following as autoconf
+# for clhep compilation, set the following as autoconf
 # places the g++ _before_ cl and the other platform 
 # specific ones:
 
@@ -24,10 +9,16 @@ export CXXCPP='cl -E'
 export CXX='cl '
 export LD='cl '
 
+
+export PATH= "/cygdrive/c/Program Files/Microsoft Visual Studio .NET 2003":"/cygdrive/c/Program Files/Microsoft Visual Studio .NET 2003/Vc7/bin":"/cygdrive/c/Program Files/Microsoft Visual Studio .NET 2003/Common7/Tools":"/cygdrive/c/Program Files/Microsoft Visual Studio .NET 2003/Common7/Tools/Bin":"/cygdrive/c/Program Files/Microsoft Visual Studio .NET 2003/SDK/v1.1/bin":"/cygdrive/c/WINNT/Microsoft.NET/Framework/v1.1.4322":$PATH
+
+
 # include and lib are interpreted by the compiler, so use win syntax
-export INCLUDE="c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/include;C:\Program Files\Microsoft Visual Studio .NET 2003\SDK\v1.1\include"
-export LIB="c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/lib;C:\Program Files\Microsoft Visual Studio .NET 2003\SDK\v1.1\Lib"
+
+export INCLUDE="c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/atlmfc/include;c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/include;c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK/include;C:\Program Files\Microsoft Visual Studio .NET 2003\SDK\v1.1\include"
+
+export LIB="c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/atlmfc/lib;c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/lib;c:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK/lib;C:\Program Files\Microsoft Visual Studio .NET 2003\SDK\v1.1\Lib" 
 
 # to avoid useless complaints from the compiler
-export CXXFLAGS='-EHsc'
+export CXXFLAGS='-EHsc -DWIN32'
 
