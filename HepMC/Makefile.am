@@ -5,7 +5,8 @@ includedir = $(prefix)/include/CLHEP
 # put . first so that CLHEP directory is built before anything else
 SUBDIRS = HepMC . src
 # list all subdirectories - for distribution and cleaning
-DIST_SUBDIRS = HepMC . src doc examples
+##DIST_SUBDIRS = HepMC . src doc examples
+DIST_SUBDIRS = HepMC . src doc 
 
 all-local: $(top_builddir)/CLHEP
 
