@@ -25,7 +25,7 @@ $(DOC_POSTSCRIPT): $(DOC_SOURCE)
 	  if test ! -f $$file; then  \
 	  (cp $(doc_srcdir)/$$file $(doc_builddir)/$$file); fi; done
 	$(TEX)	$(DOC_SOURCE)
-	dvips HepMC_user_manual.dvi
+	dvips -o HepMC_user_manual.dvi
 
 install-docs: $(DOC_POSTSCRIPT)
 	$(mkinstalldirs) $(DESTDIR)$(doc_installdir)

@@ -1,3 +1,7 @@
+Fri Nov 26 2004	    Andreas Pfeiffer <andreas.pfeiffer@cern.ch>
+
+	* add -o option to dvips, otherwise it prints on some systems
+	
 Wed Nov  3 2004     Lynn Garren <garren@fnal.gov>
 
 	* use HepGeom namespace instead of old names for Geometry classes
