@@ -46,7 +46,7 @@ AC_CONFIG_FILES([test/testVectorDists.sh], [chmod +x test/testVectorDists.sh])
 
 RandomObjects_CPPFLAGS="-I$includedir"
 RandomObjects_LDFLAGS="-L$libdir"
-RandomObjects_LIBS="-lCLHEP-$PACKAGE-$VERSION -lCLHEP-Random-$VERSION -lCLHEP-Matrix-$VERSION"
+RandomObjects_LIBS="-lCLHEP-$PACKAGE-$VERSION -lCLHEP-Random-$VERSION -lCLHEP-Matrix-$VERSION -lCLHEP-Vector-$VERSION"
 
 AC_SUBST(RandomObjects_CPPFLAGS)
 AC_SUBST(RandomObjects_LIBS)

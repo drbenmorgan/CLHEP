@@ -4,7 +4,8 @@ INCLUDES = -I../
 # libraries to link, and whence
 LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.la \
         ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.la \
-	${top_builddir}/../Matrix/src/libCLHEP-Matrix-@VERSION@.la
+	${top_builddir}/../Matrix/src/libCLHEP-Matrix-@VERSION@.la \
+	${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.la
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
