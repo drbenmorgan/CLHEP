@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.2.4 2005/01/31 20:21:39 pfeiffer Exp $
+// $Id: Matrix.cc,v 1.4.2.5 2005/02/25 20:47:16 fischler Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -590,9 +590,11 @@ int HepMatrix::dfinv_matrix(int *ir) {
     mIter mki = m.begin() + i - 1;
     mIter mkj = m.begin() + j - 1;
     for (k=1; k<=n;k++) {
-      register mIter ti = mki;
+      // 2/24/05 David Sachs fix of improper swap bug that was present
+      // for many years:
+      double ti = *mki; // 2/24/05
       *mki = *mkj;
-      *mkj = *ti;
+      *mkj = ti;	// 2/24/05
       mki += n;
       mkj += n;
     }
