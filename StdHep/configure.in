@@ -32,6 +32,7 @@ AC_CONFIG_FILES([StdHep/Makefile])
 AC_CONFIG_FILES([StdHep/include/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([StdHep-deps])
+AC_CONFIG_FILES([StdHep/copy-header.pl], [chmod +x StdHep/copy-header.pl])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:

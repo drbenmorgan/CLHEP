@@ -31,6 +31,7 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([RefCount/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([RefCount-deps])
+AC_CONFIG_FILES([RefCount/copy-header.pl], [chmod +x RefCount/copy-header.pl])
 
 # Configuration inquiry program/script:
 AC_CONFIG_FILES([RefCount-config], [chmod +x RefCount-config])

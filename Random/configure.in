@@ -33,6 +33,7 @@ AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([Random-deps])
+AC_CONFIG_FILES([Random/copy-header.pl], [chmod +x Random/copy-header.pl])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testRandDists.sh], [chmod +x test/testRandDists.sh])

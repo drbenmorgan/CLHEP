@@ -33,6 +33,7 @@ AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 AC_CONFIG_FILES([Exceptions-deps])
+AC_CONFIG_FILES([Exceptions/copy-header.pl], [chmod +x Exceptions/copy-header.pl])
 
 # Configuration inquiry program/script:
 AC_CONFIG_FILES([Exceptions-config], [chmod +x Exceptions-config])

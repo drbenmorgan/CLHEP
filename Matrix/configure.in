@@ -32,6 +32,7 @@ AC_CONFIG_FILES([Matrix/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([Matrix-deps])
+AC_CONFIG_FILES([Matrix/copy-header.pl], [chmod +x Matrix/copy-header.pl])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testMatrix.sh], [chmod +x test/testMatrix.sh])

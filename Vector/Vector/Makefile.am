@@ -44,13 +44,12 @@ CLEANFILES = defs.h
 
 # copy headers into $(tempincludedir)
 install-tmpHEADERS:
-	@echo " install headers in $(TEMPDIR)/CLHEP "
+	@echo " install headers in $(tempincludedir) "
 	@list='$(pkginclude_HEADERS)'; \
-	if test $(TEMPDIR); then \
+	if test $(tempincludedir); then \
 	  for p in $$list; do \
 	    if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	    f="`echo $$p | sed -e 's|^.*/||'`"; \
-	    echo " $(COPY_P) $$d$$p $(tempincludedir)/$$f"; \
-	    $(COPY_P) $$d$$p $(tempincludedir)/$$f; \
+	    copy-header.pl $$d$$p $(tempincludedir)/$$f; \
 	  done; \
 	fi; test -z "$$fail"

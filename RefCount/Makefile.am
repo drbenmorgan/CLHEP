@@ -25,7 +25,7 @@ abs_top_srcdir = @abs_top_srcdir@
 COPY_P = @COPY_P@
 
 $(top_builddir)/CLHEP:  temp-package-dirs
-	list="`cat @PACKAGE@-deps | sed s/CLHEP-@PACKAGE@-@VERSION@// | sed s/CLHEP-// | sed s/-@VERSION@//`"; \
+	@list="`cat @PACKAGE@-deps | sed s/CLHEP-@PACKAGE@-@VERSION@// | sed s/CLHEP-// | sed s/-@VERSION@//`"; \
 	for pkg in $$list; do \
 	  if test -d "$$pkg" ; then \
 	    (cd $$pkg && $(MAKE) $(AM_MAKEFLAGS) TEMPDIR=$(abs_top_builddir) install-tmpHEADERS) || exit 1 ; \
@@ -50,7 +50,7 @@ $(top_builddir)/CLHEP:  temp-package-dirs
 
 temp-package-dirs:
 	$(mkinstalldirs) $(abs_top_builddir)/CLHEP;
-	list="`cat @PACKAGE@-deps | sed s/CLHEP-@PACKAGE@-@VERSION@// | sed s/CLHEP-// | sed s/-@VERSION@//`"; \
+	@list="`cat @PACKAGE@-deps | sed s/CLHEP-@PACKAGE@-@VERSION@// | sed s/CLHEP-// | sed s/-@VERSION@//`"; \
 	for pkg in $$list; do \
 	  $(mkinstalldirs) $(abs_top_builddir)/CLHEP/$$pkg; \
 	done;

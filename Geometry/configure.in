@@ -32,6 +32,7 @@ AC_CONFIG_FILES([Geometry/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([Geometry-deps])
+AC_CONFIG_FILES([Geometry/copy-header.pl], [chmod +x Geometry/copy-header.pl])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testBasicVector3D.sh], [chmod +x test/testBasicVector3D.sh])

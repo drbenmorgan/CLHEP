@@ -32,6 +32,7 @@ AC_CONFIG_FILES([Evaluator/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([Evaluator-deps])
+AC_CONFIG_FILES([Evaluator/copy-header.pl], [chmod +x Evaluator/copy-header.pl])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testEvaluator.sh], [chmod +x test/testEvaluator.sh])

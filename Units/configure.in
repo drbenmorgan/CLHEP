@@ -30,6 +30,7 @@ AC_CONFIG_FILES([Units/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([Units-deps])
+AC_CONFIG_FILES([Units/copy-header.pl], [chmod +x Units/copy-header.pl])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testUnits.sh], [chmod +x test/testUnits.sh])

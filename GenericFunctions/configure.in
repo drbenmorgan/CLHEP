@@ -33,6 +33,7 @@ AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([GenericFunctions-deps])
+AC_CONFIG_FILES([GenericFunctions/copy-header.pl], [chmod +x GenericFunctions/copy-header.pl])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testGenericFunctions.sh], [chmod +x test/testGenericFunctions.sh])

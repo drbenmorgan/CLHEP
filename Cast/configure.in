@@ -31,6 +31,7 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([Cast/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([Cast-deps])
+AC_CONFIG_FILES([Cast/copy-header.pl], [chmod +x Cast/copy-header.pl])
 
 # Configuration inquiry program/script:
 AC_CONFIG_FILES([Cast-config], [chmod +x Cast-config])

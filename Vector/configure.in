@@ -32,6 +32,7 @@ AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 AC_CONFIG_FILES([Vector-deps])
+AC_CONFIG_FILES([Vector/copy-header.pl], [chmod +x Vector/copy-header.pl])
 
 # Configuration inquiry program/script:
 AC_CONFIG_FILES([Vector-config], [chmod +x Vector-config])
