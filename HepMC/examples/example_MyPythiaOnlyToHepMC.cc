@@ -66,6 +66,25 @@ int main() {
 	HepMC::GenEvent* evt = conv.getGenEventfromHEPEVT();
 	//
 	//.......................USER WOULD PROCESS EVENT HERE
+	// Begin Peter sherwood's suggested code:
+
+        //count particles 
+	int npart =0;
+        HepMC::GenEvent::particle_const_iterator it= evt->particles_begin();
+        HepMC::GenEvent::particle_const_iterator en= evt->particles_end();
+        for(;it!=en;++it) ++npart;
+
+        //check event size
+        int ndumpv=evt->vertices_size();
+        int ndumpp=evt->particles_size();
+
+	if ( npart!=ndumpp ) {
+	    std::cout << "Event " << i << std::endl;
+	    std::cout << "Total vertices count as dumped "<<ndumpv<< std::endl;
+	    std::cout << "Total particle count as copied "<<npart<< std::endl;
+	    std::cout << "Total particle count as dumped "<<ndumpp<< std::endl;
+	}
+
 	//
 	// we also need to delete the created event from memory
 	delete evt;

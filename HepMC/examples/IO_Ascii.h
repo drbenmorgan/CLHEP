@@ -25,10 +25,6 @@
 //  "HepMC::IO_Ascii-START_EVENT_LISTING\n"
 //  and terminated by the key:
 //  "HepMC::IO_Ascii-END_EVENT_LISTING\n"
-// GenParticle Data tables are preceded by the key:
-//  "HepMC::IO_Ascii-START_PARTICLE_DATA\n"
-//  and terminated by the key:
-//  "HepMC::IO_Ascii-END_PARTICLE_DATA\n"
 // Comments are allowed. They need not be preceded by anything, though if
 //  a comment is written using write_comment( const string ) then it will be
 //  preceded by "HepMC::IO_Ascii-COMMENT\n"
@@ -38,11 +34,22 @@
 //  any of the 4 start/stop keys.
 //
 
+// this is done in CLHEP/HepMC/defs.h
+// --> HANDLE COMPILER INCONSISTENCIES
+//#if __GNUC__ && (__GNUC__ > 2) // Linux gcc 3.x
+//#define USE_OPENMODE_INSTEAD_OF_OPEN_MODE
+//#endif // Platform
+//
+//#ifdef USE_OPENMODE_INSTEAD_OF_OPEN_MODE
+//#define open_mode openmode
+//#endif // USE_OPENMODE_INSTEAD_OF_OPEN_MODE
+
+
 #include <fstream>
 #include <string>
 #include <map>
 #include <vector>
-
+#include <iostream>
 #include "CLHEP/HepMC/defs.h"
 #include "CLHEP/HepMC/GenEvent.h"
 
@@ -56,7 +63,6 @@ namespace HepMC {
 
 	void          write_event( const GenEvent* evt );
 	bool          fill_next_event( GenEvent* evt );
-	GenEvent*     read_next_event();
 	// insert a comment directly into the output file --- normally you
 	//  only want to do this at the beginning or end of the file. All
 	//  comments are preceded with "HepMC::IO_Ascii-COMMENT\n"
@@ -66,6 +72,12 @@ namespace HepMC {
 	void          clear();
 
 	void          print( std::ostream& ostr = std::cout ) const;
+	//
+	// read_next_event() differs from
+	// the fill_***() method in that it creates a new event or pdt
+	// before calling the  correspondingfill_*** method
+	// (they are not intended to be over-ridden)
+	GenEvent*    read_next_event();
 	//
 	// The overloaded stream operators >>,<< are identical to
 	//   read_next_event and write_event methods respectively.
@@ -91,7 +103,11 @@ namespace HepMC {
 	bool          write_end_listing();
 	bool          search_for_key_end( std::istream& in, 
 					  const char* key);
+	bool          search_for_key_beginning( std::istream& in, 
+						const char* key );
 	bool          eat_key( std::iostream& in, const char* key );
+	int           find_in_map( const std::map<GenVertex*,int>& m, 
+				   GenVertex* v) const;
 	void          output( const double& );
 	void          output( const int& );
 	void          output( const long int& );
@@ -99,7 +115,7 @@ namespace HepMC {
     private: // use of copy constructor is not allowed
 	IO_Ascii( const IO_Ascii& ) {}
     private: // data members
-	HepIOSOpenMode      m_mode;
+	HepIOSOpenMode m_mode;
 	std::fstream        m_file;
 	bool                m_finished_first_event_io;
     };
@@ -107,7 +123,6 @@ namespace HepMC {
     //////////////
     // Inlines  //
     //////////////
-
 
     inline void IO_Ascii::output( const double& d ) {
 	if ( d == 0. ) {
@@ -137,6 +152,7 @@ namespace HepMC {
 	delete evt;
 	return 0;
     }
+
     inline GenEvent*& IO_Ascii::operator>>( GenEvent*& evt ){
 	evt = read_next_event();
 	return evt;
@@ -157,6 +173,3 @@ namespace HepMC {
 
 #endif  // HEPMC_IO_ASCII_H
 //--------------------------------------------------------------------------
-
-
-

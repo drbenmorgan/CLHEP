@@ -224,15 +224,6 @@ namespace HepMC {
 	m_file << comment << std::endl;
     }
 
-    bool IO_Ascii::write_end_listing() {
-    	if ( m_finished_first_event_io && m_mode&HepIOS::out ) {
-	    m_file << "HepMC::IO_Ascii-END_EVENT_LISTING\n" << std::flush;
-	    m_finished_first_event_io = 0;
-	    return 1;
-	}
-	return 0;
-    }
-
     void IO_Ascii::write_vertex( GenVertex* v ) {
 	// assumes mode has already been checked
 	if ( !v || !m_file ) {
@@ -379,6 +370,15 @@ namespace HepMC {
 	return p;
     }
 
+    bool IO_Ascii::write_end_listing() {
+    	if ( m_finished_first_event_io && m_mode&HepIOS::out ) {
+	    m_file << "HepMC::IO_Ascii-END_EVENT_LISTING\n" << std::flush;
+	    m_finished_first_event_io = 0;
+	    return 1;
+	}
+	return 0;
+    }
+
     bool IO_Ascii::search_for_key_end( std::istream& in, const char* key ) {
 	// reads characters from in until the string of characters matching
 	// key is found (success) or EOF is reached (failure).
@@ -393,6 +393,20 @@ namespace HepMC {
 	    if ( index == strlen(key) ) return 1;
 	}
 	return 0;
+    }
+
+    bool IO_Ascii::search_for_key_beginning( std::istream& in,
+					     const char* key ) {
+	// not tested and NOT used anywhere!
+	if ( search_for_key_end( in, key) ) {
+	    int i = strlen(key);
+	    while ( i>=0 ) in.putback(key[i--]); 
+            return 1; 
+	} else {
+	    in.putback(EOF);
+	    in.clear();
+            return 0;
+	}
     }
 
     bool IO_Ascii::eat_key( std::iostream& in, const char* key ) {
@@ -423,4 +437,11 @@ namespace HepMC {
 	return 0;
     }
 
+    int IO_Ascii::find_in_map( const std::map<GenVertex*,int>& m, 
+			       GenVertex* v ) const {
+	std::map<GenVertex*,int>::const_iterator iter = m.find(v);
+	if ( iter == m.end() ) return 0;
+	return iter->second;
+    }
+	
 } // HepMC

@@ -47,6 +47,12 @@ int main() {
     // an event has been prepared in advance for this example, read it
     // into memory using the IO_Ascii input strategy
     HepMC::IO_Ascii ascii_in("example_UsingIterators.txt",HepIOS::in);
+    if ( ascii_in.rdstate() == HepIOS::failbit ) {
+	std::cerr << "ERROR input file example_UsingIterators.txt is needed "
+		  << "and does not exist. "
+		  << "\n Look for it in HepMC/examples, Exit." << std::endl;
+	return 1;
+    }
 
     HepMC::GenEvent* evt = ascii_in.read_next_event();
 
