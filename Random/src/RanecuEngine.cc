@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.cc,v 1.2 2003/07/16 12:35:41 garren Exp $
+// $Id: RanecuEngine.cc,v 1.3 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -32,6 +32,9 @@
 #include "CLHEP/Random/RanecuEngine.h"
 #include <string.h>
 #include <cmath>
+#include <stdlib.h>
+
+namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
@@ -298,3 +301,5 @@ std::istream & operator >> ( std::istream& is, RanecuEngine& e )
    e.seq = int(e.theSeed);
    return is;
 }
+
+}  // namespace CLHEP

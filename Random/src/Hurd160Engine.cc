@@ -1,4 +1,4 @@
-// $Id: Hurd160Engine.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Hurd160Engine.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -29,6 +29,8 @@
 #include <stdlib.h>	// for abs(int)
 
 using namespace std;
+
+namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
@@ -261,3 +263,5 @@ std::istream& operator>> (std::istream& is, Hurd160Engine& e) {
   }
   return is;
 }
+
+}  // namespace CLHEP

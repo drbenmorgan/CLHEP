@@ -1,4 +1,4 @@
-// $Id: RanshiEngine.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RanshiEngine.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -32,6 +32,8 @@
 #include <cmath>	// for ldexp()
 
 using namespace std;
+
+namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
@@ -268,3 +270,5 @@ std::istream& operator>> (std::istream& is, RanshiEngine& e) {
   }
   return is;
 }
+
+}  // namespace CLHEP

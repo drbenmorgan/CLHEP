@@ -1,4 +1,4 @@
-// $Id: RandPoissonQ.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandPoissonQ.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -20,6 +20,8 @@
 #include "CLHEP/Random/RandGaussQ.h"
 #include "CLHEP/Random/Stat.h"
 #include <cmath>	// for pow()
+
+namespace CLHEP {
 
 // Initialization of static data:  Note that this is all const static data,
 // so that saveEngineStatus properly saves all needed information. 
@@ -523,4 +525,6 @@ long RandPoissonQ::poissonDeviateSmall (HepRandomEngine * e, double mean) {
 
 } // poissonDeviate()
 
+
+}  // namespace CLHEP
 

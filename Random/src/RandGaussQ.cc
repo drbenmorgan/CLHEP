@@ -1,4 +1,4 @@
-// $Id: RandGaussQ.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandGaussQ.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -15,6 +15,8 @@
 #include "CLHEP/Random/RandGaussQ.h"
 #include <iostream>
 #include <cmath>	// for log()
+
+namespace CLHEP {
 
 RandGaussQ::~RandGaussQ() {
 }
@@ -178,3 +180,5 @@ double RandGaussQ::transformSmall (double r) {
   return -v;
 
 } // transformSmall()
+
+}  // namespace CLHEP

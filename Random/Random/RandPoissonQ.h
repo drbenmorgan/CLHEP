@@ -1,4 +1,4 @@
-// $Id: RandPoissonQ.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandPoissonQ.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,8 @@
 
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/RandPoisson.h"
+
+namespace CLHEP {
 
 /**
  * @author
@@ -137,6 +139,8 @@ private:
   static const int ENTRIES;      // Number of entries in each mu row
 
 };
+
+}  // namespace CLHEP
 
 #include "CLHEP/Random/RandPoissonQ.icc"
 

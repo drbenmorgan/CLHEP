@@ -1,4 +1,4 @@
-// $Id: RandomEngine.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandomEngine.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -14,6 +14,8 @@
 //                - Moved seeds table to HepRandom: 19th March 1998
 // =======================================================================
 
+namespace CLHEP {
+
 inline bool HepRandomEngine::operator==(const HepRandomEngine& engine) {
   return (this==&engine) ? true : false;
 }
@@ -21,3 +23,5 @@ inline bool HepRandomEngine::operator==(const HepRandomEngine& engine) {
 inline bool HepRandomEngine::operator!=(const HepRandomEngine& engine) {
   return (this!=&engine) ? true : false;
 }
+
+}  // namespace CLHEP

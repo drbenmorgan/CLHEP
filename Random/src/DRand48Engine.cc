@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DRand48Engine.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: DRand48Engine.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -----------------------------------------------------------------------
 //                             HEP Random
 //                        --- DRand48Engine ---
@@ -27,6 +27,8 @@
 #include "CLHEP/Random/DRand48Engine.h"
 #include "CLHEP/Random/RandomFunc.h"
 #include <string.h>
+
+namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 // Number of instances with automatic seed selection
@@ -229,3 +231,5 @@ std::istream & operator >> ( std::istream& is, DRand48Engine& e )
    seed48(cseed);
    return is;
 }
+
+}  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: RandChiSquare.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandChiSquare.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -13,6 +13,8 @@
 
 #include "CLHEP/Random/RandChiSquare.h"
 #include <cmath>	// for log()
+
+namespace CLHEP {
 
 RandChiSquare::~RandChiSquare() {
   if ( deleteEngine ) delete localEngine;
@@ -136,4 +138,6 @@ double RandChiSquare::genChiSquare( HepRandomEngine *anEngine,
      }
    }
 }
+
+}  // namespace CLHEP
 

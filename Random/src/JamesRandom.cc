@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.2 2003/07/16 12:35:41 garren Exp $
+// $Id: JamesRandom.cc,v 1.3 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -32,6 +32,9 @@
 #include "CLHEP/Random/JamesRandom.h"
 #include <string.h>
 #include <cmath>
+#include <stdlib.h>
+
+namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
@@ -311,3 +314,5 @@ std::istream & operator >> ( std::istream& is, HepJamesRandom& e )
   e.j97 = jpos;
   return is;
 }
+
+}  // namespace CLHEP

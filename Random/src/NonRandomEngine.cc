@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.cc,v 1.2 2003/07/16 12:35:41 garren Exp $
+// $Id: NonRandomEngine.cc,v 1.3 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -12,6 +12,8 @@
 #include "Random/defs.h"
 #include "CLHEP/Random/NonRandomEngine.h"
 #include <stdlib.h>
+
+namespace CLHEP {
 
 NonRandomEngine::NonRandomEngine() : nextHasBeenSet(false), 
 				     sequenceHasBeenSet(false),
@@ -72,4 +74,6 @@ void NonRandomEngine::flatArray(const int size, double* vect) {
     vect[i] = flat();
   }
 }
+
+}  // namespace CLHEP
 

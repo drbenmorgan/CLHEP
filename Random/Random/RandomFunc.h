@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: RandomFunc.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandomFunc.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -----------------------------------------------------------------------
 //                             HEP RandomFunc
 //                      get proper system headers for drand, etc.
@@ -30,6 +30,8 @@ extern "C" {
 #include <stdlib.h>
 #endif
 
+namespace CLHEP {
+
 #ifdef WIN32
 #include "drand48.src"
 #endif  /* WIN32 */
@@ -37,5 +39,7 @@ extern "C" {
 #ifdef __APPLE__ 
 #include "drand48.src"
 #endif  /* __APPLE__ */
+
+}  // namespace CLHEP
 
 #endif 	// RANDOMFUNC_H

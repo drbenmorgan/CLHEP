@@ -1,4 +1,4 @@
-// $Id: RandGauss.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandGauss.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -11,6 +11,8 @@
 // =======================================================================
 // Gabriele Cosmo - Created: 19th August 1998
 // =======================================================================
+
+namespace CLHEP {
 
 inline RandGauss::RandGauss(HepRandomEngine & anEngine, double mean,
                                                         double stdDev )
@@ -38,3 +40,5 @@ inline double RandGauss::fire() {
 inline double RandGauss::fire(double mean, double stdDev) {
   return normal()*stdDev + mean;
 }
+
+}  // namespace CLHEP

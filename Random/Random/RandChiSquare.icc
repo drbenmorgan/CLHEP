@@ -1,4 +1,4 @@
-// $Id: RandChiSquare.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandChiSquare.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -10,6 +10,8 @@
 // =======================================================================
 // Gabriele Cosmo - Created: 19th August 1998
 // =======================================================================
+
+namespace CLHEP {
 
 inline RandChiSquare::RandChiSquare(HepRandomEngine & anEngine, double a)
 : localEngine(&anEngine), deleteEngine(false), defaultA(a)
@@ -38,3 +40,5 @@ inline double RandChiSquare::operator()( double a ) {
 inline double RandChiSquare::shoot( HepRandomEngine* anEngine ) {
   return shoot( anEngine, 1.0 );
 }
+
+}  // namespace CLHEP

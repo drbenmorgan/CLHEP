@@ -1,4 +1,4 @@
-// $Id: RandomEngine.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandomEngine.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // ------------------------------------------------------------------------
@@ -20,6 +20,8 @@
 
 //------------------------- HepRandomEngine ------------------------------
 
+namespace CLHEP {
+
 HepRandomEngine::HepRandomEngine() 
 : theSeeds(&theSeed),
   exponent_bit_32( pow(2.,32.) )
@@ -40,3 +42,5 @@ HepRandomEngine::operator float() {
 HepRandomEngine::operator unsigned int() {
   return (unsigned int)( flat() * exponent_bit_32 );
 }
+
+}  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandEngine.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -29,6 +29,8 @@
 #include "CLHEP/Random/RandomFunc.h"
 #include <string.h>
 #include <cmath>	// for pow()
+
+namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
@@ -240,3 +242,5 @@ std::istream & operator >> ( std::istream& is, RandEngine& e )
       { e.flat(); }	// { dummy = flat(); }
    return is;
 }
+
+}  // namespace CLHEP

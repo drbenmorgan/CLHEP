@@ -1,4 +1,4 @@
-// $Id: Randomize.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Randomize.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -56,11 +56,15 @@
 #include "CLHEP/Random/RandPoissonT.h"
 #include "CLHEP/Random/RandStudentT.h"
 
+namespace CLHEP {
+
 #define HepUniformRand() HepRandom::getTheEngine()->flat()
 
 // On some compilers the static instance of the HepRandom generator
 // needs to be created explicitly in the client code (i.e. here).
 
 static int HepRandomGenActive = HepRandom::createInstance();
+
+}  // namespace CLHEP
 
 #endif

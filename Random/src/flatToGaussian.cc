@@ -1,4 +1,4 @@
-// $Id: flatToGaussian.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: flatToGaussian.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -24,6 +24,8 @@
 #include <cmath>
 
 using namespace std;
+
+namespace CLHEP {
 
 double transformSmall (double r);
 
@@ -302,4 +304,6 @@ double HepStat::erf (double x) {
 
 }
 
+
+}  // namespace CLHEP
 

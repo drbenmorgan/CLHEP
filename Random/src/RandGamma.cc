@@ -1,4 +1,4 @@
-// $Id: RandGamma.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandGamma.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -13,6 +13,8 @@
 
 #include "CLHEP/Random/RandGamma.h"
 #include <cmath>	// for log()
+
+namespace CLHEP {
 
 RandGamma::~RandGamma() {
   if ( deleteEngine ) delete localEngine;
@@ -221,4 +223,6 @@ double v1,v2,v12;
        }
    }
 }
+
+}  // namespace CLHEP
 

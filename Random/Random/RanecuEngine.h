@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RanecuEngine.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -35,6 +35,8 @@
 #define RanecuEngine_h 1
 
 #include "CLHEP/Random/RandomEngine.h"
+
+namespace CLHEP {
 
 /**
  * @author <Gabriele.Cosmo@cern.ch>
@@ -110,5 +112,7 @@ private:
   static int numEngines;
 
 };
+
+}  // namespace CLHEP
 
 #endif

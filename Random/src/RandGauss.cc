@@ -1,4 +1,4 @@
-// $Id: RandGauss.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandGauss.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -24,6 +24,8 @@
 #include "CLHEP/Random/RandGauss.h"
 #include <string.h>
 #include <cmath>	// for log()
+
+namespace CLHEP {
 
 // Initialisation of static data
 bool RandGauss::set_st = false;
@@ -216,4 +218,6 @@ void RandGauss::restoreEngineStatus( const char filename[] ) {
   }
 
 } // restoreEngineStatus
+
+}  // namespace CLHEP
 

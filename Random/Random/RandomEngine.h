@@ -1,4 +1,4 @@
-// $Id: RandomEngine.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandomEngine.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -39,6 +39,8 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+
+namespace CLHEP {
 
 /**
  * @author <Gabriele.Cosmo@cern.ch>
@@ -120,6 +122,8 @@ protected:
   const double exponent_bit_32;
 
 };
+
+}  // namespace CLHEP
 
 #include "CLHEP/Random/RandomEngine.icc"
 

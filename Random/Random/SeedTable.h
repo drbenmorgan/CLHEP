@@ -1,4 +1,4 @@
-// $Id: SeedTable.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: SeedTable.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -18,6 +18,8 @@
 
 #ifndef SeedTable_h
 #define SeedTable_h 1
+
+namespace CLHEP {
 
 const long HepRandom::seedTable[215][2] = {
                              {           9876, 54321		},		
@@ -236,4 +238,7 @@ const long HepRandom::seedTable[215][2] = {
                              {      242242374, 1863206182	},
                              {      957935844, 1490681416	}
 					     };
+
+}  // namespace CLHEP
+
 #endif // SeedTable_h

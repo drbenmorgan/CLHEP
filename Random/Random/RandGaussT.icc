@@ -1,4 +1,4 @@
-// $Id: RandGaussT.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandGaussT.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -15,6 +15,8 @@
 
 // Constructors
 // ------------
+
+namespace CLHEP {
 
 RandGaussT::RandGaussT(HepRandomEngine & anEngine, double mean,
                                                         double stdDev )
@@ -59,3 +61,5 @@ double RandGaussT::fire(double mean, double stdDev) {
   return HepStat::flatToGaussian(getTheEngine()->flat()) * stdDev + mean;
 }
 
+
+}  // namespace CLHEP

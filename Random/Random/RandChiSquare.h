@@ -1,4 +1,4 @@
-// $Id: RandChiSquare.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandChiSquare.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -25,6 +25,8 @@
 #define RandChiSquare_h 1
 
 #include "CLHEP/Random/Random.h"
+
+namespace CLHEP {
 
 /**
  * @author
@@ -93,6 +95,8 @@ private:
   const double defaultA;
 
 };
+
+}  // namespace CLHEP
 
 #include "CLHEP/Random/RandChiSquare.icc"
 

@@ -1,4 +1,4 @@
-// $Id: RandPoisson.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandPoisson.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -11,6 +11,8 @@
 // =======================================================================
 // Gabriele Cosmo - Created: 19th August 1998
 // =======================================================================
+
+namespace CLHEP {
 
 inline RandPoisson::RandPoisson(HepRandomEngine & anEngine, double m )
 : meanMax(2.0E9), defaultMean(m),
@@ -27,3 +29,5 @@ inline RandPoisson::RandPoisson(HepRandomEngine * anEngine, double m )
 inline HepRandomEngine * RandPoisson::getLocalEngine() {
   return localEngine;
 }
+
+}  // namespace CLHEP

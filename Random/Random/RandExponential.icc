@@ -1,4 +1,4 @@
-// $Id: RandExponential.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandExponential.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -13,6 +13,8 @@
 // =======================================================================
 
 #include <cmath>	// for log()
+
+namespace CLHEP {
 
 inline RandExponential::RandExponential(HepRandomEngine & anEngine,
                                         double mean )
@@ -42,3 +44,5 @@ inline double RandExponential::fire() {
 inline double RandExponential::fire(double mean) {
   return -log(localEngine->flat())*mean;
 }
+
+}  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: TripleRand.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: TripleRand.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -39,6 +39,8 @@
 
 #include "CLHEP/Random/RandomEngine.h"
 #include "CLHEP/Random/Hurd288Engine.h"
+
+namespace CLHEP {
 
 /**
  * @author
@@ -149,5 +151,7 @@ private:
   Hurd288Engine hurd;        // one TripleRand instance 
 
 }; // TripleRand
+
+}  // namespace CLHEP
 
 #endif // TripleRand_h

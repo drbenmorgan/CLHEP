@@ -1,4 +1,4 @@
-// $Id: RandPoissonQ.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandPoissonQ.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -11,6 +11,8 @@
 // =======================================================================
 // M. Fischler 		- Created: 1/26/00
 // =======================================================================
+
+namespace CLHEP {
 
 inline RandPoissonQ::RandPoissonQ(HepRandomEngine & anEngine, double m )
 : RandPoisson(anEngine, m)
@@ -25,4 +27,6 @@ inline RandPoissonQ::RandPoissonQ(HepRandomEngine * anEngine, double m )
 inline int RandPoissonQ::tableBoundary() {
   return int(LAST_MU + S);
 }
+
+}  // namespace CLHEP
 

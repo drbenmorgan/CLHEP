@@ -1,4 +1,4 @@
-// $Id: Hurd288Engine.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Hurd288Engine.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -27,6 +27,8 @@
 #define Hurd288Engine_h
 
 #include "CLHEP/Random/RandomEngine.h"
+
+namespace CLHEP {
 
 /**
  * @author
@@ -90,5 +92,7 @@ private:
   unsigned int words[9];
 
 }; // Hurd288Engine
+
+}  // namespace CLHEP
 
 #endif // Hurd288Engine_h

@@ -1,4 +1,4 @@
-// $Id: RanshiEngine.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RanshiEngine.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -40,6 +40,8 @@
 #define HepRanshiEngine_h
 
 #include "CLHEP/Random/RandomEngine.h"
+
+namespace CLHEP {
 
 /**
  * @author
@@ -103,5 +105,7 @@ private:
     unsigned int redSpin;
 
 }; // RanshiEngine
+
+}  // namespace CLHEP
 
 #endif // HepRanshiEngine_h

@@ -1,4 +1,4 @@
-// $Id: erfQ.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: erfQ.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,8 @@
 #include <cmath>
 
 using namespace std;
+
+namespace CLHEP {
 
 double HepStat::erfQ (double x) {
 //
@@ -45,4 +47,6 @@ double HepStat::erfQ (double x) {
 
 }
 
+
+}  // namespace CLHEP
 

@@ -1,4 +1,4 @@
-// $Id: MTwistEngine.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: MTwistEngine.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -23,6 +23,8 @@
 #define MTwistEngine_h
 
 #include "CLHEP/Random/RandomEngine.h"
+
+namespace CLHEP {
 
 /**
  * @author
@@ -86,5 +88,7 @@ private:
   static int maxIndex;
 
 }; // MTwistEngine
+
+}  // namespace CLHEP
 
 #endif // MTwistEngine_h

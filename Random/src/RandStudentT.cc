@@ -1,4 +1,4 @@
-// $Id: RandStudentT.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandStudentT.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -16,6 +16,8 @@
 #include <float.h>
 #include "CLHEP/Random/RandStudentT.h"
 #include <cmath>	// for log() exp()
+
+namespace CLHEP {
 
 
 RandStudentT::~RandStudentT() {
@@ -138,3 +140,5 @@ double RandStudentT::shoot( HepRandomEngine *anEngine, double a ) {
 
  return(u * sqrt( a * ( exp(- 2.0 / a * log(w)) - 1.0) / w));
 }
+
+}  // namespace CLHEP

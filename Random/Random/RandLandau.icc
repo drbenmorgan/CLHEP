@@ -1,4 +1,4 @@
-// $Id: RandLandau.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandLandau.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -16,6 +16,8 @@
 
 // Constructors
 // ------------
+
+namespace CLHEP {
 
 RandLandau::RandLandau(HepRandomEngine & anEngine )
 : localEngine(&anEngine), deleteEngine(false)
@@ -50,3 +52,4 @@ double RandLandau::operator()() {
   return transform(localEngine->flat());
 }
 
+}  // namespace CLHEP

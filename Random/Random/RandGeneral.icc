@@ -1,4 +1,4 @@
-// $Id: RandGeneral.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandGeneral.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -13,6 +13,8 @@
 // M. Fischler    - Moved fire() and shoot(anEngine) into inline so that
 //		    the use of mapRandom does not cost an extra function call.
 // =======================================================================
+
+namespace CLHEP {
 
 inline double RandGeneral::fire()
 {
@@ -40,3 +42,5 @@ inline void RandGeneral::shootArray( const int size, double* vect )
 {
   fireArray(size, vect);
 }
+
+}  // namespace CLHEP

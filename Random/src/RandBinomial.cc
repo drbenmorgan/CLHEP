@@ -1,4 +1,4 @@
-// $Id: RandBinomial.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandBinomial.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -17,6 +17,8 @@
 #include <cmath>	// for exp()
 
 using namespace std;
+
+namespace CLHEP {
 
 RandBinomial::~RandBinomial() {
   if ( deleteEngine ) delete localEngine;
@@ -330,3 +332,5 @@ double RandBinomial::genBinomial( HepRandomEngine *anEngine, long n, double p )
   }
   return ((p>0.5) ? (double)(n-K):(double)K);
 }
+
+}  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: RandExponential.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandExponential.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -16,6 +16,8 @@
 // =======================================================================
 
 #include "CLHEP/Random/RandExponential.h"
+
+namespace CLHEP {
 
 RandExponential::~RandExponential() {
   if ( deleteEngine ) delete localEngine;
@@ -75,3 +77,5 @@ void RandExponential::fireArray( const int size, double* vect,
    for (i=0; i<size; ++i)
      vect[i] = fire( mean );
 }
+
+}  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: RandPoissonT.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandPoissonT.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,8 @@
 //
 // Constructors and destructors:
 //
+
+namespace CLHEP {
 
 RandPoissonT::RandPoissonT(HepRandomEngine & anEngine, double m )
 : RandPoisson(anEngine, m)
@@ -91,3 +93,5 @@ void RandPoissonT::fireArray(const int size, long* vect, double m) {
    }
 }
 
+
+}  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: RandFlat.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandFlat.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -18,6 +18,8 @@
 // M.Fischler     - Corrected initialization of deleteEngine which should 
 //		    be true for all constructors taking HepRandomEngine*.
 // =======================================================================
+
+namespace CLHEP {
 
 inline RandFlat::RandFlat(HepRandomEngine & anEngine)
 : firstUnusedBit(0), localEngine(&anEngine), deleteEngine(false), 
@@ -156,3 +158,5 @@ inline int RandFlat::fireBit() {
   firstUnusedBit>>= 1;
   return temp!=0;   
 }
+
+}  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: RandBit.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandBit.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -10,6 +10,8 @@
 // =======================================================================
 // M.Fischler     - Created, along same lines as RandGaussQ.icc
 // =======================================================================
+
+namespace CLHEP {
 
 inline RandBit::RandBit(HepRandomEngine & anEngine)
 : RandFlat (anEngine)
@@ -71,3 +73,5 @@ inline int RandBit::fireBit() {
 	return 0;
   }
 }
+
+}  // namespace CLHEP

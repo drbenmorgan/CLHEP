@@ -1,4 +1,4 @@
-// $Id: Stat.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Stat.h,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -42,6 +42,8 @@
 #ifndef HepStat_h
 #define HepStat_h 1
 
+namespace CLHEP {
+
 /**
  * @author
  * @ingroup random
@@ -74,5 +76,7 @@ public:
   // ln (gamma(x))
 
 };
+
+}  // namespace CLHEP
 
 #endif

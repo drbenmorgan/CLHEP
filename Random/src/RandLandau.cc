@@ -1,4 +1,4 @@
-// $Id: RandLandau.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandLandau.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -20,6 +20,8 @@
 #include "CLHEP/Random/RandLandau.h"
 #include <iostream>
 #include <cmath>	// for log()
+
+namespace CLHEP {
 
 RandLandau::~RandLandau() {
   if ( deleteEngine ) delete localEngine;
@@ -369,3 +371,5 @@ double RandLandau::transform (double r) {
   }
 
 } // transform()
+
+}  // namespace CLHEP

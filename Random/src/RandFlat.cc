@@ -1,4 +1,4 @@
-// $Id: RandFlat.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandFlat.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -22,6 +22,8 @@
 
 #include "CLHEP/Random/RandFlat.h"
 #include <string.h>
+
+namespace CLHEP {
 
 const int RandFlat::MSBBits= 15;
 const unsigned long RandFlat::MSB= 1ul<<RandFlat::MSBBits;
@@ -145,4 +147,6 @@ void RandFlat::restoreEngineStatus( const char filename[] ) {
 
 } // restoreEngineStatus
 
+
+}  // namespace CLHEP
 

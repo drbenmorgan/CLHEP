@@ -1,4 +1,4 @@
-// $Id: RandPoisson.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandPoisson.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,8 @@
 
 #include "CLHEP/Random/RandPoisson.h"
 #include <cmath>	// for floor()
+
+namespace CLHEP {
 
 // Initialisation of static data
 double RandPoisson::status_st[3] = {0., 0., 0.};
@@ -274,3 +276,6 @@ void RandPoisson::fireArray(const int size, long* vect, double m)
    for (i=0; i<size; ++i)
      vect[i] = fire( m );
 }
+
+}  // namespace CLHEP
+
