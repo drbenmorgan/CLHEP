@@ -1,0 +1,7 @@
+#! /bin/sh
+# @configure_input@
+
+
+./listQQTranslation@EXEEXT@ 
+diff -q listQQTranslation.out @srcdir@/listQQTranslation.output > /dev/null
+

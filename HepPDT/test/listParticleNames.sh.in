@@ -1,0 +1,7 @@
+#! /bin/sh
+# @configure_input@
+
+
+./listParticleNames@EXEEXT@ 
+diff -q listParticleNames.out @srcdir@/listParticleNames.output > /dev/null
+

@@ -1,0 +1,459 @@
+      HepPDT listing of Herwig translations
+ number of Herwig particles: 458
+Herwig:       1           1 DQRK      HepPDT:            1 d
+Herwig:       2           2 UQRK      HepPDT:            2 u
+Herwig:       3           3 SQRK      HepPDT:            3 s
+Herwig:       4           4 CQRK      HepPDT:            4 c
+Herwig:       5           5 BQRK      HepPDT:            5 b
+Herwig:       6           6 TQRK      HepPDT:            6 t
+Herwig:       7          -1 DBAR      HepPDT:           -1 d~
+Herwig:       8          -2 UBAR      HepPDT:           -2 u~
+Herwig:       9          -3 SBAR      HepPDT:           -3 s~
+Herwig:      10          -4 CBAR      HepPDT:           -4 c~
+Herwig:      11          -5 BBAR      HepPDT:           -5 b~
+Herwig:      12          -6 TBAR      HepPDT:           -6 t~
+Herwig:      13          21 GLUON     HepPDT:           21 g
+Herwig:      14           0 CMF       HepPDT:            0 
+Herwig:      15           0 HARD      HepPDT:            0 
+Herwig:      16           0 SOFT      HepPDT:            0 
+Herwig:      17           0 CONE      HepPDT:            0 
+Herwig:      18           0 HEAVY     HepPDT:            0 
+Herwig:      19          91 CLUS      HepPDT:           91 not defined
+Herwig:      20           0 ****      HepPDT:            0 
+Herwig:      21         111 PI0       HepPDT:          111 pi0
+Herwig:      22         221 ETA       HepPDT:          221 eta
+Herwig:      23         113 RHO0      HepPDT:          113 rho(770)0
+Herwig:      24         223 OMEGA     HepPDT:          223 omega(782)
+Herwig:      25         331 ETAP      HepPDT:          331 eta'(958)
+Herwig:      26         225 F_2       HepPDT:          225 f_2(1270)
+Herwig:      27       20113 A_10      HepPDT:        20113 a_1(1260)0
+Herwig:      28       20223 FL_1      HepPDT:        20223 f_1(1285)
+Herwig:      29         115 A_20      HepPDT:          115 a_2(1320)0
+Herwig:      30        -211 PI-       HepPDT:         -211 pi-
+Herwig:      31        -213 RHO-      HepPDT:         -213 rho(770)-
+Herwig:      32      -20213 A_1-      HepPDT:       -20213 a_1(1260)-
+Herwig:      33        -215 A_2-      HepPDT:         -215 a_2(1320)-
+Herwig:      34        -321 K-        HepPDT:         -321 K-
+Herwig:      35        -323 K*-       HepPDT:         -323 K*(892)-
+Herwig:      36      -20323 KH_1-     HepPDT:       -20323 K_1(1400)-
+Herwig:      37        -325 K*_2-     HepPDT:         -325 K*_2(1430)-
+Herwig:      38         211 PI+       HepPDT:          211 pi+
+Herwig:      39         213 RHO+      HepPDT:          213 rho(770)+
+Herwig:      40       20213 A_1+      HepPDT:        20213 a_1(1260)+
+Herwig:      41         215 A_2+      HepPDT:          215 a_2(1320)+
+Herwig:      42        -311 KBAR0     HepPDT:         -311 K~0
+Herwig:      43        -313 K*BAR0    HepPDT:         -313 K*(892)~0
+Herwig:      44      -20313 KH_1BAR0  HepPDT:       -20313 K_1(1400)~0
+Herwig:      45        -315 K*_2BAR0  HepPDT:         -315 K*_2(1430)~0
+Herwig:      46         321 K+        HepPDT:          321 K+
+Herwig:      47         323 K*+       HepPDT:          323 K*(892)+
+Herwig:      48       20323 KH_1+     HepPDT:        20323 K_1(1400)+
+Herwig:      49         325 K*_2+     HepPDT:          325 K*_2(1430)+
+Herwig:      50         311 K0        HepPDT:          311 K0
+Herwig:      51         313 K*0       HepPDT:          313 K*(892)0
+Herwig:      52       20313 KH_10     HepPDT:        20313 K_1(1400)0
+Herwig:      53         315 K*_20     HepPDT:          315 K*_2(1430)0
+Herwig:      54           0           HepPDT:            0 
+Herwig:      55           0           HepPDT:            0 
+Herwig:      56         333 PHI       HepPDT:          333 phi(1020)
+Herwig:      57       20333 FH_1      HepPDT:        20333 f_1(1420)
+Herwig:      58         335 FP_2      HepPDT:          335 f'_2(1525)
+Herwig:      59          22 GAMMA     HepPDT:           22 gamma
+Herwig:      60         310 K_S0      HepPDT:          310 KS0
+Herwig:      61         130 K_L0      HepPDT:          130 KL0
+Herwig:      62       10111 A_0(H)0   HepPDT:        10111 a_0(1450)0
+Herwig:      63       10211 A_0(H)+   HepPDT:        10211 a_0(1450)+
+Herwig:      64      -10211 A_0(H)-   HepPDT:       -10211 a_0(1450)-
+Herwig:      65           0           HepPDT:            0 
+Herwig:      66           0           HepPDT:            0 
+Herwig:      67           0           HepPDT:            0 
+Herwig:      68           0           HepPDT:            0 
+Herwig:      69           0           HepPDT:            0 
+Herwig:      70           0           HepPDT:            0 
+Herwig:      71          98 REMG      HepPDT:      9920022 remnant photon
+Herwig:      72          99 REMN      HepPDT:      9922212 remnant nucleon
+Herwig:      73        2212 P         HepPDT:         2212 p+
+Herwig:      74        2214 DELTA+    HepPDT:         2214 Delta+
+Herwig:      75        2112 N         HepPDT:         2112 n0
+Herwig:      76        2114 DELTA0    HepPDT:         2114 Delta0
+Herwig:      77        1114 DELTA-    HepPDT:         1114 Delta-
+Herwig:      78        3122 LAMBDA    HepPDT:         3122 Lambda0
+Herwig:      79        3212 SIGMA0    HepPDT:         3212 Sigma0
+Herwig:      80        3214 SIGMA*0   HepPDT:         3214 Sigma*0
+Herwig:      81        3112 SIGMA-    HepPDT:         3112 Sigma-
+Herwig:      82        3114 SIGMA*-   HepPDT:         3114 Sigma*-
+Herwig:      83        3312 XI-       HepPDT:         3312 Xi-
+Herwig:      84        3314 XI*-      HepPDT:         3314 Xi*-
+Herwig:      85        2224 DELTA++   HepPDT:         2224 Delta++
+Herwig:      86        3222 SIGMA+    HepPDT:         3222 Sigma+
+Herwig:      87        3224 SIGMA*+   HepPDT:         3224 Sigma*+
+Herwig:      88        3322 XI0       HepPDT:         3322 Xi0
+Herwig:      89        3324 XI*0      HepPDT:         3324 Xi*0
+Herwig:      90        3334 OMEGA-    HepPDT:         3334 Omega-
+Herwig:      91       -2212 PBAR      HepPDT:        -2212 p~-
+Herwig:      92       -2214 DELTABR-  HepPDT:        -2214 Delta~-
+Herwig:      93       -2112 NBAR      HepPDT:        -2112 n~0
+Herwig:      94       -2114 DELTABR0  HepPDT:        -2114 Delta~0
+Herwig:      95       -1114 DELTABR+  HepPDT:        -1114 Delta~+
+Herwig:      96       -3122 LAMBDABR  HepPDT:        -3122 Lambda~0
+Herwig:      97       -3212 SIGMABR0  HepPDT:        -3212 Sigma~0
+Herwig:      98       -3214 SGMA*BR0  HepPDT:        -3214 Sigma*~0
+Herwig:      99       -3112 SIGMABR+  HepPDT:        -3112 Sigma~+
+Herwig:     100       -3114 SGMA*BR+  HepPDT:        -3114 Sigma*~+
+Herwig:     101       -3312 XIBAR+    HepPDT:        -3312 Xi~+
+Herwig:     102       -3314 XI*BAR+   HepPDT:        -3314 Xi*~+
+Herwig:     103       -2224 DLTABR--  HepPDT:        -2224 Delta~--
+Herwig:     104       -3222 SIGMABR-  HepPDT:        -3222 Sigma~-
+Herwig:     105       -3224 SGMA*BR-  HepPDT:        -3224 Sigma*~-
+Herwig:     106       -3322 XIBAR0    HepPDT:        -3322 Xi~0
+Herwig:     107       -3324 XI*BAR    HepPDT:        -3324 Xi*~0
+Herwig:     108       -3334 OMEGABR+  HepPDT:        -3334 Omega~+
+Herwig:     109        2203 UU        HepPDT:         2203 uu_1
+Herwig:     110        2101 UD        HepPDT:         2101 ud_0
+Herwig:     111        1103 DD        HepPDT:         1103 dd_1
+Herwig:     112        3201 US        HepPDT:         3201 su_0
+Herwig:     113        3101 DS        HepPDT:         3101 sd_0
+Herwig:     114        3303 SS        HepPDT:         3303 ss_1
+Herwig:     115       -2203 UBARUBAR  HepPDT:        -2203 uu_1~
+Herwig:     116       -2101 UBARDBAR  HepPDT:        -2101 ud_0~
+Herwig:     117       -1103 DBARDBAR  HepPDT:        -1103 dd_1~
+Herwig:     118       -3201 UBARSBAR  HepPDT:        -3201 su_0~
+Herwig:     119       -3101 DBARSBAR  HepPDT:        -3101 sd_0~
+Herwig:     120       -3303 SBARSBAR  HepPDT:        -3303 ss_1~
+Herwig:     121          11 E-        HepPDT:           11 e-
+Herwig:     122          12 NU_E      HepPDT:           12 nu_e
+Herwig:     123          13 MU-       HepPDT:           13 mu-
+Herwig:     124          14 NU_MU     HepPDT:           14 nu_mu
+Herwig:     125          15 TAU-      HepPDT:           15 tau-
+Herwig:     126          16 NU_TAU    HepPDT:           16 nu_tau
+Herwig:     127         -11 E+        HepPDT:          -11 e+
+Herwig:     128         -12 NU_EBAR   HepPDT:          -12 nu_e~
+Herwig:     129         -13 MU+       HepPDT:          -13 mu+
+Herwig:     130         -14 NU_MUBAR  HepPDT:          -14 nu_mu~
+Herwig:     131         -15 TAU+      HepPDT:          -15 tau+
+Herwig:     132         -16 NU_TAUBR  HepPDT:          -16 nu_tau~
+Herwig:     133           0           HepPDT:            0 
+Herwig:     134           0           HepPDT:            0 
+Herwig:     135           0           HepPDT:            0 
+Herwig:     136         411 D+        HepPDT:          411 D+
+Herwig:     137         413 D*+       HepPDT:          413 D*(2010)+
+Herwig:     138       20413 DH_1+     HepPDT:        20413 D_1(H)+
+Herwig:     139         415 D*_2+     HepPDT:          415 D*_2(2460)+
+Herwig:     140         421 D0        HepPDT:          421 D0
+Herwig:     141         423 D*0       HepPDT:          423 D*(2007)0
+Herwig:     142       20423 DH_10     HepPDT:        20423 D_1(H)0
+Herwig:     143         425 D*_20     HepPDT:          425 D*_2(2460)0
+Herwig:     144         431 D_S+      HepPDT:          431 D_s+
+Herwig:     145         433 D*_S+     HepPDT:          433 D*_s+
+Herwig:     146       20433 DH_S1+    HepPDT:        20433 D_s1(2460)+
+Herwig:     147         435 D*_S2+    HepPDT:          435 D*_s2(2573)+
+Herwig:     148        4222 SGMA_C++  HepPDT:         4222 Sigma_c++
+Herwig:     149        4224 SGM*_C++  HepPDT:         4224 Sigma*_c++
+Herwig:     150        4122 LMBDA_C+  HepPDT:         4122 Lambda_c+
+Herwig:     151        4212 SIGMA_C+  HepPDT:         4212 Sigma_c+
+Herwig:     152        4214 SGMA*_C+  HepPDT:         4214 Sigma*_c+
+Herwig:     153        4112 SIGMA_C0  HepPDT:         4112 Sigma_c0
+Herwig:     154        4114 SGMA*_C0  HepPDT:         4114 Sigma*_c0
+Herwig:     155        4232 XI_C+     HepPDT:         4232 Xi_c+
+Herwig:     156        4322 XIP_C+    HepPDT:         4322 Xi'_c+
+Herwig:     157        4324 XI*_C+    HepPDT:         4324 Xi*_c+
+Herwig:     158        4132 XI_C0     HepPDT:         4132 Xi_c0
+Herwig:     159        4312 XIP_C0    HepPDT:         4312 Xi'_c0
+Herwig:     160        4314 XI*_C0    HepPDT:         4314 Xi*_c0
+Herwig:     161        4332 OMEGA_C0  HepPDT:         4332 Omega_c0
+Herwig:     162        4334 OMGA*_C0  HepPDT:         4334 Omega*_c0
+Herwig:     163         441 ETA_C     HepPDT:          441 eta_c(1S)
+Herwig:     164         443 JPSI      HepPDT:          443 J/psi(1S)
+Herwig:     165       10441 CHI_C1    HepPDT:        10441 chi_c0(1P)
+Herwig:     166      100443 PSI2S     HepPDT:       100443 psi(2S)
+Herwig:     167       30443 PSID      HepPDT:        30443 psi(3770)
+Herwig:     168           0           HepPDT:            0 
+Herwig:     169           0           HepPDT:            0 
+Herwig:     170           0           HepPDT:            0 
+Herwig:     171        -411 D-        HepPDT:         -411 D-
+Herwig:     172        -413 D*-       HepPDT:         -413 D*(2010)-
+Herwig:     173      -20413 DH_1-     HepPDT:       -20413 D_1(H)-
+Herwig:     174        -415 D*_2-     HepPDT:         -415 D*_2(2460)-
+Herwig:     175        -421 DBAR0     HepPDT:         -421 D~0
+Herwig:     176        -423 D*BAR0    HepPDT:         -423 D*(2007)~0
+Herwig:     177      -20423 DH_1BAR0  HepPDT:       -20423 D_1(H)~0
+Herwig:     178        -425 D*_2BAR0  HepPDT:         -425 D*_2(2460)~0
+Herwig:     179        -431 D_S-      HepPDT:         -431 D_s-
+Herwig:     180        -433 D*_S-     HepPDT:         -433 D*_s-
+Herwig:     181      -20433 DH_S1-    HepPDT:       -20433 D_s1(2460)-
+Herwig:     182        -435 D*_S2-    HepPDT:         -435 D*_s2(2573)-
+Herwig:     183       -4222 SGMA_C--  HepPDT:        -4222 Sigma_c~--
+Herwig:     184       -4224 SGM*_C--  HepPDT:        -4224 Sigma*_c~--
+Herwig:     185       -4122 LMBDA_C-  HepPDT:        -4122 Lambda_c~-
+Herwig:     186       -4212 SIGMA_C-  HepPDT:        -4212 Sigma_c~-
+Herwig:     187       -4214 SGMA*_C-  HepPDT:        -4214 Sigma*_c~-
+Herwig:     188       -4112 SGM_CBR0  HepPDT:        -4112 Sigma_c~0
+Herwig:     189       -4114 SG*_CBR0  HepPDT:        -4114 Sigma*_c~0
+Herwig:     190       -4232 XI_C-     HepPDT:        -4232 Xi_c~-
+Herwig:     191       -4322 XIP_C-    HepPDT:        -4322 Xi'_c~-
+Herwig:     192       -4324 XI*_C-    HepPDT:        -4324 Xi*_c~-
+Herwig:     193       -4132 XI_CBAR0  HepPDT:        -4132 Xi_c~0
+Herwig:     194       -4312 XIP_CBR0  HepPDT:        -4312 Xi'_c~0
+Herwig:     195       -4314 XI*_CBR0  HepPDT:        -4314 Xi*_c~0
+Herwig:     196       -4332 OMG_CBR0  HepPDT:        -4332 Omega_c~0
+Herwig:     197       -4334 OM*_CBR0  HepPDT:        -4334 Omega*_c~0
+Herwig:     198          24 W+        HepPDT:           24 W+
+Herwig:     199         -24 W-        HepPDT:          -24 W-
+Herwig:     200          23 Z0/GAMA*  HepPDT:           23 Z0
+Herwig:     201          25 HIGGS     HepPDT:           25 H_10
+Herwig:     202          32 Z0P       HepPDT:           32 Z_20
+Herwig:     203          26 HIGGSL0   HepPDT:           51 H_L0
+Herwig:     204          35 HIGGSH0   HepPDT:           35 H_20
+Herwig:     205          36 HIGGSA0   HepPDT:           36 H_30
+Herwig:     206          37 HIGGS+    HepPDT:           37 H+
+Herwig:     207         -37 HIGGS-    HepPDT:          -37 H-
+Herwig:     208          39 GRAVITON  HepPDT:           39 G
+Herwig:     209           7 VQRK      HepPDT:            7 b'
+Herwig:     210           8 AQRK      HepPDT:            8 t'
+Herwig:     211           7 HQRK      HepPDT:            7 b'
+Herwig:     212           8 HPQK      HepPDT:            8 t'
+Herwig:     213           0           HepPDT:            0 
+Herwig:     214           0           HepPDT:            0 
+Herwig:     215          -7 VBAR      HepPDT:           -7 b'~
+Herwig:     216          -8 ABAR      HepPDT:           -8 t'~
+Herwig:     217          -7 HBAR      HepPDT:           -7 b'~
+Herwig:     218          -8 HPBR      HepPDT:           -8 t'~
+Herwig:     219           0           HepPDT:            0 
+Herwig:     220           0           HepPDT:            0 
+Herwig:     221        -511 B_DBAR0   HepPDT:         -511 B~0
+Herwig:     222        -521 B-        HepPDT:         -521 B-
+Herwig:     223        -531 B_SBAR0   HepPDT:         -531 B_s~0
+Herwig:     224        5222 SIGMA_B+  HepPDT:         5222 Sigma_b+
+Herwig:     225        5122 LMBDA_B0  HepPDT:         5122 Lambda_b0
+Herwig:     226        5112 SIGMA_B-  HepPDT:         5112 Sigma_b-
+Herwig:     227        5232 XI_B0     HepPDT:         5232 Xi_b0
+Herwig:     228        5132 XI_B-     HepPDT:         5132 Xi_b-
+Herwig:     229        5332 OMEGA_B-  HepPDT:         5332 Omega_b-
+Herwig:     230        -541 B_C-      HepPDT:         -541 B_c-
+Herwig:     231         553 UPSLON1S  HepPDT:          553 upsilon(1S)
+Herwig:     232        -651 T_B-      HepPDT:         -651 T_b-
+Herwig:     233         611 T+        HepPDT:          611 T+
+Herwig:     234         621 T0        HepPDT:          621 T0
+Herwig:     235         631 T_S+      HepPDT:          631 T_s+
+Herwig:     236        6222 SGMA_T++  HepPDT:         6222 Sigma_t++
+Herwig:     237        6122 LMBDA_T0  HepPDT:         6122 Lambda_t+
+Herwig:     238        6112 SIGMA_T0  HepPDT:         6112 Sigma_t0
+Herwig:     239        6232 XI_T+     HepPDT:         6232 Xi_t+
+Herwig:     240        6132 XI_T0     HepPDT:         6132 Xi_t0
+Herwig:     241        6332 OMEGA_T0  HepPDT:         6332 Omega_t0
+Herwig:     242         641 T_C0      HepPDT:          641 T_c0
+Herwig:     243         651 T_B+      HepPDT:          651 T_b+
+Herwig:     244         663 TOPONIUM  HepPDT:          663 theta
+Herwig:     245         511 B_D0      HepPDT:          511 B0
+Herwig:     246         521 B+        HepPDT:          521 B+
+Herwig:     247         531 B_S0      HepPDT:          531 B_s0
+Herwig:     248       -5222 SGM_BBR-  HepPDT:        -5222 Sigma_b~-
+Herwig:     249       -5122 LMD_BBR0  HepPDT:        -5122 Lambda_b~0
+Herwig:     250       -5112 SGM_BBR+  HepPDT:        -5112 Sigma_b~+
+Herwig:     251       -5232 XI_BBAR0  HepPDT:        -5232 Xi_b~0
+Herwig:     252       -5132 XI_B+     HepPDT:        -5132 Xi_b~+
+Herwig:     253       -5332 OMG_BBR+  HepPDT:        -5332 Omega_b~+
+Herwig:     254         541 B_C+      HepPDT:          541 B_c+
+Herwig:     255        -611 T-        HepPDT:         -611 T-
+Herwig:     256        -621 TBAR0     HepPDT:         -621 T~0
+Herwig:     257        -631 T_S-      HepPDT:         -631 T_s-
+Herwig:     258       -6222 SGMA_T--  HepPDT:        -6222 Sigma_t~--
+Herwig:     259       -6122 LAMDA_T-  HepPDT:        -6122 Lambda_t~-
+Herwig:     260       -6112 SGM_TBR0  HepPDT:        -6112 Sigma_t~0
+Herwig:     261       -6232 XI_T-     HepPDT:        -6232 Xi_t~-
+Herwig:     262       -6132 XI_TBAR0  HepPDT:        -6132 Xi_t~0
+Herwig:     263       -6332 OMG_TBR0  HepPDT:        -6332 Omega_t~0
+Herwig:     264        -641 T_CBAR0   HepPDT:         -641 T_c~0
+Herwig:     265        -513 B*BAR0    HepPDT:         -513 B*~0
+Herwig:     266        -523 B*-       HepPDT:         -523 B*-
+Herwig:     267        -533 B*_SBAR0  HepPDT:         -533 B*_s~0
+Herwig:     268      -20513 BH_1BAR0  HepPDT:       -20513 B_1(H)~0
+Herwig:     269      -20523 BH_1-     HepPDT:       -20523 B_1(H)-
+Herwig:     270      -20533 BH_S1BR0  HepPDT:       -20533 B_s1(H)~0
+Herwig:     271        -515 B*_2BAR0  HepPDT:         -515 B*_2~0
+Herwig:     272        -525 B*_2-     HepPDT:         -525 B*_2-
+Herwig:     273        -535 B*_S2BR0  HepPDT:         -535 B*_s2~0
+Herwig:     274         513 B*0       HepPDT:          513 B*0
+Herwig:     275         523 B*+       HepPDT:          523 B*+
+Herwig:     276         533 B*_S0     HepPDT:          533 B*_s0
+Herwig:     277       20513 BH_10     HepPDT:        20513 B_1(H)0
+Herwig:     278       20523 BH_1+     HepPDT:        20523 B_1(H)+
+Herwig:     279       20533 BH_S10    HepPDT:        20533 B_s1(H)0
+Herwig:     280         515 B*_20     HepPDT:          515 B*_20
+Herwig:     281         525 B*_2+     HepPDT:          525 B*_2+
+Herwig:     282         535 B*_S20    HepPDT:          535 B*_s20
+Herwig:     283           0           HepPDT:            0 
+Herwig:     284           0           HepPDT:            0 
+Herwig:     285       10113 B_10      HepPDT:        10113 b_1(1235)0
+Herwig:     286       10213 B_1+      HepPDT:        10213 b_1(1235)+
+Herwig:     287      -10213 B_1-      HepPDT:       -10213 b_1(1235)-
+Herwig:     288       10223 HL_10     HepPDT:        10223 h_1(1170)
+Herwig:     289       10333 HH_10     HepPDT:        10333 h_1(1380)
+Herwig:     290     9000111 A_00      HepPDT:      9000111 a_0(980)0
+Herwig:     291     9000211 A_0+      HepPDT:      9000211 a_0(980)+
+Herwig:     292    -9000211 A_0-      HepPDT:     -9000211 a_0(980)-
+Herwig:     293     9010221 F0P0      HepPDT:      9010221 f_0(980)
+Herwig:     294       10221 FH_00     HepPDT:        10221 f_0(1370)
+Herwig:     295         543 B*_C+     HepPDT:          543 B*_c+
+Herwig:     296        -543 B*_C-     HepPDT:         -543 B*_c-
+Herwig:     297       20543 BH_C1+    HepPDT:        20543 B_c1(H)+
+Herwig:     298      -20543 BH_C1-    HepPDT:       -20543 B_c1(H)-
+Herwig:     299         545 B*_C2+    HepPDT:          545 B*_c2+
+Herwig:     300        -545 B*_C2-    HepPDT:         -545 B*_c2-
+Herwig:     301       10443 H_C       HepPDT:        10443 hc(1P)
+Herwig:     302       20443 CHI_C0    HepPDT:        20443 chi_c1(1P)
+Herwig:     303         445 CHI_C2    HepPDT:          445 chi_c2(1P)
+Herwig:     304         551 ETA_B     HepPDT:          551 eta_b(1S)
+Herwig:     305       10553 H_B       HepPDT:        10553 h_b(1P)
+Herwig:     306       10551 CHI_B0    HepPDT:        10551 chi_b0(1P)
+Herwig:     307       20553 CHI_B1    HepPDT:        20553 chi_b1(1P)
+Herwig:     308         555 CHI_B2    HepPDT:          555 chi_b2(1P)
+Herwig:     309       10313 KL_10     HepPDT:        10313 K_1(1270)0
+Herwig:     310       10323 KL_1+     HepPDT:        10323 K_1(1270)+
+Herwig:     311      -10313 KL_1BAR0  HepPDT:       -10313 K_1(1270)~0
+Herwig:     312      -10323 KL_1-     HepPDT:       -10323 K_1(1270)-
+Herwig:     313       10413 DL_1+     HepPDT:        10413 D_1(2420)+
+Herwig:     314       10423 DL_10     HepPDT:        10423 D_1(2420)0
+Herwig:     315       10433 DL_S1+    HepPDT:        10433 D_s1(2536)+
+Herwig:     316      -10413 DL_1-     HepPDT:       -10413 D_1(2420)-
+Herwig:     317      -10423 DL_1BAR0  HepPDT:       -10423 D_1(2420)~0
+Herwig:     318      -10433 DL_S1-    HepPDT:       -10433 D_s1(2536)-
+Herwig:     319       10513 BL_10     HepPDT:        10513 B_1(L)0
+Herwig:     320       10523 BL_1+     HepPDT:        10523 B_1(L)+
+Herwig:     321       10533 BL_S10    HepPDT:        10533 B_s1(L)0
+Herwig:     322       10543 BL_C1+    HepPDT:        10543 B_c1(L)+
+Herwig:     323      -10513 BL_1BAR0  HepPDT:       -10513 B_1(L)~0
+Herwig:     324      -10523 BL_1-     HepPDT:       -10523 B_1(L)-
+Herwig:     325      -10533 BL_S1BR0  HepPDT:       -10533 B_s1(L)~0
+Herwig:     326      -10543 BL_C1-    HepPDT:       -10543 B_c1(L)-
+Herwig:     327       10321 K*_0+     HepPDT:        10321 K*_0(1430)+
+Herwig:     328       10311 K*_00     HepPDT:        10311 K*_0(1430)0
+Herwig:     329      -10311 K*_0BAR0  HepPDT:       -10311 K*_0(1430)~0
+Herwig:     330      -10321 K*_0-     HepPDT:       -10321 K*_0(1430)-
+Herwig:     331       10411 D*_0+     HepPDT:        10411 D*_0+
+Herwig:     332       10421 D*_00     HepPDT:        10421 D*_00
+Herwig:     333       10431 D*_S0+    HepPDT:        10431 D*_s0(2317)+
+Herwig:     334      -10411 D*_0-     HepPDT:       -10411 D*_0-
+Herwig:     335      -10421 D*_0BAR0  HepPDT:       -10421 D*_0~0
+Herwig:     336      -10431 D*_S0-    HepPDT:       -10431 D*_s0(2317)-
+Herwig:     337       10511 B*_00     HepPDT:        10511 B*_00
+Herwig:     338       10521 B*_0+     HepPDT:        10521 B*_0+
+Herwig:     339       10531 B*_S00    HepPDT:        10531 B*_s00
+Herwig:     340       10541 B*_C0+    HepPDT:        10541 B*_c0+
+Herwig:     341      -10511 B*_0BAR0  HepPDT:       -10511 B*_0~0
+Herwig:     342      -10521 B*_0-     HepPDT:       -10521 B*_0-
+Herwig:     343      -10531 B*_S0BR0  HepPDT:       -10531 B*_s0~0
+Herwig:     344      -10541 B*_C0-    HepPDT:       -10541 B*_c0-
+Herwig:     345        5114 SGMA*_B-  HepPDT:         5114 Sigma*_b-
+Herwig:     346        5212 SIGMA_B0  HepPDT:         5212 Sigma_b0
+Herwig:     347        5214 SGMA*_B0  HepPDT:         5214 Sigma*_b0
+Herwig:     348        5224 SGMA*_B+  HepPDT:         5224 Sigma*_b+
+Herwig:     349        5322 XIP_B0    HepPDT:         5322 Xi'_b0
+Herwig:     350        5324 XI*_B0    HepPDT:         5324 Xi*_b0
+Herwig:     351        5312 XIP_B-    HepPDT:         5312 Xi'_b-
+Herwig:     352        5314 XI*_B-    HepPDT:         5314 Xi*_b-
+Herwig:     353        5334 0MGA*_B-  HepPDT:         5334 Omega*_b-
+Herwig:     354       -5114 SG*_BBR+  HepPDT:        -5114 Sigma*_b~+
+Herwig:     355       -5212 SGM_BBR0  HepPDT:        -5212 Sigma_b~0
+Herwig:     356       -5214 SG*_BBR0  HepPDT:        -5214 Sigma*_b~0
+Herwig:     357       -5224 SG*_BBR-  HepPDT:        -5224 Sigma*_b~-
+Herwig:     358       -5322 XIP_BBR0  HepPDT:        -5322 Xi'_b~0
+Herwig:     359       -5324 XI*_BBR0  HepPDT:        -5324 Xi*_b~0
+Herwig:     360       -5312 XIP_B+    HepPDT:        -5312 Xi'_b~+
+Herwig:     361       -5314 XI*_B+    HepPDT:        -5314 Xi*_b~+
+Herwig:     362       -5334 0MGA*_B+  HepPDT:        -5334 Omega*_b~+
+Herwig:     363       10325 KDL_2+    HepPDT:        10325 K_2(1770)+
+Herwig:     364       10315 KDL_20    HepPDT:        10315 K_2(1770)0
+Herwig:     365      -10315 KDL_2BR0  HepPDT:       -10315 K_2(1770)~0
+Herwig:     366      -10325 KDL_2-    HepPDT:       -10325 K_2(1770)-
+Herwig:     367       30323 KD*+      HepPDT:        30323 K*(1680)+
+Herwig:     368       30313 KD*0      HepPDT:        30313 K*(1680)0
+Herwig:     369      -30313 KD*BAR0   HepPDT:       -30313 K*(1680)~0
+Herwig:     370      -30323 KD*-      HepPDT:       -30323 K*(1680)-
+Herwig:     371       20325 KDH_2+    HepPDT:        20325 K_2(1820)+
+Herwig:     372       20315 KDH_20    HepPDT:        20315 K_2(1820)0
+Herwig:     373      -20315 KDH_2BR0  HepPDT:       -20315 K_2(1820)~0
+Herwig:     374      -20325 KDH_2-    HepPDT:       -20325 K_2(1820)-
+Herwig:     375         327 KD_3+     HepPDT:          327 K*_3(1780)+
+Herwig:     376         317 KD_30     HepPDT:          317 K*_3(1780)0
+Herwig:     377        -317 KD_3BAR0  HepPDT:         -317 K*_3(1780)~0
+Herwig:     378        -327 KD_3-     HepPDT:         -327 K*_3(1780)-
+Herwig:     379       10215 PI_2+     HepPDT:        10215 pi_2(1670)+
+Herwig:     380       10115 PI_20     HepPDT:        10115 pi_2(1670)0
+Herwig:     381      -10215 PI_2-     HepPDT:       -10215 pi_2(1670)-
+Herwig:     382       30213 RHOD+     HepPDT:        30213 rho(1700)+
+Herwig:     383       30113 RHOD0     HepPDT:        30113 rho(1700)0
+Herwig:     384      -30213 RHOD-     HepPDT:       -30213 rho(1700)-
+Herwig:     385         217 RHO_3+    HepPDT:          217 rho_3(1690)+
+Herwig:     386         117 RHO_30    HepPDT:          117 rho_3(1690)0
+Herwig:     387        -217 RHO_3-    HepPDT:         -217 rho_3(1690)-
+Herwig:     388      100553 UPSLON2S  HepPDT:       100553 upsilon(2S)
+Herwig:     389      110551 CHI2P_B0  HepPDT:       110551 chi_b0(2P)
+Herwig:     390      120553 CHI2P_B1  HepPDT:       120553 chi_b1(2P)
+Herwig:     391      100555 CHI2P_B2  HepPDT:       100555 chi_b2(2P)
+Herwig:     392      200553 UPSLON3S  HepPDT:       200553 upsilon(3S)
+Herwig:     393      300553 UPSLON4S  HepPDT:       300553 upsilon(4S)
+Herwig:     394           0           HepPDT:            0 
+Herwig:     395         227 OMEGA_3   HepPDT:          227 omega_3(1670)
+Herwig:     396         337 PHI_3     HepPDT:          337 phi_3(1850)
+Herwig:     397       10225 ETA_2(L)  HepPDT:        10225 eta_2(1645)
+Herwig:     398       10335 ETA_2(H)  HepPDT:        10335 eta_2(1870)
+Herwig:     399       30223 OMEGA(H)  HepPDT:        30223 omega(1650)
+Herwig:     400           0           HepPDT:            0 
+Herwig:     401     1000001 SSDL      HepPDT:      1000001 L susy d
+Herwig:     402     1000002 SSUL      HepPDT:      1000002 L susy u
+Herwig:     403     1000003 SSSL      HepPDT:      1000003 L susy s
+Herwig:     404     1000004 SSCL      HepPDT:      1000004 L susy c
+Herwig:     405     1000005 SSB1      HepPDT:      1000005 L susy b
+Herwig:     406     1000006 SST1      HepPDT:      1000006 L susy t
+Herwig:     407    -1000001 SSDLBR    HepPDT:     -1000001 L susy d~
+Herwig:     408    -1000002 SSULBR    HepPDT:     -1000002 L susy u~
+Herwig:     409    -1000003 SSSLBR    HepPDT:     -1000003 L susy s~
+Herwig:     410    -1000004 SSCLBR    HepPDT:     -1000004 L susy c~
+Herwig:     411    -1000005 SSB1BR    HepPDT:     -1000005 L susy b~
+Herwig:     412    -1000006 SST1BR    HepPDT:     -1000006 L susy t~
+Herwig:     413     2000001 SSDR      HepPDT:      2000001 R susy d
+Herwig:     414     2000002 SSUR      HepPDT:      2000002 R susy u
+Herwig:     415     2000003 SSSR      HepPDT:      2000003 R susy s
+Herwig:     416     2000004 SSCR      HepPDT:      2000004 R susy c
+Herwig:     417     2000005 SSB2      HepPDT:      2000005 R susy b
+Herwig:     418     2000006 SST2      HepPDT:      2000006 R susy t
+Herwig:     419    -2000001 SSDRBR    HepPDT:     -2000001 R susy d~
+Herwig:     420    -2000002 SSURBR    HepPDT:     -2000002 R susy u~
+Herwig:     421    -2000003 SSSRBR    HepPDT:     -2000003 R susy s~
+Herwig:     422    -2000004 SSCRBR    HepPDT:     -2000004 R susy c~
+Herwig:     423    -2000005 SSB2BR    HepPDT:     -2000005 R susy b~
+Herwig:     424    -2000006 SST2BR    HepPDT:     -2000006 R susy t~
+Herwig:     425     1000011 SSEL-     HepPDT:      1000011 L susy e-
+Herwig:     426     1000012 SSNUEL    HepPDT:      1000012 L susy nu_e
+Herwig:     427     1000013 SSMUL-    HepPDT:      1000013 L susy mu-
+Herwig:     428     1000014 SSNUMUL   HepPDT:      1000014 L susy nu_mu
+Herwig:     429     1000015 SSTAU1-   HepPDT:      1000015 L susy tau-
+Herwig:     430     1000016 SSNUTL    HepPDT:      1000016 L susy nu_tau
+Herwig:     431    -1000011 SSEL+     HepPDT:     -1000011 L susy e+
+Herwig:     432    -1000012 SSNUELBR  HepPDT:     -1000012 L susy nu_e~
+Herwig:     433    -1000013 SSMUL+    HepPDT:     -1000013 L susy mu+
+Herwig:     434    -1000014 SSNUMLBR  HepPDT:     -1000014 L susy nu_mu~
+Herwig:     435    -1000015 SSTAU1+   HepPDT:     -1000015 L susy tau+
+Herwig:     436    -1000016 SSNUTLBR  HepPDT:     -1000016 L susy nu_tau~
+Herwig:     437     2000011 SSER-     HepPDT:      2000011 R susy e-
+Herwig:     438     2000012 SSNUER    HepPDT:      2000012 R susy nu_e
+Herwig:     439     2000013 SSMUR-    HepPDT:      2000013 R susy mu-
+Herwig:     440     2000014 SSNUMUR   HepPDT:      2000014 R susy nu_mu
+Herwig:     441     2000015 SSTAU2-   HepPDT:      2000015 R susy tau-
+Herwig:     442     2000016 SSNUTR    HepPDT:      2000016 R susy nu_tau
+Herwig:     443    -2000011 SSER+     HepPDT:     -2000011 R susy e+
+Herwig:     444    -2000012 SSNUERBR  HepPDT:     -2000012 R susy nu_e~
+Herwig:     445    -2000013 SSMUR+    HepPDT:     -2000013 R susy mu+
+Herwig:     446    -2000014 SSNUMRBR  HepPDT:     -2000014 R susy nu_mu~
+Herwig:     447    -2000015 SSTAU2+   HepPDT:     -2000015 R susy tau+
+Herwig:     448    -2000016 SSNUTRBR  HepPDT:     -2000016 R susy nu_tau~
+Herwig:     449     1000021 GLUINO    HepPDT:      1000021 gluino
+Herwig:     450     1000022 NTLINO1   HepPDT:      1000022 susy chi_10
+Herwig:     451     1000023 NTLINO2   HepPDT:      1000023 susy chi_20
+Herwig:     452     1000025 NTLINO3   HepPDT:      1000025 susy chi_30
+Herwig:     453     1000035 NTLINO4   HepPDT:      1000035 susy chi_40
+Herwig:     454     1000024 CHGINO1+  HepPDT:      1000024 susy chi_1+
+Herwig:     455     1000037 CHGINO2+  HepPDT:      1000037 susy chi_2+
+Herwig:     456    -1000024 CHGINO1-  HepPDT:     -1000024 susy chi_1-
+Herwig:     457    -1000037 CHGINO2-  HepPDT:     -1000037 susy chi_2-
