@@ -1,3 +1,12 @@
+Mon Dec 27	2004 Mark Fischler <mf@fnal.gov>
+
+	* *.cc  and .h for all the engine classes.
+	* Random.cc EngineFactory.cc StaticRandomStates.cc
+
+	Ability to restore engines and distributions without knowing in
+	the restoring program which type of engine was used in the saving
+	program.
+
 Wed Dec 22	2004 Mark Fischler <mf@fnal.gov>
 
 	* Random.h StaticRandomState.h Random.cc StaticRandomState.cc
