@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DRand48Engine.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
+// $Id: DRand48Engine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
 // -----------------------------------------------------------------------
 //                             HEP Random
 //                        --- DRand48Engine ---
@@ -23,6 +23,8 @@
 //                  a code extracted from GNU C Library 2.1.3: 8th Nov 2000
 // M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
 // M. Fischler    - Methods for distrib. instacne save/restore  12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
 //
 // =======================================================================
 
@@ -209,10 +211,7 @@ std::ostream & DRand48Engine::put ( std::ostream& os ) const
 
 std::istream & DRand48Engine::get ( std::istream& is )
 {
-  unsigned short cseed[3];
   char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
-
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -225,6 +224,17 @@ std::istream & DRand48Engine::get ( std::istream& is )
 	       << "\nwrong engine type found." << std::endl;
      return is;
   }
+  return getState(is);
+}
+
+std::string DRand48Engine::beginTag ( )  { 
+  return "DRand48Engine-begin"; 
+}
+
+std::istream & DRand48Engine::getState ( std::istream& is ) 
+{
+  char endMarker   [MarkerLen];
+  unsigned short cseed[3];
   is >> theSeed;
   for (int i=0; i<3; ++i) {
     is >> cseed[i];

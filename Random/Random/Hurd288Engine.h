@@ -1,4 +1,4 @@
-// $Id: Hurd288Engine.h,v 1.3.2.3 2004/12/20 22:12:35 fischler Exp $
+// $Id: Hurd288Engine.h,v 1.3.2.4 2004/12/28 16:11:33 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,7 +21,8 @@
 // =======================================================================
 //  07-23-98  KLS   Initial draft started
 // Ken Smith      - Added conversion operators:  6th Aug 1998
-// Mark Fischler    methods for distrib. instacne save/restore 12/8/04    
+// Mark Fischler  - methods for distrib. instacne save/restore 12/8/04    
+// Mark Fischler  - methods for anonymous save/restore 12/27/04    
 // =======================================================================
 
 #ifndef Hurd288Engine_h
@@ -79,6 +80,8 @@ public:
 
   virtual std::ostream & put (std::ostream & os) const;
   virtual std::istream & get (std::istream & is);
+  static  std::string beginTag ( );
+  virtual std::istream & getState ( std::istream & is );
 
   std::string name() const;
   static std::string engineName() {return "Hurd288Engine";}

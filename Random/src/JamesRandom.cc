@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
+// $Id: JamesRandom.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -27,6 +27,8 @@
 // V. Innocente   - changed pointers to indices     3 may 2000
 // M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
 // M. Fischler    - Methods for distrib. instacne save/restore  12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
 //		    
 // =======================================================================
 
@@ -286,10 +288,7 @@ std::ostream & HepJamesRandom::put ( std::ostream& os ) const {
 }
 
 std::istream & HepJamesRandom::get  ( std::istream& is) {
-  int ipos, jpos;
   char beginMarker [MarkerLen];
-  char   endMarker [MarkerLen];
-
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -302,6 +301,16 @@ std::istream & HepJamesRandom::get  ( std::istream& is) {
 	       << "\nwrong engine type found." << std::endl;
      return is;
   }
+  return getState(is);
+}
+
+std::string HepJamesRandom::beginTag ( )  { 
+  return "JamesRandom-begin"; 
+}
+
+std::istream & HepJamesRandom::getState  ( std::istream& is) {
+  int ipos, jpos;
+  char   endMarker [MarkerLen];
   is >> theSeed;
   for (int i=0; i<97; ++i) {
      is >> u[i];

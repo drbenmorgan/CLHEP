@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.4.2.3 2004/12/17 20:19:38 fischler Exp $
+// $Id: RandEngine.cc,v 1.4.2.4 2004/12/28 16:11:34 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -31,6 +31,8 @@
 //                  such that when RAND_MAX is an unexpected value the routine
 //                  will still deliver a sensible flat() random.              
 // M. Fischler    - Methods for distrib. instance save/restore  12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
 //                                                                            
 // =======================================================================
 
@@ -362,11 +364,7 @@ std::istream & RandEngine::get ( std::istream& is )
    // keep track of the number of shooted random sequences, reset
    // the engine and re-shoot them again. The Rand algorithm does
    // not provide any way of getting its internal status.
-
   char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
-  long count;
-  
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -379,6 +377,17 @@ std::istream & RandEngine::get ( std::istream& is )
 	       << "\nwrong engine type found." << std::endl;
      return is;
   }
+  return getState(is);
+}
+
+std::string RandEngine::beginTag ( )  { 
+  return "RandEngine-begin"; 
+}
+  
+std::istream & RandEngine::getState ( std::istream& is )
+{
+  char endMarker   [MarkerLen];
+  long count;
   is >> theSeed;
   is >> count;
   is >> std::ws;

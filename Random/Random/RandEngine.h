@@ -1,4 +1,4 @@
-// $Id: RandEngine.h,v 1.3.2.4 2004/12/20 22:12:35 fischler Exp $
+// $Id: RandEngine.h,v 1.3.2.5 2004/12/28 16:11:33 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -28,6 +28,7 @@
 // M Fischler     - Inserted warnings about the fact that the quality of rand()
 //                  is quite poor.
 // Mark Fischler    Methods for distrib. instance save/restore 12/8/04    
+// Mark Fischler    methods for anonymous save/restore 12/27/04    
 // =======================================================================
 
 #ifndef RandEngine_h
@@ -90,6 +91,8 @@ public:
 
   virtual std::ostream & put (std::ostream & os) const;
   virtual std::istream & get (std::istream & is);
+  static  std::string beginTag ( );
+  virtual std::istream & getState ( std::istream & is );
 
   std::string name() const;
   static std::string engineName() {return "RandEngine";}

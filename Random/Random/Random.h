@@ -1,4 +1,4 @@
-// $Id: Random.h,v 1.3.2.4 2004/12/22 19:30:54 fischler Exp $
+// $Id: Random.h,v 1.3.2.5 2004/12/28 16:11:33 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -85,12 +85,12 @@ public:
   virtual std::string name() const;
   virtual HepRandomEngine & engine();
     
-  // Save and restore to/from streams
   
   virtual std::ostream & put ( std::ostream & os ) const;
   virtual std::istream & get ( std::istream & is );
+  // Save and restore to/from streams
 
-  // --------------------------------------------------
+ // --------------------------------------------------
   // Static member functions using the static generator
   // --------------------------------------------------
 

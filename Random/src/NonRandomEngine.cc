@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
+// $Id: NonRandomEngine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -107,7 +107,6 @@ std::ostream & NonRandomEngine::put (std::ostream & os) const {
 
 std::istream & NonRandomEngine::get (std::istream & is) {
   std::string beginMarker = "NonRandomEngine-begin";
-  std::string  endMarker  = "NonRandomEngine-end";
   is >> beginMarker;
   if (beginMarker != "NonRandomEngine-begin") {
     is.clear(std::ios::badbit | is.rdstate());
@@ -116,6 +115,15 @@ std::istream & NonRandomEngine::get (std::istream & is) {
 	      << "\nwrong engine type found.\n";
     return is;
   }
+  return getState(is);
+}
+
+std::string NonRandomEngine::beginTag ( )  { 
+  return "NonRandomEngine-begin"; 
+}  
+
+std::istream & NonRandomEngine::getState (std::istream & is) {
+  std::string  endMarker  = "NonRandomEngine-end";
   is >> nextHasBeenSet >> sequenceHasBeenSet >> intervalHasBeenSet;
   is >> nextRandom >> nInSeq >> randomInterval;
   unsigned int seqSize;

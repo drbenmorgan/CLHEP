@@ -1,4 +1,4 @@
-// $Id: TripleRand.h,v 1.3.2.3 2004/12/20 22:12:35 fischler Exp $
+// $Id: TripleRand.h,v 1.3.2.4 2004/12/28 16:11:33 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -33,6 +33,7 @@
 // M Fischler	  - Big merge with CLHEP 13 May 1999
 //		  - Elimination of unused Taus() and Cong() accessors
 // Mark Fischler    Methods put, get for instance save/restore 12/8/04    
+// Mark Fischler    methods for anonymous save/restore 12/27/04    
 // =======================================================================
 
 #ifndef TripleRand_h
@@ -91,6 +92,8 @@ public:
 
   virtual std::ostream & put (std::ostream & os) const;
   virtual std::istream & get (std::istream & is);
+  static  std::string beginTag ( );
+  virtual std::istream & getState ( std::istream & is );
 
   std::string name() const;
   static std::string engineName() {return "TripleRand";}

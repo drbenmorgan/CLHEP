@@ -1,4 +1,4 @@
-// $Id: Hurd288Engine.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
+// $Id: Hurd288Engine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -27,6 +27,8 @@
 // M. Fischler    - Put endl at end of a save                   10 Apr 2001
 // M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
 // M. Fischler    - methods for distrib. instacne save/restore  12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
 //
 // =======================================================================
 
@@ -266,8 +268,6 @@ std::ostream& Hurd288Engine::put(std::ostream& os) const {
 
 std::istream& Hurd288Engine::get(std::istream& is) {
   char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
-
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -280,6 +280,15 @@ std::istream& Hurd288Engine::get(std::istream& is) {
 	      << "\nwrong engine type found." << std::endl;
     return is;
   }
+  return getState(is);
+}
+
+std::string Hurd288Engine::beginTag ( )  { 
+  return "Hurd288Engine-begin"; 
+}
+  
+std::istream& Hurd288Engine::getState(std::istream& is) {
+  char endMarker   [MarkerLen];
   is >> theSeed >> wordIndex;
   for (int i = 0; i < 9; ++i) {
     is >> words[i];

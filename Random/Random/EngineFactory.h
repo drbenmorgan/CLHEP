@@ -17,8 +17,15 @@
 #define EngineFactory_h 1
 
 #include "CLHEP/Random/defs.h"
+#include "CLHEP/Random/RandomEngine.h"
 
 namespace CLHEP {
+
+class EngineFactory {
+public:
+  static HepRandomEngine* newEngine(std::istream & is);
+};
+
 
 }  // namespace CLHEP
 
@@ -29,3 +36,4 @@ using namespace CLHEP;
 
 
 #endif
+

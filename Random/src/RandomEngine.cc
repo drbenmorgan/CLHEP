@@ -1,4 +1,4 @@
-// $Id: RandomEngine.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
+// $Id: RandomEngine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
 // -*- C++ -*-
 //
 // ------------------------------------------------------------------------
@@ -17,6 +17,7 @@
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandomEngine.h"
+#include "CLHEP/Random/EngineFactory.h"
 #include <cmath>	// for pow()
 
 //------------------------- HepRandomEngine ------------------------------
@@ -64,6 +65,20 @@ std::ostream & HepRandomEngine::put (std::ostream & os) const {
 std::istream & HepRandomEngine::get (std::istream & is) {
   std::cerr << "HepRandomEngine::get called -- no effect!\n";
   return is;
+}
+
+std::string HepRandomEngine::beginTag ( ) { 
+  return "HepRandomEngine-begin"; 
+}
+
+std::istream & HepRandomEngine::getState ( std::istream & is ) {
+  std::cerr << "HepRandomEngine::getState called -- no effect!\n";
+  return is;
+}
+
+HepRandomEngine* HepRandomEngine::newEngine(std::istream& is) {
+  HepRandomEngine* r;
+  return EngineFactory::newEngine(is);
 }
 
 std::ostream & operator<< (std::ostream & os, const HepRandomEngine & e) {

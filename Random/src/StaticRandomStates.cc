@@ -9,11 +9,16 @@
 //
 // =======================================================================
 // Mark Fischler  - Created: Dec. 21, 2004
+// Mark Fischler  - Modified restore() to utilize anonymous engine input
+//                  to create anonymous restore of the static distributions
+//
 // =======================================================================
 
 #include "CLHEP/Random/StaticRandomStates.h"
 #include "CLHEP/Random/RandGauss.h"
 #include "CLHEP/Random/RandFlat.h"
+#include <string>
+#include <sstream>
 
 //======================//
 //                      //
@@ -35,11 +40,37 @@ std::ostream & StaticRandomStates::save(std::ostream & os){
   return os;
 }
 
+#ifdef NOTYET
 std::istream & StaticRandomStates::restore(std::istream & is) {
   RandGauss::restoreFullState(is);
   RandFlat::restoreDistState(is);
   return is;
 }
+#endif
 
+std::istream & StaticRandomStates::restore(std::istream & is) {
+  HepRandomEngine * e = HepRandom::getTheEngine();
+  HepRandomEngine *ne = HepRandomEngine::newEngine(is);
+  if ( !is ) return is;
+  if ( !ne ) return is;
+  if (ne->name() == e->name()) {
+    // Because e has const data members, cannot simply do *e = *ne
+    std::ostringstream os;
+    os << *ne;
+    std::istringstream is(os.str());
+    is >> *e;
+    if (!is) {
+      std::cerr << "???? Unexpected behavior in StaticRandomStates::restore:\n"
+        << "The new engine, which had been input successfully from istream\n"
+	<< "has encountered a problem when used to set state of theEngine\n";
+      return is;
+    }
+  } else {
+    HepRandom::setTheEngine(ne);
+  }
+  RandGauss::restoreDistState(is);
+  RandFlat::restoreDistState(is);
+  return is;
+}
 
 }  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: MTwistEngine.h,v 1.3.2.3 2004/12/20 22:12:35 fischler Exp $
+// $Id: MTwistEngine.h,v 1.3.2.4 2004/12/28 16:11:33 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -18,6 +18,7 @@
 //                - Added conversion operators:  6th Aug 1998
 // M Fischler	  - Changes in way powers of two are kept: 16-Sep-1998
 // Mark Fischler  - Methods for distrib. instance save/restore 12/8/04    
+// Mark Fischler    methods for anonymous save/restore 12/27/04    
 // =======================================================================
 
 #ifndef MTwistEngine_h
@@ -74,6 +75,8 @@ public:
 
   virtual std::ostream & put (std::ostream & os) const;
   virtual std::istream & get (std::istream & is);
+  static  std::string beginTag ( );
+  virtual std::istream & getState ( std::istream & is );
 
   std::string name() const;
   static std::string engineName() {return "MTwistEngine";}

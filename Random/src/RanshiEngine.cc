@@ -1,4 +1,4 @@
-// $Id: RanshiEngine.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
+// $Id: RanshiEngine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -26,6 +26,8 @@
 // J. Marraffino  - Remove dependence on hepString class        13 May 1999
 // M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
 // M. Fischler    - Methods for instance save/restore            12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
 //
 // =======================================================================
 
@@ -251,8 +253,6 @@ std::ostream& RanshiEngine::put (std::ostream& os ) const {
 
 std::istream& RanshiEngine::get (std::istream& is) {
   char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
-
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -265,6 +265,15 @@ std::istream& RanshiEngine::get (std::istream& is) {
 	      << "\nwrong engine type found." << std::endl;
     return is;
   }
+  return getState(is);
+}
+
+std::string RanshiEngine::beginTag ( )  { 
+  return "RanshiEngine-begin"; 
+}
+  
+std::istream& RanshiEngine::getState (std::istream& is) {
+  char endMarker   [MarkerLen];
   is >> theSeed;
   for (int i = 0; i < numBuff; ++i) {
     is >> buffer[i];

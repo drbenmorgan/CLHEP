@@ -1,4 +1,4 @@
-// $Id: Hurd160Engine.h,v 1.3.2.3 2004/12/20 22:12:35 fischler Exp $
+// $Id: Hurd160Engine.h,v 1.3.2.4 2004/12/28 16:11:33 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -22,7 +22,8 @@
 // =======================================================================
 //  07-23-98  KLS   Initial draft started
 // Ken Smith      - Added conversion operators:  6th Aug 1998
-// Mark Fischler    Methods put, get for instance save/restore 12/8/04    
+// Mark Fischler  - Methods put, get for instance save/restore 12/8/04    
+// Mark Fischler  -  methods for anonymous save/restore 12/27/04    
 // =======================================================================
 
 #ifndef Hurd160Engine_h
@@ -83,6 +84,8 @@ public:
 
   std::string name() const;
   static std::string engineName() {return "Hurd160Engine";}
+  static  std::string beginTag ( );
+  virtual std::istream & getState ( std::istream & is );
 
 private:
   static int numEngines;

@@ -1,4 +1,4 @@
-// $Id: RanluxEngine.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
+// $Id: RanluxEngine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -30,6 +30,9 @@
 // J. Marraffino  - Remove dependence on hepString class  13 May 1999
 // M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
 // M. Fischler    - Methods put, getfor instance save/restore       12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
+//
 // ===============================================================
 
 #include "CLHEP/Random/defs.h"
@@ -472,8 +475,6 @@ std::ostream & RanluxEngine::put ( std::ostream& os ) const
 std::istream & RanluxEngine::get ( std::istream& is )
 {
   char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
-
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -486,6 +487,16 @@ std::istream & RanluxEngine::get ( std::istream& is )
 	       << "\nwrong engine type found." << std::endl;
      return is;
   }
+  return getState(is);
+}
+
+std::string RanluxEngine::beginTag ( )  { 
+  return "RanluxEngine-begin"; 
+}
+
+std::istream & RanluxEngine::getState ( std::istream& is )
+{
+  char endMarker   [MarkerLen];
   is >> theSeed;
   for (int i=0; i<24; ++i) {
      is >> float_seed_table[i];

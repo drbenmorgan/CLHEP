@@ -1,4 +1,4 @@
-// $Id: DRand48Engine.h,v 1.3.2.3 2004/12/20 22:12:35 fischler Exp $
+// $Id: DRand48Engine.h,v 1.3.2.4 2004/12/28 16:11:33 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -36,6 +36,7 @@
 // E.Tcherniaev   - prototypes for drand48(), srand48() and seed48() have
 //                  been moved to DRand48Engine.cc: 21 Feb 2002
 // Mark Fischler  - methods for distrib. instance save/restore 12/8/04    
+// Mark Fischler  - methods for anonymous save/restore 12/27/04    
 // =======================================================================
 
 #ifndef DRand48Engine_h
@@ -88,6 +89,8 @@ public:
 
   virtual std::ostream & put (std::ostream & os) const;
   virtual std::istream & get (std::istream & is);
+  static  std::string beginTag ( );
+  virtual std::istream & getState ( std::istream & is );
 
   std::string name() const;
   static std::string engineName() {return "DRand48Engine";}
