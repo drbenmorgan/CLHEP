@@ -11,7 +11,7 @@ ifndef CXX
 endif
 
 ifndef LIBNAME
-    LIBNAME = libCLHEP-1.9.0.2.a
+    LIBNAME = libCLHEP-1.9.1.1.a
 endif
 
 ifndef PythiaLIB

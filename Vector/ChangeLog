@@ -1,5 +1,14 @@
+Tue Sep 14          2004 Lynn Garren <garren@fnal.gov>
+
+	* require autoconf 2.59, automake 1.9.1, and libtool 1.9b
+
+Tue Aug 31         2004 Lynn Garren <garren@fnal.gov>
+	
+	* change Solaris CC compile flags from "-O -mt" to "-O"
+	* libtools 1.9b or later is required for Solaris CC
+
 ==============================
-11.05.04 Release CLHEP-2.0.0.2
+30.06.04 Release CLHEP-1.9.1.0
 ==============================
 
 ==============================
@@ -16,18 +25,10 @@ Thu Apr 29          2004 Mark Fischler <mf@fnal.gov>
 	log(0.0). 
 	
 
-==============================
-21.04.04 Release CLHEP-2.0.0.1
-==============================
-
 Thu Nov 06          2003 Lynn Garren <garren@fnal.gov>
 
 	*  adding ZOOM Exceptions package for FNAL
 	*  adding supporting RefCount and Cast packages
-
-==============================
-24.10.03 Release CLHEP-2.0.0.0
-==============================
 
 ==============================
 23.10.03 Release CLHEP-1.9.0.0

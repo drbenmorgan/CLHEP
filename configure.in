@@ -8,11 +8,11 @@
 # Identify the package and initialize the autotools:
 # ----------------------------------------------------------------------
 
-AC_PREREQ(2.57)
-AC_INIT(CLHEP, 1.9.1.0, CLHEP@cern.ch )
+AC_PREREQ(2.59)
+AC_INIT(CLHEP, 1.9.1.1, CLHEP@cern.ch )
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([Vector/src/AxisAngle.cc])
-AM_INIT_AUTOMAKE(1.6 foreign)
+AM_INIT_AUTOMAKE(1.9 foreign)
 AC_PROG_LIBTOOL
 
 # ----------------------------------------------------------------------

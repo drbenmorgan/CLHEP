@@ -8,11 +8,11 @@
 # Identify the package and initialize the autotools:
 # ----------------------------------------------------------------------
 
-AC_PREREQ(2.57)
-AC_INIT(CLHEP Utilities, 1.9.1.0, CLHEP@cern.ch, Utilities)
+AC_PREREQ(2.59)
+AC_INIT(CLHEP Utilities, 1.9.1.1, CLHEP@cern.ch, Utilities)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
-AM_INIT_AUTOMAKE(1.6 foreign)
+AM_INIT_AUTOMAKE(1.9 foreign)
 AC_PROG_LIBTOOL
 AC_PROG_INSTALL
 AC_PROG_LN_S
