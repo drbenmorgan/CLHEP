@@ -1,4 +1,4 @@
-// $Id: HEPEVTtoGenEvent.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: HEPEVTtoGenEvent.icc,v 1.2 2003/10/08 19:36:47 garren Exp $
 // ----------------------------------------------------------------------
 //
 // toGenEvent.icc
@@ -21,13 +21,14 @@ bool CBhepevt::toGenEvent( GenEvent* evt, bool printErrors ) {
     //  the children pointers are not always correct (i.e. there is 
     //  oftentimes an internal inconsistency between the parents and 
     //  children pointers). The parent pointers always seem to be correct.
-    // Thus the switch trust_mothers_before_daughters=1 is appropriate for
+    // Thus the switch trustMothers=1 is appropriate for
     //  pythia. NOTE: you should also set the switch MSTP(128) = 2 in 
     //                pythia (not the default!), so that pythia doesn't
     //                store two copies of resonances in the event record.
     // The situation is opposite for the HEPEVT which comes from Isajet
-    // via stdhep, so then use the switch trust_mothers_before_daughters=0
+    // via stdhep, so then use the switch trustMothers=0
     //
+    // 1. set event number
     evt->set_event_number( hptr->nevhep );
     // these do not have the correct defaults if hepev4 is not filled
     //evt->set_event_scale( hepev4()->scalelh[1] );
@@ -54,13 +55,13 @@ bool CBhepevt::toGenEvent( GenEvent* evt, bool printErrors ) {
 	///      sufficient to do one or the other.
 	//
 	// 3. Build the production_vertex (if necessary)
-	if ( trustMothers() ) {
+	if ( trustMothers() || trustMothersAndDaughters() ) {
 	    buildProductionVertex( i, hepevt_particle, evt, printErrors );
 	}
 	//
 	// 4. Build the end_vertex (if necessary) 
 	//    Identical steps as for production vertex
-	if ( !trustMothers() ) {
+	if ( !trustMothers() || trustMothersAndDaughters() ) {
 	    buildEndVertex( i, hepevt_particle, evt, printErrors );
 	}
     }

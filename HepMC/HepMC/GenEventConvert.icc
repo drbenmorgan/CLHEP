@@ -1,4 +1,4 @@
-// $Id: GenEventConvert.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: GenEventConvert.icc,v 1.2 2003/10/08 19:36:47 garren Exp $
 // ----------------------------------------------------------------------
 //
 // GenEventConvert.icc
@@ -37,7 +37,7 @@ bool GenEventConvert< S >::toGenEvent( GenEvent* evt ) {
     // read one event from the HEPEVT common block and fill GenEvent
     // return T/F =success/failure
     //
-    // 1. test that evt pointer is not null and set event number
+    // 1. test that evt pointer is not null
     if ( !evt ) {
 	std::cerr 
 	    << "GenEventConvert:toGenEvent: error - passed null event." 
@@ -46,6 +46,7 @@ bool GenEventConvert< S >::toGenEvent( GenEvent* evt ) {
     }
     CBInterface< S > * hep = CBInterface< S >::instance();
     bool perr = printInconsistencyErrors();
+    // now fill GenEvent
     return (*hep)->toGenEvent( evt, perr );
 }
 
@@ -61,12 +62,14 @@ bool GenEventConvert< S >::fromGenEvent( const GenEvent* evt ) {
     //  get the common block and clean it
     CBInterface< S > * hep = CBInterface< S >::instance();
     (*hep)->clean( );
+    // now fill HEPEVT
     return (*hep)->fromGenEvent( evt );
 }
 
 template<class S>
 bool GenEventConvert< S >::addtoHEPEVT( const GenEvent* evt ) {
     CBInterface< S > * hep = CBInterface< S >::instance();
+    //  add this event to existing GenEvent
     return (*hep)->addtoHEPEVT( evt );
 }
 

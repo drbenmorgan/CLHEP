@@ -1,4 +1,4 @@
-// $Id: CBhepevt.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: CBhepevt.h,v 1.2 2003/10/08 19:36:47 garren Exp $
 // ----------------------------------------------------------------------
 // CBhepevt.h
 // ----------------------------------------------------------------------
@@ -37,7 +37,8 @@ public:
     hptr3( & hepev3_ ),
     hptr4( & hepev4_ ),
     hptr5( & hepev5_ ), 
-    itsTrustMothers( true )
+    itsTrustMothers( true ),
+    itsTrustMothersAndDaughters( false )
   { ; }
 
   hepevt_t * hepevt() { return hptr; }
@@ -47,17 +48,32 @@ public:
   hepev5_t * hepev5() { return hptr5; }
   static int max_number_entries() { return NMXHEP; }
   static int max_multiple_interactions() { return NMXMLT; }
+  int        event_number() { return hptr->nevhep; }
+  int        number_entries() { return hptr->nhep; }
+  int        first_parent( int index );  // index of 1st mother
+  int        last_parent( int index );   // index of last mother
+  int        first_child( int index );   // index of 1st daughter
+  int        last_child( int index );    // index of last daughter
   int        number_children( int index );
   int        number_parents( int index ); 
 
   void       clean( );
+  void       zero_everything() { clean(); }
+  bool       check_hepevt_consistency( std::ostream & os = std::cout );
   bool       toGenEvent( GenEvent *, bool printErrors );
   bool       fromGenEvent( const GenEvent * );
   bool       addtoHEPEVT( const GenEvent * );     // not yet implemented
   
+  void       print( std::ostream & os = std::cout ) const;
+  void       print_hepevt( std::ostream & os = std::cout );
+  void       print_legend( std::ostream & os = std::cout );
+  void       print_hepevt_particle( int index, std::ostream & os = std::cout );
+  
   // decide how to deal with HEPEVT
   bool  trustMothers() const { return itsTrustMothers; }
+  bool  trustMothersAndDaughters() const { return itsTrustMothersAndDaughters; }
   void  setTrustMothers( bool b ) { itsTrustMothers = b; }
+  void  setTrustMothersAndDaughters( bool b ) { itsTrustMothersAndDaughters = b; }
 
 private:
 
@@ -67,6 +83,7 @@ private:
   hepev4_t * hptr4;
   hepev5_t * hptr5;
   bool       itsTrustMothers;
+  bool       itsTrustMothersAndDaughters;
 
   // internal functions
   GenParticle* createParticle( int index );
