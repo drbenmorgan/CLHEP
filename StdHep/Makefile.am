@@ -11,44 +11,48 @@ DIST_SUBDIRS = StdHep . src examples
 all-local: $(top_builddir)/CLHEP
 
 # create temporary CLHEP header tree
+# we only copy headers for packages listed in @PACKAGE@-deps
 # search for header directories in the following order:
-#	1.  $(top_srcdir)/..
-#	2.  $(CLHEPSOURCE_DIR)/CLHEP
-#	3.  $(CLHEP_DIR)/CLHEP
+#	1.  $(top_builddir)/this-package
+#	2.  $(top_builddir)/../other-packages
+#	3.  $(CLHEPSOURCE_DIR)/CLHEP
+#	4.  $(CLHEP_DIR)/include/CLHEP
 #
 # abs_ => absolute path
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+COPY_P = @COPY_P@
 
-$(top_builddir)/CLHEP:
-	mkdir $(top_builddir)/CLHEP;
-	cd $(abs_top_builddir); list=`ls $(abs_top_srcdir)/..`;  \
+$(top_builddir)/CLHEP:  temp-package-dirs
+	@list="`cat @PACKAGE@-deps | sed s/CLHEP-@PACKAGE@-@VERSION@// | sed s/CLHEP-// | sed s/-@VERSION@//`"; \
 	for pkg in $$list; do \
-	  if test -d $(abs_top_srcdir)/../"$$pkg"/"$$pkg"; then \
-	    (cd $(abs_top_builddir)/CLHEP; mkdir $$pkg; cd $$pkg; \
-	    hdrs=`ls $(abs_top_srcdir)/../$$pkg/$$pkg`; \
-	    for hdr in $$hdrs; do $(LN_S) $(abs_top_srcdir)/../$$pkg/$$pkg/$$hdr $$hdr; done; \
-	    if test -f $(abs_top_builddir)/../"$$pkg"/"$$pkg"/defs.h; then $(LN_S) $(abs_top_builddir)/../$$pkg/$$pkg/defs.h defs.h; fi; \
-	    if test -f $(abs_top_builddir)/"$$pkg"/defs.h && test ! -e defs.h ; then $(LN_S) $(abs_top_builddir)/$$pkg/defs.h defs.h; fi); \
-	  fi; done
-	cd $(abs_top_builddir);  \
-	if test -n "$(CLHEPSOURCE_DIR)" && test -d $(CLHEPSOURCE_DIR)/CLHEP; then \
-	  (list=`ls $(CLHEPSOURCE_DIR)/CLHEP`;  \
-	  for pkg in $$list; do cd $(abs_top_builddir)/CLHEP; \
-	    if test -d $(CLHEPSOURCE_DIR)/CLHEP/"$$pkg"/"$$pkg" && test ! -d "$$pkg"; then \
-	      (mkdir $$pkg; cd $$pkg; \
-	      hdrs=`ls $(CLHEPSOURCE_DIR)/CLHEP/$$pkg/$$pkg`; \
-	      for hdr in $$hdrs; do $(LN_S) $(CLHEPSOURCE_DIR)/CLHEP/$$pkg/$$pkg/$$hdr $$hdr; done); \
-	    fi; done); fi
-	cd $(abs_top_builddir);  \
-	if test -n "$(CLHEP_DIR)" && test -d $(CLHEP_DIR)/CLHEP; then \
-	  (list=`ls $(CLHEP_DIR)/CLHEP`;  \
-	  for pkg in $$list; do cd $(abs_top_builddir)/CLHEP; \
-	    if test -d $(CLHEP_DIR)/CLHEP/"$$pkg"/"$$pkg" && test ! -d "$$pkg"; then \
-	      (mkdir $$pkg; cd $$pkg; \
-	      hdrs=`ls $(CLHEP_DIR)/CLHEP/$$pkg/$$pkg`; \
-	      for hdr in $$hdrs; do $(LN_S) $(CLHEP_DIR)/CLHEP/$$pkg/$$pkg/$$hdr $$hdr; done); \
-	    fi; done); fi
+	  if test -d "$$pkg" ; then \
+	    (cd $$pkg && $(MAKE) $(AM_MAKEFLAGS) TEMPDIR=$(abs_top_builddir) install-tmpHEADERS) || exit 1 ; \
+	  else \
+	    if test -d ../"$$pkg"/"$$pkg" ; then \
+	      (cd ../$$pkg/$$pkg && $(MAKE) $(AM_MAKEFLAGS) TEMPDIR=$(abs_top_builddir) install-tmpHEADERS) || exit 1 ; \
+	    else \
+	      if test -d $(CLHEPSOURCE_DIR)/CLHEP/"$$pkg"/"$$pkg"; then \
+	        hdrs=`ls $(CLHEPSOURCE_DIR)/CLHEP/$$pkg/$$pkg`; \
+	        for hdr in $$hdrs; do $(COPY_P) $(CLHEPSOURCE_DIR)/CLHEP/$$pkg/$$pkg/$$hdr $(abs_top_builddir)/CLHEP/$$pkg/$$hdr; done; \
+	      else \
+		if test -n "$(CLHEP_DIR)" && test -d $(CLHEP_DIR)/include/CLHEP; then \
+		    if test -d $(CLHEP_DIR)/include/CLHEP/"$$pkg"; then \
+		      hdrs=`ls $(CLHEP_DIR)/include/CLHEP/$$pkg`; \
+		      for hdr in $$hdrs; do $(COPY_P) $(CLHEP_DIR)/include/CLHEP/$$pkg/$$hdr $(abs_top_builddir)/CLHEP/$$pkg/$$hdr; done; \
+		    fi; \
+	        fi; \
+	      fi; \
+	    fi; \
+	  fi; \
+	done;
+
+temp-package-dirs:
+	$(mkinstalldirs) $(abs_top_builddir)/CLHEP;
+	@list="`cat @PACKAGE@-deps | sed s/CLHEP-@PACKAGE@-@VERSION@// | sed s/CLHEP-// | sed s/-@VERSION@//`"; \
+	for pkg in $$list; do \
+	  $(mkinstalldirs) $(abs_top_builddir)/CLHEP/$$pkg; \
+	done;
 
 docs:
 	cd doc; $(MAKE) $(AM_MAKEFLAGS)
