@@ -3,10 +3,9 @@
 includedir = $(prefix)/include/CLHEP
 
 # put . first so that CLHEP directory is built before anything else
-SUBDIRS = HepPDT . src data test
+SUBDIRS = HepPDT . src data test examples examples/data
 # list all subdirectories - for distribution and cleaning
-##DIST_SUBDIRS = HepPDT . src data test doc examples
-DIST_SUBDIRS = HepPDT . src data test doc 
+DIST_SUBDIRS = HepPDT . src data test doc examples examples/data
 
 bin_SCRIPTS = HepPDT-config
 

@@ -7,6 +7,7 @@
 # other variables:
 #      [PythiaLIB= ]
 #      [HerwigLIB= ]
+#      [CLHEP_BASE= ]
 #
 ################################################################################ 
 
@@ -27,15 +28,17 @@ endif
 
 ################################################################################ 
 
+  CLHEP_BASE= @prefix@
   CXX = g++
-  INCDIR    = -I$(CLHEP_DIR)/include
+  INCDIR    = -I$(CLHEP_BASE)/include
   HepMCinc  = $(INCDIR)/CLHEP/HepMC
   PythiaLIB = $(LULIB)/pydata.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
   HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a $(HERWIG_DIR)/lib/timel.o
-  LIBNAME = $(CLHEP_DIR)/lib/libCLHEP-1.9.1.2.a
+  LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-@VERSION@
 
 
 ################################################################################ 
+
 ifeq "$(PLATFORM)" "HP-UX"
     F77=f77
     F77FLAG= 

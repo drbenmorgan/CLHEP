@@ -71,6 +71,9 @@ AC_CONFIG_FILES([test/listPythiaNames.sh], [chmod +x test/listPythiaNames.sh])
 AC_CONFIG_FILES([test/listPythiaNames.cc])
 AC_CONFIG_FILES([test/listPDGNames.sh], [chmod +x test/listPDGNames.sh])
 AC_CONFIG_FILES([test/listPDGNames.cc])
+AC_CONFIG_FILES([examples/Makefile])
+AC_CONFIG_FILES([examples/GNUmakefile.example])
+AC_CONFIG_FILES([examples/data/Makefile])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:

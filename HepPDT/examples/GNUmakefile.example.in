@@ -1,13 +1,26 @@
-# 
-# $Id: GNUmakefile,v 1.1.1.1.2.4 2004/11/29 18:37:46 garren Exp $
+# $Id: GNUmakefile.example.in,v 1.1.2.1 2005/03/04 19:40:39 garren Exp $
+################################################################################ 
 #
 # makefile for HepPDT examples
 #
-# Usage:  gmake 
-# Options:  PDTLIB=<CLHEP library> 
-#           INCDIR=<path to clhep includes>
-#           CXX=<C++ compiler> 
-#                 You can add optional compiler flags to CXX
+# use: gmake [INCDIR= ] [CXX= ] [LIBNAME= ] all
+#      gmake [INCDIR= ] [CXX= ] [LIBNAME= ] run
+#
+# Options:  
+#      [CLHEP_BASE= ]
+#      [HerwigLIB= ]
+#      [IsajetLIB= ]
+#
+################################################################################ 
+
+  CLHEP_BASE= @prefix@
+  LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-@VERSION@
+  HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a $(HERWIG_DIR)/lib/timel.o
+  IsajetLIB = $(ISAJET_DIR)/isajet.a
+  INCDIR    = -I$(CLHEP_BASE)/include
+  CXX = g++
+
+################################################################################ 
 
 ifndef DEBUG
     DEBUG = none
@@ -16,18 +29,6 @@ ifndef DEBUG
 else
     DFLG = $(DEBUG)
     SFX = _g
-endif
-
-ifndef CXX
-    CXX = g++
-endif
-
-ifndef PDTLIB
-    PDTLIB =  $(CLHEP_DIR)/lib/libCLHEP-HepPDT-1.9.1.2.a
-endif
-
-ifndef INCDIR
-    INCDIR = -I$(CLHEP_DIR)/include
 endif
 
 ifdef HERWIG_DIR
@@ -41,6 +42,8 @@ endif
 ifndef FFLAGS
     FFLAGS = $(DFLG) -fno-second-underscore $(INCDIR)
 endif
+
+################################################################################ 
 
 AR=ar
 ARFLG = -urs
@@ -62,50 +65,49 @@ test:  run_test
 build_test: examReadPDG examReadPythia examReadEvtGen examReadQQ \
             examMyPDT examDMF
 
-examMyPDT: examMyPDT.o $(PDTLIB)
+examMyPDT: examMyPDT.o $(LIBNAME)
 	$(CXX) $(CXXFLAGS) -o $@ examMyPDT.o \
-		$(PDTLIB) -lm
+		$(LIBNAME) -lm
 	rm -rf ti_files
 
-examDMF: ModeA$(SFX).o ModeB$(SFX).o examDMF.o $(PDTLIB) 
+examDMF: ModeA$(SFX).o ModeB$(SFX).o examDMF.o $(LIBNAME) 
 	$(CXX) $(CXXFLAGS) -o $@ examDMF.o \
 		 ModeA$(SFX).o ModeB$(SFX).o \
-		 $(PDTLIB) -lm
+		 $(LIBNAME) -lm
 	rm -rf ti_files
 
-examReadPDG: examReadPDG.o $(PDTLIB)
+examReadPDG: examReadPDG.o $(LIBNAME)
 	$(CXX) $(CXXFLAGS) -o $@ examReadPDG.o \
-		$(PDTLIB) -lm
+		$(LIBNAME) -lm
 	rm -rf ti_files
 
-examReadPythia: examReadPythia.o $(PDTLIB)
+examReadPythia: examReadPythia.o $(LIBNAME)
 	$(CXX) $(CXXFLAGS) -o $@ examReadPythia.o \
-		$(PDTLIB) -lm
+		$(LIBNAME) -lm
 	rm -rf ti_files
 
-examReadQQ: examReadQQ.o $(PDTLIB)
+examReadQQ: examReadQQ.o $(LIBNAME)
 	$(CXX) $(CXXFLAGS) -o $@ examReadQQ.o \
-		$(PDTLIB) -lm $(PDTLIB)
+		$(LIBNAME) -lm 
 	rm -rf ti_files
 
-examReadEvtGen: examReadEvtGen.o $(PDTLIB)
+examReadEvtGen: examReadEvtGen.o $(LIBNAME)
 	$(CXX) $(CXXFLAGS) -o $@ examReadEvtGen.o \
-		$(PDTLIB) -lm
+		$(LIBNAME) -lm
 	rm -rf ti_files
 
-examListHerwig: examListHerwig.o examListHerwigInterface.o $(PDTLIB)
+examListHerwig: examListHerwig.o examListHerwigInterface.o $(LIBNAME)
 	$(CXX) $(CXXFLAGS) -o $@ \
 		examListHerwig.o examListHerwigInterface.o \
-		$(HERWIG_DIR)/lib/hwudat.o \
-		-L$(HERWIG_DIR)/lib -lherwig -lherdum \
-		$(PDTLIB) -lm -lg2c
+		$(HerwigLIB) \
+		$(LIBNAME) -lm -lg2c
 	rm -rf ti_files
 
-examListIsajet: examListIsajet.o examListIsajetInterface.o $(PDTLIB)
+examListIsajet: examListIsajet.o examListIsajetInterface.o $(LIBNAME)
 	$(CXX) $(CXXFLAGS) -o $@ \
 		examListIsajet.o examListIsajetInterface.o \
-		$(ISAJET_DIR)/isajet.a \
-		$(PDTLIB) -lm -lg2c
+		$(IsajetLIB) \
+		$(LIBNAME) -lm -lg2c
 	rm -rf ti_files
 
 run_test: examReadPDG examReadPythia examReadEvtGen examMyPDT examReadQQ
