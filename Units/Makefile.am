@@ -2,5 +2,10 @@
 
 includedir = $(prefix)/include/CLHEP
 
-SUBDIRS = Units
+# put . first so that CLHEP directory is built before anything else
+SUBDIRS = . Units test
 
+all-local: $(top_builddir)/CLHEP
+
+$(top_builddir)/CLHEP:
+	$(top_srcdir)/makeCLHEPdir  $(top_srcdir)/..

@@ -28,10 +28,10 @@ AM_CONFIG_HEADER([Units/defs.h])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([Units/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
-#AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([test/Makefile])
 
 # Test driver program/script:
-#AC_CONFIG_FILES([test/testPID.sh])
+AC_CONFIG_FILES([test/testUnits.sh], [chmod +x test/testUnits.sh])
 
 
 # ----------------------------------------------------------------------
@@ -39,8 +39,8 @@ AC_CONFIG_FILES([doc/Makefile])
 # ----------------------------------------------------------------------
 
 Units_CPPFLAGS="-I$includedir"
-Units_LDFLAGS="-L$libdir"
-Units_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
+Units_LDFLAGS=" "
+Units_LIBS=" "
 
 AC_SUBST(Units_CPPFLAGS)
 AC_SUBST(Units_LIBS)
