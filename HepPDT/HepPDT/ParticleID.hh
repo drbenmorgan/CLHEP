@@ -1,4 +1,4 @@
-// $Id: ParticleID.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ParticleID.hh,v 1.1.1.1.2.1 2004/04/21 23:06:33 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleID.hh
@@ -16,7 +16,11 @@
 #ifndef PARTICLEID_HH
 #define PARTICLEID_HH
 
+#include <string>
 #include <algorithm>	// swap()
+
+// Particle names
+#include "CLHEP/HepPDT/ParticleName.hh"
 
 namespace HepPDT {
 
@@ -125,6 +129,8 @@ public:
   int Z( ) const;
   // digit returns the digit at a named location in the PID
   unsigned short digit(location) const;
+  // particle name
+  const std::string PDTname() const { return particleName( itsPID ); }
 
 private:
 

@@ -1,4 +1,4 @@
-// $Id: writeTranslations.cc,v 1.2 2003/08/13 20:00:11 garren Exp $
+// $Id: writeTranslations.cc,v 1.2.2.1 2004/04/21 23:06:33 garren Exp $
 // ----------------------------------------------------------------------
 //
 // writeTranslations.cc
@@ -15,6 +15,9 @@
 #include "CLHEP/HepPDT/StringStream.h"
 #endif
 #include "CLHEP/HepPDT/PDGtoQQTable.hh"
+
+// Particle names
+#include "CLHEP/HepPDT/ParticleName.hh"
 
 using namespace std;
 
@@ -37,7 +40,8 @@ void PDGtoQQTable::writeTranslations( std::ostream & os ) const
       os.width(12);
       os << ipdt << "  QQ number " ;
       os.width(5);
-      os << iqq << std::endl;
+      os << iqq << "  PDT name: " ;
+      os << particleName( ipdt ) << std::endl;
   }
 }
 

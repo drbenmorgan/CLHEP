@@ -40,6 +40,13 @@ AC_CONFIG_FILES([HepPDT/copy-header.pl], [chmod +x HepPDT/copy-header.pl])
 AC_CONFIG_FILES([test/testPID.sh], [chmod +x test/testPID.sh])
 AC_CONFIG_FILES([test/testHepPDT.sh], [chmod +x test/testHepPDT.sh])
 AC_CONFIG_FILES([test/testHepPDT.input])
+AC_CONFIG_FILES([test/listParticleNames.sh], [chmod +x test/listParticleNames.sh])
+AC_CONFIG_FILES([test/listQQTranslation.sh], [chmod +x test/listQQTranslation.sh])
+AC_CONFIG_FILES([test/listQQTranslation.cc])
+AC_CONFIG_FILES([test/listPythiaNames.sh], [chmod +x test/listPythiaNames.sh])
+AC_CONFIG_FILES([test/listPythiaNames.cc])
+AC_CONFIG_FILES([test/listPDGNames.sh], [chmod +x test/listPDGNames.sh])
+AC_CONFIG_FILES([test/listPDGNames.cc])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:

@@ -1,4 +1,4 @@
-// $Id: translatePDTtoIsajet.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: translatePDTtoIsajet.cc,v 1.1.1.1.2.1 2004/04/21 23:06:33 garren Exp $
 // ----------------------------------------------------------------------
 //
 // translatePDTtoIsajet.cc
@@ -91,7 +91,7 @@ int translatePDTtoIsajet( const int id )
     // no translation for these
     } else if(ida <= 100){
     // ...elementary particles
-        istran=itabi[ida];
+        istran=itabi[ida-1];
         if(id < 0){
 	  istran = -istran;
           // ...check for illegal antiparticles
@@ -110,9 +110,9 @@ int translatePDTtoIsajet( const int id )
           if(i2 <= 2 && i1 <= 2){
               //     don't change
           } else if(i2 <= 2) {
-              i2=itabi[i2];
+              i2=itabi[i2-1];
 	  } else if(i1 <= 2) {
-              i1=itabi[i1];
+              i1=itabi[i1-1];
           }
           istran=i1*100 + i2*10 + (j1-1)/2 + i4*10000;
           if( id < 0 ) { istran = -istran; }
@@ -138,8 +138,8 @@ int translatePDTtoIsajet( const int id )
     } else if(i1 == 0){
     // ...diquarks
           // ...         u and d have opposite definitions
-          if(i3 <= 2) i3=itabi[i3];
-          if(i2 <= 2) i2=itabi[i2];
+          if(i3 <= 2) i3=itabi[i3-1];
+          if(i2 <= 2) i2=itabi[i2-1];
           if(i3 < i2){
             istran=i3*1000 + i2*100 + (j1-1)/2;
           } else {
@@ -152,9 +152,9 @@ int translatePDTtoIsajet( const int id )
     } else if( i1 != 0 && i3 != 0 && i2 != 0 && ( j1 == 2 || j1 == 4)) {
     // ...spin 1/2 or spin 3/2 baryons
           // ...         u and d have opposite definitions
-          if(i3 <= 2) { i3=itabi[i3]; }
-          if(i2 <= 2) { i2=itabi[i2]; }
-          if(i1 <= 2) { i1=itabi[i1]; }
+          if(i3 <= 2) { i3=itabi[i3-1]; }
+          if(i2 <= 2) { i2=itabi[i2-1]; }
+          if(i1 <= 2) { i1=itabi[i1-1]; }
           if(i3 <= 2){
             istran=i3*1000 + i2*100 + i1*10 + (j1-2)/2;
           } else if(i1 <= 2 && i2 <= 2){

@@ -57,6 +57,10 @@ pkginclude_HEADERS = \
 	Version.hh	\
 	QQDecayTable.hh	\
 	StringStream.h	\
+	ParticleName.hh	\
+	ParticleTranslation.hh	\
+	ParticleTranslation.icc	\
+	TranslationList.hh	\
 	defs.h
 
 # Identify generated file(s) to be removed when 'make clean' is requested:
