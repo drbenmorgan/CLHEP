@@ -21,7 +21,7 @@ getdeplist()
     dpkg=$1
     dfile=$2
     oldlist=`cat $dfile`
-    if test -e $dpkg/$dpkg-deps; then 
+    if test -f $dpkg/$dpkg-deps; then 
 	# strip out the package name and add it to $dfile
 	newlist=`tsort $dpkg/$dpkg-deps | sed 's/CLHEP-//' | sed 's/-@VERSION@//'`
 	echo $newlist >> $dfile
@@ -44,11 +44,11 @@ makeliblist()
     rm -f $depfile
     touch $depfile
     # get relevant lists
-    if test -e $pkg/$pkg-deps; then
+    if test -f $pkg/$pkg-deps; then
 	getdeplist $pkg $depfile
 	list=`cat $depfile`
 	for entry in $list; do
-	    if test -e $entry/$entry-deps; then
+	    if test -f $entry/$entry-deps; then
 	       cat $entry/$entry-deps >> $pkgfile
 	    fi
 	done
@@ -69,7 +69,7 @@ libfile="library-list"
 rm -f $libfile
 touch $libfile
 for subdir in $sublist; do
-    if test -e $subdir/$subdir-deps; then 
+    if test -f $subdir/$subdir-deps; then 
         cat $subdir/$subdir-deps >> $libfile
     fi
 done
@@ -104,7 +104,7 @@ for lib in $tlist; do
     clibs="$clibs -l$lib"
 done
 echo "all) " >> clheplib
-echo "  if test -e \$libdir/libCLHEP-@VERSION@.a || test -e \$libdir/libCLHEP-@VERSION@.so " >> clheplib
+echo "  if test -f \$libdir/libCLHEP-@VERSION@.a || test -f \$libdir/libCLHEP-@VERSION@.so " >> clheplib
 echo "  then   " >> clheplib
 echo "    echo -L\$libdir -lCLHEP-@VERSION@ " >> clheplib
 echo "  else " >> clheplib
@@ -113,7 +113,7 @@ echo "  fi " >> clheplib
 echo "  ;; " >> clheplib
 
 for sub in $sublist; do
-    if test -e $sub/$sub-deps; then 
+    if test -f $sub/$sub-deps; then 
 	makeliblist $sub
 	tlist=`tsort $pkg-library-list`
 	clibs=" "
