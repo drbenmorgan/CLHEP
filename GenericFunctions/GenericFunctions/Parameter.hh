@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Parameter.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Parameter.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 //-----------------------Class Parameter------------------------------------//
 //                                                                          //
 //  Joe Boudreau                                                            //
@@ -22,8 +22,8 @@
 #ifndef Parameter_h
 #define Parameter_h 1
 
-#include <iostream>
 #include <string>
+#include <iostream>
 #include "CLHEP/GenericFunctions/AbsParameter.hh"
 
 namespace Genfun {

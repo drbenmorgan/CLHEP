@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: CutBase.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: CutBase.icc,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 //-------------------------------------------------------------------//
 //                                                                   //
 // Implementations for the Cut class                                 //
@@ -13,19 +13,19 @@ Cut<Type>::Cut(const Cut<Type> & right) {}
 
 template <class Type>
 Cut<Type>::~Cut() {}
-
+ 
 template <class Type>
-Cut<Type>::OR Cut<Type>::operator || (const Cut<Type> & A) const {
-  return OR(*this,A);
+typename Cut<Type>::OR Cut<Type>::operator || (const Cut<Type> & A) const {
+   return OR(*this,A);
 }
 
 template <class Type>
-Cut<Type>::AND Cut<Type>::operator && (const Cut<Type> & A) const {
+typename Cut<Type>::AND Cut<Type>::operator && (const Cut<Type> & A) const {
   return AND(*this,A);
 }
 
 template <class Type>
-Cut<Type>::NOT Cut<Type>::operator ! () const {
+typename Cut<Type>::NOT Cut<Type>::operator ! () const {
   return NOT(*this);
 }
 //-------------------------------------------------------------------//
@@ -58,7 +58,7 @@ Cut<Type>::AND::~AND()
 
 
 template <class Type>
-Cut<Type>::AND *Cut<Type>::AND::clone() const
+typename Cut<Type>::AND *Cut<Type>::AND::clone() const
 {
   return new AND(*this);
 }
@@ -98,7 +98,7 @@ Cut<Type>::OR::~OR()
 
 
 template <class Type>
-Cut<Type>::OR *Cut<Type>::OR::clone() const
+typename Cut<Type>::OR *Cut<Type>::OR::clone() const
 {
   return new OR(*this);
 }
@@ -136,7 +136,7 @@ Cut<Type>::NOT::~NOT()
 
 
 template <class Type>
-Cut<Type>::NOT *Cut<Type>::NOT::clone() const
+typename Cut<Type>::NOT *Cut<Type>::NOT::clone() const
 {
   return new NOT(*this);
 }
@@ -177,7 +177,7 @@ Cut<Type>::Predicate::~Predicate()
 
 
 template <class Type>
-Cut<Type>::Predicate *Cut<Type>::Predicate::clone() const
+typename Cut<Type>::Predicate *Cut<Type>::Predicate::clone() const
 {
   return new Predicate(*this);
 }

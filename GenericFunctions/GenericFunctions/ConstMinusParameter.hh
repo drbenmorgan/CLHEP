@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ConstMinusParameter.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ConstMinusParameter.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 //--------------------------ConstMinusParameter-----------------------------//
 //                                                                          //
 // ConstMinusParameter, result of subtracting a parameter from a constant.  //

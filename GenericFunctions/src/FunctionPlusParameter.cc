@@ -1,12 +1,9 @@
 // -*- C++ -*-
-// $Id: FunctionPlusParameter.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
-#include "CLHEP/GenericFunctions/defs.h"
+// $Id: FunctionPlusParameter.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
 #include "CLHEP/GenericFunctions/FunctionPlusParameter.hh"
 #include "CLHEP/GenericFunctions/Parameter.hh"
-#include <iostream>
 
 namespace Genfun {
-
 FUNCTION_OBJECT_IMP(FunctionPlusParameter)
 
 FunctionPlusParameter::FunctionPlusParameter(const AbsParameter *parameter, const AbsFunction *function):

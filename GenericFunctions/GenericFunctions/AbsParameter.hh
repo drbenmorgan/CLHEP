@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: AbsParameter.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: AbsParameter.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 #ifndef _AbsParameter_h_
 #define _AbsParameter_h_
 
@@ -26,6 +26,9 @@ namespace Genfun {
     // Default Constructor
     AbsParameter();
     
+    // Copy constructor:
+    AbsParameter(const AbsParameter &);
+
     // Destructor
     virtual ~AbsParameter();
   
@@ -38,11 +41,6 @@ namespace Genfun {
     // Extra lingual type information:
     virtual Parameter *parameter() {return 0;}
     virtual const Parameter *parameter() const {return 0;}
-
-  public:  // was private:
-
-    // Cannot copy an AbsParameter:
-    AbsParameter(const AbsParameter &);
 
   private:
 

@@ -1,9 +1,8 @@
 // $Id: 
 // -*- C++ -*-
 //
-#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/Abs.hh"
-#include <cmath>
+#include <math.h>
 
 namespace Genfun {
 
@@ -20,7 +19,7 @@ Abs::~Abs() {
 }
 
 double Abs::operator() (double x) const {
-  return std::abs(x);
+  return fabs(x);
 }
 
 }

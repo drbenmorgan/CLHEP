@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: AssociatedLaguerre.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: AssociatedLaguerre.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 //---------------------AssociatedLaguerre-----------------------------------//
 //                                                                          //
 // Class AssociatedLaguerre.  An associated laguerre polynomial L_n^k(x)    //

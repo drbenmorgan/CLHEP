@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SphericalNeumann.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: SphericalNeumann.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 //---------------------SphericalNeumann-------------------------------------//
 //                                                                          //
 // Class SphericalNeumann.  An spherical neumann function of integral order //

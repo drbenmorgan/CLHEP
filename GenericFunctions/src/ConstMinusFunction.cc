@@ -1,11 +1,9 @@
 // -*- C++ -*-
-// $Id: ConstMinusFunction.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
-#include "CLHEP/GenericFunctions/defs.h"
+// $Id: ConstMinusFunction.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
 #include "CLHEP/GenericFunctions/ConstMinusFunction.hh"
-#include <iostream>
+
 
 namespace Genfun {
-
 FUNCTION_OBJECT_IMP(ConstMinusFunction)
 
 ConstMinusFunction::ConstMinusFunction(double constant, const AbsFunction *arg):

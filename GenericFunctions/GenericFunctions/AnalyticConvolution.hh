@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: AnalyticConvolution.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: AnalyticConvolution.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 // ---------------------------------------------------------------------------//
 // This function-object makes analytic convolutions of a gaussian plus either //
 // an exponential, or else the function exp * (1+/-cos)                       //
@@ -35,8 +35,8 @@ namespace Genfun {
 		     UNMIXED        =1,  // PDF for unmixed events
 		     SMEARED_EXP    =2,  // Exponential (convolve) Gaussian
 		     SMEARED_COS_EXP=3,  // Exponential * Cosine (convolve) Gaussian
-                     SMEARED_SIN_EXP=4}; // Exponential * Sine   (convolve) Gaussian
-  
+                     SMEARED_SIN_EXP=4,  // Exponential * Sine   (convolve) Gaussian
+                     SMEARED_NEG_EXP=5}; // Negative exponential (convolve) Gaussian
     // Constructor
     AnalyticConvolution(Type=SMEARED_EXP);
 

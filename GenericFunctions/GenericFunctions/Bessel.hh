@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Bessel.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Bessel.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 //---------------------Bessel-------------------------------------------------//
 //                                                                            //
 // Class Bessel, providing Bessel Functions  The Namespace "FractionalORder"  //

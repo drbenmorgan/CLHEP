@@ -1,12 +1,9 @@
 // -*- C++ -*-
-// $Id: FunctionQuotient.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
-#include "CLHEP/GenericFunctions/defs.h"
+// $Id: FunctionQuotient.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
 #include "CLHEP/GenericFunctions/FunctionQuotient.hh"
-#include <iostream>
 #include <assert.h>
 
 namespace Genfun {
-
 FUNCTION_OBJECT_IMP(FunctionQuotient)
 
 FunctionQuotient::FunctionQuotient(const AbsFunction *arg1, const AbsFunction *arg2):

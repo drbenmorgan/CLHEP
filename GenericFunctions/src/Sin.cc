@@ -1,11 +1,8 @@
 // -*- C++ -*-
-// $Id: Sin.cc,v 1.3 2003/08/13 20:00:10 garren Exp $
-#include "CLHEP/GenericFunctions/defs.h"
+// $Id: Sin.cc,v 1.4 2003/09/06 14:04:14 boudreau Exp $
 #include "CLHEP/GenericFunctions/Sin.hh"
 #include "CLHEP/GenericFunctions/Cos.hh"
-#include <iostream>
 #include <assert.h>
-#include <cmath>
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Sin)

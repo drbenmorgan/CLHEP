@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: AbsFunction.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: AbsFunction.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 //------------------------AbsFunction-----------------------------------//
 //                                                                      //
 //  AbsFunction, base class for function objects                        //
@@ -51,6 +51,9 @@ namespace Genfun {
     // Default Constructor
     AbsFunction();
   
+    // Copy Constructor:
+    AbsFunction(const AbsFunction &right);
+  
     // Destructor
     virtual ~AbsFunction();
   
@@ -83,11 +86,6 @@ namespace Genfun {
 
     virtual AbsFunction *_clone() const=0;
 
-  public:    // was private:
-    // It is illegal to copy a Function
-    AbsFunction(const AbsFunction &right);
-  
-  private:
     // It is illegal to assign a function.
     const AbsFunction & operator=(const AbsFunction &right);
   

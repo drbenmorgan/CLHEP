@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SphericalBessel.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: SphericalBessel.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 //---------------------SphericalBessel--------------------------------------//
 //                                                                          //
 // Class SphericalBessel.  An spherical bessel function of integral order   //

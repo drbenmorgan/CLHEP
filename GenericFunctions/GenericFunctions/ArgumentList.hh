@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ArgumentList.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ArgumentList.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 #ifndef __ARGUMENT_LIST__
 #define __ARGUMENT_LIST__
 #include "CLHEP/GenericFunctions/Argument.hh"

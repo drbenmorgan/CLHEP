@@ -1,12 +1,9 @@
 // -*- C++ -*-
-// $Id: LogGamma.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
+// $Id: LogGamma.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
 // ---------------------------------------------------------------------------
-#include "CLHEP/GenericFunctions/defs.h"
+
 #include "CLHEP/GenericFunctions/LogGamma.hh"
-#include <cmath>	// for log()
-
 namespace Genfun {
-
 FUNCTION_OBJECT_IMP(LogGamma)
 
 const double LogGamma::_coefficient[6]={

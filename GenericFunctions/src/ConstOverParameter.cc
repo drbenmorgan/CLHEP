@@ -1,11 +1,9 @@
 // -*- C++ -*-
-// $Id: ConstOverParameter.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
-#include "CLHEP/GenericFunctions/defs.h"
+// $Id: ConstOverParameter.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
 #include "CLHEP/GenericFunctions/ConstOverParameter.hh"
 #include "CLHEP/GenericFunctions/Parameter.hh"
 
 namespace Genfun {
-
 PARAMETER_OBJECT_IMP(ConstOverParameter)
 
 ConstOverParameter::ConstOverParameter(double constant, const AbsParameter *parameter):

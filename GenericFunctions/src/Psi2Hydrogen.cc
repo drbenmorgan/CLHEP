@@ -1,6 +1,5 @@
 // -*- C++ -*-
 // $Id: 
-#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/Psi2Hydrogen.hh"
 #include "CLHEP/GenericFunctions/AssociatedLegendre.hh"
 #include "CLHEP/GenericFunctions/AssociatedLaguerre.hh"
@@ -11,7 +10,6 @@
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include "CLHEP/GenericFunctions/Power.hh"
 #include <assert.h>
-#include <cmath>	// for pow()
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Psi2Hydrogen)

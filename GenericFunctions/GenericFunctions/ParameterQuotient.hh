@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ParameterQuotient.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ParameterQuotient.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
 //--------------------------ParameterQuotient-------------------------------//
 //                                                                          //
 // ParameterQuotient, result of division of two parameters.                 //
