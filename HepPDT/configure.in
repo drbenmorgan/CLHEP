@@ -29,6 +29,7 @@ AM_CONFIG_HEADER([HepPDT/defs.h])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([HepPDT/Makefile])
 AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_FILES([doc/Makefile])
 AC_CONFIG_FILES([data/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 
