@@ -76,6 +76,7 @@ pkginclude_HEADERS = \
 	Power.hh         \
 	Psi2Hydrogen.hh         \
 	PtRelFcn.hh        \
+	PuncturedSmearedExp.hh \
 	RCBase.hh        \
 	Rectangular.hh         \
 	ReverseExponential.hh         \
