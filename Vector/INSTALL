@@ -11,6 +11,11 @@ cd <build_directory>
 <source_code_direcotry>/configure --prefix=<install_dir>
    (Note that files will be installed under /usr/local if you do not 
     specify a prefix.)
+    To use Visual C++:
+    <source_code_direcotry>/configure --prefix=<install_dir> CXX=cl CC=cl
+        (You must specify both CXX and CL or configure will attempt to use 
+         gcc/g++ for the unspecified variable.  Also, do not use 
+         environmental varialbles.)
 make
    (Build temporary copies of libraries and executables.)
 make check

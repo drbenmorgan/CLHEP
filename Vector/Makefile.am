@@ -20,6 +20,7 @@ all-local: $(top_builddir)/CLHEP
 # abs_ => absolute path
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+COPY_P = @COPY_P@
 
 $(top_builddir)/CLHEP:
 	mkdir $(top_builddir)/CLHEP;
@@ -28,9 +29,9 @@ $(top_builddir)/CLHEP:
 	  if test -d $(abs_top_srcdir)/../"$$pkg"/"$$pkg"; then \
 	    (cd $(abs_top_builddir)/CLHEP; mkdir $$pkg; cd $$pkg; \
 	    hdrs=`ls $(abs_top_srcdir)/../$$pkg/$$pkg`; \
-	    for hdr in $$hdrs; do $(LN_S) $(abs_top_srcdir)/../$$pkg/$$pkg/$$hdr $$hdr; done; \
-	    if test -f $(abs_top_builddir)/../"$$pkg"/"$$pkg"/defs.h; then $(LN_S) $(abs_top_builddir)/../$$pkg/$$pkg/defs.h defs.h; fi; \
-	    if test -f $(abs_top_builddir)/"$$pkg"/defs.h && test ! -e defs.h ; then $(LN_S) $(abs_top_builddir)/$$pkg/defs.h defs.h; fi); \
+	    for hdr in $$hdrs; do $(COPY_P) $(abs_top_srcdir)/../$$pkg/$$pkg/$$hdr $$hdr; done; \
+	    if test -f $(abs_top_builddir)/../"$$pkg"/"$$pkg"/defs.h; then $(COPY_P) $(abs_top_builddir)/../$$pkg/$$pkg/defs.h defs.h; fi; \
+	    if test -f $(abs_top_builddir)/"$$pkg"/defs.h && test ! -e defs.h ; then $(COPY_P) $(abs_top_builddir)/$$pkg/defs.h defs.h; fi); \
 	  fi; done
 	cd $(abs_top_builddir);  \
 	if test -n "$(CLHEPSOURCE_DIR)" && test -d $(CLHEPSOURCE_DIR)/CLHEP; then \
@@ -39,7 +40,7 @@ $(top_builddir)/CLHEP:
 	    if test -d $(CLHEPSOURCE_DIR)/CLHEP/"$$pkg"/"$$pkg" && test ! -d "$$pkg"; then \
 	      (mkdir $$pkg; cd $$pkg; \
 	      hdrs=`ls $(CLHEPSOURCE_DIR)/CLHEP/$$pkg/$$pkg`; \
-	      for hdr in $$hdrs; do $(LN_S) $(CLHEPSOURCE_DIR)/CLHEP/$$pkg/$$pkg/$$hdr $$hdr; done); \
+	      for hdr in $$hdrs; do $(COPY_P) $(CLHEPSOURCE_DIR)/CLHEP/$$pkg/$$pkg/$$hdr $$hdr; done); \
 	    fi; done); fi
 	cd $(abs_top_builddir);  \
 	if test -n "$(CLHEP_DIR)" && test -d $(CLHEP_DIR)/CLHEP; then \
@@ -48,7 +49,7 @@ $(top_builddir)/CLHEP:
 	    if test -d $(CLHEP_DIR)/CLHEP/"$$pkg"/"$$pkg" && test ! -d "$$pkg"; then \
 	      (mkdir $$pkg; cd $$pkg; \
 	      hdrs=`ls $(CLHEP_DIR)/CLHEP/$$pkg/$$pkg`; \
-	      for hdr in $$hdrs; do $(LN_S) $(CLHEP_DIR)/CLHEP/$$pkg/$$pkg/$$hdr $$hdr; done); \
+	      for hdr in $$hdrs; do $(COPY_P) $(CLHEP_DIR)/CLHEP/$$pkg/$$pkg/$$hdr $$hdr; done); \
 	    fi; done); fi
 
 docs:
