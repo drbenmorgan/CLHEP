@@ -160,7 +160,7 @@ cl)
    ;;
 CC)  
    case "$target" in
-   *-*-solaris*) AM_CXXFLAGS="-O"";;
+   *-*-solaris*) AM_CXXFLAGS="-O";;
    *-*-hpux*) AM_CXXFLAGS="+O3 +DAportable +a1 -z -pta +Onolimit";;
    *-*-irix*) AM_CXXFLAGS="-O -OPT:Olimit=0 -pta";;
    *)   echo UNEXPECTED CHOICE OF OPERATING SYSTEM FOR $CXX: $target
