@@ -1,3 +1,10 @@
+Thu Mar 10  2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
+
+	* Geometry/BasicVector3D.h : added operator to convert to Hep3Vector
+	for backward compatibility (savannah bug id 6740)
+	* Geometry/config.in, Geometry/test/testBug6740.cc, Geometry/test/testBug6740.sh,
+	Geometry/test/testBug6740.output, Geometry/test/Makefile.am: added test for bug ID 6740
+	
 2005-02-18  Lynn Garren  <garren@fnal.gov>
 
 	* configure.in, Makefile.am: Stop using libtool.  
