@@ -1,0 +1,4 @@
+CLHEP/config is provided for backwards compatibility.
+This directory will only be available in CLHEP 1.9.
+You should convert your code to use the defs.h files in each package
+include area instead of CLHEP/config/CLHEP.h.

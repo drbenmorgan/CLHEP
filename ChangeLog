@@ -1,3 +1,7 @@
+Tue Jun 29         2004 Lynn Garren <garren@fnal.gov>
+
+	* add config for backwards compatibility (CLHEP/config/CLHEP.h)
+    
 Wed Jun 23         2004 Lynn Garren <garren@fnal.gov>
     
 	* HepMC version is 1.01.00
