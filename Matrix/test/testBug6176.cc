@@ -1,4 +1,3 @@
-
 #include <iostream>
 
 #include "CLHEP/Matrix/Matrix.h"
@@ -19,6 +18,8 @@ for(int i=1;i<8;++i)
 	} 
     } 
 }
+
+int ierr = 0;
 
 std::cout<<"Initial matrix "<<mtr<<std::endl; 
 std::cout<<"Sub (1,4,1,4)"<<mtr.sub(1,4,1,4)<<std::endl; 

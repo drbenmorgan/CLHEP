@@ -8,6 +8,7 @@
 // general) of sizes 1 - 9.
 
 #include <iostream>
+#include <math.h>
 
 #include "CLHEP/Matrix/Matrix.h"
 #include "CLHEP/Matrix/SymMatrix.h"
@@ -51,8 +52,10 @@ int test_inversion (int N) {
   MS = S;
   MSS = SS;
   SI = MSS*MS;
-  for(int i=1;i<=N;++i) { 
-    for(int j=1;j<=N;++j) { 
+  int i;
+  int j;
+  for(i=1;i<=N;++i) { 
+    for(j=1;j<=N;++j) { 
       if(i!=j) { 
 	if (fabs(MI(i,j)) > 1.0e-12) {
     	  std::cout<<"MM.invert incorrect  N = " << N << 
@@ -75,6 +78,34 @@ int test_inversion (int N) {
     	  std::cout<<"SS.invert incorrect  N = " << N << 
     			" error =  "<< fabs(1-SI(i,j)) <<std::endl; 
 	  return 4+100*N;
+	}
+      } 
+    } 
+  }
+  // Finally, the case that actually (for N=7) triggered bug report 6181:
+  M = S;
+  MM = M;
+  MM.invert(ierr);
+  if (ierr) {
+    std::cout<<"MM.invert for symmetric case failed!!!!  N = " << N << 
+    			" ierr =  "<< ierr <<std::endl; 
+    return 5+100*N;
+  }
+  MI = MM*M;
+  for(i=1;i<=N;++i) { 
+    for(j=1;j<=N;++j) { 
+      if(i!=j) { 
+	if (fabs(MI(i,j)) > 1.0e-12) {
+    	  std::cout<<"MM.invert incorrect  N = " << N << 
+    			" error =  "<< fabs(MI(i,j)) <<std::endl; 
+	  return 6+100*N;
+	}
+      } 
+      if(i==j) { 
+	if (fabs(1-MI(i,j)) > 1.0e-12) {
+    	  std::cout<<"MM.invert incorrect  N = " << N << 
+    			" error =  "<< fabs(1-MI(i,j)) <<std::endl; 
+	  return 7+100*N;
 	}
       } 
     } 

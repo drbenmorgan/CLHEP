@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ranRestoreTest.cc,v 1.3.2.5 2005/02/11 23:10:33 fischler Exp $
+// $Id: ranRestoreTest.cc,v 1.3.2.6 2005/03/01 23:45:24 fischler Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
@@ -1045,6 +1045,38 @@ int anonymousRestore(int n) {
 
 // ----------- Anonymous restore of all static distributions -----------
 
+template <class E>
+int anonymousRestoreStatics() {
+  int stat = 0;
+  HepRandomEngine *e = new E(12456);
+  HepRandom::setTheEngine(e);
+  randomizeStatics(15);
+  output << "\nRandomized, with theEngine = " << e->name() << "\n";
+  saveStatics("distribution.save");
+  output << "Saved all static distributions\n";
+  std::vector<double> c = captureStatics();
+  output << "Captured output of all static distributions\n";
+  randomizeStatics(11);
+  output << "Randomized all static distributions\n";
+  restoreStatics("distribution.save");
+  output << "Restored all static distributions to saved state\n";
+  std::vector<double> d = captureStatics();
+  output << "Captured output of all static distributions\n";
+  for (unsigned int iv=0; iv<c.size(); iv++) {
+    if (c[iv] != d[iv]) {
+      std::cout << "???? restoreStaticRandomStates failed at random " 
+                << iv <<"\n";
+      stat |= 131072;
+    }
+  }
+  if (stat & 131072 == 0) {
+    output << "All captured output agrees with earlier values\n";
+  }
+  return stat;
+}
+
+
+
 template <class E1, class E2>
 int anonymousRestoreStatics() {
   int stat = 0;
@@ -1108,36 +1140,6 @@ int anonymousRestoreStatics() {
     stat |= 1048576; 
   }
   return stat;  
-}
-
-template <class E>
-int anonymousRestoreStatics() {
-  int stat = 0;
-  HepRandomEngine *e = new E(12456);
-  HepRandom::setTheEngine(e);
-  randomizeStatics(15);
-  output << "\nRandomized, with theEngine = " << e->name() << "\n";
-  saveStatics("distribution.save");
-  output << "Saved all static distributions\n";
-  std::vector<double> c = captureStatics();
-  output << "Captured output of all static distributions\n";
-  randomizeStatics(11);
-  output << "Randomized all static distributions\n";
-  restoreStatics("distribution.save");
-  output << "Restored all static distributions to saved state\n";
-  std::vector<double> d = captureStatics();
-  output << "Captured output of all static distributions\n";
-  for (unsigned int iv=0; iv<c.size(); iv++) {
-    if (c[iv] != d[iv]) {
-      std::cout << "???? restoreStaticRandomStates failed at random " 
-                << iv <<"\n";
-      stat |= 131072;
-    }
-  }
-  if (stat & 131072 == 0) {
-    output << "All captured output agrees with earlier values\n";
-  }
-  return stat;
 }
 
 // ---------------------------------------------
