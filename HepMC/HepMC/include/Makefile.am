@@ -5,6 +5,8 @@ pkgincludedir = $(prefix)/include/CLHEP/@PACKAGE@
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(pkgincludedir)/include
+	$(INSTALL_DATA) $(srcdir)/HerwigWrapper.h $(DESTDIR)$(pkgincludedir)/include/HerwigWrapper.h
+	$(INSTALL_DATA) $(srcdir)/HerwigWrapper6_4.h $(DESTDIR)$(pkgincludedir)/include/HerwigWrapper6_4.h
 	$(INSTALL_DATA) $(srcdir)/PythiaWrapper.h $(DESTDIR)$(pkgincludedir)/include/PythiaWrapper.h
 	$(INSTALL_DATA) $(srcdir)/PythiaWrapper5_720.h $(DESTDIR)$(pkgincludedir)/include/PythiaWrapper5_720.h
 	$(INSTALL_DATA) $(srcdir)/PythiaWrapper6_152.h $(DESTDIR)$(pkgincludedir)/include/PythiaWrapper6_152.h

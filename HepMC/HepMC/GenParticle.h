@@ -235,8 +235,7 @@ namespace HepMC {
     inline void GenParticle::set_momentum( const CLHEP::HepLorentzVector& vec4 )
     { m_momentum = vec4; }
 
-    inline void GenParticle::set_pdg_id( int id ) 
-    {  m_pdg_id = id;  }
+    inline void GenParticle::set_pdg_id( int id ) { m_pdg_id = id; }
 
     inline void GenParticle::set_status( int status ) { m_status = status; }
 

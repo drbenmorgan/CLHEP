@@ -1,3 +1,149 @@
+
+	--------------------  CLHEP_1_900 --------------------
+
+2003-09-24  Lynn Garren  <garren@fnal.gov>
+        
+	integrating changes from HepMC 1.24 into CLHEP/HepMC
+
+	--------------------  HepMC-01-02-14  ----(gcc 3.2 compatible)---------
+
+2003-04-21  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+
+	* src/IO_HERWIG.cxx: 
+	minor changes to handling of herwig event record
+	
+	--------------------  HepMC-01-02-11  ----(gcc 3.2 compatible)---------
+
+2003-03-10  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+
+	* HepMC/IO_BaseClass.h: 
+	Fixed bug reported by Peter Loch, wherein the virtual destructor
+	for IO_BaseClass was missing.
+
+	--------------------  HepMC-01-02-10  ----(gcc 3.2 compatible)---------
+
+2003-03-03  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+
+	* HepMC/GenVertex.h: added extra ifdef statement to allow
+	compilation on gcc 3.2. (forward_iterator and open_mode problems).
+	* HepMC/IO_Ascii.h: as above.
+	* src/IO_Ascii.cxx (HepMC): as above.
+
+2003-01-17  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+
+	* src/IO_PDG_ParticleDataTable.cxx (HepMC): if the PDG table does
+	not exist, we abort, rather than just returning false.
+
+	--------------------  HepMC-01-02-04  ----(5.0.0)------------
+2002-11-04  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+
+	* src/GenEvent.cxx (HepMC): set_barcode(particle, barcode),
+	set_barcode(vertex, barcode) Fixed a bug reported by Giorgos S.
+	For this bug, a user suggests a barcode for a vertex that is
+	already part of an event... the vertex is inserted in the vertex
+	map with the new barcode, but HepMC forgets to erase the old
+	entry... such that the vertex now appears twice in the map.  This
+	is fixed, and the corresponding error for particles is also fixed.
+	
+2002-10-31  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+
+	* HepMC/IO_HERWIG.h: modified IO_HERWIG to include a switch
+	(default m_no_gaps_in_barcodes=on) which removes null entries from
+	Herwig HEPEVT and reshuffles the common block
+
+2002-10-22  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+
+	* HepMC/HerwigWrapper6_4.h, HepMC/HerwigWrapper.h: new interface
+	to HERWIG Version 6.4 is added. There is an example for using it
+	at examples/example_MyHerwig.cxx. To use this example you will
+	have to download HERWIG version 6.4 and modify the Makefile to
+	link it.
+
+	* HepMC/IO_HERWIG.h: New class for reading the Herwig version of
+	the HEPEVT common block is added. READ THE COMMENTS IN THE .h file
+	carefully before using it!
+	
+
+2002-07-29  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+	--------------------  HepMC-01-02-03  ----(4.0.2)------------
+
+	* src/GenVertex.cxx (HepMC): remove_particle()
+	* HepMC/GenVertex.h: 
+	removed confusing comment about the use of GenVertex::remove_particle()
+	in .h file, and clarified the comment in .cxx file.
+
+	* src/GenEvent.cxx (HepMC): operator=
+	bug discovered by <Malte.Muller@cern.ch>.
+	Formerly, the GenEvent::operator= method relied on the particles
+	attached to each vertex to always be in the same order. However,
+	since the particles are stored in set<>, this is not always true
+	-- making the results of the operator= method unreliable.
+	This is fixed by mapping the vertices explicitly.
+	
+	* src/IO_PDG_ParticleDataTable.cxx (HepMC): 
+	added a line in read_entry that ignores empty lines (previously
+	empty lines in the pdg data table generated a cerr message).
+	This change was requested by Davida Costanzo.
+
+
+2002-03-02  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+	--------------------  HepMC-01-02-02  ----(3.0.1)------------
+	
+	* src/GenVertex.cxx (HepMC): 
+	GenVertex::edge_iterator::edge_iterator( .. )
+	Extra error protection added in the constructor.
+	Sometimes the edge_iterator fails when we have a vertex with no
+	in_particles. This never happens in standalone mode, but when ran
+	with the ATLAS framework, it does happen. New code identifies the
+	scenario explicitly, and catches the error, which has to do with
+	the past-the-end value of the edge_iterator.
+	
+	* test/test_iterators.cxx: new test program added for iterators,
+	to test for the above problems.
+
+
+2002-02-19  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+
+        CHANGES TO ALLOW HEPMC TO COMPILE WITH SOLARIS CC 5.2
+	
+	* cmt/requirements: added the line
+	macro_append cppflags "" Solaris      " -D__SUNPRO_CC "
+	to handle Solaris CC 5.2 features.
+	
+	* HepMC/ParticleDataTable.h: 
+	turns on MISSING_FORWARD_ITERATOR when __SUNPRO_CC is defined.
+	This defines forward_iterator as iterator
+
+	* HepMC/GenVertex.h: 
+	same as ParticleDataTable.h, but also turns on 
+	NEED_SOLARIS_FRIEND_FEATURE when __SUNPRO_CC is defined. 
+
+	* src/Polarization.cxx (HepMC): 
+	replaced abs() with theta = ( theta>0 ? theta : -theta );
+	for compatibility with Solaris.
+
+2002-02-15  Matt Dobbs  <Matt.Dobbs@Cern.CH>
+	--------------------  HepMC-01-02-01  ----(3.0.0)------------
+
+	* HepMC/GenEvent.h: bug discovered by <srinir@bnl.gov> with help
+	from Paolo and Hong. 
+	The GenEvent::particle_iterator, const_particle_iterator,
+	              vertex_iterator, const_vertex_iterator
+	had methods like:
+	  bool operator !=(const particle_iterator& a) const 
+	  {  return !(**this == *a); }
+	which doesn't work because you are not allowed to de-reference 
+	the end() iterator  [the above coding is a relic of the old
+	              walking iterators which did not inherit from
+	              forward_iterstor, and for which *end() was well
+	              defined.]
+	The correct usage is:
+	{ return m_map_iterator == a.m_map_iterator; }
+
+	Note: this does NOT affect the GenVertex::***_iterator's, since
+	for those iterators *end() is well defined.
+	
+
 2002-06-01  Lynn Garren  <garren@fnal.gov>
 	--------------------  CLHEP_1_800 --------------------
         

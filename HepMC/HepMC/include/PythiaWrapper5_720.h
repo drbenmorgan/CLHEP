@@ -140,7 +140,7 @@ extern "C" {
 // A simple example of calling Pythia from C++ using this header file:
 //        (compiling instructions are given after the example)
 //--------------------------------------------------------------------------
-//  #include "PythiaWrapper5_720.h"
+//  #include "CLHEP/HepMC/include/PythiaWrapper5_720.h"
 //  main() {
 //      // init the PYDATA block data as external by calling
 //      initpydata();

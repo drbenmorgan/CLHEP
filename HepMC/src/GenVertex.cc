@@ -237,6 +237,9 @@ namespace HepMC {
 	//      delete vtx->remove_particle( particle );
 	// or if the particle has an end vertex, you could:
 	//      delete vtx->remove_particle( particle )->end_vertex();
+	// which would delete the particle's end vertex, and thus would
+	// also delete the particle, since the particle would be 
+	// owned by the end vertex.
 	if ( !particle ) return 0;
 	if ( particle->end_vertex() == this ) {
 	    particle->set_end_vertex_( 0 );
@@ -386,30 +389,39 @@ namespace HepMC {
 	//       events were processed and only when I called the delete 
 	//       function on past events. I believe it had something to do with
 	//       the past the end values, which are now robustly coded in this
-	//       version as boolean members. I expect this new version is 
-	//       slower but 3 days debugging the old version can be considered
-	//       slow too!
+	//       version as boolean members. 
 	//
 	// default range is family, only other choices are children/parents
+	//    descendants/ancestors not allowed & recasted ot children/parents
 	if ( range == descendants || range == children ) m_range = children;
 	if ( range == ancestors   || range == parents  ) m_range = parents;
 	// check to be sure the inherited interator points to the right place
 	if ( m_vertex->m_particles_in.empty() &&
 	     m_vertex->m_particles_out.empty() ) {
+	    // Case: particles_in and particles_out is empty.
 	    m_is_inparticle_iter = 0;
+	    m_is_past_end = 1;
+	} else if ( m_range == parents && m_vertex->m_particles_in.empty() ){
+	    // Case: particles in is empty and parents is requested.
+	    m_is_inparticle_iter = 1;
 	    m_is_past_end = 1;
 	} else if ( m_range == children && m_vertex->m_particles_out.empty() ){
-	    // Matt added this 2001-02-28 to handle the case when
-	    // a vertex has incoming particles, but none outgoing and user 
-	    // requests children
+	    // Case: particles out is empty and children is requested.
 	    m_is_inparticle_iter = 0;
 	    m_is_past_end = 1;
-	} else if ( m_range == children || 
-		    (m_vertex->m_particles_in.empty() && m_range == family) ) {
+	} else if ( m_range == children ) {
+	    // Case: particles out is NOT empty, and children is requested
+	    m_set_iter = m_vertex->m_particles_out.begin();
+	    m_is_inparticle_iter = 0;
+	    m_is_past_end = 0;
+	} else if ( m_range == family && m_vertex->m_particles_in.empty() ) {
+	    // Case: particles in is empty, particles out is NOT empty,
+	    //       and family is requested. Then skip ahead to partilces out.
 	    m_set_iter = m_vertex->m_particles_out.begin();
 	    m_is_inparticle_iter = 0;
 	    m_is_past_end = 0;
 	} else {
+	    // Normal scenario: start with the first incoming particle
 	    m_set_iter = m_vertex->m_particles_in.begin();
 	    m_is_inparticle_iter = 1;
 	    m_is_past_end = 0;
@@ -802,9 +814,3 @@ namespace HepMC {
     }
 
 } // HepMC
-
-
-
-
-
-

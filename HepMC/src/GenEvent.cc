@@ -55,10 +55,15 @@ namespace HepMC {
 	// 2. create a NEW copy of all vertices from inevent
 	//    taking care to map new vertices onto the vertices being copied
 	//    and add these new vertices to this event.
+	//    We do not use GenVertex::operator= because that would copy
+	//    the attached particles as well.
 	std::map<const GenVertex*,GenVertex*> map_in_to_new;
 	for ( GenEvent::vertex_const_iterator v = inevent.vertices_begin();
 	      v != inevent.vertices_end(); v++ ) {
-	    GenVertex* newvertex = new GenVertex(**v);
+	    //GenVertex* newvertex = new GenVertex(**v);
+	    GenVertex* newvertex = new GenVertex(
+	        (*v)->position(), (*v)->id(), (*v)->weights() );
+            newvertex->suggest_barcode( (*v)->barcode() );
 	    map_in_to_new[*v] = newvertex;
 	    add_vertex( newvertex );
 	}
@@ -68,24 +73,24 @@ namespace HepMC {
 		map_in_to_new[inevent.signal_process_vertex()] );
 	} else set_signal_process_vertex( 0 );
 	//
-	// 3. for each outgoing particle in each vtx that had a decay vertex
-	//    in the old list, set the outparticle.decayvertex pointers to 
-	//    the right place in the new list ...
-	for ( std::map<const GenVertex*,GenVertex*>::const_iterator m = 
-		  map_in_to_new.begin();
-	      m != map_in_to_new.end(); m++ ) {
-	    for ( GenVertex::particles_out_const_iterator 
-		      pold = ((*m).first)->particles_out_const_begin(),
-		      pnew = ((*m).second)->particles_out_const_begin();
-		  pold != ((*m).first)->particles_out_const_end(); 
-		  ++pold, ++pnew ) {
-		if (  (*pold)->end_vertex() ) {
-		    map_in_to_new[(*pold)->end_vertex()]->
-			add_particle_in(*pnew);
-		}
-	    }
-	}
 	//
+        // 3. create a NEW copy of all particles from inevent
+        //    taking care to attach them to the appropriate 
+	//    place in the new list ...
+        for ( GenEvent::particle_const_iterator p = inevent.particles_begin();
+              p != inevent.particles_end(); p++ ) 
+        {
+	    GenParticle* oldparticle = *p;
+	    GenParticle* newparticle = new GenParticle(*oldparticle);
+	    if ( oldparticle->end_vertex() ) {
+                map_in_to_new[ oldparticle->end_vertex() ]->
+                                         add_particle_in(newparticle);
+            }
+            if ( oldparticle->production_vertex() ) {
+                map_in_to_new[ oldparticle->production_vertex() ]->
+                                         add_particle_out(newparticle);
+            }
+        }
 	// 4. now that vtx/particles are copied, do everything else
 	set_signal_process_id( inevent.signal_process_id() );
 	set_event_number( inevent.event_number() );
@@ -218,6 +223,19 @@ namespace HepMC {
 	    return false;
 	}
 	//
+	// M.Dobbs  Nov 4, 2002
+	// First we must check to see if the particle already has a
+	// barcode which is different from the suggestion. If yes, we
+	// remove it from the particle map.
+	if ( p->barcode() != 0 && p->barcode() != suggested_barcode ) {
+	    if ( m_particle_barcodes.count(p->barcode()) &&
+		 m_particle_barcodes[p->barcode()] == p ) {
+		m_particle_barcodes.erase( p->barcode() );
+	    }
+	    // At this point either the particle is NOT in
+	    // m_particle_barcodes, or else it is in the map, but
+	    // already with the suggested barcode.
+	}
 	// First case --- a valid barcode has been suggested
 	//     (valid barcodes are numbers greater than zero)
 	bool insert_success = true;
@@ -275,6 +293,20 @@ namespace HepMC {
 		      << std::endl;
 	    return false;
 	}
+	// M.Dobbs Nov 4, 2002
+	// First we must check to see if the vertex already has a
+	// barcode which is different from the suggestion. If yes, we
+	// remove it from the vertex map.
+	if ( v->barcode() != 0 && v->barcode() != suggested_barcode ) {
+	    if ( m_vertex_barcodes.count(v->barcode()) &&
+		 m_vertex_barcodes[v->barcode()] == v ) {
+		m_vertex_barcodes.erase( v->barcode() );
+	    }
+	    // At this point either the vertex is NOT in
+	    // m_vertex_barcodes, or else it is in the map, but
+	    // already with the suggested barcode.
+	}
+	
 	//
 	// First case --- a valid barcode has been suggested
 	//     (valid barcodes are numbers greater than zero)
