@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.5 2005/02/01 20:21:24 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.6 2005/03/15 20:39:06 fischler Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -952,14 +952,10 @@ void HepSymMatrix::invert(int &ifail) {
 }
 
 double HepSymMatrix::determinant() const {
-  static int max_array = 20;
-  static int *ir = new int [max_array+1];
-
-  if (nrow > max_array) {
-    delete [] ir;
-    max_array = nrow;
-    ir = new int [max_array+1];
-  }
+  static const int max_array = 20;
+  static std::vector<int> ir_vec (max_array); 
+  ir_vec.resize(nrow);
+  int * ir = &ir_vec[0];   
 
   double det;
   HepMatrix mt(*this);
@@ -986,18 +982,32 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 
   int i, j, k, s;
   int pivrow;
-  int max_array = 25;
-      
-  static int * piv = new int[max_array]; 
-  // used to store details of exchanges
+
+  // Establish the two working-space arrays needed:  x and piv are
+  // used as pointers to arrays of doubles and ints respectively, each
+  // of length nrow.  We do not want to reallocate each time through
+  // unless the size needs to grow.  We do not want to leak memory, even
+  // by having a new without a delete that is only done once.
+  
+  static const int max_array = 25;
 #ifdef DISABLE_ALLOC
-  std::vector<double >* xvec = new std::vector<double>(max_array);
+  static std::vector<double> xvec (max_array);
+  static std::vector<int>    pivv (max_array);
+  typedef std::vector<int>::iterator pivIter; 
 #else
-  std::vector<double,Alloc<double,25> >* xvec = new std::vector<double,Alloc<double,25> >(max_array);
-#endif
-  static mIter x = xvec->begin();
-  // helper storage, needs to have at least size nrow,
-  // which will be less than or equal 6 most of the time
+  static std::vector<double,Alloc<double,25> > xvec (max_array);
+  static std::vector<int,   Alloc<int,   25> > pivv (max_array);
+  typedef std::vector<int,Alloc<int,25> >::iterator pivIter; 
+#endif	
+  xvec.resize(nrow);
+  pivv.resize(nrow);
+     // Note - resize does nothing if the size is already larger than nrow.
+     // Note - the data elements in a vector are guaranteed to be contiguous,
+     //        so x[i] and piv[i] are optimally fast.
+  mIter   x   = xvec.begin();
+  // x[i] is used as helper storage, needs to have at least size nrow.
+  pivIter piv = pivv.begin();
+  // piv[i] is used to store details of exchanges
       
   double temp1, temp2;
   HepMatrix::mIter ip, mjj, iq;
@@ -1008,16 +1018,6 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
   // it is set to zero.
   // this constant could be set to zero but then the algorithm
   // doesn't neccessarily detect that a matrix is singular
-
-
-  if (nrow > max_array) // need more space than expected
-  {
-    max_array = nrow;
-    delete [] piv;
-    xvec->resize(nrow);
-    x = xvec->begin();
-    piv = new int[nrow];
-  }
   
   for (i = 0; i < nrow; i++)
 	piv[i] = i+1;

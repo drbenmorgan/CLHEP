@@ -1,3 +1,17 @@
+2005-03-15  Mark Fischler  <mf@fnal.gov>
+
+	* SymMatrix.cc, testBug7328.cc
+	
+	Repair of bug 7328, a memory leak encountered when inverting symmetric
+	matrices above the size of 6x6.
+	
+2005-02-25  Mark Fischler  <mf@fnal.gov>
+
+	* Matrix.cc, testBug6181.cc
+	
+	Repair of bug 6181, a serious error in inverting matrices above the
+	size of 6x6.  
+
 2005-02-14  Mark Fischler  <mf@fnal.gov>
 
 	* SymMatrixInvert.cc
