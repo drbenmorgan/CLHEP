@@ -1,3 +1,7 @@
+2005-02-14  Lynn Garren  <garren@fnal.gov>
+
+	* */configure.in: Visual C++ flags are now "-EHsc -nologo -GR -GX -MD"
+
 2005-02-03  Lynn Garren  <garren@fnal.gov>
 
 	* configure.in: install step creates libCLHEP.a, libCLHEP.so,
