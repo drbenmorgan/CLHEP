@@ -1,14 +1,11 @@
 Mon Dec 27	2004 Mark Fischler <mf@fnal.gov>
 
-	* RandomEngine.h DRand48Engine.cc DualRand.cc Hurd160Engine.cc
+	* DRand48Engine.cc DualRand.cc Hurd160Engine.cc
 	  Hurd288Engine.cc JamesRandom.cc MTwistEngine.cc RandFlat.cc
 	  RandGauss.cc RandomEngine.cc RandomEngine.cc RanecuEngine.cc
-	  Ranlux64Engine.cc /RanluxEngine.cc TripleRand.cc 
-	  
+	  Ranlux64Engine.cc RanluxEngine.cc TripleRand.cc 	  
 	* Random.cc EngineFactory.cc StaticRandomStates.cc
-
-	* Corresponding .h files
-	
+	* Corresponding .h files	
 	* Random/test/ranRestoreTest.cc
 
 	Ability to restore engines and distributions without knowing in
