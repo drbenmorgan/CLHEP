@@ -91,9 +91,9 @@ echo "else " >> clheplib
 echo "    pkg=\$1 " >> clheplib
 echo "fi " >> clheplib
 echo " " >> clheplib
-echo "libdir=\"-L$uselibdir\" " >> clheplib
+echo "libdir=\"$uselibdir\" " >> clheplib
 echo "if test -n \"\$CLHEP_DIR\"; then " >> clheplib
-echo "    libdir=\"-L\$CLHEP_DIR/lib\" " >> clheplib
+echo "    libdir=\"\$CLHEP_DIR/lib\" " >> clheplib
 echo "fi " >> clheplib
 echo " " >> clheplib
 echo "case "\$pkg" in " >> clheplib
@@ -104,7 +104,12 @@ for lib in $tlist; do
     clibs="$clibs -l$lib"
 done
 echo "all) " >> clheplib
-echo "  echo \$libdir $clibs" >> clheplib
+echo "  if test -e \$libdir/libCLHEP-@VERSION@.a || test -e \$libdir/libCLHEP-@VERSION@.so " >> clheplib
+echo "  then   " >> clheplib
+echo "    echo -L\$libdir -lCLHEP-@VERSION@ " >> clheplib
+echo "  else " >> clheplib
+echo "    echo -L\$libdir $clibs" >> clheplib
+echo "  fi " >> clheplib
 echo "  ;; " >> clheplib
 
 for sub in $sublist; do
@@ -116,11 +121,11 @@ for sub in $sublist; do
 	    clibs="$clibs -l$lib"
 	done
 	echo "$sub) " >> clheplib
-	echo "  echo \$libdir $clibs" >> clheplib
+	echo "  echo -L\$libdir $clibs" >> clheplib
 	echo "  ;; " >> clheplib
     else
 	echo "$sub) " >> clheplib
-	echo "  echo \$libdir " >> clheplib
+	echo "  echo -L\$libdir " >> clheplib
 	echo "  ;; " >> clheplib
     fi
 done

@@ -9,7 +9,7 @@ for subdir in "$@"
 do
   if test -d $subdir/src/.libs
   then
-      thispkg=`ls $subdir/src/.libs/*.o`
+      thispkg=`ls $subdir/src/*.lo`
       filelist="$filelist $thispkg"
   fi
 done
