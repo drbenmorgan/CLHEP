@@ -1,4 +1,4 @@
-// $Id: testPID.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: testPID.cc,v 1.2 2003/07/17 10:33:44 garren Exp $
 // ----------------------------------------------------------------------
 // TestPID.cc
 //
@@ -9,9 +9,12 @@
 #include <iostream>
 #include <iomanip>
 
+#include "HepPDT/defs.h"
 #include "CLHEP/HepPDT/ParticleID.hh"
 
-using namespace std;
+using std::cout;
+using std::cerr;
+using std::endl;
 
 int main()
 {

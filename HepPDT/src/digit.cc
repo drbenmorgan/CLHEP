@@ -1,4 +1,4 @@
-// $Id: digit.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: digit.cc,v 1.2 2003/07/17 10:33:44 garren Exp $
 // ----------------------------------------------------------------------
 //
 // digit.cc
@@ -8,6 +8,7 @@
 // ----------------------------------------------------------------------
 
 #include "CLHEP/HepPDT/ParticleID.hh"
+#include <cmath>	// for pow()
 
 namespace HepPDT {
 
@@ -15,7 +16,7 @@ unsigned short ParticleID::digit( location loc ) const
 {
     //  PID digits (base 10) are: n nr nl nq1 nq2 nq3 nj
     //  the location enum provides a convenient index into the PID
-    int numerator = (int) pow(10.0,(loc-1));
+    int numerator = (int) std::pow(10.0,(loc-1));
     return (abspid()/numerator)%10;
 }
 
