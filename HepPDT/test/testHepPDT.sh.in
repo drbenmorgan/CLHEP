@@ -2,6 +2,6 @@
 # @configure_input@
 
 
-./testHepPDT@EXEEXT@  \
-  | diff -q - @srcdir@/testHepPDT.output > /dev/null
+./testHepPDT@EXEEXT@ < testHepPDT.input 
+diff -q testHepPDT.out @srcdir@/testHepPDT.output > /dev/null
 

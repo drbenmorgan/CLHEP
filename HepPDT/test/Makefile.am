@@ -7,7 +7,7 @@ check_PROGRAMS = \
         testPID testHepPDT
 
 check_SCRIPTS = \
-        testPID.sh testHepPDT.sh
+        testPID.sh testHepPDT.sh testHepPDT.input
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
@@ -23,7 +23,7 @@ testHepPDT_SOURCES = testHepPDT.cc
 
 # Identify input data file(s) and prototype output file(s):
 EXTRA_DIST = \
-        testPID.output testHepPDT.output
+        testPID.output testHepPDT.output testHepPDT.input
 
 # Identify generated file(s) to be removed when 'make clean' is requested:
 CLEANFILES =

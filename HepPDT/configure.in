@@ -35,6 +35,7 @@ AC_CONFIG_FILES([test/Makefile])
 # Test driver program/script:
 AC_CONFIG_FILES([test/testPID.sh], [chmod +x test/testPID.sh])
 AC_CONFIG_FILES([test/testHepPDT.sh], [chmod +x test/testHepPDT.sh])
+AC_CONFIG_FILES([test/testHepPDT.input])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:

@@ -1,8 +1,9 @@
-// $Id: testHepPDT.cc,v 1.1 2003/07/17 10:33:44 garren Exp $
+// $Id: testHepPDT.cc,v 1.2 2003/07/23 14:40:47 garren Exp $
 // ----------------------------------------------------------------------
 // testHepPDT.cc
 //
 // test by reading the PDG table
+// get filename and location of PDG table from input stream
 //
 // Usage:  testHepPDT 
 //
@@ -26,8 +27,9 @@ template class HepPDT::DMFactory<DefaultConfig>;
 
 int main()
 {
-    const char pdgfile[] = "../HepPDT/data/pdg_mass.tbl";
+    char pdgfile[300] = "";
     const char outfile[] = "testHepPDT.out";
+    std::cin >> pdgfile;
     // open input file
     std::ifstream pdfile( pdgfile );
     if( !pdfile ) { 
