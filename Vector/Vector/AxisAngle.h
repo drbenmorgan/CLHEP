@@ -19,6 +19,7 @@
 #endif
 
 #include <iostream>
+#include "CLHEP/Vector/defs.h" 
 
 
 namespace CLHEP {
@@ -112,5 +113,10 @@ namespace zmpv  {
 #define AXISANGLE_ICC
 #include "CLHEP/Vector/AxisAngle.icc"
 #undef AXISANGLE_ICC
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #endif  // HEP_AXISANGLE_H

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Point3D.h,v 1.2 2003/07/17 09:05:28 garren Exp $
+// $Id: Point3D.h,v 1.3 2003/10/23 21:29:50 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -15,6 +15,7 @@
 #define HEP_POINT3D_H
 
 #include <iosfwd>
+#include "CLHEP/Geometry/defs.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Geometry/BasicVector3D.h"
 
@@ -223,6 +224,9 @@ namespace HepGeom {
 
 } /* namespace HepGeom */
 
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
 typedef HepGeom::Point3D<double> HepPoint3D;
+#endif
 
 #endif /* HEP_POINT3D_H */

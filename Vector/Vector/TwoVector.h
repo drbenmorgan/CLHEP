@@ -26,6 +26,7 @@
 
 #include <iostream>
 
+#include "CLHEP/Vector/defs.h" 
 #include "CLHEP/Vector/ThreeVector.h" 
 
 namespace CLHEP {
@@ -211,6 +212,11 @@ static const Hep2Vector Y_HAT2(0.0, 1.0);
 }  // namespace CLHEP
 
 #include "CLHEP/Vector/TwoVector.icc"
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 
 #endif /* HEP_TWOVECTOR_H */

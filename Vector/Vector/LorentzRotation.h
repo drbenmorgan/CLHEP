@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: LorentzRotation.h,v 1.2 2003/10/10 21:42:35 garren Exp $
+// $Id: LorentzRotation.h,v 1.3 2003/10/23 21:29:52 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -27,6 +27,7 @@
 #pragma interface
 #endif
 
+#include "CLHEP/Vector/defs.h" 
 #include "CLHEP/Vector/RotationInterfaces.h"
 #include "CLHEP/Vector/Rotation.h" 
 #include "CLHEP/Vector/Boost.h" 
@@ -377,6 +378,11 @@ inline bool operator>(const HepBoost &b, const HepLorentzRotation & lt)
 }  // namespace CLHEP
 
 #include "CLHEP/Vector/LorentzRotation.icc"
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #endif /* HEP_LORENTZROTATION_H */
 

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: PhysicalConstants.h,v 1.2 2003/08/06 18:31:22 garren Exp $
+// $Id: PhysicalConstants.h,v 1.3 2003/10/23 21:29:51 garren Exp $
 // ----------------------------------------------------------------------
 // HEP coherent Physical Constants
 //
@@ -37,6 +37,7 @@
 #ifndef HEP_PHYSICAL_CONSTANTS_H
 #define HEP_PHYSICAL_CONSTANTS_H
 
+#include "CLHEP/Units/defs.h"
 #include "CLHEP/Units/SystemOfUnits.h"
 
 namespace CLHEP {
@@ -128,6 +129,11 @@ static const double kGasThreshold   = 10.*mg/cm3;
 static const double universe_mean_density = 1.e-25*g/cm3;
 
 }  // namespace CLHEP
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #endif /* HEP_PHYSICAL_CONSTANTS_H */
 

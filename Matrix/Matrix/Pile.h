@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: Pile.h,v 1.2 2003/07/18 05:31:48 garren Exp $
+// $Id: Pile.h,v 1.3 2003/10/23 21:29:50 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -71,6 +71,7 @@
 #define _PILE_H
 
 #include <iostream>
+#include "CLHEP/Matrix/defs.h"
 
 /**
  * @author
@@ -139,5 +140,10 @@ private:
 };
 
 }  // namespace CLHEP
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #endif /*_PILE_H */

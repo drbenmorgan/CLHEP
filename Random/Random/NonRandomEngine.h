@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.h,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: NonRandomEngine.h,v 1.3 2003/10/23 21:29:51 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -25,6 +25,7 @@
 #ifndef NonRandomEngine_h
 #define NonRandomEngine_h 1
 
+#include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandomEngine.h"
 
 namespace CLHEP {

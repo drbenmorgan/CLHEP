@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: ThreeVector.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ThreeVector.h,v 1.2 2003/10/23 21:29:52 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -26,6 +26,7 @@
 #endif
 
 #include <iostream>
+#include "CLHEP/Vector/defs.h" 
 
 namespace CLHEP {
 
@@ -442,5 +443,10 @@ Hep3Vector operator * (double a, const Hep3Vector &);
 }  // namespace CLHEP
 
 #include "CLHEP/Vector/ThreeVector.icc"
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #endif /* HEP_THREEVECTOR_H */

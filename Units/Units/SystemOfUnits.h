@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SystemOfUnits.h,v 1.2 2003/08/06 18:31:22 garren Exp $
+// $Id: SystemOfUnits.h,v 1.3 2003/10/23 21:29:51 garren Exp $
 // ----------------------------------------------------------------------
 // HEP coherent system of Units
 //
@@ -40,6 +40,8 @@
 
 #ifndef HEP_SYSTEM_OF_UNITS_H
 #define HEP_SYSTEM_OF_UNITS_H
+
+#include "CLHEP/Units/defs.h"
 
 namespace CLHEP {
 
@@ -275,5 +277,10 @@ static const double perThousand = 0.001;
 static const double perMillion  = 0.000001;
 
 }  // namespace CLHEP
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #endif /* HEP_SYSTEM_OF_UNITS_H */

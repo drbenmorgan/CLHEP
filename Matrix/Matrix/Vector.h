@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: Vector.h,v 1.2 2003/07/18 05:31:48 garren Exp $
+// $Id: Vector.h,v 1.3 2003/10/23 21:29:50 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -52,6 +52,7 @@
 #pragma interface
 #endif
 
+#include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/GenMatrix.h"
 
 namespace CLHEP {
@@ -229,6 +230,11 @@ HepVector dsum(const HepVector &s1, const HepVector &s2);
 // Direct sum of two vectors;
 
 }  // namespace CLHEP
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #include "CLHEP/Matrix/Vector.icc"
 

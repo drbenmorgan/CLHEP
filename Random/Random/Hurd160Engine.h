@@ -1,4 +1,4 @@
-// $Id: Hurd160Engine.h,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: Hurd160Engine.h,v 1.3 2003/10/23 21:29:51 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -27,6 +27,7 @@
 #ifndef Hurd160Engine_h
 #define Hurd160Engine_h
 
+#include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandomEngine.h"
 
 namespace CLHEP {
@@ -95,5 +96,10 @@ private:
 }; // Hurd160Engine
 
 }  // namespace CLHEP
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #endif // Hurd160Engine_h

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: GenMatrix.h,v 1.2 2003/07/18 05:31:48 garren Exp $
+// $Id: GenMatrix.h,v 1.3 2003/10/23 21:29:50 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -50,6 +50,7 @@
 #endif
 
 #include <iostream>
+#include "CLHEP/Matrix/defs.h"
 
 namespace CLHEP {
 
@@ -140,6 +141,11 @@ double norm_infinity(const HepGenMatrix &m);
 // 2, 1 or infinity-norm of a matrix.
 
 }  // namespace CLHEP
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #ifndef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/GenMatrix.icc"

@@ -89,8 +89,13 @@ AH_VERBATIM([VERSION],[/* Version number of package */
 #undef VERSION
 #endif])
 
-AH_BOTTOM([
-/*  use correct std::ios_base or std::ios (old) */
+## backwards compatibility
+AH_VERBATIM([ENABLE_BACKWARDS_COMPATIBILITY],[/* backwards compatibility will be enabled ONLY in CLHEP 1.9 */
+#ifndef ENABLE_BACKWARDS_COMPATIBILITY
+#define ENABLE_BACKWARDS_COMPATIBILITY
+#endif])
+
+AH_BOTTOM([/*  use correct std::ios_base or std::ios (old) */
 #ifdef HAVE_IOS_BASE
 #define HepIOS std::ios_base 
 #define HepIOSOpenMode std::ios_base::openmode

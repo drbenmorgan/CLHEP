@@ -23,6 +23,7 @@
 #pragma interface
 #endif
 
+#include "CLHEP/Vector/defs.h" 
 #include "CLHEP/Vector/RotationInterfaces.h"
 #include "CLHEP/Vector/LorentzVector.h"
 
@@ -217,5 +218,10 @@ std::ostream & operator <<
 }  // namespace CLHEP
 
 #include "CLHEP/Vector/BoostX.icc"
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #endif /* HEP_BOOSTX_H */

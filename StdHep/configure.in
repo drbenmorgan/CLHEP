@@ -15,8 +15,8 @@ AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/collision.cc])
 AM_INIT_AUTOMAKE(1.6 foreign)
 AC_PROG_LIBTOOL
-AC_PROG_LN_S
 AC_PROG_INSTALL
+AC_PROG_LN_S
 
 
 # ----------------------------------------------------------------------
@@ -81,6 +81,12 @@ AH_VERBATIM([PACKAGE_VERSION],[/* Define to the version of this package. */
 AH_VERBATIM([VERSION],[/* Version number of package */
 #ifndef VERSION
 #undef VERSION
+#endif])
+
+## backwards compatibility
+AH_VERBATIM([ENABLE_BACKWARDS_COMPATIBILITY],[/* backwards compatibility will be enabled ONLY in CLHEP 1.9 */
+#ifndef ENABLE_BACKWARDS_COMPATIBILITY
+#define ENABLE_BACKWARDS_COMPATIBILITY
 #endif])
 
 AH_BOTTOM([/*  use correct std::ios_base or std::ios (old) */

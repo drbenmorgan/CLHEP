@@ -1,4 +1,4 @@
-// $Id: RandGaussQ.h,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandGaussQ.h,v 1.3 2003/10/23 21:29:51 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -19,6 +19,7 @@
 #ifndef RandGaussQ_h
 #define RandGaussQ_h 1
 
+#include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandGauss.h"
 
 namespace CLHEP {
@@ -107,6 +108,11 @@ private:
 };
 
 }  // namespace CLHEP
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #include "CLHEP/Random/RandGaussQ.icc"
 

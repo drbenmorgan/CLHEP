@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Plane3D.h,v 1.2 2003/07/17 09:05:28 garren Exp $
+// $Id: Plane3D.h,v 1.3 2003/10/23 21:29:50 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -13,6 +13,7 @@
 #define HEP_PLANE3D_H
 
 #include <iosfwd>
+#include "CLHEP/Geometry/defs.h"
 #include "CLHEP/Geometry/Point3D.h"
 #include "CLHEP/Geometry/Normal3D.h"
 #include "CLHEP/Geometry/Transform3D.h"
@@ -153,6 +154,9 @@ namespace HepGeom {
 
 } /* namespace HepGeom */
 
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
 typedef HepGeom::Plane3D<double> HepPlane3D;
+#endif
 
 #endif /* HEP_PLANE3D_H */

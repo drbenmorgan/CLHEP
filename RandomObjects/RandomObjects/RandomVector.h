@@ -28,6 +28,7 @@
 #ifndef HepRandomVector_h
 #define HepRandomVector_h 1
 
+#include "CLHEP/RandomObjects/defs.h"
 #include "CLHEP/Random/RandomEngine.h"
 #include "CLHEP/Matrix/Vector.h"
 
@@ -121,5 +122,10 @@ private:       // -------- Data members ---------
 }  // namespace CLHEP
 
 #include "CLHEP/RandomObjects/RandomVector.icc"
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #endif

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: SymMatrix.h,v 1.2 2003/07/18 05:31:48 garren Exp $
+// $Id: SymMatrix.h,v 1.3 2003/10/23 21:29:50 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 // 
@@ -109,6 +109,7 @@
 #pragma interface
 #endif
 
+#include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/GenMatrix.h"
 
 namespace CLHEP {
@@ -369,6 +370,11 @@ HepMatrix tridiagonal(HepSymMatrix *a);
 // Does a Householder tridiagonalization of a symmetric matrix.
 
 }  // namespace CLHEP
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #ifndef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/SymMatrix.icc"

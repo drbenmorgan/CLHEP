@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: BasicVector3D.h,v 1.2 2003/07/17 09:05:28 garren Exp $
+// $Id: BasicVector3D.h,v 1.3 2003/10/23 21:29:50 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -11,6 +11,8 @@
 
 #ifndef BASIC_VECTOR3D_H
 #define BASIC_VECTOR3D_H
+
+#include "CLHEP/Geometry/defs.h"
 
 namespace HepGeom {
   /**
@@ -548,5 +550,10 @@ namespace HepGeom {
     return (a.x()!=b.x() || a.y()!=b.y() || a.z()!=b.z());
   }
 } /* namespace HepGeom */
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace HepGeom;
+#endif
 
 #endif /* BASIC_VECTOR3D_H */

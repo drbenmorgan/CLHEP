@@ -16,6 +16,7 @@
 // ----------------------------------------------------------------------
 
 #include <iostream>
+#include "CLHEP/Vector/defs.h" 
 
 namespace CLHEP {
 
@@ -109,6 +110,11 @@ typedef CLHEP::HepEulerAngles EulerAngles;
 #define EULERANGLES_ICC
 #include "CLHEP/Vector/EulerAngles.icc"
 #undef EULERANGLES_ICC
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 
 #endif // EULERANGLES_H

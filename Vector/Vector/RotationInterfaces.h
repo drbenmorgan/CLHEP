@@ -65,6 +65,7 @@
 // Mark Fischler
 //
 
+#include "CLHEP/Vector/defs.h" 
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/LorentzVector.h"
 #include "CLHEP/Vector/AxisAngle.h"
@@ -398,5 +399,10 @@ struct HepRep4x4Symmetric {
 }  // namespace CLHEP
 
 #include "CLHEP/Vector/RotationInterfaces.icc"
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #endif // ROTATION_INTERFACES_H

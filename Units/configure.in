@@ -84,6 +84,12 @@ AH_VERBATIM([VERSION],[/* Version number of package */
 #undef VERSION
 #endif])
 
+## backwards compatibility
+AH_VERBATIM([ENABLE_BACKWARDS_COMPATIBILITY],[/* backwards compatibility will be enabled ONLY in CLHEP 1.9 */
+#ifndef ENABLE_BACKWARDS_COMPATIBILITY
+#define ENABLE_BACKWARDS_COMPATIBILITY
+#endif])
+
 AH_BOTTOM([#endif  // UNITS_DEFS_H])
 
 

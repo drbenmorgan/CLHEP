@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: LorentzVector.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: LorentzVector.h,v 1.2 2003/10/23 21:29:52 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -25,8 +25,9 @@
 #pragma interface
 #endif
 
-#include "CLHEP/Vector/ThreeVector.h"
 #include <iostream>
+#include "CLHEP/Vector/defs.h" 
+#include "CLHEP/Vector/ThreeVector.h"
 
 namespace CLHEP {
 
@@ -570,5 +571,10 @@ public:
 }  // namespace CLHEP
 
 #include "CLHEP/Vector/LorentzVector.icc"
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #endif /* HEP_LORENTZVECTOR_H */

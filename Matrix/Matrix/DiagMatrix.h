@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: DiagMatrix.h,v 1.2 2003/07/18 05:31:48 garren Exp $
+// $Id: DiagMatrix.h,v 1.3 2003/10/23 21:29:50 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -51,6 +51,7 @@
 #pragma interface
 #endif
 
+#include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/GenMatrix.h"
 
 namespace CLHEP {
@@ -254,6 +255,11 @@ HepDiagMatrix dsum(const HepDiagMatrix &s1, const HepDiagMatrix &s2);
 // Direct sum of two diagonal matricies;
 
 }  // namespace CLHEP
+
+#ifdef ENABLE_BACKWARDS_COMPATIBILITY
+//  backwards compatibility will be enabled ONLY in CLHEP 1.9
+using namespace CLHEP;
+#endif
 
 #ifndef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/DiagMatrix.icc"
