@@ -29,6 +29,10 @@ AM_CONFIG_HEADER([RandomObjects/defs.h])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([RandomObjects/Makefile])
 AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_FILES([test/Makefile])
+
+# Test driver program/script:
+AC_CONFIG_FILES([test/testVectorDists.sh], [chmod +x test/testVectorDists.sh])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:
@@ -36,7 +40,7 @@ AC_CONFIG_FILES([src/Makefile])
 
 RandomObjects_CPPFLAGS="-I$includedir"
 RandomObjects_LDFLAGS="-L$libdir"
-RandomObjects_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
+RandomObjects_LIBS="-lCLHEP-$PACKAGE-$VERSION $prefix/lib/libCLHEP-Random-$VERSION.so $prefix/lib/libCLHEP-Matrix-$VERSION.so -lm"
 
 AC_SUBST(RandomObjects_CPPFLAGS)
 AC_SUBST(RandomObjects_LIBS)

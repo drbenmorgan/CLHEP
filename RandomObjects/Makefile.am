@@ -3,7 +3,7 @@
 includedir = $(prefix)/include/CLHEP
 
 # put . first so that CLHEP directory is built before anything else
-SUBDIRS = . RandomObjects src
+SUBDIRS = . RandomObjects src test
 
 all-local: $(top_builddir)/CLHEP
 
