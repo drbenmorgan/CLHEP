@@ -6,7 +6,7 @@ SUBDIRS = config Units Vector Evaluator GenericFunctions Geometry \
           Random Matrix RandomObjects HepPDT HepMC StdHep \
           RefCount Cast Exceptions
 
-bin_SCRIPTS = clheplib
+bin_SCRIPTS = clheplib clhep-config
 
 CLEANFILES = clheplib library-list $(LTCLHEPLIB)
 
