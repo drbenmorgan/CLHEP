@@ -1,9 +1,6 @@
 #
 # StdHep examples makefile
 #
-# for KCC:
-# gmake LIBNAME=libCLHEP-KCC.1.8.0.0.a CXX=KCC
-#
 ################################################################################ 
 
 ifndef CXX
@@ -11,7 +8,7 @@ ifndef CXX
 endif
 
 ifndef LIBNAME
-    LIBNAME = libCLHEP-2.0.0.2.a
+    LIBNAME = libCLHEP-2.0.1.0.a
 endif
 
 ifndef PythiaLIB
