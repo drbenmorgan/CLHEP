@@ -1,9 +1,12 @@
 // -*- C++ -*-
-// $Id: TrivariateGaussian.cc,v 1.4 2003/09/06 14:04:14 boudreau Exp $
+// $Id: TrivariateGaussian.cc,v 1.5 2003/10/10 17:40:39 garren Exp $
 // ---------------------------------------------------------------------------
 
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/TrivariateGaussian.hh"
+#include "CLHEP/Units/PhysicalConstants.h"
 #include <assert.h>
+#include <cmath>      // for exp()
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(TrivariateGaussian)
@@ -69,7 +72,7 @@ double TrivariateGaussian::operator() (const Argument & a) const {
   double dt     = (1.0+rho1*rho2*rho3-rho1*rho1-rho2*rho2-rho3*rho3);
   double tmp1 ,tmp2;
  
-  tmp1= 1.0/((2.0*M_PI)*sqrt(2.0*M_PI)*sx*sy*sz*sqrt(dt));
+  tmp1= 1.0/((CLHEP::twopi)*sqrt(CLHEP::twopi)*sx*sy*sz*sqrt(dt));
   tmp2= exp(-0.5/dt*(dx*dx*(1.0-rho2*rho2)/sxs+dy*dy*(1.0-rho3*rho3)/sys+dz*dz*(1.0-rho1*rho1)/szs+2.0*dx*dy*(rho2*rho3-rho1)/sx/sy+2.0*dy*dz*(rho1*rho3-rho2)/sy/sz+2.0*dx*dz*(rho1*rho2-rho3)/sx/sz));
   
 

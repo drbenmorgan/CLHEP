@@ -1,7 +1,10 @@
 // -*- C++ -*-
-// $Id: BivariateGaussian.cc,v 1.4 2003/09/06 14:04:14 boudreau Exp $
+// $Id: BivariateGaussian.cc,v 1.5 2003/10/10 17:40:39 garren Exp $
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/BivariateGaussian.hh"
+#include "CLHEP/Units/PhysicalConstants.h"
 #include <assert.h>
+#include <cmath>      // for exp()
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(BivariateGaussian)
@@ -44,7 +47,7 @@ double BivariateGaussian::operator() (const Argument & a) const {
   double rho    = _corr01.getValue();
   double dt     = (1.0+rho)*(1.0-rho);
 
-  return (1.0/(2.0*M_PI*sx*sy*sqrt(dt))) * 
+  return (1.0/(CLHEP::twopi*sx*sy*sqrt(dt))) * 
 	       exp(-1.0/(2.0*dt)*(dx*dx/sxs+dy*dy/sys-2.0*rho*dx*dy/sx/sy));
 }
 

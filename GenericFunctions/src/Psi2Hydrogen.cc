@@ -10,6 +10,7 @@
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include "CLHEP/GenericFunctions/Power.hh"
 #include <assert.h>
+#include <cmath>      // for pow()
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Psi2Hydrogen)

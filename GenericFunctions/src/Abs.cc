@@ -2,7 +2,7 @@
 // -*- C++ -*-
 //
 #include "CLHEP/GenericFunctions/Abs.hh"
-#include <math.h>
+#include <cmath>
 
 namespace Genfun {
 
@@ -19,7 +19,7 @@ Abs::~Abs() {
 }
 
 double Abs::operator() (double x) const {
-  return fabs(x);
+  return std::abs(x);
 }
 
 }

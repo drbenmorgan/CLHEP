@@ -1,7 +1,7 @@
 // -*- C++ -*-
 // $Id: 
 #include "CLHEP/GenericFunctions/Mod.hh"
-#include <math.h>
+#include <cmath>
 #include <limits.h>
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Mod)

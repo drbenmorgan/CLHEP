@@ -4,6 +4,7 @@
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include <assert.h>
 #include <climits>
+#include <cmath>      // for pow()
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(RKIntegrator::RKFunction)

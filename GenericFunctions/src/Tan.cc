@@ -1,10 +1,11 @@
 // -*- C++ -*-
-// $Id: Tan.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
+// $Id: Tan.cc,v 1.4 2003/10/10 17:40:39 garren Exp $
 // ---------------------------------------------------------------------------
  
 #include "CLHEP/GenericFunctions/Tan.hh"
 #include "CLHEP/GenericFunctions/Cos.hh"
 #include <assert.h>
+#include <cmath>
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Tan)

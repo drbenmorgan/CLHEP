@@ -1,7 +1,8 @@
 // -*- C++ -*-
-// $Id: Cos.cc,v 1.4 2003/09/06 14:04:14 boudreau Exp $
+// $Id: Cos.cc,v 1.5 2003/10/10 17:40:39 garren Exp $
 #include "CLHEP/GenericFunctions/Cos.hh"
 #include "CLHEP/GenericFunctions/Sin.hh"
+#include <cmath>
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Cos)
