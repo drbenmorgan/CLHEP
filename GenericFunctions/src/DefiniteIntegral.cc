@@ -1,5 +1,8 @@
 // -*- C++ -*-
-// $Id: DefiniteIntegral.cc,v 1.4 2003/09/06 14:04:14 boudreau Exp $
+// $Id: DefiniteIntegral.cc,v 1.5 2003/11/20 20:08:15 pfeiffer Exp $
+
+#include <cmath>
+
 #include "CLHEP/GenericFunctions/DefiniteIntegral.hh"
 #include "CLHEP/GenericFunctions/AbsFunction.hh"
 namespace Genfun {

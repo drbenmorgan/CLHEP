@@ -1,5 +1,7 @@
 // -*- C++ -*-
-// $Id: Erf.cc,v 1.4 2003/09/06 14:04:14 boudreau Exp $
+// $Id: Erf.cc,v 1.5 2003/11/20 20:08:15 pfeiffer Exp $
+
+#include <cmath>
 
 #include "CLHEP/GenericFunctions/Erf.hh"
 #include "CLHEP/GenericFunctions/Gaussian.hh"
