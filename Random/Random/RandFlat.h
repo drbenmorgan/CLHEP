@@ -1,4 +1,4 @@
-// $Id: RandFlat.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandFlat.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -23,6 +23,7 @@
 //                  operator() with arguments: 16th Feb 1998
 // M. Fischler    - Moved copy constructor to protected so that
 //		    derived RandBit can get at it.
+// M Fischler      - put and get to/from streams 12/10/04
 // =======================================================================
 
 #ifndef RandFlat_h
@@ -123,6 +124,17 @@ public:
   double operator()();
   double operator()( double width );
   double operator()( double a, double b );
+
+  // Save and restore to/from streams
+  
+  std::ostream & put ( std::ostream & os ) const;
+  std::istream & get ( std::istream & is );
+
+  std::string name() const;
+  HepRandomEngine & engine();
+
+  static std::string distributionName() {return "RandFlat";}  
+  // Provides the name of this distribution class 
   
   // Methods overriding the base class static saveEngineStatus ones,
   // by adding extra data so that save in one program, then further shootBit()s
@@ -171,9 +183,9 @@ private:
   
   HepRandomEngine* localEngine;
   bool deleteEngine;
-  const double defaultWidth;
-  const double defaultA;
-  const double defaultB;
+  double defaultWidth;
+  double defaultA;
+  double defaultB;
 
 };
 

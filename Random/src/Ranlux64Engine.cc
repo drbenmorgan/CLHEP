@@ -1,4 +1,4 @@
-// $Id: Ranlux64Engine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: Ranlux64Engine.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -44,6 +44,8 @@
 //		    are initialized in setSeed, which EVERY constructor
 //		    must invoke.
 // J. Marraffino  - Remove dependence on hepString class  13 May 1999
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - put get Methods for distrib instance save/restore 12/8/04    
 //
 // =======================================================================
 
@@ -70,6 +72,8 @@ int Ranlux64Engine::maxIndex = 215;
 double Ranlux64Engine::twoToMinus_32;
 double Ranlux64Engine::twoToMinus_48;
 double Ranlux64Engine::twoToMinus_49;
+
+std::string Ranlux64Engine::name() const {return "Ranlux64Engine";}
 
 Ranlux64Engine::Ranlux64Engine()
 {
@@ -440,6 +444,10 @@ void Ranlux64Engine::saveStatus( const char filename[] ) const
 void Ranlux64Engine::restoreStatus( const char filename[] )
 {
    std::ifstream inFile( filename, std::ios::in);
+   if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+     std::cerr << "  -- Engine state remains unchanged\n";
+     return;
+   }
 
    if (!inFile.bad() && !inFile.eof()) {
      inFile >> theSeed;
@@ -469,23 +477,25 @@ void Ranlux64Engine::showStatus() const
    std::cout << "----------------------------------------" << std::endl;
 }
 
-std::ostream & operator << ( std::ostream& os, const Ranlux64Engine& e )
+std::ostream & Ranlux64Engine::put( std::ostream& os ) const
 {
    char beginMarker[] = "Ranlux64Engine-begin";
    char endMarker[]   = "Ranlux64Engine-end";
 
+   int pr = os.precision(20);
    os << " " << beginMarker << " ";
-   os << e.theSeed << " ";
+   os << theSeed << " ";
    for (int i=0; i<12; ++i) {
-     os << std::setprecision(20) << e.randoms[i] << std::endl;
+     os << randoms[i] << std::endl;
    }
-   os << std::setprecision(20) << e.carry << " " << e.index << " ";
-   os << e.luxury << " " << e.pDiscard << " ";
+   os << carry << " " << index << " ";
+   os << luxury << " " << pDiscard << "\n";
    os << endMarker << " ";
+   os.precision(pr);
    return os;
 }
 
-std::istream & operator >> ( std::istream& is, Ranlux64Engine& e )
+std::istream & Ranlux64Engine::get ( std::istream& is )
 {
   char beginMarker [MarkerLen];
   char endMarker   [MarkerLen];
@@ -502,14 +512,14 @@ std::istream & operator >> ( std::istream& is, Ranlux64Engine& e )
 	       << "\nwrong engine type found." << std::endl;
      return is;
   }
-  is >> e.theSeed;
+  is >> theSeed;
   for (int i=0; i<12; ++i) {
-     is >> e.randoms[i];
+     is >> randoms[i];
   }
-  is >> e.carry; is >> e.index;
-  is >> e.luxury; is >> e.pDiscard;
-  e.pDozens  = e.pDiscard / 12;
-  e.endIters = e.pDiscard % 12;
+  is >> carry; is >> index;
+  is >> luxury; is >> pDiscard;
+  pDozens  = pDiscard / 12;
+  endIters = pDiscard % 12;
   is >> std::ws;
   is.width(MarkerLen);  
   is >> endMarker;

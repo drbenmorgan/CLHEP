@@ -1,4 +1,4 @@
-// $Id: TripleRand.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: TripleRand.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -28,6 +28,8 @@
 //		    causing spurions warnings on SUN CC		27 May 1999
 // M. Fischler    - Put endl at end of puts of Tausworth and	10 Apr 2001
 //		    integerCong
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - Methods put, get for instance save/restore   12/8/04    
 //
 // =======================================================================
 
@@ -52,6 +54,8 @@ int TripleRand::numEngines = 0;
 double TripleRand::twoToMinus_32;
 double TripleRand::twoToMinus_53;
 double TripleRand::nearlyTwoToMinus_54;
+
+std::string TripleRand::name() const {return "TripleRand";}
 
 void TripleRand::powersOfTwo() {
   twoToMinus_32 = ldexp (1.0, -32);
@@ -148,6 +152,10 @@ void TripleRand::saveStatus(const char filename[]) const {
 
 void TripleRand::restoreStatus(const char filename[]) {
   std::ifstream inFile(filename, std::ios::in);
+  if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+    std::cerr << "  -- Engine state remains unchanged\n";
+    return;
+  }
   if (!inFile.bad()) {
     inFile >> theSeed;
     tausworthe.get ( inFile );
@@ -186,20 +194,22 @@ Hurd288Engine & TripleRand::Hurd() 	       { return hurd; }
 const Hurd288Engine & TripleRand::ConstHurd() const 
 						{ return hurd; }
 
-std::ostream & operator<<(std::ostream & os, const TripleRand & e) {
+std::ostream & TripleRand::put (std::ostream & os ) const {
   char beginMarker[] = "TripleRand-begin";
   char endMarker[]   = "TripleRand-end";
 
-  os << " " << beginMarker << " ";
-  os << std::setprecision(20) << e.theSeed << " ";
-  e.tausworthe.put( os );
-  e.integerCong.put( os );
-  os << e.ConstHurd();
-  os << " " <<  endMarker  << " ";
+  int pr=os.precision(20);
+  os << " " << beginMarker << "\n";
+  os << theSeed << "\n";
+  tausworthe.put( os );
+  integerCong.put( os );
+  os << ConstHurd();
+  os << " " <<  endMarker  << "\n";
+  os.precision(pr);
   return os;
 }
 
-std::istream & operator>>(std::istream & is, TripleRand & e) {
+std::istream & TripleRand::get (std::istream & is) {
   char beginMarker [MarkerLen];
   char endMarker   [MarkerLen];
 
@@ -215,10 +225,10 @@ std::istream & operator>>(std::istream & is, TripleRand & e) {
          << "\nwrong engine type found." << std::endl;
     return is;
   }
-  is >> e.theSeed;
-  e.tausworthe.get( is );
-  e.integerCong.get( is );
-  is >> e.Hurd();
+  is >> theSeed;
+  tausworthe.get( is );
+  integerCong.get( is );
+  is >> Hurd();
   is >> std::ws;
   is.width(MarkerLen);  
   is >> endMarker;
@@ -310,6 +320,7 @@ void TripleRand::Tausworthe::put( std::ostream & os ) const {
   char beginMarker[] = "Tausworthe-begin";
   char endMarker[]   = "Tausworthe-end";
 
+  int pr=os.precision(20);
   os << " " << beginMarker << " ";
   os << std::setprecision(20);
   for (int i = 0; i < 4; ++i) {
@@ -318,6 +329,7 @@ void TripleRand::Tausworthe::put( std::ostream & os ) const {
   os << wordIndex;
   os << " " <<  endMarker  << " ";
   os << std::endl;
+  os.precision(pr);
 }
 
 void TripleRand::Tausworthe::get( std::istream & is ) {
@@ -386,11 +398,12 @@ void TripleRand::IntegerCong::put( std::ostream & os ) const {
   char beginMarker[] = "IntegerCong-begin";
   char endMarker[]   = "IntegerCong-end";
 
+  int pr=os.precision(20);
   os << " " << beginMarker << " ";
-  os << std::setprecision(20);
   os << state << " " << multiplier << " " << addend;
   os << " " <<  endMarker  << " ";
   os << std::endl;
+  os.precision(pr);
 }
 
 void TripleRand::IntegerCong::get( std::istream & is ) {

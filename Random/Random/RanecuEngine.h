@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RanecuEngine.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -29,6 +29,7 @@
 //                  Added automatic seed selection from seed table and
 //                  engine counter: 16th Feb 1998
 // Ken Smith      - Added conversion operators:  6th Aug 1998
+// Mark Fischler    Methods for distrib. instance save/restore 12/8/04    
 // =======================================================================
 
 #ifndef RanecuEngine_h
@@ -92,8 +93,11 @@ public:
   operator unsigned int();
   // 32-bit int flat, faster in this case
 
-  friend std::ostream& operator<< (std::ostream& os, const RanecuEngine& e);
-  friend std::istream& operator>> (std::istream& is,       RanecuEngine& e);
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+
+  std::string name() const;
+  static std::string engineName() {return "RanecuEngine";}
 
 protected:
 

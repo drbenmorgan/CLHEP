@@ -1,4 +1,4 @@
-// $Id: RandFlat.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandFlat.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -18,6 +18,9 @@
 //                  1/26/00.
 // M Fischler	  - Semi-fix to the saveEngineStatus misbehavior causing
 //		    non-reproducing shootBit() 3/1/00.
+// M Fischler     - Avoiding hang when file not found in restoreEngineStatus 
+//                  12/3/04
+// M Fischler     - put and get to/from streams 12/10/04
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -30,6 +33,9 @@ const int RandFlat::MSBBits= 15;
 const unsigned long RandFlat::MSB= 1ul<<RandFlat::MSBBits;
 unsigned long RandFlat::staticRandomInt= 0;
 unsigned long RandFlat::staticFirstUnusedBit= 0;
+
+std::string RandFlat::name() const {return "RandFlat";}
+HepRandomEngine & RandFlat::engine() {return *localEngine;}
 
 RandFlat::~RandFlat() {
   if ( deleteEngine ) delete localEngine;
@@ -120,6 +126,7 @@ void RandFlat::restoreEngineStatus( const char filename[] ) {
   // Now find the line describing the cached data:
 
   std::ifstream infile ( filename, std::ios::in );
+  if (!infile) return;
   char inputword[] = "NO_KEYWORD    "; // leaves room for 14 characters plus \0
   while (true) {
     infile.width(13);
@@ -147,6 +154,32 @@ void RandFlat::restoreEngineStatus( const char filename[] ) {
   }
 
 } // restoreEngineStatus
+
+std::ostream & RandFlat::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << randomInt << " " << firstUnusedBit << "\n";
+  os << defaultWidth << " " << defaultA << " " << defaultB << "\n";
+  os.precision(pr);
+  return os;
+}
+
+std::istream & RandFlat::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  is >> randomInt >> firstUnusedBit;
+  is >> defaultWidth >> defaultA >> defaultB;
+  return is;
+}
+
 
 
 }  // namespace CLHEP

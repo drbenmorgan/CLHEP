@@ -91,50 +91,50 @@ Instantiating distribution utilizing DualRand engine...
 700007
 800008
 900009
-Mean (should be close to 0): 0.00215227
-Second moment (should be close to 1): 1.00079
-Third  moment (should be close to zero): 0.00234365
-Fourth moment (should be close to 3): 3.00548
-Fifth moment (should be close to zero): 0.036029
-Sixth moment (should be close to 15): 15.0532
-        These represent 2.15227, 0.555644, 0.95679, 
-                        0.559555, 1.34272, 0.527398
+Mean (should be close to 0): -0.000250036
+Second moment (should be close to 1): 0.999635
+Third  moment (should be close to zero): -0.00235801
+Fourth moment (should be close to 3): 3.00256
+Fifth moment (should be close to zero): -0.0197924
+Sixth moment (should be close to 15): 15.0471
+        These represent 0.250036, 0.257845, 0.962654, 
+                        0.261114, 0.73762, 0.466887
                          standard deviations from expectations
 Between 0 sigma and 0.5 sigma (should be about 191462):
-          191254 negative and 190744 positive 
-        These represent 0.528654 and 1.82487 sigma from expectations
+          191299 negative and 191581 positive 
+        These represent 0.414282 and 0.302451 sigma from expectations
 Between 0.5 sigma and 1 sigma (should be about 149882):
-          150207 negative and 150228 positive 
-        These represent 0.910477 and 0.969308 sigma from expectations
+          150249 negative and 150025 positive 
+        These represent 1.02814 and 0.40061 sigma from expectations
 Between 1 sigma and 1.5 sigma (should be about 91848):
-          91752 negative and 92205 positive 
-        These represent 0.332397 and 1.2361 sigma from expectations
+          91705 negative and 91584 positive 
+        These represent 0.495133 and 0.914092 sigma from expectations
 Between 1.5 sigma and 2 sigma (should be about 44057):
-          43686 negative and 44280 positive 
-        These represent 1.8078 and 1.08663 sigma from expectations
+          43780 negative and 44290 positive 
+        These represent 1.34976 and 1.13536 sigma from expectations
 Between 2 sigma and 2.5 sigma (should be about 16540):
-          16589 negative and 16644 positive 
-        These represent 0.384193 and 0.815431 sigma from expectations
+          16691 negative and 16391 positive 
+        These represent 1.18394 and 1.16826 sigma from expectations
 Between 2.5 sigma and 3 sigma (should be about 4860):
-          4784 negative and 4848 positive 
-        These represent 1.09283 and 0.172552 sigma from expectations
+          4898 negative and 4777 positive 
+        These represent 0.546416 and 1.19349 sigma from expectations
 Between 3 sigma and 3.5 sigma (should be about 1117):
-          1155 negative and 1150 positive 
-        These represent 1.13763 and 0.987939 sigma from expectations
+          1110 negative and 1143 positive 
+        These represent 0.209563 and 0.778376 sigma from expectations
 Between 3.5 sigma and 4 sigma (should be about 201):
-          182 negative and 227 positive 
-        These represent 1.34029 and 1.83408 sigma from expectations
+          206 negative and 208 positive 
+        These represent 0.352708 and 0.493792 sigma from expectations
 Between 4 sigma and 4.5 sigma (should be about 28.3):
-          24 negative and 35 positive 
-        These represent 0.808316 and 1.25947 sigma from expectations
+          34 negative and 25 positive 
+        These represent 1.07149 and 0.620336 sigma from expectations
 Between 4.5 sigma and 5 sigma (should be about 3.11):
-          2 negative and 4 positive 
-        These represent 0.629424 and 0.504673 sigma from expectations
+          2 negative and 2 positive 
+        These represent 0.629424 and 0.629424 sigma from expectations
 Between 5 sigma and 5.5 sigma (should be about 0.387):
           0 negative and 0 positive 
         These represent 0.622093 and 0.622093 sigma from expectations
 
- The worst deviation encountered (out of about 25) was 2.15227 sigma 
+ The worst deviation encountered (out of about 25) was 1.34976 sigma 
 
 
 --------------------------------------------
@@ -148,7 +148,7 @@ Enter sigma: 5
 Instantiating distribution utilizing TripleRand engine...
 
  Sample  fire(): 
-8.68178
+19.9288
  Testing operator() ... 
 0
 100001
@@ -160,50 +160,50 @@ Instantiating distribution utilizing TripleRand engine...
 700007
 800008
 900009
-Mean (should be close to 10): 9.99795
-Second moment (should be close to 25): 25.0461
-Third  moment (should be close to zero): -0.0309835
-Fourth moment (should be close to 1875): 1881.94
-Fifth moment (should be close to zero): 51.0035
-Sixth moment (should be close to 234375): 235404
-        These represent 0.41002, 1.30353, 0.101192, 
-                        1.13249, 0.608252, 0.653315
+Mean (should be close to 10): 10.0073
+Second moment (should be close to 25): 24.9947
+Third  moment (should be close to zero): -0.338434
+Fourth moment (should be close to 1875): 1872.56
+Fifth moment (should be close to zero): -153.018
+Sixth moment (should be close to 234375): 233223
+        These represent 1.46341, 0.150332, 1.10532, 
+                        0.399035, 1.82485, 0.730908
                          standard deviations from expectations
 Between 0 sigma and 0.5 sigma (should be about 191462):
-          191638 negative and 191426 positive 
-        These represent 0.447323 and 0.0914979 sigma from expectations
+          191661 negative and 191168 positive 
+        These represent 0.50578 and 0.747233 sigma from expectations
 Between 0.5 sigma and 1 sigma (should be about 149882):
-          149245 negative and 149967 positive 
-        These represent 1.78454 and 0.238125 sigma from expectations
+          150041 negative and 150074 positive 
+        These represent 0.445433 and 0.537882 sigma from expectations
 Between 1 sigma and 1.5 sigma (should be about 91848):
-          91965 negative and 91802 positive 
-        These represent 0.405109 and 0.159274 sigma from expectations
+          91449 negative and 91915 positive 
+        These represent 1.38153 and 0.231985 sigma from expectations
 Between 1.5 sigma and 2 sigma (should be about 44057):
-          44198 negative and 43964 positive 
-        These represent 0.687062 and 0.453168 sigma from expectations
+          43899 negative and 44317 positive 
+        These represent 0.769899 and 1.26692 sigma from expectations
 Between 2 sigma and 2.5 sigma (should be about 16540):
-          16780 negative and 16564 positive 
-        These represent 1.88176 and 0.188176 sigma from expectations
+          16439 negative and 16617 positive 
+        These represent 0.791909 and 0.603733 sigma from expectations
 Between 2.5 sigma and 3 sigma (should be about 4860):
-          4844 negative and 4828 positive 
-        These represent 0.23007 and 0.46014 sigma from expectations
+          4895 negative and 4895 positive 
+        These represent 0.503278 and 0.503278 sigma from expectations
 Between 3 sigma and 3.5 sigma (should be about 1117):
-          1122 negative and 1178 positive 
-        These represent 0.149688 and 1.82619 sigma from expectations
+          1124 negative and 1042 positive 
+        These represent 0.209563 and 2.24532 sigma from expectations
 Between 3.5 sigma and 4 sigma (should be about 201):
-          194 negative and 228 positive 
-        These represent 0.493792 and 1.90462 sigma from expectations
+          229 negative and 180 positive 
+        These represent 1.97517 and 1.48137 sigma from expectations
 Between 4 sigma and 4.5 sigma (should be about 28.3):
-          25 negative and 24 positive 
-        These represent 0.620336 and 0.808316 sigma from expectations
+          19 negative and 26 positive 
+        These represent 1.74822 and 0.432355 sigma from expectations
 Between 4.5 sigma and 5 sigma (should be about 3.11):
-          5 negative and 3 positive 
-        These represent 1.07172 and 0.0623754 sigma from expectations
+          3 negative and 6 positive 
+        These represent 0.0623754 and 1.63877 sigma from expectations
 Between 5 sigma and 5.5 sigma (should be about 0.387):
-          0 negative and 0 positive 
-        These represent 0.622093 and 0.622093 sigma from expectations
+          1 negative and 0 positive 
+        These represent 0.985383 and 0.622093 sigma from expectations
 
- The worst deviation encountered (out of about 25) was 1.90462 sigma 
+ The worst deviation encountered (out of about 25) was 2.24532 sigma 
 
 
 --------------------------------------------
@@ -615,7 +615,7 @@ These are 0.0224719 and 0.929886 standard deviations from expected values
 Enter a value for mu: 100
 
  Sample  fire(): 
-101
+110
  Testing operator() ... 
 65  63  61.5743     0.033012
 66  35  34.1702     0.0201507
@@ -710,7 +710,7 @@ These are 1.35722 and 0.469398 standard deviations from expected values
 Enter a value for mu: 104.5
 
  Sample  fire(): 
-117
+95
  Testing operator() ... 
 69  78  70.7124     0.751062
 70  34  37.5779     0.340653
@@ -743,7 +743,7 @@ Enter a value for mu: 104.5
 97  15356  15358     0.000258347
 98  16195  16376.6     2.01452
 99  17728  17286.4     11.2787
-100  18225  18064.3     1.42892
+100  18226  18064.3     1.44676
 101  18558  18690.3     0.936903
 102  19265  19148.4     0.709698
 103  19158  19427.3     3.73264
@@ -756,7 +756,7 @@ Enter a value for mu: 104.5
 110  16642  16484.3     1.50834
 111  15450  15519     0.306953
 112  14569  14479.8     0.549513
-113  13573  13390.6     2.48427
+113  13572  13390.6     2.45711
 114  12414  12274.7     1.58025
 115  11259  11154     0.988617
 116  10047  10048.2     0.000144949
@@ -793,21 +793,21 @@ Enter a value for mu: 104.5
 7  2700  2722.27
 8  31366  31395.3
 9  124430  124216
-10  186903  187588
-11  117691  117253
+10  186904  187588
+11  117690  117253
 12  32463  32336.4
 13  4122  4150.14
 14  247  268.113
-Chi^2 is 78.7706 on 75 degrees of freedom.  p = 0.360509
-Clumps: Chi^2 is 7.81583 on 8 degrees of freedom.  p = 0.451664
+Chi^2 is 78.7613 on 75 degrees of freedom.  p = 0.360784
+Clumps: Chi^2 is 7.80106 on 8 degrees of freedom.  p = 0.45314
 Mean  (should be 104.5) is 104.508
 Sigma (should be 10.2225) is 10.226
-These are 0.573846 and 0.33572 standard deviations from expected values
+These are 0.572048 and 0.335223 standard deviations from expected values
 
 Enter a value for mu: 235.8
 
  Sample  fire(): 
-235
+203
  Testing operator() ... 
 183  98  102.415     0.190296
 184  22  31.0742     2.64983
@@ -840,54 +840,54 @@ Enter a value for mu: 235.8
 211  3616  3549.83     1.23327
 212  3928  3948.35     0.104918
 213  4387  4370.99     0.0586127
-214  4841  4816.26     0.127049
+214  4842  4816.26     0.137529
 215  5190  5282.21     1.60964
-216  5937  5766.41     5.04655
+216  5938  5766.41     5.10589
 217  6185  6265.99     1.04682
 218  6839  6777.62     0.555938
-219  7292  7297.54     0.00421065
-220  7733  7821.64     1.00452
+219  7293  7297.54     0.00282848
+220  7732  7821.64     1.02731
 221  8332  8345.44     0.0216498
-222  8735  8864.21     1.88351
+222  8734  8864.21     1.91278
 223  9360  9373.01     0.0180587
 224  9865  9866.77     0.000316423
 225  10476  10340.4     1.77895
-226  10885  10788.8     0.858507
+226  10884  10788.8     0.840759
 227  11222  11207     0.0200708
 228  11630  11590.4     0.135301
-229  11961  11934.6     0.0585368
+229  11960  11934.6     0.0541913
 230  12171  12235.5     0.340303
-231  12452  12489.8     0.114232
+231  12451  12489.8     0.120361
 232  12540  12694.3     1.87664
 233  13047  12846.9     3.11683
 234  13071  12945.7     1.21241
-235  12852  12989.8     1.46159
-236  13025  12978.8     0.164594
+235  12850  12989.8     1.50433
+236  13026  12978.8     0.171794
 237  12865  12913.1     0.178909
-238  12729  12793.7     0.327207
-239  12672  12622.4     0.19487
-240  12302  12401.5     0.798507
-241  12161  12133.9     0.0604012
+238  12730  12793.7     0.317171
+239  12671  12622.4     0.187091
+240  12301  12401.5     0.814636
+241  12160  12133.9     0.0560214
 242  11858  11823.1     0.103265
-243  11583  11472.7     1.05956
+243  11584  11472.7     1.07886
 244  10856  11087.2     4.82062
-245  10633  10670.9     0.134263
+245  10634  10670.9     0.127263
 246  10271  10228.4     0.177414
 247  9831  9764.6     0.451481
-248  9348  9284.25     0.437769
+248  9349  9284.25     0.45161
 249  8677  8792.07     1.50605
 250  8459  8292.68     3.33571
 251  7770  7790.49     0.0539169
-252  7295  7289.68     0.00388643
+252  7296  7289.68     0.00548394
 253  6809  6794.09     0.0327009
 254  6345  6307.27     0.225657
-255  5837  5832.37     0.00367078
+255  5838  5832.37     0.0054289
 256  5328  5372.16     0.36304
-257  4897  4929.01     0.207895
+257  4898  4929.01     0.195109
 258  4468  4504.89     0.302038
 259  4197  4101.36     2.23022
 260  3727  3719.62     0.0146489
-261  3348  3360.48     0.0463686
+261  3347  3360.48     0.0540953
 262  2940  3024.43     2.3572
 263  2598  2711.64     4.76256
 264  2499  2421.99     2.44871
@@ -923,17 +923,17 @@ Enter a value for mu: 235.8
 11  32  33.6744
 12  1337  1397.25
 13  19224  19251.9
-14  95397  95522.8
-15  183598  183371
-16  144198  144133
-17  48336  48516.4
+14  95398  95522.8
+15  183594  183371
+16  144200  144133
+17  48337  48516.4
 18  7332  7258.68
 19  546  515.357
-Chi^2 is 93.996 on 109 degrees of freedom.  p = 0.846433
-Clumps: Chi^2 is 6.43149 on 8 degrees of freedom.  p = 0.599016
+Chi^2 is 94.1689 on 109 degrees of freedom.  p = 0.843355
+Clumps: Chi^2 is 6.41348 on 8 degrees of freedom.  p = 0.60102
 Mean  (should be 235.8) is 235.808
-Sigma (should be 15.3558) is 15.3532
-These are 0.385055 and 0.16862 standard deviations from expected values
+Sigma (should be 15.3558) is 15.3533
+These are 0.389108 and 0.163437 standard deviations from expected values
 
 Enter a value for mu: 0
 
@@ -947,11 +947,11 @@ How many numbers should we generate for each mu: 500000
 Enter a value for mu: 1.4
 
  Sample  fire(): 
-1
+0
  Testing operator() ... 
-0  123494  123298     0.310039
+0  123493  123298     0.306875
 1  172488  172618     0.0977156
-2  120581  120833     0.523522
+2  120582  120833     0.519367
 3  56258  56388.5     0.302043
 4  19999  19736     3.50533
 5  5509  5526.07     0.0527511
@@ -959,21 +959,21 @@ Enter a value for mu: 1.4
 7  263  257.883     0.101516
 8  49  53.274     0.34289
 ----
-0  295982  295916
-1  176839  177221
+0  295981  295916
+1  176840  177221
 2  25508  25262.1
 3  1622  1547.3
 4  49  53.274
-Chi^2 is 8.99081 on 8 degrees of freedom.  p = 0.343072
-Clumps: Chi^2 is 7.18176 on 4 degrees of freedom.  p = 0.126589
+Chi^2 is 8.98349 on 8 degrees of freedom.  p = 0.34369
+Clumps: Chi^2 is 7.17701 on 4 degrees of freedom.  p = 0.126824
 Mean  (should be 1.4) is 1.40072
 Sigma (should be 1.18322) is 1.18567
-These are 0.429087 and 1.78129 standard deviations from expected values
+These are 0.431478 and 1.78031 standard deviations from expected values
 
 Enter a value for mu: 99.1
 
  Sample  fire(): 
-99
+96
  Testing operator() ... 
 64  57  54.5885     0.106528
 65  33  30.8208     0.154079

@@ -1,4 +1,4 @@
-// $Id: RandPoissonT.cc,v 1.4.2.1 2004/05/11 14:09:21 fischler Exp $
+// $Id: RandPoissonT.cc,v 1.4.2.2 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -15,6 +15,7 @@
 //		    1/26/00.
 // M. Fischler	  - Removed mean=100 from the table-driven set, since it
 //		    uses a value just off the end of the table. (April 2004)
+// M Fischler     - put and get to/from streams 12/15/04
 //
 // =======================================================================
 
@@ -27,6 +28,9 @@
 //
 
 namespace CLHEP {
+
+std::string RandPoissonT::name() const {return "RandPoissonT";}
+HepRandomEngine & RandPoissonT::engine() {return RandPoisson::engine();}
 
 RandPoissonT::RandPoissonT(HepRandomEngine & anEngine, double m )
 : RandPoisson(anEngine, m)
@@ -95,6 +99,29 @@ void RandPoissonT::fireArray(const int size, long* vect, double m) {
    for (i=0; i<size; ++i) {
      vect[i] = fire( m );
    }
+}
+
+std::ostream & RandPoissonT::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  RandPoisson::put(os);
+  os.precision(pr);
+  return os;
+}
+
+std::istream & RandPoissonT::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  RandPoisson::get(is);
+  return is;
 }
 
 

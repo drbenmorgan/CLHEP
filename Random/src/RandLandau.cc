@@ -1,4 +1,4 @@
-// $Id: RandLandau.cc,v 1.3 2003/08/13 20:00:12 garren Exp $
+// $Id: RandLandau.cc,v 1.3.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -10,10 +10,12 @@
 // =======================================================================
 // M Fischler	  - Created 1/6/2000.
 //
-//		    The key transform() method uses the algortim in CERNLIB.
+//		    The key transform() method uses the algorithm in CERNLIB.
 //		    This is because I trust that RANLAN routine more than 
 //		    I trust the Bukin-Grozina inverseLandau, which is not
 //		    claimed to be better than 1% accurate.  
+//
+// M Fischler      - put and get to/from streams 12/13/04
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -22,6 +24,9 @@
 #include <cmath>	// for log()
 
 namespace CLHEP {
+
+std::string RandLandau::name() const {return "RandLandau";}
+HepRandomEngine & RandLandau::engine() {return *localEngine;}
 
 RandLandau::~RandLandau() {
   if ( deleteEngine ) delete localEngine;
@@ -371,5 +376,26 @@ double RandLandau::transform (double r) {
   }
 
 } // transform()
+
+std::ostream & RandLandau::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os.precision(pr);
+  return os;
+}
+
+std::istream & RandLandau::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  return is;
+}
 
 }  // namespace CLHEP

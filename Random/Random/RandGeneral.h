@@ -1,4 +1,4 @@
-// $Id: RandGeneral.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandGeneral.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -20,6 +20,7 @@
 //		      - Added private variable oneOverNbins.
 //	     	      - Made the warning about shoot() not being static a tad
 //			more prominent.   		14 May 1999	
+// M Fischler         - put and get to/from streams 12/15/04
 // =======================================================================
 
 #ifndef RandGeneral_h
@@ -27,6 +28,7 @@
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
+#include <vector>
 
 namespace CLHEP {
 
@@ -112,6 +114,18 @@ public:
 
   double operator()();
 
+  // Save and restore to/from streams
+  
+  std::ostream & put ( std::ostream & os ) const;
+  std::istream & get ( std::istream & is );
+
+  std::string name() const;
+  HepRandomEngine & engine();
+
+  static std::string distributionName() {return "RandGeneral";}  
+  // Provides the name of this distribution class
+  
+
 private:
 
   // Private copy constructor. Declaring it here disallows use.
@@ -119,7 +133,7 @@ private:
 
   HepRandomEngine* localEngine;
   bool deleteEngine;
-  double* theIntegralPdf;
+  std::vector<double> theIntegralPdf;
   int nBins;
   double oneOverNbins;
   int InterpolationType;

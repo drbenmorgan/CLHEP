@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.4.2.2 2004/04/29 18:43:45 fischler Exp $
+// $Id: RandEngine.cc,v 1.4.2.3 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -30,6 +30,7 @@
 // M. Fischler    - Modified the general-case template for RandEngineBuilder  
 //                  such that when RAND_MAX is an unexpected value the routine
 //                  will still deliver a sensible flat() random.              
+// M. Fischler    - Methods for distrib. instance save/restore  12/8/04    
 //                                                                            
 // =======================================================================
 
@@ -64,6 +65,8 @@ int RandEngine::numEngines = 0;
 
 // Maximum index into the seed table
 int RandEngine::maxIndex = 215;
+
+std::string RandEngine::name() const {return "RandEngine";}
 
 RandEngine::RandEngine(long seed) 
 : mantissa_bit_32( pow(0.5,32.) )
@@ -171,13 +174,18 @@ void RandEngine::restoreStatus( const char filename[] )
    // not provide any way of getting its internal status.
 
    std::ifstream inFile( filename, std::ios::in);
+   if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+     std::cout << "  -- Engine state remains unchanged\n";	 	  
+     return;							 	  
+   }								 	  
    long count;
-
+   
    if (!inFile.bad() && !inFile.eof()) {
      inFile >> theSeed;
      inFile >> count;
      setSeed(theSeed,0);
-     for (int i=0; i<count; ++i) flat();
+     seq = 0;
+     while (seq < count) flat();
    }
 }
 
@@ -210,7 +218,7 @@ void RandEngine::showStatus() const
 // of 2.  
 
   template <int> struct RandEngineBuilder {     // RAND_MAX any arbitrary value
-  static unsigned int thirtyTwoRandomBits() {               
+  static unsigned int thirtyTwoRandomBits(long& seq) {               
                                                             
   static bool prepared = false;                             
   static unsigned int iT;                                   
@@ -244,7 +252,7 @@ void RandEngine::showStatus() const
     int v = 0;                               
     do {                                     
       for ( int i = 0; i < iK; ++i ) {       
-        v = iS*v+rand();                     
+        v = iS*v+rand();  ++seq;                   
       }                                      
     } while (v < iT);                        
     return v & 0xFFFFFFFF;                   
@@ -273,7 +281,7 @@ void RandEngine::showStatus() const
     double v = 0;                                                         
     do {                                                                  
       for ( int i = 0; i < iK; ++i ) {                                    
-        v = fS*v+rand();                                                  
+        v = fS*v+rand(); ++seq;                                                 
       }                                                                   
     } while (v < fT);                                                     
     return ((unsigned int)v) & 0xFFFFFFFF;                                
@@ -291,8 +299,8 @@ void RandEngine::showStatus() const
     prepared = true;                                                      
     }                                                                     
     unsigned int x1, x2;                                                  
-    do { x1 = rand(); } while (x1 < (1<<16) );                            
-    do { x2 = rand(); } while (x2 < (1<<16) );                            
+    do { x1 = rand(); ++seq;} while (x1 < (1<<16) );                            
+    do { x2 = rand(); ++seq;} while (x2 < (1<<16) );                            
     return x1 | (x2 << 16);                                               
   }                                                                       
                                                                           
@@ -300,27 +308,27 @@ void RandEngine::showStatus() const
 };                                                                        
                                                                           
 template <> struct RandEngineBuilder<2147483647> { // RAND_MAX = 2**31 - 1
-  inline static unsigned int thirtyTwoRandomBits() {                      
-    unsigned int x = rand() << 1;       // bits 31-1                      
-    x ^= ( (x>>23) ^ (x>>7) ) ^1;       // bit 0 (weakly pseudo-random)   
-    return x & 0xFFFFFFFF;              // mask in case int is 64 bits    
+  inline static unsigned int thirtyTwoRandomBits(long& seq) {                      
+    unsigned int x = rand() << 1; ++seq; // bits 31-1                      
+    x ^= ( (x>>23) ^ (x>>7) ) ^1;        // bit 0 (weakly pseudo-random)   
+    return x & 0xFFFFFFFF;               // mask in case int is 64 bits    
     }                                                                     
 };                                                                        
                                                                           
                                                                            
 template <> struct RandEngineBuilder<32767> { // RAND_MAX = 2**15 - 1      
-  inline static unsigned int thirtyTwoRandomBits() {                       
-    unsigned int x = rand() << 17;      // bits 31-17                      
-    x ^= rand() << 2;                   // bits 16-2                       
-    x ^= ( (x>>23) ^ (x>>7) ) ^3;       // bits  1-0 (weakly pseudo-random)
-    return x & 0xFFFFFFFF;              // mask in case int is 64 bits     
+  inline static unsigned int thirtyTwoRandomBits(long& seq) {                       
+    unsigned int x = rand() << 17; ++seq; // bits 31-17                      
+    x ^= rand() << 2;              ++seq; // bits 16-2                       
+    x ^= ( (x>>23) ^ (x>>7) ) ^3;         // bits  1-0 (weakly pseudo-random)
+    return x & 0xFFFFFFFF;                // mask in case int is 64 bits     
     }                                                                      
 };                                                                         
                                                                            
 double RandEngine::flat()                                      
 {                                                              
   double r;                                                    
-  do { r = RandEngineBuilder<RAND_MAX>::thirtyTwoRandomBits();
+  do { r = RandEngineBuilder<RAND_MAX>::thirtyTwoRandomBits(seq);
      } while ( r == 0 ); 
   return r/4294967296.0; 
 }  
@@ -334,31 +342,31 @@ void RandEngine::flatArray(const int size, double* vect)
 }
 
 RandEngine::operator unsigned int() {
-  return RandEngineBuilder<RAND_MAX>::thirtyTwoRandomBits();
+  return RandEngineBuilder<RAND_MAX>::thirtyTwoRandomBits(seq);
 }
 
-std::ostream & operator << ( std::ostream& os, const RandEngine& e ) 
+std::ostream & RandEngine::put ( std::ostream& os ) const
 {
      char beginMarker[] = "RandEngine-begin";
      char endMarker[]   = "RandEngine-end";
 
-     os << " " << beginMarker << " ";
-     os << e.theSeed << " " << e.seq << " ";
-     os << endMarker << " ";
+     os << " " << beginMarker << "\n";
+     os << theSeed << " " << seq << " ";
+     os << endMarker << "\n";
      return os;
 }
 
-std::istream & operator >> ( std::istream& is, RandEngine& e )
+std::istream & RandEngine::get ( std::istream& is )
 {
    // The only way to restore the status of RandEngine is to
    // keep track of the number of shooted random sequences, reset
    // the engine and re-shoot them again. The Rand algorithm does
    // not provide any way of getting its internal status.
 
-  long count;
   char beginMarker [MarkerLen];
   char endMarker   [MarkerLen];
-
+  long count;
+  
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -366,12 +374,12 @@ std::istream & operator >> ( std::istream& is, RandEngine& e )
   is >> beginMarker;
   if (strcmp(beginMarker,"RandEngine-begin")) {
      is.clear(std::ios::badbit | is.rdstate());
-     std::cerr << "\nInput stream mispositioned or"
+     std::cout << "\nInput stream mispositioned or"
 	       << "\nRandEngine state description missing or"
 	       << "\nwrong engine type found." << std::endl;
      return is;
   }
-  is >> e.theSeed;
+  is >> theSeed;
   is >> count;
   is >> std::ws;
   is.width(MarkerLen);  
@@ -382,10 +390,8 @@ std::istream & operator >> ( std::istream& is, RandEngine& e )
 	       << "\nInput stream is probably mispositioned now." << std::endl;
      return is;
    }
-
-   e.setSeed(e.theSeed,0);
-   for (int i=0; i<count; ++i)
-      { e.flat(); }	// { dummy = flat(); }
+   setSeed(theSeed,0);
+   while (seq < count) flat();
    return is;
 }
 

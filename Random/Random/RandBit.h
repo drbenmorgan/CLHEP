@@ -1,4 +1,4 @@
-// $Id: RandBit.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandBit.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,7 @@
 
 // =======================================================================
 // M. Fischler    - Created: 15th Feb 2000
+// M Fischler      - put and get to/from streams 12/10/04
 // =======================================================================
 
 #ifndef RandBit_h
@@ -69,12 +70,22 @@ public:
 
   inline int fireBit();
 
+  // Save and restore to/from streams
+  
+  std::ostream & put ( std::ostream & os ) const;
+  std::istream & get ( std::istream & is );
+
+  std::string name() const;
+
+  static std::string distributionName() {return "RandBit";}  
+  // Provides the name of this distribution class
+
 private:
 
   // Private copy constructor. Defining it here disallows use.
   RandBit(const RandBit& d);
 
-  // All the engine info, and the default A nad B, are in the RandFlat
+  // All the engine info, and the default A and B, are in the RandFlat
   // base class.
 
 };

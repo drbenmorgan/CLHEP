@@ -1,4 +1,4 @@
-// $Id: RandomEngine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandomEngine.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // ------------------------------------------------------------------------
@@ -43,5 +43,36 @@ HepRandomEngine::operator float() {
 HepRandomEngine::operator unsigned int() {
   return (unsigned int)( flat() * exponent_bit_32 );
 }
+
+bool 
+HepRandomEngine::checkFile (std::istream & file, 
+  		  	 const std::string & filename, 
+  		  	 const std::string & classname, 
+		  	 const std::string & methodname) {
+  if (!file) {
+    std::cerr << "Failure to find or open file " << filename <<
+    " in " << classname << "::" << methodname << "()\n";
+    return false;
+  }  
+  return true;
+}			     
+
+std::ostream & HepRandomEngine::put (std::ostream & os) const {
+  std::cerr << "HepRandomEngine::put called -- no effect!\n";
+  return os;
+}
+std::istream & HepRandomEngine::get (std::istream & is) {
+  std::cerr << "HepRandomEngine::get called -- no effect!\n";
+  return is;
+}
+
+std::ostream & operator<< (std::ostream & os, const HepRandomEngine & e) {
+  return e.put(os);
+}
+
+std::istream & operator>> (std::istream & is, HepRandomEngine & e) {
+  return e.get(is);
+}
+
 
 }  // namespace CLHEP

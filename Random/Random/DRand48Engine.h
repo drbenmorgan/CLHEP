@@ -1,4 +1,4 @@
-// $Id: DRand48Engine.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: DRand48Engine.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -35,6 +35,7 @@
 //                  a code extracted from GNU C Library 2.1.3: 8th Nov 2000
 // E.Tcherniaev   - prototypes for drand48(), srand48() and seed48() have
 //                  been moved to DRand48Engine.cc: 21 Feb 2002
+// Mark Fischler  - methods for distrib. instance save/restore 12/8/04    
 // =======================================================================
 
 #ifndef DRand48Engine_h
@@ -85,9 +86,12 @@ public:
   void showStatus() const;
   // Dumps the engine status on the screen.
 
-  friend std::ostream& operator<< (std::ostream& os, const DRand48Engine& e);
-  friend std::istream& operator>> (std::istream& is,       DRand48Engine& e);
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
 
+  std::string name() const;
+  static std::string engineName() {return "DRand48Engine";}
+  
 private:
 
   static int  numEngines;

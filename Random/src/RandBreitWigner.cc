@@ -1,4 +1,4 @@
-// $Id: RandBreitWigner.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandBreitWigner.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -13,6 +13,7 @@
 //                - Added methods to shoot arrays: 28th July 1997
 // J.Marraffino   - Added default arguments as attributes and
 //                  operator() with arguments: 16th Feb 1998
+// M Fischler     - put and get to/from streams 12/10/04
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -24,6 +25,9 @@
 using namespace std;
 
 namespace CLHEP {
+
+std::string RandBreitWigner::name() const {return "RandBreitWigner";}
+HepRandomEngine & RandBreitWigner::engine() {return *localEngine;}
 
 RandBreitWigner::~RandBreitWigner() {
   if ( deleteEngine ) delete localEngine;
@@ -292,4 +296,30 @@ void RandBreitWigner::fireArray ( const int size, double* vect,
      vect[i] = fire( a, b, c );
 }
 
+
+std::ostream & RandBreitWigner::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << defaultA << " " << defaultB << "\n";
+  os.precision(pr);
+  return os;
+}
+
+std::istream & RandBreitWigner::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  is >> defaultA >> defaultB;
+  return is;
+}
+
+
 }  // namespace CLHEP
+

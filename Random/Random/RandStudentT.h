@@ -1,4 +1,4 @@
-// $Id: RandStudentT.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandStudentT.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -24,6 +24,7 @@
 // Gabriele Cosmo  - Fixed minor bug on inline definition for shoot()
 //                   methods. Created .icc file : 20th Aug 1998
 //                 - Removed useless methods and data: 5th Jan 1999
+// M Fischler      - put and get to/from streams 12/10/04
 // =======================================================================
 
 #ifndef RandStudentT_h
@@ -55,6 +56,11 @@ public:
 
   virtual ~RandStudentT();
   // Destructor
+
+  // Save and restore to/from streams
+  
+  std::ostream & put ( std::ostream & os ) const;
+  std::istream & get ( std::istream & is );
 
   // Static methods to shoot random values using the static generator
 
@@ -88,6 +94,13 @@ public:
   double operator()();
   double operator()( double a );
 
+  std::string name() const;
+  HepRandomEngine & engine();
+
+  static std::string distributionName() {return "RandStudentT";}  
+  // Provides the name of this distribution class
+
+
 private:
 
   // Private copy constructor. Defining it here disallows use.
@@ -95,7 +108,7 @@ private:
 
   HepRandomEngine* localEngine;
   bool deleteEngine;
-  const double defaultA;
+  double defaultA;
 
 };
 

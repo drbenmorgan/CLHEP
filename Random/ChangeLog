@@ -1,3 +1,58 @@
+Thu Dec 16	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandomEngine.h DRand48Engine.cc DualRand.cc Hurd160Engine.cc
+	  Hurd288Engine.cc JamesRandom.cc MTwistEngine.cc RandFlat.cc
+	  RandGauss.cc RandomEngine.cc RandomEngine.cc RanecuEngine.cc
+	  Ranlux64Engine.cc /RanluxEngine.cc TripleRand.cc
+
+	* RandBinomial.cc RandBit.cc RandBreitWigner.cc RnadChiSquare.cc
+	  RandExponential.cc RandFlat.cc RandGamma.cc RandGauss.cc 
+	  RandGaussQ.cc RandGaussT.cc RandGeneral.cc RandLandau.cc
+	  RandPoisson.cc RandPoissonQ.cc RandPoissonT.cc RandStudentT.cc 
+	  Random.h
+	  
+	* Random/test/ranRestoreTest.cc
+	  
+	  Added put and get methods, as well as ostream operations, so that
+	  engine and distribution instances can be saved and restored to/from
+	  streams.
+	  
+Wed Dec 15	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandPoissonQ.cc (RandPoissonT.cc)
+	
+	  RandPoissonQ has a path, potentially taken when mean is more
+	  than 100, where an additional gaussian random number is needed.
+	  This had been using the static RandGauss, causing subtle confusion 
+	  when an engine other than that owned by the RandPoissonQ instance
+	  is affected by firing a variate.  Instead we use the engine owned
+	  by the RandPoissonQ instance.
+	  
+	  This will affect in rare cases the values of random variates 
+	  delivered by **instances** (not the shoot() methods) of RandPoissonQ
+	  when mean is more than 100 and, for subtle reasons, of RandPoissonT
+	  when the mean is small. 
+
+Tue Dec 14	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandGeneral.cc 
+	
+	  Modify local variable theIntegralPdf, using a std::vector instead
+	  of a double* pointing to a new-ed array.  This makes save/restore
+	  an easier matter.
+
+Fri Dec 3	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandomEngine.h DRand48Engine.cc DualRand.cc Hurd160Engine.cc
+	  Hurd288Engine.cc JamesRandom.cc MTwistEngine.cc RandFlat.cc
+	  RandGauss.cc RandomEngine.cc RandomEngine.cc RanecuEngine.cc
+	  Ranlux64Engine.cc /RanluxEngine.cc TripleRand.cc
+	  Random/test/ranRestoreTest.cc
+	  
+	  Modified engines and additional-state distributions so that     
+	  restoreEngineState behaves better (error message and return     
+	  instead of hang up) when file requested is not found.           
+
 ==============================
 29.11.04 Release CLHEP-1.9.1.2
 ==============================

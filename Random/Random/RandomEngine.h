@@ -1,4 +1,4 @@
-// $Id: RandomEngine.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandomEngine.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -84,6 +84,12 @@ public:
   virtual void showStatus() const = 0;
   // Should dump the current engine status on the screen.
 
+  virtual std::string name() const = 0;
+  // Engine name.
+
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+    
   long getSeed() const { return theSeed; }
   // Gets the current seed.
 
@@ -121,8 +127,16 @@ protected:
   const long* theSeeds;
 
   const double exponent_bit_32;
+    
+  static bool checkFile (std::istream & file, 
+  		         const std::string & filename, 
+  		         const std::string & classname, 
+		         const std::string & methodname); 
 
 };
+
+std::ostream & operator<< (std::ostream & os, const HepRandomEngine & e);
+std::istream & operator>> (std::istream & is, HepRandomEngine & e);
 
 }  // namespace CLHEP
 

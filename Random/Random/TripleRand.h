@@ -1,4 +1,4 @@
-// $Id: TripleRand.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: TripleRand.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -32,6 +32,7 @@
 //                - Added conversion operators:  6th Aug 1998
 // M Fischler	  - Big merge with CLHEP 13 May 1999
 //		  - Elimination of unused Taus() and Cong() accessors
+// Mark Fischler    Methods put, get for instance save/restore 12/8/04    
 // =======================================================================
 
 #ifndef TripleRand_h
@@ -88,8 +89,11 @@ public:
   operator float();      // flat value, without worrying about filling bits
   operator unsigned int();  // 32-bit flat value, quickest of all
 
-  friend std::ostream & operator<<( std::ostream & os, const TripleRand & e );
-  friend std::istream & operator>>( std::istream & is,       TripleRand & e );
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+
+  std::string name() const;
+  static std::string engineName() {return "TripleRand";}
 
 private:
 

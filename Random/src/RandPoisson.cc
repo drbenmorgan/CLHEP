@@ -1,4 +1,4 @@
-// $Id: RandPoisson.cc,v 1.5 2003/08/13 20:00:12 garren Exp $
+// $Id: RandPoisson.cc,v 1.5.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -17,6 +17,7 @@
 // J.Marraffino   - Added default mean as attribute and
 //                  operator() with mean: 16th Feb 1998
 // Gabriele Cosmo - Relocated static data from HepRandom: 5th Jan 1999
+// M Fischler     - put and get to/from streams 12/15/04
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -25,6 +26,9 @@
 #include <cmath>	// for floor()
 
 namespace CLHEP {
+
+std::string RandPoisson::name() const {return "RandPoisson";}
+HepRandomEngine & RandPoisson::engine() {return *localEngine;}
 
 // Initialisation of static data
 double RandPoisson::status_st[3] = {0., 0., 0.};
@@ -277,6 +281,30 @@ void RandPoisson::fireArray(const int size, long* vect, double m)
 
    for (i=0; i<size; ++i)
      vect[i] = fire( m );
+}
+
+std::ostream & RandPoisson::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << meanMax << " " << defaultMean << "\n";
+  os << status[0] << " " << status[1] << " " << status[2] << "\n"; 
+  os.precision(pr);
+  return os;
+}
+
+std::istream & RandPoisson::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  is >> meanMax >> defaultMean >> status[0] >> status[1] >> status[2];
+  return is;
 }
 
 }  // namespace CLHEP

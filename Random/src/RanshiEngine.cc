@@ -1,4 +1,4 @@
-// $Id: RanshiEngine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RanshiEngine.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -24,6 +24,8 @@
 //                  to avoid per-instance space overhead and
 //                  correct the rounding procedure              16 Sep 1998
 // J. Marraffino  - Remove dependence on hepString class        13 May 1999
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - Methods for instance save/restore            12/8/04    
 //
 // =======================================================================
 
@@ -41,6 +43,8 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 double RanshiEngine::twoToMinus_32;
 double RanshiEngine::twoToMinus_53;
 double RanshiEngine::nearlyTwoToMinus_54;
+
+std::string RanshiEngine::name() const {return "RanshiEngine";}
 
 void RanshiEngine::powersOfTwo() {
   twoToMinus_32 = ldexp (1.0, -32);
@@ -173,6 +177,10 @@ void RanshiEngine::saveStatus(const char filename[]) const {
 
 void RanshiEngine::restoreStatus(const char filename[]) {
   std::ifstream inFile(filename, std::ios::in);
+  if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+    std::cerr << "  -- Engine state remains unchanged\n";
+    return;
+  }
   if (!inFile.bad()) {
     inFile >> theSeed;
     for (int i = 0; i < numBuff; ++i) {
@@ -223,23 +231,25 @@ RanshiEngine::operator unsigned int() {
   return blkSpin;
 }
 
-std::ostream& operator<< (std::ostream& os, const RanshiEngine& e) {
+std::ostream& RanshiEngine::put (std::ostream& os ) const {
   char beginMarker[] = "RanshiEngine-begin";
   char endMarker[]   = "RanshiEngine-end";
  
+  int pr=os.precision(20);
   os << " " << beginMarker << " ";
   
-  os << std::setprecision(20)  << e.theSeed  << " ";
-  for (int i = 0; i < e.numBuff; ++i) {
-    os << e.buffer[i]  << " ";
+  os << theSeed  << "\n";
+  for (int i = 0; i < numBuff; ++i) {
+    os << buffer[i]  << "\n";
   }
-  os << e.redSpin  << " " << e.numFlats << " " << e.halfBuff; 
+  os << redSpin  << " " << numFlats << "\n" << halfBuff; 
   
-  os << " " << endMarker   << " ";
+  os << " " << endMarker   << "\n";
+  os.precision(pr);
   return os;
 }
 
-std::istream& operator>> (std::istream& is, RanshiEngine& e) {
+std::istream& RanshiEngine::get (std::istream& is) {
   char beginMarker [MarkerLen];
   char endMarker   [MarkerLen];
 
@@ -255,11 +265,11 @@ std::istream& operator>> (std::istream& is, RanshiEngine& e) {
 	      << "\nwrong engine type found." << std::endl;
     return is;
   }
-  is >> e.theSeed;
-  for (int i = 0; i < e.numBuff; ++i) {
-    is >> e.buffer[i];
+  is >> theSeed;
+  for (int i = 0; i < numBuff; ++i) {
+    is >> buffer[i];
   }
-  is >> e.redSpin >> e.numFlats >> e.halfBuff;
+  is >> redSpin >> numFlats >> halfBuff;
   is >> std::ws;
   is.width(MarkerLen);  
   is >> endMarker;

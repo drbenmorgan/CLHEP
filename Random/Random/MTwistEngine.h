@@ -1,4 +1,4 @@
-// $Id: MTwistEngine.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: MTwistEngine.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -17,6 +17,7 @@
 //                - Optimized to get pow() out of flat() method: 21st Jul
 //                - Added conversion operators:  6th Aug 1998
 // M Fischler	  - Changes in way powers of two are kept: 16-Sep-1998
+// Mark Fischler  - Methods for distrib. instance save/restore 12/8/04    
 // =======================================================================
 
 #ifndef MTwistEngine_h
@@ -71,8 +72,11 @@ public:
   operator float();     // returns flat, without worrying about filling bits
   operator unsigned int(); // 32-bit flat, quickest of all
 
-  friend std::ostream & operator<< (std::ostream & os, const MTwistEngine & e);
-  friend std::istream & operator>> (std::istream & is,       MTwistEngine & e);
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+
+  std::string name() const;
+  static std::string engineName() {return "MTwistEngine";}
 
 private:
 

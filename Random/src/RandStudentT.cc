@@ -1,4 +1,4 @@
-// $Id: RandStudentT.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandStudentT.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -11,6 +11,7 @@
 // John Marraffino - Created: 12th May 1998
 // G.Cosmo         - Fixed minor bug on inline definition for shoot()
 //                   methods : 20th Aug 1998
+// M Fischler      - put and get to/from streams 12/13/04
 // =======================================================================
 
 #include <float.h>
@@ -20,6 +21,8 @@
 
 namespace CLHEP {
 
+std::string RandStudentT::name() const {return "RandStudentT";}
+HepRandomEngine & RandStudentT::engine() {return *localEngine;}
 
 RandStudentT::~RandStudentT() {
   if ( deleteEngine ) delete localEngine;
@@ -140,6 +143,29 @@ double RandStudentT::shoot( HepRandomEngine *anEngine, double a ) {
  while ((w = u * u + v * v) > 1.0);
 
  return(u * sqrt( a * ( exp(- 2.0 / a * log(w)) - 1.0) / w));
+}
+
+std::ostream & RandStudentT::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << defaultA << "\n";
+  os.precision(pr);
+  return os;
+}
+
+std::istream & RandStudentT::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  is >> defaultA;
+  return is;
 }
 
 }  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: JamesRandom.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -25,6 +25,9 @@
 // Ken Smith      - Added conversion operators:  6th Aug 1998
 // J. Marraffino  - Remove dependence on hepString class  13 May 1999
 // V. Innocente   - changed pointers to indices     3 may 2000
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - Methods for distrib. instacne save/restore  12/8/04    
+//		    
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -37,6 +40,8 @@
 namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
+
+std::string HepJamesRandom::name() const {return "HepJamesRandom";}
 
 // Number of instances with automatic seed selection
 int HepJamesRandom::numEngines = 0;
@@ -140,6 +145,10 @@ void HepJamesRandom::restoreStatus( const char filename[] )
 {
    int ipos, jpos;
    std::ifstream inFile( filename, std::ios::in);
+   if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+     std::cerr << "  -- Engine state remains unchanged\n";
+     return;
+   }
 
    if (!inFile.bad() && !inFile.eof()) {
      inFile >> theSeed;
@@ -256,27 +265,27 @@ HepJamesRandom::operator unsigned int() {
          ((unsigned int)( u[i97] * exponent_bit_32)>>16)  & 0xff;
 }
 
-std::ostream & operator<< ( std::ostream& os, const HepJamesRandom& e )
-{
+std::ostream & HepJamesRandom::put ( std::ostream& os ) const {
    char beginMarker[] = "JamesRandom-begin";
    char endMarker[]   = "JamesRandom-end";
 
-   int pos = e.j97;
+   int pos = j97;
+   int pr = os.precision(20);
    os << " " << beginMarker << " ";
-   os <<  e.theSeed << " ";
+   os <<  theSeed << " ";
    for (int i=0; i<97; ++i) {
-     os << std::setprecision(20) << e.u[i] << " ";
+     os << std::setprecision(20) << u[i] << "\n";
    }
-   os << std::setprecision(20) << e.c << " ";
-   os << std::setprecision(20) << e.cd << " ";
-   os << std::setprecision(20) << e.cm << " ";
-   os << pos << " ";
-   os << endMarker << " ";
+   os << std::setprecision(20) << c << " ";
+   os << std::setprecision(20) << cd << " ";
+   os << std::setprecision(20) << cm << " ";
+   os << pos << "\n";
+   os << endMarker << "\n";
+   os.precision(pr);
    return os;
 }
 
-std::istream & operator >> ( std::istream& is, HepJamesRandom& e )
-{
+std::istream & HepJamesRandom::get  ( std::istream& is) {
   int ipos, jpos;
   char beginMarker [MarkerLen];
   char   endMarker [MarkerLen];
@@ -293,11 +302,11 @@ std::istream & operator >> ( std::istream& is, HepJamesRandom& e )
 	       << "\nwrong engine type found." << std::endl;
      return is;
   }
-  is >> e.theSeed;
+  is >> theSeed;
   for (int i=0; i<97; ++i) {
-     is >> e.u[i];
+     is >> u[i];
   }
-  is >> e.c; is >> e.cd; is >> e.cm;
+  is >> c; is >> cd; is >> cm;
   is >> jpos;
   is >> std::ws;
   is.width(MarkerLen);
@@ -310,8 +319,8 @@ std::istream & operator >> ( std::istream& is, HepJamesRandom& e )
   }
 
   ipos = (64+jpos)%97;
-  e.i97 = ipos;
-  e.j97 = jpos;
+  i97 = ipos;
+  j97 = jpos;
   return is;
 }
 

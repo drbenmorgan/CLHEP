@@ -1,4 +1,4 @@
-// $Id: RandChiSquare.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandChiSquare.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -19,6 +19,7 @@
 //                   by Ernst Stadlober and Franz Niederl of the Technical
 //                   University of Graz, Austria.
 // Gabriele Cosmo  - Removed useless methods and data: 5th Jan 1999
+// M Fischler      - put and get to/from streams 12/10/04
 // =======================================================================
 
 #ifndef RandChiSquare_h
@@ -84,6 +85,17 @@ public:
   inline double operator()();
   inline double operator()( double a );
 
+  // Save and restore to/from streams
+  
+  std::ostream & put ( std::ostream & os ) const;
+  std::istream & get ( std::istream & is );
+
+  std::string name() const;
+  HepRandomEngine & engine();
+
+  static std::string distributionName() {return "RandChiSquare";}  
+  // Provides the name of this distribution class
+
 private:
 
   // Private copy constructor. Defining it here disallows use.
@@ -93,7 +105,7 @@ private:
 
   HepRandomEngine* localEngine;
   bool deleteEngine;
-  const double defaultA;
+  double defaultA;
 
 };
 

@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RanecuEngine.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -25,6 +25,9 @@
 // Ken Smith      - Added conversion operators:  6th Aug 1998
 // J. Marraffino  - Remove dependence on hepString class   13 May 1999
 // M. Fischler    - Add endl to the end of saveStatus      10 Apr 2001
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - Methods for distrib. instance save/restore  12/8/04    
+//		    
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -37,6 +40,8 @@
 namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
+
+std::string RanecuEngine::name() const {return "RanecuEngine";}
 
 // Number of instances with automatic seed selection
 int RanecuEngine::numEngines = 0;
@@ -161,9 +166,12 @@ void RanecuEngine::saveStatus( const char filename[] ) const
 
 void RanecuEngine::restoreStatus( const char filename[] )
 {
-   std::ifstream inFile( filename, std::ios::in);
-
-   if (!inFile.bad() && !inFile.eof()) {
+  std::ifstream inFile( filename, std::ios::in);
+  if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+    std::cerr << "  -- Engine state remains unchanged\n";
+    return;
+  }
+  if (!inFile.bad() && !inFile.eof()) {
      inFile >> theSeed;
      for (int i=0; i<2; ++i)
        inFile >> table[theSeed][i];
@@ -253,21 +261,21 @@ RanecuEngine::operator unsigned int() {
    return ((diff << 1) | (seed1&1))& 0xffffffff;
 }
 
-std::ostream & operator << ( std::ostream& os, const RanecuEngine& e )
+std::ostream & RanecuEngine::put( std::ostream& os ) const
 {
    char beginMarker[] = "RanecuEngine-begin";
    char endMarker[]   = "RanecuEngine-end";
 
-   os << " " << beginMarker << " ";
-   os << e.theSeed << " ";
+   os << " " << beginMarker << "\n";
+   os << theSeed << " ";
    for (int i=0; i<2; ++i) {
-     os << e.table[e.theSeed][i] << " ";
+     os << table[theSeed][i] << "\n";
    }
-   os << endMarker << " ";
+   os << endMarker << "\n";
    return os;
 }
 
-std::istream & operator >> ( std::istream& is, RanecuEngine& e )
+std::istream & RanecuEngine::get ( std::istream& is )
 {
   char beginMarker [MarkerLen];
   char endMarker   [MarkerLen];
@@ -284,9 +292,9 @@ std::istream & operator >> ( std::istream& is, RanecuEngine& e )
 	       << "\nwrong engine type found." << std::endl;
      return is;
    }
-   is >> e.theSeed;
+   is >> theSeed;
    for (int i=0; i<2; ++i) {
-     is >> e.table[e.theSeed][i];
+     is >> table[theSeed][i];
    }
   is >> std::ws;
   is.width(MarkerLen);  
@@ -298,7 +306,7 @@ std::istream & operator >> ( std::istream& is, RanecuEngine& e )
      return is;
    }
 
-   e.seq = int(e.theSeed);
+   seq = int(theSeed);
    return is;
 }
 

@@ -1,4 +1,4 @@
-// $Id: RandGaussT.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandGaussT.icc,v 1.2.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -11,6 +11,8 @@
 // =======================================================================
 // M. Fischler	  - Created: 04 Feb, 2000
 //
+// M. Fischler    - Modified fire() to use local engine, not getTheEngine()
+//		    12/13/04
 // =======================================================================
 
 // Constructors
@@ -53,12 +55,12 @@ double RandGaussT::shoot(HepRandomEngine* anotherEngine,
 // ---------------------------------------------
 
 double RandGaussT::fire() {
-  return HepStat::flatToGaussian(getTheEngine()->flat()) * defaultStdDev 
+  return HepStat::flatToGaussian(localEngine->flat()) * defaultStdDev 
 								+ defaultMean;
 }
 
 double RandGaussT::fire(double mean, double stdDev) {
-  return HepStat::flatToGaussian(getTheEngine()->flat()) * stdDev + mean;
+  return HepStat::flatToGaussian(localEngine->flat()) * stdDev + mean;
 }
 
 

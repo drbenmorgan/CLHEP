@@ -1,4 +1,4 @@
-// $Id: Random.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: Random.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -81,6 +81,23 @@ void HepRandom::flatArray(const int size, double* vect)
 double HepRandom::operator()() {
   return flat();
 }
+
+std::string HepRandom::name() const {return "HepRandom";}
+HepRandomEngine & HepRandom::engine() {
+  std::cerr << "HepRandom::engine() called -- there is no assigned engine!\n";
+  return *theEngine;
+} 
+
+std::ostream & operator<< (std::ostream & os, const HepRandom & dist) {
+  return dist.put(os);
+}
+
+std::istream & operator>> (std::istream & is, HepRandom & dist) {
+  return dist.get(is);
+}
+
+std::ostream & HepRandom::put(std::ostream & os) const {return os;}
+std::istream & HepRandom::get(std::istream & is) {return is;}
 
 // --------------------------
 // Static methods definitions

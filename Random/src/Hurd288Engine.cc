@@ -1,4 +1,4 @@
-// $Id: Hurd288Engine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: Hurd288Engine.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -25,6 +25,8 @@
 //                  be produced by differnt seeds.              15 Sep 1998
 // J. Marraffino  - Remove dependence on hepString class        13 May 1999
 // M. Fischler    - Put endl at end of a save                   10 Apr 2001
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - methods for distrib. instacne save/restore  12/8/04    
 //
 // =======================================================================
 
@@ -44,6 +46,8 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 double Hurd288Engine::twoToMinus_32;
 double Hurd288Engine::twoToMinus_53;
 double Hurd288Engine::nearlyTwoToMinus_54;
+
+std::string Hurd288Engine::name() const {return "Hurd288Engine";}
 
 void Hurd288Engine::powersOfTwo() {
   twoToMinus_32 = ldexp (1.0, -32);
@@ -204,6 +208,10 @@ void Hurd288Engine::saveStatus( const char filename[] ) const {
 
 void Hurd288Engine::restoreStatus( const char filename[] ) {
   std::ifstream inFile(filename, std::ios::in);
+  if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+    std::cerr << "  -- Engine state remains unchanged\n";
+    return;
+  }
   if( !inFile.bad() ) {
     inFile >> theSeed;
     inFile >> wordIndex;
@@ -239,22 +247,24 @@ Hurd288Engine::operator unsigned int() {
   return words[--wordIndex];
 }
 
-std::ostream& operator<< (std::ostream& os, const Hurd288Engine& e) {
+std::ostream& Hurd288Engine::put(std::ostream& os) const {
   char beginMarker[] = "Hurd288Engine-begin";
   char endMarker[]   = "Hurd288Engine-end";
 
+  int pr = os.precision(20);
   os << " " << beginMarker << " ";
-
-  os << std::setprecision(20)  << e.theSeed  << " ";
-  os << e.wordIndex << " ";
+  os << theSeed  << " ";
+  os << wordIndex << " ";
   for (int i = 0; i < 9; ++i) {
-    os << e.words[i]  << " ";
+    os << words[i]  << "\n";
   }
-  os << " " << endMarker   << " ";
+  os << endMarker   << "\n ";
+  os.precision(pr);
   return os;
 }
 
-std::istream& operator>> (std::istream& is, Hurd288Engine& e) {
+
+std::istream& Hurd288Engine::get(std::istream& is) {
   char beginMarker [MarkerLen];
   char endMarker   [MarkerLen];
 
@@ -270,9 +280,9 @@ std::istream& operator>> (std::istream& is, Hurd288Engine& e) {
 	      << "\nwrong engine type found." << std::endl;
     return is;
   }
-  is >> e.theSeed >> e.wordIndex;
+  is >> theSeed >> wordIndex;
   for (int i = 0; i < 9; ++i) {
-    is >> e.words[i];
+    is >> words[i];
   }
   is >> std::ws;
   is.width(MarkerLen);  

@@ -1,4 +1,4 @@
-// $Id: RandGauss.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandGauss.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -19,6 +19,9 @@
 //		    1/26/00.
 // M Fischler     - Workaround for problem of non-reproducing saveEngineStatus
 //		    by saving cached gaussian.  March 2000.
+// M Fischler     - Avoiding hang when file not found in restoreEngineStatus 
+//                  12/3/04
+// M Fischler     - put and get to/from streams 12/8/04
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -27,6 +30,9 @@
 #include <cmath>	// for log()
 
 namespace CLHEP {
+
+std::string RandGauss::name() const {return "RandGauss";}
+HepRandomEngine & RandGauss::engine() {return *localEngine;}
 
 // Initialisation of static data
 bool RandGauss::set_st = false;
@@ -190,6 +196,7 @@ void RandGauss::restoreEngineStatus( const char filename[] ) {
   // Now find the line describing the cached variate:
 
   std::ifstream infile ( filename, std::ios::in );
+  if (!infile) return;
 
   char inputword[] = "NO_KEYWORD    "; // leaves room for 14 characters plus \0
   while (true) {
@@ -213,12 +220,67 @@ void RandGauss::restoreEngineStatus( const char filename[] ) {
       infile >> nextGauss_st;
     } else {
       set_st = false;
+      infile >> nextGauss_st; // because a 0 will have been output
     }
   } else {
     set_st = false;
   }
 
 } // restoreEngineStatus
+
+  // Save and restore to/from streams
+  
+std::ostream & RandGauss::put ( std::ostream & os ) const {
+  os << name() << "\n";
+  int prec = os.precision(20);
+  os << "Mean: " << defaultMean << " Sigma: " << defaultStdDev << "\n";
+  if ( set ) {
+    os << "RANDGAUSS CACHED_GAUSSIAN: " << nextGauss << "\n";
+  } else {
+    os << "RANDGAUSS NO_CACHED_GAUSSIAN: 0 \n" ;
+  }
+  os.precision(prec);
+  return os;
+} // put   
+
+std::istream & RandGauss::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  std::string c1;
+  std::string c2;
+  is >> c1 >> defaultMean >> c2 >> defaultStdDev;
+  if ( (!is) || (c1 != "Mean:") || (c2 != "Sigma:") ) {
+    std::cerr << "i/o problem while expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "default mean and/or sigma could not be read\n";
+    return is;
+  }
+  is >> c1 >> c2 >> nextGauss;
+  if ( (!is) || (c1 != "RANDGAUSS") ) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Failure when reading caching state of RandGauss\n";
+    return is;
+  }
+  if (c2 == "CACHED_GAUSSIAN:") {
+    set = true;
+  } else if (c2 == "NO_CACHED_GAUSSIAN:") {
+    set = false;  
+  } else {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Unexpected caching state keyword of RandGauss:" << c2
+	      << "\nistream is left in the badbit state\n";
+  } 
+  return is;
+} // get
+
 
 }  // namespace CLHEP
 

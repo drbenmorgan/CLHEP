@@ -1,4 +1,4 @@
-// $Id: RandEngine.h,v 1.3.2.1 2004/04/29 18:43:45 fischler Exp $
+// $Id: RandEngine.h,v 1.3.2.2 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -27,6 +27,7 @@
 //                  replace mx by mantissa_bit_32
 // M Fischler     - Inserted warnings about the fact that the quality of rand()
 //                  is quite poor.
+// Mark Fischler    Methods for distrib. instance save/restore 12/8/04    
 // =======================================================================
 
 #ifndef RandEngine_h
@@ -87,8 +88,11 @@ public:
  
   operator unsigned int(); // 32-bit flat value, quickest of all.
 
-  friend std::ostream& operator<< (std::ostream& os, const RandEngine& e);
-  friend std::istream& operator>> (std::istream& is,       RandEngine& e);
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+
+  std::string name() const;
+  static std::string engineName() {return "RandEngine";}
 
 private:
 

@@ -1,4 +1,4 @@
-// $Id: RandBinomial.cc,v 1.3 2003/08/13 20:00:12 garren Exp $
+// $Id: RandBinomial.cc,v 1.3.2.1 2004/12/17 20:19:38 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -9,6 +9,7 @@
 
 // =======================================================================
 // John Marraffino - Created: 12th May 1998
+// M Fischler     - put and get to/from streams 12/10/04
 // =======================================================================
 
 #include "CLHEP/Random/RandBinomial.h"
@@ -19,6 +20,9 @@
 using namespace std;
 
 namespace CLHEP {
+
+std::string RandBinomial::name() const {return "RandBinomial";}
+HepRandomEngine & RandBinomial::engine() {return *localEngine;}
 
 RandBinomial::~RandBinomial() {
   if ( deleteEngine ) delete localEngine;
@@ -332,5 +336,29 @@ double RandBinomial::genBinomial( HepRandomEngine *anEngine, long n, double p )
   }
   return ((p>0.5) ? (double)(n-K):(double)K);
 }
+
+std::ostream & RandBinomial::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << defaultN << " " << defaultP << "\n";
+  os.precision(pr);
+  return os;
+}
+
+std::istream & RandBinomial::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  is >> defaultN >> defaultP;
+  return is;
+}
+
 
 }  // namespace CLHEP

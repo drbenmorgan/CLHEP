@@ -1,4 +1,4 @@
-// $Id: JamesRandom.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: JamesRandom.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -26,6 +26,7 @@
 //                  engine counter: 16th Feb 1998
 // Ken Smith      - Added conversion operators:  6th Aug 1998
 // V. Innocente   - changed pointers to indices     3 may 2000
+// Mark Fischler  - Methods for distrib. instance save/restore 12/8/04    
 // =======================================================================
 
 #ifndef HepJamesRandom_h
@@ -84,8 +85,11 @@ public:
   operator unsigned int();
   // 32-bit flat, but slower than double or float.
 
-  friend std::ostream& operator<< (std::ostream& os, const HepJamesRandom& e);
-  friend std::istream& operator>> (std::istream& is,       HepJamesRandom& e);
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+
+  std::string name() const;
+  static std::string engineName() {return "HepJamesRandom";}
 
 private:
 

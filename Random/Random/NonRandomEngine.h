@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: NonRandomEngine.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -20,6 +20,7 @@
 
 // =======================================================================
 // Mark Fischler  - Created: 9/30/99
+// Mark Fischler    methods for distrib. instance save/restore 12/8/04    
 // =======================================================================
 
 #ifndef NonRandomEngine_h
@@ -27,6 +28,7 @@
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandomEngine.h"
+#include <vector>
 
 namespace CLHEP {
 
@@ -60,14 +62,20 @@ public:
   void flatArray (const int size, double* vect);
   // Fills the array "vect" of specified size with flat random values.
 
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+
+  std::string name() const;
+  static std::string engineName() {return "NonRandomEngine";}
+
 private:
 
   bool nextHasBeenSet;
   bool sequenceHasBeenSet;
   bool intervalHasBeenSet;
   double  nextRandom;
-  double *sequence;
-  int     nSequence;
+  std::vector<double> sequence;
+  unsigned int nInSeq;
   double  randomInterval;
 
   // The following are necessary to fill virtual methods but should never 
@@ -79,6 +87,7 @@ private:
   virtual void restoreStatus( const char filename[] = "Config.conf" ) {};
   virtual void showStatus() const {};
 
+ 
 };
 
 }  // namespace CLHEP

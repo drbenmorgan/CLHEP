@@ -1,4 +1,4 @@
-// $Id: RandGaussT.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandGaussT.h,v 1.3.2.1 2004/12/17 20:19:37 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,7 @@
 
 // =======================================================================
 // M. Fischler		Created 2/2/00
+// M Fischler      - put and get to/from streams 12/10/04
 //
 // =======================================================================
 
@@ -100,6 +101,18 @@ public:
 
   virtual double operator()();
   virtual double operator()( double mean, double stdDev );
+
+  // Save and restore to/from streams
+  
+  std::ostream & put ( std::ostream & os ) const;
+  std::istream & get ( std::istream & is );
+
+  std::string name() const;
+  HepRandomEngine & engine();
+
+  static std::string distributionName() {return "RandGaussT";}  
+  // Provides the name of this distribution class
+  
 
 protected:
 
