@@ -1,4 +1,4 @@
-// $Id: testPID.cc,v 1.2 2003/07/17 10:33:44 garren Exp $
+// $Id: testPID.cc,v 1.3 2003/08/06 19:41:08 garren Exp $
 // ----------------------------------------------------------------------
 // TestPID.cc
 //
@@ -15,6 +15,7 @@
 using std::cout;
 using std::cerr;
 using std::endl;
+using std::setw;
 
 int main()
 {
