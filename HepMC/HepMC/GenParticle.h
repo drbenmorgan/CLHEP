@@ -64,6 +64,7 @@ namespace HepMC {
         typedef  HepMCConfig::ParticleData   ParticleData;
         typedef  HepMCConfig::DecayData      DecayData;
 
+        GenParticle(void);
 	GenParticle( const CLHEP::HepLorentzVector& momentum, int pdg_id,
 		     int status = 0, const Flow& itsflow = Flow(),
 		     const Polarization& polar = Polarization(0,0) );
@@ -189,7 +190,7 @@ namespace HepMC {
 	void   set_barcode_( int the_bar_code ); // for use by GenEvent only
 
     private:
-	CLHEP::HepLorentzVector m_momentum;          // 4 vector in GeV
+	CLHEP::HepLorentzVector m_momentum;          // 4 vector
 	int              m_pdg_id;            // id according to PDG convention
 	int              m_status;            // As defined for HEPEVT
 	Flow             m_flow;
@@ -197,7 +198,7 @@ namespace HepMC {
 	GenVertex*       m_production_vertex; // null if vacuum or beam
 	GenVertex*       m_end_vertex;        // null if not-decayed
 	int              m_barcode;           // unique identifier in the event
-        double           itsGeneratedMass;    // (in GeV/c**2)
+        double           itsGeneratedMass;    // 
         int              itsCollisionNumber;  // for StdHep
 	ParticleData *   itsParticleData;	// should be null only if no 
 	                                        //    particle data is desired

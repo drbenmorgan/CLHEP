@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.57)
-AC_INIT(CLHEP, 2.0.0.1, CLHEP@cern.ch )
+AC_INIT(CLHEP, 2.1.0.0, CLHEP@cern.ch )
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([Vector/src/AxisAngle.cc])
 AM_INIT_AUTOMAKE(1.6 foreign)
@@ -19,7 +19,7 @@ AC_PROG_LIBTOOL
 # subpackages
 # ----------------------------------------------------------------------
 
-AC_CONFIG_SUBDIRS(Units Vector Evaluator GenericFunctions Geometry Random Matrix RandomObjects HepPDT HepMC StdHep RefCount Cast Exceptions)
+AC_CONFIG_SUBDIRS(Units Vector Evaluator GenericFunctions Geometry Random Matrix RandomObjects Fields HepPDT HepMC StdHep RefCount Cast Exceptions)
 
 # ----------------------------------------------------------------------
 # --enable-exceptions or --disable-exceptions

@@ -1,3 +1,20 @@
+Tue May 11          2004 Lynn Garren <garren@fnal.gov>
+
+	* tagged for CLHEP 1.9.0.2 (CLHEP_1_9_0_2)
+	* tagged for CLHEP 2.0.0.2 (CLHEP_2_0_0_2)
+
+	* library version changed to 2.1.0.0
+	* build Fields 
+       
+Tue May 11          2004 Lynn Garren <garren@fnal.gov>
+       
+	* HepMC 1.25 changes merged with CLHEP/HepMC
+	* HepMC/HepMC/CBhepevt.icc: include stdio.h
+	* HepMC/HepMC/CBherwig.icc: include stdio.h
+	
+	note that CLHEP/HepMC already had the most important change to use
+	std::iterator<std::forward_iterator_tag,GenParticle*,ptrdiff_t>
+
 Tue May 11          2004 Mark Fischler <mf@fnal.gov>
 
 	*  RandPoissonT.cc
