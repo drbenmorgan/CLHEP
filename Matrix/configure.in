@@ -90,6 +90,12 @@ AH_VERBATIM([VERSION],[/* Version number of package */
 #undef VERSION
 #endif])
 
+## disable allocator until it is fixed
+AH_VERBATIM([DISABLE_ALLOC],[/* disable non-compliant allocator */
+#ifndef DISABLE_ALLOC
+#define DISABLE_ALLOC
+#endif])
+
 ## backwards compatibility
 AH_VERBATIM([ENABLE_BACKWARDS_COMPATIBILITY],[/* backwards compatibility will be enabled ONLY in CLHEP 1.9 */
 #ifndef ENABLE_BACKWARDS_COMPATIBILITY

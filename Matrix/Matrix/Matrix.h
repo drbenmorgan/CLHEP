@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: Matrix.h,v 1.3.2.2 2004/09/08 22:51:05 garren Exp $
+// $Id: Matrix.h,v 1.3.2.3 2004/09/10 23:52:55 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -428,7 +428,7 @@ private:
    int dfinv_matrix(int *ir);
    // invert the matrix. See CERNLIB DFINV.
 
-#if defined __GNUC__ && (__GNUC__ < 3)
+#ifdef DISABLE_ALLOC
    std::vector<double > m;
 #else
    std::vector<double,Alloc<double,25> > m;

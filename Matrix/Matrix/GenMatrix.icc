@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: GenMatrix.icc,v 1.2.2.2 2004/09/08 22:51:05 garren Exp $
+// $Id: GenMatrix.icc,v 1.2.2.3 2004/09/10 23:52:55 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -41,7 +41,7 @@ namespace CLHEP {
 // swap
 //
 inline void HepGenMatrix::swap(int &i,int &j) {int t=i;i=j;j=t;}
-#if defined __GNUC__ && (__GNUC__ < 3)
+#ifdef DISABLE_ALLOC
 inline void HepGenMatrix::swap(std::vector<double >& i, std::vector<double >& j) {
   std::vector<double > t=i;i=j;j=t;
 }

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: GenMatrix.h,v 1.3.2.3 2004/09/08 22:51:05 garren Exp $
+// $Id: GenMatrix.h,v 1.3.2.4 2004/09/10 23:52:55 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -70,8 +70,8 @@ public:
    virtual ~HepGenMatrix() {}
 
 
-#if defined __GNUC__ && (__GNUC__ < 3)   // redefining Alloc does not work in gcc 2.95
-#else                                    // redefine Alloc for all other compilers
+#ifdef DISABLE_ALLOC   // disable this non-compliant allocator
+#else
    template <class T, size_t size> class Alloc 
    {
  
@@ -101,7 +101,7 @@ public:
    };
 #endif
 
-#if defined __GNUC__ && (__GNUC__ < 3)
+#ifdef DISABLE_ALLOC
    typedef std::vector<double >::iterator mIter;
    typedef std::vector<double >::const_iterator mcIter;
 #else
@@ -145,7 +145,7 @@ public:
    // ** Note that the indexing starts from [0][0]. **
 
    inline static void swap(int&,int&);
-#if defined __GNUC__ && (__GNUC__ < 3)
+#ifdef DISABLE_ALLOC
    inline static void swap(std::vector<double >&, std::vector<double >&);
 #else
    inline static void swap(std::vector<double,Alloc<double,25> >&, std::vector<double,Alloc<double,25> >&);

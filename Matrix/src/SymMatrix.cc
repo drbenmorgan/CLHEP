@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.3 2004/09/10 21:26:09 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.4 2004/09/10 23:52:55 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -992,7 +992,7 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
       
   static int * piv = new int[max_array]; 
   // used to store details of exchanges
-#if defined __GNUC__ && (__GNUC__ < 3)
+#ifdef DISABLE_ALLOC
   std::vector<double >* xvec = new std::vector<double>(max_array);
 #else
   std::vector<double,Alloc<double,25> >* xvec = new std::vector<double,Alloc<double,25> >(max_array);
