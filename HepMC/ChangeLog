@@ -1,3 +1,18 @@
+2005-03-03  Lynn Garren  <garren@fnal.gov>
+
+	* HepMC/CBherwig.h: Because the HEPEVT common block is changed while
+	sorting out the Herwig information, work from a copy of HEPEVT.
+
+2005-02-28  Lynn Garren  <garren@fnal.gov>
+
+	* HepMC/GenEvent.h: store random state as an array of longs
+	methods are now:
+	   std::vector<unsigned long> random_states() const;
+	   std::vector<double>        random_states_double() const;
+	   unsigned long              random_states( int i ) const;
+	   void set_random_states( const std::vector<unsigned long>& );
+	   void set_random_states_double( const std::vector<double>& );
+
 2005-02-03  Lynn Garren  <garren@fnal.gov>
 
 	* HepMC/GenParticle.h: define HepMC::GenParticle::setParticleID 

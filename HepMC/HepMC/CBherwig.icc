@@ -1,20 +1,38 @@
-// $Id: CBherwig.icc,v 1.1.2.1 2004/05/11 22:18:58 garren Exp $
+// $Id: CBherwig.icc,v 1.1.2.2 2005/03/03 19:05:15 garren Exp $
 // ----------------------------------------------------------------------
 // CBherwig.icc
 // ----------------------------------------------------------------------
 // Author:  Lynn Garren, Marc Paterno,
+//
+// In order to avoid overwriting the HEPEVT common block, we must make a copy
 //
 #include <stdio.h>       // needed for formatted output using sprintf 
 
 namespace HepMC  {
 
 CBherwig::CBherwig()
-: hptr( & hepevt_ ),
+: 
   itsTrustMothers( false ),
   itsTrustMothersAndDaughters( true ),
   itsNoBarcodeGaps( true ),
   m_herwig_to_pdg_id(100,0)
 { 
+    // we will make a copy of HEPEVT
+    hptr = new hepevt_t;
+    // make the actual copy of HEPEVT here, so we can access the info
+    hptr->nevhep = hepevt_.nevhep;
+    hptr->nhep	 = hepevt_.nhep;
+    unsigned int i, j;
+    for (i=0; i < NMXHEP; ++i) {
+	hptr->isthep[i] = hepevt_.isthep[i];
+	hptr->idhep[i]  = hepevt_.idhep[i];
+	for( j=0; j < 2; ++j ) {
+	    hptr->jmohep[i][j] = hepevt_.jmohep[i][j];
+	    hptr->jdahep[i][j] = hepevt_.jdahep[i][j];
+	}
+	for( j=0; j < 5; ++j ) { hptr->phep[i][j] = hepevt_.phep[i][j]; }
+	for( j=0; j < 5; ++j ) { hptr->vhep[i][j] = hepevt_.vhep[i][j]; }
+    }
     //
     // HepPDT translation tables should be used instead
     //
