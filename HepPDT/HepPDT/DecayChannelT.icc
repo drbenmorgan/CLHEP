@@ -1,4 +1,4 @@
-// $Id: DecayChannelT.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: DecayChannelT.icc,v 1.1.1.1.2.1 2004/02/11 22:16:20 garren Exp $
 // ----------------------------------------------------------------------
 //
 // DecayChannelT.icc
@@ -8,21 +8,6 @@
 #include <algorithm>	// swap()
 
 namespace HepPDT {
-
-template< class Config >
-DecayChannelT<Config>::DecayChannelT( const std::string & name, 
-                 const Measurement & branchFrac, 
-                 const std::vector<PD > & decaylist, 
-                 const std::vector<double> & dmparam )
-: itsDecayName            ( name ),
-  itsBranchingFraction    ( branchFrac ),
-  itsDecayChannelProducts ( decaylist ),
-  itsDecayModelParameters ( dmparam ),
-  itsDecayModel ( DMFactory<Config>::instance()->unsafeMakeProduct( name, dmparam ) )
-{ 
-// can't do this with present implementation
-//assert(itsDecayModel!=NULL); 
-}
 
 template< class Config >
 DecayChannelT<Config>::~DecayChannelT()
