@@ -24,10 +24,10 @@ endif
 ################################################################################ 
 
   CXX = g++
-  INCDIR    = -I../../..
+  INCDIR    = -I$(CLHEP_DIR)/include
   HepMCinc  = $(INCDIR)/CLHEP/HepMC
   PythiaLIB = $(LULIB)/pydata.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
-  LIBNAME = ../../libCLHEP-g++.1.8.0.0.a
+  LIBNAME = $(CLHEP_DIR)/lib/libCLHEP-1.9.0.0.a
 
 
 ################################################################################ 

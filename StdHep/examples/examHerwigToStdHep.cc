@@ -4,8 +4,8 @@
 //
 // main program must be in C++
 
-#include "CLHEP/config/CLHEP.h"
-#include "CLHEP/config/fstream.h"
+#include "CLHEP/StdHep/defs.h"
+#include <fstream>
 
 #include "CLHEP/StdHep/StdHep.hh"
 #include "CLHEP/StdHep/StdEvent.hh"
@@ -43,7 +43,7 @@ int main()
     // open the output stream
     std::ofstream os( outfile );
     if( !os ) {
-        HepStd::cout << "error opening output file"  << HepStd::endl;
+        std::cout << "error opening output file"  << std::endl;
         exit(1);
     }
     StdHep::printVersion( os );
@@ -60,7 +60,7 @@ int main()
 	if ( event ) {
 	    // print the first event
             if( i == 0 )  event->print();
-            HepStd::cout << "at event "  << event->eventNumber() << HepStd::endl;
+            std::cout << "at event "  << event->eventNumber() << std::endl;
 	    analyzeEvent( event );
 	    // write the event
 	    os << event;

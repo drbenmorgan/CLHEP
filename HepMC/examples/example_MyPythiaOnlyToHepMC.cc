@@ -14,8 +14,8 @@
 // See comments in examples/example_MyPythia.cxx regarding the HEPEVT wrapper.
 //
 
-#include "CLHEP/config/CLHEP.h"
-#include "CLHEP/config/iostream.h"
+#include "CLHEP/HepMC/defs.h"
+#include <iostream>
 #include "CLHEP/HepMC/include/PythiaWrapper.h"
 #include "CLHEP/HepMC/ConvertHEPEVT.h"
 #include "CLHEP/HepMC/GenEvent.h"

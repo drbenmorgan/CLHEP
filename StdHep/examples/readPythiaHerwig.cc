@@ -1,8 +1,8 @@
 // read and combine the output of examPythiaToStdHep and examHerwigToStdHep
 //
 
-#include "CLHEP/config/CLHEP.h"
-#include "CLHEP/config/fstream.h"
+#include "CLHEP/StdHep/defs.h"
+#include <fstream>
 
 #include "CLHEP/StdHep/StdHep.hh"
 #include "CLHEP/StdHep/StdEvent.hh"

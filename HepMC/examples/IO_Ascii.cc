@@ -8,6 +8,8 @@
 #include "IO_Ascii.h"
 #include "CLHEP/HepMC/GenEvent.h"
 
+using namespace CLHEP;
+
 namespace HepMC {
 
     IO_Ascii::IO_Ascii( const char* filename, HepIOSOpenMode mode ) 

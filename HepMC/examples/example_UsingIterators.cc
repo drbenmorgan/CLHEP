@@ -6,7 +6,7 @@
 // gmake examples/example_UsingIterators.exe
 //
 
-#include "CLHEP/config/CLHEP.h"
+#include "CLHEP/HepMC/defs.h"
 #include "IO_Ascii.h"
 #include "CLHEP/HepMC/GenEvent.h"
 #include <math.h>

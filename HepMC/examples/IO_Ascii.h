@@ -43,7 +43,7 @@
 #include <map>
 #include <vector>
 
-#include "CLHEP/config/CLHEP.h"
+#include "CLHEP/HepMC/defs.h"
 #include "CLHEP/HepMC/GenEvent.h"
 
 namespace HepMC {

@@ -10,16 +10,12 @@ ifndef CXX
     CXX = g++
 endif
 
-ifndef CLHEPdir
-    CLHEPdir=../../..
-endif
-
 ifndef LIBNAME
-    LIBNAME = libCLHEP-g++.1.8.0.0.a
+    LIBNAME = libCLHEP-1.9.0.0.a
 endif
 
 ifndef PythiaLIB
-    PythiaLIB = $(LULIB)/pdfdum.o $(LULIB)/pydata.o $(LULIB)/pyr.o $(LULIB)/liblund.a
+    PythiaLIB = $(LULIB)/pydata.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
 endif
 
 
@@ -111,11 +107,11 @@ ifeq "$(UNAME)" "SunOS"
     LOCAL= -L/opt/SUNWspro/lib -lm -lnsl -lsocket -lF77 -lM77 -ldbxFintr -lsunmath -R/opt/SUNWspro/lib
 endif
 
-INCDIR = -I$(CLHEPdir) -I$(LUND_DIR)/src/inc -I$(HERWIG_DIR)/src 
+INCDIR = -I$(CLHEP_DIR)/include -I$(LUND_DIR)/src/inc -I$(HERWIG_DIR)/src 
 CPPFLGS = $(KPPFLAGS) $(INCDIR)
 CXXFLAGS = $(DFLG) $(INCDIR)
 
-STDHEPLIB = $(CLHEPdir)/lib/$(LIBNAME)
+STDHEPLIB = $(CLHEP_DIR)/lib/$(LIBNAME)
 
 
 PYTOBJS = examPythiaToStdHep$(SFX).o stdpytcxx$(SFX).o dummy$(SFX).o \

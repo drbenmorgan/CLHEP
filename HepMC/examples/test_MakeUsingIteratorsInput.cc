@@ -11,8 +11,8 @@
 // To Compile: go to the HepMC directory and type:
 //
 
-#include "CLHEP/config/CLHEP.h"
-#include "CLHEP/config/iostream.h"
+#include "CLHEP/HepMC/defs.h"
+#include <iostream>
 #include "CLHEP/HepMC/include/PythiaWrapper.h"
 #include "CLHEP/HepMC/ConvertHEPEVT.h"
 #include "IO_Ascii.h"

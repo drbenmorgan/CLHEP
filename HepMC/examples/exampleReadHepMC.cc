@@ -7,9 +7,9 @@
 // gmake examples/example_EventSelection.exe
 //
 
-#include "CLHEP/config/CLHEP.h"
-#include "CLHEP/config/iostream.h"
-#include "CLHEP/config/fstream.h"
+#include "CLHEP/HepMC/defs.h"
+#include <iostream>
+#include <fstream>
 
 #include "CLHEP/HepMC/ReadHepMC.h"
 #include "CLHEP/HepMC/WriteHepMC.h"

@@ -5,6 +5,8 @@
 #include "analyzeEvent.hh"
 #include "CLHEP/StdHep/StdEvent.hh"
 
+using namespace CLHEP;
+
 void analyzeEvent( const StdHep::StdEvent * event )
 {
     // look at an event

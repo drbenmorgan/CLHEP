@@ -9,8 +9,8 @@
 // ascii format using the IO_Ascii strategy.
 //////////////////////////////////////////////////////////////////////////
 
-#include "CLHEP/config/CLHEP.h"
-#include "CLHEP/config/iostream.h"
+#include "CLHEP/HepMC/defs.h"
+#include <iostream>
 #include "CLHEP/HepMC/include/PythiaWrapper.h"
 #include "CLHEP/HepMC/ConvertHEPEVT.h"
 #include "IO_Ascii.h"

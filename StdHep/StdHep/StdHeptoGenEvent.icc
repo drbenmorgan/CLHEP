@@ -1,4 +1,4 @@
-// $Id: StdHeptoGenEvent.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: StdHeptoGenEvent.icc,v 1.2 2003/08/29 02:06:13 garren Exp $
 // ----------------------------------------------------------------------
 //
 // StdHeptoHepMC::GenEvent.icc
@@ -85,7 +85,7 @@ HepMC::GenParticle* CBstdhep::createParticle( int index ) {
     // Builds a particle object corresponding to index in HEPEVT
     // 
     HepMC::GenParticle* p 
-	= new HepMC::GenParticle( HepLorentzVector( hptr->phep[index-1][0], 
+	= new HepMC::GenParticle( CLHEP::HepLorentzVector( hptr->phep[index-1][0], 
 					     hptr->phep[index-1][1], 
 					     hptr->phep[index-1][2], 
 					     hptr->phep[index-1][3] ),
@@ -121,18 +121,18 @@ void CBstdhep::buildProductionVertex( int i,
     // b. if no suitable production vertex exists - and the particle
     // has atleast one mother or position information to store - 
     // make one
-    HepLorentzVector prod_pos( hptr->vhep[i-1][0], hptr->vhep[i-1][1], 
+    CLHEP::HepLorentzVector prod_pos( hptr->vhep[i-1][0], hptr->vhep[i-1][1], 
 			       hptr->vhep[i-1][2], hptr->vhep[i-1][3]
 	                     ); 
     if ( !prod_vtx && (number_parents(i-1)>0 
-		       || prod_pos!=HepLorentzVector(0,0,0,0)) )
+		       || prod_pos!=CLHEP::HepLorentzVector(0,0,0,0)) )
     {
 	prod_vtx = new HepMC::GenVertex();
 	prod_vtx->add_particle_out( p );
 	evt->add_vertex( prod_vtx );
     }
     // c. if prod_vtx doesn't already have position specified, fill it
-    if ( prod_vtx && prod_vtx->position()==HepLorentzVector(0,0,0,0) ) {
+    if ( prod_vtx && prod_vtx->position()==CLHEP::HepLorentzVector(0,0,0,0) ) {
 	prod_vtx->set_position( prod_pos );
     }
     // d. loop over mothers to make sure their end_vertices are
@@ -198,13 +198,13 @@ void CBstdhep::buildEndVertex( int iend,
 	    end_vtx->add_particle_out( hepevt_particle[daughter] );
 	    // 
 	    // 2001-03-29 M.Dobbs, fill vertex the position.
-	    if ( end_vtx->position()==HepLorentzVector(0,0,0,0) ) {
-		HepLorentzVector prod_pos( hptr->vhep[daughter-1][0], 
+	    if ( end_vtx->position()==CLHEP::HepLorentzVector(0,0,0,0) ) {
+		CLHEP::HepLorentzVector prod_pos( hptr->vhep[daughter-1][0], 
 					   hptr->vhep[daughter-1][1], 
 					   hptr->vhep[daughter-1][2], 
 					   hptr->vhep[daughter-1][3] 
 		    );
-		if ( prod_pos != HepLorentzVector(0,0,0,0) ) {
+		if ( prod_pos != CLHEP::HepLorentzVector(0,0,0,0) ) {
 		    end_vtx->set_position( prod_pos );
 		}
 	    }

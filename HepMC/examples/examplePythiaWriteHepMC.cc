@@ -5,9 +5,9 @@
 // using PythiaWrapper.h and WriteHepMC.h
 //////////////////////////////////////////////////////////////////////////
 
-#include "CLHEP/config/CLHEP.h"
-#include "CLHEP/config/iostream.h"
-#include "CLHEP/config/fstream.h"
+#include "CLHEP/HepMC/defs.h"
+#include <iostream>
+#include <fstream>
 
 #include "CLHEP/HepMC/include/PythiaWrapper.h"
 #include "CLHEP/HepMC/WriteHepMC.h"
