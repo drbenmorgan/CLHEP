@@ -15,29 +15,35 @@ namespace EllipticIntegral {
 
 FUNCTION_OBJECT_IMP(FirstKind)
 
+inline
 FirstKind::FirstKind():
   _k("K", 1.0,0.0,1.0)
 {
 }
 
+inline
 FirstKind::~FirstKind() {
 }
 
+inline
 FirstKind::FirstKind(const FirstKind & right):
   _k(right._k)
 {
 }
 
 
+inline
 Parameter & FirstKind::k() {
   return _k;
 }
 
+inline
 const Parameter & FirstKind::k() const {
   return _k;
 }
 
 
+inline
 double FirstKind::operator() (double x) const {
   gsl_sf_result result;
   int status = gsl_sf_ellint_F_e(x,_k.getValue(), GSL_PREC_DOUBLE,  &result);
@@ -54,29 +60,35 @@ double FirstKind::operator() (double x) const {
 
 FUNCTION_OBJECT_IMP(SecondKind)
 
+inline
 SecondKind::SecondKind():
   _k("K", 1.0,0.0,1.0)
 {
 }
 
+inline
 SecondKind::~SecondKind() {
 }
 
+inline
 SecondKind::SecondKind(const SecondKind & right):
   _k(right._k)
 {
 }
 
 
+inline
 Parameter & SecondKind::k() {
   return _k;
 }
 
+inline
 const Parameter & SecondKind::k() const {
   return _k;
 }
 
 
+inline
 double SecondKind::operator() (double x) const {
   gsl_sf_result result;
   int status = gsl_sf_ellint_E_e(x,_k.getValue(), GSL_PREC_DOUBLE,  &result);
@@ -92,15 +104,18 @@ double SecondKind::operator() (double x) const {
 //-----------------------------------------------------------------------------//
 FUNCTION_OBJECT_IMP(ThirdKind)
 
+inline
 ThirdKind::ThirdKind():
   _k("K", 1.0,0.0, 1.0),
   _n("N", 1.0,0.0,10.0)
 {
 }
 
+inline
 ThirdKind::~ThirdKind() {
 }
 
+inline
 ThirdKind::ThirdKind(const ThirdKind & right):
   _k(right._k),
   _n(right._n)
@@ -108,24 +123,29 @@ ThirdKind::ThirdKind(const ThirdKind & right):
 }
 
 
+inline
 Parameter & ThirdKind::k() {
   return _k;
 }
 
+inline
 const Parameter & ThirdKind::k() const {
   return _k;
 }
 
 
+inline
 Parameter & ThirdKind::n() {
   return _n;
 }
 
+inline
 const Parameter & ThirdKind::n() const {
   return _n;
 }
 
 
+inline
 double ThirdKind::operator() (double x) const {
   gsl_sf_result result;
   int status = gsl_sf_ellint_P_e(x,_k.getValue(),_n.getValue(), GSL_PREC_DOUBLE,  &result);

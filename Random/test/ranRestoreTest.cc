@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ranRestoreTest.cc,v 1.3.2.4 2004/12/28 16:11:34 fischler Exp $
+// $Id: ranRestoreTest.cc,v 1.3.2.5 2005/02/11 23:10:33 fischler Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
@@ -47,7 +47,7 @@ double remembered_r1005;
 double remembered_r1006;
 double remembered_r1007;
 
-// Absolutely Safe Equals Without Registers Screwing Us p
+// Absolutely Safe Equals Without Registers Screwing Us Up
 bool equals01(const std::vector<double> &ab) {
   return ab[1]==ab[0];
 }  

@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: JamesRandom.cc,v 1.4.2.3 2005/02/11 23:10:33 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -29,6 +29,8 @@
 // M. Fischler    - Methods for distrib. instacne save/restore  12/8/04    
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - Enforcement that seeds be between 0 and 900000000
+//		    (lest the sequence be non-random)	         2/11/05    
 //		    
 // =======================================================================
 
@@ -188,6 +190,16 @@ void HepJamesRandom::setSeed(long seed, int)
   float s, t;
   long mm;
 
+  if (seed < 0) {
+    std::cout << "Seed for HepJamesRandom is should be non-negative\n" 
+    	<< "Seed value supplied was " << seed << "\n";
+    seed = -seed;
+  }
+  if (seed >  900000000) {
+    // If the seed is more that 30082^2, there may be problems 
+    seed = seed % 900000001;
+  }
+  
   long ij = seed/30082;
   long kl = seed - 30082*ij;
   long i = (ij/177) % 177 + 2;

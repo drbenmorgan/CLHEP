@@ -1,4 +1,4 @@
-// $Id: RandomEngine.h,v 1.3.2.4 2004/12/28 16:11:33 fischler Exp $
+// $Id: RandomEngine.h,v 1.3.2.5 2005/02/11 23:10:32 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -31,6 +31,8 @@
 //                - Moved seeds table to HepRandom: 19th Mar 1998
 // Ken Smith      - Added conversion operators:  6th Aug 1998
 // Mark Fischler  - Added static twoToMinus_xx constants: 11 Sept 1998
+// Mark Fischler  - Removed getTableSeeds, which was migrated to HepRandom
+//                  in 1998.  10 Feb 2005.
 // =======================================================================
 
 #ifndef HepRandomEngine_h
@@ -104,9 +106,6 @@ public:
 
   const long* getSeeds() const { return theSeeds; }
   // Gets the current array of seeds.
-
-  void getTableSeeds(long* seeds, int index) const;
-  // Gets back seed values stored in the table, given the index.
 
   virtual operator double();        // Returns same as flat()
   virtual operator float();         // less precise flat, faster if possible

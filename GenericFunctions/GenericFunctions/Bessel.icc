@@ -14,20 +14,25 @@ namespace IntegralOrder {
 
 FUNCTION_OBJECT_IMP(Bessel)
 
+inline
 Bessel::Bessel(Type type, unsigned int order):
   _type(type),_order(order)
 {
 }
 
+inline
+inline
 Bessel::~Bessel() {
 }
 
+inline
 Bessel::Bessel(const Bessel & right):
   _type(right._type),
   _order(right._order)
 {
 }
 
+inline
 double Bessel::operator() (double x) const {
   gsl_sf_result result;
   if (_type==J) {
@@ -59,15 +64,18 @@ namespace FractionalOrder {
 
 FUNCTION_OBJECT_IMP(Bessel)
 
+inline
 Bessel::Bessel(Type type):
   _type(type),
   _order("Order", 0.0,-10,10)
 {
 }
 
+inline
 Bessel::~Bessel() {
 }
 
+inline
 Bessel::Bessel(const Bessel & right):
   _type(right._type),
   _order(right._order)
@@ -75,15 +83,18 @@ Bessel::Bessel(const Bessel & right):
 }
 
 
+inline
 Parameter & Bessel::order() {
   return _order;
 }
 
+inline
 const Parameter & Bessel::order() const {
   return _order;
 }
 
 
+inline
 double Bessel::operator() (double x) const {
   gsl_sf_result result;
   if (_type==J) {

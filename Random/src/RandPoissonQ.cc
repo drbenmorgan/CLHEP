@@ -1,4 +1,4 @@
-// $Id: RandPoissonQ.cc,v 1.4.2.2 2004/12/17 20:19:38 fischler Exp $
+// $Id: RandPoissonQ.cc,v 1.4.2.3 2005/02/11 23:10:33 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -25,6 +25,7 @@
 // M Fisculer	  - Modified use of wrong engine when shoot (anEngine, mean)
 //		    is called.  This flaw was preventing any hope of proper
 //		    saving and restoring in the instance cases.
+// M Fischler     - fireArray using defaultMean 2/10/05
 //
 // =======================================================================
 
@@ -181,6 +182,13 @@ void RandPoissonQ::fireArray(const int size, long* vect, double m) {
    int i;
    for (i=0; i<size; ++i) {
      vect[i] = fire( m );
+   }
+}
+
+void RandPoissonQ::fireArray(const int size, long* vect) {
+   int i;
+   for (i=0; i<size; ++i) {
+     vect[i] = fire( defaultMean );
    }
 }
 
