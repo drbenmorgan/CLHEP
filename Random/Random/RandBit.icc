@@ -1,0 +1,73 @@
+// $Id: RandBit.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// -*- C++ -*-
+//
+// -----------------------------------------------------------------------
+//                            HEP Random
+//                         --- RandBit ---
+//                 inlined functions implementation file
+// -----------------------------------------------------------------------
+
+// =======================================================================
+// M.Fischler     - Created, along same lines as RandGaussQ.icc
+// =======================================================================
+
+inline RandBit::RandBit(HepRandomEngine & anEngine)
+: RandFlat (anEngine)
+{}
+
+inline RandBit::RandBit(HepRandomEngine & anEngine, double width )
+: RandFlat (anEngine, width)
+{}
+
+inline RandBit::RandBit(HepRandomEngine & anEngine, double a,
+                                                      double b )
+: RandFlat (anEngine, a, b)
+{}
+
+inline RandBit::RandBit(HepRandomEngine * anEngine)
+: RandFlat (anEngine)
+{}
+
+inline RandBit::RandBit(HepRandomEngine * anEngine, double width )
+: RandFlat (anEngine, width)
+{}
+
+inline RandBit::RandBit(HepRandomEngine * anEngine, double a,
+                                                      double b )
+: RandFlat (anEngine, a, b)
+{}
+
+//---------------------
+
+inline int RandBit::shootBit() {
+  double x = shoot();
+  if (x > .5) { 
+	return 1; 
+  } else {
+	return 0;
+  }
+}
+
+//---------------------
+
+
+inline int RandBit::shootBit(HepRandomEngine* engine) {
+  double x = shoot(engine);
+  if (x > .5) { 
+	return 1; 
+  } else {
+	return 0;
+  }
+}
+
+//---------------------
+
+
+inline int RandBit::fireBit() {
+  double x = fire(0,1);
+  if (x > .5) { 
+	return 1; 
+  } else {
+	return 0;
+  }
+}

@@ -1,0 +1,262 @@
+	Design Issues for the Particle Data Table Classes in StdHep
+	-----------------------------------------------------------
+
+
+This document discusses several design issues related to the HepPDT classes.
+
+
+Why TempParticleData?
+---------------------
+
+When a ParticleData is added to the ParticleDataTable, it must be a
+full, valid, and usable set of particle information.  But some sources
+of particle properties do not keep all the data about each particle
+contiguously.
+
+TempParticleData is used as an interim object, holding particle properties
+as they are made available.  All essential data members are initialized
+to their correct values or, if not yet available, to recognizable
+invalid values.
+
+A ParticleData is always constructed from a completed TempParticleData;
+the ParticleData constructor ensures that it is a sensible and well-formed
+particle.
+
+Input utilities like addPythiaParticles() use TempParticleData.
+
+
+Ownership, Reference Counting, and Auto_ptr's
+--------------------------------------------
+
+It is important to have a clear understanding of who is responsible for
+and/or allowed to delete which objects.  The following design avoids
+accidental deletion of an object in use, and minimizes the likelihood
+of memory leaks when the HepPDT objects are used.
+
+
+ParticleDataTable::addParticle has an auto_ptr<ParticleData> argument
+
+  The use model would be:
+	ParticleDataTable table;
+	TempParticleData tp;
+	// ... fill tp here
+	table.addParticle( new ParticleData(tp) );
+
+  ParticleDataTable takes ownerhip of the new ParticleData object; the
+  user has no further responsibility for it and must make no further
+  use of it.
+
+
+ParticleData is reference counted
+
+  Each of the following points to exactly one ParticleData:
+      Constituent
+      DecayChannelProduct
+      Each entry in ParticleDataTable
+
+  Reference counting ensures that a ParticleData will remain in existence
+  so long as there is any use for it.  For instance, a Constituent may
+  use a ParticleData even after the ParticleData's entry has been removed
+  from the ParticleDataTable.
+
+  Every time Constituent or DecayChannel is constructed (destructed) or
+  an entry is added (removed) to ParticleDataTable, the ParticleData's
+  increment (decrement) method is called.  In this way, the ParticleData
+  object will exist so long as it is needed, and can be safely discarded
+  once it is no longer in use.
+
+  Other objects that refer to ParticleData (e.g., GenParticle) can
+  have this safety as well.  They need only to follow the same pattern
+  of increment/decrement calls, etc.  If they don't, they don't quite
+  have the same safety: if a ParticleDataTable disappears, for example,
+  then any remaining references to any ParticleData are invalid.
+
+
+DecayData has a constructor taking a vector<DecayChannel*> argument
+
+  DecayData takes ownership of each of the DecayChannel objects in the
+  argument vector; the user has no further responsibility for them and
+  must not reuse any of them.
+
+
+DecayData::appendMode takes an auto_ptr <DecayChannel> argument
+
+  DecayData takes ownerhip of the new DecayChannel object; the user has
+  no further responsibility for it and must make no further use of it.
+
+
+DecayData is reference counted
+
+  DecayData is referred to by:
+    ParticleData
+    DecayChannelProduct
+    SomeParticle
+
+  Under certain circumstances, the same DecayData may be referred to by
+  two or more of the above items.  For example, a custom DecayData used
+  in a chain might well be referred to by other objects of the same type
+  in the chain.
+
+
+Custom Decay Chains
+-------------------
+
+One design goal was to provide a way to "force" a particle to decay in a
+certain way.  For example, within a particular detector you may only be
+interested in decays that produce a muon - or you may decide not to track
+decays of this particle at all.  When discussing this need, it was noted
+that you also would want control over the decay channels of that particle's
+descendents.
+
+To insert custom decay information, and thereby override use of the
+DecayData associated with the ParticleData, provide a non-null pointer
+to a custom DecayData in the generated particle.
+
+The DecayData structure has, for each DecayChannel, a
+vector<DecayChannelProduct>.  Each DecayChannelProduct refers to the
+appropriate ParticleData and, optionally, to a DecayData.  To customize
+an entire decay chain, make a DecayData with products that refer to
+other custom DecayData objects.
+
+
+Class Extensibility
+-------------------
+
+  ParticleDataTable - extensible; see ParticleData
+
+  ParticleData - not extensible; reference-counting is needed and
+		 interferes with derivation.  To add new properties,
+		 design a new class (e.g., ExtensionData) with the
+		 desired new information, and also implement a new
+		 map<ParticleID, ExtensionData> (perhaps in an extension
+		 of ParticleDataTable).
+
+  ParticleID - not extensible; ParticleData contains a ParticleID
+	       non-polymorphically
+
+  Quarks - not extensible; part of ParticleID (q.v.)
+
+  ResonanceStructure - extensible; an application may wish to implement
+		       a more complex line shape
+
+  DecayData - not extensible; reference-counting is needed and interferes
+              with derivation
+
+  DecayChannel - extensible
+
+  DecayChannelProduct - not extensible; collections of DecayChannelProduct
+                        are in use and would simply slice off any extension
+
+  DecayModel - extensible; this is the anticipated and recommended way to
+               organize custom decay parameters and related information
+
+  SpinState - not extensible; ParticleData contains a SpinState
+              non-polymorphically
+
+  Constituent - not extensible; collections of Constituent are in use and
+                would simply slice off any extension
+
+  TempParticleData - extensible; however, the ParticleData constructor will
+                     not make any use of any extension
+
+  Measurement - not extensible; additional functionality can be provided, if
+                needed, via free functions (e.g., operator + () )
+
+  SomeParticle - extensible; however, it is present only for illustrative
+                 purposes
+
+  Helicity - not extensible; however, related concepts may be incorporated
+             into an extended DecayModel
+
+
+Templates:  What and Why
+------------------------
+
+In the explanation of DecayModel, we said,
+    DecayModel has a virtual method, decay(), to apply
+    the DecayChannel.
+Logically, this method has to modify (or return) a collection of
+generated particles (e.g., GenParticle rather than ParticleData).
+Therefore, decay() will have a signature involving a particle class
+which is OUTSIDE the HepPDT package.
+
+This is discussed in detail in a companion document "Templates in the
+Particle Data Table Classes."  To summarize, all the main classes must
+be templates of ParticleType.  This template scheme is the most natural
+way of dealing with decay issues, because other approaches force each
+application to deal with such issues piecemeal.  We considered a number
+of other schemes using few or no templates at all; after a lot of thought
+we have concluded that the natural template design is the best choice
+available.
+
+At first glance, our decision would seem to force all applications --
+even those that care nothing about decays -- to be burdened with template
+issues.  However, HepPDT provides (e.g., in "ParticleData.hh") typedef's
+to serve as simple names for the actual templated types.  (This is the
+same approach taken by the C++ standard library; string, for example,
+is a typedef for a class template.)  In this way, the interface looks
+like simple classes.
+
+The HepMC package will provide similar typedef's using GenParticle as
+the template's ParticleType parameter.
+
+DecayModelFactory and Registration
+----------------------------------
+
+This note explains the purpose of the DecayModelFactory class, and relations 
+among that and the user classes derived from DecayModel.
+
+Consider a routine (for example, addPythiaData) which needs to form the 
+DecayChannels for particles, based on a stream of input.
+
+The decay information about a channel consists of 
+  .  an indication of which class of DecayModel is to be used, and
+  .  data to affect the particulars of this instance of that class.
+(For concreteness, we take the former to be a string `name' and the latter 
+to be a vector of doubles `params'.)  Given this information, the code needs 
+to instantiate an instance of the proper class, configured based on those 
+parameters.  
+
+The class DecayModelFactory<PT> does this:  
+
+	DecayModel<PT> *  DecayModelFactory<PT>::make ( name, params ) 
+
+returns a pointer to an object that has three properties:
+  . The object is an instance of some class, derived from DecayModel<PT> 
+  . The type of class is selected based on the name supplied to make()
+  . The object has been configured based on params 
+
+To be able to do this, 
+  1  The classes derived from DecayModel must implement a make() method which
+     will configure their data based on the passed in params.
+  2  DecayModelFactory must have a map (or the logical equivalent) that lets
+     it take a name and deliver a pointer to the make() method of the class 
+     associated with that name.
+  3  When the factory is given a string name, and asked for a DecayModel*, 
+     it calls the appropiate make() method.  
+     
+Requirement 1 implies that each class derived from DecayModel<PT> must 
+implement a static method make(vector<double> params), which in turn calls
+the class constructor.  
+
+The mechanism for requirement 2 is more subtle.  Each class derived from
+DecayModel should have a static ModelRegister<PT> installer.  Outside the 
+class definition (probably in its .cc file but you could safely do it in
+the header), that static member is defined as:
+  ModelRegister<PT>  YourModelClassName::installer( 
+			"YourModelName", YourModelClassName::make );
+This accomplishes requirement 2 because the constructor of ModelRegister 
+gets the (singleton) DecayModelFactory and calls registerMe ( name, maker ) 
+which does myMap[name] = maker.
+
+	Applications involving multiple ParticleDataTable's will still have
+	one DecayModelFactory:  The meaning of a model "3-body" will be the 
+	same whether it is used by a particle in table A or table B.
+
+Once the make method and installer are in place, requirement 3 is easy:
+DecayModelFactory<PT> just looks up the make() to invoke, invokes it and 
+returns the result.
+
+How do we document this?  We need to provide a short step-by-step mantra
+for making the boilerplate of a DecayModel, and the simplest possible
+correct example, which users will use as a starting point.

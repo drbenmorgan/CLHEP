@@ -1,0 +1,214 @@
+# ======================================================================
+# This is the Random configuration input file
+# Process this file with autoconf to produce a configure script.
+# ======================================================================
+
+
+# ----------------------------------------------------------------------
+# Identify the package and initialize the autotools:
+# ----------------------------------------------------------------------
+
+AC_PREREQ(2.57)
+AC_INIT(CLHEP Random, toy1.9.0.0, CLHEP@cern.ch, Random)
+AC_CONFIG_AUX_DIR(autotools)
+AC_CANONICAL_TARGET
+AC_CONFIG_SRCDIR([src/DRand48Engine.cc])
+AM_INIT_AUTOMAKE(1.6 foreign)
+AC_PROG_LIBTOOL
+AC_PROG_INSTALL
+
+
+# ----------------------------------------------------------------------
+# Identify the files that 'configure' is to produce:
+# ----------------------------------------------------------------------
+
+# Header containing #defines:
+AM_CONFIG_HEADER([Random/defs.h])
+
+# Makefiles:
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Random/Makefile])
+AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_FILES([doc/Makefile])
+AC_CONFIG_FILES([test/Makefile])
+
+# Test driver program/script:
+AC_CONFIG_FILES([test/testRandDists.sh])
+
+
+# ----------------------------------------------------------------------
+# Capture post-install information:
+# ----------------------------------------------------------------------
+
+Random_CPPFLAGS="-I$includedir"
+Random_LDFLAGS="-L$libdir"
+Random_LIBS="-l$PACKAGE_TARNAME -lm"
+
+AC_SUBST(Random_CPPFLAGS)
+AC_SUBST(Random_LIBS)
+AC_SUBST(Random_LDFLAGS)
+
+TARGET=$target
+AC_SUBST(TARGET)
+
+# ----------------------------------------------------------------------
+# Supply boilerplate for Random/defs.h source header:
+# ----------------------------------------------------------------------
+
+AH_TOP([#ifndef RANDOM_DEFS_H
+#define RANDOM_DEFS_H])
+
+AH_BOTTOM([#endif  // RANDOM_DEFS_H])
+
+
+# ----------------------------------------------------------------------
+# Account for any user configuration options:
+# ----------------------------------------------------------------------
+
+# Determine whether optional thread support is requested:
+AC_ARG_ENABLE(
+	threads,
+	[  --enable-threads    Turn on thread support],
+	[case "${enableval}" in
+	  yes) threads=true ;;
+	  no)  threads=false ;;
+	  *) AC_MSG_ERROR(bad value ${enableval} for --enable-threads) ;;
+	esac],
+	[threads=false]
+	)
+AM_CONDITIONAL(USE_THREADS, test x$threads = xtrue)
+
+
+# ----------------------------------------------------------------------
+# Check for needed programs:
+# ----------------------------------------------------------------------
+
+# Locate a C++ compiler:
+AC_PROG_CXX(aCC CC cxx cc++ cl FCC KCC RCC xlC_r xlC g++ c++ gpp)
+
+# Use it hereinafter:
+AC_LANG(C++)
+
+# Ensure we've found a preprocessor:
+AC_REQUIRE_CPP
+
+# worry about compiler flags
+case "$target" in
+*-*-win32*)
+  case "$CXX" in
+  cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";;
+  g++) CXXFLAGS="-O";;
+  c++) CXXFLAGS="-O";;
+  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  esac;;
+*-*-cygwin*)
+  case "$CXX" in
+  cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  esac;;
+*-*-solaris*)
+  case "$CXX" in
+  CC)  CXXFLAGS="-O -mt";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  esac;;
+*-*-linux*)
+  case "$CXX" in
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  esac;;
+alpha*-dec-osf*)
+  case "$CXX" in
+  cxx) CXXFLAGS="-O -std strict_ansi -timplicit_local";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  esac;;
+*-*-hpux*)
+  case "$CXX" in
+  aCC) CXXFLAGS="-O -Aa +DAportable +Onolimit";;
+  CC)  CXXFLAGS="+O3 +DAportable +a1 -z -pta +Onolimit";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  esac;; 
+*-*-aix*)
+  case "$CXX" in
+  xlC) CXXFLAGS="-O3 -qtwolink -+";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  esac;; 
+*-*-irix*)
+  case "$CXX" in
+  CC)  CXXFLAGS="-O -OPT:Olimit=0 -pta";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  esac;; 
+powerpc-apple-darwin*)
+  case "$CXX" in
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  esac;; 
+esac
+
+
+# ----------------------------------------------------------------------
+# Set system-dependent options:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Check for needed libraries:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Check for needed header files:
+# ----------------------------------------------------------------------
+
+AC_HEADER_STDC
+AC_HEADER_STDBOOL
+AC_CHECK_HEADERS([float.h string.h])
+
+# ----------------------------------------------------------------------
+# Check for needed typedefs, structures, and compiler characteristics:
+# ----------------------------------------------------------------------
+AC_C_CONST
+AC_C_INLINE
+
+AC_CHECK_DECL(M_PI,
+	[],
+	AC_DEFINE(M_PI, 3.14159265358979323846, [Value of pi]),
+	[#include <cmath>])
+
+AC_CHECK_DECL(M_PI_2,
+	[],
+	AC_DEFINE(M_PI_2, 1.57079632679489661923, [Value of pi/2]),
+	[#include <cmath>])
+
+AC_CHECK_DECL(M_2PI,
+	[],
+	AC_DEFINE(M_2PI, 6.28318530717958647692, [Value of 2*pi]),
+	[#include <cmath>])
+
+# ----------------------------------------------------------------------
+# Check for needed library functions:
+# ----------------------------------------------------------------------
+
+AC_CHECK_FUNCS([floor pow sqrt])
+
+# ----------------------------------------------------------------------
+# Finish up:
+# ----------------------------------------------------------------------
+
+AC_OUTPUT
+
+
+# ======================================================================

@@ -1,0 +1,63 @@
+// $Id: ParticleDataT.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// ----------------------------------------------------------------------
+//
+// ParticleDataT.icc
+// Author: Lynn Garren
+//
+// ----------------------------------------------------------------------
+
+#include <algorithm>	// swap()
+
+namespace HepPDT {
+
+template< class Config >
+ParticleDataT<Config>::ParticleDataT( const CPDID & cpdid, const DDID & ddid  )
+: itsCPDID ( cpdid ),
+  itsDDID  ( ddid )
+{ ; }
+
+template< class Config >
+ParticleDataT<Config>::~ParticleDataT()
+{ ; }
+
+template< class Config >
+void  ParticleDataT<Config>::swap( ParticleDataT<Config> & other )
+{
+  std::swap(itsCPDID, other.itsCPDID);
+  std::swap(itsDDID,  other.itsDDID);
+}
+
+template< class Config >
+ParticleDataT<Config>::ParticleDataT( const ParticleDataT<Config> & orig )
+: itsCPDID ( orig.itsCPDID ),
+  itsDDID  ( orig.itsDDID )
+{ ; }
+
+template< class Config >
+ParticleDataT<Config> & ParticleDataT<Config>::operator = ( const ParticleDataT<Config> & rhs )
+{ 
+  ParticleDataT<Config> temp( rhs );
+  swap( temp );
+  return *this;
+}
+
+template< class Config >
+void ParticleDataT<Config>::write( std::ostream & os ) const
+{
+  itsCPDID->write( os );
+  itsDDID->write( os );
+}
+
+template< class Config >
+bool  ParticleDataT<Config>::decay( int i, const PT & parent, std::vector<PT> & daughters )
+{
+      return itsDDID->decay(i, parent, daughters );
+}
+
+template< class Config >
+bool  ParticleDataT<Config>::decay( double rdm, const PT & parent, std::vector<PT> & daughters )
+{
+      return itsDDID->decay(rdm, parent, daughters );
+}
+
+}	// HepPDT

@@ -1,0 +1,463 @@
+============================================================================
+
+
+Minor Issues arising when merging ZOOM PhysicsVectors into CLHEP/Vector 
+			(and their resolution)
+
+	----------
+	Hep3Vector
+	----------
+
+
+
+6 - Spherical coordinate setting:
+
+Even though the direct spherical coordinate constructors are no longer 
+in the main Hep3Vector class, we want to make it possible for the user 
+to use the set() methods in spherical coordinates.  But (see item 4.1) 
+the keywords DERGREES RADIANS ETA are not available in Hep3Vector, so 
+instead, we provide a few new methods, for example:
+setRThetaPhi(double r, double theta, double phi);
+In these, alll angles are always treated as measured in RADIANS.
+
+The full set of original signatures for set are still implemented via
+the SpaceVector.h header for compatibility with ZOOM use.
+
+7 - Use of UnitVector
+
+Some code at Fermilab uses UnitVector, and I have also found some 
+situations where the efficiency can make a significant difference.  
+I provide UnitVector as a class for ZOOM users, in the zmpv namespace, 
+via a file UnitVector.h.  This no longer inherits from SpaceVector; that
+avoids the design flaw of "specialization by non-virtual inheritance."  
+
+The entire implementation is inline (by casting to Hep3Vector to get its 
+implementations) so no additional code need go into the CLHEP library.
+
+Since UnitVector is not in CLHEP, of necessity no CLHEP classes (in particular
+not  Hep3Vector and not HepRotation) will be aware of the existance of 
+UnitVector.
+
+5.1  X_HAT Y_HAT Z_HAT:
+
+These were in the original physicsVectors package as UnitVectors.  
+They remain so.  Pure CLHEP users do have the Hep3Vectors 
+HepXHat, HepYHat, HepZHat if they need such vectors.
+Note, by the way, that X_HAT, Y_HAT, Z_HAT are static to each code unit 
+that includes UnitVector.h.  This is safer from the viewpoint of subtle 
+order-of-initialization issues.  Coders should not use HepXHat in 
+initialization code that will execute prior to main() because it is not 
+guaranteed that they will be initialized before they are used.  (This
+"should not" applies equally to original CLHEP.)
+
+11 - Treatment of ambiguous angles
+
+CLHEP often, when faced with an ambiguous angle such as the cosine of the 
+angle between vector v and a zero vector, simply returns 1.  ZOOM had
+issued a ZMthrow, and returned 1.  This was OK because a user could set 
+up to ignore the ZMthorw.  I retain the original CLHEP behavior on those
+routines already in CLHEP.  For some that are not originally in CLHEP,
+such as cos2Theta, we leave the ZOOM behavior intact.
+
+12 -  The names angle and theta
+
+These are synonmous.  So why not drop one?  Well, even if I said let's 
+use the CLHEP form, CLHEP uses "theta" for the angle with respect to the 
+Z axis, and "angle" for angle wrt an arbitrary direction.  Since in ZOOM
+these concepts are somewhat unified, we we simply stick with angle and
+theta both being accepted.
+
+13 - R, rho nomenclature confusion
+
+In ThreeVector, CLHEP, --IN COMMENTS ONLY-- refers to the radius in spherical 
+coordinates as "rho", and the distance from the Z axis in cylindrical 
+coordinates as R.  ZOOM uses the oppopsite names, and in fact uses these 
+names in method names.  
+
+I did not change the ZOOM method names.  I have altered the CLHEP 
+comments to make the nomenclature consistent; the meanings are still
+clear from the comments.  For example:
+	inline double perp() const;
+	// The transverse component (rho in cylindrical coordinate system).
+
+14 - Signatures of Hep3Vector::rotate 
+
+For equivalent rotate() methods, ZOOM takes (axis, delta) where 
+CLHEP takes (delta, axis).  There is no harm in leaving this alone:
+both signatures will be accepted.
+
+It is amazing that there were not more cases of identical routiens be with
+different choices for order ofthe arguments.
+
+15 - An inefficiency in Hep3Vector::rotate(delta, axis)
+
+CLHEP has implemented a rotate(delta, axis) method on a 3-vector in a very
+inefficent way, first forming an identity Rotation, then rotating that
+by axis and angle (in itself quite a task) then douing vector *= rotation.
+
+For now, I leave the CLHEP code alone -- people are of course free to use 
+the ZOOM-originated method with signature rotate(axis,delta), which I 
+believe will be faster.  
+
+16 - Return types for rotateX, rotateY, rotateZ 
+
+CLHEP and PhysicsVectors each have these three methods, and they are 
+identical except that the ZOOM version returns a reference to *this,
+while in CLHEP they return void.
+
+Having methods that alter an object return a reference to that object
+is convenient for certain chained operations, and costs nothing.
+
+I don't wish to potentially break ZOOM user code for no good reason, so I 
+have made these CLHEP method conform to this convention.  There are a couple 
+of other CLHEP methods, rotate and rotateUz, which use the void return type,
+but since these methods or signatures don't appear in the original ZOOM 
+classes, this can't break any code, so I leave the void return type alone
+for those.
+
+After discussion with A.P. and others, I have modified the return types
+of other CLHEP methods which return void and would by the same reasoning 
+be better returning *this.
+
+These include rotate and boost methods in LorentzVector.h.
+
+	----------------
+	HepLorentzVector
+	----------------
+
+20 - "explicit" keyword:
+
+ZOOM allows constcuting a LorentzVector from just p (with e = 0)
+and from just e (with p=0).  ZOOM uses the "explicit" keyword to 
+protect against possible mishaps with such construcutions.  Will 
+that give some compilers trouble?  No:  CLHEP already uses the 
+"explicit" keyword (in the Matrix package).  So we will retain it here.
+
+22 - boostVector
+
+In CLHEP there is no checking on whether it makes sense.  It does not make 
+sense if this vector is non-timelike, and leads to division by zero if this
+vector has ee=0.  The ZOOM routine does check, which takes very little time.
+I think the zoom implementation is therefore better.  This, by the way, puts
+boostVector into the .cc file rather than the .icc.
+
+23 - Rotation methods:
+
+We should separate methods that force the load of the Rotation class.
+For practical purposes, that implies that methods like rotate() are no 
+longer inline, and that as in the ThreeVector class we separate the .cc
+files.  Also, again we have the rotation methods returning 
+HepLorentzVector& rather than void, so things can be chained.
+
+24 - Boost methods:
+
+We have the boost methods returning HepLorentzVector& rather than void, 
+so things can be chained.  Also, we feel the boost methods along an axis,
+boostZ in particular, really ought to be in the main part of the header.
+ZOOM does several checks to see that the boost vector is not tachyonic.
+However, we will forego these and use the CLHEP implementations.
+
+25 - Methods acting on containers of LorentzVectors:
+
+These are present in ZOOM, for example, 
+
+ 	list<LorentzVector> s; 
+	double m = s.invariantMass();
+
+At least for now, we will omit this, so as not to introduce template 
+complications into CLHEP.  If necessary, we can put this back in the 
+LorentzVector.h file in the ZOOM area that typedefs LorentzVector from
+HepLorentzVector.  And if there is a tremendous desire for this from the 
+CLHEP crowd, we can provide this capability be suppying a header file which
+users can optionally include.  (Since these are templated global methods, 
+all information can naturally go into a header file which need not be included 
+if these methods are not called.)
+
+26 - Unit 4-Vectors along each axis:
+
+We provide X_HAT4, Y_HAT4, Z_HAT4, T_HAT4 as statics, in the header.
+We use the inline constructor in original CLHEP to avoid the need to pull 
+in any additional code.  
+
+26.5 - Et
+
+We provide a new methode, et() which is the transverse energy.  
+This is defined as E sin theta, or E Pperp/P.  For completeness, 
+we also have et(v) the transverse energy with respect to a given
+direction:  p.et(v) = p.t() * p.V().perp(v) / p.V().mag().
+
+	----------
+	Hep2Vector
+	----------
+
+27 - New methods relative to PlaneVector:
+
+Mostly, we have taken the PlaneVector class from ZOOM, intact, as the 
+Hep2Vector class in CLHEP.  As usual, Hep2Vector is in the global namespace,
+while PlaneVector is (if namespaces are enabled) placed in the zmpv space.
+
+For the sake of similarity with the CLHEP Hep3Vector and HepLorentzVector 
+classes, we have added several simple methods to the PlaneVector class:
+        Operator[]
+        L-value operator() and []
+        isParallel, isOrthogonal, howParallel, howOrthogonal
+        compare(), operator  < > <= >=
+        setPolar(r, phi)
+
+28 - Physical Coupling of Hep2Vector to Hep3Vector:
+
+A couple of methods of PlaneVector take SpaceVector arguments.
+
+We forward declare Hep3Vector, and any methods involving Hep3Vector are
+implemented in the .cc file, so a user using Hep2Vector need not pull in
+Hep3Vector.h.
+
+29 - Use of CMATH_NAMESPACE::
+
+In PlaneVector.h there were many instances of code like 
+	y = CMATH_NAMESPACE::sqrt(x);
+This takes advantage of ISOcxx portability, which handles all the of places 
+where things like sqrt are found.  CLHEP has its own congfigure mechanism, 
+for this, and till ISOcxx is in place, it is best to just remove the
+CMATH_NAMESPACE accomodation.  
+
+(Later we may want to put it back in when ISOcxx is in CLHEP.)
+
+	----------
+	UnitVector
+	----------
+
+31 - C-style or modern casts:
+
+We have gone with old C-style casts for the purposes of using the Hep3Vector
+implementations, where needed, in the UnitVector class.  In particular we
+use syntax like
+         double phi() const {return ((Hep3Vector*)this)->phi();}
+
+This maximizes the number of compilers which will handle the code, and
+minimizes the chance of some compilers using the conversion operator and 
+doing an unnecessary temporary copy.
+
+34 - rotationOf global methods with UnitVector:
+
+Since there is a conversion operator from UnitVector to Hep3Vector,
+we could have omitted the global rotationOf(UnitVector, ...) methods.
+But because when such a method is applied the answer is known to be a
+UnitVector, we chose to provide methods with those signatures, returning
+HepUnit3Vector instead of Hep3Vector.  These simply treat the UnitVector
+as a Hep3Vector, perform the rotation, and return the result as a unit
+vector.  The only advantage is that you end up with a known UnitVector
+rather than a Hep3Vector which might later be normalized.
+
+	------------
+	Hep3Rotation
+	------------
+
+35 - Rotation Classes:
+
+Along with Rotation, ZOOM has the concepts of RotationX, RotationY, RotationZ.
+Along with LorentzTransformation, ZOOM has LorentzBoost, LorentzBoostX, 
+LorentzBoostY, LorentzBoostZ.  
+
+These are useful (particularly the pure LorentzBoost concept) and will become 
+part of CLHEP.  To keep LorentzRotation.h small, the boost classes will be in 
+their own header files.
+
+37 - HEP_SHORT_NAMES:
+
+It looks like if HEP_SHORT_NAMES is defined, then Rotation will collide 
+with the ZOOM Rotation class.  (That is, the Rotaion.h wrapper in the 
+PhysicsVectors package normally says 
+	class Rotation : public HepRotation {
+but with HEP_SHORT_NAMES defined, this becomes
+	class Rotation : public Rotation {
+which won't compile.
+
+We will (for now) just say that you can't have both.
+
+We could do something fancier like have the ZOOM header check for and undef
+HEP_SHORT_NAMES when including the CLHEP Rotation.h but I will leave that for 
+future consideration.
+
+39 - Header file completeness:
+
+It is necessary (so that CLHEP users can continue to rely on the header for 
+finding out what methods are available) that all the methods available for
+HepRotation appear in that class' definition.  No problem, since most 
+are pure virtual in the base class anyway (and thus had to be present anyway.)
+
+40 - Virtual destructor in Rotation classes
+
+The Rotation and LorentzRotations classes will have virtual destructors.
+
+Since the classes have to inherit from a virtual interface (for ZOOM
+compatibility) they have Vtables anyway.  For various technical reasons, 
+the virtual mechanism is useful.  By the way, UNLIKE the case for 3-vectors
+and 4-vectors, the overhead cost is small, and the number of distinct 
+Rotation objects in our key jobs is not in the millions, so the virtual 
+mechanism is not at all costly.
+
+42 - The tolerance member in Rotation and LorentzRotation:
+
+The variable tolerance is used as a default for isNear.  It is shared by
+all Rotation and LorentzRotation classes.
+
+It is right to use the same tolerance for RotationInterface that it gets by 
+inheritance from LTI.  Providing distinct instances of this class static in
+a base and a derived class would lead to thorny dynamic-vs-static behavior
+differences.
+
+43 - LTI::decompose() method:
+
+There is a method in ZOOM to decompose a LT into a pure rotation times 
+a pure boost; this needs to go into CLHEP.  The decompose() method does
+not really belong in the LTI interface, even though it is a matter of getting 
+information about a LT, and even though they can be defined for any sort
+of specialized LT.  The reason is that the interface class should not need
+to know about two of its concrete descendants!  Instead, decompose(R,B) will
+be a method of HepLorentzRotation.
+
+This is a subtle change from the ZOOM structure but I think it VERY unlikely 
+that anybody was doing decompose() on an anonymous LTI.
+
+44 - Dictionary ordering:  compare() for Rotations and LorentzRotations
+
+The compare() method belongs in LTI and RI.  However, compare() really needs 
+decompose!  And if I take compare() out of the interface, then all the 
+dictionary-ordering comparisons will need to be repeated in each derived 
+class.
+
+Solution:  There is an ADDITIONAL method 
+	decompose (Hep3Vector& boost, HepAxisAngle& rotation).  
+The LTI and RI interfaces do know about Hep3Vector and HepAxisAngle, so 
+that is fine.  And comparison is of course just as valid using these 
+(in fact, that is how it was being done anyway in ZOOM, deep down).  
+
+Now compare() becomes inline in the base class, and decompose() is the 
+virtual method it utilizes.
+
+45 - Operator() and [][]:
+
+ZOOM did not have these.  CLHEP does, so they must be present in HepRotation.
+Since these are not easy to implement with the same semantics as in CLHEP, 
+for an arbitrary Hep3RotationInterface, and since no compatibility or use
+case agruments tell us they must be in RI, we will keep these only in 
+HepRotation.  Similarly, they will appear in HepLorentzRotation but not
+in HepBoost.
+
+48 - PhiX, thetaX, etc for RotationX, RotationY, RotationZ:
+
+These routines were added for Geant4, and that code won't be using the
+specialized rotations.  Still, for completeness we should provide these.
+
+In these special cases, we could fairly easily avoid taking an atan2 or acos.  
+For example, RotationX::thetaZ can just do return d.  In some of the other 
+cases you have  to branch according to the quadrant of delta, but in no case 
+do you need an inverse trig function.  However, for maximal safety, I simply
+use the same code as was in CLHEP originally.  Why introduce a chance for 
+error to creep in?
+
+That begs the question of why not put these up into Hep3RotationInterface?
+I think eventually we may want to use the much simpler equivalent algorithms.
+By putting the methods into each class, I have been able to add comments
+containing the improved code.  Plus, these methods are not so fundamental 
+that I would like to see them in the interface.  I'm not so sure my decision
+here is best, but I don't think it is worththe time to re-think it since
+it is such a minor point.
+
+49 - CLHEP/ZOOM "equivalent" methods for Rotations:
+
+In principle you don't want to repeat code.  So for example, the rotateX
+method (in CLHEP) could be implemented as *this= RotationX(delta)* *this.  
+However, except for absolutely trivial cases, I feel it unacceptable to 
+take any risk of "breaking" existing CLHEP methods (in the sense of altering
+them such that they yield different results).  Similarly for ZOOM methods -
+unless they have an exact CLHEP match, I prefer to use the existing ZOOM 
+code.
+
+So for instance I leave the implementation of 
+	getAngleAxis(double &, Hep3Vector &) 
+even though it could be written as simply as 
+	{ HepAxisAngle z = axisAngle(); delta=a.delta; axis=a.axis; }
+
+Careful note will be made of all such "dual-implementation" situations, and
+we should take advantage by testing for equivalence in our test suites.
+
+50 - Operator *+ with a 3- or 4-vector and a 3- or 4-rotation:
+
+For example, v *= R where v is a Hep3Vector and R a HepRotation.
+In C++ semantics, z *= b usually means a = a * b, so this leads you to expect 
+the behaviour v = v*R.  But physicists know that they would rarely apply
+a rotation on the right like that, and thus CLHEP defined v *= R as v = R*v.
+
+This is a case where ZOOM decided there was no misleading way to treat
+the operator and thus omitted it, while CLHEP has just decided which way 
+to treat it.  We must retain this meaning for compatibility.  We will
+point out the unnatural syntax in both the header file and the documentation,
+to warn users that they will get the useful physics operation rather than
+the expected meaning of operator *=.
+
+--------------------
+LorentzTransformation
+--------------------
+
+52 - set from (bx,by,bz):
+
+The merged classes have to contain a constructor of LorentzRotation from 
+three boost components because CLHEP does.  They must contain a set() 
+method taking a boost vector because ZOOM does.  They need not, a 
+contain LorentzRotation::set(double,double,Hepdouble), but we include 
+that because we have the constructor from three doubles.
+
+53 - transform (Rotation r):
+
+While CLHEP has a separate method for transform taking a HepRotation, this
+is not strictly needed since HepRotation is a Hep3RotationInterface which in 
+turn is a Hep4RotationInterface.  If you know the argument is 3x3 you could 
+do 3x3 times 4x4 (in principle faster) and for transform, the original CLHEP
+would do this.  On the other hand, for multiplication this "efficiency" was
+not done; there is no operator* (HepRotation).   In reallity, the time needed
+for 3x3 times 4x4 is not significantly less, certainly not enough to warrant
+the additional complication.  So we simply provide the transform method taking
+a 4 rotation interface, which will break no code. 
+
+But for pure rotations around coordinate axes and boosts along axes, we do
+provide such methods as rotateZ and boostZ.  Here the efficiency difference
+is marked.  Besides, CLHEP has these explicitly.
+
+We also must keep the technically superfluous rotate(delta,axis) and 
+boost(3 doubles or 3-vector) methods.
+
+54 - rotateX, Y and Z:
+
+Although these are inline in CLHEP, we make them normal now.  The reason is
+that we can thus take advantage of rather big savings in algorithm (by
+utilizing the fact that the rotation only involves an X rotation or whatever).
+
+55 - ZMxpv in LorentzRotation.cc
+
+As a reminder, the ZMthrow macro is defined as outputting its argument and 
+aborting.  (ZMthrowC does not abort).  That said, should we use ZMthrow
+(defined in ZMxpv.h) in the basic LorentzRotation class?  I think we have to:
+the method set (double, double, double) -- which was present in CLHEP -- had
+a flaw in that it would take sqrt of a negative number if the arguments 
+supplied had mag2 > 1.  We really should behave more sensibly here ahd ZMthrow
+is the best we can do.
+
+56 - Physical coupling:
+
+BoostX needs LorentzRotation.h and so forth, because the product of
+a boost times an Hep4RotationInterface is a LorentzRotation.  We could 
+probably have lessened this sort of coupling but maybe not without sacrificing 
+speed.  At any rate, I short-circuited design though on this issue in favor
+of getting the merge done! 
+
+57 - Efficiency of distance2 for boosts:
+
+We could, by providing distance2(HepLorentzRotation) and the other concrete 
+classes, significantly speed up this computation, because we don't have to go
+back and forth through HepAxisAngle for the rotation decompositin and
+Hep3Vector for the boost.  However, this would add another 15 methods to each
+header (assuming we would want these gains in isNear and HowNear also);
+I decided it would not be worth it.
+

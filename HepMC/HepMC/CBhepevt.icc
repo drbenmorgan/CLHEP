@@ -1,0 +1,75 @@
+// $Id: CBhepevt.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// ----------------------------------------------------------------------
+// CBhepevt.icc
+// ----------------------------------------------------------------------
+// Author:  Lynn Garren, Marc Paterno,
+//
+
+namespace HepMC  {
+
+int CBhepevt::number_children( int index ) 
+{
+    int firstchild = hptr->jdahep[index][0];
+    return ( firstchild>0 ) ? 
+	( 1+hptr->jdahep[index][1]-firstchild ) : 0;
+}
+
+int CBhepevt::number_parents( int index ) {
+    int firstparent = hptr->jmohep[index][0];
+    if( firstparent <= 0 ) return 0;
+    int secondparent = hptr->jmohep[index][1];
+    if( secondparent <= 0 ) return 1;
+    return secondparent - firstparent + 1;
+}
+
+void CBhepevt::clean(  )
+{
+    int i, k;
+    hptr->nevhep = 0;
+    hptr->nhep = 0;
+    hptr2->nmulti = 0;
+    hptr4->eventweightlh = 0;
+    hptr4->alphaqedlh = -1.;
+    hptr4->alphaqcdlh = -1.;
+    hptr4->idruplh = 0;
+    for( i = 0; i < max_number_entries(); ++i ) {
+	hptr->isthep[i] = 0;
+	hptr->idhep[i] = 0;
+	hptr->jmohep[i][0] = 0;
+	hptr->jmohep[i][1] = 0;
+	hptr->jdahep[i][0] = 0;
+	hptr->jdahep[i][1] = 0;
+	hptr->phep[i][0] = 0;
+	hptr->phep[i][1] = 0;
+	hptr->phep[i][2] = 0;
+	hptr->phep[i][3] = 0; 
+	hptr->phep[i][4] = 0; 
+	hptr->vhep[i][0] = 0;
+	hptr->vhep[i][1] = 0;
+	hptr->vhep[i][2] = 0;
+	hptr->vhep[i][3] = 0;
+	hptr2->jmulti[i] = 0;
+        hptr4->spinlh[i][0] = 0;
+        hptr4->spinlh[i][1] = 0;
+        hptr4->spinlh[i][2] = 0;
+        hptr4->icolorflowlh[i][0] = 0;
+        hptr4->icolorflowlh[i][1] = 0;
+    }
+    for( i = 0; i < 10; ++i ) {
+        hptr4->scalelh[i] = -1.;
+    }
+    for( i = 0; i < max_multiple_interactions(); ++i ) {
+	hptr3->nevmulti[i] = 0;
+	hptr3->itrkmulti[i] = 0;
+	hptr3->mltstr[i] = 0;
+	hptr5->eventweightmulti[i] = 0;
+	hptr5->alphaqedmulti[i] = 0;
+	hptr5->alphaqcdmulti[i] = 0;
+	hptr5->idrupmulti[i] = 0;
+        for( k = 0; k < 10; ++k ) {
+	    hptr5->scalemulti[i][k] = 0;
+	}
+    }
+}
+
+}	// HepMC

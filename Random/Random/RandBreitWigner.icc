@@ -1,0 +1,23 @@
+// $Id: RandBreitWigner.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// -*- C++ -*-
+// 
+// -----------------------------------------------------------------------
+//                             HEP Random
+//                       --- RandBreitWigner ---
+//                 inlined functions implementation file
+// -----------------------------------------------------------------------
+// This file is part of Geant4 (simulation toolkit for HEP).
+ 
+// =======================================================================
+// Gabriele Cosmo - Created: 19th August 1998
+// =======================================================================
+
+inline RandBreitWigner::RandBreitWigner(HepRandomEngine & anEngine,
+                                        double a, double b )
+: localEngine(&anEngine), deleteEngine(false), defaultA(a),
+  defaultB(b) {}
+
+inline RandBreitWigner::RandBreitWigner(HepRandomEngine * anEngine,
+                                        double a, double b )
+: localEngine(anEngine), deleteEngine(true), defaultA(a),
+  defaultB(b) {}

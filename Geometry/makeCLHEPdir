@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# create a temporary CLHEP include subdirectory
+# use this in the build directory, NOT in the source code tree
+
+# makeCLHEP <top of source>
+#  $1 is the CLHEP (or equivalent) source code direcotry
+#  e.g. for /fullpath/somedir/Vector, $1 is /fullpath/somedir
+
+
+# create temporary include subdirectory
+if [ ! -d CLHEP ] 
+then
+  mkdir CLHEP
+  for pkg in `ls $1`
+  do
+    if [ -d $1/$pkg/$pkg ] 
+    then
+       ln -s $1/$pkg/$pkg CLHEP/$pkg
+    fi
+  done
+fi
+

@@ -1,0 +1,144 @@
+# ======================================================================
+# This is the Geometry configuration input file
+# Process this file with autoconf to produce a configure script.
+# ======================================================================
+
+
+# ----------------------------------------------------------------------
+# Identify the package and initialize the autotools:
+# ----------------------------------------------------------------------
+
+AC_PREREQ(2.57)
+AC_INIT(CLHEP Geometry, toy1.9.0.0, CLHEP@cern.ch, Geometry)
+AC_CONFIG_AUX_DIR(autotools)
+AC_CONFIG_SRCDIR([src/Plane3D.cc])
+AM_INIT_AUTOMAKE(1.6 foreign)
+AC_PROG_LIBTOOL
+
+
+# ----------------------------------------------------------------------
+# Identify the files that 'configure' is to produce:
+# ----------------------------------------------------------------------
+
+# Header containing #defines:
+AM_CONFIG_HEADER([Geometry/defs.h])
+
+# Makefiles:
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Geometry/Makefile])
+AC_CONFIG_FILES([src/Makefile])
+#AC_CONFIG_FILES([test/Makefile])
+
+# Test driver program/script:
+#AC_CONFIG_FILES([test/testPID.sh])
+
+
+# ----------------------------------------------------------------------
+# Capture post-install information:
+# ----------------------------------------------------------------------
+
+Geometry_CPPFLAGS="-I$includedir"
+Geometry_LDFLAGS="-L$libdir"
+Geometry_LIBS="-l$PACKAGE_TARNAME -lm"
+
+AC_SUBST(Geometry_CPPFLAGS)
+AC_SUBST(Geometry_LIBS)
+AC_SUBST(Geometry_LDFLAGS)
+
+
+# ----------------------------------------------------------------------
+# Supply boilerplate for Geometry/defs.h source header:
+# ----------------------------------------------------------------------
+
+AH_TOP([#ifndef GEOMETRY_DEFS_H
+#define GEOMETRY_DEFS_H])
+
+AH_BOTTOM([#endif  // GEOMETRY_DEFS_H])
+
+
+# ----------------------------------------------------------------------
+# Account for any user configuration options:
+# ----------------------------------------------------------------------
+
+# Determine whether optional thread support is requested:
+AC_ARG_ENABLE(
+	threads,
+	[  --enable-threads    Turn on thread support],
+	[case "${enableval}" in
+	  yes) threads=true ;;
+	  no)  threads=false ;;
+	  *) AC_MSG_ERROR(bad value ${enableval} for --enable-threads) ;;
+	esac],
+	[threads=false]
+	)
+AM_CONDITIONAL(USE_THREADS, test x$threads = xtrue)
+
+
+# ----------------------------------------------------------------------
+# Check for needed programs:
+# ----------------------------------------------------------------------
+
+# Locate a C++ compiler:
+AC_PROG_CXX(aCC CC cxx cc++ cl FCC KCC RCC xlC_r xlC g++ c++ gpp)
+
+# Use it hereinafter:
+AC_LANG(C++)
+
+# Ensure we've found a preprocessor:
+AC_REQUIRE_CPP
+
+
+# ----------------------------------------------------------------------
+# Set system-dependent options:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Check for needed libraries:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Check for needed header files:
+# ----------------------------------------------------------------------
+AC_HEADER_STDC
+AC_CHECK_HEADERS([stdlib.h])
+
+
+# ----------------------------------------------------------------------
+# Check for needed typedefs, structures, and compiler characteristics:
+# ----------------------------------------------------------------------
+AC_HEADER_STDBOOL
+AC_C_CONST
+AC_C_INLINE
+
+AC_CHECK_DECL(M_PI,
+	[],
+	AC_DEFINE(M_PI, 3.14159265358979323846, [Value of pi]),
+	[#include <cmath>])
+
+AC_CHECK_DECL(M_PI_2,
+	[],
+	AC_DEFINE(M_PI_2, 1.57079632679489661923, [Value of pi/2]),
+	[#include <cmath>])
+
+AC_CHECK_DECL(M_2PI,
+	[],
+	AC_DEFINE(M_2PI, 6.28318530717958647692, [Value of 2*pi]),
+	[#include <cmath>])
+
+
+# ----------------------------------------------------------------------
+# Check for needed library functions:
+# ----------------------------------------------------------------------
+
+AC_CHECK_FUNCS([sqrt])
+
+# ----------------------------------------------------------------------
+# Finish up:
+# ----------------------------------------------------------------------
+
+AC_OUTPUT
+
+
+# ======================================================================

@@ -1,0 +1,138 @@
+# ======================================================================
+# This is the Evaluator configuration input file
+# Process this file with autoconf to produce a configure script.
+# ======================================================================
+
+
+# ----------------------------------------------------------------------
+# Identify the package and initialize the autotools:
+# ----------------------------------------------------------------------
+
+AC_PREREQ(2.57)
+AC_INIT(CLHEP Evaluator, toy1.9.0.0, CLHEP@cern.ch, Evaluator)
+AC_CONFIG_AUX_DIR(autotools)
+AC_CONFIG_SRCDIR([src/Evaluator.cc])
+AM_INIT_AUTOMAKE(1.6 foreign)
+AC_PROG_LIBTOOL
+
+
+# ----------------------------------------------------------------------
+# Identify the files that 'configure' is to produce:
+# ----------------------------------------------------------------------
+
+# Header containing #defines:
+AM_CONFIG_HEADER([Evaluator/defs.h])
+
+# Makefiles:
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Evaluator/Makefile])
+AC_CONFIG_FILES([src/Makefile])
+
+
+# ----------------------------------------------------------------------
+# Capture post-install information:
+# ----------------------------------------------------------------------
+
+Evaluator_CPPFLAGS="-I$includedir"
+Evaluator_LDFLAGS="-L$libdir"
+Evaluator_LIBS="-l$PACKAGE_TARNAME -lm"
+
+AC_SUBST(Evaluator_CPPFLAGS)
+AC_SUBST(Evaluator_LIBS)
+AC_SUBST(Evaluator_LDFLAGS)
+
+
+# ----------------------------------------------------------------------
+# Supply boilerplate for Evaluator/defs.h source header:
+# ----------------------------------------------------------------------
+
+AH_TOP([#ifndef EVALUATOR_DEFS_H
+#define EVALUATOR_DEFS_H])
+
+AH_BOTTOM([#endif  // EVALUATOR_DEFS_H])
+
+
+# ----------------------------------------------------------------------
+# Account for any user configuration options:
+# ----------------------------------------------------------------------
+
+# Determine whether optional thread support is requested:
+AC_ARG_ENABLE(
+	threads,
+	[  --enable-threads    Turn on thread support],
+	[case "${enableval}" in
+	  yes) threads=true ;;
+	  no)  threads=false ;;
+	  *) AC_MSG_ERROR(bad value ${enableval} for --enable-threads) ;;
+	esac],
+	[threads=false]
+	)
+AM_CONDITIONAL(USE_THREADS, test x$threads = xtrue)
+
+
+# ----------------------------------------------------------------------
+# Check for needed programs:
+# ----------------------------------------------------------------------
+
+# Locate a C++ compiler:
+AC_PROG_CXX(aCC CC cxx cc++ cl FCC KCC RCC xlC_r xlC g++ c++ gpp)
+
+# Use it hereinafter:
+AC_LANG(C++)
+
+# Ensure we've found a preprocessor:
+AC_REQUIRE_CPP
+
+
+# ----------------------------------------------------------------------
+# Set system-dependent options:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Check for needed libraries:
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Check for needed header files:
+# ----------------------------------------------------------------------
+
+AC_HEADER_STDC
+AC_CHECK_HEADERS([string.h])
+
+# ----------------------------------------------------------------------
+# Check for needed typedefs, structures, and compiler characteristics:
+# ----------------------------------------------------------------------
+
+AC_CHECK_DECL(M_PI,
+	[],
+	AC_DEFINE(M_PI, 3.14159265358979323846, [Value of pi]),
+	[#include <cmath>])
+
+AC_CHECK_DECL(M_PI_2,
+	[],
+	AC_DEFINE(M_PI_2, 1.57079632679489661923, [Value of pi/2]),
+	[#include <cmath>])
+
+AC_CHECK_DECL(M_2PI,
+	[],
+	AC_DEFINE(M_2PI, 6.28318530717958647692, [Value of 2*pi]),
+	[#include <cmath>])
+
+
+# ----------------------------------------------------------------------
+# Check for needed library functions:
+# ----------------------------------------------------------------------
+
+AC_FUNC_STRTOD
+AC_CHECK_FUNCS([pow sqrt])
+
+# ----------------------------------------------------------------------
+# Finish up:
+# ----------------------------------------------------------------------
+
+AC_OUTPUT
+
+
+# ======================================================================

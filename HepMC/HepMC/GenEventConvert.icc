@@ -1,0 +1,74 @@
+// $Id: GenEventConvert.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// ----------------------------------------------------------------------
+//
+// GenEventConvert.icc
+//
+//  defines methods to build GenEvent from some set of common blocks
+//  also fill the common blocks from GenEvent
+//  Specific implementation is found in the common block class.
+//
+// ----------------------------------------------------------------------
+
+#include <iostream>
+#include <set>
+#include <vector>
+
+namespace HepMC {
+
+template<class S>
+GenEvent * GenEventConvert< S >::getGenEventfromHEPEVT()
+{
+    // creates a new event and fills it 
+    // 
+    // 1. create an empty event container
+    GenEvent* evt = new GenEvent();
+    // 2. fill the evt container - if the read is successful, return the
+    //    pointer, otherwise return null and delete the evt
+    if ( toGenEvent( evt ) ) return evt;
+    // note: the below delete is only reached if read fails
+    //       ... thus there is not much overhead in new then delete 
+    //       since this statement is rarely reached
+    delete evt;
+    return 0;
+}
+
+template<class S>
+bool GenEventConvert< S >::toGenEvent( GenEvent* evt ) {
+    // read one event from the HEPEVT common block and fill GenEvent
+    // return T/F =success/failure
+    //
+    // 1. test that evt pointer is not null and set event number
+    if ( !evt ) {
+	std::cerr 
+	    << "GenEventConvert:toGenEvent: error - passed null event." 
+	    << std::endl;
+	return 0;
+    }
+    CBInterface< S > * hep = CBInterface< S >::instance();
+    bool perr = printInconsistencyErrors();
+    return (*hep)->toGenEvent( evt, perr );
+}
+
+template<class S>
+bool GenEventConvert< S >::fromGenEvent( const GenEvent* evt ) {
+    // This writes an event out to the HEPEVT common block. The daughters
+    // field is NOT filled, because it is possible to contruct graphs
+    // for which the mothers and daughters cannot both be make sequential.
+    // This is consistent with how pythia fills HEPEVT (daughters are not
+    // necessarily filled properly).
+    //
+    if ( !evt ) return false;
+    //  get the common block and clean it
+    CBInterface< S > * hep = CBInterface< S >::instance();
+    (*hep)->clean( );
+    return (*hep)->fromGenEvent( evt );
+}
+
+template<class S>
+bool GenEventConvert< S >::addtoHEPEVT( const GenEvent* evt ) {
+    CBInterface< S > * hep = CBInterface< S >::instance();
+    return (*hep)->addtoHEPEVT( evt );
+}
+
+
+}	// HepMC

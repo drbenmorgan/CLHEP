@@ -1,0 +1,368 @@
+	How the various random distributions are validated
+	--------------------------------------------------
+
+The distributions in CLHEP, for example RandGauss, are 
+"independently validated."
+
+By validation, we mean checking that
+
+  * The algorithm is mathematically correct
+  * The algorithm is properly coded
+  * The compilation of the algorithm is proper for this plaform
+  * There is no subtle interaction between the algorithm and 
+    the random engine used that detectably impacts the distribution
+
+This validation must be done without reference to the coded algorithm itself 
+(independent).  It must be done by generating some (selectable) number of
+deviates, and testing that these obey the mathematical properties of the 
+desired distribution.  For each distribution, those properties (hence the 
+tests) differ.
+
+Since one can always increase the number of deviates to detect smaller
+anomalies, we reject conservatively:  Generally, if the distribution is
+3 sigma away from the proper properties, we reject, asserting that something
+is wrong with the algorithm of coding.  For distributions which will be tested
+in many ways, we make our rejection criteria a bit more severe; the goal is
+to keep the overall "false rejection" probability down at the .1% to 1% level.
+
+For each validated distribution, we discuss here:
+
+  * the method used to produce the deviates
+  * timings
+  * the validation tests applied
+  * the level (number of deviates to which the distribution passes validation
+
+A word about timing, which of course is by necessity relative timing.  We
+take the time for a single random via one of the fastest good generators
+(DualRand) to be 1 unit.  These are not super-carful timings, and at any rate
+the ratios will vary by around 30% depending on the processor and memory 
+configuration used.  A timing for a distribution of 1.0 units would mean no
+time used beyond the uniform random.
+
+                                Summary
+                                -------
+
+Distribution    Validated       Validation Rejected Past N
+------------    ---------       --------------------------
+
+RandGauss       N = 50,000,000      -------
+RandGaussT	N = 50,000,000	    -------
+RandGaussQ      N = 30,000,000     N = 50,000,000
+
+RandGeneral	
+(approximating a gaussian)
+  linear	N =  1,000,000	   N =  1,000,000  	(1,000 bins)
+  stepwise 	N =  1,000,000	   N =  1,000,000       (10,000 bins)
+
+RandPoisson	N = 10,000,000	     -------
+RandPoissonT	
+  mu<100	N = 50,000,000	     -------
+  mu>100	N = 10,000,000	     -------
+RandPoissonQ	
+	mu<100	N = 50,000,000	     -------		(same as RandPoissonT)
+	mu>100  N =  5,000,000	   N = 10,000,000
+
+
+----------------------------------------------------------
+
+1. RandGauss
+
+  Method:
+
+RandGauss is left unchanged from the original:  A Box-Mueller pair of deviates
+is generated using rejection technique (which may on occasion reject the
+first pair of randoms).   
+
+  Timing: 
+
+fire(), shoot() etc	2.5 units
+
+  Validation tests applied:
+
+We know analytically the proper values of the first six moments of a gaussian,
+and I have also analytically computed with the standard errors associated with 
+these quantities.  (For the latter, we ignore corrections of the order 1/N, 
+but since one would never apply the validation using fewer than 1000 deviates, 
+this is completely safe.)  
+
+Along with these first six moments, we also histogram the deviates into bins
+at intervals of .5 sigma, from -6 to +6 sigma.  The correct fraction of 
+deviates in each bin is known from tables of the error function.  The standard
+error is taken to be sqrt(npq).  (It is technically superior to do a chi-square
+test on the contents of the 13 bins, but the results are almost identical.)
+
+So we now have about 20 measurements.  If any one of these is too many sigma
+off ites expected value, we reject the hypothesis that this distribution is
+correct.  We choose 4 sigma for rejection (controlled by the const REJECT)
+because with 20 measurements, the chances are a bit less that .1% that such
+a level will occur by coincidence.
+
+  Validation Level:
+
+The standard validation suite uses N = 1 million, but the method is in 
+principle exact.  It has been explicitly validated at N = 50,000,000.
+
+1a. RandGaussQ
+
+  Method:
+
+RandGauss starts from a uniform random, and does a lookup into a table of 
+inverse cumulative density function.  It then does a linear interpolation,
+getting a result which is in principle accurate to about 23 significant bits.
+To deal well with the tails, the table is broken up into 2 tables, with 
+increasingly finer spacing below r = .0005; and below .000001, a very
+accurate series is substituted for the table method.
+
+  Timing: 
+
+fire(), shoot() etc	1.7 units
+
+  Validation tests applied:
+
+The same tests for RandGauss were applied here.
+
+  Validation Level:
+
+The standard validation suite uses N = 1 million, but we have applied this
+test for higher values of N to see where the deviation from the true Gaussian
+can be detected.
+
+This method in fact has about 1.6% too many variates between 3.0 and 3.5 sigma 
+from the mean (.113% instead of .111%).  Because that range of values is rare, 
+and other deviations from perfection are smaller, RandGaussQ passes validation 
+with up to 30,000,000 numbers.  However, the difference between RandGaussQ
+and an actual gaussian is detectable as rejecting validation when applied at 
+the level of 50,000,000 samples.
+
+
+1b. RandGaussT
+
+  Method:
+
+flatToGaussian(engine->flat()) is used:  This does a lookup into a table of
+inverse cumulative density function.  It then does a cubic spline interpolation,
+getting a result which is in principle accurate to 40-44 significant bits.
+
+To deal well with the tails, the table is broken up into 5 tables, with 
+increasingly finer spacing; and below about 10**(-13) a series approximation
+is used:  In that range this approximation is very accurate.
+
+Timing: 			
+  flatToGaussian (double x)	1.3 units
+  RandGaussT()			2.3 units
+
+  Validation tests applied:
+
+The same tests for RandGauss were applied here.
+
+  Validation Level:
+
+The standard validation suite uses N = 1 million, but we have applied this
+test with N up to 50 million, and never get anywhere near the rejection point.
+Analytical considerations indicate that the validation test would not reject 
+until O(10**24) samples were inspected.
+
+----------------------------------------------------------
+
+
+2. RandGeneral
+
+  Method:
+
+RandGeneral sets up a distribution using a supplied histogram of pdf.  
+The value returned is computed by a lookup, with optional linear interpolation.
+
+  Timing:
+
+(Not done in isolation).  Grows with log (nbins).
+
+  Validation tests applied:
+
+To test the distribution purporting to use supplied histogram of pdf,
+we supply the pdf for a Gaussian (which is easy to provide explicitly, 
+involving just an exponential).  To this we apply the validation test 
+for a Gaussian.
+
+In order that the entire probablility is held by the finite range of the 
+histogram (0 to 1), we use a mean of .5 and suggest a sigma of .06, which
+leaves room for 8 sigma deviations.  
+
+There are two types of uses of RandGeneral - stepwise or piecewise-linear
+approximation of the pdf.  The former gives a weaker match to the function
+being appoximated, for a given number of bins.  We validate these separately.
+
+  Validation Level:
+
+This validation would be expected to fail if too few bins were used, and in 
+fact with one million deviates generated, the Gaussian validation detects
+a rejectable discrepancy if the number of bins is 300 (for piecewise-linear)
+or 5000 (for stepwise).  (This rejection gives us excellent confidence that
+the RandGauss validation is powerful - a 300 bin piecewise-linear approximation
+to a Gaussian looks quite good to the eye, yet our validation would reject it.)
+
+The standard validation suite uses N = 1 million, with 1000 bins for 
+validation of the linear case, and 10000 bins for stepwise.  If N is increased, 
+the number of bins should also be increased, since the more powerful resolution
+associated with larger N will let the validation detect the discrepancy.
+
+----------------------------------------------------------
+
+3. RandPoisson
+
+  Method:
+
+The original algorithm uses direct computation by multiplying uniform randoms
+for mu up to 12, and a rejection algorithm (from Numerical recipes) for mu
+greater than 12.  This produces accurate poissons, however is fairly time
+consuming.
+
+  Timing:
+
+The method used takes time which differs according to the value of mu.
+(Also in some instances speed is gained becuause of prior stored values for 
+the default mu; but this is a small effect.  We list the faster time.)
+
+	 mu	time	
+	  2.5	 4.8
+	  7.5	 9.3
+	 11.0	 14.1
+	 51.0	 14.3
+	 94.9	 14.5
+	110      14.8	
+
+  Validation tests applied:
+
+Since the Poisson distribution is a discrete distribution, we can bin the 
+deviates and analytically determine how many should be in each bin.  The
+appropriate test to apply is chi-squared, and we do apply this, rejecting
+if the significance is more extreme than .01%.  
+
+However, for large mu, we can do a bit better:  If there is a discrepancy,
+it is likely to show up as wrong fractions in a range of bins, rather than 
+a single bin being off.  So we could "clump" several bins together, increasing
+the resolution power of the test for any given N deviates.  We do this, 
+clumping together sqrt(mu) bins, as a second chi-squared test.  
+
+Finally, since programs may be very sensitive to incorrect mean values, we
+also check the sample mean and sample sigma-squared.  The expected variances
+in the mean and in sigma2 can be computed analytically in terms of mu and 
+N (for instance, expectedSigma2Variance = (2*N*mu*mu/(N-1) + mu) / N), so
+we can translate these into a number of standard deviations off their expected
+values.  We reject at 3.5 sigma for these.
+
+The combination of 4 tests will be expected to falsely reject about one time 
+in 2000, for any given value of mu.  We apply these tests to a variety of 
+large, small, and medium values of mu, paying particular attention to values 
+near change-points in the underlying algorithm.  In all, we would expect false 
+rejection about one time in 300; since we wish to have good resolution power
+even if just one of the mu values is flawed, it would be unwise to dial this 
+down any further.
+
+  Validation Level:
+
+The standard validation suite uses N = 1 million, for several values of mu,
+but we have applied this with much higher N.
+
+We validated the main fire() method for a variety of mu values between 0 and 
+100 at a level of 10,000,000 trials.  It showed no sign of approaching
+the rejectable p-values or errors in mean and sigma.  
+
+
+3a. RandPoissonT
+
+  Method:
+
+This new algorithm does the direct sum method, using a table for 1/N (which
+is 30% faster than the product method because it does not need an exp) for 
+mu < 5.  For 5 < mu < 100 it does a table lookup followed by a series for the 
+remainder, using the fact that the sum of two Poissons is a Poisson with mu
+as the sum of the mu's.  For mu > 100 it uses the original method; I could 
+not create a faster method completely accurate that does not require overly 
+large tables.  
+
+  Timing:
+
+The timing differs according to the value of mu, and takes a major step up
+when we cross mu=100 and go over to the lod algorithm.
+
+	 mu	time	
+	  2.5	 1.6
+	  7.5	 3.9
+	 11.0	 3.9
+	 51.0	 3.9
+	 94.9	 3.9
+	110     14.8
+
+  Validation tests applied:
+
+The same tests are applied as for RandPoisson.
+
+  Validation Level:
+
+The standard validation suite uses N = 1 million, for several values of mu,
+but we have applied this with much higher N.
+
+We validated the main fire() method for a variety of mu values between 0 and 
+100 at a level of 50,000,000 trials.  It showed no sign of approaching
+the rejectable p-values or errors in mean and sigma.  Above 100, the
+method matches the original algorithm; this we validated with 10,000,000
+samples (it is more time consuming) with no problems.
+
+We validated the quick() routine (which differs only above mu = 100) 
+at mu = 110, finding no rejection at 5,000,000 trials but rejectable errors 
+at 10,000,000.  The (corrected) gaussian approximation appears to improve 
+quadratically with higher mu.  For example, for mu = 300 a sample of
+10,000,000 could not distinguish between quick() and a true Poisson.
+
+RandPoisson	*,	N =     10,000	   N =     25,000  * simple gaussian
+		mu>100					     NOT IN THE CLASS!
+
+
+
+3a. RandPoissonQ
+
+  Method:
+
+For mu < 100 we use the method of RandPoissonT, which is fast enough.
+For mu > 100, we use a Gaussian approximation, quadratically transformed 
+to properly match the Poisson mean, sigma, and skew.  The quadratic correction
+is needed; the naive Gaussian approximation is inaccurate at a level which, 
+for mu = 110, turns out to be detectable in a sample of only 25,000 deviates.
+
+  Timing:
+
+The timing differs according to the value of mu, being the same as RandPoissonT
+for mu < 100.  Above 100, it makes a noticeable difference whether the default
+or last-used value of mu is used, and both times are quoted.
+
+	 mu	time	
+	  2.5	 1.6	
+	  7.5	 3.9	
+	 11.0	 3.9	
+	 51.0	 3.9	
+	 94.9	 3.9	
+	110      2.6 - 4.4
+
+
+  Validation tests applied:
+
+The same tests are applied as for RandPoisson.
+
+  Validation Level:
+
+The standard validation suite uses N = 1 million, for several values of mu,
+but we have applied this with higher N.  Below mu = 100, the validation 
+never fails.
+
+We validated the main fire() method for mu values above but near to 100
+for 5,000,000 trials with no rejectable deviations.  However, at 10,000,000
+trials the distribution is detectably inferior.
+
+For higher values of mu, the approximation improves; by mu = 300 we were 
+unable to sample the distribution sufficiently to expose any deviance.
+
+By way of comparison, at mu = 130, the simple gaussian approximation
+poisson = floor( .5 + mu + sqrt(mu)*normal ) passes at N = 10,000 samples
+but fails at 25,000 samples.  And without the .5 correction it is much
+worse still.
+

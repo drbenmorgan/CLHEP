@@ -1,0 +1,112 @@
+// $Id: ParticleDataTableT.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// ----------------------------------------------------------------------
+//
+// ParticleDataTableT.icc
+// Author: Lynn Garren, Walter Brown
+//
+// ----------------------------------------------------------------------
+
+namespace HepPDT {
+
+// default constructor
+template< class Config >
+ParticleDataTableT<Config>::ParticleDataTableT(std::string name )
+: itsTableName ( name )	
+{ 
+    version(); 
+}
+
+template< class Config >
+ParticleDataTableT<Config>::~ParticleDataTableT()
+{ ; }
+
+template< class Config >
+typename ParticleDataTableT<Config>::ParticleData * ParticleDataTableT<Config>::particle( ParticleID key)
+{ 
+  iterator it;
+  it = itsMap.find( key );
+  if( it != itsMap.end() ) {
+    return & it->second;
+  } else {
+    //std::cerr << "cannot find particle " << id << " in map" << std::endl;
+    return NULL;
+  }
+}
+
+template< class Config >
+typename ParticleDataTableT<Config>::ParticleData const * ParticleDataTableT<Config>::particle( ParticleID key ) const
+{ 
+  const_iterator cit;
+  int id = key.pid();
+  cit = itsMap.find( key );
+  if( cit != itsMap.end() ) {
+    return & cit->second;
+  } else {
+    //std::cerr << "cannot find particle " << id << " in map" << std::endl;
+    return NULL;
+  }
+}
+
+template< class Config >
+typename ParticleDataTableT<Config>::ParticleData * ParticleDataTableT<Config>::operator [] ( ParticleID key )
+{
+  return particle( key );
+}
+
+template< class Config >
+typename ParticleDataTableT<Config>::ParticleData const * ParticleDataTableT<Config>::operator [] ( ParticleID key ) const
+{
+  return particle( key );
+}
+
+template< class Config >
+void ParticleDataTableT<Config>::writeParticleData( std::ostream & outstr )
+{
+  // write header
+  outstr << std::endl;
+  outstr << "HepPDT-ParticleDataTable-begin" << std::endl;
+  outstr << "             *****  ParticleDataTable  *****" << std::endl;
+  outstr << "             Table Name : " << tableName() << std::endl;
+  outstr << "                  ( " << size() << " entries )" << std::endl;
+  outstr << "PARTICLE NAME                 ID  CHARGE COLOR"
+         << " SPIN: J  S   L"
+	 << "  MASS"
+	 << "                     WIDTH"
+	 << "                    LIFETIME"
+         << std::endl;  
+  // write particle info
+  const_iterator cit;
+  for( cit=begin(); cit != end(); ++cit ) {
+    const ParticleData & pd = cit->second;
+    pd.write( outstr );
+  }
+  outstr << "HepPDT-ParticleDataTable-end" << std::endl;
+  return;
+}
+
+template< class Config >
+typename ParticleDataTableT<Config>::DDID ParticleDataTableT<Config>::addDecayData( DecayData const & d )
+{
+  itsDDlist.push_back( d );
+  DDID it = itsDDlist.end();
+  --it;
+  return it;
+}
+
+template< class Config >
+typename ParticleDataTableT<Config>::CPDID ParticleDataTableT<Config>::addParticleData( CPD const & d )
+{
+  itsCPDlist.push_back( d );
+  CPDID it = itsCPDlist.end();
+  --it;
+  return it;
+}
+
+template< class Config >
+void ParticleDataTableT<Config>::addParticle( ParticleData const & p )
+{
+  ParticleID id=p.ID();
+  itsMap.insert( std::make_pair( id, p )); 
+}
+
+}	// HepPDT

@@ -1,0 +1,147 @@
+// -*- C++ -*-
+// $Id: SymMatrix.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// ---------------------------------------------------------------------------
+//
+// This file is a part of the CLHEP - a Class Library for High Energy Physics.
+// 
+// 
+// Copyright Cornell University 1993, 1996, All Rights Reserved.
+// 
+// This software written by Nobu Katayama and Mike Smyth, Cornell University.
+// 
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+// 1. Redistributions of source code must retain the above copyright
+//    notice and author attribution, this list of conditions and the
+//    following disclaimer. 
+// 2. Redistributions in binary form must reproduce the above copyright
+//    notice and author attribution, this list of conditions and the
+//    following disclaimer in the documentation and/or other materials
+//    provided with the distribution.
+// 3. Neither the name of the University nor the names of its contributors
+//    may be used to endorse or promote products derived from this software
+//    without specific prior written permission.
+// 
+// Creation of derivative forms of this software for commercial
+// utilization may be subject to restriction; written permission may be
+// obtained from Cornell University.
+// 
+// CORNELL MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED.  By way
+// of example, but not limitation, CORNELL MAKES NO REPRESENTATIONS OR
+// WARRANTIES OF MERCANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT
+// THE USE OF THIS SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY PATENTS,
+// COPYRIGHTS, TRADEMARKS, OR OTHER RIGHTS.  Cornell University shall not be
+// held liable for any liability with respect to any claim by the user or any
+// other party arising from use of the program.
+//
+// This is the definitions of the inline member functions of the
+// HepSymMatrix class
+//
+
+inline HepSymMatrix::HepSymMatrix() 
+  : m(0), nrow(0), size(0)
+{}
+
+inline int HepSymMatrix::num_row() const { return nrow;}
+inline int HepSymMatrix::num_col() const  { return nrow;}
+inline int HepSymMatrix::num_size() const  { return size;}
+
+inline double & HepSymMatrix::fast(int row,int col)
+{
+#ifdef MATRIX_BOUND_CHECK
+  if(row<1||row>num_row() || col<1||col>num_col())
+    error("Range error in HepSymMatrix::fast()");
+#endif
+  return *(m+(row*(row-1))/2+(col-1));
+}
+inline const double & HepSymMatrix::fast(int row,int col) const
+{
+#ifdef MATRIX_BOUND_CHECK
+  if(row<1||row>num_row() || col<1||col>num_col())
+    error("Range error in HepSymMatrix::fast()");
+#endif
+  return *(m+(row*(row-1))/2+(col-1));
+}
+
+inline double & HepSymMatrix::operator()(int row, int col)
+    {return (row>=col? fast(row,col) : fast(col,row));}
+inline const double & HepSymMatrix::operator()(int row, int col) const 
+    {return (row>=col? fast(row,col) : fast(col,row));}
+
+inline void HepSymMatrix::assign(const HepSymMatrix &m2) 
+  {(*this)=m2;}
+
+inline HepSymMatrix HepSymMatrix::T() const {return HepSymMatrix(*this);}
+
+inline HepSymMatrix::HepSymMatrix_row HepSymMatrix::operator[] (int r)
+#ifdef HEP_GNU_OPTIMIZED_RETURN
+  return b(*this,r);
+{
+#else
+{
+  HepSymMatrix_row b(*this,r);
+#endif
+  return b;
+}
+
+inline HepSymMatrix::HepSymMatrix_row_const HepSymMatrix::operator[] (int r) const
+#ifdef HEP_GNU_OPTIMIZED_RETURN
+  return b(*this,r);
+{
+#else
+{
+  const HepSymMatrix_row_const b(*this,r);
+#endif
+  return b;
+}
+
+inline double &HepSymMatrix::HepSymMatrix_row::operator[](int c)
+{
+#ifdef MATRIX_BOUND_CHECK
+   if(_r<0||_r>=_a.nrow || c<0||c>=_a.nrow)
+      error("Range error in HepSymMatrix::operator[][]");
+#endif
+   if (_r >= c ) {
+      return *(_a.m + (_r+1)*_r/2 + c);
+   } else {
+      return *(_a.m + (c+1)*c/2 + _r);
+   }
+}
+
+inline const double &
+HepSymMatrix::HepSymMatrix_row_const::operator[](int c) const 
+{
+#ifdef MATRIX_BOUND_CHECK
+   if(_r<0||_r>=_a.nrow || c<0||c>=_a.nrow)
+      error("Range error in HepSymMatrix::operator[][]");
+#endif
+   if (_r >= c ) {
+      return *(_a.m + (_r+1)*_r/2 + c);
+   } else {
+      return *(_a.m + (c+1)*c/2 + _r);
+   }
+}
+
+inline HepSymMatrix::HepSymMatrix_row::HepSymMatrix_row(HepSymMatrix &a,
+							   int r) 
+   : _a(a), _r(r)
+{}
+
+inline HepSymMatrix::HepSymMatrix_row_const::HepSymMatrix_row_const
+(const HepSymMatrix&a,int r) 
+   : _a(a), _r(r)
+{}
+
+inline HepSymMatrix HepSymMatrix::inverse(int &ifail) const
+#ifdef HEP_GNU_OPTIMIZED_RETURN
+     return mTmp(*this);
+{
+#else
+{
+  HepSymMatrix mTmp(*this);
+#endif
+  mTmp.invert(ifail);
+  return mTmp;
+}
+

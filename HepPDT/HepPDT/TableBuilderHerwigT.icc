@@ -1,0 +1,19 @@
+// $Id: TableBuilderHerwigT.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// ----------------------------------------------------------------------
+//
+// TableBuilderHerwigT.icc
+// Author: Lynn Garren
+//
+// ----------------------------------------------------------------------
+
+
+namespace HepPDT {
+
+
+template< class Config >
+bool  addHerwigParticles( std::istream & pdfile, TableBuilderT<Config> & tb )
+{
+  return true;
+}
+
+}  // namespace HepPDT

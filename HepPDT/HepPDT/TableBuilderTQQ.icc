@@ -1,0 +1,56 @@
+// $Id: TableBuilderTQQ.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// ----------------------------------------------------------------------
+//
+// TableBuilderTQQ.icc
+// Author: Lynn Garren
+//
+// ----------------------------------------------------------------------
+
+namespace HepPDT {
+
+typedef std::map<std::string,PARTICLE> ParticleMap;
+typedef std::map<std::string,QQBAR> QuarkMap;
+typedef std::map<std::string,QQDecay> DecayMap;
+
+void parseQQParticle( TempParticleData & tpd, PARTICLE p );
+void parseQQDecay( TempParticleData & tpd, QQDecay dcy );
+
+template< class Config >
+bool  addQQParticles( QQDecayTable & qd, TableBuilderT<Config> & tb )
+{ 
+    std::string name;
+    // read particle map from QQDecayTable
+    ParticleMap pm = qd.particleMap();
+    ParticleMap::const_iterator cit;
+    ParticleMap::const_iterator endit = pm.end();
+    for( cit=pm.begin(); cit != endit; ++cit ) {
+        PARTICLE p = cit->second;
+	if( p.pdgid != 0 ) {
+            TempParticleData& tpd = tb.getParticleData( ParticleID( p.pdgid ) );
+            parseQQParticle( tpd, p );
+	    tb.addParticle( tpd );
+	}
+    }
+    // ignore quark map for now
+    // read decay map from QQDecayTable
+    DecayMap dm = qd.decayMap();
+    DecayMap::const_iterator dcit;
+    DecayMap::const_iterator dendit = dm.end();
+    for( dcit=dm.begin(); dcit != dendit; ++dcit ) {
+        name = dcit->first;
+        QQDecay dcy = dcit->second;
+        // QQ assumes that all particles have been defined before
+        // they are used in the decay table
+	if( tb.hasParticleData( name ) ) {
+            TempParticleData& tpd = tb.getParticleData( name );
+	    parseQQDecay( tpd, dcy );
+	} else {
+	    std::cout << "HepPDT TableBuilder: could not match name " << name << std::endl;
+	}
+    }
+    std::cout << "HepPDT TableBuilder:found " 
+              << tb.size() << " particles " << std::endl;
+    return true;
+}
+
+}  // namespace HepPDT

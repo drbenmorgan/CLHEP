@@ -1,0 +1,99 @@
+// $Id: ParticleID.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// ----------------------------------------------------------------------
+//
+// ParticleID.icc
+//
+// ----------------------------------------------------------------------
+
+namespace HepPDT {
+
+ParticleID::ParticleID( int pid )
+: itsPID            ( pid )
+{ ; }
+
+ParticleID::ParticleID( const ParticleID & orig )
+: itsPID            ( orig.itsPID )
+{ ; }
+
+ParticleID& ParticleID::operator=( const ParticleID & rhs )
+{ 
+  ParticleID temp( rhs );
+  swap( temp );
+  return *this;
+}
+
+void ParticleID::swap( ParticleID & other ) 
+{
+  std::swap( itsPID, other.itsPID );
+}
+
+bool  ParticleID::operator <  ( ParticleID const & other ) const
+{
+  return itsPID < other.itsPID;
+}
+
+bool  ParticleID::operator == ( ParticleID const & other ) const
+{
+  return itsPID == other.itsPID;
+}
+
+int ParticleID::abspid( ) const
+{
+  return (itsPID < 0) ? -itsPID : itsPID;
+}
+
+bool ParticleID::hasUp( ) const
+{
+    if( extraBits() > 0 ) { return false; }
+    if( abspid() <= 100 ) { return false; }
+    if( fundamentalID() <= 100 && fundamentalID() > 0 ) { return false; }
+    if( digit(nq3) == 2 || digit(nq2) == 2 || digit(nq1) == 2 ) { return true; }
+    return false;
+}
+
+bool ParticleID::hasDown( ) const
+{
+    if( extraBits() > 0 ) { return false; }
+    if( abspid() <= 100 ) { return false; }
+    if( fundamentalID() <= 100 && fundamentalID() > 0 ) { return false; }
+    if( digit(nq3) == 1 || digit(nq2) == 1 || digit(nq1) == 1 ) { return true; }
+    return false;
+}
+
+bool ParticleID::hasStrange( ) const
+{
+    if( extraBits() > 0 ) { return false; }
+    if( abspid() <= 100 ) { return false; }
+    if( fundamentalID() <= 100 && fundamentalID() > 0 ) { return false; }
+    if( digit(nq3) == 3 || digit(nq2) == 3 || digit(nq1) == 3 ) { return true; }
+    return false;
+}
+
+bool ParticleID::hasCharm( ) const
+{
+    if( extraBits() > 0 ) { return false; }
+    if( abspid() <= 100 ) { return false; }
+    if( fundamentalID() <= 100 && fundamentalID() > 0 ) { return false; }
+    if( digit(nq3) == 4 || digit(nq2) == 4 || digit(nq1) == 4 ) { return true; }
+    return false;
+}
+
+bool ParticleID::hasBottom( ) const
+{
+    if( extraBits() > 0 ) { return false; }
+    if( abspid() <= 100 ) { return false; }
+    if( fundamentalID() <= 100 && fundamentalID() > 0 ) { return false; }
+    if( digit(nq3) == 5 || digit(nq2) == 5 || digit(nq1) == 5 ) { return true; }
+    return false;
+}
+
+bool ParticleID::hasTop( ) const
+{
+    if( extraBits() > 0 ) { return false; }
+    if( abspid() <= 100 ) { return false; }
+    if( fundamentalID() <= 100 && fundamentalID() > 0 ) { return false; }
+    if( digit(nq3) == 6 || digit(nq2) == 6 || digit(nq1) == 6 ) { return true; }
+    return false;
+}
+
+} // HepPDT

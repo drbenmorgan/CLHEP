@@ -1,0 +1,71 @@
+// -*- C++ -*-
+// $Id: SphericalBessel.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+#include "CLHEP/GenericFunctions/Sin.hh"
+#include "CLHEP/GenericFunctions/Cos.hh"
+#include "CLHEP/GenericFunctions/Variable.hh"
+#include "gsl/gsl_sf_bessel.h"
+#include <signal.h>
+
+namespace Genfun {
+
+FUNCTION_OBJECT_IMP(SphericalBessel)
+
+//---------------------------------------------------------------------------------//
+// Implementation notes:  The Spherical Bessel function is implemented in terms of //
+// lower order spherical bessel functions.  This is possible thanks to a recursion //
+// relation.                                                                       //
+//---------------------------------------------------------------------------------//
+
+SphericalBessel::SphericalBessel(unsigned int l):
+  _l(l)
+{
+  create();
+}
+
+SphericalBessel::~SphericalBessel() {
+  delete _function;
+}
+
+SphericalBessel::SphericalBessel(const SphericalBessel & right):
+_l(right._l)
+{
+  create();
+}
+
+double SphericalBessel::operator() (double x) const {
+  //
+  // First try the GSL implementation:
+  //
+  gsl_sf_result result;
+  int status =gsl_sf_bessel_jl_e(_l, x,&result);
+  if (status!=0) {
+    std::cerr << "Warning, GSL function gsl_sf_bessel_jl_impl" 
+	      << " return code" << status << std::endl;
+    raise(SIGFPE);
+  }
+  return result.val;
+  //return (*_function)(x);
+}
+
+unsigned int SphericalBessel::l() const {
+  return _l;
+}
+
+void SphericalBessel::create() {
+  Sin   sine;
+  Cos  cosine;
+  Variable     x;
+  if (_l==0) {
+    _function = (sine/x).clone();
+  }
+  else if (_l==1) {
+    _function = (sine/x/x - cosine/x).clone();
+  }
+  else {
+    SphericalBessel j_minus(_l-1);
+    SphericalBessel j_minus_minus(_l-2);
+    _function = ((2*_l-1)*j_minus/x - j_minus_minus).clone();;
+  }
+} 
+
+} // end namespace Genfun 

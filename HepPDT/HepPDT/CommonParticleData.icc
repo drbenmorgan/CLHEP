@@ -1,0 +1,115 @@
+// $Id: CommonParticleData.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// ----------------------------------------------------------------------
+//
+// CommonParticleData.icc
+// Author: Lynn Garren
+//
+// ----------------------------------------------------------------------
+
+#include <algorithm>	// swap()
+
+namespace HepPDT {
+
+CommonParticleData::CommonParticleData( const TempParticleData & tpd )
+: itsID            ( tpd.tempID ), 
+  itsParticleName  ( tpd.tempParticleName ), 
+  itsCharge        ( tpd.tempCharge ),
+  itsColorCharge   ( tpd.tempColorCharge ),
+  itsSpin          ( tpd.tempSpin ),
+  itsQuarks        ( 0 ),
+  itsResonance     ( NULL )
+{
+    ResonanceStructure * rs = 
+           new ResonanceStructure( tpd.tempMass, tpd.tempWidth, 0., 0. );
+    itsResonance = rs;
+    getConstituentsFromPID();
+}
+
+CommonParticleData::~CommonParticleData()
+{ ; }
+
+void  CommonParticleData::swap( CommonParticleData & other )
+{
+    std::swap(itsParticleName, other.itsParticleName); 
+    itsID.swap( other.itsID ); 
+    std::swap(itsCharge      , other.itsCharge);
+    std::swap(itsColorCharge , other.itsColorCharge);
+    itsSpin.swap( other.itsSpin );
+    std::swap(itsQuarks      , other.itsQuarks);
+    std::swap(itsResonance   , other.itsResonance);
+}
+
+CommonParticleData::CommonParticleData( const CommonParticleData & orig )
+: itsID            ( orig.itsID ), 
+  itsParticleName  ( orig.itsParticleName ), 
+  itsCharge        ( orig.itsCharge ),
+  itsColorCharge   ( orig.itsColorCharge ),
+  itsSpin          ( orig.itsSpin ),
+  itsQuarks        ( orig.itsQuarks ),
+  itsResonance     ( orig.itsResonance )
+{ ; }
+
+CommonParticleData & CommonParticleData::operator=( const CommonParticleData & rhs )
+{ 
+  CommonParticleData temp( rhs );
+  swap( temp );
+  return *this;
+}
+
+bool CommonParticleData::operator<( const CommonParticleData & other ) const
+{ 
+  return ( mass() < other.mass() );
+}
+
+bool CommonParticleData::operator==( const CommonParticleData & other ) const
+{ 
+  return ( itsID == other.itsID );
+}
+
+Measurement CommonParticleData::lifetime() const
+{
+    Measurement lifet = itsResonance->lifetime();
+    return lifet;
+}
+
+void CommonParticleData::getConstituentsFromPID()
+{
+    Quarks qlist = itsID.quarks();
+    if( qlist.nq1 != 0 ) {
+         ParticleID pid(nq1);
+         Constituent c( pid, 1 );
+         addConstituent( c );
+    }
+    if( qlist.nq2 != 0 ) {
+         ParticleID pid(nq2);
+         Constituent c( pid, 1 );
+         addConstituent( c );
+    }
+    if( qlist.nq3 != 0 ) {
+         ParticleID pid(nq3);
+         Constituent c( pid, 1 );
+         addConstituent( c );
+    }
+}
+
+Constituent CommonParticleData::constituent( unsigned int i ) const
+{
+    if( i >= itsQuarks.size() ) {
+         // attempting invalid operation
+         return Constituent();
+    } else {
+        return itsQuarks[i];
+    }
+}
+
+ParticleID CommonParticleData::constituentParticle( unsigned int i ) const
+{
+    if( i >= itsQuarks.size() ) {
+         // attempting invalid operation
+         return ParticleID(0);
+    } else {
+        return itsQuarks[i].pid();
+    }
+}
+
+}	// HepPDT

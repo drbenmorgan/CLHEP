@@ -1,0 +1,42 @@
+// $Id: RandGamma.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// -*- C++ -*-
+// 
+// -----------------------------------------------------------------------
+//                            HEP Random
+//                         --- RandGamma ---
+//                 inlined functions implementation file
+// -----------------------------------------------------------------------
+ 
+// =======================================================================
+// Gabriele Cosmo - Created: 19th August 1998
+// =======================================================================
+
+inline RandGamma::RandGamma(HepRandomEngine & anEngine, double k,
+                                                        double lambda )
+: localEngine(&anEngine), deleteEngine(false),
+  defaultK(k), defaultLambda(lambda) {}
+
+inline RandGamma::RandGamma(HepRandomEngine * anEngine, double k,
+                                                        double lambda )
+: localEngine(anEngine), deleteEngine(true),
+  defaultK(k), defaultLambda(lambda) {}
+
+inline double RandGamma::shoot() {
+  return shoot( 1.0, 1.0 );
+}
+
+inline double RandGamma::shoot( HepRandomEngine* anEngine ) {
+  return shoot( anEngine, 1.0, 1.0 );
+}
+
+inline double RandGamma::operator()() {
+  return fire( defaultK, defaultLambda );
+}
+
+inline double RandGamma::operator()( double k, double lambda ) {
+  return fire( k, lambda );
+}
+
+inline double RandGamma::fire() {
+  return fire( defaultK, defaultLambda );
+}
