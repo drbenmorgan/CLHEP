@@ -68,26 +68,12 @@ AH_BOTTOM([#endif  // VECTOR_DEFS_H])
 # Account for any user configuration options:
 # ----------------------------------------------------------------------
 
-# Determine whether optional thread support is requested:
-AC_ARG_ENABLE(
-	threads,
-	[  --enable-threads    Turn on thread support],
-	[case "${enableval}" in
-	  yes) threads=true ;;
-	  no)  threads=false ;;
-	  *) AC_MSG_ERROR(bad value ${enableval} for --enable-threads) ;;
-	esac],
-	[threads=false]
-	)
-AM_CONDITIONAL(USE_THREADS, test x$threads = xtrue)
-
-
 # ----------------------------------------------------------------------
 # Check for needed programs:
 # ----------------------------------------------------------------------
 
 # Locate a C++ compiler:
-AC_PROG_CXX(aCC CC cxx cc++ cl FCC KCC RCC xlC_r xlC g++ c++ gpp)
+AC_PROG_CXX(g++ c++ aCC CC cxx cc++ cl FCC KCC RCC xlC_r xlC gpp)
 
 # Use it hereinafter:
 AC_LANG(C++)
