@@ -15,11 +15,11 @@ check_PROGRAMS = \
 	testRandom testRandDists ranRestoreTest gaussSpeed gaussSmall
 
 check_SCRIPTS = \
-	testRandom.sh testRandDists.sh ranRestoreTest.sh
+	testRandom.sh testRandDists.sh
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
-	testRandom.sh testRandDists.sh ranRestoreTest.sh
+	testRandom.sh testRandDists.sh ranRestoreTest
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
@@ -36,5 +36,8 @@ EXTRA_DIST = \
 	testRandom.input testRandDists.input testRandDists.output
 
 # Identify generated file(s) to be removed when 'make clean' is requested:
-CLEANFILES = testRandom.sh testRandDists.sh ranRestoreTest.sh \
-	gaussSpeed.sh gaussSmall.sh testRandom.out ranRestoreTest.out
+CLEANFILES = testRandom.sh testRandDists.sh  \
+	gaussSpeed.sh gaussSmall.sh testRandom.out \
+	distribution.save distribution.save1 distribution.save2 \
+	engine.save shared.save1 shared.save2 ranRestoreTest.cout \
+	anonymous.save
