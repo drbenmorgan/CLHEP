@@ -1,0 +1,37 @@
+// ----------------------------------------------------------------------
+//
+//  ZMuseCount.icc - utility class for use in reference-counting
+//
+//
+//  History:
+//    19-Sep-1997  WEB  Design stolen, and code adapted, from pp 70-73 of
+//      Koenig & Moo: "Ruminations on C++" (1996)
+//    23-Sep-1997  WEB  Furnished overlooked body of copy constructor.
+//
+// ----------------------------------------------------------------------
+
+
+ZMuseCount::ZMuseCount()
+: p( new int(1) )
+{
+  // DEBUG if ( p == 0 )
+  // DEBUG   std::cerr << "ZMuseCount memory allocation failure!" << std::endl;
+}
+
+
+ZMuseCount::ZMuseCount( const ZMuseCount & u )
+: p( u.p )
+{
+  ++*p;
+}
+
+
+ZMuseCount::~ZMuseCount()  {
+  if ( --*p == 0 )
+    delete p;
+}
+
+
+bool ZMuseCount::only()  { 
+  return *p == 1;
+}
