@@ -3,10 +3,10 @@
 includedir = $(prefix)/include/CLHEP
 
 # put . first so that CLHEP directory is built before anything else
-SUBDIRS = HepMC . src
+SUBDIRS = HepMC . src test
 # list all subdirectories - for distribution and cleaning
 ##DIST_SUBDIRS = HepMC . src doc examples
-DIST_SUBDIRS = HepMC . src doc 
+DIST_SUBDIRS = HepMC . src doc test
 
 bin_SCRIPTS = HepMC-config
 

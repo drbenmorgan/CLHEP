@@ -53,7 +53,7 @@ AC_CONFIG_FILES([HepMC/Makefile])
 AC_CONFIG_FILES([HepMC/include/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
-#AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([HepMC-deps])
 AC_CONFIG_FILES([HepMC/copy-header.pl], [chmod +x HepMC/copy-header.pl])
 

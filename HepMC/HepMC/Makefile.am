@@ -29,6 +29,7 @@ pkginclude_HEADERS = \
 	ReadHepMC.h	\
 	WeightContainer.h	\
 	WriteHepMC.h	\
+	DoubleConversion.hh	\
 	defs.h
 
 # Identify generated file(s) to be removed when 'make clean' is requested:

@@ -38,7 +38,8 @@ libCLHEP_HepMC_@VERSION@_a_SOURCES = \
 	vertexNum.cc	\
 	vertexPointers.cc	\
 	writeComment.cc	\
-	WriteHepMCDetail.cc
+	WriteHepMCDetail.cc	\
+	DoubleConversion.cc
 
 libCLHEP_HepMC_@VERSION@_so_OBJECTS = $(patsubst %.cc,$(shareddir)/%.$(OBJEXT),$(libCLHEP_HepMC_@VERSION@_a_SOURCES))
 
