@@ -28,6 +28,8 @@ StdRandom& StdRandom::operator=( const StdRandom & rhs )
   return *this;
 }
 
+StdRandom:: ~StdRandom()
+{ ; }
 
 std::ostream& StdRandom::getStateAsStream( std::ostream & os )  const
 {
