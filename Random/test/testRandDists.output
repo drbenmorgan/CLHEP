@@ -79,7 +79,7 @@ Enter sigma: 1
 Instantiating distribution utilizing DualRand engine...
 
  Sample  fire(): 
--0.564897
+-0.933146
  Testing operator() ... 
 0
 100001
@@ -91,21 +91,21 @@ Instantiating distribution utilizing DualRand engine...
 700007
 800008
 900009
-Mean (should be close to 0): -0.000250036
+Mean (should be close to 0): -0.000249513
 Second moment (should be close to 1): 0.999635
-Third  moment (should be close to zero): -0.00235801
+Third  moment (should be close to zero): -0.00235884
 Fourth moment (should be close to 3): 3.00256
-Fifth moment (should be close to zero): -0.0197924
+Fifth moment (should be close to zero): -0.0197996
 Sixth moment (should be close to 15): 15.0471
-        These represent 0.250036, 0.257845, 0.962654, 
-                        0.261114, 0.73762, 0.466887
+        These represent 0.249513, 0.258341, 0.96299, 
+                        0.26104, 0.737886, 0.466881
                          standard deviations from expectations
 Between 0 sigma and 0.5 sigma (should be about 191462):
-          191299 negative and 191581 positive 
-        These represent 0.414282 and 0.302451 sigma from expectations
+          191300 negative and 191581 positive 
+        These represent 0.41174 and 0.302451 sigma from expectations
 Between 0.5 sigma and 1 sigma (should be about 149882):
-          150249 negative and 150025 positive 
-        These represent 1.02814 and 0.40061 sigma from expectations
+          150248 negative and 150025 positive 
+        These represent 1.02534 and 0.40061 sigma from expectations
 Between 1 sigma and 1.5 sigma (should be about 91848):
           91705 negative and 91584 positive 
         These represent 0.495133 and 0.914092 sigma from expectations

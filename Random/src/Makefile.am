@@ -7,6 +7,7 @@ lib_LTLIBRARIES = libCLHEP-Random-@VERSION@.la
 libCLHEP_Random_@VERSION@_la_SOURCES = \
 	DRand48Engine.cc	\
 	DualRand.cc	\
+	EngineFactory.cc	\
 	erfQ.cc	\
 	flatToGaussian.cc	\
 	gammln.cc	\
@@ -38,4 +39,5 @@ libCLHEP_Random_@VERSION@_la_SOURCES = \
 	Ranlux64Engine.cc	\
 	RanluxEngine.cc	\
 	RanshiEngine.cc	\
+	StaticRandomStates.cc \
 	TripleRand.cc

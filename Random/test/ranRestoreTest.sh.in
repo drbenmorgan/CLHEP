@@ -5,4 +5,4 @@
 
 ./ranRestoreTest@EXEEXT@  
 rm -f distribution.save distribution.save1 distribution.save2
-rm -f engine.save shared.save1 shared.save2
+rm -f engine.save shared.save1 shared.save2 ranRestoreTest.cout

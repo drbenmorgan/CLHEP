@@ -1,4 +1,4 @@
-// $Id: Random.cc,v 1.4.2.2 2004/12/20 22:12:36 fischler Exp $
+// $Id: Random.cc,v 1.4.2.3 2004/12/22 19:30:54 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/Random.h"
+#include "CLHEP/Random/StaticRandomStates.h"
 
 // -----------------------------
 // Static members initialisation
@@ -165,6 +166,14 @@ std::ostream& HepRandom::saveFullState ( std::ostream & os ) {
 std::istream& HepRandom::restoreFullState ( std::istream & is ) {
   is >> *getTheEngine();
   return is;
+}
+
+std::ostream& HepRandom::saveStaticRandomStates ( std::ostream & os ) {
+  return StaticRandomStates::save(os);
+}
+
+std::istream& HepRandom::restoreStaticRandomStates ( std::istream & is ) {
+  return StaticRandomStates::restore(is);
 }
 
 void HepRandom::showEngineStatus()

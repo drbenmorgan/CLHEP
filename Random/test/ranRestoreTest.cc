@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ranRestoreTest.cc,v 1.3.2.2 2004/12/20 22:12:36 fischler Exp $
+// $Id: ranRestoreTest.cc,v 1.3.2.3 2004/12/22 19:30:55 fischler Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
@@ -17,11 +17,14 @@
 
 // Normally on  for routine validation:
 
+#ifdef TURNOFF
+#endif
 #define TEST_ORIGINAL_SAVE
 #define TEST_ENGINE_NAMES
 #define TEST_INSTANCE_METHODS
 #define TEST_SHARED_ENGINES
 #define TEST_STATIC_SAVE
+#define TEST_SAVE_STATIC_STATES
 
 // Normally off for routine validation:
 
@@ -904,6 +907,67 @@ int staticSaveShootBit(int n) {
   return stat;
 }
 
+// ----------- Tests saving all statics together -----------
+
+void randomizeStatics(int n) {
+  for (int i=0; i<n; i++) {
+    RandGauss::shoot();
+    RandGaussQ::shoot();
+    RandGaussT::shoot();
+    RandFlat::shoot();
+    RandBit::shoot();
+    RandFlat::shootBit();
+    RandBit::shootBit();
+    RandPoisson::shoot();
+    RandPoissonQ::shoot();
+    RandPoissonT::shoot();
+    RandBinomial::shoot();
+    RandBreitWigner::shoot();
+    RandChiSquare::shoot();
+    RandExponential::shoot();
+    RandGamma::shoot();
+    RandLandau::shoot();
+    RandStudentT::shoot();
+  }
+}
+
+std::vector<double> captureStatics() {
+  std::vector<double> c;
+  c.push_back( RandGauss::shoot() );
+  c.push_back( RandGaussQ::shoot() );
+  c.push_back( RandGaussT::shoot() );
+  c.push_back( RandFlat::shoot() );
+  c.push_back( RandBit::shoot() );
+  for (int i=0; i<20; i++)  {
+    c.push_back( RandFlat::shootBit() );
+    c.push_back( RandBit::shootBit() );
+  }
+  c.push_back( RandPoisson::shoot() );      
+  c.push_back( RandPoissonQ::shoot() );     
+  c.push_back( RandPoissonT::shoot() );     
+  c.push_back( RandBinomial::shoot() );     
+  c.push_back( RandBreitWigner::shoot() );  
+  c.push_back( RandChiSquare::shoot() );    
+  c.push_back( RandExponential::shoot() );  
+  c.push_back( RandGamma::shoot() );	     
+  c.push_back( RandLandau::shoot() );       
+  c.push_back( RandStudentT::shoot() );
+  return c;     
+}
+
+void saveStatics(std::string filename) {
+  std::ofstream os(filename.c_str());
+  RandGeneral::saveStaticRandomStates(os);
+  // It should be possible to call this from HepRandom, or any distribution.
+  // RandGeneral, which is meaningless as a static distribution, should be the
+  // toughest test, so we use that here.
+}
+
+void restoreStatics(std::string filename) {
+  std::ifstream is(filename.c_str());
+  RandLandau::restoreStaticRandomStates(is);
+}
+
 // ---------------------------------------------
 // ---------------------------------------------
 // ---------------------------------------------
@@ -1083,12 +1147,33 @@ int main() {
   stat |= staticSave <RandStudentT>(7);
 #endif
 
+#ifdef TEST_SAVE_STATIC_STATES
+  output << "\n==============================================\n";
+  output << "                Part VIII \n";
+  output << "Save/restore all static states to/from streams \n";
+  output << "==============================================\n\n";
+ 
+  randomizeStatics(15);
+  saveStatics("distribution.save");
+  std::vector<double> c = captureStatics();
+  randomizeStatics(11);
+  restoreStatics("distribution.save");
+  std::vector<double> d = captureStatics();
+  for (unsigned int iv=0; iv<c.size(); iv++) {
+    if (c[iv] != d[iv]) {
+      std::cout << "???? restoreStaticRandomStates failed at random " 
+                << iv <<"\n";
+      stat |= 131072;
+    }
+  }
+#endif
+  
   output << "\n=============================================\n\n";
 
   if (stat != 0) {
      std::cout << "One or more problems detected: stat = " << stat << "\n";
   }  else {
-     std::cout << "ranRestoreTest passed with no problems detected.\n";    
+     output << "ranRestoreTest passed with no problems detected.\n";    
   }
 
   return stat;

@@ -7,6 +7,7 @@ COPY_P = @COPY_P@
 pkginclude_HEADERS = \
 	DRand48Engine.h	\
 	DualRand.h	\
+	EngineFactory.h \
 	Hurd160Engine.h	\
 	Hurd288Engine.h	\
 	JamesRandom.h	\
@@ -57,6 +58,7 @@ pkginclude_HEADERS = \
 	RanshiEngine.h	\
 	SeedTable.h	\
 	Stat.h	\
+	StaticRandomStates.h	\
 	TripleRand.h	\
 	defs.h
 

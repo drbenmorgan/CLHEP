@@ -1,4 +1,4 @@
-// $Id: Random.h,v 1.3.2.3 2004/12/20 22:12:35 fischler Exp $
+// $Id: Random.h,v 1.3.2.4 2004/12/22 19:30:54 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -135,6 +135,12 @@ public:
 
   static std::istream& restoreDistState ( std::istream & is ) {return is;}
   // Restores from stream the state of the cached data.
+
+  static std::ostream& saveStaticRandomStates ( std::ostream & os );
+  // Saves to stream the engine and cached data for all distributions.
+
+  static std::istream& restoreStaticRandomStates ( std::istream & is );
+  // Restores from stream the engine and cached data for all distributions.
 
   static void showEngineStatus();
   // Dumps the current engine status on screen.
