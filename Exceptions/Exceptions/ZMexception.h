@@ -93,6 +93,8 @@
 //
 // ----------------------------------------------------------------------
 
+#include "CLHEP/Exceptions/defs.h"
+
 #include <iosfwd>
 
 #ifndef STRING_INCLUDED
@@ -116,7 +118,11 @@
   #include "CLHEP/Exceptions/ZMexClassInfo.h"
 #endif
 
+#if HAVE_SSTREAM
 #include <sstream>
+#else
+#include "CLHEP/Cast/StringStream.h"
+#endif
 
 
 #ifdef ZM_USE_NAMESPACES

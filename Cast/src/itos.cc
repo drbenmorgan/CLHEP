@@ -10,9 +10,13 @@
 // ----------------------------------------------------------------------
 
 
-#include "CLHEP/Cast/itos.h"
-
+#include "CLHEP/Cast/defs.h"
+#if HAVE_SSTREAM
 #include <sstream>
+#else
+#include "CLHEP/Cast/StringStream.h"
+#endif
+#include "CLHEP/Cast/itos.h"
 
 
 std::string  itos( long i )  {

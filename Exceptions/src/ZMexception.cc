@@ -31,13 +31,18 @@
 // ----------------------------------------------------------------------
 
 
+#include "CLHEP/Exceptions/defs.h"
 #include "CLHEP/Exceptions/ZMexception.h"
 #include "CLHEP/Exceptions/ZMexAction.h"
 #include "CLHEP/Exceptions/ZMexHandler.h"
 #include "CLHEP/Exceptions/ZMexLogger.h"
 #include "CLHEP/Exceptions/ZMexLogResult.h"
 
+#if HAVE_SSTREAM
 #include <sstream>
+#else
+#include "CLHEP/Cast/StringStream.h"
+#endif
 #include <sys/time.h>
 #include <ctime>
 
