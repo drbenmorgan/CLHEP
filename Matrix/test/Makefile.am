@@ -1,8 +1,8 @@
 # Applicable to each test program:
 INCLUDES = -I../
 LDADD = -L${top_builddir}/src  @Matrix_LIBS@	# libraries to link, and whence
-# dangerous kludge
-AM_CXXFLAGS = -DINSTALLATION_CHECK
+# add -D needed by testInversion
+CXXFLAGS = @CXXFLAGS@ -DINSTALLATION_CHECK
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
