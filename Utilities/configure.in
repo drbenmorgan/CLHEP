@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.57)
-AC_INIT(CLHEP Utilities, toy1.9.0.0, CLHEP@cern.ch, Utilities)
+AC_INIT(CLHEP Utilities, 1.9.0.0, CLHEP@cern.ch, Utilities)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE(1.6 foreign)
@@ -34,7 +34,7 @@ AC_CONFIG_FILES([Utilities/Makefile])
 
 Utilities_CPPFLAGS="-I$includedir"
 Utilities_LDFLAGS="-L$libdir"
-Utilities_LIBS="-l$PACKAGE_TARNAME -lm"
+Utilities_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
 
 AC_SUBST(Utilities_CPPFLAGS)
 AC_SUBST(Utilities_LIBS)

@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.57)
-AC_INIT(CLHEP RandomObjects, toy1.9.0.0, CLHEP@cern.ch, RandomObjects)
+AC_INIT(CLHEP RandomObjects, 1.9.0.0, CLHEP@cern.ch, RandomObjects)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/RandMultiGauss.cc])
@@ -36,7 +36,7 @@ AC_CONFIG_FILES([src/Makefile])
 
 RandomObjects_CPPFLAGS="-I$includedir"
 RandomObjects_LDFLAGS="-L$libdir"
-RandomObjects_LIBS="-l$PACKAGE_TARNAME -lm"
+RandomObjects_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
 
 AC_SUBST(RandomObjects_CPPFLAGS)
 AC_SUBST(RandomObjects_LIBS)

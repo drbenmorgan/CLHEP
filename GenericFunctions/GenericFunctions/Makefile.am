@@ -16,7 +16,7 @@ pkginclude_HEADERS = \
 	AssociatedLegendre.hh         \
 	ATan.hh         \
 	Bessel.hh         \
-	Bessel.icc
+	Bessel.icc	\
 	BivariateGaussian.hh         \
 	ConstMinusFunction.hh         \
 	ConstMinusParameter.hh         \
@@ -29,12 +29,12 @@ pkginclude_HEADERS = \
 	Cos.hh         \
 	CumulativeChiSquare.hh         \
 	CutBase.hh         \
-	CutBase.icc
+	CutBase.icc	\
 	DefiniteIntegral.hh         \
 	DoubleParamToArgAdaptor.hh         \
-	DoubleParamToArgAdaptor.icc
+	DoubleParamToArgAdaptor.icc	\
 	EllipticIntegral.hh         \
-	EllipticIntegral.icc
+	EllipticIntegral.icc	\
 	Erf.hh         \
 	Exp.hh         \
 	Exponential.hh         \
@@ -53,7 +53,6 @@ pkginclude_HEADERS = \
 	FunctionSum.hh         \
 	FunctionTimesParameter.hh         \
 	Gaussian.hh         \
-	GenericFunctions
 	GenericFunctions.hh         \
 	IncompleteGamma.hh         \
 	Landau.hh         \
@@ -67,7 +66,7 @@ pkginclude_HEADERS = \
 	ParameterQuotient.hh         \
 	ParameterSum.hh         \
 	ParamToArgAdaptor.hh         \
-	ParamToArgAdaptor.icc
+	ParamToArgAdaptor.icc	\
 	PeriodicRectangular.hh         \
 	Power.hh         \
 	Psi2Hydrogen.hh         \
@@ -75,9 +74,9 @@ pkginclude_HEADERS = \
 	ReverseExponential.hh         \
 	Sin.hh         \
 	SphericalBessel.hh         \
-	SphericalBessel.icc
+	SphericalBessel.icc	\
 	SphericalNeumann.hh         \
-	SphericalNeumann.icc
+	SphericalNeumann.icc	\
 	Sqrt.hh         \
 	Square.hh         \
 	Tan.hh         \

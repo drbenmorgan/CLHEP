@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.57)
-AC_INIT(CLHEP Random, toy1.9.0.0, CLHEP@cern.ch, Random)
+AC_INIT(CLHEP Random, 1.9.0.0, CLHEP@cern.ch, Random)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/DRand48Engine.cc])
@@ -43,7 +43,7 @@ AC_CONFIG_FILES([test/testRandom.sh], [chmod +x test/testRandom.sh])
 
 Random_CPPFLAGS="-I$includedir"
 Random_LDFLAGS="-L$libdir"
-Random_LIBS="-l$PACKAGE-$VERSION -lm"
+Random_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
 
 AC_SUBST(Random_CPPFLAGS)
 AC_SUBST(Random_LIBS)

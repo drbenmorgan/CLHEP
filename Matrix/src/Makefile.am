@@ -2,9 +2,9 @@
 
 INCLUDES = -I$(top_builddir)
 
-lib_LTLIBRARIES = libMatrix-@VERSION@.la
+lib_LTLIBRARIES = libCLHEP-Matrix-@VERSION@.la
 
-libMatrix_@VERSION@_la_SOURCES = \
+libCLHEP_Matrix_@VERSION@_la_SOURCES = \
 	DiagMatrix.cc	\
 	GenMatrix.cc	\
 	Matrix.cc	\

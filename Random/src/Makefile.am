@@ -2,9 +2,9 @@
 
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
-lib_LTLIBRARIES = libRandom-@VERSION@.la
+lib_LTLIBRARIES = libCLHEP-Random-@VERSION@.la
 
-libRandom_@VERSION@_la_SOURCES = \
+libCLHEP_Random_@VERSION@_la_SOURCES = \
 	DRand48Engine.cc	\
 	DualRand.cc	\
 	erfQ.cc	\

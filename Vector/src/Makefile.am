@@ -4,9 +4,9 @@
 INCLUDES = -I$(top_builddir)
 
 
-lib_LTLIBRARIES = libVector-@VERSION@.la
+lib_LTLIBRARIES = libCLHEP-Vector-@VERSION@.la
 
-libVector_@VERSION@_la_SOURCES = \
+libCLHEP_Vector_@VERSION@_la_SOURCES = \
 	AxisAngle.cc		\
 	Boost.cc		\
 	BoostX.cc		\

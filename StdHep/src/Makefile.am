@@ -2,9 +2,9 @@
 
 INCLUDES = -I$(top_builddir)
 
-lib_LTLIBRARIES = libStdHep-@VERSION@.la
+lib_LTLIBRARIES = libCLHEP-StdHep-@VERSION@.la
 
-libStdHep_@VERSION@_la_SOURCES = \
+libCLHEP_StdHep_@VERSION@_la_SOURCES = \
 	appendCollision.cc	\
 	writeRunInfo.cc	\
 	collision.cc	\

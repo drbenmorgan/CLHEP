@@ -2,9 +2,9 @@
 
 INCLUDES = -I$(top_builddir)
 
-lib_LTLIBRARIES = libGenericFunctions-@VERSION@.la
+lib_LTLIBRARIES = libCLHEP-GenericFunctions-@VERSION@.la
 
-libGenericFunctions_@VERSION@_la_SOURCES = \
+libCLHEP_GenericFunctions_@VERSION@_la_SOURCES = \
 	Abs.cc       \
 	AbsFunctional.cc       \
 	AbsFunction.cc       \

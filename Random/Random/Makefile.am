@@ -40,6 +40,7 @@ pkginclude_HEADERS = \
 	Random.h	\
 	Random.icc	\
 	Randomize.h	\
+	RandomFunc.h	\
 	RandPoisson.h	\
 	RandPoisson.icc	\
 	RandPoissonQ.h	\

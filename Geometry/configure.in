@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.57)
-AC_INIT(CLHEP Geometry, toy1.9.0.0, CLHEP@cern.ch, Geometry)
+AC_INIT(CLHEP Geometry, 1.9.0.0, CLHEP@cern.ch, Geometry)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/Plane3D.cc])
@@ -42,7 +42,7 @@ AC_CONFIG_FILES([test/testBasicVector3D.sh], [chmod +x test/testBasicVector3D.sh
 
 Geometry_CPPFLAGS="-I$includedir"
 Geometry_LDFLAGS="-L$libdir"
-Geometry_LIBS="-l$PACKAGE-$VERSION -lm"
+Geometry_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
 
 AC_SUBST(Geometry_CPPFLAGS)
 AC_SUBST(Geometry_LIBS)

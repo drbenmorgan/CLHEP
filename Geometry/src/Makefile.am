@@ -2,9 +2,9 @@
 
 INCLUDES = -I$(top_builddir)
 
-lib_LTLIBRARIES = libGeometry-@VERSION@.la
+lib_LTLIBRARIES = libCLHEP-Geometry-@VERSION@.la
 
-libGeometry_@VERSION@_la_SOURCES = \
+libCLHEP_Geometry_@VERSION@_la_SOURCES = \
 	BasicVector3D.cc	\
 	Normal3D.cc	\
 	Plane3D.cc	\

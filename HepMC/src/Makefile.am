@@ -2,9 +2,9 @@
 
 INCLUDES = -I$(top_builddir)
 
-lib_LTLIBRARIES = libHepMC-@VERSION@.la
+lib_LTLIBRARIES = libCLHEP-HepMC-@VERSION@.la
 
-libHepMC_@VERSION@_la_SOURCES = \
+libCLHEP_HepMC_@VERSION@_la_SOURCES = \
 	DummyDecayModel.cc	\
 	WriteHepMC.cc	\
 	Flow.cc	\

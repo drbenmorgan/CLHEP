@@ -16,7 +16,7 @@ $(CLHEPLIB):
 	rm -rf $(TEMPCLHEP)
 	mkdir $(TEMPCLHEP)
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  if test -d "$$subdir"/src/.libs; then (cd $(TEMPCLHEP); $(AR) x ../$$subdir/src/.libs/lib$$subdir-toy1.9.0.0.a; cd .. ); fi; \
+	  if test -d "$$subdir"/src/.libs; then (cd $(TEMPCLHEP); $(AR) x ../$$subdir/src/.libs/libCLHEP-$$subdir-@VERSION@.a; cd .. ); fi; \
 	done
 	cd $(TEMPCLHEP); $(AR) $(AR_FLAGS) $(CLHEPLIB) *.o
 

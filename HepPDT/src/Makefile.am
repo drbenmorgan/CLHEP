@@ -4,9 +4,9 @@
 INCLUDES = -I$(top_builddir)
 
 
-lib_LTLIBRARIES = libHepPDT-@VERSION@.la
+lib_LTLIBRARIES = libCLHEP-HepPDT-@VERSION@.la
 
-libHepPDT_@VERSION@_la_SOURCES = \
+libCLHEP_HepPDT_@VERSION@_la_SOURCES = \
 	Constituent.cc              \
 	DMFactory.cc              \
 	DefTable.cc              \

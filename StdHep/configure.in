@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.57)
-AC_INIT(CLHEP StdHep, toy1.9.0.0, CLHEP@cern.ch, StdHep)
+AC_INIT(CLHEP StdHep, 1.9.0.0, CLHEP@cern.ch, StdHep)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/collision.cc])
@@ -37,7 +37,7 @@ AC_CONFIG_FILES([src/Makefile])
 
 StdHep_CPPFLAGS="-I$includedir"
 StdHep_LDFLAGS="-L$libdir"
-StdHep_LIBS="-l$PACKAGE_TARNAME -lm"
+StdHep_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
 
 AC_SUBST(StdHep_CPPFLAGS)
 AC_SUBST(StdHep_LIBS)

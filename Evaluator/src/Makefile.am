@@ -4,9 +4,9 @@
 INCLUDES = -I$(top_builddir)
 
 
-lib_LTLIBRARIES = libEvaluator-@VERSION@.la
+lib_LTLIBRARIES = libCLHEP-Evaluator-@VERSION@.la
 
-libEvaluator_@VERSION@_la_SOURCES = \
+libCLHEP_Evaluator_@VERSION@_la_SOURCES = \
 	Evaluator.cc	       \
 	setStdMath.cc	      \
 	setSystemOfUnits.cc
