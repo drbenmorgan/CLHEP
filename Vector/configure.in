@@ -42,7 +42,7 @@ AC_CONFIG_FILES([test/testThreeVector.sh])
 
 Vector_CPPFLAGS="-I$includedir"
 Vector_LDFLAGS="-L$libdir"
-Vector_LIBS="-l$PACKAGE_TARNAME -lm"
+Vector_LIBS="-l$PACKAGE-$VERSION -lm"
 
 AC_SUBST(Vector_CPPFLAGS)
 AC_SUBST(Vector_LIBS)

@@ -32,6 +32,7 @@ void fouledup() {
 } // end of unnamed namespace
 
 
+namespace CLHEP  {
 
 void ZMinput3doubles ( std::istream & is, const char * type,
 			double & x, double & y, double & z ) {
@@ -326,3 +327,4 @@ void ZMinput2doubles ( std::istream & is, const char * type,
 
 }
 
+}  // namespace CLHEP

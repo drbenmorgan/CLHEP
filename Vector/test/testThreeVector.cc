@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testThreeVector.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: testThreeVector.cc,v 1.2 2003/07/16 21:43:57 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -11,11 +11,12 @@
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/Rotation.h"
 
-using namespace CLHEP;
-
 #include <cmath>
 #include <iostream>
+#include <stdlib.h>	// for exit
+
 using namespace std;
+using namespace CLHEP;
 
 
 #define DEPS 1.0e-14
