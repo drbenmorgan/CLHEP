@@ -8,6 +8,8 @@ SUBDIRS = HepMC . src
 ##DIST_SUBDIRS = HepMC . src doc examples
 DIST_SUBDIRS = HepMC . src doc 
 
+bin_SCRIPTS = HepMC-config
+
 all-local: $(top_builddir)/CLHEP
 
 # create temporary CLHEP header tree

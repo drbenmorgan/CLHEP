@@ -8,8 +8,8 @@ includedir=@includedir@
 
 usage()
 {
-    cat <<EOF
-Usage: RefCount-config [OPTION]
+    cat  <<EOF
+Usage: Random-config [OPTION]
 
 Known values for OPTION are:
 
@@ -60,11 +60,14 @@ while test $# -gt 0; do
 	;;
 
     --cxx)
-       	echo @CXX@
+       	echo "CXX:    " @CXX@
+       	echo "CC:     " @CC@
+       	echo "CPP:    " @CPP@
+       	echo "CXXCPP: " @CXXCPP@
        	;;
 
     --cppflags)
-       	echo @CPPFLAGS@ @RefCount_CPPFLAGS@
+       	echo @CPPFLAGS@ @Random_CPPFLAGS@
        	;;
 
     --cxxflags)
@@ -72,11 +75,11 @@ while test $# -gt 0; do
        	;;
 
     --ldflags)
-       	echo @LDFLAGS@ @RefCount_LDFLAGS@
+       	echo  @LDFLAGS@ @Random_LDFLAGS@
        	;;
 
     --libs)
-       	echo @LIBS@ @RefCount_LIBS@ -lm
+       	echo @LIBS@ @Random_LIBS@ -lm
        	;;
 
     *)

@@ -3,11 +3,17 @@
 # turn on echo
 set -x
 
+# cleanup should not be necessary
+# however, in some cases strange results are found if you do not start clean
+rm -rf autom4te.cache
+rm -f aclocal.m4 Makefile.in 
+rm -f configure config.* depcomp install-sh missing mk*
+
 # run autotool commands
 cp Vector/autotools/ltmain.sh .
-aclocal
+aclocal 
 automake --add-missing --copy
-autoconf
+autoconf 
 
 #run autotool commands in each subdirectory
 for pkg in `ls`

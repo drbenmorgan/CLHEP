@@ -64,7 +64,7 @@ while test $# -gt 0; do
        	;;
 
     --cppflags)
-       	echo @AM_CPPFLAGS@ @CPPFLAGS@ @Cast_CPPFLAGS@
+       	echo @CPPFLAGS@ @Cast_CPPFLAGS@
        	;;
 
     --cxxflags)
@@ -72,7 +72,7 @@ while test $# -gt 0; do
        	;;
 
     --ldflags)
-       	echo @AM_LDFLAGS@ @LDFLAGS@ @Cast_LDFLAGS@
+       	echo  @LDFLAGS@ @Cast_LDFLAGS@
        	;;
 
     --libs)

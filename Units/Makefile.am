@@ -7,6 +7,8 @@ SUBDIRS = Units . test
 # list all subdirectories - for distribution and cleaning
 DIST_SUBDIRS = Units . test doc
 
+bin_SCRIPTS = Units-config
+
 all-local: $(top_builddir)/CLHEP
 
 # create temporary CLHEP header tree
@@ -58,3 +60,7 @@ docs:
 
 install-docs:
 	cd doc; $(MAKE) $(AM_MAKEFLAGS) install-docs
+
+# extra clean rule
+clean-local:
+	rm -rf $(top_builddir)/CLHEP

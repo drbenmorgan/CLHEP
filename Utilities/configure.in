@@ -41,10 +41,6 @@ AC_SUBST(Utilities_CPPFLAGS)
 AC_SUBST(Utilities_LIBS)
 AC_SUBST(Utilities_LDFLAGS)
 
-AC_SUBST(COPY_P)
-AC_SUBST(DIFF_Q)
-
-
 # ----------------------------------------------------------------------
 # Supply boilerplate for Utilities/defs.h source header:
 # ----------------------------------------------------------------------
@@ -108,72 +104,62 @@ AC_LANG(C++)
 # Ensure we've found a preprocessor:
 AC_REQUIRE_CPP
 
-# worry about compiler flags
+# copy and diff
 case "$target" in
 *-*-win32*)
-  case "$CXX" in
-  cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";COPY_P="copy -p";DIFF_Q="diff -q -b";;
-  g++) CXXFLAGS="-O";COPY_P="copy -p";DIFF_Q="diff -q -b";;
-  c++) CXXFLAGS="-O";COPY_P="copy -p";DIFF_Q="diff -q -b";;
-  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
-  esac;;
+  COPY_P="copy -p";DIFF_Q="diff -q -b"
+  ;;
 *-*-cygwin*)
-  case "$CXX" in
-  cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
-  esac;;
+  COPY_P="cp -p";DIFF_Q="diff -q -b"
+  ;;
 *-*-solaris*)
-  case "$CXX" in
-  CC)  CXXFLAGS="-O";COPY_P="cp -p";DIFF_Q="diff -b";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -b";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -b";;
-  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
-  esac;;
+  COPY_P="cp -p";DIFF_Q="diff -b"
+  ;;
 *-*-linux*)
-  case "$CXX" in
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
-  esac;;
-alpha*-dec-osf*)
-  case "$CXX" in
-  cxx) CXXFLAGS="-O -std strict_ansi -timplicit_local";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
-  esac;;
-*-*-hpux*)
-  case "$CXX" in
-  aCC) CXXFLAGS="-O -Aa +DAportable +Onolimit";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  CC)  CXXFLAGS="+O3 +DAportable +a1 -z -pta +Onolimit";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
-  esac;; 
-*-*-aix*)
-  case "$CXX" in
-  xlC) CXXFLAGS="-O3 -qtwolink -+";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
-  esac;; 
-*-*-irix*)
-  case "$CXX" in
-  CC)  CXXFLAGS="-O -OPT:Olimit=0 -pta";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
-  esac;; 
-powerpc-apple-darwin*)
-  case "$CXX" in
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";DIFF_Q="diff -q -b";;
-  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
-  esac;; 
+  COPY_P="cp -p";DIFF_Q="diff -q -b"
+  ;;
+*)
+  COPY_P="cp -p";DIFF_Q="diff -q -b"
 esac
 
+AC_SUBST(COPY_P)
+AC_SUBST(DIFF_Q)
+
+# worry about compiler flags
+case "$CXX" in
+g++) 
+   case "$target" in
+   *-*-linux*) AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+   *) AM_CXXFLAGS="-O -ansi -pedantic -Wall"
+   esac;;
+c++) 
+   case "$target" in
+   *-*-linux*) AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+   *) AM_CXXFLAGS="-O -ansi -pedantic -Wall"
+   esac;;
+cl)  
+   AM_CXXFLAGS="-EHsc"
+   ;;
+CC)  
+   case "$target" in
+   *-*-solaris*) AM_CXXFLAGS="-O";DIFF_Q="diff -b";;
+   *-*-hpux*) AM_CXXFLAGS="+O3 +DAportable +a1 -z -pta +Onolimit";;
+   *-*-irix*) AM_CXXFLAGS="-O -OPT:Olimit=0 -pta";;
+   *)   echo UNEXPECTED CHOICE OF OPERATING SYSTEM FOR $CXX: $target
+   esac;;
+aCC) 
+   AM_CXXFLAGS="-O -Aa +DAportable +Onolimit"
+   ;;
+cxx) 
+   AM_CXXFLAGS="-O -std strict_ansi -timplicit_local"
+   ;;
+xlC) 
+   AM_CXXFLAGS="-O3 -qtwolink -+"
+   ;;
+*)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+esac
+
+AC_SUBST(AM_CXXFLAGS)
 
 # ----------------------------------------------------------------------
 # Set system-dependent options:
