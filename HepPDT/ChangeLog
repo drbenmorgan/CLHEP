@@ -1,3 +1,9 @@
+2005-03-16  Lynn Garren  <garren@fnal.gov>
+
+	* fix a bug in the translation for the PDG tables
+	
+	* use PDG 2004 numbering (only a few changes)
+
 2005-03-15  Lynn Garren  <garren@fnal.gov>
 
 	* ParticleID: The isNucleus method will recognize a proton (2212) 

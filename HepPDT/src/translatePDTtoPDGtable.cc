@@ -1,4 +1,4 @@
-// $Id: translatePDTtoPDGtable.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: translatePDTtoPDGtable.cc,v 1.1.1.1.2.1 2005/03/17 01:07:01 garren Exp $
 // ----------------------------------------------------------------------
 //
 // translatePDTtoPDGtable.cc
@@ -55,7 +55,7 @@ int translatePDTtoPDGtable( const int id )
     //  excited quarks and leptons
     } else if(ida <= 100) {
     //  Higgs, etc.
-        pdgtran=itabj[ida];
+        pdgtran=itabj[ida-1];
         if(id < 0) {
 	    pdgtran = -pdgtran;
             //  check for illegal antiparticles
@@ -77,13 +77,6 @@ int translatePDTtoPDGtable( const int id )
 	  if(i3 >= 6) { pdgtran = 0; }
     } else if(i1 != 0 && i2 != 0 && i3 == 0) {
     //  mesons 
-	if(id == 20333) { pdgtran = 30223; }
-	if(id == 30223) { pdgtran = 60223; }
- 	if(id == 30313) { pdgtran = 40313; }
-	if(id == 30323) { pdgtran = 40323; }
- 	if(id == -30313) { pdgtran = -40313; }
-	if(id == -30323) { pdgtran = -40323; }
-        if(ida == 9020553) { pdgtran = 0; }
 	if(i2 >= 6) { pdgtran = 0; }
         //  check for illegal antiparticles
         if(i1 == i2 && id < 0) { pdgtran = 0; }

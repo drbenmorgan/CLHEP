@@ -9,6 +9,10 @@ EXTRA_DIST = \
     examListIsajet.cc \
     examListIsajetInterface.F \
     examListIsajet.out.save \
+    examListPythia.cc \
+    examListPythiaInterface.F \
+    examListPythia.out.save \
+    examListPythia.lpt.save \
     examMyPDT.cc \
     examMyPDT.out.save \
     examReadEvtGen.cc \

@@ -51,13 +51,12 @@ libCLHEP_HepPDT_@VERSION@_a_SOURCES = \
 	translateGeanttoPDT.cc	\
 	translateHerwig.cc	\
 	translateIsajet.cc	\
+	translatePythia.cc	\
 	translatePDGtabletoPDT.cc	\
 	translatePDTtoEvtGen.cc	\
 	translatePDTtoGeant.cc	\
 	translatePDTtoPDGtable.cc	\
-	translatePDTtoPythia.cc	\
 	translatePDTtoQQ.cc	\
-	translatePythiatoPDT.cc	\
 	translateQQtoPDT.cc	\
 	version.cc		\
 	write.cc		\

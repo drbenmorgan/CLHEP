@@ -14,13 +14,11 @@
 namespace HepPDT {
 
 // translate between generator ID's and standard numbering scheme
-int translatePythiatoPDT( const int pythiaID );
 int translateQQtoPDT( const int qqID);
 int translateGeanttoPDT( const int geantID);
 int translatePDGtabletoPDT( const int pdgID);
 int translateEvtGentoPDT( const int evtGenID );
 
-int translatePDTtoPythia( const int pid );
 int translatePDTtoQQ( const int pid );
 int translatePDTtoGeant( const int pid );
 int translatePDTtoPDGtable( const int pid );
@@ -41,6 +39,14 @@ IsajetPDTMap const & getIsajetPDTMap();
 PDTIsajetMap const & getPDTIsajetMap();
 int translateIsajettoPDT( const int isajetID );
 int translatePDTtoIsajet( const int pid );
+
+// Pythia translations
+typedef  std::map< int, int >  PythiaPDTMap;
+typedef  std::map< int, int >  PDTPythiaMap;
+PythiaPDTMap const & getPythiaPDTMap();
+PDTPythiaMap const & getPDTPythiaMap();
+int translatePythiatoPDT( const int pythiaID );
+int translatePDTtoPythia( const int pid );
 
 }  // namespace HepPDT
 

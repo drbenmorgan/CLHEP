@@ -1,4 +1,4 @@
-// $Id: listPDGNames.cc.in,v 1.1.4.1 2004/04/21 23:06:34 garren Exp $
+// $Id: listPDGNames.cc.in,v 1.1.4.2 2005/03/17 01:07:01 garren Exp $
 // ----------------------------------------------------------------------
 // listPDGNames.cc
 //
@@ -13,7 +13,7 @@
 
 int main()
 {
-    const char infile[] = "@srcdir@/../data/PDG_mass_width_2000.mc";
+    const char infile[] = "@srcdir@/../data/PDG_mass_width_2004.mc";
     const char outfile[] = "listPDGNames.out";
     // open input file
     std::ifstream pdfile( infile );

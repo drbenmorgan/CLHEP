@@ -160,10 +160,10 @@
   PDT number:     -9900023  PDT name: Z_R~0
   PDT number:      9900024  PDT name: W_R+
   PDT number:     -9900024  PDT name: W_R-
-  PDT number:      9900041  PDT name: H_L++
-  PDT number:     -9900041  PDT name: H_L--
-  PDT number:      9900042  PDT name: H_R++
-  PDT number:     -9900042  PDT name: H_R--
+  PDT number:      9900061  PDT name: H_L++
+  PDT number:     -9900061  PDT name: H_L--
+  PDT number:      9900062  PDT name: H_R++
+  PDT number:     -9900062  PDT name: H_R--
   PDT number:      9910113  PDT name: rho_diffr0
   PDT number:      9910211  PDT name: pi_diffr+
   PDT number:     -9910211  PDT name: pi_diffr-
@@ -308,24 +308,22 @@
   PDT number:          111  PDT name: pi0
   PDT number:      9000111  PDT name: a_0(980)0
   PDT number:        10111  PDT name: a_0(1450)0
+  PDT number:      9010111  PDT name: pi(1800)0
   PDT number:       100111  PDT name: pi(1300)0
-  PDT number:       200111  PDT name: pi(1800)0
   PDT number:          113  PDT name: rho(770)0
   PDT number:      9000113  PDT name: pi_1(1400)0
   PDT number:        10113  PDT name: b_1(1235)0
   PDT number:      9010113  PDT name: pi_1(1600)0
   PDT number:        20113  PDT name: a_1(1260)0
-  PDT number:      9020113  PDT name: a_1(1640)0
+  PDT number:      9020113  PDT name: rho(1900)0
   PDT number:        30113  PDT name: rho(1700)0
-  PDT number:      9030113  PDT name: rho_0(1900)0
-  PDT number:      9040113  PDT name: rho_0(2150)0
+  PDT number:      9030113  PDT name: rho(2150)0
   PDT number:       100113  PDT name: rho(1450)0
   PDT number:          115  PDT name: a_2(1320)0
   PDT number:      9000115  PDT name: pi_2(2100)0
   PDT number:        10115  PDT name: pi_2(1670)0
-  PDT number:       100115  PDT name: a_2(1700)0
   PDT number:          117  PDT name: rho_3(1690)0
-  PDT number:      9000117  PDT name: rho_3(1900)0
+  PDT number:      9000117  PDT name: rho_3(1990)0
   PDT number:      9010117  PDT name: rho_3(2250)0
   PDT number:          119  PDT name: a_4(2040)0
   PDT number:          211  PDT name: pi+
@@ -334,10 +332,10 @@
   PDT number:     -9000211  PDT name: a_0(980)-
   PDT number:        10211  PDT name: a_0(1450)+
   PDT number:       -10211  PDT name: a_0(1450)-
+  PDT number:      9010211  PDT name: pi(1800)+
+  PDT number:     -9010211  PDT name: pi(1800)-
   PDT number:       100211  PDT name: pi(1300)+
   PDT number:      -100211  PDT name: pi(1300)-
-  PDT number:       200211  PDT name: pi(1800)+
-  PDT number:      -200211  PDT name: pi(1800)-
   PDT number:          213  PDT name: rho(770)+
   PDT number:         -213  PDT name: rho(770)-
   PDT number:      9000213  PDT name: pi_1(1400)+
@@ -348,14 +346,12 @@
   PDT number:     -9010213  PDT name: pi_1(1600)-
   PDT number:        20213  PDT name: a_1(1260)+
   PDT number:       -20213  PDT name: a_1(1260)-
-  PDT number:      9020213  PDT name: a_1(1640)+
-  PDT number:     -9020213  PDT name: a_1(1640)-
+  PDT number:      9020213  PDT name: rho(1900)+
+  PDT number:     -9020213  PDT name: rho(1900)-
   PDT number:        30213  PDT name: rho(1700)+
   PDT number:       -30213  PDT name: rho(1700)-
-  PDT number:      9030213  PDT name: rho_0(1900)+
-  PDT number:     -9030213  PDT name: rho_0(1900)-
-  PDT number:      9040213  PDT name: rho_0(2150)+
-  PDT number:     -9040213  PDT name: rho_0(2150)-
+  PDT number:      9030213  PDT name: rho(2150)+
+  PDT number:     -9030213  PDT name: rho(2150)-
   PDT number:       100213  PDT name: rho(1450)+
   PDT number:      -100213  PDT name: rho(1450)-
   PDT number:          215  PDT name: a_2(1320)+
@@ -364,12 +360,10 @@
   PDT number:     -9000215  PDT name: pi_2(2100)-
   PDT number:        10215  PDT name: pi_2(1670)+
   PDT number:       -10215  PDT name: pi_2(1670)-
-  PDT number:       100215  PDT name: a_2(1700)+
-  PDT number:      -100215  PDT name: a_2(1700)-
   PDT number:          217  PDT name: rho_3(1690)+
   PDT number:         -217  PDT name: rho_3(1690)-
-  PDT number:      9000217  PDT name: rho_3(1900)+
-  PDT number:     -9000217  PDT name: rho_3(1900)-
+  PDT number:      9000217  PDT name: rho_3(1990)+
+  PDT number:     -9000217  PDT name: rho_3(1990)-
   PDT number:      9010217  PDT name: rho_3(2250)+
   PDT number:     -9010217  PDT name: rho_3(2250)-
   PDT number:          219  PDT name: a_4(2040)+
@@ -378,18 +372,16 @@
   PDT number:      9000221  PDT name: f_0(600)
   PDT number:        10221  PDT name: f_0(1370)
   PDT number:      9010221  PDT name: f_0(980)
-  PDT number:      9020221  PDT name: f_0(1500)
-  PDT number:      9030221  PDT name: f_0(2020)
-  PDT number:      9040221  PDT name: f_0(2100)
-  PDT number:      9050221  PDT name: f_0(2200)
-  PDT number:      9060221  PDT name: eta(2225)
+  PDT number:      9020221  PDT name: eta(1405)
+  PDT number:      9030221  PDT name: f_0(1500)
+  PDT number:      9040221  PDT name: f_0(2020)
+  PDT number:      9050221  PDT name: f_0(2100)
+  PDT number:      9060221  PDT name: f_0(2200)
   PDT number:      9070221  PDT name: f_0(2330)
   PDT number:       100221  PDT name: eta(1295)
-  PDT number:       200221  PDT name: eta(1760)
   PDT number:          223  PDT name: omega(782)
   PDT number:      9000223  PDT name: f_1(1510)
   PDT number:        10223  PDT name: h_1(1170)
-  PDT number:      9010223  PDT name: h_1(1595)
   PDT number:        20223  PDT name: f_1(1285)
   PDT number:        30223  PDT name: omega(1650)
   PDT number:       100223  PDT name: omega(1420)
@@ -400,27 +392,27 @@
   PDT number:      9020225  PDT name: f_2(1640)
   PDT number:      9030225  PDT name: f_2(1810)
   PDT number:      9040225  PDT name: f_2(1910)
-  PDT number:      9050225  PDT name: f_2(2150)
-  PDT number:      9060225  PDT name: f_2(2300)
-  PDT number:      9070225  PDT name: f_2(2340)
-  PDT number:       100225  PDT name: f_2(1950)
+  PDT number:      9050225  PDT name: f_2(1950)
+  PDT number:      9060225  PDT name: f_2(2010)
+  PDT number:      9070225  PDT name: f_2(2150)
+  PDT number:      9080225  PDT name: f_2(2300)
+  PDT number:      9090225  PDT name: f_2(2340)
   PDT number:          227  PDT name: omega_3(1670)
   PDT number:          229  PDT name: f_4(2050)
-  PDT number:      9000229  PDT name: f_4(2300)
+  PDT number:      9000229  PDT name: f_J(2220)
+  PDT number:      9010229  PDT name: f_4(2300)
   PDT number:          311  PDT name: K0
   PDT number:         -311  PDT name: K~0
-  PDT number:      9000311  PDT name: K*_0(1950)0
-  PDT number:     -9000311  PDT name: K*_0(1950)~0
+  PDT number:      9000311  PDT name: K*_0(800)0
+  PDT number:     -9000311  PDT name: K*_0(800)~0
   PDT number:        10311  PDT name: K*_0(1430)0
   PDT number:       -10311  PDT name: K*_0(1430)~0
+  PDT number:      9010311  PDT name: K*_0(1950)0
+  PDT number:     -9010311  PDT name: K*_0(1950)0
   PDT number:       100311  PDT name: K(1460)0
   PDT number:      -100311  PDT name: K(1460)~0
-  PDT number:       200311  PDT name: K(1830)0
-  PDT number:      -200311  PDT name: K(1830)~0
   PDT number:          313  PDT name: K*(892)0
   PDT number:         -313  PDT name: K*(892)~0
-  PDT number:      9000313  PDT name: K_1(1650)0
-  PDT number:     -9000313  PDT name: K_1(1650)~0
   PDT number:        10313  PDT name: K_1(1270)0
   PDT number:       -10313  PDT name: K_1(1270)~0
   PDT number:        20313  PDT name: K_1(1400)0
@@ -439,8 +431,6 @@
   PDT number:     -9010315  PDT name: K_2(2250)~0
   PDT number:        20315  PDT name: K_2(1820)0
   PDT number:       -20315  PDT name: K_2(1820)~0
-  PDT number:       100315  PDT name: K*_2(1980)0
-  PDT number:      -100315  PDT name: K*_2(1980)~0
   PDT number:          317  PDT name: K*_3(1780)0
   PDT number:         -317  PDT name: K*_3(1780)~0
   PDT number:      9010317  PDT name: K_3(2320)0
@@ -451,18 +441,16 @@
   PDT number:     -9000319  PDT name: K_4(2500)~0
   PDT number:          321  PDT name: K+
   PDT number:         -321  PDT name: K-
-  PDT number:      9000321  PDT name: K*_0(1950)+
-  PDT number:     -9000321  PDT name: K*_0(1950)-
+  PDT number:      9000321  PDT name: K*_0(800)+
+  PDT number:     -9000321  PDT name: K*_0(800)-
   PDT number:        10321  PDT name: K*_0(1430)+
   PDT number:       -10321  PDT name: K*_0(1430)-
+  PDT number:      9010321  PDT name: K*_0(1950)+
+  PDT number:     -9010321  PDT name: K*_0(1950)-
   PDT number:       100321  PDT name: K(1460)+
   PDT number:      -100321  PDT name: K(1460)-
-  PDT number:       200321  PDT name: K(1830)+
-  PDT number:      -200321  PDT name: K(1830)-
   PDT number:          323  PDT name: K*(892)+
   PDT number:         -323  PDT name: K*(892)-
-  PDT number:      9000323  PDT name: K_1(1650)+
-  PDT number:     -9000323  PDT name: K_1(1650)-
   PDT number:        10323  PDT name: K_1(1270)+
   PDT number:       -10323  PDT name: K_1(1270)-
   PDT number:        20323  PDT name: K_1(1400)+
@@ -493,38 +481,44 @@
   PDT number:     -9000329  PDT name: K_4(2500)-
   PDT number:          331  PDT name: eta'(958)
   PDT number:        10331  PDT name: f_0(1710)
-  PDT number:       100331  PDT name: eta(1440)
+  PDT number:       100331  PDT name: eta(1475)
   PDT number:          333  PDT name: phi(1020)
   PDT number:        10333  PDT name: h_1(1380)
   PDT number:        20333  PDT name: f_1(1420)
   PDT number:       100333  PDT name: phi(1680)
   PDT number:          335  PDT name: f'_2(1525)
   PDT number:        10335  PDT name: eta_2(1870)
-  PDT number:       100335  PDT name: f_2(2010)
   PDT number:          337  PDT name: phi_3(1850)
-  PDT number:      9000339  PDT name: f_J(2220)
   PDT number:          411  PDT name: D+
   PDT number:         -411  PDT name: D-
   PDT number:        10411  PDT name: D*_0+
   PDT number:       -10411  PDT name: D*_0-
+  PDT number:       100411  PDT name: D(2S)+
+  PDT number:      -100411  PDT name: D(2S)-
   PDT number:          413  PDT name: D*(2010)+
   PDT number:         -413  PDT name: D*(2010)-
   PDT number:        10413  PDT name: D_1(2420)+
   PDT number:       -10413  PDT name: D_1(2420)-
   PDT number:        20413  PDT name: D_1(H)+
   PDT number:       -20413  PDT name: D_1(H)-
+  PDT number:       100413  PDT name: D*(2S)+
+  PDT number:      -100413  PDT name: D*(2S)+
   PDT number:          415  PDT name: D*_2(2460)+
   PDT number:         -415  PDT name: D*_2(2460)-
   PDT number:          421  PDT name: D0
   PDT number:         -421  PDT name: D~0
   PDT number:        10421  PDT name: D*_00
   PDT number:       -10421  PDT name: D*_0~0
+  PDT number:       100421  PDT name: D(2S)0
+  PDT number:      -100421  PDT name: D(2S)~0
   PDT number:          423  PDT name: D*(2007)0
   PDT number:         -423  PDT name: D*(2007)~0
   PDT number:        10423  PDT name: D_1(2420)0
   PDT number:       -10423  PDT name: D_1(2420)~0
   PDT number:        20423  PDT name: D_1(H)0
   PDT number:       -20423  PDT name: D_1(H)~0
+  PDT number:       100423  PDT name: D*(2S)0
+  PDT number:      -100423  PDT name: D*(2S)~0
   PDT number:          425  PDT name: D*_2(2460)0
   PDT number:         -425  PDT name: D*_2(2460)~0
   PDT number:          431  PDT name: D_s+
@@ -611,6 +605,7 @@
   PDT number:        10553  PDT name: h_b(1P)
   PDT number:      9010553  PDT name: upsilon(11020)
   PDT number:        20553  PDT name: chi_b1(1P)
+  PDT number:      9020553  PDT name: upsilon(7S)
   PDT number:        30553  PDT name: upsilon_1(1D)
   PDT number:       100553  PDT name: upsilon(2S)
   PDT number:       110553  PDT name: h_b(2P)
@@ -1287,4 +1282,4 @@
   PDT number:   1002001002  PDT name: Deuteron
   PDT number:   1003001002  PDT name: Tritium
   PDT number:   1003002001  PDT name: He3
-  PDT number:   1004002001  PDT name: Alpha
+  PDT number:   1004002001  PDT name: Alpha (He4)

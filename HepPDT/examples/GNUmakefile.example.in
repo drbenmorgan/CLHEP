@@ -1,4 +1,4 @@
-# $Id: GNUmakefile.example.in,v 1.1.2.2 2005/03/15 23:57:31 garren Exp $
+# $Id: GNUmakefile.example.in,v 1.1.2.3 2005/03/17 01:07:01 garren Exp $
 ################################################################################ 
 #
 # makefile for HepPDT examples
@@ -10,6 +10,12 @@
 #      [CLHEP_BASE= ]
 #      [HerwigLIB= ]
 #      [IsajetLIB= ]
+#      [PythiaLIB= ]
+#
+################################################################################ 
+#
+# The examList executables are saved here to make it easy to verify 
+# particle numbering translations.
 #
 ################################################################################ 
 
@@ -18,6 +24,7 @@
   LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-@VERSION@
   HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a $(HERWIG_DIR)/lib/timel.o
   IsajetLIB = $(ISAJET_DIR)/isajet.a
+  PythiaLIB = $(LULIB)/pydata.o $(LULIB)/pyr.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
   INCDIR    = -I$(CLHEP_BASE)/include
   LIBS = @AM_LDFLAGS@
 
@@ -34,6 +41,10 @@ endif
 
 ifdef HERWIG_DIR
     INCDIR += -I$(HERWIG_DIR)/src
+endif
+
+ifdef LUND_DIR
+    INCDIR += -I$(LUND_DIR)/src/inc
 endif
 
 ifeq "$(CXX)" "g++"
@@ -59,7 +70,7 @@ include $(SOURCE:.cc=.d)
 
 all: examReadPDG examReadPythia examReadEvtGen examReadQQ examMyPDT examDMF
 
-list: examListHerwig examListIsajet
+list: examListHerwig examListIsajet examListPythia
 
 run:  run_test
 
@@ -87,6 +98,13 @@ examReadQQ: examReadQQ.o
 examReadEvtGen: examReadEvtGen.o
 	$(CXX) $(CXXFLAGS) -o $@ examReadEvtGen.o \
 		$(LIBNAME) $(LIBS)
+
+examListPythia: examListPythia.o examListPythiaInterface.o
+	$(CXX) $(CXXFLAGS) -o $@ \
+		examListPythia.o examListPythiaInterface.o \
+		$(PythiaLIB) \
+		$(LIBNAME) $(LIBS) -lg2c
+	rm -f examListPythia.lpt
 
 examListHerwig: examListHerwig.o examListHerwigInterface.o
 	$(CXX) $(CXXFLAGS) -o $@ \
@@ -120,7 +138,8 @@ clean:
 	rm -f *.o
 	rm -f *.d
 	rm -f examReadPDG examReadPythia examReadEvtGen 
-	rm -f examMyPDT examDMF examReadQQ examListHerwig examListIsajet
+	rm -f examMyPDT examDMF examReadQQ
+	rm -f examListPythia examListHerwig examListIsajet
 	rm -f *.out *.log
 	rm -f fort.*
 

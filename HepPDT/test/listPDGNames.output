@@ -1,13 +1,13 @@
- PDG table:                gamma          22   HepPDT:                   Z0          23
- PDG table:                    W          24   HepPDT:                 H_10          25
- PDG table:                    Z          23   HepPDT:                   W+          24
- PDG table:                    e          11   HepPDT:                 nu_e          12
- PDG table:                   mu          13   HepPDT:                nu_mu          14
- PDG table:                  tau          15   HepPDT:               nu_tau          16
- PDG table:                nu(e)          12   HepPDT:                  mu-          13
- PDG table:               nu(mu)          14   HepPDT:                 tau-          15
- PDG table:              nu(tau)          16   HepPDT:                tau'-          17
- PDG table:                    t           6   HepPDT:                   b'           7
+ PDG table:                gamma          22   HepPDT:                gamma          22
+ PDG table:                    W          24   HepPDT:                   W+          24
+ PDG table:                    Z          23   HepPDT:                   Z0          23
+ PDG table:                    e          11   HepPDT:                   e-          11
+ PDG table:                   mu          13   HepPDT:                  mu-          13
+ PDG table:                  tau          15   HepPDT:                 tau-          15
+ PDG table:                nu(e)          12   HepPDT:                 nu_e          12
+ PDG table:               nu(mu)          14   HepPDT:                nu_mu          14
+ PDG table:              nu(tau)          16   HepPDT:               nu_tau          16
+ PDG table:                    t           6   HepPDT:                    t           6
  PDG table:                   pi         211   HepPDT:                  pi+         211
  PDG table:                   pi         111   HepPDT:                  pi0         111
  PDG table:                  eta         221   HepPDT:                  eta         221
@@ -31,15 +31,21 @@
  PDG table:             pi(1300)      100211   HepPDT:            pi(1300)+      100211
  PDG table:           a(2)(1320)         115   HepPDT:           a_2(1320)0         115
  PDG table:           a(2)(1320)         215   HepPDT:           a_2(1320)+         215
- PDG table:           f(1)(1420)       30223   HepPDT:            f_1(1420)       20333
- PDG table:          omega(1420)      100223   HepPDT:          omega(1420)      100223
+ PDG table:          pi(1)(1400)     9000113   HepPDT:          pi_1(1400)0     9000113
+ PDG table:          pi(1)(1400)     9000213   HepPDT:          pi_1(1400)+     9000213
+ PDG table:            eta(1405)     9020221   HepPDT:            eta(1405)     9020221
+ PDG table:           f(1)(1420)       20333   HepPDT:            f_1(1420)       20333
  PDG table:           a(0)(1450)       10111   HepPDT:           a_0(1450)0       10111
  PDG table:           a(0)(1450)       10211   HepPDT:           a_0(1450)+       10211
  PDG table:            rho(1450)      100113   HepPDT:           rho(1450)0      100113
  PDG table:            rho(1450)      100213   HepPDT:           rho(1450)+      100213
- PDG table:           f(0)(1500)     9020221   HepPDT:            f_0(1500)     9020221
+ PDG table:            eta(1475)      100331   HepPDT:            eta(1475)      100331
+ PDG table:           f(0)(1500)     9030221   HepPDT:            f_0(1500)     9030221
  PDG table:          f(2)'(1525)         335   HepPDT:           f'_2(1525)         335
- PDG table:          omega(1650)       60223   HepPDT:          omega(1650)       30223
+ PDG table:          pi(1)(1600)     9010113   HepPDT:          pi_1(1600)0     9010113
+ PDG table:          pi(1)(1600)     9010213   HepPDT:          pi_1(1600)+     9010213
+ PDG table:         eta(2)(1645)       10225   HepPDT:          eta_2(1645)       10225
+ PDG table:          omega(1650)       30223   HepPDT:          omega(1650)       30223
  PDG table:       omega(3)(1670)         227   HepPDT:        omega_3(1670)         227
  PDG table:          pi(2)(1670)       10115   HepPDT:          pi_2(1670)0       10115
  PDG table:          pi(2)(1670)       10215   HepPDT:          pi_2(1670)+       10215
@@ -49,15 +55,16 @@
  PDG table:            rho(1700)       30113   HepPDT:           rho(1700)0       30113
  PDG table:            rho(1700)       30213   HepPDT:           rho(1700)+       30213
  PDG table:           f(0)(1710)       10331   HepPDT:            f_0(1710)       10331
- PDG table:             pi(1800)      200111   HepPDT:            pi(1800)0      200111
- PDG table:             pi(1800)      200211   HepPDT:            pi(1800)+      200211
+ PDG table:             pi(1800)     9010111   HepPDT:            pi(1800)0     9010111
+ PDG table:             pi(1800)     9010211   HepPDT:            pi(1800)+     9010211
  PDG table:         phi(3)(1850)         337   HepPDT:          phi_3(1850)         337
- PDG table:           f(2)(2010)      100335   HepPDT:            f_2(2010)      100335
+ PDG table:           f(2)(1950)     9050225   HepPDT:            f_2(1950)     9050225
+ PDG table:           f(2)(2010)     9060225   HepPDT:            f_2(2010)     9060225
  PDG table:           a(4)(2040)         119   HepPDT:           a_4(2040)0         119
  PDG table:           a(4)(2040)         219   HepPDT:           a_4(2040)+         219
  PDG table:           f(4)(2050)         229   HepPDT:            f_4(2050)         229
- PDG table:           f(2)(2300)     9050225   HepPDT:            f_2(2150)     9050225
- PDG table:           f(2)(2340)     9060225   HepPDT:            f_2(2300)     9060225
+ PDG table:           f(2)(2300)     9080225   HepPDT:            f_2(2300)     9080225
+ PDG table:           f(2)(2340)     9090225   HepPDT:            f_2(2340)     9090225
  PDG table:                    K         321   HepPDT:                   K+         321
  PDG table:                    K         311   HepPDT:                   K0         311
  PDG table:                 K(S)         310   HepPDT:                  KS0         310
@@ -74,8 +81,8 @@
  PDG table:          K(0)*(1430)       10321   HepPDT:          K*_0(1430)+       10321
  PDG table:          K(2)*(1430)         325   HepPDT:          K*_2(1430)+         325
  PDG table:          K(2)*(1430)         315   HepPDT:          K*_2(1430)0         315
- PDG table:             K*(1680)       40313   HepPDT:            K*(1680)0       30313
- PDG table:             K*(1680)       40323   HepPDT:            K*(1680)+       30323
+ PDG table:             K*(1680)       30313   HepPDT:            K*(1680)0       30313
+ PDG table:             K*(1680)       30323   HepPDT:            K*(1680)+       30323
  PDG table:           K(2)(1770)       10315   HepPDT:           K_2(1770)0       10315
  PDG table:           K(2)(1770)       10325   HepPDT:           K_2(1770)+       10325
  PDG table:          K(3)*(1780)         317   HepPDT:          K*_3(1780)0         317
@@ -93,7 +100,10 @@
  PDG table:          D(2)*(2460)         415   HepPDT:          D*_2(2460)+         415
  PDG table:                 D(s)         431   HepPDT:                 D_s+         431
  PDG table:                D(s)*         433   HepPDT:                D*_s+         433
+ PDG table:          D(sJ)(2317)       10431   HepPDT:         D*_s0(2317)+       10431
+ PDG table:          D(sJ)(2460)       20433   HepPDT:          D_s1(2460)+       20433
  PDG table:          D(s1)(2536)       10433   HepPDT:          D_s1(2536)+       10433
+ PDG table:          D(s2)(2573)         435   HepPDT:         D*_s2(2573)+         435
  PDG table:                    B         521   HepPDT:                   B+         521
  PDG table:                    B         511   HepPDT:                   B0         511
  PDG table:                   B*         513   HepPDT:                  B*0         513
