@@ -1,3 +1,7 @@
+Tue Sep 24          2004 Lynn Garren <garren@fnal.gov>
+
+	* use AM_CXXFLAGS
+
 Tue Sep 14          2004 Lynn Garren <garren@fnal.gov>
 
 	* require autoconf 2.59, automake 1.9.1, and libtool 1.9b
