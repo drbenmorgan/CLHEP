@@ -123,13 +123,13 @@ double HepLorentzVector::gamma() const {
 
 double HepLorentzVector::rapidity() const {
   register double z = pp.getZ();
-  if (fabs(ee) == z) {
+  if (fabs(ee) == fabs(z)) {
     ZMthrowA (ZMxpvInfinity(
-      "rapidity for 4-vector with E = Pz -- infinite result"));
+      "rapidity for 4-vector with |E| = |Pz| -- infinite result"));
   }
-  if (fabs(ee) < z) {
+  if (fabs(ee) < fabs(z)) {
     ZMthrowA (ZMxpvSpacelike(
-      "rapidity for spacelike 4-vector with E < Pz -- undefined"));
+      "rapidity for spacelike 4-vector with |E| < |Pz| -- undefined"));
     return 0;
   }
   double q = (ee + z) / (ee - z);
@@ -146,13 +146,13 @@ double HepLorentzVector::rapidity(const Hep3Vector & ref) const {
     return 0;
   }
   register double vdotu = pp.dot(ref)/sqrt(r);
-  if (fabs(ee) == vdotu) {
+  if (fabs(ee) == fabs(vdotu)) {
     ZMthrowA (ZMxpvInfinity(
-      "rapidity for 4-vector with E = Pu -- infinite result"));
+      "rapidity for 4-vector with |E| = |Pu| -- infinite result"));
   }
-  if (fabs(ee) < vdotu) {
+  if (fabs(ee) < fabs(vdotu)) {
     ZMthrowA (ZMxpvSpacelike(
-      "rapidity for spacelike 4-vector with E < P*ref -- undefined "));
+      "rapidity for spacelike 4-vector with |E| < |P*ref| -- undefined "));
     return 0;
   }
   double q = (ee + vdotu) / (ee - vdotu);
@@ -161,11 +161,11 @@ double HepLorentzVector::rapidity(const Hep3Vector & ref) const {
 
 double HepLorentzVector::coLinearRapidity() const {
   register double v = pp.mag();
-  if (fabs(ee) == v) {
+  if (fabs(ee) == fabs(v)) {
     ZMthrowA (ZMxpvInfinity(
-      "rapidity for 4-vector with E = P -- infinite result"));
+      "co-Linear rapidity for 4-vector with |E| = |P| -- infinite result"));
   }
-  if (fabs(ee) < v) {
+  if (fabs(ee) < fabs(v)) {
     ZMthrowA (ZMxpvSpacelike(
       "co-linear rapidity for spacelike 4-vector -- undefined"));
     return 0;

@@ -1,4 +1,4 @@
-// $Id: RandEngine.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandEngine.h,v 1.4 2004/04/29 20:39:10 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -25,6 +25,8 @@
 //                  engine counter: 15th Feb 1998
 // Ken Smith      - Added conversion operators:  6th Aug 1998
 //                  replace mx by mantissa_bit_32
+// M Fischler     - Inserted warnings about the fact that the quality of rand()
+//                  is quite poor.
 // =======================================================================
 
 #ifndef RandEngine_h
@@ -54,6 +56,10 @@ public:
   // It returns a pseudo random number between 0 and 1,
   // according to the standard stdlib random function rand()
   // but excluding the end points.
+  //
+  // WARNING:  rand() is quite a weak generator on most systems,                    <
+  // will not pass several randomness tests, and does not give a           <
+  // reproducible sequence of numbers.                                                                        <
 
   void flatArray (const int size, double* vect);
   // Fills the array "vect" of specified size with flat random values.
@@ -67,10 +73,14 @@ public:
 
   void saveStatus( const char filename[] = "Rand.conf" ) const;
   // Saves on file Rand.conf the current engine status.
+  // WARNING:  This is non-functional, as rand() on various systems will            <
+  // not give reproducible streams.                                                 <
 
   void restoreStatus( const char filename[] = "Rand.conf" );
   // Reads from file Rand.conf the last saved engine status
   // and restores it.
+  // WARNING:  This is non-functional, as rand() on various systems will            <
+  // not give reproducible streams.                                                 <
 
   void showStatus() const;
   // Dumps the engine status on the screen.
