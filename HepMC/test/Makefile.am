@@ -11,19 +11,20 @@ endif
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
-        testDoubleConversion
+        testDoubleConversion testRandomState
 
 #check_SCRIPTS =
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
-        testDoubleConversion
+        testDoubleConversion testRandomState
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
 
 # Identify the dependencies on a per-test basis:
 testDoubleConversion_SOURCES = testDoubleConversion.cc
+testRandomState_SOURCES      = testRandomState.cc
 
 # Identify input data file(s) and prototype output file(s):
 #EXTRA_DIST = 

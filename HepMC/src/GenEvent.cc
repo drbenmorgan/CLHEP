@@ -385,7 +385,6 @@ namespace HepMC {
 	for( unsigned int i=0; i<m_random_states.size(); ++i ) {
 	   out << m_random_states[i] << " ";
 	}
-	out << std::endl;
 	return out;
     }
 
