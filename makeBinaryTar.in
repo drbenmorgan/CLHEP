@@ -37,4 +37,5 @@ then
     more=doc
 fi
 cd $binarydir;
-tar -cf $tardir/clhep-@VERSION@$extra.tar bin include lib data $more
+# use option z to create compressed tar ball ... (8 MB instead of 28 :-) )
+tar -zcf $tardir/clhep-@VERSION@$extra.tgz bin include lib data $more
