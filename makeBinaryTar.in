@@ -32,5 +32,9 @@ cd @prefix@; binarydir=`pwd`
 cd $thisdir
 cd $1; tardir=`pwd`
 
+if [ -d $binarydir/doc ] 
+then
+    more=doc
+fi
 cd $binarydir;
-tar -cf $tardir/clhep-@VERSION@$extra.tar bin include lib data
+tar -cf $tardir/clhep-@VERSION@$extra.tar bin include lib data $more
