@@ -1,0 +1,42 @@
+From pcanal@fndaub  Tue Jul  8 11:17:36 1997
+Received: from fndaub.fnal.gov by fncrd8.fnal.gov via ESMTP (950413.SGI.8.6.12/911001.SGI)
+	 id LAA01156; Tue, 8 Jul 1997 11:17:05 -0500
+Received: from localhost by fndaub.fnal.gov via SMTP (951211.SGI.8.6.12.PATCH1042/911001.SGI)
+	 id LAA04483; Tue, 8 Jul 1997 11:17:03 -0500
+Message-Id: <199707081617.LAA04483@fndaub.fnal.gov>
+X-Mailer: exmh version 1.6.6 3/24/96
+To: mf (Mark Fischler)
+cc: pcanal (Philippe Canal), wb (Walter Brown), jluther (Jason Luther),
+        pcanal@fndaub
+Subject: Re: ZOOM exceptions
+In-reply-to: Your message of "Tue, 08 Jul 1997 10:33:49 CDT."
+             <199707081533.KAA18029@fncrdn.fnal.gov>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Date: Tue, 08 Jul 1997 11:17:03 CDT
+From: Philippe Canal <pcanal@fndaub>
+Status: RO
+
+> The user interface to control exception behavior is:
+> -----------------------------------------------------
+>
+
+We may also want to have to add method like IsIgnored() and GetHandler()
+so that you can set a temporary control behavior and then return to the
+previous behavior.
+
+It has been mentioned that the definitions on the subclasses supersede
+(spelling ?) the behavior defined for the top class.  We may want to provide a
+way to
+over-ride this behavior so that one is easily able to ignore all the exceptions
+types no matter what was set before.
+
+
+
+>     The signature of the handler may be either:
+> 	bool myhandler ( ZMexcept x, string message );
+
+The message seems redundant since the exception x already contain a message.
+
+> ... ZMexception object constructor, which
+>    has as ITS first argument a const char*.

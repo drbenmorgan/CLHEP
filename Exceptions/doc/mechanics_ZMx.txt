@@ -1,0 +1,385 @@
+Introduction to the Use of Zoom Exceptions
+
+W E Brown, 30-Oct-1997, last revised 5-Jan-1998
+
+
+
+1. Introduction
+---------------
+
+This summary describes the mechanics decided on for creating and throwing
+a ZMexception as implemented by the zoom Exceptions package.
+
+Note that all public C++ symbols used within this Exceptions class begin
+with the unlikely prefix "ZMex" (or, in the case of the preprocessor,
+"ZMEX") in order to help avoid namespace pollution.  For example, we use
+"ZMexception" as the name of the class from which all other exception
+classes are (directly or indirectly) derived.
+
+Additionally, all ZOOM-generated ZMexception classes will use at least
+"ZMx" as their name prefix.  More typically, to avoid internal name
+clashes, the names start with a short string identifying the package,
+e.g. "ZMxHep" for HepTuple, or "ZMxpv" for the PhysicsVectors package.
+It is recommended that users defining their own ZMexceptions establish
+and employ some similar convention.
+
+
+2. How to declare and define a new exception class
+--------------------------------------------------
+
+Declaring/defining a new exception class is done as follows (code adapted
+from Exceptions/test/exctest1.cc):
+
+    // Required header, with recommended code guard:
+    #ifndef ZMEXCEPTION_H
+      #include "Exceptions/ZMexception.h"
+    #endif  // ZMEXCEPTION_H
+
+    // Required (sample) declaration (for use in a .h file):
+    ZMexStandardDefinition( ZMexception, ZMxOops );
+      // Defines class ZMxOops : public ZMexception { ... };
+
+    // Required (sample) definition (for use in a .cc file):
+    ZMexClassInfo ZMxOops::_classInfo( "Oops", "ExcTest", ZMexWARNING );
+      // Provides certain details specific to the new class
+
+In the example above:
+
+  1) ZMxOops is the name of the newly-defined exception class.  Note that
+     this name appears in three places; it is important to be consistent.
+
+  2) ZMexception is the name of the parent exception class of ZMxOops;
+     any previously defined ZMexception may be used as the parent.
+
+  3) "Oops" is the exception's name as it is to appear in the log.  Such
+     a quoted exception name string should for clarity be closely related
+     to the actual name but, as shown here, might omit some package-
+     identifying baggage.
+
+  4) "ExcTest" is the logged message prefix (normally indicating the
+     package, facility, or program giving rise to the message).
+
+  5) ZMexWARNING is the default severity level of ZMxOops.  (See below
+     for a complete list of possible severity levels and the intended
+     significance of each.)
+
+
+3. Constructing/throwing an instance of the new exception class
+---------------------------------------------------------------
+
+This Exceptions package provides a facility, ZMthrow(), to make use of
+ZMexception and its descendent classes.  Before using this capability,
+insert the following line to provide the necessary declaration:
+
+    #include "Exceptions/ZMthrow.h"
+
+Thereafter, an exception of a class defined as shown above is typically
+constructed and thrown within a single statement, such as:
+
+    ZMthrow( ZMxOops("Ouch!") );
+
+Here, "Ouch!" may be arbitrary text to be associated with this particular
+occurrence (exception instance).  The text will be logged, as described
+below.
+
+
+4. Resulting log message
+------------------------
+
+Assuming that the ExcTest program has been compiled with appropriate
+compiler switches that enable use of exceptions, the logged message
+resulting from the above ZMthrow(...) example will be:
+
+  ExcTest-W-Oops [#1] Ouch!
+  Thu Oct 30 16:17:07 1997
+   -- ZMthrow was issued from exctest1.cc line 21 ... Exception thrown!
+
+The parts of this message are interpreted as follows:
+
+  1) ExcTest		the message came from the ExcTest facilty;
+
+  2) -W-		it is considered a Warning;
+
+  3) Oops		it is classified as an Oops occurrence;
+
+  4) [#1]		this is the first instance of such an occurrence;
+
+  5) Ouch!		this text is associated with this specific
+			occurrence;
+
+  6) Thu ... 1997	timestamp;
+
+  7) ...exctest1.cc	this occurrence arose from this associated
+			compilation unit;
+
+  8) line 21		identifies the specific line of source text
+			giving rise to this occurrence;
+
+  9) ... thrown		gives the run-time disposition of the exception.
+
+
+5. Available severity levels
+----------------------------
+
+Here is a list of the seven severity levels that are available for use
+in defining a new exception class.  Each severity is accompanied by a
+description of its intended interpretation, as documented in the
+Exceptions/ZMexSeverity.h header file:
+
+  ZMexNORMAL	All is well; always safe to ignore; typically not worth
+		logging since it's probably just a temporary placeholder.
+
+  ZMexINFO	In the normal course of events, here is news worth logging;
+		always safe to ignore; often useful for progress reporting
+		and for debugging purposes.
+
+  ZMexWARNING	Something unusual has happened, but we have a quite reasonable
+		action to take; it's generally safe to ignore the warning
+		because you'll probably get just about the result you intended;
+		logging can probably cease after (say) 50 of the same warnings.
+
+  ZMexERROR	We encountered something such that, although we can make it safe
+		to continue running (e.g., by supplying a default value instead
+		of a value we can't for some reason calculate), you probably
+		won't get the result you expected unless you handle this
+		yourself; ought always be logged (but may be sensible, if
+		hundreds of the same error are intentionally ignored, to stop
+		logging each one).
+
+  ZMexSEVERE	The action you intended will almost certainly have a seriously
+		flawed outcome and we doubt that either we or you can make it
+		safe to continue if you ignore this; ought always be logged.
+
+  ZMexFATAL	We can make no representations as to the state of any part of
+		the software, even of software parts not obviously associated
+		with the failed intended action and even if you try to handle
+		the problem; ought always be logged and essentially never be
+		ignored.
+
+  ZMexPROBLEM	The software has reached a logically impossible internal state;
+		must always be logged and never be ignored; if encountered,
+		should always be reported to the software's developers and/or
+		maintainers.
+
+
+6. Using handlers
+
+In the Exceptions package, a handler is the term for an instance of a
+class that processes a ZMthrow'n exception.  A handler is responsible
+for having the exception instance logged; for taking any remedial
+action appropriate to the exception instance; and for determining
+whether the exception instance can safely be ignored by the user code.
+
+The Exceptions package includes a number of pre-defined handlers
+(listed below), implementing several commonly-wanted behaviors.
+
+Each exception class is associated with a handler to be applied to all
+ZMthrow'n instances of that class.  By default, this handler implements
+the behavior known as ZMexHandleViaParent(); this applies the behavior
+-- whatever it may be -- of the parent exception class' handler to the
+current exception class.
+
+A user may change this behavior in two ways.  A different handler may
+be associated with an exception class when the class is defined:
+
+    ZMexClassInfo ZMxOops::_classInfo( "Oops", "ExcTest", ZMexWARNING,
+      ZMexIgnoreAlways() );
+
+Alternatively, the handler associated with an exception class may be
+changed dynamically:
+
+    #include "Exceptions/ZMexHandler.h"
+
+    ZMexOops::setHandler( ZMexIgnoreAlways() );
+
+The given behavior will apply to any exceptions ZMthrow'n after the
+handler has been established.
+
+
+7. Available handlers
+
+Here is a list of the five standard handlers that are defined via the
+Exceptions package.  Each is accompanied by a brief description of its
+behavior:
+
+  ZMexThrowAlways()	the ZMthrow'n exception instance will, after
+			handling, become the object of a C++ throw.
+
+  ZMexIgnoreAlways()	the ZMthrow'n exception instance will be
+			handled, but will have no further affect on
+			subsequent control flow.
+
+  ZMexThrowErrors()	the ZMthrow'n exception instance will, after
+			handling, be thrown if its severity is
+			ZMexERROR or higher, but be ignored if of a
+			lesser severity.
+
+			Note:  this is the default handling behavior of
+			the package's ZMexception class, the intended
+			(direct or indirect) ancestor class of all
+			other exception classes.
+
+  ZMexIgnoreNextN( n )	the next n occurrences of a ZMthrow'n instance
+			of this class will be ignored after handling;
+			subsequent instances will be thrown after
+			handling.
+
+  ZMexHandleViaParent()	the ZMthrow'n exception instance will be
+			handled by the handler currently associated
+			with the parent exception class.
+
+
+8. Using loggers
+
+In the Exceptions package, a logger is the term for an instance of a
+class that records, to a designated destination, a ZMthrow'n
+exception.  A logger is responsible only for routing the message
+associated with an exception instance; it is not responsible for
+determining or formatting any message.
+
+The Exceptions package includes a few pre-defined loggers (listed
+below), implementing several commonly-wanted logging behaviors.
+
+Each exception class is associated with a logger to be applied to all
+ZMthrow'n instances of that class.  By default, this logger implements
+the behavior known as ZMexLogViaParent(); this applies the behavior --
+whatever it may be -- of the parent exception class' logger to the
+current exception class.
+
+A user may change this behavior in two ways.  A different logger may be
+associated with an exception class when the class is defined:
+
+    ZMexClassInfo ZMxOops::_classInfo( "Oops", "ExcTest", ZMexWARNING,
+      ZMexIgnoreAlways(), ZMexLogAlways() );
+
+Alternatively, the logger associated with an exception class may be
+changed dynamically:
+
+    #include "Exceptions/ZMexLogger.h"
+
+    ZMexOops::setLogger( ZMexLogAlways() );
+
+The given behavior will apply to any exceptions ZMthrow'n after the
+logger has been established, provided the handler invokes the logger.
+
+
+9. Available loggers
+
+Here is a list of the standard loggers that are defined via the
+Exceptions package.  Each is accompanied by a brief description of its
+behavior:
+
+  ZMexLogAlways( ostream & Dest = cerr )
+			  All ZMthrow'n exception instances processed
+			  by this logger will appear in the designated
+			  destination.
+
+			  Note:  this is the default logging behavior
+			  of the package's ZMexception class, the
+			  intended (direct or indirect) ancestor class
+			  of all other exception classes.
+
+  ZMexLogTwice( ostream & Dest1, ostream & Dest2 = cerr )
+			  All ZMthrow'n exception instances processed
+			  by this logger will appear in both designated
+			  destinations.
+
+  ZMexLogNever()
+			  No ZMthrow'n exception instances processed by
+			  this logger will appear in any designated
+			  destination.
+
+  ZMexLogViaParent()
+			  All ZMthrow'n exception instances processed
+			  by this logger will be logged by the logger
+			  currently associated with the parent
+			  exception class.
+
+
+10. Exception history
+
+This Exceptions package records, by default, all exceptions that have
+been ZMthrow'n.  Known as ZMerrno, this capability is in addition to the
+logging described earlier, and allows user code to interrogate and make
+decisions based on such exceptions.
+
+To use this ZMerrno facility, insert the following line to provide the
+necessary declaration:
+
+    #include "Exceptions/ZMerrno.h"
+
+This declaration makes the following operations (functions) available:
+
+  1) ZMerrno.setMax( unsigned int limit = 100 )
+
+     Sets the maximum number of ZMthrow'n exceptions to be recorded.
+     Once this limit has been reached, each subsequently ZMthrow'n
+     exception will cause the oldest (least recent) recorded exception
+     to be forgotten (i.e., discarded from ZMerrno's list).
+
+     The default limit is 100.  If this limit is acceptable, user code
+     need not call this function at all.  If the limit is set to 0,
+     this ZMerrno facility is effectively disabled, and any recorded
+     exceptions are immediately permanently discarded.
+
+  2) ZMerrno.write( const ZMexception & exc )
+
+     Records the given exception.  This is typically taken care of by
+     the exception handler; thus, user code seldom needs to call this
+     function directly.
+
+  3) ZMerrno.count()
+
+     Return the (integer) number of ZMthrow'n exceptions ever recorded
+     via ZMerrno.write(), whether or not they are still recorded.
+
+  4) ZMerrno.size()
+
+     Return the (integer) number of ZMthrow'n exceptions currently
+     recorded.
+
+  5) ZMerrno.clear()
+
+     Set an internal counter to zero.  This counter is available (see
+     next function) to user code to track ZMthrow'n exceptions that have
+     occurred during any arbitrary time interval.
+
+  6) ZMerrno.countSinceCleared()
+
+     Return the (integer) number of ZMthrow'n exceptions that have
+     been recorded via ZMerrno.write(), whether or not they are still
+     recorded, since the user counter was last cleared (see previous
+     function).
+
+  7) ZMerrno.name( unsigned int k = 0 )
+
+     Return the name (as logged) of the latest-but-k exception currently
+     recorded via ZMerrno.
+
+     Thus, ZMerrno.name() gives the (string) name of the latest recorded
+     exception, while ZMerrno.name(1) gives the name of the exception
+     recorded immediately before the last one.
+
+  8) ZMerrno.get( unsigned int k = 0 )
+
+     Return a (const pointer to) the latest-but-k exception currently
+     recorded via ZMerrno.
+
+     Thus, ZMerrno.get() gives a (const pointer to) the latest recorded
+     exception, while ZMerrno.get(1) gives the corresponding pointer to
+     the exception recorded immediately before the last one.
+
+     This may be useful to peruse the exception's message text, to note
+     the handler and logger used when the exception was ZMthrow'n, etc.
+
+     The resulting pointer should generally be checked against 0, in
+     case ZMerrno does not go back as far as requested.
+
+  9) ZMerrno.erase()
+
+     Remove the most recently-recorded exception.
+
+     This can be useful if, for example, there is a loop of known
+     ignorable exceptions, all nonetheless duly recorded by the handler.
+     These exceptions can be erase()'d so as not to wipe out history
+     for other, more interesting, exceptions.

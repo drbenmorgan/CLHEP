@@ -1,0 +1,30 @@
+From pcanal@fndaub  Tue Jul  8 13:42:37 1997
+Received: from fndaub.fnal.gov by fncrd8.fnal.gov via ESMTP (950413.SGI.8.6.12/911001.SGI)
+	for <mf@fncrd8.fnal.gov> id NAA01517; Tue, 8 Jul 1997 13:41:35 -0500
+Received: from localhost by fndaub.fnal.gov via SMTP (951211.SGI.8.6.12.PATCH1042/911001.SGI)
+	 id NAA13661; Tue, 8 Jul 1997 13:41:34 -0500
+Message-Id: <199707081841.NAA13661@fndaub.fnal.gov>
+X-Mailer: exmh version 1.6.6 3/24/96
+To: mf (Mark Fischler)
+cc: pcanal@fndaub
+Subject: Re: ZOOM exceptions
+In-reply-to: Your message of "Tue, 08 Jul 1997 10:33:49 CDT."
+             <199707081533.KAA18029@fncrdn.fnal.gov>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Date: Tue, 08 Jul 1997 13:41:34 CDT
+From: Philippe Canal <pcanal@fndaub>
+Status: RO
+
+> 4 - ZMexcept has signature
+>
+> 	void ZMexcept ( ZMexception x, int line,
+> 				char file[], char data[], char time[]);
+>
+
+This signature worries me in the following sense:
+
+	by receiving explicitly a ZMexception, ZMExcept do not get any
+type information (except for the id).
+	if ZMExcept throw the exception it will throw an exception of
+type ZMexception not the intended type!

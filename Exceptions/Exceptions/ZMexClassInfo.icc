@@ -1,0 +1,173 @@
+#ifndef ZMEXCLASSINFO_ICC
+#error "Exceptions/ZMexClassInfo.icc included without Exceptions/ZMexClassInfo.h"
+#endif
+
+
+// ----------------------------------------------------------------------
+//
+// ZMexClassInfo.icc
+//
+// Contains the following methods:
+//
+// ZMexClassInfo()
+//	name()
+//      setName()                                                        //
+//	facilty()
+//      setFacility()                                                    //
+//	nextCount()
+//	setHandler()
+//	getHandler()
+//	setLogger()
+//	getLogger()
+//	logNMore()
+//	OKtoLog()
+//	count()
+//	filterMax()
+//
+// Revision History
+//	970914	MF	Initial version, after adding nextCount()
+//	970916	WEB	Updated per code review
+//	970917	WEB	Updated per code review 2
+//	971211	WEB	Updated per code walkthrough
+//	971217	WEB	Added count() and filterMax()
+//	980219	WEB	Fixed get/set Handler()/setLogger() to return
+//			correct type
+//	980617	WEB	Added namespace support
+//      990318  MF      Modified intializer list orders to avoid warnings
+//      990721  JVR     Added setName, setFacility, and setSeverity functions
+//      010411  MF      setName, setFacility, and setSeverity return old value
+//			and take const & argument
+//	011212	WEB	Pass all std::strings by const &; constructor no
+//			longer inline
+//
+// ----------------------------------------------------------------------
+
+
+namespace zmex  {
+
+
+// name()
+// ------
+
+inline const std::string ZMexClassInfo::name() const {
+  return  name_;
+}
+
+// setName()
+// ---------
+
+inline const std::string ZMexClassInfo::setName(const std::string& newName) {
+  std::string n=name_;
+  name_ = newName;
+  return n;
+}
+
+// facility()
+// ----------
+
+inline const std::string ZMexClassInfo::facility() const {
+  return  facility_;
+}
+
+// setFacility()
+// -------------
+
+inline const std::string 
+	ZMexClassInfo::setFacility(const std::string& newFacility) {
+  std::string f=facility_;
+  facility_ = newFacility;
+  return f;
+}
+
+// severity()
+// ----------
+
+inline ZMexSeverity ZMexClassInfo::severity() const {
+  return  severity_;
+}
+
+// setSeverity()
+// -------------
+
+inline ZMexSeverity 
+	ZMexClassInfo::setSeverity(const ZMexSeverity& newSeverity) {
+  ZMexSeverity s=severity_;
+  severity_ = newSeverity;
+  return s;
+}
+
+// nextCount()
+// -----------
+
+inline int ZMexClassInfo::nextCount() {
+  return  ++count_;
+}
+
+// setHandler()
+//-------------
+
+inline ZMexHandler ZMexClassInfo::setHandler(
+  const ZMexHandler & newHandler
+) {
+  ZMexHandler oldHandler = handler_;
+  handler_ = newHandler;
+  return  oldHandler;
+}
+
+// getHandler()
+// ------------
+
+inline ZMexHandler ZMexClassInfo::getHandler() const {
+  return  handler_;
+}
+
+// setLogger()
+// -----------
+
+inline ZMexLogger ZMexClassInfo::setLogger( const ZMexLogger & newLogger ) {
+  ZMexLogger oldLogger = logger_;
+  logger_ = newLogger;
+  return  oldLogger;
+}
+
+// getLogger()
+// -----------
+
+inline ZMexLogger ZMexClassInfo::getLogger() const {
+  return  logger_;
+}
+
+
+// logNMore()
+// ----------
+
+inline void ZMexClassInfo::logNMore( const int N ) {
+  filterMax_ = count_ + N;
+}
+
+
+// OKtoLog()
+// ---------
+
+inline bool ZMexClassInfo::OKtoLog() const {
+  return  (filterMax_ < 0) || (count_ <= filterMax_) ;
+}
+
+
+// count()
+// ---------
+
+inline int ZMexClassInfo::count() const {
+  return  count_;
+}
+
+
+// filterMax()
+// ---------
+
+inline int ZMexClassInfo::filterMax() const {
+  return  filterMax_;
+}
+
+
+}  // namespace zmex

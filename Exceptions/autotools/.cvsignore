@@ -1,0 +1,6 @@
+config.sub
+config.guess
+depcomp
+install-sh
+missing
+mkinstalldirs

@@ -1,0 +1,43 @@
+When exceptions are enabled, the ZMthrow macro looks like:
+
+#define ZMthrow(userExcept)                                             \
+do { 									\
+  try { throw userExcept; }                                             \
+  catch ( const ZMexception & x )  {                                    \
+    if ( ZMthrow_( x, __LINE__, __FILE__ ) == ZMexThrowIt ) {           \
+      throw;                                                            \
+    }                                                                   \
+  }                                                                     \
+} while (false)             
+
+Why do we have to do that apparently convoluted try/catch block.  After all,
+we know the try part will throw... why not just do:
+
+#define ZMthrow(userExcept)                                             \
+do { 									\
+  if ( ZMthrow_( x, __LINE__, __FILE__ ) == ZMexThrowIt ) {             \
+      throw x;                                                          \
+  }                                                                     \
+} while (false)             
+
+Well, consider how ZMthrow is typically used:
+
+ZMthrow (ZMexBadThing("explanatory text"));
+
+The simpler code would expand this to 
+
+do { 									
+  if ( ZMthrow_( ZMexBadThing("explanatory text"), __LINE__, __FILE__ ) 
+					== ZMexThrowIt ) {             
+      throw ZMexBadThing("explanatory text");
+  }                                                                    
+} while (false)             
+
+Notice that the exception object is constructed twice; any side effects of that
+construction would occur twice.  The semantics of throw x, on the other hand,
+are that x is not constructed an extra time.
+
+The macro used achievs this:  The x reference is passed to ZMthrow but that
+does not require construction, and the re-throw also does not.
+
+
