@@ -1,4 +1,4 @@
-// $Id: examMyPDT.cc,v 1.2 2003/08/26 21:56:39 garren Exp $
+// $Id: examMyPDT.cc,v 1.2.2.1 2005/03/17 02:05:56 garren Exp $
 // ----------------------------------------------------------------------
 // examMyPDT.cc
 //
@@ -63,6 +63,8 @@ int main()
         std::cout << "ERROR: particle " << HepPDT::ParticleID(111).pid()
 	          << " is not in particle data table" << std::endl;
     }
+    
+    return 0;
 }
 
 void addData( HepPDT::TableBuilder& tb, std::string const & name, int const id,

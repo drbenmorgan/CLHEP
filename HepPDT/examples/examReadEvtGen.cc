@@ -1,4 +1,4 @@
-// $Id: examReadEvtGen.cc,v 1.2 2003/08/26 21:56:39 garren Exp $
+// $Id: examReadEvtGen.cc,v 1.2.2.1 2005/03/17 02:05:56 garren Exp $
 // ----------------------------------------------------------------------
 // examReadEvtGen.cc
 //
@@ -49,4 +49,6 @@ int main()
       exit(-1);
     }
     datacol.writeParticleData(wfile);
+    
+    return 0;
 }

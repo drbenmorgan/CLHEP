@@ -1,4 +1,4 @@
-// $Id: examReadQQ.cc,v 1.2 2003/08/26 21:56:39 garren Exp $
+// $Id: examReadQQ.cc,v 1.2.2.1 2005/03/17 02:05:56 garren Exp $
 // ----------------------------------------------------------------------
 // examReadQQ.cc
 //
@@ -52,4 +52,6 @@ int main()
     HepPDT::PDGtoQQTable::instance()->writeTranslations( wpdfile );
     // write the particle and decay info
     datacol.writeParticleData( wpdfile );
+    
+    return 0;
 }

@@ -1,16 +1,15 @@
 2005-03-16  Lynn Garren  <garren@fnal.gov>
 
-	* fix a bug in the translation for the PDG tables
+	* fix a bug in the PDG to PDT translations
 	
 	* use PDG 2004 numbering (only a few changes)
-
-2005-03-15  Lynn Garren  <garren@fnal.gov>
 
 	* ParticleID: The isNucleus method will recognize a proton (2212) 
 	as a nuclear fragment.
 	
 	* The translation free functions are now in ParticleIDTranslations.hh
-	which is included in ParticleID.hh. 
+	which is included in ParticleID.hh.  Pythia, Isajet, and Herwig 
+	translation functions use static translation maps.
 
 	* examples are now installed 
 
