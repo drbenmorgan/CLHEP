@@ -1,4 +1,4 @@
-// $Id: addPythiaParticles.cc,v 1.2 2003/08/13 20:00:11 garren Exp $
+// $Id: addPythiaParticles.cc,v 1.3 2004/04/14 23:56:28 garren Exp $
 // ----------------------------------------------------------------------
 //
 // addPythiaParticles.cc
@@ -24,20 +24,6 @@ bool getPythiaid( int & id, const std::string & pdline );
 void parsePythiaLine( TempParticleData & tpd, int & anti, std::string & aname, const std::string & pdline );
 void parsePythiaDecayLine( TempParticleData & tpd, const std::string & pdline );
 TempDecayData getPythiaDecay( const std::string & pdline );
-
-bool getPythiaid( int & id, const std::string & pdline )
-{
-    int sl = pdline.length();
-    std::string firstc = pdline.substr(0,1);
-    id = 0;
-    if( sl > 30 && firstc == " " ){
-      std::istringstream var1( pdline.substr(0,10).c_str() );
-      var1 >> id;		// if var1 is blank, id is not changed
-      return true;
-    } else {
-        return false;
-    }
-}
 
 void parsePythiaLine( TempParticleData & tpd, int & anti, std::string & aname, const std::string & pdline )
 {

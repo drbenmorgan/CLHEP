@@ -1,0 +1,69 @@
+// $Id: ParticleTranslation.icc,v 1.1 2004/04/14 23:56:27 garren Exp $
+// ----------------------------------------------------------------------
+//
+// ParticleTranslation.icc
+// Author: Lynn Garren
+//
+// ----------------------------------------------------------------------
+
+#include <algorithm>	// swap()
+
+namespace HepPDT {
+
+ParticleTranslation::ParticleTranslation(ParticleID pid, int oid,
+                                         std::string & onm, std::string & mc )
+: itsPID             ( pid ), 
+  itsOriginalID      ( oid ), 
+  itsOriginalName    ( onm ),
+  itsMonteCarloName  ( mc )
+{ ; }
+
+ParticleTranslation::ParticleTranslation( )
+: itsPID             ( ParticleID(0) ), 
+  itsOriginalID      ( 0 ), 
+  itsOriginalName    ( "" ),
+  itsMonteCarloName  ( "" )
+{ ; }
+
+ParticleTranslation::~ParticleTranslation()
+{ ; }
+
+void  ParticleTranslation::swap( ParticleTranslation & other )
+{
+    itsPID.swap( other.itsPID ); 
+    std::swap(itsOriginalID, other.itsOriginalID); 
+    std::swap(itsOriginalName, other.itsOriginalName);
+    std::swap(itsMonteCarloName , other.itsMonteCarloName);
+}
+
+ParticleTranslation::ParticleTranslation( const ParticleTranslation & orig )
+: itsPID             ( orig.itsPID ), 
+  itsOriginalID      ( orig.itsOriginalID ), 
+  itsOriginalName    ( orig.itsOriginalName ),
+  itsMonteCarloName  ( orig.itsMonteCarloName )
+{ ; }
+
+ParticleTranslation & ParticleTranslation::operator=( const ParticleTranslation & rhs )
+{ 
+  ParticleTranslation temp( rhs );
+  swap( temp );
+  return *this;
+}
+
+void ParticleTranslation::write( std::ostream & os ) const
+{ 
+    os << " " << itsMonteCarloName << ": ";
+    os.width(20);
+    os << itsOriginalName;
+    os.width(12);
+    os << itsOriginalID;
+    os << "   HepPDT: ";
+    os.width(20);
+    os << name();
+    os.width(12);
+    os << pid() << std::endl;
+    
+    return;
+}
+
+}	// HepPDT

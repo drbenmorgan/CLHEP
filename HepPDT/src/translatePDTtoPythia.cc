@@ -1,4 +1,4 @@
-// $Id: translatePDTtoPythia.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: translatePDTtoPythia.cc,v 1.2 2004/04/14 23:56:28 garren Exp $
 // --------------------------
 //
 // translatePDTtoPythia.cc
@@ -65,18 +65,6 @@ int   kqn=(ida/1000000000)%10;
         return id;
 //...other exotics
       } else if(ksusy == 5) {
-	    if(id == 5100061) { return 61; }
-	    if(id == 5100062) { return 62; }
-	    if(id == 5100024) { return 63; }
-	    if(id == 5100012) { return 64; }
-	    if(id == 5100014) { return 65; }
-	    if(id == 5100016) { return 66; }
-	    if(id == -5100061) { return -61; }
-	    if(id == -5100062) { return -62; }
-	    if(id == -5100024) { return -63; }
-	    if(id == -5100012) { return -64; }
-	    if(id == -5100014) { return -65; }
-	    if(id == -5100016) { return -66; }
         return 0;
 //...quarks, Higgs, etc.
       } else if(ida <= 100){
@@ -96,6 +84,18 @@ int   kqn=(ida/1000000000)%10;
           if(id == 990) { return 29; }
           return 0;
       } else if(ksusy == 9 && ku == 9 ) {
+	  if(id == 9900041) { return 61; }
+	  if(id == 9900042) { return 62; }
+	  if(id == 9900024) { return 63; }
+	  if(id == 9900012) { return 64; }
+	  if(id == 9900014) { return 65; }
+	  if(id == 9900016) { return 66; }
+	  if(id == -9900041) { return -61; }
+	  if(id == -9900042) { return -62; }
+	  if(id == -9900024) { return -63; }
+	  if(id == -9900012) { return -64; }
+	  if(id == -9900014) { return -65; }
+	  if(id == -9900016) { return -66; }
 	  if(id == 9910113) { return 110; }
  	  if(id == 9910211) { return 210; }
  	  if(id == -9910211) { return -210; }

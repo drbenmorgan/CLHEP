@@ -1,4 +1,4 @@
-// $Id: translateHerwigtoPDT.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: translateHerwigtoPDT.cc,v 1.2 2004/04/14 23:56:28 garren Exp $
 // ------------------------------------
 //
 // translateHerwigtoPDT.cc
@@ -46,10 +46,10 @@ int   kqn=(ida/1000000000)%10;
          std::cout << " HWTRAN 3: nonallowed ion" << std::endl;
       } else if(ida < 100){
 // ..Higgs, etc.
-        hwtran=itabj[ida];
+        hwtran=itabj[ida-1];
 // ..check for illegal antiparticles
         if(id < 0){
-          hwtran = -itabj[ida];
+          hwtran = -itabj[ida-1];
           if(hwtran >= -99 && hwtran <= -81) { hwtran=0; }
           for( i=0; i < 7; ++i ) {
             if(hwtran == noant[i]) { hwtran=0; }

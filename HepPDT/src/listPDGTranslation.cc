@@ -1,12 +1,15 @@
-// $Id: addPDGParticles.cc,v 1.4 2004/04/14 23:56:28 garren Exp $
+// $Id: listPDGTranslation.cc,v 1.1 2004/04/14 23:56:28 garren Exp $
 // ----------------------------------------------------------------------
 //
-// addPDGParticles.cc
+// listPDGTranslation.cc
 // Author:  Lynn Garren
 //
-// this has the functions used by addPDGParticles
+// list translations for various MonteCarlo input types
+// DO NOT mix these functions with the addXXXParticles functions
+// These functions will read a table file and write a translation list
 //
 // ----------------------------------------------------------------------
+
 
 #include <iostream>
 #include <string>
@@ -19,21 +22,24 @@
 #else
 #include "CLHEP/HepPDT/StringStream.h"
 #endif
-#include "CLHEP/HepPDT/TempParticleData.hh"
+#include "CLHEP/HepPDT/ParticleTranslation.hh"
 
 namespace HepPDT {
 
-void getPDGpid( std::vector<int> & idlist,  std::string & pdline );
-void parsePDGline( TempParticleData & tpd,  std::string & pdline );
-bool CheckPDGEntry( TempParticleData & tpd, const std::string &, 
-                       const std::string &, double, double );
 
-void parsePDGline( TempParticleData & tpd,  std::string & pdline )
+/**
+ * @author
+ * @ingroup heppdt
+ */
+
+// --- free functions
+//
+void getPDGpid( std::vector<int> & idlist,  std::string & pdline );
+
+ParticleTranslation parsePDGline( int oid,  std::string & pdline )
 {
    double v, e1, e2, err;
    std::string name, ckey, charges, bigname;
-   //int sl = pdline.length() - 1;		// <cr> at ends of lines
-   // we already know that this is a valid line
    ckey = pdline.substr(0,1);
    name = charges = "";
    v = e1 = e2 = 0.0;
@@ -51,23 +57,36 @@ void parsePDGline( TempParticleData & tpd,  std::string & pdline )
    //namelist >> name >> charges;
    // std::cout << ckey << " " << tpd.tempID.pid() << " "  
    //      << v << " " << e1 << " " << e2 << " " << name << " " << charges << std::endl;
-   CheckPDGEntry( tpd, ckey, name, v, err );
-}
 
-bool CheckPDGEntry( TempParticleData & tpd, const std::string & ckey, 
-                    const std::string & name, double val, double err  )
-{
    // now add appropriate properties
-   tpd.tempParticleName = name;
+   std::string mc = std::string("PDG table");
+   // for our purposes, only use the mass lines
    if( ckey.find("M") == 0 ) {
-      tpd.tempMass = Measurement( val, err );
-   } else if( ckey.find("W") == 0 ) {
-      tpd.tempWidth = Measurement( val, err );
+      ParticleID pid( translatePDGtabletoPDT(oid) );
+      return ParticleTranslation( pid, oid, name, mc );
    } else {
-     std::cout << "unrecognized key " << ckey << std::endl;
-     return false;
+     return ParticleTranslation();
    }
-   return true;
+   return ParticleTranslation();
 }
 
-}	// HepPDT
+bool  listPDGTranslation    ( std::istream & pdfile, std::ostream & os )
+{
+  // mass and width lines can be in any order
+  std::vector<int> idlist;
+  std::string pdline;
+  // read and parse each line
+  while( std::getline( pdfile, pdline) ) {
+    getPDGpid( idlist, pdline );
+    for( unsigned int i = 0; i < idlist.size(); ++i )
+    {
+        ParticleTranslation pt = parsePDGline( idlist[i], pdline ); 
+	if( pt.pid() != 0 ) {
+	    pt.write( os );
+	}
+    }
+  }
+  return true;
+}
+
+}  // namespace HepPDT

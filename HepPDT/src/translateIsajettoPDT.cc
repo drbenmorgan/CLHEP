@@ -1,4 +1,4 @@
-// $Id: translateIsajettoPDT.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: translateIsajettoPDT.cc,v 1.2 2004/04/14 23:56:28 garren Exp $
 // ----------------------------------------------------------------------
 //
 // translateIsajettoPDT.cc
@@ -30,7 +30,7 @@ int translateIsajettoPDT( const int id )
                 0,0,0,0,0,0,0,0,0,24,
                 25,51,35,36,55,37,53,52,54,23,
                 1000039,39,0,0,0,0,0,0,0,0};
-    static int noant[11]={-21,-22,-23,-25,-32,-33,-35,-36,-51,-55,-56};
+    static int noant[10]={-21,-22,-23,-25,-32,-33,-35,-36,-51,-56};
     int i;
 
     int istran=0;
@@ -45,12 +45,12 @@ int translateIsajettoPDT( const int id )
     if(ida == 0) {
         std::cout << " ISTRAN: particle ID is zero" << std::endl;
     } else if(ida <= 100) {
-        istran = itabi[ida];
-	if( id < 0 ) { istran = -itabi[ida]; }
+        istran = itabi[ida-1];
+	if( id < 0 ) { istran = -itabi[ida-1]; }
         if( id == -20) { istran=130; }
         // ...check for illegal antiparticles
 	if( istran < 0 ) {
-	    for( i=0; i<11; ++i ) {
+	    for( i=0; i<10; ++i ) {
 	        if( istran == noant[i] ) { istran = 0; }
 	    }
         }
@@ -60,9 +60,9 @@ int translateIsajettoPDT( const int id )
           if(i2 <= 2 && i1 <= 2){
               //     don't change
           } else if(i2 <= 2) {
-              i2=itabi[i2];
+              i2=itabi[i2-1];
 	  } else if(i1 <= 2) {
-              i1=itabi[i1];
+              i1=itabi[i1-1];
           }
           istran=i1*100 + i2*10 + 2*js+1 + i4*10000;
           if( id < 0 ) { istran = -istran; }
@@ -87,8 +87,8 @@ int translateIsajettoPDT( const int id )
     } else if(i2 != 0 && i3 != 0 && i1 == 0) {
     // ...diquarks
           // ...         u and d have opposite definitions
-          if(i3 <= 2) i3=itabi[i3];
-          if(i2 <= 2) i2=itabi[i2];
+          if(i3 <= 2) i3=itabi[i3-1];
+          if(i2 <= 2) i2=itabi[i2-1];
           if(i2 < i3){
             istran=i3*1000 + i2*100 + 1;
           } else if(i2 == i3){
@@ -103,9 +103,9 @@ int translateIsajettoPDT( const int id )
     } else if( i1 != 0 && i3 != 0 && i2 != 0 ) {
     // ...baryons
           //   u and d have opposite definitions
-          if(i3 <= 2) i3=itabi[i3];
-          if(i2 <= 2) i2=itabi[i2];
-          if(i1 <= 2) i1=itabi[i1];
+          if(i3 <= 2) i3=itabi[i3-1];
+          if(i2 <= 2) i2=itabi[i2-1];
+          if(i1 <= 2) i1=itabi[i1-1];
           if(i1 <= 2){
             istran=i3*1000 + i2*100 + i1*10 + 2*js+2;
           } else if(i3 <= 2 && i2 <= 2){
