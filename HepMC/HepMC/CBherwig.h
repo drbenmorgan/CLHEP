@@ -1,4 +1,4 @@
-// $Id: CBherwig.h,v 1.1.2.2 2005/03/03 20:19:40 garren Exp $
+// $Id: CBherwig.h,v 1.1.2.3 2005/03/15 23:58:35 garren Exp $
 // ----------------------------------------------------------------------
 // CBherwig.h
 // ----------------------------------------------------------------------
@@ -100,9 +100,6 @@ private:
   bool       itsTrustMothers;
   bool       itsTrustMothersAndDaughters;
   bool       itsNoBarcodeGaps;
-  // we need to use HepPDT translation instead
-  std::vector<int>  m_herwig_to_pdg_id;
-  std::set<int>     m_no_antiparticles;
 
   // internal functions
   GenParticle* createParticle( int index );

@@ -11,15 +11,6 @@
 #
 ################################################################################ 
 
-PLATFORM=$(shell uname)
-ifeq "$(PLATFORM)" "IRIX"
-    IRIX6 = $(findstring 6,$(shell uname -r))
-    ifeq "$(IRIX6)" "6"
-	PLATFORM=IRIX64
-    endif
-endif
-################################################################################ 
-
 ifndef DEBUG
     SFX =
 else
@@ -29,60 +20,58 @@ endif
 ################################################################################ 
 
   CLHEP_BASE= @prefix@
-  CXX = g++
+  CXX = @CXX@
   INCDIR    = -I$(CLHEP_BASE)/include
   HepMCinc  = $(INCDIR)/CLHEP/HepMC
   PythiaLIB = $(LULIB)/pydata.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
   HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a $(HERWIG_DIR)/lib/timel.o
   LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-@VERSION@
-
+  LIBS = @AM_LDFLAGS@
 
 ################################################################################ 
 
+CXXFLAGS = @AM_CXXFLAGS@ @CXXFLAGS@ $(INCDIR)
+
+ifeq "$(CXX)" "g++"
+    F77 = g77
+    FFLAGS = $(DFLG) -fno-second-underscore $(INCDIR)
+else
+    F77 = f77
+    FFLAGS = $(DFLG) $(INCDIR)
+endif
+
+################################################################################ 
+
+PLATFORM=$(shell uname)
+ifeq "$(PLATFORM)" "IRIX"
+    IRIX6 = $(findstring 6,$(shell uname -r))
+    ifeq "$(IRIX6)" "6"
+	PLATFORM=IRIX64
+    endif
+endif
+
 ifeq "$(PLATFORM)" "HP-UX"
-    F77=f77
-    F77FLAG= 
-    FLAGS =  
     LINK_LIBS        = -lg2c -lftn -lf
 endif
 ifeq "$(PLATFORM)" "IRIX"
-    F77=f77
-    F77FLAG= 
-    FLAGS =  
     LINK_LIBS     = -lg2c -lftn
 endif
 ifeq "$(PLATFORM)" "IRIX64"
-    F77=f77
-    F77FLAG=  -n32
-    FLAGS =  
     LINK_LIBS     = -lg2c -lftn
 endif
 ifeq "$(PLATFORM)" "Linux"
-    F77=g77
-    F77FLAG=  -fno-second-underscore
-ifeq "$(CXX)" "g++"
-    FLAGS =  -O -ansi -pedantic-errors -Wall
-endif
     LOCAL = -lnsl
     LINK_LIBS     = -lg2c 
 endif
 ifeq "$(PLATFORM)" "OSF1"
-    F77=f77
-    F77FLAG=  -fpe2 -check underflow -check overflow
-    FLAGS =  
     LINK_LIBS = -lfor -lUfor
 endif
 ifeq "$(PLATFORM)" "SunOS"
-    F77=f77
-    F77FLAG= 
-    FLAGS =  
     LOCAL= -L/opt/SUNWspro/lib -lm -lnsl -lsocket -lF77 -lM77 -ldbxFintr -lsunmath -R/opt/SUNWspro/lib
     LINK_LIBS     = -lg2c 
 endif
 
 ################################################################################ 
-
-FFLAGS = $(filter-out -fPIC, $(F77FLAG))
 
 HDRS     = $(wildcard $(HepMCinc)/*.h) $(wildcard *.h)
 examples = $(addsuffix .exe,$(basename $(wildcard example*.cc)))
@@ -106,62 +95,62 @@ example_MyHerwig.exe: example_MyHerwig$(SFX).o
 	@echo "Building $@ ..."
 	$(CXX) $(FLAGS) example_MyHerwig$(SFX).o \
                $(LIBNAME) \
-	       $(HerwigLIB) $(LINK_LIBS) -o $@
+	       $(HerwigLIB) $(LINK_LIBS) $(LIBS) -o $@
 
 example_MyPythia.exe: example_MyPythia$(SFX).o $(initpydata_OBJ) $(Ascii_OBJ)
 	@echo "Building $@ ..."
 	$(CXX) $(FLAGS) example_MyPythia$(SFX).o $(initpydata_OBJ) $(Ascii_OBJ)  \
                $(LIBNAME) \
-	       $(PythiaLIB) $(LINK_LIBS) -o $@
+	       $(PythiaLIB) $(LINK_LIBS) $(LIBS) -o $@
 
 example_MyPythiaOnlyToHepMC.exe: example_MyPythiaOnlyToHepMC$(SFX).o $(initpydata_OBJ)
 	@echo "Building $@ ..."
 	$(CXX) $(FLAGS) example_MyPythiaOnlyToHepMC$(SFX).o  $(initpydata_OBJ)  \
                $(LIBNAME) \
-	       $(PythiaLIB) $(LINK_LIBS) -o $@
+	       $(PythiaLIB) $(LINK_LIBS) $(LIBS) -o $@
 
 example_MyPythiaWithEventSelection.exe: example_MyPythiaWithEventSelection$(SFX).o  $(initpydata_OBJ)
 	@echo "Building $@ ..."
 	$(CXX) $(FLAGS) example_MyPythiaWithEventSelection$(SFX).o  $(initpydata_OBJ)  \
                $(LIBNAME) \
-	       $(PythiaLIB) $(LINK_LIBS) -o $@
+	       $(PythiaLIB) $(LINK_LIBS) $(LIBS) -o $@
 
 example_EventSelection.exe: example_EventSelection$(SFX).o $(Ascii_OBJ)
 	@echo "Building $@ ..."
 	$(CXX) $(FLAGS) example_EventSelection$(SFX).o $(Ascii_OBJ)  \
                $(LIBNAME) \
-	       $(LINK_LIBS) -o $@
+	       $(LINK_LIBS) $(LIBS) -o $@
 
 example_UsingIterators.exe: example_UsingIterators$(SFX).o $(initpydata_OBJ) $(Ascii_OBJ)
 	@echo "Building $@ ..."
 	$(CXX) $(FLAGS) example_UsingIterators$(SFX).o $(initpydata_OBJ) $(Ascii_OBJ) \
                $(LIBNAME) \
-	       $(PythiaLIB) $(LINK_LIBS) -o $@
+	       $(PythiaLIB) $(LINK_LIBS) $(LIBS) -o $@
 
 examplePythiaWriteHepMC.exe: examplePythiaWriteHepMC$(SFX).o $(initpydata_OBJ)
 	@echo "Building $@ ..."
 	$(CXX) $(FLAGS) examplePythiaWriteHepMC$(SFX).o $(initpydata_OBJ) \
                $(LIBNAME) \
-	       $(PythiaLIB) $(LINK_LIBS) -o $@
+	       $(PythiaLIB) $(LINK_LIBS) $(LIBS) -o $@
 
 exampleReadHepMC.exe: exampleReadHepMC$(SFX).o
 	@echo "Building $@ ..."
 	$(CXX) $(FLAGS) exampleReadHepMC$(SFX).o  \
                $(LIBNAME) \
-	       $(LINK_LIBS) -o $@
+	       $(LINK_LIBS) $(LIBS) -o $@
 
 test_MakeUsingIteratorsInput.exe: test_MakeUsingIteratorsInput$(SFX).o $(Ascii_OBJ) $(initpydata_OBJ)
 	@echo "Building $@ ..."
 	$(CXX) $(FLAGS) test_MakeUsingIteratorsInput$(SFX).o $(Ascii_OBJ) $(initpydata_OBJ) \
                $(LIBNAME) \
 		$(PythiaLIB) \
-	       $(LINK_LIBS) -o $@
+	       $(LINK_LIBS) $(LIBS) -o $@
 
 testMethods.exe: testMethods$(SFX).o  $(initpydata_OBJ)
 	@echo "Building $@ ..."
 	$(CXX) $(FLAGS) testMethods$(SFX).o  $(initpydata_OBJ)  \
                $(LIBNAME) \
-	       $(PythiaLIB) $(LINK_LIBS) -o $@
+	       $(PythiaLIB) $(LINK_LIBS) $(LIBS) -o $@
 
 cleanobjs:
 	rm -f *.o
@@ -232,17 +221,13 @@ runTestMethods: testMethods.exe
 .SUFFIXES : .o .cc .F .inc .h .hh 
 
 %.o: %.F
-	@echo "Compiling $< with $(F77) ..."
-	$(F77) $(FFLAGS) $(INCDIR) -c $< -o $@
+	$(F77) $(FFLAGS) -c $< -o $@
 
 %_g.o: %.F
-	@echo "Compiling $< with $(F77) ..."
-	$(F77) $(DEBUG) $(FFLAGS) $(INCDIR) -c $< -o $@
+	$(F77) $(DEBUG) $(FFLAGS) -c $< -o $@
 
 %.o: %.cc $(HDRS)
-	@echo "Compiling $< with $(CXX) ..."
-	$(CXX)  $(FLAGS) $(INCDIR) -c $< -o $@
+	$(CXX)  $(CXXFLAGS) -c $< -o $@
 
 %_g.o: %.cc $(HDRS)
-	@echo "Compiling $< with $(CXX) ..."
-	$(CXX) $(DEBUG) $(FLAGS) $(INCDIR) -c $< -o $@
+	$(CXX) $(DEBUG) $(CXXFLAGS) -c $< -o $@
