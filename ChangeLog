@@ -1,6 +1,14 @@
+==============================
+29.11.04 Release CLHEP-1.9.1.2
+==============================
+
 Mon Nov 29 2004 Mark Fischler <mf@fnal.gov>
 
 	* In LorentzVectorC.cc, in deltaR, fixed to use pp.deltaRPhi(w.getV())
+
+Mon Nov 29 2004 Lynn Garren <garren@fnal.gov>
+
+	* Vector/src: add missing implemetations  
 	
 Fri Nov 26 2004	    Andreas Pfeiffer <andreas.pfeiffer@cern.ch>
 

@@ -1,3 +1,7 @@
+==============================
+29.11.04 Release CLHEP-1.9.1.2
+==============================
+
 Mon Nov 29 2004 Mark Fischler <mf@fnal.gov>
 
 	* In LorentzVectorC.cc, in deltaR, replaced the direct subtraction 
@@ -5,9 +9,11 @@ Mon Nov 29 2004 Mark Fischler <mf@fnal.gov>
  	  correctly across the 2pi boundary.  This correction had been in 
 	  CLHEP 1.8.2 for some time.
 
-==============================
-29.11.04 Release CLHEP-1.9.1.2
-==============================
+Mon Nov 29 2004 Lynn Garren <garren@fnal.gov>
+
+	* add missing implemetations to BoostX.cc, BoostY.cc, BoostZ.cc,
+	  RotationY.cc, and RotationZ.cc
+
 ==============================
 10.10.04 Release CLHEP-1.9.1.1
 ==============================
