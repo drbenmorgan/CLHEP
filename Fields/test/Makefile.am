@@ -1,10 +1,10 @@
 # Applicable to each test program:
 INCLUDES = -I../
 # libraries to link, and whence
-LDADD = $(top_builddir)/src/.libs/libCLHEP-@PACKAGE@-@VERSION@.lib        \
-        ${top_builddir}/../Geometry/src/.libs/libCLHEP-Geometry-@VERSION@.lib \
-	${top_builddir}/../Vector/src/.libs/libCLHEP-Vector-@VERSION@.lib     \
-	${top_builddir}/../GenericFunctions/src/.libs/libCLHEP-GenericFunctions-@VERSION@.lib
+LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.la        \
+        ${top_builddir}/../Geometry/src/libCLHEP-Geometry-@VERSION@.la \
+	${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.la     \
+	${top_builddir}/../GenericFunctions/src/libCLHEP-GenericFunctions-@VERSION@.la
 
 # Identify executables needed during testing:
 check_PROGRAMS = \

@@ -1,7 +1,7 @@
 # run gaussSpeed and gaussSmall interactively
 # Applicable to each test program:
 INCLUDES = -I../
-LDADD = $(top_builddir)/src/.libs/libCLHEP-@PACKAGE@-@VERSION@.lib	# libraries to link, and whence
+LDADD = ${top_builddir}/src/libCLHEP-@PACKAGE@-@VERSION@.la	# libraries to link, and whence
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
