@@ -2,9 +2,9 @@
 # Applicable to each test program:
 INCLUDES = -I../
 # libraries to link, and whence
-LDADD = -L${top_builddir}/src -lCLHEP-@PACKAGE@-@VERSION@ \
-        -L${top_builddir}/../Random/src -lCLHEP-Random-@VERSION@ \
-	-L${top_builddir}/../Matrix/src -lCLHEP-Matrix-@VERSION@
+LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.la \
+        ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.la \
+	${top_builddir}/../Matrix/src/libCLHEP-Matrix-@VERSION@.la
 
 # Identify executables needed during testing:
 check_PROGRAMS = \

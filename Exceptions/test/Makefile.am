@@ -1,9 +1,9 @@
 # Applicable to each test program:
 INCLUDES = -I../
 # libraries to link, and whence
-LDADD = -L${top_builddir}/src  @Exceptions_LIBS@	\
-	-L${top_builddir}/../Cast/src -lCLHEP-Cast-@VERSION@	\
-	-L${top_builddir}/../RefCount/src -lCLHEP-RefCount-@VERSION@
+LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.la     \
+	${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.la	\
+	${top_builddir}/../RefCount/src/libCLHEP-RefCount-@VERSION@.la
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
