@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ranRestoreTest.cc,v 1.3.2.1 2004/12/17 20:19:38 fischler Exp $
+// $Id: ranRestoreTest.cc,v 1.3.2.2 2004/12/20 22:12:36 fischler Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
@@ -15,7 +15,22 @@
   std::ostream & output = std::cout;
 #endif
 
+// Normally on  for routine validation:
+
+#define TEST_ORIGINAL_SAVE
+#define TEST_ENGINE_NAMES
+#define TEST_INSTANCE_METHODS
+#define TEST_SHARED_ENGINES
+#define TEST_STATIC_SAVE
+
+// Normally off for routine validation:
+
+// #define TEST_MISSING_FILES
+// #define CREATE_OLD_SAVES
+// #define VERIFY_OLD_SAVES
+
 //#define VERBOSER
+//#define VERBOSER2
 
 using namespace CLHEP;
 
@@ -596,8 +611,6 @@ int checkDistributions() {
   return stat;
 }
 
-#define VERBOSER2
-
 template <class E, class D1, class D2>
 int checkSharingDistributions(D1 & d1, D2 & d2, int n1, int n2) {
   int stat = 0;
@@ -703,13 +716,203 @@ std::vector<double> aSequence(int n) {
   return v;
 }
 
+// ----------- Tests for static methods -----------
+
+template <class D>
+int staticSave(int n) {
+  int stat = 0;
+  int i;
+  output << "staticSave for distribution " << D::distributionName() << "\n";
+  double r = 0;
+  double v1, v2, k1, k2;
+  for (i=0; i < n; i++) r += D::shoot();
+  {
+    std::ofstream file ("distribution.save1"); 
+    D::saveFullState(file);
+    v1 = D::shoot();
+    D::saveFullState(file);
+    v2 = D::shoot();
+#ifdef VERBOSER2
+    int pr = output.precision(20);
+    output << "v1 = " << v1 << "  v2 = " << v2 << "\n";
+    output.precision(pr);
+#endif
+  }
+  for (i=0; i < n; i++) r += D::shoot();
+  {
+    std::ifstream file ("distribution.save1"); 
+    D::restoreFullState(file);
+    k1 = D::shoot();
+    for (i=0; i < n; i++) r += D::shoot();
+    D::restoreFullState(file);
+    k2 = D::shoot();
+#ifdef VERBOSER2
+    int pr = output.precision(20);
+    output << "k1 = " << k1 << "  k2 = " << k2 << "\n";
+    output.precision(pr);
+#endif
+   }
+  if ( (k1 != v1) || (k2 != v2) ) {
+    std::cout << "???? restoreFullState failed for " << D::distributionName() << "\n";
+    stat |= 8192;
+  }
+
+  for (i=0; i < n; i++) r += D::shoot();
+  {
+    std::ofstream file ("distribution.save2"); 
+    D::saveDistState(file) << *D::getTheEngine();
+    v1 = D::shoot();
+    D::saveDistState(file) << *D::getTheEngine();
+    v2 = D::shoot();
+#ifdef VERBOSER2
+    int pr = output.precision(20);
+    output << "v1 = " << v1 << "  v2 = " << v2 << "\n";
+    output.precision(pr);
+#endif
+  }
+  for (i=0; i < n; i++) r += D::shoot();
+  {
+    std::ifstream file ("distribution.save2"); 
+    D::restoreDistState(file) >> *D::getTheEngine();
+    k1 = D::shoot();
+    for (i=0; i < n; i++) r += D::shoot();
+    D::restoreDistState(file) >> *D::getTheEngine();
+    k2 = D::shoot();
+#ifdef VERBOSER2
+    int pr = output.precision(20);
+    output << "k1 = " << k1 << "  k2 = " << k2 << "\n";
+    output.precision(pr);
+#endif
+  }
+  if ( (k1 != v1) || (k2 != v2) ) {
+    std::cout << "???? restoreDistState failed for " << D::distributionName() << "\n";
+    stat |= 16384;
+  }
+
+  return stat;
+}
+
+template <class D>
+int staticSaveShootBit(int n) {
+  int stat = 0;
+  int i;
+  output << "staticSaveShootBit for " << D::distributionName() << "\n";
+  double r = 0;
+  int bit = 0;
+  int v1, v2, k1, k2;
+  for (i=0; i < n; i++) r += D::shoot();
+  for (i=0; i < n; i++) bit |= D::shootBit();
+  {
+    std::ofstream file ("distribution.save1"); 
+    D::saveFullState(file);
+    v1=0;
+    for (i=0; i<25; i++) {
+      v1 <<=1;
+      v1 += D::shootBit();
+    }
+    for (i=0; i < n; i++) bit |= D::shootBit();
+    D::saveFullState(file);
+    v2=0;
+    for (i=0; i<25; i++) {
+      v2 <<=1;
+      v2 += D::shootBit();
+    }
+#ifdef VERBOSER2
+    int pr = output.precision(20);
+    output << std::hex << "v1 = " << v1 << "  v2 = " << v2 << std::dec << "\n";
+    output.precision(pr);
+#endif
+  }
+  for (i=0; i < n; i++) r += D::shoot();
+  {
+    std::ifstream file ("distribution.save1"); 
+    D::restoreFullState(file);
+    k1=0;
+    for (i=0; i<25; i++) {
+      k1 <<=1;
+      k1 += D::shootBit();
+    }
+    for (i=0; i < n; i++) r += D::shoot();
+    D::restoreFullState(file);
+    k2=0;
+    for (i=0; i<25; i++) {
+      k2 <<=1;
+      k2 += D::shootBit();
+    }
+#ifdef VERBOSER2
+    int pr = output.precision(20);
+    output << std::hex << "k1 = " << k1 << "  k2 = " << k2 << std::dec << "\n";
+    output.precision(pr);
+#endif
+   }
+  if ( (k1 != v1) || (k2 != v2) ) {
+    std::cout << "???? restoreFullState failed for D shootBit()\n";
+    stat |= 32768;
+  }
+
+  for (i=0; i < n; i++) r += D::shoot();
+  for (i=0; i < n; i++) bit |= D::shootBit();
+  {
+    std::ofstream file ("distribution.save2"); 
+    D::saveDistState(file) << *D::getTheEngine();
+    v1=0;
+    for (i=0; i<25; i++) {
+      v1 <<=1;
+      v1 += D::shootBit();
+    }
+    for (i=0; i < n; i++) bit |= D::shootBit();
+    D::saveDistState(file) << *D::getTheEngine();
+    v2=0;
+    for (i=0; i<25; i++) {
+      v2 <<=1;
+      v2 += D::shootBit();
+    }
+#ifdef VERBOSER2
+    int pr = output.precision(20);
+    output << std::hex << "v1 = " << v1 << "  v2 = " << v2 << std::dec << "\n";
+    output.precision(pr);
+#endif
+  }
+  for (i=0; i < n; i++) r += D::shoot();
+  {
+    std::ifstream file ("distribution.save2"); 
+    D::restoreDistState(file) >> *D::getTheEngine();
+    k1=0;
+    for (i=0; i<25; i++) {
+      k1 <<=1;
+      k1 += D::shootBit();
+    }
+    for (i=0; i < n; i++) r += D::shoot();
+    for (i=0; i < n; i++) r += D::shootBit();
+    D::restoreDistState(file) >> *D::getTheEngine();
+    k2=0;
+    for (i=0; i<25; i++) {
+      k2 <<=1;
+      k2 += D::shootBit();
+    }
+#ifdef VERBOSER2
+    int pr = output.precision(20);
+    output << std::hex << "k1 = " << k1 << "  k2 = " << k2 << std::dec << "\n";
+    output.precision(pr);
+#endif
+  }
+  if ( (k1 != v1) || (k2 != v2) ) {
+    std::cout << "???? restoreDistState failed for RnadFlat::shootBit()\n";
+    stat |= 65536;
+  }
+
+  return stat;
+}
+
 // ---------------------------------------------
 // ---------------------------------------------
 // ---------------------------------------------
+
 
 int main() {
   int stat = 0;
 
+#ifdef TEST_ORIGINAL_SAVE
   output << "=====================================\n";
   output << "             Part I \n";
   output << "Original tests of static save/restore\n";
@@ -733,16 +936,18 @@ int main() {
   stat |= restoreStep();
   stat |= BsaveStep();
   stat |= BrestoreStep();
+#endif
   
+#ifdef TEST_MISSING_FILES
   output << "\n=======================================\n";
   output << "             Part II \n";
   output << "Test of behavior when a file is missing \n";
   output << "=======================================\n\n";
 
   output << "Testing restoreEngineStatus with missing file:\n";
-  output << "Expect a number of Failure to find messages!\n";
-
+  output << "Expect a number of <Failure to find or open> messages!\n";
   stat |= missingFile();
+#endif
 
 #ifdef CREATE_OLD_SAVES
   stat |= saveEngine<DRand48Engine, RandPoisson>("DRand48Engine.oldsav");
@@ -778,6 +983,7 @@ int main() {
   stat |= checkSaveEngine<RanecuEngine,  RandPoisson>("RanecuEngine.oldsav");
 #endif
 
+#ifdef TEST_ENGINE_NAMES
   output << "\n=============================================\n";
   output << "              Part IV \n";
   output << "Check all engine names were entered correctly \n";
@@ -795,7 +1001,9 @@ int main() {
   stat |= checkEngineName<RanluxEngine  >("RanluxEngine");
   stat |= checkEngineName<RanshiEngine  >("RanshiEngine");
   stat |= checkEngineName<TripleRand    >("TripleRand");
+#endif
 
+#ifdef TEST_INSTANCE_METHODS
   output << "===========================================\n\n";
   output << "              Part V \n";
   output << "Check instance methods for specific engines \n";
@@ -830,7 +1038,9 @@ int main() {
   stat |= checkDistributions<TripleRand>();
 
   RandGaussQ::shoot();  // Just to verify that the static engine is OK
+#endif
 
+#ifdef TEST_SHARED_ENGINES
   output << "\n=============================================\n";
   output << "              Part VI \n";
   output << "Check behavior when engines are shared \n";
@@ -845,15 +1055,42 @@ int main() {
   stat |= checkSharing<RanluxEngine>();
   stat |= checkSharing<RanshiEngine>();
   stat |= checkSharing<TripleRand>();
+#endif
+
+#ifdef TEST_STATIC_SAVE
+  output << "\n=========================================\n";
+  output << "              Part VII \n";
+  output << "Static Save/restore to/from streams \n";
+  output << "=========================================\n\n";
+ 
+  stat |= staticSave <RandGauss>(7);
+  stat |= staticSave <RandFlat>(7);
+  stat |= staticSaveShootBit<RandFlat> (19);
+  stat |= staticSaveShootBit<RandBit> (23);
+  for (int ibinom=0; ibinom<15; ibinom++) {
+    stat |= staticSave <RandBinomial>(7+3*ibinom);
+  }
+  stat |= staticSave <RandBreitWigner>(7);
+  stat |= staticSave <RandChiSquare>(7);
+  stat |= staticSave <RandExponential>(7);
+  stat |= staticSave <RandGamma>(7);
+  stat |= staticSave <RandGaussQ>(7);
+  stat |= staticSave <RandGaussT>(7);
+  stat |= staticSave <RandLandau>(7);
+  stat |= staticSave <RandPoisson>(7);
+  stat |= staticSave <RandPoissonQ>(7);
+  stat |= staticSave <RandPoissonT>(7);
+  stat |= staticSave <RandStudentT>(7);
+#endif
 
   output << "\n=============================================\n\n";
 
   if (stat != 0) {
      std::cout << "One or more problems detected: stat = " << stat << "\n";
-  }  
+  }  else {
+     std::cout << "ranRestoreTest passed with no problems detected.\n";    
+  }
 
-  output << "The end\n";
-  return 1000;
-//  return stat;
+  return stat;
 }	
 

@@ -1,4 +1,4 @@
-// $Id: Random.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
+// $Id: Random.cc,v 1.4.2.2 2004/12/20 22:12:36 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -156,6 +156,16 @@ void HepRandom::restoreEngineStatus( const char filename[] )
 {
   theEngine->restoreStatus( filename );
 }  
+
+std::ostream& HepRandom::saveFullState ( std::ostream & os ) {
+  os << *getTheEngine();
+  return os;
+}
+
+std::istream& HepRandom::restoreFullState ( std::istream & is ) {
+  is >> *getTheEngine();
+  return is;
+}
 
 void HepRandom::showEngineStatus()
 {

@@ -1,3 +1,11 @@
+Mon Dec 20	2004 Mark Fischler <mf@fnal.gov>
+
+	* Random.h RandGauss.h RandFlat.h RandFlat.icc RandBit.h
+	* Random.cc RandGauss.cc RandFlat.cc
+	
+	Added static std::ostream& saveFullState ( std::ostream & os ) 
+	and saveDistState, and the corresponding restore methods. 
+
 Thu Dec 16	2004 Mark Fischler <mf@fnal.gov>
 
 	* RandomEngine.h DRand48Engine.cc DualRand.cc Hurd160Engine.cc

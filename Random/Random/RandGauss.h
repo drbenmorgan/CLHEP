@@ -1,4 +1,4 @@
-// $Id: RandGauss.h,v 1.3.2.2 2004/12/17 22:49:05 fischler Exp $
+// $Id: RandGauss.h,v 1.3.2.3 2004/12/20 22:12:35 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -38,7 +38,7 @@ namespace CLHEP {
  * @author
  * @ingroup random
  */
-class RandGauss : public HepRandom {e
+class RandGauss : public HepRandom {
 
 public:
 

@@ -1,4 +1,4 @@
-// $Id: RandFlat.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
+// $Id: RandFlat.cc,v 1.4.2.2 2004/12/20 22:12:36 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,7 @@
 // M Fischler     - Avoiding hang when file not found in restoreEngineStatus 
 //                  12/3/04
 // M Fischler     - put and get to/from streams 12/10/04
+// M Fischler     - save and restore dist to streams 12/20/04
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -180,6 +181,51 @@ std::istream & RandFlat::get ( std::istream & is ) {
   return is;
 }
 
+std::ostream & RandFlat::saveDistState ( std::ostream & os ) {
+  os << distributionName() << "\n";
+  int prec = os.precision(20);
+  os << "RANDFLAT staticRandomInt: " << staticRandomInt 
+     << "    staticFirstUnusedBit: " << staticFirstUnusedBit << "\n";
+  os.precision(prec);
+  return os;
+}    
+
+std::istream & RandFlat::restoreDistState ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != distributionName()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read static state of a "
+    	      << distributionName() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  std::string keyword;
+  std::string c1;
+  std::string c2;
+  is >> keyword;
+  if (keyword!="RANDFLAT") {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read RANDFLAT bit cache info: "
+    	      << keyword << "\n";
+    return is;
+  }
+  is >> c1 >> staticRandomInt >> c2 >> staticFirstUnusedBit;
+  return is;
+} 
+
+std::ostream & RandFlat::saveFullState ( std::ostream & os ) {
+  HepRandom::saveFullState(os);
+  saveDistState(os);
+  return os;
+}
+  
+std::istream & RandFlat::restoreFullState ( std::istream & is ) {
+  HepRandom::restoreFullState(is);
+  restoreDistState(is);
+  return is;
+}
 
 
 }  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: RandFlat.h,v 1.3.2.2 2004/12/17 22:49:04 fischler Exp $
+// $Id: RandFlat.h,v 1.3.2.3 2004/12/20 22:12:35 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -146,6 +146,19 @@ public:
 
   static void restoreEngineStatus( const char filename[] = "Config.conf" );
   // Restores a saved status (if any) for the current engine.
+
+  static std::ostream& saveFullState ( std::ostream & os );
+  // Saves to stream the state of the engine and cached data.
+
+  static std::istream& restoreFullState ( std::istream & is );
+  // Restores from stream the state of the engine and cached data.
+
+  static std::ostream& saveDistState ( std::ostream & os );
+  // Saves to stream the state of the cached data.
+
+  static std::istream& restoreDistState ( std::istream & is );
+  // Restores from stream the state of the cached data.
+
 
 protected:
 
