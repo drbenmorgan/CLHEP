@@ -1,6 +1,6 @@
 #! /bin/sh
 # @configure_input@
 
+# testRandom has no comparison file
 
-./testRandom@EXEEXT@ < @srcdir@/testRandom.input \
-  | diff -q - @srcdir@/testRandom.output > /dev/null
+./testRandom@EXEEXT@ < @srcdir@/testRandom.input > testRandom.out

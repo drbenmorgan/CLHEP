@@ -1,0 +1,6 @@
+#! /bin/sh
+# @configure_input@
+
+# gaussSpeed has no comparison file
+
+./gaussSpeed@EXEEXT@  > gaussSpeed.out

@@ -35,7 +35,9 @@ AC_CONFIG_FILES([test/Makefile])
 # Test driver program/script:
 AC_CONFIG_FILES([test/testRandDists.sh], [chmod +x test/testRandDists.sh])
 AC_CONFIG_FILES([test/testRandom.sh], [chmod +x test/testRandom.sh])
-
+AC_CONFIG_FILES([test/gaussSmall.sh], [chmod +x test/gaussSmall.sh])
+AC_CONFIG_FILES([test/gaussSpeed.sh], [chmod +x test/gaussSpeed.sh])
+AC_CONFIG_FILES([test/ranRestoreTest.sh], [chmod +x test/ranRestoreTest.sh])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:
