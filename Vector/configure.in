@@ -122,14 +122,14 @@ case "$target" in
   cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";COPY_P="copy -p";;
   g++) CXXFLAGS="-O";COPY_P="copy -p";;
   c++) CXXFLAGS="-O";COPY_P="copy -p";;
-  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX $target
   esac;;
 *-*-cygwin*)
   case "$CXX" in
   cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";COPY_P="cp -p";;
   g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
   c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
-  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX $target
   esac;;
 *-*-solaris*)
   case "$CXX" in
