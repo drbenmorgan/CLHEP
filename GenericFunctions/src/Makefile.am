@@ -63,6 +63,7 @@ libCLHEP_GenericFunctions_@VERSION@_la_SOURCES = \
 	Power.cc       \
 	Psi2Hydrogen.cc       \
 	PtRelFcn.cc       \
+	PuncturedSmearedExp.cc \
 	RCBase.cc       \
 	Rectangular.cc       \
 	ReverseExponential.cc       \
