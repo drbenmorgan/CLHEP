@@ -1,8 +1,12 @@
 #
 # HepMC examples makefile
 #
-# use: gmake [INCDIR= ] [CXX= ] [LIBNAME= ] [PythiaLIB= ] all
-#      gmake [INCDIR= ] [CXX= ] [LIBNAME= ] [PythiaLIB= ] run
+# use: gmake [INCDIR= ] [CXX= ] [LIBNAME= ] all
+#      gmake [INCDIR= ] [CXX= ] [LIBNAME= ] run
+#
+# other variables:
+#      [PythiaLIB= ]
+#      [HerwigLIB= ]
 #
 ################################################################################ 
 
@@ -27,9 +31,8 @@ endif
   INCDIR    = -I$(CLHEP_DIR)/include
   HepMCinc  = $(INCDIR)/CLHEP/HepMC
   PythiaLIB = $(LULIB)/pydata.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
-  HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a \
-              $(HERWIG_DIR)/lib/timel.o
-  LIBNAME = $(CLHEP_DIR)/lib/libCLHEP-1.9.0.2.a
+  HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a 
+  LIBNAME = $(CLHEP_DIR)/lib/libCLHEP-1.9.1.1.a
 
 
 ################################################################################ 

@@ -1,9 +1,6 @@
 #
 # StdHep examples makefile
 #
-# for KCC:
-# gmake LIBNAME=libCLHEP-KCC.1.8.0.0.a CXX=KCC
-#
 ################################################################################ 
 
 ifndef CXX
