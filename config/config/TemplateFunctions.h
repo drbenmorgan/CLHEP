@@ -2,7 +2,7 @@
 #ifdef ENABLE_BACKWARDS_COMPATIBILITY
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: TemplateFunctions.h,v 1.1.2.2 2004/06/30 15:38:30 garren Exp $
+// $Id: TemplateFunctions.h,v 1.1.2.3 2004/07/01 17:38:51 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -19,6 +19,8 @@
 #include <cmath>      // double abs()
 #include <stdlib.h>   // int abs()
 
+#include "CLHEP/config/CLHEP.h"
+
 using namespace std;
 
 // Geant 4.6.2 still has at least one reference to sqr
@@ -30,6 +32,18 @@ using namespace std;
 template <class T>
 inline T sqr(const T& x) {
   return x*x;
+}
+#endif
+
+// Geant4 calls abs(CLHEP::HepLorentzVector)
+#ifndef CLHEP_ABS_DEFINED
+#define CLHEP_ABS_DEFINED
+#ifdef abs
+#undef abs
+#endif
+template <class T>
+inline T abs(const T& a) {
+  return a < 0 ? -a : a;
 }
 #endif
 
