@@ -1,0 +1,293 @@
+Existing ZMexception mechanism:
+
+Say ZMxA is a child of ZMxB.  The coder would say:
+
+	ZMxCompleteDefinition (ZMxA, ZMxB)
+	ZMxInfo<ZMxB> ZMxA::information ("ZMxA", ...);
+
+ZMxCompleteDefinition (ZMxA, ZMxB) expands to
+
+	Class ZMxA : public ZMxB {
+   	public:
+	ZMxA(string mssg, ZMxSeverityLevel lever = EndOfSeverity) :
+				ZMxB (msg,level)
+		{ init (level); } ;
+	static ZMexceptInfo<ZMxB> information;
+	ZMexceptionWrappers;
+	virtual ZMexception* copy () {return new ZMxA(*this); };
+
+ZMexceptionWrappers expands to a large bunch of static method declaratoins
+and definitions, a few virtual trivial methods, and the nontrivial method init:
+
+	static void setHandler(const ZMhandler& newHandler) {
+	  information.setHandler(newHandler) }
+	...
+	virtual string id() {
+	  return information._id; };
+	virtual void init(ZMxSeverityLevel level) {
+	  information._count++;
+	  _myCount = information._count();
+	  if (level==EndOfSeverity) {_mySeverity=information.severity;}
+	    else {_mySeverity=level;}
+	}
+
+Let's try to understand _mySeverity and _myCount:
+Both are variables declared when the ZMexception class is declared;
+therefore, they are individual per instance of ZMx.
+
+Let's try to understand information._count:
+In the definition of ZMxA we have an information data member, which is a
+***static*** ZMexceptInfo<ZMxB>.  In ZMexception.icc, the following data
+members are initialized:
+	_id, _messagePreamble, _severity, _logger, _handler (all from args)
+AND
+	count(0), _previousHandler(0), _previousLogger(0)
+So count does start as 0.
+
+How does push/pop work out? It doen't yet.
+
+OK, what do we want in information?
+
+Have
+string _id
+string _messagePreamble,
+ZMxSL _severity
+
+Want:
+
+facilityNumber -- normally from parent
+facilityName -- normally from parent
+Mnemonic = _id
+Name (should be same as class name) = _messagePreamble
+severity,
+
+number
+exceptionNumber is a method returning
+	Severity (4bits) Facility (12 bits) Number (16 bits)
+
+
+How to inherit from parent?
+Obvious:  In ZMexceptIfno<Parent> constructor, init to Parent::facilityName
+
+That means a top of a facility must contain an additional line or argument
+to the constructor.
+
+
+Sequence when ZMthrow (ZMxA) happens
+
+1 - ZMexcept(Except, ...)
+
+2 - x.log()
+	Declared in ZMexception
+	Defined in Boilerplate
+	x.information.classLog(x)
+
+3 - x.information.classLog(ZMexception *that)
+	declared in ZMexceptInfo<Parent>
+	defined in ZMexception.icc
+
+	if _logger==NULL (which it starts out as)
+	  return classParentLog (that)
+	classParentLog would return Parent::information.classLog(*x)
+
+	Now we come to _logger->log(*x)
+
+4 - _logger is typically ZMlSimple (which we will just call ZMlog()) in
+    ZMlogger.cc.  The log() method there just writes to an ofstream or whatever.
+
+5 - ZMerrno.write(x);
+
+6 - result = x.handle();
+	x.handle() is declared in ZMexception
+	Defined in Boilerplate
+	
+7 - x.information.classHandle(ZMxA *x)
+	declared in ZMexceptInfo<Parent>
+	defined in ZMexception.icc
+
+	if _handler==NULL (which it starts out as)
+	  return classParentHandle (that)
+	classParentHandle would return Parent::information.classHandle(*x)
+
+	By the way, if you run out after PArent, you go to the action zmxThrow
+	which is defined in ZMhandler.h as part of an enum.
+
+	Now we come to _handler->execute(*x)
+	
+8 - handler may do stuff (the supplied ones don't) and will return a ZMxAction.
+
+9 - The interesting case is ZMxParent, because now we are back in classHandle
+    at the point where the parent's handler is called.
+
+
+Here is the way to cope with need for identifying exceptions:
+
+1) MURMUR (G.O.) Agreed that no need to generate cross-program murmur id number.
+
+2) FACILITY-S-MNEMONIC is unique and meaningful.
+
+3) Therefore, only thing necessary is for the USER DURING THE PROGRAM to be
+   able to ask two things:
+	Is this exception a ZMxWhichever?
+	Is this exception descended from ZMxWhichever?
+
+4) Using type_id for the first and dynamic_cast for the second would be possible
+   but this is not yet here.
+
+5) Instead we define the following methods in ZMexception:
+	bool isExactly (ZMxexception x)
+	bool isAncestorOf (ZMxexception x)
+   In the future these may be implemented via type_id and dynamic_cast
+
+6) For the benefit of current implementation, the syntax we give the user is
+	if (ZMxA::isExactly x)
+	if (ZMxA::isAncestorOf x)
+   rather than if (x.isExactly(ZMxA)) which tries to pass a class as an
+   argument.  This means we have an isAncestorOf method rather than a
+   isDescendantOf method.
+
+7) To implement this now:
+
+	a) We define a class ZMexceptionIdentifier
+		int exceptionID $$$
+		static int maxAssigned (which we start at 0)
+		int nextID () {return ++exceptionID;}
+
+	b) The ZMexceptInfo<P> class contains static ZMexceptionIdentifier eid;
+
+	c) The macro for defining
+
+	c) Where we initialize ZMexceptInfo we also do
+		eid.exceptionID = eid.nextID();
+	   We may have to do this by having a constructor for
+	   ZMexceptionIdentifier or something.
+
+	d) in ZMexception we have a potentially non-virtual method
+		bool isExactly (ZMxexception &x)
+	   which for now merely compares eid.exceptionID with x.eid.excptionID
+	   and which ultimately becomes if (type_id(this) == type_id(x))
+		Actually, when you call something like ZMxA::isExactly(x)
+		can the isExactly method use this?  If not, what can we
+		do to use type_id, if anything?
+
+	e) in ZMexception we have a virtual method
+		bool isAncestorOf (ZMxexception &x)
+	   which in the top of tree exception also merely compares
+	   eid.exceptionID with x.eid.excptionID.
+
+ 	f) The bool  isAncestorOf (ZMxexception &x) in other exceptions (thus
+	   in the standard definition would do:
+
+?????????????????
+
+
+		bool isAncestorOf (ZMxexception x)
+	   which at that point both
+
+
+The constructor for a
+			$$$ Note that we really don't need facilty and
+			    problemNumber to be distinct since we now only
+			    check for
+	b) ErrorIdentifier
+each
+
+This implies that the top of a the overall tree must be different than its
+descendants, particularly in how isDescendedFrom() works.  We already have
+the overall top different anyway.
+
+
+
+Proposed layout of ZMexceptions in HepTuple:
+
+General statements about exceptions:
+
+Each ZOOM exception is an object of some class, inheriting off some ZMexception
+parent (except for ZMxTop which is the anscestor of all exceptions), and has
+some FaciltyName and some ExceptionName.  We should also perhaps add a
+Mnemonic, intended as a short string as in RMS-E-NOTFOUND for the RMS
+facility issuing an E severity error because a file was not found in some
+manner.
+
+The name of the class (which should match the ExceptoinName, should generally
+reflect the name of the method which threw the exeption and/or the class which
+that method is part of.
+
+
+- - -
+It is tempting to say that Where applicable we should declare the exception
+in the public area of the class whose methods might throw it; then the
+name will automatically reflect that class.
+
+For example, the ZMexception class for an exception encountered during
+the accumulate() method of HepHist1D might be HepHist1D::ZMxAccumlate.
+The name would then be "HepHist1D::ZMxaccumlate", and its mnemonic might be
+"ACCUMULATE".
+
+WE DO NOT DO THIS for the following reason:  It is desirable that the list of
+all ZMx exception types appear contiguously in a commonly seen header such as
+the facility's overall .h file.  Burying the exception classes inside
+individual classes obscures some of the the information and accessibility we
+want the user to have.
+- - -
+
+With this in mind, here is how I propose to layout exceptions thrown by
+HepTuple (HepTuple exceptions):
+
+* All HepTuple exceptions have their Facility as "HEPTUPLE" (by murmur
+  convention, facility names and mnemonics are upper case).
+
+* Every HepTuple exception class is declared in HepTuple.h
+
+* HepTuple exception classes are defined -- and their static data members
+  initialized -- in the .cc file corresponding to the class whose methods throw
+  them.  If several classes throw one type of excpetion, we will define it
+  in the file for the class it is most closely connected with.
+
+* There is a topmost HepTuple exception defined in HepObj.cc (in most
+  packages, where the name of the package does not conflict with the
+  name of a class, it would be in packageName.cc).
+
+  declaration is in HepTuple.h --
+	class ZMxHepTuple : public ZMxTop {
+	public:
+	  ZMxHepTuple(.....);
+	  virtual ZMxHeptuple* copy () {.....};
+	  static ZMexceptInfo<ZMxTop> information;
+	  MexceptionWrappers;
+	}
+  statics in HepObj.cc --
+	ZMxHeptuple::information.facility = "HEPTUPLE";
+	ZMxHeptuple::information.mnemonic = "HEPTUPLE";
+	ZMxHeptuple::information.name     = "ZMxHepTuple";
+	ZMxHeptuple::information.severity = ZMxSeverityProblem;
+
+   Things will inherit off this, but will HepTuple routines will probably
+   not ZMthrow this one directly, except where "impossible" circumstances are
+   checked for and we don't think it worthwhile to declare a specific class.
+
+* Other exceptions will be declared in HepTuple.h
+
+
+public area in the appropriate class,
+  or (if thrown from a variety of classes at global scope in HepTuple.h).
+
+We should NOT assign a unique exception class to each possible way an
+exception can be throw.
+One given method might throw one or maybe a couple of possible types of
+exception objects.  Several methods might share the ability to throw one type of
+exception.
+
+
+
+
+
+* The message going with each line of code ZMthrow-ing a HepTuple exception
+  should be unique, even though the same class might be thrown from many places.
+
+
+
+
+
+
+

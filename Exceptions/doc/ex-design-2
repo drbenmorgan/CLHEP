@@ -1,0 +1,352 @@
+		ZOOM Exception Mechanism Design
+		-------------------------------
+
+The Zoom exception mechanism is intended to be the tools used by ZOOM modules
+to handle exceptions in a useful way and provide the user with interfaces to
+control how to react to problems.  It is not (at this time) intended to be a
+mechanism for the user to hook into to define his own exceptions, although that
+may come later.  Frankly, successful implementation and use by ZOOM modules will
+be necessary to sell this structure to our users as potentially useful, anyway.
+
+We need the mechanism "now" because we are trying to deliver at least two
+packages which will have to be re-instrumented when the mechanism is finally
+adopted.
+
+This is not a "signal handler" mechanism, which could be used to establish
+behavior for segment violations, arthmetic exceptions, and so forth.  It
+would be nice to have this but C++ does not provide generic support for
+those activities.  A **later** possibility will be to provide this support for
+POSIX-compliant operating systems, and coordinate it with the exception
+mechanism.
+
+
+We need to be able to cope with the following realities:
+--------------------------------------------------------
+
+1 - Users will not, in every case, imbed calls into a try block.
+
+2 - Frameworks will incorporate code from multiple users and in some
+    circumstances cannot afford to abort the entire job if some rare path
+    in one user's code blows up.  To the extent we can help with this, we must.
+
+3 - Framework creators CAN be expected to imbed portions in try blocks, or
+    set up behaviors for various exceptions, assuming we give them the necessary
+    tools.
+
+    In the remainder of this document, the "user" who sets things up is assmued
+    to be such a framework manager.
+
+4 - There is need for coordinated logging and related behavior.
+
+
+To be able to satisfy this, the goal is to allow:
+-------------------------------------------------
+
+1 - The user should be able to specify, for a given sort of exception, whether
+    she wants to:
+
+    a -	Throw the exception via the C++ mechanism, thus aborting unless she
+	in the framework or a lower-level user responsible catchs the problem.
+
+    b - Invoke a user-written handler when the exception occurs, which may
+	itself determine it is necessary to throw the exception.
+
+    c - Ignore the exception RETURNING TO THE SPOT IN THE ZOOM MODULE
+	THAT DETECTED THE PROBLEM.  This can happen with or without a handler
+	being invoked.  Typically, the module will then return some approriate
+	pseudo-value to the user.
+
+2 - In cases where exceptions are to be handled or ignored, there should be
+    a well-known way to get information about the existance of a problem,
+    analogous to the errno mechanism in C.
+
+3 - Explanatory strings should be associated with the problem at the point
+    of origin.
+
+4 - The exceptions are organized in a hierarchical manner, which uniformly
+    applies one simple category philosophy that the users can understand,
+    across the various ZOOM packages.
+
+
+With this in mind, our mechanism has the following structure:
+-------------------------------------------------------------
+
+
+1 - Upon detecting a problem for which it would like to (potential) throw an
+    exception, the module code will instead invoke the ZMthrow macro.
+
+2 - ZMthrow takes as its argument a ZMexception object constructor, which
+    has as ITS first argument a const char*.  The intent is for the ZMexception
+    object actually do be derived from the base ZMexception class, and for
+    the char* first argument to contain an explanatory message.  Particular
+    ZMexceptions can also have construction forms taking a second string, or
+    whatever.
+    For example,
+	ZMthrow ( HepTuple::ZMxCapture( "Column not found", name ) );
+
+3 - The ZMthrow macro appends __LINE__, __FILE__, __DATE__, __TIME__ and
+    calls ZMexcept.
+
+4 - ZMexcept has signature
+
+	void ZMexcept ( ZMexception x, int line,
+				char file[], char data[], char time[]);
+
+    It does the following:
+
+    a - Places x.ZMexceptionId into a circular buffer ZMerrno.  Actually,
+	constructing the ZMexcept object does that.  More about ZMerrno later.
+
+    b -	Determines for this exception what sort of logging is enabled, and logs
+	it.  Note that derived exceptions must modify the general logging
+  	method if they wish to include information beyond the message and
+	file/line/time stamp.
+
+    c - Determines whether a handler has been established, and if so invokes it.
+	The handler will be passed the exception object, and can be set up to
+	also take the line/file/time arguments.  The handler returns a bool
+	which if true will say to throw the exception.
+
+    d - Determines (after any handler has been invoked) whether to ignore the
+	exception.  It will do either
+		throw x;
+	or
+		return;
+
+5 - ZMerrno is analogous to the C/Unix errno mechanism, but allows viewing a
+    history of the last N problems detected.  The interface is:
+
+    a - ((creation somehow, specifying N))
+
+    b - ZMerrno.write (int id);    // put on stack exception id.
+
+    The user would not use a and b but would use:
+
+    c - int ZMerrno.read ();       // read the last value on ZMerrno
+	int ZMerrno.read (int k);  // read the last-but-k value on ZMerrno
+
+    d - void ZMerrno.clear();	   // put a zero (indicating no current error)
+				   // on ZMerrno.
+
+    e - void ZMerrno.pop();	   // remove an entry setting the top to the
+				   // previous entry.  For instance, if you
+				   // have a loop in which some known ignorable
+				   // happening places a value on ZMerrno, you
+				   // can pop each one so as not to wipe out
+				   // the history for others.
+
+    Thus after the start, or after ZMerrno.clear(), the user can always find
+    out whether any ignored exceptions had occured by doing
+	if (ZMerrno.read()) { ... then something has happened }
+
+    If we later incorporate signal handling, this ZMerrno stack is where the
+    user can find out whether he has had his arithmetic error since the last
+    clear.
+
+    ZMerrno is pronounced "oops."
+
+6 - The id 0 indicates no error.  Each upper 16-bit value is assigned to a
+    module to avoid conflicts; the values starting with upper bit set are
+    reserved for user definition at a later date.  The lower 16 bits distinguish
+    the specific error.
+
+    Each ZMexception object class has its own error id which is established
+    (hardwired) at construction.
+
+    The ZMexception codes for the upper 16 bits are defined in ZMexception.h.
+    The lower 16 bits, for each module are defined in files with names like
+    HepTupleZMexception.h.
+
+7 - When a ZMexcept exception is thrown it does a ZMerrno.write(this.id).  Thus
+    ZMerrno tracks these exceptions even if they are explicitly thrown and
+    caught by the user outside the ZMthrow/ZMexception mechanism.
+
+8 - Logging is discussed separately.
+
+
+The user interface to control exception behavior is:
+-----------------------------------------------------
+
+By the way, this is an interface for the framework manager to use; the lower
+level user would generally never establish handlers or ignores, and would
+only use the ZMerrno.read() and .clear().
+
+1 - To establish a handler for a particular exception type, say for
+    ZMexceptCapture:
+
+	HepTuple::ZMxCapture.handler ( myhandler );
+
+    The signature of the handler must be:
+	bool myhandler ( ZMexception x );
+
+    Note that the handler has access to the fields of x including for all
+    ZMexception objects:
+		char* message;
+		int line;
+		char* file;
+		char* date;
+		char *time;
+    and, for particular derived ZMexception objects, any secondary messages
+    or other information provided to the constructor.
+
+    The handler should return false to ignore the exception and return to
+    the user code (from ZMexcept), or true to throw the exception after
+    the handler returns.  The user can also throw an exception explicitly
+    in the handler.
+
+2 - You may establish a handler for an entire base class, which applies to any
+    ZMexceptions derived from in that class for which no specific handler is
+    established.  For example, HepTuple::ZMxNewColumn is derived
+    from HepTuple::ZMxGeneral so
+
+	HepTuple::ZMxGeneral.handler ( myDefaultHandler );
+
+    will apply to HepTuple::ZMxNewColumn if that is ever ZMthrown.
+
+3 - Note that if a handler is established for a subclass it takes precedence
+    over that for the base class.  If you instead wish to call the base class
+    handler after executing the specific handler, you must invoke it explicitly.
+    Only if no handler has been established will the exception check for and
+    invoke a handler in its base class automatically.
+
+4 - The user can tell the system to whether or not to ignore an unhandled
+    ZMexception:
+
+	HepTuple::ZMxCapture.ignore()
+	HepTuple::ZMxCapture.dontIgnore()
+
+    The default is don't ignore -- meaning throw the exception unless a handler
+    is invoked and comes back false.  The same rules for inheritance apply as
+    in the handler case:  If you haven't specifically said anything about a
+    subclass, then what you have said about the base class will apply.  Thus
+    calling dontIgnore() is NOT the same as not calling ignore().
+
+5 - Sometimes you may want to ignore an exception the firt N times and then
+    react differently.  The handler can have a static count variable to
+    implement this behavior.
+
+
+
+The part of the interface seen by non-framework-manager users is simpler:
+--------------------------------------------------------------------------
+
+1 - The ZMerrno methods may be used to see if (ignored) exceptions have
+    happened.  Typically, the user used to Unix exceptions would call
+    ZNerrno.read() and maybe ZMerrno.clear().
+
+2 - The ordinary user can try, and catch, these ZMexceptions.  We ask that
+    usrs not throw ZMexceptions that the ZOOM modules throw.  Later we may
+    extend support to include user-defined subclasses of ZMexception.
+
+3 - When an exception occurs and is not ignored, the user will know the
+    message given for the exception, as well as the and line number where the
+    ZMthrow macro was invoked.  This is inside ZOOM code.  By doing
+    debug core <usersource> the user can get a traceback into the user
+    routines to find which line of his code encountered the problem.
+
+4 - The status of what was set up for ignoring and handling may be probed, so
+    temporary control be havior can be set and then put back to what it was:
+
+	GetHandler() returns the estabished handler (and we have to decide how
+	to cope with the two different handler signatures!!).
+
+	int ignoreStatus();  //  1 - ignore was specified
+			     // -1 - dontIgnore was specified
+			     //  0 - neither was specified; use status from
+			     //      parent
+	void setIgnoreStatus(int);
+
+
+Logging is handled as follows:
+------------------------------
+
+1 - Every individual ZMexception object can have a method for creating
+    (from the other arguments aside from messge) a string to put into a log.
+    (Of course, it may be inherited from its base class.)  But the message
+    as well as time, line, id, and so forth is not to be handled by each;
+    instead, ZMthrow handles this.
+
+    The method to create the string is logMessage().
+
+2 - ZMexception has a method log(filename) which will open a log to that file
+    for that type of exception.
+	bool ZMexception::log(const char filename[]);
+    This will (if it is not already open for logging) open the file FOR APPEND
+    and establish that file as a logging point for exceptions of this class.
+    (This is class static information.)
+
+    The bool returned should be checked.  It can be false for two reasons:  The
+    file cannot be opened for append, or the file is already open for some
+    other purpose.  (If it is already opened for logging, that is fine; this
+    ZMexception will also log its messages there.
+
+3 - If no logging is specified for a class the file defaults to the base class.
+    Thus HepTuple::ZMxCapture might log to the file for HepTuple::ZMxGeneral,
+    or if no logging is established there, for ZMexception.  It is possible (the
+    default) that no logging is established anywhere.
+
+4 - You may log to multiple files; each ZMexception (sub)class has a class
+    static linked list of log files.
+
+5 - Aside from single files, you can also establish a "rolling log" pair of
+    files:
+	bool ZMexception::log(const char filename1[],
+				int n, const char filename2[], );
+    The way this works is that the first file is opened (still for append),
+    and up to n exception instances are logged into it, at which point
+    it is closed, renamed to the second file, and re-created (empty) for
+    more logging.  A script can detect when this has happended and archive
+    the second file if desired.
+
+6 - If you wish to cease logging a particular exception type in general or
+    to a particular log file, you may:
+	HepTuple::ZMxCapture.stopLog();
+	HepTuple::ZMxCapture.stopLog(filename);
+    If no exceptions are logging to a particular log anymore, that file will
+    be closed.
+
+7 - To be able to temporarily modify logging behavior for an exception, you
+    may call
+	int saveLogInstructions(),
+    and later call
+    	restoreLogInstructions(int).
+
+
+
+The following usage recommendations pertain to writers of ZOOM code:
+--------------------------------------------------------------------
+
+As shown in the examples, place your definitions of the exception objects
+inside the class definition for the class.  That way, methods within this
+class can simply call the shorter name -- ZMxCapture rather than
+ZMxHepTupleCapture.
+
+Don't create too many types of exceptions.  The error codes appearing on the
+ZMerrno stack are defined per each type, but unless you envision the user
+needing to AUTOMATICALLY distinguish between one problem and another in
+the same submodule via ZMerrno, don't define them as two separate exception
+types.
+
+In cases where the user interface promises a routine will not throw an
+exception (but might return false if something goes awry) the ZOOM code
+itself should enclose any possible ZMthrows in try blocks, to catch the problem
+in case the user has not specified ignoring the exception.
+
+Note that the argument to the constructor of the ZMexception in ZMthrow can
+(and often will) be a string formed by concatenating some fixed informatory
+message with some variable information, as in
+	ZMthrow ( ZMxCapture( "Column not found", name ) );
+To do this, one should have a constructor for that sort of ZMexceptoin object
+with the extra argument in its signature, as well as the one with just a
+const char[].  One could alternatively do someting like
+	ZMthrow ( ZMxCapture( strcat("Column not found", name) ) );
+but if you use the exception in more than one place, the recommended second
+constructor is less work.
+
+When returning a pointer, in circumstances where things have gone wrong, the
+usual action is to return a null pointer.  In many cases this is appropriate,
+especially if the user interface defines it.  However, the sloppy user might
+cause an (uncatchable) bus error if he does not check for null pointer.
+Consider returning a pointer to a braindead object (whose methods throw
+ignorable ZMthrows) rather than NULL -- then the job might not abort.
+

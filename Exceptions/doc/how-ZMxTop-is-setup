@@ -1,0 +1,8 @@
+ZMlog is a ZMstandardLog, instantiated in ZMexceptions.cc, using stderr as
+its destination.
+
+ZMxTop is declared in ZMexceptions.cc, instatiated with ZMlog as its log.
+
+To change the destination of the default logging, a framework writer
+would instantiate another ZMstandardLog with, say, a file name.  Then
+ZMxTop.setLogger(thatLog) is called.

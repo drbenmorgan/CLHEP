@@ -1,0 +1,168 @@
+#ifndef ZMEXHANDLER_ICC
+#error "Exceptions/ZMexHandler.icc included without Exceptions/ZMexHandler.h"
+#endif
+
+
+// ----------------------------------------------------------------------
+//
+// ZMexHandler.icc -- inline implementations for the standard handlers.
+//
+//
+// The following methods are defined here:
+//   takeCareOf() and clone() for each provided handler:
+//     ZMexThrowAlways  ::takeCareOf()  and ::clone()
+//     ZMexIgnoreAlways ::takeCareOf()  and ::clone()
+//     ZMexIgnoreNextN  ::takeCareOf()  and ::clone()
+//     ZMexThrowErrors                  and ::clone()
+//     ZMexParentHandler::takeCareOf()  and ::clone()
+//
+// Other implementations are in ZMexHandler.cc
+//
+// Revision History:
+//	970910	MF	Initial version
+//	970917	WEB	Updated per code review 2
+//	980617	WEB	Added namespace support
+//
+// ----------------------------------------------------------------------
+
+
+namespace zmex  {
+
+
+//*******************************************
+//
+// takeCareOf() for various standard exceptions
+//
+// This operator provides the handler's functionality; in general, it must:
+//   record the handler's name
+//   obtain (via x.OKtoLog() ) permission, from the exception, to log;
+//     if granted, invoke the exception's logger (via x.logMe() )
+//   decide on an action
+//   record (via x.wasThrown() ) the determined action
+//   return the determined action
+//
+//*******************************************
+
+
+
+//******************************
+//
+// ZMexThrowAlways::takeCareOf()
+//
+//******************************
+
+inline ZMexAction ZMexThrowAlways::takeCareOf( const ZMexception & x ) {
+  //DEBUG  cerr << "ThrowAlways::takeCareOf" << endl;
+  return standardHandling( x, true );
+}
+
+
+//*******************************
+//
+// ZMexIgnoreAlways::takeCareOf()
+//
+//*******************************
+
+inline ZMexAction ZMexIgnoreAlways::takeCareOf( const ZMexception & x ) {
+  //DEBUG  cerr << "IgnoreAlways::takeCareOf" << endl;
+  return standardHandling( x, false );
+}
+
+
+
+//******************************
+//
+// ZMexIgnoreNextN::takeCareOf()
+//
+//******************************
+
+inline ZMexAction ZMexIgnoreNextN::takeCareOf( const ZMexception & x ) {
+
+  return standardHandling( x, ( countDown_ <= 0 ) ? true
+						  : (--countDown_, false)
+			 );
+}
+
+
+//********************************
+//
+// ZMexParentHandler::takeCareOf()
+//
+//********************************
+
+inline ZMexAction ZMexHandleViaParent::takeCareOf( const ZMexception & x ) {
+  //DEBUG  cerr << "HandleViaParent::takeCareOf" << endl;
+  return ZMexHANDLEVIAPARENT;
+}
+
+
+//*******************************************
+//
+// clone() for various standard exceptions
+//
+//*******************************************
+
+
+
+//*************************
+//
+// ZMexThrowAlways::clone()
+//
+//*************************
+
+inline ZMexThrowAlways * ZMexThrowAlways::clone() const {
+
+  return  new ZMexThrowAlways( *this );
+}
+
+
+//**************************
+//
+// ZMexIgnoreAlways::clone()
+//
+//**************************
+
+inline ZMexIgnoreAlways * ZMexIgnoreAlways::clone() const {
+
+  return  new ZMexIgnoreAlways( *this );
+}
+
+
+
+//**************************
+//
+// ZMexThrowErrors::clone()
+//
+//**************************
+
+inline ZMexThrowErrors * ZMexThrowErrors::clone() const {
+
+  return  new ZMexThrowErrors( *this );
+}
+
+
+//*************************
+//
+// ZMexIgnoreNextN::clone()
+//
+//*************************
+
+inline ZMexIgnoreNextN * ZMexIgnoreNextN::clone() const {
+
+  return  new ZMexIgnoreNextN( *this );
+}
+
+
+//***************************
+//
+// ZMexParentHandler::clone()
+//
+//***************************
+
+inline ZMexHandleViaParent * ZMexHandleViaParent::clone() const {
+
+  return  new ZMexHandleViaParent( *this );
+}
+
+
+}  // namespace zmex
