@@ -1,3 +1,8 @@
+2005-02-03  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: install step creates libCLHEP.a, libCLHEP.so,
+	and/or libCLHEP.dylib by adding a symbolic link.
+
 2005-02-02  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
 
 	* */configure.in: modified compiler flags for windows:

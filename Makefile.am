@@ -49,6 +49,18 @@ install-LTCLHEPLIB: $(LTCLHEPLIB)
 	    $(LIBTOOL) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$p $(DESTDIR)$(libdir)/$$f; \
 	  else :; fi; \
 	done
+	if test -f $(DESTDIR)$(libdir)/libCLHEP-@VERSION@.a; then \
+	   if ! test -f $(DESTDIR)$(libdir)/libCLHEP.a; then \
+	     (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.a libCLHEP.a ); \
+	   fi; fi
+	if test -f $(DESTDIR)$(libdir)/libCLHEP-@VERSION@.so; then \
+	   if ! test -f $(DESTDIR)$(libdir)/libCLHEP.so; then \
+	     (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.so libCLHEP.so ); \
+	   fi; fi
+	if test -f $(DESTDIR)$(libdir)/libCLHEP-@VERSION@.dylib; then \
+	   if ! test -f $(DESTDIR)$(libdir)/libCLHEP.dylib; then \
+	     (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.dylib libCLHEP.dylib ); \
+	   fi; fi
 
 clean-local:
 	rm -f *-dep-list
