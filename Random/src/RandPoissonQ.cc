@@ -1,4 +1,4 @@
-// $Id: RandPoissonQ.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandPoissonQ.cc,v 1.4.4.1 2004/05/11 14:48:43 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -13,6 +13,8 @@
 //		  - Implemented "quick()" methods, shich are the same as the
 //		    new methods for mu < 100 and are a skew-corrected gaussian
 //		    approximation for large mu.
+// M. Fischler	  - Removed mean=100 from the table-driven set, since it
+//		    uses a value just off the end of the table.  (April 2004)
 //
 // =======================================================================
 
@@ -114,7 +116,7 @@ long RandPoissonQ::fire(double mean) {
 }
 
 long RandPoissonQ::fire() {
-  if ( defaultMean <= LAST_MU + S ) {
+  if ( defaultMean < LAST_MU + S ) {
     return poissonDeviateSmall ( getLocalEngine(), defaultMean );
   } else {
     return poissonDeviateQuick ( getLocalEngine(), a0, a1, a2, sigma );
@@ -134,7 +136,7 @@ long RandPoissonQ::shoot(HepRandomEngine* anEngine, double mean) {
   static double lastA2;		
   static double lastSigma;		
 
-  if ( mean <= LAST_MU + S ) {
+  if ( mean < LAST_MU + S ) {
     return poissonDeviateSmall ( getTheEngine(), mean );
   } else {
     if ( mean != lastLargeMean ) {
