@@ -1,7 +1,10 @@
 # run gaussSpeed and gaussSmall interactively
 # Applicable to each test program:
 INCLUDES = -I../
-LDADD = -L${top_builddir}/src  @RandomObjects_LIBS@	# libraries to link, and whence
+# libraries to link, and whence
+LDADD = -L${top_builddir}/src -lCLHEP-@PACKAGE@-@VERSION@ \
+        -L${top_builddir}/../Random/src -lCLHEP-Random-@VERSION@ \
+	-L${top_builddir}/../Matrix/src -lCLHEP-Matrix-@VERSION@
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
