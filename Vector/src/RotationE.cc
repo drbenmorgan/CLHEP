@@ -20,6 +20,9 @@
 #include "CLHEP/Vector/EulerAngles.h"
 
 #include <cmath>
+#include <stdlib.h>
+
+using std::abs;
 
 namespace CLHEP  {
 

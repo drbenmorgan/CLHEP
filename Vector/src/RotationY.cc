@@ -18,7 +18,10 @@
 #include "CLHEP/Vector/LorentzRotation.h"
 
 #include <cmath>
+#include <stdlib.h>
 #include <iostream>
+
+using std::abs;
 
 namespace CLHEP  {
 
