@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: BasicVector3D.h,v 1.3 2003/10/23 21:29:50 garren Exp $
+// $Id: BasicVector3D.h,v 1.3.2.1 2004/10/08 13:35:32 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -62,7 +62,7 @@ namespace HepGeom {
 
     /**
      * Destructor. */
-    ~BasicVector3D() {}
+    virtual ~BasicVector3D() {}
 
     // -------------------------
     // Interface to "good old C"
