@@ -1,0 +1,6 @@
+#! /bin/sh
+# @configure_input@
+
+
+./testGenericFunctions@EXEEXT@  \
+  | diff -q - @srcdir@/testGenericFunctions.output > /dev/null

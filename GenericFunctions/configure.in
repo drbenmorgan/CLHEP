@@ -28,6 +28,10 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([GenericFunctions/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
+AC_CONFIG_FILES([test/Makefile])
+
+# Test driver program/script:
+AC_CONFIG_FILES([test/testGenericFunctions.sh], [chmod +x test/testGenericFunctions.sh])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:
@@ -35,7 +39,7 @@ AC_CONFIG_FILES([doc/Makefile])
 
 GenericFunctions_CPPFLAGS="-I$includedir"
 GenericFunctions_LDFLAGS="-L$libdir"
-GenericFunctions_LIBS="-l$PACKAGE_TARNAME -lm"
+GenericFunctions_LIBS="-l$PACKAGE-$VERSION  -lm"
 
 AC_SUBST(GenericFunctions_CPPFLAGS)
 AC_SUBST(GenericFunctions_LIBS)

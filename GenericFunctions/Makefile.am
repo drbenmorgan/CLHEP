@@ -3,7 +3,7 @@
 includedir = $(prefix)/include/CLHEP
 
 # put . first so that CLHEP directory is built before anything else
-SUBDIRS = . GenericFunctions src
+SUBDIRS = . GenericFunctions src test
 
 all-local: $(top_builddir)/CLHEP
 
