@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+includedir = $(prefix)/include/CLHEP
+
 SUBDIRS = Vector Evaluator GenericFunctions Geometry Matrix Random RandomObjects Units Utilities HepPDT HepMC StdHep
 
 ## kludge to build libCLHEP
@@ -14,7 +16,7 @@ $(CLHEPLIB):
 	rm -rf $(TEMPCLHEP)
 	mkdir $(TEMPCLHEP)
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  test "$$subdir"/.libs = . || (cd $(TEMPCLHEP) && $(AR) x ../$$subdir/src/.libs/lib$$subdir-@VERSION@.a ); \
+	  if test -d "$$subdir"/src/.libs; then (cd $(TEMPCLHEP); $(AR) x ../$$subdir/src/.libs/lib$$subdir-toy1.9.0.0.a; cd .. ); fi; \
 	done
 	cd $(TEMPCLHEP); $(AR) $(AR_FLAGS) $(CLHEPLIB) *.o
 
