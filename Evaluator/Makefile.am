@@ -4,6 +4,10 @@ includedir = $(prefix)/include/CLHEP
 
 # put . first so that CLHEP directory is built before anything else
 SUBDIRS = Evaluator . src test
+# list all subdirectories - for distribution and cleaning
+DIST_SUBDIRS = Evaluator . src test
+
+bin_SCRIPTS = Evaluator-config
 
 all-local: $(top_builddir)/CLHEP
 

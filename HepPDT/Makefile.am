@@ -8,6 +8,8 @@ SUBDIRS = HepPDT . src data test
 ##DIST_SUBDIRS = HepPDT . src data test doc examples
 DIST_SUBDIRS = HepPDT . src data test doc 
 
+bin_SCRIPTS = HepPDT-config
+
 all-local: $(top_builddir)/CLHEP
 
 # create temporary CLHEP header tree

@@ -71,11 +71,11 @@ while test $# -gt 0; do
        	;;
 
     --cxxflags)
-       	echo @CXXFLAGS@
+       	echo @AM_CXXFLAGS@ @CXXFLAGS@
        	;;
 
     --ldflags)
-       	echo @AM_LDFLAGS@ @LDFLAGS@ @Vector_LDFLAGS@
+       	echo  @LDFLAGS@ @Vector_LDFLAGS@
        	;;
 
     --libs)

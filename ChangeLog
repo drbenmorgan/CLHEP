@@ -1,3 +1,10 @@
+Fri Sep 24          2004 Lynn Garren <garren@fnal.gov>
+
+	* use AM_CXXFLAGS
+	* require autoconf 2.59, automake 1.9.1, and libtool 1.9b
+
+	* Matrix: remove unnecessary copy and disable allocator
+
 Tue Aug 31         2004 Lynn Garren <garren@fnal.gov>
 	
 	* change Solaris CC compile flags from "-O -mt" to "-O"

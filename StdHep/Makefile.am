@@ -9,6 +9,8 @@ SUBDIRS = StdHep . src
 ##DIST_SUBDIRS = StdHep . src examples
 DIST_SUBDIRS = StdHep . src 
 
+bin_SCRIPTS = StdHep-config
+
 all-local: $(top_builddir)/CLHEP
 
 # create temporary CLHEP header tree
