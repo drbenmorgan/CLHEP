@@ -1,0 +1,520 @@
+ index     0  PDT number           21  QQ number   -13  PDT name: g
+ index     1  PDT number           -6  QQ number   -12  PDT name: t~
+ index     2  PDT number           -5  QQ number   -11  PDT name: b~
+ index     3  PDT number           -4  QQ number   -10  PDT name: c~
+ index     4  PDT number           -3  QQ number    -9  PDT name: s~
+ index     5  PDT number           -1  QQ number    -8  PDT name: d~
+ index     6  PDT number           -2  QQ number    -7  PDT name: u~
+ index     7  PDT number            6  QQ number    -6  PDT name: t
+ index     8  PDT number            5  QQ number    -5  PDT name: b
+ index     9  PDT number            4  QQ number    -4  PDT name: c
+ index    10  PDT number            3  QQ number    -3  PDT name: s
+ index    11  PDT number            1  QQ number    -2  PDT name: d
+ index    12  PDT number            2  QQ number    -1  PDT name: u
+ index    13  PDT number           91  QQ number     0  PDT name: not defined
+ index    14  PDT number           22  QQ number     1  PDT name: gamma
+ index    15  PDT number           23  QQ number     2  PDT name: Z0
+ index    16  PDT number           24  QQ number     3  PDT name: W+
+ index    17  PDT number          -24  QQ number     4  PDT name: W-
+ index    18  PDT number           82  QQ number     5  PDT name: not defined
+ index    19  PDT number            0  QQ number     0  PDT name: 
+ index    20  PDT number           11  QQ number     7  PDT name: e-
+ index    21  PDT number          -11  QQ number     8  PDT name: e+
+ index    22  PDT number           12  QQ number     9  PDT name: nu_e
+ index    23  PDT number          -12  QQ number    10  PDT name: nu_e~
+ index    24  PDT number           13  QQ number    11  PDT name: mu-
+ index    25  PDT number          -13  QQ number    12  PDT name: mu+
+ index    26  PDT number           14  QQ number    13  PDT name: nu_mu
+ index    27  PDT number          -14  QQ number    14  PDT name: nu_mu~
+ index    28  PDT number           15  QQ number    15  PDT name: tau-
+ index    29  PDT number          -15  QQ number    16  PDT name: tau+
+ index    30  PDT number           16  QQ number    17  PDT name: nu_tau
+ index    31  PDT number          -16  QQ number    18  PDT name: nu_tau~
+ index    32  PDT number        20313  QQ number    19  PDT name: K_1(1400)0
+ index    33  PDT number       -20313  QQ number    20  PDT name: K_1(1400)~0
+ index    34  PDT number          211  QQ number    21  PDT name: pi+
+ index    35  PDT number         -211  QQ number    22  PDT name: pi-
+ index    36  PDT number          321  QQ number    23  PDT name: K+
+ index    37  PDT number         -321  QQ number    24  PDT name: K-
+ index    38  PDT number          311  QQ number    25  PDT name: K0
+ index    39  PDT number         -311  QQ number    26  PDT name: K~0
+ index    40  PDT number          421  QQ number    27  PDT name: D0
+ index    41  PDT number         -421  QQ number    28  PDT name: D~0
+ index    42  PDT number          411  QQ number    29  PDT name: D+
+ index    43  PDT number         -411  QQ number    30  PDT name: D-
+ index    44  PDT number          431  QQ number    31  PDT name: D_s+
+ index    45  PDT number         -431  QQ number    32  PDT name: D_s-
+ index    46  PDT number         -521  QQ number    33  PDT name: B-
+ index    47  PDT number          521  QQ number    34  PDT name: B+
+ index    48  PDT number         -511  QQ number    35  PDT name: B~0
+ index    49  PDT number          511  QQ number    36  PDT name: B0
+ index    50  PDT number         -531  QQ number    37  PDT name: B_s~0
+ index    51  PDT number          531  QQ number    38  PDT name: B_s0
+ index    52  PDT number         -541  QQ number    39  PDT name: B_c-
+ index    53  PDT number          541  QQ number    40  PDT name: B_c+
+ index    54  PDT number          621  QQ number    41  PDT name: T0
+ index    55  PDT number         -621  QQ number    42  PDT name: T~0
+ index    56  PDT number          611  QQ number    43  PDT name: T+
+ index    57  PDT number         -611  QQ number    44  PDT name: T-
+ index    58  PDT number          631  QQ number    45  PDT name: T_s+
+ index    59  PDT number         -631  QQ number    46  PDT name: T_s-
+ index    60  PDT number          641  QQ number    47  PDT name: T_c0
+ index    61  PDT number         -641  QQ number    48  PDT name: T_c~0
+ index    62  PDT number          651  QQ number    49  PDT name: T_b+
+ index    63  PDT number         -651  QQ number    50  PDT name: T_b-
+ index    64  PDT number          111  QQ number    51  PDT name: pi0
+ index    65  PDT number          221  QQ number    52  PDT name: eta
+ index    66  PDT number          331  QQ number    53  PDT name: eta'(958)
+ index    67  PDT number          441  QQ number    54  PDT name: eta_c(1S)
+ index    68  PDT number          551  QQ number    55  PDT name: eta_b(1S)
+ index    69  PDT number          661  QQ number    56  PDT name: eta_t
+ index    70  PDT number          310  QQ number    57  PDT name: KS0
+ index    71  PDT number          130  QQ number    58  PDT name: KL0
+ index    72  PDT number        10313  QQ number    59  PDT name: K_1(1270)0
+ index    73  PDT number       -10313  QQ number    60  PDT name: K_1(1270)~0
+ index    74  PDT number          213  QQ number    61  PDT name: rho(770)+
+ index    75  PDT number         -213  QQ number    62  PDT name: rho(770)-
+ index    76  PDT number          323  QQ number    63  PDT name: K*(892)+
+ index    77  PDT number         -323  QQ number    64  PDT name: K*(892)-
+ index    78  PDT number          313  QQ number    65  PDT name: K*(892)0
+ index    79  PDT number         -313  QQ number    66  PDT name: K*(892)~0
+ index    80  PDT number          423  QQ number    67  PDT name: D*(2007)0
+ index    81  PDT number         -423  QQ number    68  PDT name: D*(2007)~0
+ index    82  PDT number          413  QQ number    69  PDT name: D*(2010)+
+ index    83  PDT number         -413  QQ number    70  PDT name: D*(2010)-
+ index    84  PDT number          433  QQ number    71  PDT name: D*_s+
+ index    85  PDT number         -433  QQ number    72  PDT name: D*_s-
+ index    86  PDT number         -523  QQ number    73  PDT name: B*-
+ index    87  PDT number          523  QQ number    74  PDT name: B*+
+ index    88  PDT number         -513  QQ number    75  PDT name: B*~0
+ index    89  PDT number          513  QQ number    76  PDT name: B*0
+ index    90  PDT number         -533  QQ number    77  PDT name: B*_s~0
+ index    91  PDT number          533  QQ number    78  PDT name: B*_s0
+ index    92  PDT number         -543  QQ number    79  PDT name: B*_c-
+ index    93  PDT number          543  QQ number    80  PDT name: B*_c+
+ index    94  PDT number          623  QQ number    81  PDT name: T*0
+ index    95  PDT number         -623  QQ number    82  PDT name: T*~0
+ index    96  PDT number          613  QQ number    83  PDT name: T*+
+ index    97  PDT number         -613  QQ number    84  PDT name: T*-
+ index    98  PDT number          633  QQ number    85  PDT name: T*_s+
+ index    99  PDT number         -633  QQ number    86  PDT name: T*_s-
+ index   100  PDT number          643  QQ number    87  PDT name: T*_c0
+ index   101  PDT number         -643  QQ number    88  PDT name: T*_c~0
+ index   102  PDT number          653  QQ number    89  PDT name: T*_b+
+ index   103  PDT number         -653  QQ number    90  PDT name: T*_b-
+ index   104  PDT number          113  QQ number    91  PDT name: rho(770)0
+ index   105  PDT number          223  QQ number    92  PDT name: omega(782)
+ index   106  PDT number          333  QQ number    93  PDT name: phi(1020)
+ index   107  PDT number          443  QQ number    94  PDT name: J/psi(1S)
+ index   108  PDT number          553  QQ number    95  PDT name: upsilon(1S)
+ index   109  PDT number          663  QQ number    96  PDT name: theta
+ index   110  PDT number       100553  QQ number    97  PDT name: upsilon(2S)
+ index   111  PDT number       200553  QQ number    98  PDT name: upsilon(3S)
+ index   112  PDT number       300553  QQ number    99  PDT name: upsilon(4S)
+ index   113  PDT number        10551  QQ number   100  PDT name: chi_b0(1P)
+ index   114  PDT number        20553  QQ number   101  PDT name: chi_b1(1P)
+ index   115  PDT number          555  QQ number   102  PDT name: chi_b2(1P)
+ index   116  PDT number       110551  QQ number   103  PDT name: chi_b0(2P)
+ index   117  PDT number       120553  QQ number   104  PDT name: chi_b1(2P)
+ index   118  PDT number       100555  QQ number   105  PDT name: chi_b2(2P)
+ index   119  PDT number        30113  QQ number   106  PDT name: rho(1700)0
+ index   120  PDT number        20213  QQ number   107  PDT name: a_1(1260)+
+ index   121  PDT number        20113  QQ number   108  PDT name: a_1(1260)0
+ index   122  PDT number       -20213  QQ number   109  PDT name: a_1(1260)-
+ index   123  PDT number        10441  QQ number   110  PDT name: chi_c0(1P)
+ index   124  PDT number        20443  QQ number   111  PDT name: chi_c1(1P)
+ index   125  PDT number          445  QQ number   112  PDT name: chi_c2(1P)
+ index   126  PDT number            0  QQ number     0  PDT name: 
+ index   127  PDT number            0  QQ number     0  PDT name: 
+ index   128  PDT number            0  QQ number     0  PDT name: 
+ index   129  PDT number            0  QQ number     0  PDT name: 
+ index   130  PDT number            0  QQ number     0  PDT name: 
+ index   131  PDT number            0  QQ number     0  PDT name: 
+ index   132  PDT number            0  QQ number     0  PDT name: 
+ index   133  PDT number            0  QQ number     0  PDT name: 
+ index   134  PDT number         3122  QQ number   121  PDT name: Lambda0
+ index   135  PDT number        -3122  QQ number   122  PDT name: Lambda~0
+ index   136  PDT number         4122  QQ number   123  PDT name: Lambda_c+
+ index   137  PDT number        -4122  QQ number   124  PDT name: Lambda_c~-
+ index   138  PDT number         4232  QQ number   125  PDT name: Xi_c+
+ index   139  PDT number        -4232  QQ number   126  PDT name: Xi_c~-
+ index   140  PDT number         4132  QQ number   127  PDT name: Xi_c0
+ index   141  PDT number        -4132  QQ number   128  PDT name: Xi_c~0
+ index   142  PDT number         3212  QQ number   129  PDT name: Sigma0
+ index   143  PDT number        -3212  QQ number   130  PDT name: Sigma~0
+ index   144  PDT number         4212  QQ number   131  PDT name: Sigma_c+
+ index   145  PDT number        -4212  QQ number   132  PDT name: Sigma_c~-
+ index   146  PDT number         4322  QQ number   133  PDT name: Xi'_c+
+ index   147  PDT number        -4322  QQ number   134  PDT name: Xi'_c~-
+ index   148  PDT number         4312  QQ number   135  PDT name: Xi'_c0
+ index   149  PDT number        -4312  QQ number   136  PDT name: Xi'_c~0
+ index   150  PDT number         2212  QQ number   137  PDT name: p+
+ index   151  PDT number        -2212  QQ number   138  PDT name: p~-
+ index   152  PDT number         3222  QQ number   139  PDT name: Sigma+
+ index   153  PDT number        -3222  QQ number   140  PDT name: Sigma~-
+ index   154  PDT number         4222  QQ number   141  PDT name: Sigma_c++
+ index   155  PDT number        -4222  QQ number   142  PDT name: Sigma_c~--
+ index   156  PDT number         2112  QQ number   143  PDT name: n0
+ index   157  PDT number        -2112  QQ number   144  PDT name: n~0
+ index   158  PDT number         3112  QQ number   145  PDT name: Sigma-
+ index   159  PDT number        -3112  QQ number   146  PDT name: Sigma~+
+ index   160  PDT number         4112  QQ number   147  PDT name: Sigma_c0
+ index   161  PDT number        -4112  QQ number   148  PDT name: Sigma_c~0
+ index   162  PDT number         3322  QQ number   149  PDT name: Xi0
+ index   163  PDT number        -3322  QQ number   150  PDT name: Xi~0
+ index   164  PDT number         3312  QQ number   151  PDT name: Xi-
+ index   165  PDT number        -3312  QQ number   152  PDT name: Xi~+
+ index   166  PDT number         4332  QQ number   153  PDT name: Omega_c0
+ index   167  PDT number        -4332  QQ number   154  PDT name: Omega_c~0
+ index   168  PDT number         4422  QQ number   155  PDT name: Xi_cc++
+ index   169  PDT number        -4422  QQ number   156  PDT name: Xi_cc~--
+ index   170  PDT number         4412  QQ number   157  PDT name: Xi_cc+
+ index   171  PDT number        -4412  QQ number   158  PDT name: Xi_cc~-
+ index   172  PDT number         4432  QQ number   159  PDT name: Omega_cc+
+ index   173  PDT number        -4432  QQ number   160  PDT name: Omega_cc~-
+ index   174  PDT number         3214  QQ number   161  PDT name: Sigma*0
+ index   175  PDT number        -3214  QQ number   162  PDT name: Sigma*~0
+ index   176  PDT number         4214  QQ number   163  PDT name: Sigma*_c+
+ index   177  PDT number        -4214  QQ number   164  PDT name: Sigma*_c~-
+ index   178  PDT number         4324  QQ number   165  PDT name: Xi*_c+
+ index   179  PDT number        -4324  QQ number   166  PDT name: Xi*_c~-
+ index   180  PDT number         4314  QQ number   167  PDT name: Xi*_c0
+ index   181  PDT number        -4314  QQ number   168  PDT name: Xi*_c~0
+ index   182  PDT number         2214  QQ number   169  PDT name: Delta+
+ index   183  PDT number        -2214  QQ number   170  PDT name: Delta~-
+ index   184  PDT number         3224  QQ number   171  PDT name: Sigma*+
+ index   185  PDT number        -3224  QQ number   172  PDT name: Sigma*~-
+ index   186  PDT number         4224  QQ number   173  PDT name: Sigma*_c++
+ index   187  PDT number        -4224  QQ number   174  PDT name: Sigma*_c~--
+ index   188  PDT number         2114  QQ number   175  PDT name: Delta0
+ index   189  PDT number        -2114  QQ number   176  PDT name: Delta~0
+ index   190  PDT number         3114  QQ number   177  PDT name: Sigma*-
+ index   191  PDT number        -3114  QQ number   178  PDT name: Sigma*~+
+ index   192  PDT number         4114  QQ number   179  PDT name: Sigma*_c0
+ index   193  PDT number        -4114  QQ number   180  PDT name: Sigma*_c~0
+ index   194  PDT number         3324  QQ number   181  PDT name: Xi*0
+ index   195  PDT number        -3324  QQ number   182  PDT name: Xi*~0
+ index   196  PDT number         3314  QQ number   183  PDT name: Xi*-
+ index   197  PDT number        -3314  QQ number   184  PDT name: Xi*~+
+ index   198  PDT number         4334  QQ number   185  PDT name: Omega*_c0
+ index   199  PDT number        -4334  QQ number   186  PDT name: Omega*_c~0
+ index   200  PDT number         4424  QQ number   187  PDT name: Xi*_cc++
+ index   201  PDT number        -4424  QQ number   188  PDT name: Xi*_cc~--
+ index   202  PDT number         4414  QQ number   189  PDT name: Xi*_cc+
+ index   203  PDT number        -4414  QQ number   190  PDT name: Xi*_cc~-
+ index   204  PDT number         4434  QQ number   191  PDT name: Omega*_cc+
+ index   205  PDT number        -4434  QQ number   192  PDT name: Omega*_cc~-
+ index   206  PDT number         2224  QQ number   193  PDT name: Delta++
+ index   207  PDT number        -2224  QQ number   194  PDT name: Delta~--
+ index   208  PDT number         1114  QQ number   195  PDT name: Delta-
+ index   209  PDT number        -1114  QQ number   196  PDT name: Delta~+
+ index   210  PDT number         3334  QQ number   197  PDT name: Omega-
+ index   211  PDT number        -3334  QQ number   198  PDT name: Omega~+
+ index   212  PDT number         4444  QQ number   199  PDT name: Omega*_ccc++
+ index   213  PDT number        -4444  QQ number   200  PDT name: Omega*_ccc~--
+ index   214  PDT number        10323  QQ number   201  PDT name: K_1(1270)+
+ index   215  PDT number       -10323  QQ number   202  PDT name: K_1(1270)-
+ index   216  PDT number        20323  QQ number   203  PDT name: K_1(1400)+
+ index   217  PDT number       -20323  QQ number   204  PDT name: K_1(1400)-
+ index   218  PDT number        30213  QQ number   205  PDT name: rho(1700)+
+ index   219  PDT number       -30213  QQ number   206  PDT name: rho(1700)-
+ index   220  PDT number           84  QQ number   207  PDT name: not defined
+ index   221  PDT number          -84  QQ number   208  PDT name: not defined
+ index   222  PDT number           85  QQ number   209  PDT name: not defined
+ index   223  PDT number          -85  QQ number   210  PDT name: not defined
+ index   224  PDT number        30443  QQ number   211  PDT name: psi(3770)
+ index   225  PDT number      9000443  QQ number   212  PDT name: psi(4040)
+ index   226  PDT number      9010443  QQ number   213  PDT name: psi(4160)
+ index   227  PDT number      9020443  QQ number   214  PDT name: psi(4415)
+ index   228  PDT number        10443  QQ number   215  PDT name: hc(1P)
+ index   229  PDT number      9000553  QQ number   216  PDT name: upsilon(10860)
+ index   230  PDT number      9010553  QQ number   217  PDT name: upsilon(11020)
+ index   231  PDT number        10553  QQ number   218  PDT name: h_b(1P)
+ index   232  PDT number       100443  QQ number   219  PDT name: psi(2S)
+ index   233  PDT number      9020553  QQ number   220  PDT name: not defined
+ index   234  PDT number        10411  QQ number   221  PDT name: D*_0+
+ index   235  PDT number        20413  QQ number   222  PDT name: D_1(H)+
+ index   236  PDT number        10413  QQ number   223  PDT name: D_1(2420)+
+ index   237  PDT number          415  QQ number   224  PDT name: D*_2(2460)+
+ index   238  PDT number       -10411  QQ number   225  PDT name: D*_0-
+ index   239  PDT number       -20413  QQ number   226  PDT name: D_1(H)-
+ index   240  PDT number       -10413  QQ number   227  PDT name: D_1(2420)-
+ index   241  PDT number         -415  QQ number   228  PDT name: D*_2(2460)-
+ index   242  PDT number        10421  QQ number   229  PDT name: D*_00
+ index   243  PDT number        20423  QQ number   230  PDT name: D_1(H)0
+ index   244  PDT number        10423  QQ number   231  PDT name: D_1(2420)0
+ index   245  PDT number          425  QQ number   232  PDT name: D*_2(2460)0
+ index   246  PDT number       -10421  QQ number   233  PDT name: D*_0~0
+ index   247  PDT number       -20423  QQ number   234  PDT name: D_1(H)~0
+ index   248  PDT number       -10423  QQ number   235  PDT name: D_1(2420)~0
+ index   249  PDT number         -425  QQ number   236  PDT name: D*_2(2460)~0
+ index   250  PDT number        10431  QQ number   237  PDT name: D*_s0(2317)+
+ index   251  PDT number        20433  QQ number   238  PDT name: D_s1(2460)+
+ index   252  PDT number        10433  QQ number   239  PDT name: D_s1(2536)+
+ index   253  PDT number          435  QQ number   240  PDT name: D*_s2(2573)+
+ index   254  PDT number       -10431  QQ number   241  PDT name: D*_s0(2317)-
+ index   255  PDT number       -20433  QQ number   242  PDT name: D_s1(2460)-
+ index   256  PDT number       -10433  QQ number   243  PDT name: D_s1(2536)-
+ index   257  PDT number         -435  QQ number   244  PDT name: D*_s2(2573)-
+ index   258  PDT number            0  QQ number     0  PDT name: 
+ index   259  PDT number            0  QQ number     0  PDT name: 
+ index   260  PDT number            0  QQ number     0  PDT name: 
+ index   261  PDT number            0  QQ number     0  PDT name: 
+ index   262  PDT number            0  QQ number     0  PDT name: 
+ index   263  PDT number            0  QQ number     0  PDT name: 
+ index   264  PDT number      9000111  QQ number   251  PDT name: a_0(980)0
+ index   265  PDT number      9000211  QQ number   252  PDT name: a_0(980)+
+ index   266  PDT number     -9000211  QQ number   253  PDT name: a_0(980)-
+ index   267  PDT number          115  QQ number   254  PDT name: a_2(1320)0
+ index   268  PDT number          215  QQ number   255  PDT name: a_2(1320)+
+ index   269  PDT number         -215  QQ number   256  PDT name: a_2(1320)-
+ index   270  PDT number      9010221  QQ number   257  PDT name: f_0(980)
+ index   271  PDT number        10221  QQ number   258  PDT name: f_0(1370)
+ index   272  PDT number        20223  QQ number   259  PDT name: f_1(1285)
+ index   273  PDT number        20333  QQ number   260  PDT name: f_1(1420)
+ index   274  PDT number          225  QQ number   261  PDT name: f_2(1270)
+ index   275  PDT number          335  QQ number   262  PDT name: f'_2(1525)
+ index   276  PDT number        10223  QQ number   263  PDT name: h_1(1170)
+ index   277  PDT number        10333  QQ number   264  PDT name: h_1(1380)
+ index   278  PDT number        10113  QQ number   265  PDT name: b_1(1235)0
+ index   279  PDT number        10213  QQ number   266  PDT name: b_1(1235)+
+ index   280  PDT number       -10213  QQ number   267  PDT name: b_1(1235)-
+ index   281  PDT number        10311  QQ number   268  PDT name: K*_0(1430)0
+ index   282  PDT number       -10311  QQ number   269  PDT name: K*_0(1430)~0
+ index   283  PDT number        10321  QQ number   270  PDT name: K*_0(1430)+
+ index   284  PDT number       -10321  QQ number   271  PDT name: K*_0(1430)-
+ index   285  PDT number          315  QQ number   272  PDT name: K*_2(1430)0
+ index   286  PDT number         -315  QQ number   273  PDT name: K*_2(1430)~0
+ index   287  PDT number          325  QQ number   274  PDT name: K*_2(1430)+
+ index   288  PDT number         -325  QQ number   275  PDT name: K*_2(1430)-
+ index   289  PDT number           86  QQ number   276  PDT name: not defined
+ index   290  PDT number          -86  QQ number   277  PDT name: not defined
+ index   291  PDT number          317  QQ number   278  PDT name: K*_3(1780)0
+ index   292  PDT number         -317  QQ number   279  PDT name: K*_3(1780)~0
+ index   293  PDT number          327  QQ number   280  PDT name: K*_3(1780)+
+ index   294  PDT number         -327  QQ number   281  PDT name: K*_3(1780)-
+ index   295  PDT number            0  QQ number     0  PDT name: 
+ index   296  PDT number            0  QQ number     0  PDT name: 
+ index   297  PDT number            0  QQ number     0  PDT name: 
+ index   298  PDT number            0  QQ number     0  PDT name: 
+ index   299  PDT number            0  QQ number     0  PDT name: 
+ index   300  PDT number            0  QQ number     0  PDT name: 
+ index   301  PDT number            0  QQ number     0  PDT name: 
+ index   302  PDT number            0  QQ number     0  PDT name: 
+ index   303  PDT number            0  QQ number     0  PDT name: 
+ index   304  PDT number           87  QQ number   291  PDT name: not defined
+ index   305  PDT number          -87  QQ number   292  PDT name: not defined
+ index   306  PDT number           88  QQ number   293  PDT name: not defined
+ index   307  PDT number          -88  QQ number   294  PDT name: not defined
+ index   308  PDT number           89  QQ number   295  PDT name: not defined
+ index   309  PDT number          -89  QQ number   296  PDT name: not defined
+ index   310  PDT number           90  QQ number   297  PDT name: not defined
+ index   311  PDT number          -90  QQ number   298  PDT name: not defined
+ index   312  PDT number            0  QQ number     0  PDT name: 
+ index   313  PDT number            0  QQ number     0  PDT name: 
+ index   314  PDT number            0  QQ number     0  PDT name: 
+ index   315  PDT number            0  QQ number     0  PDT name: 
+ index   316  PDT number            0  QQ number     0  PDT name: 
+ index   317  PDT number            0  QQ number     0  PDT name: 
+ index   318  PDT number            0  QQ number     0  PDT name: 
+ index   319  PDT number            0  QQ number     0  PDT name: 
+ index   320  PDT number            0  QQ number     0  PDT name: 
+ index   321  PDT number            0  QQ number     0  PDT name: 
+ index   322  PDT number            0  QQ number     0  PDT name: 
+ index   323  PDT number            0  QQ number     0  PDT name: 
+ index   324  PDT number            0  QQ number     0  PDT name: 
+ index   325  PDT number            0  QQ number     0  PDT name: 
+ index   326  PDT number            0  QQ number     0  PDT name: 
+ index   327  PDT number            0  QQ number     0  PDT name: 
+ index   328  PDT number            0  QQ number     0  PDT name: 
+ index   329  PDT number            0  QQ number     0  PDT name: 
+ index   330  PDT number            0  QQ number     0  PDT name: 
+ index   331  PDT number            0  QQ number     0  PDT name: 
+ index   332  PDT number            0  QQ number     0  PDT name: 
+ index   333  PDT number            0  QQ number     0  PDT name: 
+ index   334  PDT number            0  QQ number     0  PDT name: 
+ index   335  PDT number            0  QQ number     0  PDT name: 
+ index   336  PDT number            0  QQ number     0  PDT name: 
+ index   337  PDT number            0  QQ number     0  PDT name: 
+ index   338  PDT number            0  QQ number     0  PDT name: 
+ index   339  PDT number            0  QQ number     0  PDT name: 
+ index   340  PDT number            0  QQ number     0  PDT name: 
+ index   341  PDT number            0  QQ number     0  PDT name: 
+ index   342  PDT number            0  QQ number     0  PDT name: 
+ index   343  PDT number            0  QQ number     0  PDT name: 
+ index   344  PDT number            0  QQ number     0  PDT name: 
+ index   345  PDT number            0  QQ number     0  PDT name: 
+ index   346  PDT number            0  QQ number     0  PDT name: 
+ index   347  PDT number            0  QQ number     0  PDT name: 
+ index   348  PDT number            0  QQ number     0  PDT name: 
+ index   349  PDT number            0  QQ number     0  PDT name: 
+ index   350  PDT number            0  QQ number     0  PDT name: 
+ index   351  PDT number            0  QQ number     0  PDT name: 
+ index   352  PDT number            0  QQ number     0  PDT name: 
+ index   353  PDT number            0  QQ number     0  PDT name: 
+ index   354  PDT number            0  QQ number     0  PDT name: 
+ index   355  PDT number            0  QQ number     0  PDT name: 
+ index   356  PDT number            0  QQ number     0  PDT name: 
+ index   357  PDT number            0  QQ number     0  PDT name: 
+ index   358  PDT number            0  QQ number     0  PDT name: 
+ index   359  PDT number            0  QQ number     0  PDT name: 
+ index   360  PDT number            0  QQ number     0  PDT name: 
+ index   361  PDT number            0  QQ number     0  PDT name: 
+ index   362  PDT number            0  QQ number     0  PDT name: 
+ index   363  PDT number            0  QQ number     0  PDT name: 
+ index   364  PDT number            0  QQ number     0  PDT name: 
+ index   365  PDT number            0  QQ number     0  PDT name: 
+ index   366  PDT number            0  QQ number     0  PDT name: 
+ index   367  PDT number            0  QQ number     0  PDT name: 
+ index   368  PDT number            0  QQ number     0  PDT name: 
+ index   369  PDT number            0  QQ number     0  PDT name: 
+ index   370  PDT number            0  QQ number     0  PDT name: 
+ index   371  PDT number            0  QQ number     0  PDT name: 
+ index   372  PDT number            0  QQ number     0  PDT name: 
+ index   373  PDT number            0  QQ number     0  PDT name: 
+ index   374  PDT number            0  QQ number     0  PDT name: 
+ index   375  PDT number            0  QQ number     0  PDT name: 
+ index   376  PDT number            0  QQ number     0  PDT name: 
+ index   377  PDT number            0  QQ number     0  PDT name: 
+ index   378  PDT number            0  QQ number     0  PDT name: 
+ index   379  PDT number            0  QQ number     0  PDT name: 
+ index   380  PDT number            0  QQ number     0  PDT name: 
+ index   381  PDT number            0  QQ number     0  PDT name: 
+ index   382  PDT number            0  QQ number     0  PDT name: 
+ index   383  PDT number            0  QQ number     0  PDT name: 
+ index   384  PDT number            0  QQ number     0  PDT name: 
+ index   385  PDT number            0  QQ number     0  PDT name: 
+ index   386  PDT number            0  QQ number     0  PDT name: 
+ index   387  PDT number            0  QQ number     0  PDT name: 
+ index   388  PDT number            0  QQ number     0  PDT name: 
+ index   389  PDT number            0  QQ number     0  PDT name: 
+ index   390  PDT number            0  QQ number     0  PDT name: 
+ index   391  PDT number            0  QQ number     0  PDT name: 
+ index   392  PDT number            0  QQ number     0  PDT name: 
+ index   393  PDT number            0  QQ number     0  PDT name: 
+ index   394  PDT number            0  QQ number     0  PDT name: 
+ index   395  PDT number            0  QQ number     0  PDT name: 
+ index   396  PDT number            0  QQ number     0  PDT name: 
+ index   397  PDT number            0  QQ number     0  PDT name: 
+ index   398  PDT number            0  QQ number     0  PDT name: 
+ index   399  PDT number            0  QQ number     0  PDT name: 
+ index   400  PDT number            0  QQ number     0  PDT name: 
+ index   401  PDT number            0  QQ number     0  PDT name: 
+ index   402  PDT number            0  QQ number     0  PDT name: 
+ index   403  PDT number            0  QQ number     0  PDT name: 
+ index   404  PDT number            0  QQ number     0  PDT name: 
+ index   405  PDT number            0  QQ number     0  PDT name: 
+ index   406  PDT number            0  QQ number     0  PDT name: 
+ index   407  PDT number            0  QQ number     0  PDT name: 
+ index   408  PDT number            0  QQ number     0  PDT name: 
+ index   409  PDT number            0  QQ number     0  PDT name: 
+ index   410  PDT number            0  QQ number     0  PDT name: 
+ index   411  PDT number            0  QQ number     0  PDT name: 
+ index   412  PDT number            0  QQ number     0  PDT name: 
+ index   413  PDT number            0  QQ number     0  PDT name: 
+ index   414  PDT number         5122  QQ number   401  PDT name: Lambda_b0
+ index   415  PDT number        -5122  QQ number   402  PDT name: Lambda_b~0
+ index   416  PDT number         5232  QQ number   403  PDT name: Xi_b0
+ index   417  PDT number        -5232  QQ number   404  PDT name: Xi_b~0
+ index   418  PDT number         5132  QQ number   405  PDT name: Xi_b-
+ index   419  PDT number        -5132  QQ number   406  PDT name: Xi_b~+
+ index   420  PDT number         5242  QQ number   407  PDT name: Xi_bc+
+ index   421  PDT number        -5242  QQ number   408  PDT name: Xi_bc~-
+ index   422  PDT number         5142  QQ number   409  PDT name: Xi_bc0
+ index   423  PDT number        -5142  QQ number   410  PDT name: Xi_bc~0
+ index   424  PDT number         5342  QQ number   411  PDT name: Omega_bc0
+ index   425  PDT number        -5342  QQ number   412  PDT name: Omega_bc~0
+ index   426  PDT number         5212  QQ number   413  PDT name: Sigma_b0
+ index   427  PDT number        -5212  QQ number   414  PDT name: Sigma_b~0
+ index   428  PDT number         5322  QQ number   415  PDT name: Xi'_b0
+ index   429  PDT number        -5322  QQ number   416  PDT name: Xi'_b~0
+ index   430  PDT number         5312  QQ number   417  PDT name: Xi'_b-
+ index   431  PDT number        -5312  QQ number   418  PDT name: Xi'_b~+
+ index   432  PDT number         5422  QQ number   419  PDT name: Xi'_bc+
+ index   433  PDT number        -5422  QQ number   420  PDT name: Xi'_bc~-
+ index   434  PDT number         5412  QQ number   421  PDT name: Xi'_bc0
+ index   435  PDT number        -5412  QQ number   422  PDT name: Xi'_bc~0
+ index   436  PDT number         5432  QQ number   423  PDT name: Omega'_bc0
+ index   437  PDT number        -5432  QQ number   424  PDT name: Omega'_bc~0
+ index   438  PDT number         5222  QQ number   425  PDT name: Sigma_b+
+ index   439  PDT number        -5222  QQ number   426  PDT name: Sigma_b~-
+ index   440  PDT number         5112  QQ number   427  PDT name: Sigma_b-
+ index   441  PDT number        -5112  QQ number   428  PDT name: Sigma_b~+
+ index   442  PDT number         5332  QQ number   429  PDT name: Omega_b-
+ index   443  PDT number        -5332  QQ number   430  PDT name: Omega_b~+
+ index   444  PDT number         5442  QQ number   431  PDT name: Omega_bcc+
+ index   445  PDT number        -5442  QQ number   432  PDT name: Omega_bcc~-
+ index   446  PDT number         5522  QQ number   433  PDT name: Xi_bb0
+ index   447  PDT number        -5522  QQ number   434  PDT name: Xi_bb~0
+ index   448  PDT number         5512  QQ number   435  PDT name: Xi_bb-
+ index   449  PDT number        -5512  QQ number   436  PDT name: Xi_bb~+
+ index   450  PDT number         5532  QQ number   437  PDT name: Omega_bb-
+ index   451  PDT number        -5532  QQ number   438  PDT name: Omega_bb~+
+ index   452  PDT number         5542  QQ number   439  PDT name: Omega_bbc0
+ index   453  PDT number        -5542  QQ number   440  PDT name: Omega_bbc~0
+ index   454  PDT number         5214  QQ number   441  PDT name: Sigma*_b0
+ index   455  PDT number        -5214  QQ number   442  PDT name: Sigma*_b~0
+ index   456  PDT number         5324  QQ number   443  PDT name: Xi*_b0
+ index   457  PDT number        -5324  QQ number   444  PDT name: Xi*_b~0
+ index   458  PDT number         5314  QQ number   445  PDT name: Xi*_b-
+ index   459  PDT number        -5314  QQ number   446  PDT name: Xi*_b~+
+ index   460  PDT number         5424  QQ number   447  PDT name: Xi*_bc+
+ index   461  PDT number        -5424  QQ number   448  PDT name: Xi*_bc~-
+ index   462  PDT number         5414  QQ number   449  PDT name: Xi*_bc0
+ index   463  PDT number        -5414  QQ number   450  PDT name: Xi*_bc~0
+ index   464  PDT number         5434  QQ number   451  PDT name: Omega*_bc0
+ index   465  PDT number        -5434  QQ number   452  PDT name: Omega*_bc~0
+ index   466  PDT number         5224  QQ number   453  PDT name: Sigma*_b+
+ index   467  PDT number        -5224  QQ number   454  PDT name: Sigma*_b~-
+ index   468  PDT number         5114  QQ number   455  PDT name: Sigma*_b-
+ index   469  PDT number        -5114  QQ number   456  PDT name: Sigma*_b~+
+ index   470  PDT number         5334  QQ number   457  PDT name: Omega*_b-
+ index   471  PDT number        -5334  QQ number   458  PDT name: Omega*_b~+
+ index   472  PDT number         5444  QQ number   459  PDT name: Omega*_bcc+
+ index   473  PDT number        -5444  QQ number   460  PDT name: Omega*_bcc~-
+ index   474  PDT number         5524  QQ number   461  PDT name: Xi*_bb0
+ index   475  PDT number        -5524  QQ number   462  PDT name: Xi*_bb~0
+ index   476  PDT number         5514  QQ number   463  PDT name: Xi*_bb-
+ index   477  PDT number        -5514  QQ number   464  PDT name: Xi*_bb~+
+ index   478  PDT number         5534  QQ number   465  PDT name: Omega*_bb-
+ index   479  PDT number        -5534  QQ number   466  PDT name: Omega*_bb~+
+ index   480  PDT number         5544  QQ number   467  PDT name: Omega*_bbc0
+ index   481  PDT number        -5544  QQ number   468  PDT name: Omega*_bbc~0
+ index   482  PDT number         5554  QQ number   469  PDT name: Omega*_bbb-
+ index   483  PDT number        -5554  QQ number   470  PDT name: Omega*_bbb~+
+ index   484  PDT number        10521  QQ number   471  PDT name: B*_0+
+ index   485  PDT number        20523  QQ number   472  PDT name: B_1(H)+
+ index   486  PDT number        10523  QQ number   473  PDT name: B_1(L)+
+ index   487  PDT number          525  QQ number   474  PDT name: B*_2+
+ index   488  PDT number       -10521  QQ number   475  PDT name: B*_0-
+ index   489  PDT number       -20523  QQ number   476  PDT name: B_1(H)-
+ index   490  PDT number       -10523  QQ number   477  PDT name: B_1(L)-
+ index   491  PDT number         -525  QQ number   478  PDT name: B*_2-
+ index   492  PDT number        10511  QQ number   479  PDT name: B*_00
+ index   493  PDT number        20513  QQ number   480  PDT name: B_1(H)0
+ index   494  PDT number        10513  QQ number   481  PDT name: B_1(L)0
+ index   495  PDT number          515  QQ number   482  PDT name: B*_20
+ index   496  PDT number       -10511  QQ number   483  PDT name: B*_0~0
+ index   497  PDT number       -20513  QQ number   484  PDT name: B_1(H)~0
+ index   498  PDT number       -10513  QQ number   485  PDT name: B_1(L)~0
+ index   499  PDT number         -515  QQ number   486  PDT name: B*_2~0
+ index   500  PDT number        10531  QQ number   487  PDT name: B*_s00
+ index   501  PDT number        20533  QQ number   488  PDT name: B_s1(H)0
+ index   502  PDT number        10533  QQ number   489  PDT name: B_s1(L)0
+ index   503  PDT number          535  QQ number   490  PDT name: B*_s20
+ index   504  PDT number       -10531  QQ number   491  PDT name: B*_s0~0
+ index   505  PDT number       -20533  QQ number   492  PDT name: B_s1(H)~0
+ index   506  PDT number       -10533  QQ number   493  PDT name: B_s1(L)~0
+ index   507  PDT number         -535  QQ number   494  PDT name: B*_s2~0
+ index   508  PDT number           92  QQ number   495  PDT name: not defined
+ index   509  PDT number          -92  QQ number   496  PDT name: not defined
+ index   510  PDT number           93  QQ number   497  PDT name: not defined
+ index   511  PDT number          -93  QQ number   498  PDT name: not defined
+ index   512  PDT number            0  QQ number     0  PDT name: 
+ index   513  PDT number            0  QQ number     0  PDT name: 
+ index   514  PDT number            0  QQ number     0  PDT name: 
+ index   515  PDT number            0  QQ number     0  PDT name: 
+ index   516  PDT number            0  QQ number     0  PDT name: 
+ index   517  PDT number            0  QQ number     0  PDT name: 
+ index   518  PDT number            0  QQ number     0  PDT name: 
+ index   519  PDT number            0  QQ number     0  PDT name: 
