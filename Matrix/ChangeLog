@@ -1,3 +1,9 @@
+2005-02-14  Mark Fischler  <mf@fnal.gov>
+
+	* SymMatrixInvert.cc
+	
+	  Implementation of invertHaywood4()
+
 2005-02-01  Lynn Garren  <garren@fnal.gov>
 
 	* Matrix: remove HEP_CC_NEED_SUB_WITHOUT_CONST ifdefs

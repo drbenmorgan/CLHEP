@@ -1,3 +1,18 @@
+Mon Feb 14	2005 Mark Fischler <mf@fnal.gov>
+
+	* JamesRandom.cc
+	
+	  Check that seed is non-negative negative sees give terrible sequences.
+
+Fri Feb 11	2005 Mark Fischler <mf@fnal.gov>
+
+	* RandPoissonQ.cc RandPoissonT.cc RandomEngine.cc
+	
+	  Added missing implementations, per bug # 1806
+	  (FireArray(), shootArray(), getTableSeeds)
+	
+	  Check that seed is non-negative negative sees give terrible sequences.
+
 Mon Dec 27	2004 Mark Fischler <mf@fnal.gov>
 
 	* DRand48Engine.cc DualRand.cc Hurd160Engine.cc
