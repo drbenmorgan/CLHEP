@@ -25,7 +25,7 @@ $(TEMPCLHEP)/$(CLHEPLIB):
 
 $(TEMPCLHEP)/$(CLHEPLIBSHARE):
 	liblist=`$(srcdir)/getObjectList $(SUBDIRS)`; \
-	$(CC) -shared $$liblist -Wl,-soname -o $(TEMPCLHEP)/$(CLHEPLIBSHARE).0.0.0; \
+	$(CC) -shared $$liblist -lgcc -Wl,-soname -o $(TEMPCLHEP)/$(CLHEPLIBSHARE).0.0.0; \
 	cd $(TEMPCLHEP); ln -s $(CLHEPLIBSHARE).0.0.0 $(CLHEPLIBSHARE)
 
 docs:
