@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# make binary tarballs 
+# This script assumes that the bootstrap script has already been run successfully.
+
+
+# makeSourceDist <tarball directory> <extra name info>
+#  e.g. <extra name info> might be gcc-2.95.2 for gcc 2.95.2
+
+if [ ! -d @prefix@ ] 
+then
+    echo "@prefix@ does not exist"
+    exit 1
+fi
+
+if [ ! -d $1 ] 
+then
+    echo "$1 does not exist"
+    exit 1
+fi
+
+if [ $# -eq 2 ]
+then
+    extra="-$2"
+fi
+
+##set -x
+
+# make sure we have the full path
+thisdir=`pwd`
+cd @prefix@; binarydir=`pwd`
+cd $thisdir
+cd $1; tardir=`pwd`
+
+cd $binarydir;
+tar -cf $tardir/clhep-@VERSION@$extra.tar CLHEP
+
+for pkg in `ls $binarydir/CLHEP`
+do
+    if [ -e $binarydir/CLHEP/$pkg/configure.in ] 
+    then
+        cd $binarydir;
+        tar -cf $tardir/CLHEP-$pkg-@VERSION@$extra.tar CLHEP/$pkg
+    fi
+done

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Rotation.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Rotation.cc,v 1.2 2003/07/25 18:03:53 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -17,6 +17,8 @@
 
 #include <iostream>
 #include <cmath>
+
+using std::abs;
 
 namespace CLHEP  {
 

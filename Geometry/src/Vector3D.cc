@@ -1,7 +1,8 @@
 // -*- C++ -*-
-// $Id: Vector3D.cc,v 1.1 2003/07/17 09:05:28 garren Exp $
+// $Id: Vector3D.cc,v 1.2 2003/07/25 18:03:53 garren Exp $
 // ---------------------------------------------------------------------------
 
+#include "Geometry/defs.h"
 #include "CLHEP/Geometry/Vector3D.h"
 #include "CLHEP/Geometry/Transform3D.h"
 

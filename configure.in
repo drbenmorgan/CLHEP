@@ -25,6 +25,9 @@ AC_CONFIG_SUBDIRS(Vector Evaluator GenericFunctions Geometry Matrix Random Rando
 
 # Makefiles:
 AC_CONFIG_FILES([Makefile])
+# tarball scripts
+AC_CONFIG_FILES([makeSourceDist], [chmod +x makeSourceDist])
+AC_CONFIG_FILES([makeBinaryTar], [chmod +x makeBinaryTar])
 
 # ----------------------------------------------------------------------
 # Finish up:

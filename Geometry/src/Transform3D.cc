@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Transform3D.cc,v 1.2 2003/07/17 09:05:28 garren Exp $
+// $Id: Transform3D.cc,v 1.3 2003/07/25 18:03:53 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -12,6 +12,7 @@
 // 24.09.96 E.Chernyaev - initial version
 
 #include <iostream>
+#include "Geometry/defs.h"
 #include "CLHEP/Geometry/Transform3D.h"
 
 namespace HepGeom {

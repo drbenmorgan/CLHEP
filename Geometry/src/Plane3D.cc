@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Plane3D.cc,v 1.2 2003/07/17 09:05:28 garren Exp $
+// $Id: Plane3D.cc,v 1.3 2003/07/25 18:03:53 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -14,6 +14,7 @@
 // 15.04.03 E.Chernyaev - CLHEP-1.9: template version
 
 #include <iostream>
+#include "Geometry/defs.h"
 #include "CLHEP/Geometry/Plane3D.h"
 
 namespace HepGeom {
