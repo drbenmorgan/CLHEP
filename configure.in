@@ -29,6 +29,10 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([makeSourceDist], [chmod +x makeSourceDist])
 AC_CONFIG_FILES([makeBinaryTar], [chmod +x makeBinaryTar])
 
+# build clheplib
+AC_CONFIG_FILES([build-clheplib], [chmod +x build-clheplib])
+
+
 # ----------------------------------------------------------------------
 # Finish up:
 # ----------------------------------------------------------------------

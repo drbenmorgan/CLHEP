@@ -6,6 +6,19 @@ You may build CLHEP as a complete package, starting from this
 top level directory, or you may build any package separately.
 
 #-------------------------------------------------------------
+# about linking
+#-------------------------------------------------------------
+
+CLHEP builds libraries for each package instead of a single CLHEP library.
+This alllows you to link with only the necessary parts of CLHEP.
+We provide a "clheplib" script which gives the list of libraries to link, 
+in the correct order.  The script can be embedded in a makefile.
+
+   clheplib           - provides link list of ALL CLHEP libraries
+   clheplib <package> - provides link list of ONLY those libraries 
+                        needed to use <package>
+
+#-------------------------------------------------------------
 #  installing from a source code tar ball
 #-------------------------------------------------------------
 

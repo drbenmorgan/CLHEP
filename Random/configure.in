@@ -32,6 +32,7 @@ AC_CONFIG_FILES([Random/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([Random-deps])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testRandDists.sh], [chmod +x test/testRandDists.sh])
@@ -46,7 +47,7 @@ AC_CONFIG_FILES([test/ranRestoreTest.sh], [chmod +x test/ranRestoreTest.sh])
 
 Random_CPPFLAGS="-I$includedir"
 Random_LDFLAGS="-L$libdir"
-Random_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
+Random_LIBS="-lCLHEP-$PACKAGE-$VERSION"
 
 AC_SUBST(Random_CPPFLAGS)
 AC_SUBST(Random_LIBS)

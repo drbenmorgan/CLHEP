@@ -32,6 +32,7 @@ AC_CONFIG_FILES([Vector/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
+AC_CONFIG_FILES([Vector-deps])
 
 # Configuration inquiry program/script:
 AC_CONFIG_FILES([Vector-config], [chmod +x Vector-config])
@@ -48,7 +49,7 @@ AC_CONFIG_FILES([test/testSubscripts.sh], [chmod +x test/testSubscripts.sh])
 
 Vector_CPPFLAGS="-I$includedir"
 Vector_LDFLAGS="-L$libdir"
-Vector_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
+Vector_LIBS="-lCLHEP-$PACKAGE-$VERSION"
 
 AC_SUBST(Vector_CPPFLAGS)
 AC_SUBST(Vector_LIBS)

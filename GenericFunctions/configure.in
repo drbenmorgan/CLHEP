@@ -32,6 +32,7 @@ AC_CONFIG_FILES([GenericFunctions/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([GenericFunctions-deps])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testGenericFunctions.sh], [chmod +x test/testGenericFunctions.sh])
@@ -42,7 +43,7 @@ AC_CONFIG_FILES([test/testGenericFunctions.sh], [chmod +x test/testGenericFuncti
 
 GenericFunctions_CPPFLAGS="-I$includedir"
 GenericFunctions_LDFLAGS="-L$libdir"
-GenericFunctions_LIBS="-lCLHEP-$PACKAGE-$VERSION  -lm"
+GenericFunctions_LIBS="-lCLHEP-$PACKAGE-$VERSION"
 
 AC_SUBST(GenericFunctions_CPPFLAGS)
 AC_SUBST(GenericFunctions_LIBS)

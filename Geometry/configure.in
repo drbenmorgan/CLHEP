@@ -30,8 +30,8 @@ AM_CONFIG_HEADER([Geometry/defs.h])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([Geometry/Makefile])
 AC_CONFIG_FILES([src/Makefile])
-#AC_CONFIG_FILES([test/Makefile])
 AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([Geometry-deps])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testBasicVector3D.sh], [chmod +x test/testBasicVector3D.sh])
@@ -43,7 +43,7 @@ AC_CONFIG_FILES([test/testBasicVector3D.sh], [chmod +x test/testBasicVector3D.sh
 
 Geometry_CPPFLAGS="-I$includedir"
 Geometry_LDFLAGS="-L$libdir"
-Geometry_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
+Geometry_LIBS="-lCLHEP-$PACKAGE-$VERSION -lCLHEP-Vector-$VERSION"
 
 AC_SUBST(Geometry_CPPFLAGS)
 AC_SUBST(Geometry_LIBS)

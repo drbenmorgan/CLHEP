@@ -34,8 +34,8 @@ AC_CONFIG_FILES([Utilities/Makefile])
 # ----------------------------------------------------------------------
 
 Utilities_CPPFLAGS="-I$includedir"
-Utilities_LDFLAGS="-L$libdir"
-Utilities_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
+Utilities_LDFLAGS=" "
+Utilities_LIBS=" "
 
 AC_SUBST(Utilities_CPPFLAGS)
 AC_SUBST(Utilities_LIBS)

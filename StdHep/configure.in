@@ -31,6 +31,7 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([StdHep/Makefile])
 AC_CONFIG_FILES([StdHep/include/Makefile])
 AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_FILES([StdHep-deps])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:
@@ -38,7 +39,7 @@ AC_CONFIG_FILES([src/Makefile])
 
 StdHep_CPPFLAGS="-I$includedir"
 StdHep_LDFLAGS="-L$libdir"
-StdHep_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
+StdHep_LIBS="-lCLHEP-$PACKAGE-$VERSION -lCLHEP-HepMC-$VERSION -lCLHEP-HepPDT-$VERSION -lCLHEP-Vector-$VERSION"
 
 AC_SUBST(StdHep_CPPFLAGS)
 AC_SUBST(StdHep_LIBS)

@@ -33,6 +33,7 @@ AC_CONFIG_FILES([HepMC/include/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 #AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([HepMC-deps])
 
 # Test driver program/script:
 #AC_CONFIG_FILES([test/testPID.sh])
@@ -44,7 +45,7 @@ AC_CONFIG_FILES([doc/Makefile])
 
 HepMC_CPPFLAGS="-I$includedir"
 HepMC_LDFLAGS="-L$libdir"
-HepMC_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
+HepMC_LIBS="-lCLHEP-$PACKAGE-$VERSION -lCLHEP-HepPDT-$VERSION -lCLHEP-Vector-$VERSION"
 
 AC_SUBST(HepMC_CPPFLAGS)
 AC_SUBST(HepMC_LIBS)

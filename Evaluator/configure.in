@@ -31,6 +31,7 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([Evaluator/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([Evaluator-deps])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testEvaluator.sh], [chmod +x test/testEvaluator.sh])
@@ -41,7 +42,7 @@ AC_CONFIG_FILES([test/testEvaluator.sh], [chmod +x test/testEvaluator.sh])
 
 Evaluator_CPPFLAGS="-I$includedir"
 Evaluator_LDFLAGS="-L$libdir"
-Evaluator_LIBS="-lCLHEP-$PACKAGE-$VERSION -lm"
+Evaluator_LIBS="-lCLHEP-$PACKAGE-$VERSION"
 
 AC_SUBST(Evaluator_CPPFLAGS)
 AC_SUBST(Evaluator_LIBS)
