@@ -1,4 +1,4 @@
-// $Id: RandPoisson.cc,v 1.3 2003/07/25 20:59:21 garren Exp $
+// $Id: RandPoisson.cc,v 1.4 2003/08/08 13:47:09 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,7 @@
 
 #include "Random/defs.h"
 #include "CLHEP/Random/RandPoisson.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 #include <cmath>	// for floor()
 
 namespace CLHEP {
@@ -107,7 +108,7 @@ long RandPoisson::shoot(double xm) {
     }
     do {
       do {
-	y = tan(M_PI*anEngine->flat());
+	y = tan(CLHEP::pi*anEngine->flat());
 	em = sq*y + xm;
       } while( em < 0.0 );
       em = floor(em);
@@ -173,7 +174,7 @@ long RandPoisson::shoot(HepRandomEngine* anEngine, double xm) {
     }
     do {
       do {
-	y = tan(M_PI*anEngine->flat());
+	y = tan(CLHEP::pi*anEngine->flat());
 	em = sq*y + xm;
       } while( em < 0.0 );
       em = floor(em);
@@ -242,7 +243,7 @@ long RandPoisson::fire(double xm) {
     }
     do {
       do {
-	y = tan(M_PI*localEngine->flat());
+	y = tan(CLHEP::pi*localEngine->flat());
 	em = sq*y + xm;
       } while( em < 0.0 );
       em = floor(em);

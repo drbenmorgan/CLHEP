@@ -7,6 +7,7 @@
 #include "CLHEP/Random/RandPoissonQ.h"
 #include "CLHEP/Random/RandPoissonT.h"
 #include "CLHEP/Random/RandBit.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 
 using std::cin;
 using std::cout;
@@ -168,9 +169,9 @@ if (choice==3) {
 
   for ( x=1; x > .000000001; x *= .9 ) {
     cout << x << std::setprecision(20) << "    " <<
-    1 - exp(gammln1(x)) * exp(gammln1(2-x)) * sin(M_PI*(1-x)) / (M_PI*(1-x)) <<
+    1 - exp(gammln1(x)) * exp(gammln1(2-x)) * sin(CLHEP::pi*(1-x)) / (CLHEP::pi*(1-x)) <<
     "    " <<
-    1 - exp(gammln2(x)) * exp(gammln1(2-x)) * sin(M_PI*(1-x)) / (M_PI*(1-x)) <<
+    1 - exp(gammln2(x)) * exp(gammln1(2-x)) * sin(CLHEP::pi*(1-x)) / (CLHEP::pi*(1-x)) <<
     "\n";
   }
 #endif // GAMMA

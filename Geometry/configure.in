@@ -177,25 +177,10 @@ AC_CHECK_HEADERS([stdlib.h])
 # ----------------------------------------------------------------------
 # Check for needed typedefs, structures, and compiler characteristics:
 # ----------------------------------------------------------------------
+
 AC_HEADER_STDBOOL
 AC_C_CONST
 AC_C_INLINE
-
-AC_CHECK_DECL(M_PI,
-	[],
-	AC_DEFINE(M_PI, 3.14159265358979323846, [Value of pi]),
-	[#include <cmath>])
-
-AC_CHECK_DECL(M_PI_2,
-	[],
-	AC_DEFINE(M_PI_2, 1.57079632679489661923, [Value of pi/2]),
-	[#include <cmath>])
-
-AC_CHECK_DECL(M_2PI,
-	[],
-	AC_DEFINE(M_2PI, 6.28318530717958647692, [Value of 2*pi]),
-	[#include <cmath>])
-
 
 # ----------------------------------------------------------------------
 # Check for needed library functions:

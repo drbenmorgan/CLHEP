@@ -21,6 +21,7 @@
 #include "Vector/defs.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/ZMxpv.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 
 #include <cmath>
 
@@ -42,7 +43,7 @@ void Hep3Vector::setSpherical (
       "Spherical coordinates set with negative   R"));
     // No special return needed if warning is ignored.
   }
-  if ( (theta < 0) || (theta > M_PI) ) {
+  if ( (theta < 0) || (theta > CLHEP::pi) ) {
     ZMthrowC (ZMxpvUnusualTheta(
       "Spherical coordinates set with theta not in [0, PI]"));
 	// No special return needed if warning is ignored.
@@ -80,12 +81,12 @@ void Hep3Vector::setRhoPhiTheta (
     dx = 0; dy = 0; dz = 0;
     return;
   }
-  if ( (theta == 0) || (theta == M_PI) ) {
+  if ( (theta == 0) || (theta == CLHEP::pi) ) {
     ZMthrowA (ZMxpvInfiniteVector(
       "Attempt set cylindrical vector vector with finite rho and "
       "theta along the Z axis:  infinite Z would be computed"));
   }
-  if ( (theta < 0) || (theta > M_PI) ) {
+  if ( (theta < 0) || (theta > CLHEP::pi) ) {
     ZMthrowC (ZMxpvUnusualTheta(
       "Rho, phi, theta set with theta not in [0, PI]"));
 	// No special return needed if warning is ignored.

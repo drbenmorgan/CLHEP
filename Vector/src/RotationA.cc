@@ -14,6 +14,7 @@
 
 #include "Vector/defs.h"
 #include "CLHEP/Vector/Rotation.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 
 #include <iostream>
 #include <cmath>
@@ -71,7 +72,7 @@ double    HepRotation::delta() const {
   if (cosdelta > 1.0) {
     return 0;
   } else if (cosdelta < -1.0) {
-    return M_PI;
+    return CLHEP::pi;
   } else {
     return  acos( cosdelta ); // Already safe due to the cosdelta > 1 check
   }

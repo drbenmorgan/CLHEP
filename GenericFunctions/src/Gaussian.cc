@@ -1,9 +1,10 @@
 // -*- C++ -*-
-// $Id: Gaussian.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Gaussian.cc,v 1.2 2003/08/08 13:47:09 garren Exp $
 #include "GenericFunctions/defs.h"
 
 #include "CLHEP/GenericFunctions/Gaussian.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
+#include "CLHEP/Units/PhysicalConstants.h"
 #include <assert.h>
 #include <cmath>	// for exp()
 
@@ -27,7 +28,7 @@ _sigma(right._sigma)
 double Gaussian::operator() (double x) const {
   double s   = _sigma.getValue();
   double x0  = _mean.getValue();
-  return (1.0/(sqrt(2.0*M_PI)*s))*
+  return (1.0/(sqrt(CLHEP::twopi)*s))*
 	  exp(-(x-x0)*(x-x0)/(2.0*s*s));
 }
 

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.3 2003/08/06 18:30:41 garren Exp $
+// $Id: testRandDists.cc,v 1.4 2003/08/08 13:47:09 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -35,6 +35,7 @@
 #include "CLHEP/Random/RandGaussT.h"
 #include "CLHEP/Random/RandPoissonQ.h"
 #include "CLHEP/Random/RandPoissonT.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 #include "Random/defs.h"
 #include <iostream>
 #include <cmath>		// double abs()
@@ -98,7 +99,7 @@ double gammln(double x) {
   for (int i = 0; i < 6; i++) {
     ser += c[i]/(++y);
   }
-  double ans = (-tmp + log (sqrt(2*M_PI)*ser/x));
+  double ans = (-tmp + log (sqrt(CLHEP::twopi)*ser/x));
   return ans;
 }
 
@@ -486,9 +487,9 @@ bool poissonTest ( RandPoisson & dist, double mu, int N ) {
   
   // and finally, p.  Since we only care about it for small values, 
   // and never care about it past the 10% level, we can use the approximations
-  // CL(chi^2,n) = 1/sqrt(2*M_PI) * ErrIntC ( y ) with 
+  // CL(chi^2,n) = 1/sqrt(CLHEP::twopi) * ErrIntC ( y ) with 
   // y = sqrt(2*chi2) - sqrt(2*n-1) 
-  // errIntC (y) = exp((-y^2)/2)/(y*sqrt(2*M_PI))
+  // errIntC (y) = exp((-y^2)/2)/(y*sqrt(CLHEP::twopi))
 
   double pval;
   pval = 1.0 - gammp ( .5*degFreedom , .5*chi2 );

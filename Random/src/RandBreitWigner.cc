@@ -1,4 +1,4 @@
-// $Id: RandBreitWigner.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandBreitWigner.cc,v 1.3 2003/08/08 13:47:09 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -17,6 +17,7 @@
 
 #include "Random/defs.h"
 #include "CLHEP/Random/RandBreitWigner.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 #include <algorithm>	// for min() and max()
 #include <cmath>
 
@@ -49,7 +50,7 @@ double RandBreitWigner::shoot(double mean, double gamma)
    double rval, displ;
 
    rval = 2.0*HepRandom::getTheEngine()->flat()-1.0;
-   displ = 0.5*gamma*tan(rval*M_PI_2);
+   displ = 0.5*gamma*tan(rval*CLHEP::halfpi);
 
    return mean + displ;
 }
@@ -72,7 +73,7 @@ double RandBreitWigner::shootM2(double mean, double gamma )
 
    if ( gamma == 0.0 ) return mean;
    val = atan(-mean/gamma);
-   rval = RandFlat::shoot(val, M_PI_2);
+   rval = RandFlat::shoot(val, CLHEP::halfpi);
    displ = gamma*tan(rval);
 
    return sqrt(mean*mean + mean*displ);
@@ -128,7 +129,7 @@ double RandBreitWigner::shoot(HepRandomEngine* anEngine,
    double rval, displ;
 
    rval = 2.0*anEngine->flat()-1.0;
-   displ = 0.5*gamma*tan(rval*M_PI_2);
+   displ = 0.5*gamma*tan(rval*CLHEP::halfpi);
 
    return mean + displ;
 }
@@ -153,7 +154,7 @@ double RandBreitWigner::shootM2(HepRandomEngine* anEngine,
 
    if ( gamma == 0.0 ) return mean;
    val = atan(-mean/gamma);
-   rval = RandFlat::shoot(anEngine,val, M_PI_2);
+   rval = RandFlat::shoot(anEngine,val, CLHEP::halfpi);
    displ = gamma*tan(rval);
 
    return sqrt(mean*mean + mean*displ);
@@ -216,7 +217,7 @@ double RandBreitWigner::fire(double mean, double gamma)
    double rval, displ;
 
    rval = 2.0*localEngine->flat()-1.0;
-   displ = 0.5*gamma*tan(rval*M_PI_2);
+   displ = 0.5*gamma*tan(rval*CLHEP::halfpi);
 
    return mean + displ;
 }
@@ -244,7 +245,7 @@ double RandBreitWigner::fireM2(double mean, double gamma )
 
    if ( gamma == 0.0 ) return mean;
    val = atan(-mean/gamma);
-   rval = RandFlat::shoot(localEngine,val, M_PI_2);
+   rval = RandFlat::shoot(localEngine,val, CLHEP::halfpi);
    displ = gamma*tan(rval);
 
    return sqrt(mean*mean + mean*displ);

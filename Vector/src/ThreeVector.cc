@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ThreeVector.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ThreeVector.cc,v 1.2 2003/08/08 13:47:09 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -17,6 +17,7 @@
 #include "Vector/defs.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/ZMxpv.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 
 #include <cmath>
 #include <iostream>
@@ -170,10 +171,10 @@ double Hep3Vector::howNear(const Hep3Vector & v ) const {
 
 double Hep3Vector::deltaPhi  (const Hep3Vector & v2) const {
   double dphi = v2.getPhi() - getPhi();
-  if ( dphi > M_PI ) {
-    dphi -= 2*M_PI;
-  } else if ( dphi <= -M_PI ) {
-    dphi += 2*M_PI;
+  if ( dphi > CLHEP::pi ) {
+    dphi -= CLHEP::twopi;
+  } else if ( dphi <= -CLHEP::pi ) {
+    dphi += CLHEP::twopi;
   }
   return dphi;
 } /* deltaPhi */
@@ -253,7 +254,7 @@ void Hep3Vector::setCylTheta (double theta) {
       dz = fabs(dz);
       return;
     }
-    if (theta == M_PI) {
+    if (theta == CLHEP::pi) {
       dz = -fabs(dz);
       return;
     }
@@ -264,14 +265,14 @@ void Hep3Vector::setCylTheta (double theta) {
     dz = 0;
     return;
   }
-  if ( (theta < 0) || (theta > M_PI) ) {
+  if ( (theta < 0) || (theta > CLHEP::pi) ) {
     ZMthrowC (ZMxpvUnusualTheta(
       "Setting Cyl theta of a vector based on a value not in [0, PI]"));
         // No special return needed if warning is ignored.
   }
   double phi (getPhi());
   double rho = getRho();
-  if ( (theta == 0) || (theta == M_PI) ) {
+  if ( (theta == 0) || (theta == CLHEP::pi) ) {
     ZMthrowC (ZMxpvInfiniteVector(
       "Attempt to set cylindrical theta to 0 or PI "
       "while keeping rho fixed -- infinite Z will be computed"));
@@ -305,7 +306,7 @@ void Hep3Vector::setCylEta (double eta) {
       dz = fabs(dz);
       return;
     }
-    if (theta == M_PI) {
+    if (theta == CLHEP::pi) {
       dz = -fabs(dz);
       return;
     }

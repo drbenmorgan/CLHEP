@@ -10,6 +10,7 @@
 #include <iostream>
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Vector/EulerAngles.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 
 #include <math.h>
 
@@ -72,7 +73,7 @@ bool test (double phi, double theta, double psi) {
 int main () {
 
   bool res = true;
-  double PI = M_PI;
+  double PI = CLHEP::pi;
 
   // Some cases not in the potentially unstable region:
   res &= test (  .05,	       PI/5,   .1	);    

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRotation.cc,v 1.1 2003/07/22 21:29:12 garren Exp $
+// $Id: testRotation.cc,v 1.2 2003/08/08 13:47:09 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -10,6 +10,7 @@
 #include "Vector/defs.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Vector/ThreeVector.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 #include <cmath>
 #include <stdlib.h>
 
@@ -24,7 +25,7 @@ typedef Hep3Vector  Vector;
 
 int main() {
   int i,k;  
-  double angA=M_PI/3, angB=M_PI/4, angC=M_PI/6; 
+  double angA=CLHEP::pi/3, angB=CLHEP::pi/4, angC=CLHEP::pi/6; 
   double cosA=cos(angA), sinA=sin(angA);
   double cosB=cos(angB), sinB=sin(angB);
   double cosC=cos(angC), sinC=sin(angC);
@@ -167,7 +168,7 @@ int main() {
 		Vector(RR.xz(), RR.yz(), RR.zz()) );
   assert ( RR == R );
 
-  double ang=2.*M_PI/9.;                           // rotate()
+  double ang=CLHEP::twopi/9.;                           // rotate()
   R = Rotation();
   R.rotate(ang, V);
 
@@ -190,7 +191,7 @@ int main() {
 
   Vector Vu = V.unit();                           // getAngleAxis
   R.getAngleAxis(ang, V);
-  assert ( abs(ang   - 2.*M_PI/9.) < DEL );
+  assert ( abs(ang   - CLHEP::twopi/9.) < DEL );
   assert ( abs(V.x() - Vu.x())     < DEL );
   assert ( abs(V.y() - Vu.y())     < DEL );
   assert ( abs(V.z() - Vu.z())     < DEL );

@@ -18,6 +18,7 @@
 #include "Vector/defs.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Vector/EulerAngles.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -28,7 +29,7 @@ namespace CLHEP  {
 
 static inline double safe_acos (double x) {
   if (abs(x) <= 1.0) return acos(x);
-  return ( (x>0) ? 0 : M_PI );
+  return ( (x>0) ? 0 : CLHEP::pi );
 }
 
 // ----------  Constructors and Assignment:
@@ -100,7 +101,7 @@ double HepRotation::phi  () const {
   } else if (rzx < 0) {
     return  -absPhi;
   } else {
-    return  (rzy < 0) ? 0 : M_PI;
+    return  (rzy < 0) ? 0 : CLHEP::pi;
   }
 
 } // phi()
@@ -141,7 +142,7 @@ double HepRotation::psi  () const {
   } else if (rxz < 0) {
     return  -absPsi;
   } else {
-    return  (ryz > 0) ? 0 : M_PI;
+    return  (ryz > 0) ? 0 : CLHEP::pi;
   }
 
 } // psi()
@@ -152,14 +153,14 @@ double HepRotation::psi  () const {
 static		     
 void correctByPi ( double& psi, double& phi ) {
   if (psi > 0) {
-    psi -= M_PI;
+    psi -= CLHEP::pi;
   } else {
-    psi += M_PI;
+    psi += CLHEP::pi;
   }
   if (phi > 0) {
-    phi -= M_PI;
+    phi -= CLHEP::pi;
   } else {
-    phi += M_PI;
+    phi += CLHEP::pi;
   }  
 }
 
@@ -193,12 +194,12 @@ void correctPsiPhi ( double rxz, double rzx, double ryz, double rzy,
       if (w[1] < 0 && phi > 0)           correctByPi ( psi, phi );
       break;
     case 2:
-      if (w[2] > 0 && abs(psi) > M_PI/2) correctByPi ( psi, phi );    
-      if (w[2] < 0 && abs(psi) < M_PI/2) correctByPi ( psi, phi );    
+      if (w[2] > 0 && abs(psi) > CLHEP::halfpi) correctByPi ( psi, phi );    
+      if (w[2] < 0 && abs(psi) < CLHEP::halfpi) correctByPi ( psi, phi );    
       break;
     case 3:
-      if (w[3] > 0 && abs(phi) > M_PI/2) correctByPi ( psi, phi );    
-      if (w[3] < 0 && abs(phi) < M_PI/2) correctByPi ( psi, phi );    
+      if (w[3] > 0 && abs(phi) > CLHEP::halfpi) correctByPi ( psi, phi );    
+      if (w[3] < 0 && abs(phi) < CLHEP::halfpi) correctByPi ( psi, phi );    
       break;
   }          
 }

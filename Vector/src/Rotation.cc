@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Rotation.cc,v 1.2 2003/07/25 18:03:53 garren Exp $
+// $Id: Rotation.cc,v 1.3 2003/08/08 13:47:09 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -14,6 +14,7 @@
 
 #include "Vector/defs.h"
 #include "CLHEP/Vector/Rotation.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 
 #include <iostream>
 #include <cmath>
@@ -24,7 +25,7 @@ namespace CLHEP  {
 
 static inline double safe_acos (double x) {
   if (abs(x) <= 1.0) return acos(x);
-  return ( (x>0) ? 0 : M_PI );
+  return ( (x>0) ? 0 : CLHEP::pi );
 }
 
 double HepRotation::operator() (int i, int j) const {

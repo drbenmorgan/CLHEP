@@ -1,4 +1,4 @@
-// $Id: flatToGaussian.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: flatToGaussian.cc,v 1.3 2003/08/08 13:47:09 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -20,6 +20,7 @@
 
 #include "CLHEP/Random/Stat.h"
 #include "Random/defs.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 #include <iostream>
 #include <cmath>
 
@@ -254,7 +255,7 @@ double transformSmall (double r) {
 	      s +=         7*5*3 * vn2*vn2*vn2*vn2;
     	      s +=          -5*3 * vn2*vn2*vn2;
 	      s += 	       3 * vn2*vn2    - vn2  +    1.0;
-    v = sqrt ( 2.0 * log ( s / (r*guess*sqrt(2.0*M_PI)) ) );
+    v = sqrt ( 2.0 * log ( s / (r*guess*sqrt(CLHEP::twopi)) ) );
     if ( abs(v-guess) < eps ) break;
     guess = v;
   }
@@ -294,11 +295,11 @@ double HepStat::erf (double x) {
 // And the definition of the erf integral makes that derivative trivial.
 // Ultimately,
 //
-// erf(x) = erfQ(x) - (inverseErf(erfQ(x))-x) * exp(-x**2) * 2/sqrt(M_PI)
+// erf(x) = erfQ(x) - (inverseErf(erfQ(x))-x) * exp(-x**2) * 2/sqrt(CLHEP::pi)
 //
 
   double t0 = erfQ(x);
-  double deriv = exp(-x*x) * (2.0 / sqrt(M_PI));
+  double deriv = exp(-x*x) * (2.0 / sqrt(CLHEP::pi));
 
   return t0 - (inverseErf (t0) - x) * deriv;
 

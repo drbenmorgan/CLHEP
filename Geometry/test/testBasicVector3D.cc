@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testBasicVector3D.cc,v 1.1 2003/07/17 09:05:28 garren Exp $
+// $Id: testBasicVector3D.cc,v 1.2 2003/08/08 13:47:09 garren Exp $
 // ---------------------------------------------------------------------------
 
 #include <iostream>
@@ -8,6 +8,7 @@
 #include "CLHEP/Geometry/Vector3D.h"
 #include "CLHEP/Geometry/Normal3D.h"
 #include "CLHEP/Geometry/Transform3D.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 
 bool EQUAL(double a, double b) {
   double del = a - b;
@@ -125,11 +126,11 @@ using namespace HepGeom;
   p55.setMag(14);       assert(p55 == point(4,6,12));             \
   p55.setR(7);          assert(p55 == point(2,3,6));              \
   point p56 = p55;                                                \
-  p56.setPhi(M_PI/6);   assert(EQUAL(p56.getPhi(),M_PI/6));       \
+  p56.setPhi(CLHEP::pi/6);   assert(EQUAL(p56.getPhi(),CLHEP::pi/6));       \
                         assert(EQUAL(p56.mag()   ,p55.mag()));    \
                         assert(EQUAL(p56.theta() ,p55.theta()));  \
   point p57 = p55;                                                \
-  p57.setTheta(M_PI/3); assert(EQUAL(p57.cosTheta(),0.5));        \
+  p57.setTheta(CLHEP::pi/3); assert(EQUAL(p57.cosTheta(),0.5));        \
                         assert(EQUAL(p57.mag()     ,p55.mag()));  \
                         assert(EQUAL(p57.phi()     ,p55.phi()));  \
                                                                   \
@@ -149,8 +150,8 @@ using namespace HepGeom;
   point p73(3,4,0);     assert(p73.perp2(point(0,1,0)) == 9);     \
                         assert(p73.perp (point(1,0,0)) == 4);     \
   point p74(1,0,0);                                               \
-  point p75(1,1,0);     assert(EQUAL(p74.angle(p75),M_PI/4));     \
-                        assert(EQUAL(p75.angle(p00),M_PI/2));     \
+  point p75(1,1,0);     assert(EQUAL(p74.angle(p75),CLHEP::pi/4));     \
+                        assert(EQUAL(p75.angle(p00),CLHEP::pi/2));     \
                                                                   \
   /* Check related vectors */                                     \
   point p80(1,2,3);                                               \
@@ -159,19 +160,19 @@ using namespace HepGeom;
                                                                   \
   /* Check rotations */                                           \
   point p90(2,0.5,sqrt(3)/2);                                     \
-  p90.rotateX(M_PI/6);          assert(p90.x()    == 2);          \
+  p90.rotateX(CLHEP::pi/6);          assert(p90.x()    == 2);          \
                                 assert(EQUAL(p90.y(),0));         \
                                 assert(EQUAL(p90.z(),1));         \
   point p91(sqrt(3)/2,2,0.5);                                     \
-  p91.rotateY(M_PI/6);          assert(EQUAL(p91.x(),1));         \
+  p91.rotateY(CLHEP::pi/6);          assert(EQUAL(p91.x(),1));         \
                                 assert(p91.y()    == 2);          \
                                 assert(EQUAL(p91.z(),0));         \
   point p92(0.5,sqrt(3)/2,2);                                     \
-  p92.rotateZ(M_PI/6);          assert(EQUAL(p92.x(),0));         \
+  p92.rotateZ(CLHEP::pi/6);          assert(EQUAL(p92.x(),0));         \
                                 assert(EQUAL(p92.y(),1));         \
                                 assert(p92.z()    == 2);          \
   point p93(1,1,sqrt(2));                                         \
-  p93.rotate(M_PI,Vector3D<float>(-1,-1,sqrt(2)));                \
+  p93.rotate(CLHEP::pi,Vector3D<float>(-1,-1,sqrt(2)));                \
                                 assert(EQUAL(p93.x(),-1));        \
                                 assert(EQUAL(p93.y(),-1));        \
                                 assert(EQUAL(p93.z(),-sqrt(2)));  \
@@ -179,7 +180,7 @@ using namespace HepGeom;
   /* Check transformations */                                     \
   point p100(1,1,sqrt(2));                                        \
   Transform3D m;                                                  \
-  m = Rotate3D(M_PI,Vector3D<float>(-1,-1,sqrt(2)));              \
+  m = Rotate3D(CLHEP::pi,Vector3D<float>(-1,-1,sqrt(2)));              \
   p100.transform(m);            assert(EQUAL(p100.x(),-1));       \
                                 assert(EQUAL(p100.y(),-1));       \
                                 assert(EQUAL(p100.z(),-sqrt(2))); \

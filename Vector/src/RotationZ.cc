@@ -16,6 +16,7 @@
 #include "CLHEP/Vector/AxisAngle.h"
 #include "CLHEP/Vector/EulerAngles.h"
 #include "CLHEP/Vector/LorentzRotation.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -27,7 +28,7 @@ namespace CLHEP  {
 
 static inline double safe_acos (double x) {
   if (abs(x) <= 1.0) return acos(x);
-  return ( (x>0) ? 0 : M_PI );
+  return ( (x>0) ? 0 : CLHEP::pi );
 }
 
 HepRotationZ::HepRotationZ(double delta) : 
@@ -81,12 +82,12 @@ double HepRotationZ::phiZ() const {
 
 double HepRotationZ::thetaX() const {
   return safe_acos(zx());
-		// or ----  return M_PI/2;
+		// or ----  return CLHEP::halfpi;
 }
 
 double HepRotationZ::thetaY() const {
   return safe_acos(zy());
-		// or ----  return M_PI/2;
+		// or ----  return CLHEP::halfpi;
 }
 
 double HepRotationZ::thetaZ() const {

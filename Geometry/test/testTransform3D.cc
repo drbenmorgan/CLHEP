@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testTransform3D.cc,v 1.1 2003/07/17 09:05:28 garren Exp $
+// $Id: testTransform3D.cc,v 1.2 2003/08/08 13:47:09 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -10,6 +10,7 @@
 #include "CLHEP/Geometry/Transform3D.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Vector/ThreeVector.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 
 typedef HepScale3D     Scale;
 typedef HepRotate3D    Rotation;
@@ -43,7 +44,7 @@ int main() {
   // Rotation + Translation
 
   HepRotation R;
-  double angA=M_PI/3, angB=M_PI/4, angC=M_PI/6; 
+  double angA=CLHEP::pi/3, angB=CLHEP::pi/4, angC=CLHEP::pi/6; 
 
   R.rotateX(angA); R.rotateY(angB); R.rotateZ(angC);
   const Hep3Vector D(1, 2, 3);

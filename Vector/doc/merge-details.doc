@@ -808,7 +808,8 @@ rotationOf and related friends:  These need not be friends.  Nor,
 	given the time taken to rotate, need they be inline.  Move to
 	global methods section.
 
-How do I get PI?  I use M_PI which is available in CLHEP...
+How do I get PI?  
+        I use CLHEP::pi which is available in CLHEP/Units/PhysicalConstants.h
 
 X_HAT, Y_HAT, Z_HAT:
 	put as static const Hep3Vector in the .h file.

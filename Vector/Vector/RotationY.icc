@@ -8,6 +8,7 @@
 //
 
 #include <cmath>
+#include "CLHEP/Units/PhysicalConstants.h"
 
 namespace CLHEP {
 
@@ -141,11 +142,11 @@ inline HepRotationY & HepRotationY::transform(const HepRotationY & m) {
 
 inline double HepRotationY::proper( double delta ) {
   // -PI < d <= PI
-  if ( std::fabs(delta) < M_PI ) {
+  if ( std::fabs(delta) < CLHEP::pi ) {
     return  delta;
   } else {
-    register double x = delta / (2.0 * M_PI);
-    return  (2.0 * M_PI) * ( x + std::floor(.5-x) );
+    register double x = delta / (CLHEP::twopi);
+    return  (CLHEP::twopi) * ( x + std::floor(.5-x) );
   }
 }  // proper()
 

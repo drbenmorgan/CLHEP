@@ -1,4 +1,4 @@
-// $Id: gaussQtables.src,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: gaussQtables.src,v 1.2 2003/08/08 13:47:09 garren Exp $
 // -*- C++ -*-
 //
 // gaussTables.src
@@ -51,6 +51,7 @@
 // --------------------------------------------------------------
 
 #include "Random/defs.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -187,7 +188,7 @@ int main() {
 }
 
 double pdf (double x) {
-  return exp(-x*x/2.0)/sqrt(2.0*M_PI);
+  return exp(-x*x/2.0)/sqrt(CLHEP::twopi);
 }
 
 
@@ -443,7 +444,7 @@ double approxErrInt (double v) {
   // First approximation is e**(-v**2/2) / ( v* sqrt(2PI) )
 
   double errInt = exp(-v*v/2);
-  errInt = - errInt / ( v*sqrt(2*M_PI) );
+  errInt = - errInt / ( v*sqrt(CLHEP::twopi) );
 
   // correction factor of 
   // 	(1 - 1/v**2 + 3/v**4 - 3*5/v**6 + ... -3*5*7*9*11*13/v**14)

@@ -16,6 +16,7 @@
 #include "CLHEP/Vector/AxisAngle.h"
 #include "CLHEP/Vector/EulerAngles.h"
 #include "CLHEP/Vector/LorentzRotation.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -27,7 +28,7 @@ namespace CLHEP  {
 
 static inline double safe_acos (double x) {
   if (abs(x) <= 1.0) return acos(x);
-  return ( (x>0) ? 0 : M_PI );
+  return ( (x>0) ? 0 : CLHEP::pi );
 }
 
 HepRotationY::HepRotationY(double delta) : 
@@ -44,10 +45,10 @@ HepRotationY & HepRotationY::set ( double delta ) {
 double  HepRotationY::phi() const {
   if ( d == 0 ) {
     return 0;
-  } else if ( (d < 0) || (d == M_PI) )  {
-    return +M_PI/2;
+  } else if ( (d < 0) || (d == CLHEP::pi) )  {
+    return +CLHEP::halfpi;
   } else {
-    return -M_PI/2;
+    return -CLHEP::halfpi;
   }
 }  // HepRotationY::phi()
 
@@ -58,10 +59,10 @@ double  HepRotationY::theta() const {
 double  HepRotationY::psi() const {
   if ( d == 0 ) {
     return 0;
-  } else if ( (d < 0) || (d == M_PI) )  {
-    return -M_PI/2;
+  } else if ( (d < 0) || (d == CLHEP::pi) )  {
+    return -CLHEP::halfpi;
   } else {
-    return +M_PI/2;
+    return +CLHEP::halfpi;
   }
 }  // HepRotationY::psi()
 
@@ -84,7 +85,7 @@ double HepRotationY::phiX() const {
 
 double HepRotationY::phiY() const {
   return (yy() == 0.0 && xy() == 0.0) ? 0.0 : atan2(yy(),xy());
-		// or ----  return M_PI/2;
+		// or ----  return CLHEP::halfpi;
 }
 
 double HepRotationY::phiZ() const {
@@ -98,7 +99,7 @@ double HepRotationY::thetaX() const {
 
 double HepRotationY::thetaY() const {
   return safe_acos(zy());
-		// or ----  return M_PI/2;
+		// or ----  return CLHEP::halfpi;
 }
 
 double HepRotationY::thetaZ() const {

@@ -1,4 +1,4 @@
-// $Id: RandGaussQ.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandGaussQ.cc,v 1.3 2003/08/08 13:47:09 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -13,6 +13,7 @@
 
 #include "Random/defs.h"
 #include "CLHEP/Random/RandGaussQ.h"
+#include "CLHEP/Units/PhysicalConstants.h"
 #include <iostream>
 #include <cmath>	// for log()
 
@@ -172,7 +173,7 @@ double RandGaussQ::transformSmall (double r) {
 	      s +=         7*5*3 * vn2*vn2*vn2*vn2;
     	      s +=          -5*3 * vn2*vn2*vn2;
 	      s += 	       3 * vn2*vn2    - vn2  +    1.0;
-    v = sqrt ( 2.0 * log ( s / (r*guess*sqrt(2.0*M_PI)) ) );
+    v = sqrt ( 2.0 * log ( s / (r*guess*sqrt(CLHEP::twopi)) ) );
     if ( fabs(v-guess) < eps ) break;
     guess = v;
   }
