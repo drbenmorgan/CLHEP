@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: BasicVector3D.h,v 1.3.2.1 2004/10/08 13:35:32 pfeiffer Exp $
+// $Id: BasicVector3D.h,v 1.3.2.2 2004/11/03 18:02:10 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -12,6 +12,7 @@
 #ifndef BASIC_VECTOR3D_H
 #define BASIC_VECTOR3D_H
 
+#include <iosfwd>
 #include "CLHEP/Geometry/defs.h"
 
 namespace HepGeom {
