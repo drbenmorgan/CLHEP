@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: LorentzVectorC.cc,v 1.2 2003/08/13 20:00:14 garren Exp $
+// $Id: LorentzVectorC.cc,v 1.2.2.1 2004/11/29 19:42:10 fischler Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -8,6 +8,9 @@
 // Those methods originating with ZOOM dealing with comparison (other than
 // isSpaceLike, isLightlike, isTimelike, which are in the main part.)
 //
+// 11/29/05 mf in deltaR, replaced the direct subtraction 
+// pp.phi() - w.getV().phi() with pp.deltaRPhi(w.getV()) which behaves 
+// correctly across the 2pi boundary.
 
 #ifdef GNUPRAGMA
 #pragma implementation
@@ -193,7 +196,7 @@ double HepLorentzVector::howNearCM(const HepLorentzVector & w) const {
 double HepLorentzVector::deltaR ( const HepLorentzVector & w ) const {
 
   double a = eta() - w.eta();
-  double b = pp.phi() - w.getV().phi();
+  double b = pp.deltaPhi(w.getV());
 
   return sqrt ( a*a + b*b );
 

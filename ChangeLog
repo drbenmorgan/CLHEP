@@ -1,6 +1,11 @@
+Mon Nov 29 2004 Mark Fischler <mf@fnal.gov>
+
+	* In LorentzVectorC.cc, in deltaR, fixed to use pp.deltaRPhi(w.getV())
+	
 Fri Nov 26 2004	    Andreas Pfeiffer <andreas.pfeiffer@cern.ch>
 
-	* HepMC/doc/Makefile.in: add -o option to dvips, otherwise it prints on some systems
+	* HepMC/doc/Makefile.in: add -o option to dvips, otherwise it 
+	  prints on some systems
 	
 ==============================
 10.10.04 Release CLHEP-1.9.1.1
