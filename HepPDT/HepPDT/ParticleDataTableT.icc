@@ -1,4 +1,4 @@
-// $Id: ParticleDataTableT.icc,v 1.1.1.1.2.1 2004/06/23 23:27:07 garren Exp $
+// $Id: ParticleDataTableT.icc,v 1.1.1.1.2.2 2004/11/08 20:51:06 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleDataTableT.icc
@@ -108,7 +108,7 @@ void ParticleDataTableT<Config>::writeParticleData( std::ostream & outstr )
   outstr << "                  ( " << size() << " entries )" << std::endl;
   outstr << "PARTICLE NAME                 ID  CHARGE COLOR"
          << " SPIN: J  S   L"
-	 << "  MASS"
+	 << "   MASS"
 	 << "                     WIDTH"
 	 << "                    LIFETIME"
          << std::endl;  
