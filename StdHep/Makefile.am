@@ -6,7 +6,8 @@ includedir = $(prefix)/include/CLHEP
 # put . first so that CLHEP directory is built before anything else
 SUBDIRS = StdHep . src
 # list all subdirectories - for distribution and cleaning
-DIST_SUBDIRS = StdHep . src examples
+##DIST_SUBDIRS = StdHep . src examples
+DIST_SUBDIRS = StdHep . src 
 
 all-local: $(top_builddir)/CLHEP
 

@@ -3,5 +3,5 @@
 
 
 ./listQQTranslation@EXEEXT@ 
-diff -b -q listQQTranslation.out @srcdir@/listQQTranslation.output > /dev/null
+@DIFF_Q@ listQQTranslation.out @srcdir@/listQQTranslation.output > /dev/null
 

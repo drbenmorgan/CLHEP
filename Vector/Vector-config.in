@@ -67,11 +67,11 @@ while test $# -gt 0; do
        	;;
 
     --cppflags)
-       	echo @AM_CPPFLAGS@ @CPPFLAGS@ @Vector_CPPFLAGS@
+       	echo @CPPFLAGS@ @Vector_CPPFLAGS@
        	;;
 
     --cxxflags)
-       	echo @AM_CXXFLAGS@ @CXXFLAGS@
+       	echo @CXXFLAGS@
        	;;
 
     --ldflags)

@@ -3,5 +3,5 @@
 
 
 ./testPID@EXEEXT@  \
-  | diff -b -q - @srcdir@/testPID.output > /dev/null
+  | @DIFF_Q@ - @srcdir@/testPID.output > /dev/null
 

@@ -1,3 +1,23 @@
+Fri Jul 23         2004 Lynn Garren <garren@fnal.gov>
+
+	* remove obsolete Utilities from 2.0 to avoid confusion
+	
+	* more changes for Solaris tests
+
+	* HepPDT version is 1.01.00
+	* HepPDT: access ParticleData information by name (std::string)
+
+Wed May 19         2004 Lynn Garren <garren@fnal.gov>
+    
+	* HepPDT: fix bugs in translation
+	* HepPDT: add translation tests
+	
+	* a couple of miscellaneous changes for Solaris
+
+==============================
+11.05.04 Release CLHEP-2.0.0.2
+==============================
+
 Tue May 11          2004 Lynn Garren <garren@fnal.gov>
 
 	* tagged for CLHEP 2.0.0.2 (CLHEP_2_0_0_2)

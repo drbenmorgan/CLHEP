@@ -5,7 +5,8 @@ includedir = $(prefix)/include/CLHEP
 # put . first so that CLHEP directory is built before anything else
 SUBDIRS = HepPDT . src data test
 # list all subdirectories - for distribution and cleaning
-DIST_SUBDIRS = HepPDT . src data test doc examples
+##DIST_SUBDIRS = HepPDT . src data test doc examples
+DIST_SUBDIRS = HepPDT . src data test doc 
 
 all-local: $(top_builddir)/CLHEP
 
