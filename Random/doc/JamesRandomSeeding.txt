@@ -1,0 +1,99 @@
+Technical Maintenance Note for CLHEP Random
+ 
+	       Consequences of seeding JamesRandom with 
+	       positive seed values greater than 900000000 
+	       	-----------------------------------------
+		
+		
+In the source code JamesRandom.cc, 
+
+  // The input value for "seed" should be within the range [0,900000000]
+  
+The usual way of seeding a generator is via the default ctor, which 
+makes use of the table of seeds (with some trickery to ensure that the
+values won't repeat after the table rows are exhausted).  
+The trickery preserves the fact that sees are never negative (because the
+table values are never negative, and the seed is the xor of a 
+mask which starts with a 0 bit and the seed from the table.  But it can,
+and often does, supply a seed of more than 900,000,000.  
+
+Does that adversely affect the behavior of the engine?
+
+We look at the seeding process:  
+
+
+  long ij = seed/30082;
+  long kl = seed - 30082*ij;
+  long i = (ij/177) % 177 + 2;
+  long j = ij % 177 + 2;
+  long k = (kl/169) % 178 + 1;
+  long l = kl % 169;
+
+  theSeed = seed;
+
+  for ( n = 1 ; n < 98 ; n++ ) {
+    s = 0.0;
+    t = 0.5;
+    for ( m = 1 ; m < 25 ; m++) {
+      mm = ( ( (i*j) % 179 ) * k ) % 179;
+      i = j;
+      j = k;
+      k = mm;
+      l = ( 53 * l + 1 ) % 169;
+      if ( (l*mm % 64 ) >= 32 )
+        s += t;
+      t *= 0.5;
+    }
+    u[n-1] = s;
+  }
+
+ij, which if seed < 900000001 must be less than 29919, now can be up to  
+71387 (when s = 2147483648, ij is that 71387).  
+kl, which is the residue mod 30082, retains the same range as before.
+
+ij/177, which formerly had to be less than 170, can now be up to 403.
+However, the process immediately takes ij/177 mod 177, which of course 
+is less than 177.  So i, which before was between 2 and 171, is now between
+2 and 178.
+
+k and l have the same ranjes as before:  0 < k < 179 and 0 <= l < 169.
+
+Now the loop, to produce 98 floating point numbers, applies Schrage's 
+algorithm 25 times for each number needed, to generate 25 random leading bits.
+In this algorithm, the first step is to take i*j (mod 179) -- and no value
+attainable for 171 < i < 179 is not attainable for values of i <= 171 and 
+arbitrary values of j.  So any seed greater than 900000000 is equivalent to 
+some positive seed greater than 900000000.
+
+Thus the engine is as validly random for a seed above 900000000 as for one 
+in the sanctioned range.  Past the leading bit of u[0], you cannot tell 
+a seed above 900000000 from some equivalent seed in the sanctioned range.
+
+
+	       Consequences of seeding JamesRandom with 
+	                negative seed values
+	       	-----------------------------------------
+
+Andreas pointed out that negative seeds can lead to bad sequences; he gives
+as an example -1200590225.  
+
+With a negative seed, the nature of the % operator is such that i, j, k, and
+l start off negative.  The iteration to fill the bits of the words is such that
+if i, j, and k are negative, mm will always be negative as well.  And most of
+the time, l will be negative too, which means the if ( (l*mm % 64 ) >= 32 )
+can fall either on the true sid or the false.
+
+The advance of l by multiplying by 53 and adding 1 mod 169
+will ALMOST always leave a negative l negative.  The exception is l= -118,
+where the answer is 0 mod 169.  After that, l will be positive (and remain
+positive forever).  Yet mm will always be negative, so in the test condition 
+l*mm is always negative, thus every bit is zero thereafter!
+
+For that seed of -1200590225, it happens that the first bit is 1, the second
+and third zero, and at that point l is -118, so all remaining bits are zero.
+So the lagged Fibbonacci array is filled with all zeros except for the first
+number.  And that first number is precisely 1/2.  So the sequence obtained
+from the central part of the engine is just a long string of zeros, then a long
+string of .5, and back to zeros.  The engine degenerates to the very lame
+addition mod r engine formed by c, cd and cm.
+

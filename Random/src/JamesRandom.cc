@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4.2.3 2005/02/11 23:10:33 fischler Exp $
+// $Id: JamesRandom.cc,v 1.4.2.4 2005/02/14 19:54:54 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -29,8 +29,8 @@
 // M. Fischler    - Methods for distrib. instacne save/restore  12/8/04    
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
-// M. Fischler    - Enforcement that seeds be between 0 and 900000000
-//		    (lest the sequence be non-random)	         2/11/05    
+// M. Fischler    - Enforcement that seeds be non-negative
+//		    (lest the sequence be non-random)	         2/14/05    
 //		    
 // =======================================================================
 
@@ -185,19 +185,20 @@ void HepJamesRandom::showStatus() const
 void HepJamesRandom::setSeed(long seed, int)
 {
   // The input value for "seed" should be within the range [0,900000000]
+  //
+  // Negative seeds result in serious flaws in the randomness;
+  // seeds above 900000000 are OK because of the %177 in the expression for i,
+  // but may have the same effect as other seeds below 900000000.
 
   int m, n;
   float s, t;
   long mm;
 
   if (seed < 0) {
-    std::cout << "Seed for HepJamesRandom is should be non-negative\n" 
-    	<< "Seed value supplied was " << seed << "\n";
+    std::cout << "Seed for HepJamesRandom must be non-negative\n" 
+    	<< "Seed value supplied was " << seed  
+	<< "\nUsing its absolute value instead\n";
     seed = -seed;
-  }
-  if (seed >  900000000) {
-    // If the seed is more that 30082^2, there may be problems 
-    seed = seed % 900000001;
   }
   
   long ij = seed/30082;
