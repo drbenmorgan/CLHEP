@@ -50,6 +50,7 @@ AC_SUBST(Cast_CPPFLAGS)
 AC_SUBST(Cast_LIBS)
 AC_SUBST(Cast_LDFLAGS)
 
+AC_SUBST(COPY_P)
 
 # ----------------------------------------------------------------------
 # Supply boilerplate for Cast/defs.h source header:
@@ -106,7 +107,7 @@ AH_BOTTOM([#endif  // CAST_DEFS_H])
 # ----------------------------------------------------------------------
 
 # Locate a C++ compiler:
-AC_PROG_CXX(g++ c++ aCC CC cxx cc++ cl FCC KCC RCC xlC_r xlC gpp)
+AC_PROG_CXX(cl g++ c++ aCC CC cxx cc++ FCC KCC RCC xlC_r xlC gpp)
 
 # Use it hereinafter:
 AC_LANG(C++)
@@ -118,68 +119,67 @@ AC_REQUIRE_CPP
 case "$target" in
 *-*-win32*)
   case "$CXX" in
-  cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";;
-  g++) CXXFLAGS="-O";;
-  c++) CXXFLAGS="-O";;
+  cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";COPY_P="copy -p";;
+  g++) CXXFLAGS="-O";COPY_P="copy -p";;
+  c++) CXXFLAGS="-O";COPY_P="copy -p";;
   *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;;
 *-*-cygwin*)
   case "$CXX" in
-  cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";COPY_P="cp -p";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
   *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;;
 *-*-solaris*)
   case "$CXX" in
-  CC)  CXXFLAGS="-O -mt";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  CC)  CXXFLAGS="-O -mt";COPY_P="cp -p";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
   *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;;
 *-*-linux*)
   case "$CXX" in
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";COPY_P="cp -p";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";COPY_P="cp -p";;
   *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;;
 alpha*-dec-osf*)
   case "$CXX" in
-  cxx) CXXFLAGS="-O -std strict_ansi -timplicit_local";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  cxx) CXXFLAGS="-O -std strict_ansi -timplicit_local";COPY_P="cp -p";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
   *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;;
 *-*-hpux*)
   case "$CXX" in
-  aCC) CXXFLAGS="-O -Aa +DAportable +Onolimit";;
-  CC)  CXXFLAGS="+O3 +DAportable +a1 -z -pta +Onolimit";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  aCC) CXXFLAGS="-O -Aa +DAportable +Onolimit";COPY_P="cp -p";;
+  CC)  CXXFLAGS="+O3 +DAportable +a1 -z -pta +Onolimit";COPY_P="cp -p";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
   *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;; 
 *-*-aix*)
   case "$CXX" in
-  xlC) CXXFLAGS="-O3 -qtwolink -+";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  xlC) CXXFLAGS="-O3 -qtwolink -+";COPY_P="cp -p";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
   *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;; 
 *-*-irix*)
   case "$CXX" in
-  CC)  CXXFLAGS="-O -OPT:Olimit=0 -pta";;
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  CC)  CXXFLAGS="-O -OPT:Olimit=0 -pta";COPY_P="cp -p";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
   *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;; 
 powerpc-apple-darwin*)
   case "$CXX" in
-  g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
+  g++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
+  c++) CXXFLAGS="-O -ansi -pedantic -Wall";COPY_P="cp -p";;
   *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;; 
 esac
-
 
 # ----------------------------------------------------------------------
 # Set system-dependent options:

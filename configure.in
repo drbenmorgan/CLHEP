@@ -19,7 +19,7 @@ AC_PROG_LIBTOOL
 # subpackages
 # ----------------------------------------------------------------------
 
-AC_CONFIG_SUBDIRS(Vector Evaluator GenericFunctions Geometry Matrix Random RandomObjects Units Utilities HepPDT HepMC StdHep RefCount Cast Exceptions)
+AC_CONFIG_SUBDIRS(Units Vector Evaluator GenericFunctions Geometry Random Matrix RandomObjects HepPDT HepMC StdHep RefCount Cast Exceptions)
 
 # ----------------------------------------------------------------------
 # --enable-exceptions or --disable-exceptions
@@ -53,7 +53,7 @@ AC_CONFIG_FILES([build-clheplib], [chmod +x build-clheplib])
 # ----------------------------------------------------------------------
 
 # Locate a C++ compiler:
-AC_PROG_CXX(g++ c++ aCC CC cxx cc++ cl FCC KCC RCC xlC_r xlC gpp)
+AC_PROG_CXX(cl g++ c++ aCC CC cxx cc++ FCC KCC RCC xlC_r xlC gpp)
 
 # Use it hereinafter:
 AC_LANG(C++)
