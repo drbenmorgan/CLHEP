@@ -1,4 +1,4 @@
-// $Id: RandPoissonT.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandPoissonT.cc,v 1.5 2004/05/11 14:53:24 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -13,6 +13,9 @@
 //		    implementation of RandPoisson.
 // M. Fischler	  - Moved the table driven algorithms into RandPoissonT (here)
 //		    1/26/00.
+// M. Fischler	  - Removed mean=100 from the table-driven set, since it
+//		    uses a value just off the end of the table. (April 2004)
+//
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -63,7 +66,7 @@ long RandPoissonT::fire(double mean) {
 
 long RandPoissonT::fire() {
 
-  if ( defaultMean <= RandPoissonQ::tableBoundary() ) {
+  if ( defaultMean < RandPoissonQ::tableBoundary() ) {
     return RandPoissonQ::shoot ( getLocalEngine(), defaultMean );
   } else {
     return RandPoisson::shoot(getLocalEngine(), defaultMean);
@@ -73,7 +76,7 @@ long RandPoissonT::fire() {
 
 long RandPoissonT::shoot(HepRandomEngine* anEngine, double mean) {
 
-  if ( mean <= RandPoissonQ::tableBoundary() ) {
+  if ( mean < RandPoissonQ::tableBoundary() ) {
     return RandPoissonQ::shoot ( anEngine, mean );
   } else {
     return RandPoisson::shoot( anEngine, mean );
