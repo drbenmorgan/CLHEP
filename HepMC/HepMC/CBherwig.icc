@@ -1,4 +1,4 @@
-// $Id: CBherwig.icc,v 1.1.2.2 2005/03/03 19:05:15 garren Exp $
+// $Id: CBherwig.icc,v 1.1.2.3 2005/03/03 20:19:40 garren Exp $
 // ----------------------------------------------------------------------
 // CBherwig.icc
 // ----------------------------------------------------------------------
@@ -11,14 +11,12 @@
 namespace HepMC  {
 
 CBherwig::CBherwig()
-: 
+: hptr( new hepevt_t ),
   itsTrustMothers( false ),
   itsTrustMothersAndDaughters( true ),
   itsNoBarcodeGaps( true ),
   m_herwig_to_pdg_id(100,0)
 { 
-    // we will make a copy of HEPEVT
-    hptr = new hepevt_t;
     // make the actual copy of HEPEVT here, so we can access the info
     hptr->nevhep = hepevt_.nevhep;
     hptr->nhep	 = hepevt_.nhep;
@@ -97,6 +95,11 @@ CBherwig::CBherwig()
     m_no_antiparticles.insert(-51);
     m_no_antiparticles.insert(-35);
     m_no_antiparticles.insert(-36);
+}
+
+CBherwig::~CBherwig()
+{
+    delete hptr;
 }
 
 int CBherwig::number_children( int index ) 

@@ -1,4 +1,4 @@
-// $Id: CBherwig.h,v 1.1.2.1 2005/03/03 19:05:15 garren Exp $
+// $Id: CBherwig.h,v 1.1.2.2 2005/03/03 20:19:40 garren Exp $
 // ----------------------------------------------------------------------
 // CBherwig.h
 // ----------------------------------------------------------------------
@@ -57,6 +57,7 @@ class CBherwig {
 public:
 
   CBherwig();
+  ~CBherwig();
 
   hepevt_t * hepevt() { return hptr; }
   static int max_number_entries() { return NMXHEP; }
