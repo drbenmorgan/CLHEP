@@ -43,7 +43,7 @@
 #else
 #include "CLHEP/Cast/StringStream.h"
 #endif
-#include <sys/time.h>
+
 #include <ctime>
 
 
