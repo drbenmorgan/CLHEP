@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testConfig.cc,v 1.1.2.1 2004/06/30 15:22:26 garren Exp $
+// $Id: testConfig.cc,v 1.1.2.2 2004/06/30 15:38:30 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -21,7 +21,7 @@ int main() {
   const double db=4.;
   double       mpi = M_PI;
 
-  HepStd::cout << "use obsolete HepStd" << HepStd::endl;
+  // test M_PI and HepStd
   HepStd::cout << "pi mass is " << mpi << HepStd::endl;
 
   // Test min()
@@ -39,6 +39,17 @@ int main() {
   assert(max(3.,4.) == 4.);
   assert(max(fa,fb) == 4.);
   assert(max(da,db) == 4.);
+
+  // Test sqr()
+
+  assert(sqr(3)  == 9);
+  assert(sqr(ia) == 9);
+  assert(sqr(ib) == 16);
+  assert(sqr(3.) == 9.);
+  assert(sqr(fa) == 9.);
+  assert(sqr(fb) == 16.);
+  assert(sqr(da) == 9.);
+  assert(sqr(db) == 16.);
 
   // Test abs()
 

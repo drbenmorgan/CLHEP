@@ -2,7 +2,7 @@
 #ifdef ENABLE_BACKWARDS_COMPATIBILITY
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: TemplateFunctions.h,v 1.1.2.1 2004/06/30 15:22:26 garren Exp $
+// $Id: TemplateFunctions.h,v 1.1.2.2 2004/06/30 15:38:30 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -20,6 +20,18 @@
 #include <stdlib.h>   // int abs()
 
 using namespace std;
+
+// Geant 4.6.2 still has at least one reference to sqr
+#ifndef CLHEP_SQR_DEFINED
+#define CLHEP_SQR_DEFINED
+#ifdef sqr
+#undef sqr
+#endif
+template <class T>
+inline T sqr(const T& x) {
+  return x*x;
+}
+#endif
 
 #endif /* HEP_TEMPLATEFUNCTIONS_H */
 
