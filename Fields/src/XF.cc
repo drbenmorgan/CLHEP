@@ -25,12 +25,12 @@ namespace XF
     return Product (&a, &b);
   }
 
-  PreMult operator * (const HepTransform3D & xf, const Function & b)
+  PreMult operator * (const HepGeom::Transform3D & xf, const Function & b)
   {
     return PreMult (xf, &b);
   }
 
-  PostMult operator * (const Function & a, const HepTransform3D & xf)
+  PostMult operator * (const Function & a, const HepGeom::Transform3D & xf)
   {
     return PostMult (&a, xf);
   }
@@ -82,12 +82,12 @@ namespace XF
     return _arg1->dimensionality ();
   }
 
-  HepTransform3D Product::operator        () (double x) const
+  HepGeom::Transform3D Product::operator        () (double x) const
   {
     return (*_arg1) (x) * (*_arg2) (x);
   }
 
-  HepTransform3D Product::operator        () (const Genfun::Argument & x) const
+  HepGeom::Transform3D Product::operator        () (const Genfun::Argument & x) const
   {
     return (*_arg1) (x) * (*_arg2) (x);
   }
@@ -100,7 +100,7 @@ namespace XF
   //                                                                  //
   //------------------------------------------------------------------//
 
-  PreMult::PreMult (const HepTransform3D & arg1,
+  PreMult::PreMult (const HepGeom::Transform3D & arg1,
 		    const Function * arg2):_arg1 (arg1),
     _arg2 (arg2->clone ())
   {
@@ -130,12 +130,12 @@ namespace XF
     return _arg2->dimensionality ();
   }
 
-  HepTransform3D PreMult::operator        () (double x) const
+  HepGeom::Transform3D PreMult::operator        () (double x) const
   {
     return _arg1 * (*_arg2) (x);
   }
 
-  HepTransform3D PreMult::operator        () (const Genfun::Argument & x) const
+  HepGeom::Transform3D PreMult::operator        () (const Genfun::Argument & x) const
   {
     return _arg1 * (*_arg2) (x);
   }
@@ -148,7 +148,7 @@ namespace XF
   //------------------------------------------------------------------//
 
   PostMult::PostMult (const Function * arg1,
-		      const HepTransform3D & arg2):_arg1 (arg1->clone ()),
+		      const HepGeom::Transform3D & arg2):_arg1 (arg1->clone ()),
     _arg2 (arg2)
   {
   }
@@ -177,18 +177,18 @@ namespace XF
     return _arg1->dimensionality ();
   }
 
-  HepTransform3D PostMult::operator        () (double x) const
+  HepGeom::Transform3D PostMult::operator        () (double x) const
   {
     return (*_arg1) (x) * _arg2;
   }
 
-  HepTransform3D PostMult::operator        () (const Genfun::Argument & x) const
+  HepGeom::Transform3D PostMult::operator        () (const Genfun::Argument & x) const
   {
     return (*_arg1) (x) * _arg2;
   }
 
 
-  Pow::Pow (const HepTransform3D & xform, Genfun::GENFUNCTION f):xf (xform),
+  Pow::Pow (const HepGeom::Transform3D & xform, Genfun::GENFUNCTION f):xf (xform),
     function (f.clone ())
   {
   }
@@ -198,14 +198,14 @@ namespace XF
     delete function;
   }
 
-  HepTransform3D Pow::operator        () (double x) const
+  HepGeom::Transform3D Pow::operator        () (double x) const
   {
     //
     // Get the translation part and the rotation part:
     //
-    HepRotation rotate = xf.getRotation ();
-    Hep3Vector translate = xf.getTranslation ();
-    HepAxisAngle aa = rotate.axisAngle ();
+    CLHEP::HepRotation rotate = xf.getRotation ();
+    CLHEP::Hep3Vector translate = xf.getTranslation ();
+    CLHEP::HepAxisAngle aa = rotate.axisAngle ();
     //
     // Evaluate the function
     //
@@ -218,11 +218,11 @@ namespace XF
     //
     // Now compose these and return a result:
     //
-      return HepTranslate3D (translate) * HepRotate3D (aa.delta (),
+      return HepGeom::Translate3D (translate) * HepGeom::Rotate3D (aa.delta (),
 						       aa.axis ());
   }
 
-  HepTransform3D Pow::operator        () (const Genfun::Argument & argument) const
+  HepGeom::Transform3D Pow::operator        () (const Genfun::Argument & argument) const
   {
     return operator        () (argument[0]);
   }

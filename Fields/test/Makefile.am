@@ -2,7 +2,7 @@
 INCLUDES = -I../
 # libraries to link, and whence
 LDADD = -L${top_builddir}/src -lCLHEP-@PACKAGE@-@VERSION@ \
-        -L${top_builddir}/../Geometry/src -L$(top_builddir)/../GenericFunctions/src -lCLHEP-GenericFunctions-@VERSION@ -lCLHEP-Geometry-@VERSION@
+        -L${top_builddir}/../Geometry/src -L${top_builddir}/../Vector/src -L${top_builddir}/../GenericFunctions/src -lCLHEP-GenericFunctions-@VERSION@ -lCLHEP-Geometry-@VERSION@ -lCLHEP-Vector-@VERSION@
 
 # Identify executables needed during testing:
 check_PROGRAMS = \

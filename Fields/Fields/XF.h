@@ -73,8 +73,8 @@ namespace XF
     virtual unsigned int dimensionality () const;	//returns 1;
 
     // Function value
-    virtual HepTransform3D operator         () (double argument) const = 0;
-    virtual HepTransform3D operator         () (const Genfun::
+    virtual HepGeom::Transform3D operator         () (double argument) const = 0;
+    virtual HepGeom::Transform3D operator         () (const Genfun::
 						Argument & argument) const =
       0;
 
@@ -101,12 +101,12 @@ namespace XF
 
   public:
 
-    Pow (const HepTransform3D &, Genfun::GENFUNCTION f);
+    Pow (const HepGeom::Transform3D &, Genfun::GENFUNCTION f);
 
       virtual ~ Pow ();
 
-    virtual HepTransform3D operator         () (double argument) const;
-    virtual HepTransform3D operator         () (const Genfun::
+    virtual HepGeom::Transform3D operator         () (double argument) const;
+    virtual HepGeom::Transform3D operator         () (const Genfun::
 						Argument & argument) const;
 
     // Every function must override this:
@@ -120,7 +120,7 @@ namespace XF
     // Assignment operator
     const Pow & operator = (const Pow & right);
 
-    const HepTransform3D xf;
+    const HepGeom::Transform3D xf;
     const Genfun::AbsFunction * function;
 
   };
@@ -130,8 +130,8 @@ namespace XF
 
 
   Product operator * (const Function & op1, const Function & op2);
-  PreMult operator * (const HepTransform3D & xf, const Function & op2);
-  PostMult operator * (const Function & op2, const HepTransform3D & xf);
+  PreMult operator * (const HepGeom::Transform3D & xf, const Function & op2);
+  PostMult operator * (const Function & op2, const HepGeom::Transform3D & xf);
 
 
   // Internally used class:: Product:
@@ -148,8 +148,8 @@ namespace XF
 
     virtual unsigned int dimensionality () const;
 
-    virtual HepTransform3D operator         () (double argument) const;
-    virtual HepTransform3D operator         () (const Genfun::
+    virtual HepGeom::Transform3D operator         () (double argument) const;
+    virtual HepGeom::Transform3D operator         () (const Genfun::
 						Argument & argument) const;
 
     // Every function must override this:
@@ -173,14 +173,14 @@ namespace XF
   public:
 
 
-    PreMult (const HepTransform3D & arg1, const Function * arg2);
+    PreMult (const HepGeom::Transform3D & arg1, const Function * arg2);
 
       virtual ~ PreMult ();
 
     virtual unsigned int dimensionality () const;
 
-    virtual HepTransform3D operator         () (double argument) const;
-    virtual HepTransform3D operator         () (const Genfun::
+    virtual HepGeom::Transform3D operator         () (double argument) const;
+    virtual HepGeom::Transform3D operator         () (const Genfun::
 						Argument & argument) const;
 
     // Every function must override this:
@@ -191,7 +191,7 @@ namespace XF
 
   private:
 
-    const HepTransform3D _arg1;
+    const HepGeom::Transform3D _arg1;
     const Function *_arg2;
 
   };
@@ -204,14 +204,14 @@ namespace XF
   public:
 
 
-    PostMult (const Function * arg1, const HepTransform3D & arg2);
+    PostMult (const Function * arg1, const HepGeom::Transform3D & arg2);
 
       virtual ~ PostMult ();
 
     virtual unsigned int dimensionality () const;
 
-    virtual HepTransform3D operator         () (double argument) const;
-    virtual HepTransform3D operator         () (const Genfun::
+    virtual HepGeom::Transform3D operator         () (double argument) const;
+    virtual HepGeom::Transform3D operator         () (const Genfun::
 						Argument & argument) const;
 
     // Every function must override this:
@@ -223,7 +223,7 @@ namespace XF
   private:
 
     const Function *_arg1;
-    const HepTransform3D _arg2;
+    const HepGeom::Transform3D _arg2;
 
   };
 
