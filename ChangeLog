@@ -1,3 +1,11 @@
+2005-02-01  Lynn Garren  <garren@fnal.gov>
+
+	* config: remove HEP_CC_NEED_SUB_WITHOUT_CONST from config/CLHEP.h.
+	HEP_CC_NEED_SUB_WITHOUT_CONST has been defined to 1 in all cases for
+	a long time.
+
+	* Matrix: remove HEP_CC_NEED_SUB_WITHOUT_CONST ifdefs
+
 2005-02-01  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
 
 	* Geometry/Geometry/BasicVector3D.h : changed template specialisations for 

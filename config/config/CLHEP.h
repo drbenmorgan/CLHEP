@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: CLHEP.h,v 1.1.2.1 2004/06/30 15:22:26 garren Exp $
+// $Id: CLHEP.h,v 1.1.2.2 2005/02/01 20:25:37 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -22,9 +22,6 @@
 #define HEP_HAVE_IOSFWD 1
 #define HepSTL std
 #define HepStd std
-
-// this is no longer used since it was always on
-#define HEP_CC_NEED_SUB_WITHOUT_CONST 1
 
 // names have been changed to protect the innocent
 // These will be unneccessary after CLHEP 1.9 since gcc 2.95.2
