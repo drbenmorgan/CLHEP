@@ -1,4 +1,4 @@
-// $Id: ParticleName.cc,v 1.1.2.1 2004/04/21 16:14:51 garren Exp $
+// $Id: ParticleName.cc,v 1.1.2.2 2004/11/30 20:08:39 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleName.cc
@@ -38,9 +38,9 @@ ParticleNameMap const &  ParticleNameInit()
 
   static ParticleNameMap  m;
 
-  static struct {
+  static const struct {
       int pid;
-      char* pname;
+      const char* pname;
   } SNames[] = {
       {          0, "" },
       {          1, "d" },

@@ -123,6 +123,18 @@ void HepRotationY::decompose
   rotation = axisAngle();
 }
 
+void HepRotationY::decompose
+        (HepRotation & rotation, HepBoost & boost) const {
+  boost.set(0,0,0);
+  rotation = HepRotation(*this);
+}
+ 
+void HepRotationY::decompose
+        (HepBoost & boost, HepRotation & rotation) const {
+  boost.set(0,0,0);
+  rotation = HepRotation(*this);
+}
+
 double HepRotationY::distance2( const HepRotationY & r  ) const {
   double answer = 2.0 * ( 1.0 - ( s * r.s + c * r.c ) ) ;
   return (answer >= 0) ? answer : 0;

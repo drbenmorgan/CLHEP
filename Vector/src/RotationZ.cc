@@ -110,6 +110,18 @@ void HepRotationZ::decompose
   boost.set(0,0,0);
   rotation = axisAngle();
 }
+ 
+void HepRotationZ::decompose
+        (HepRotation & rotation, HepBoost & boost) const {
+  boost.set(0,0,0);
+  rotation = HepRotation(*this);
+}
+                                                                                
+void HepRotationZ::decompose
+        (HepBoost & boost, HepRotation & rotation) const {
+  boost.set(0,0,0);
+  rotation = HepRotation(*this);
+}
 
 double HepRotationZ::distance2( const HepRotationZ & r  ) const {
   double answer = 2.0 * ( 1.0 - ( s * r.s + c * r.c ) ) ;

@@ -141,8 +141,21 @@ void HepBoostX::rectify() {
 HepBoostX HepBoostX::operator * (const HepBoostX & b) const {
   return HepBoostX ( (beta()+b.beta()) / (1+beta()*b.beta()) );
 }
+HepLorentzRotation HepBoostX::operator * (const HepBoost & b) const {
+  HepLorentzRotation me (*this);
+  return me*b;
+}
+HepLorentzRotation HepBoostX::operator * (const HepRotation & r) const {
+  HepLorentzRotation me (*this);
+  return me*r;
+}
+HepLorentzRotation HepBoostX::operator * (const HepLorentzRotation & lt) const {
+  HepLorentzRotation me (*this);
+  return me*lt;
+}
 
-
+// ---------- I/O:
+ 
 std::ostream & HepBoostX::print( std::ostream & os ) const {
   os << "Boost in X direction (beta = " << beta_ 
 			<< ", gamma = " << gamma_ << ") ";

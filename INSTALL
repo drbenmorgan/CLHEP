@@ -17,6 +17,8 @@ these yourself.  See "building autotools" below.
 The new libtool no longer properly supports shared libraries for gcc 2.95.2.
 If you build CLHEP with gcc 2.95.2, you must configure --disable-shared.
 
+To build for Solaris CC, configure with CXX=CC CC=cc LIBS=-lsunmath.
+
 #-------------------------------------------------------------
 # about linking
 #-------------------------------------------------------------

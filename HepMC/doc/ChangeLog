@@ -1,3 +1,28 @@
+==============================
+30.11.04 Release CLHEP-2.0.1.2
+==============================
+
+Fri Nov 26 2004	    Andreas Pfeiffer <andreas.pfeiffer@cern.ch>
+
+	* add -o option to dvips, otherwise it prints on some systems
+	
+Wed Nov  3 2004     Lynn Garren <garren@fnal.gov>
+
+	* use HepGeom namespace instead of old names for Geometry classes
+
+Fri Sep 24          2004 Lynn Garren <garren@fnal.gov>
+
+	* use AM_CXXFLAGS
+
+Tue Sep 14          2004 Lynn Garren <garren@fnal.gov>
+
+	* require autoconf 2.59, automake 1.9.1, and libtool 1.9b
+
+Tue Aug 31         2004 Lynn Garren <garren@fnal.gov>
+	
+	* change Solaris CC compile flags from "-O -mt" to "-O"
+	* libtools 1.9b or later is required for Solaris CC
+
 	--------------------  CLHEP 1.9.0.2/2.0.0.2 ------------------
 
 2004-05-11  Lynn Garren  <garren@fnal.gov>

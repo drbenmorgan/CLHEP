@@ -31,8 +31,8 @@ endif
   INCDIR    = -I$(CLHEP_DIR)/include
   HepMCinc  = $(INCDIR)/CLHEP/HepMC
   PythiaLIB = $(LULIB)/pydata.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
-  HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a 
-  LIBNAME = $(CLHEP_DIR)/lib/libCLHEP-2.0.1.1.a
+  HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a $(HERWIG_DIR)/lib/timel.o
+  LIBNAME = $(CLHEP_DIR)/lib/libCLHEP-2.0.1.2.a
 
 
 ################################################################################ 
