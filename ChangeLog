@@ -1,3 +1,8 @@
+Thu Nov 06          2003 Lynn Garren <garren@fnal.gov>
+
+	*  adding ZOOM Exceptions package for FNAL
+	*  adding supporting RefCount and Cast packages
+
 Thu Oct 23          2003 Lynn Garren <garren@fnal.gov>
 
 	* tagged for CLHEP 1.9.0.0

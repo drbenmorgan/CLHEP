@@ -2,7 +2,9 @@
 
 includedir = $(prefix)/include/CLHEP
 
-SUBDIRS = Vector Evaluator GenericFunctions Geometry Matrix Random RandomObjects Units Utilities HepPDT HepMC StdHep
+SUBDIRS = Vector Evaluator GenericFunctions Geometry Matrix Random \
+          RandomObjects Units Utilities HepPDT HepMC StdHep \
+          RefCount Cast Exceptions
 
 bin_SCRIPTS = clheplib
 
