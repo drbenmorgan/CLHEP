@@ -49,12 +49,11 @@ libCLHEP_HepPDT_@VERSION@_a_SOURCES = \
 	threeCharge.cc		\
 	translateEvtGentoPDT.cc	\
 	translateGeanttoPDT.cc	\
-	translateHerwigtoPDT.cc	\
+	translateHerwig.cc	\
 	translateIsajettoPDT.cc	\
 	translatePDGtabletoPDT.cc	\
 	translatePDTtoEvtGen.cc	\
 	translatePDTtoGeant.cc	\
-	translatePDTtoHerwig.cc	\
 	translatePDTtoIsajet.cc	\
 	translatePDTtoPDGtable.cc	\
 	translatePDTtoPythia.cc	\

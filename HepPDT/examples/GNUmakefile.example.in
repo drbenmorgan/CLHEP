@@ -1,4 +1,4 @@
-# $Id: GNUmakefile.example.in,v 1.1.2.1 2005/03/04 19:40:39 garren Exp $
+# $Id: GNUmakefile.example.in,v 1.1.2.2 2005/03/15 23:57:31 garren Exp $
 ################################################################################ 
 #
 # makefile for HepPDT examples
@@ -14,11 +14,12 @@
 ################################################################################ 
 
   CLHEP_BASE= @prefix@
+  CXX = @CXX@
   LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-@VERSION@
   HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a $(HERWIG_DIR)/lib/timel.o
   IsajetLIB = $(ISAJET_DIR)/isajet.a
   INCDIR    = -I$(CLHEP_BASE)/include
-  CXX = g++
+  LIBS = @AM_LDFLAGS@
 
 ################################################################################ 
 
@@ -35,12 +36,12 @@ ifdef HERWIG_DIR
     INCDIR += -I$(HERWIG_DIR)/src
 endif
 
-ifndef F77
+ifeq "$(CXX)" "g++"
     F77 = g77
-endif
-
-ifndef FFLAGS
     FFLAGS = $(DFLG) -fno-second-underscore $(INCDIR)
+else
+    F77 = f77
+    FFLAGS = $(DFLG) $(INCDIR)
 endif
 
 ################################################################################ 
@@ -48,7 +49,7 @@ endif
 AR=ar
 ARFLG = -urs
 
-CXXFLAGS = $(DFLG) $(INCDIR)
+CXXFLAGS = $(DFLG) @AM_CXXFLAGS@ @CXXFLAGS@ $(INCDIR)
 
 SOURCE = $(wildcard *.cc)
 
@@ -56,59 +57,48 @@ include $(SOURCE:.cc=.d)
 
 #------------------------------------------
 
-all: build_test run_test
+all: examReadPDG examReadPythia examReadEvtGen examReadQQ examMyPDT examDMF
 
 list: examListHerwig examListIsajet
 
-test:  run_test
+run:  run_test
 
-build_test: examReadPDG examReadPythia examReadEvtGen examReadQQ \
-            examMyPDT examDMF
-
-examMyPDT: examMyPDT.o $(LIBNAME)
+examMyPDT: examMyPDT.o
 	$(CXX) $(CXXFLAGS) -o $@ examMyPDT.o \
-		$(LIBNAME) -lm
-	rm -rf ti_files
+		$(LIBNAME) $(LIBS)
 
-examDMF: ModeA$(SFX).o ModeB$(SFX).o examDMF.o $(LIBNAME) 
+examDMF: ModeA$(SFX).o ModeB$(SFX).o examDMF.o 
 	$(CXX) $(CXXFLAGS) -o $@ examDMF.o \
 		 ModeA$(SFX).o ModeB$(SFX).o \
-		 $(LIBNAME) -lm
-	rm -rf ti_files
+		 $(LIBNAME) $(LIBS)
 
-examReadPDG: examReadPDG.o $(LIBNAME)
+examReadPDG: examReadPDG.o
 	$(CXX) $(CXXFLAGS) -o $@ examReadPDG.o \
-		$(LIBNAME) -lm
-	rm -rf ti_files
+		$(LIBNAME) $(LIBS)
 
-examReadPythia: examReadPythia.o $(LIBNAME)
+examReadPythia: examReadPythia.o
 	$(CXX) $(CXXFLAGS) -o $@ examReadPythia.o \
-		$(LIBNAME) -lm
-	rm -rf ti_files
+		$(LIBNAME) $(LIBS)
 
-examReadQQ: examReadQQ.o $(LIBNAME)
+examReadQQ: examReadQQ.o
 	$(CXX) $(CXXFLAGS) -o $@ examReadQQ.o \
-		$(LIBNAME) -lm 
-	rm -rf ti_files
+		$(LIBNAME) $(LIBS) 
 
-examReadEvtGen: examReadEvtGen.o $(LIBNAME)
+examReadEvtGen: examReadEvtGen.o
 	$(CXX) $(CXXFLAGS) -o $@ examReadEvtGen.o \
-		$(LIBNAME) -lm
-	rm -rf ti_files
+		$(LIBNAME) $(LIBS)
 
-examListHerwig: examListHerwig.o examListHerwigInterface.o $(LIBNAME)
+examListHerwig: examListHerwig.o examListHerwigInterface.o
 	$(CXX) $(CXXFLAGS) -o $@ \
 		examListHerwig.o examListHerwigInterface.o \
 		$(HerwigLIB) \
-		$(LIBNAME) -lm -lg2c
-	rm -rf ti_files
+		$(LIBNAME) $(LIBS) -lg2c
 
-examListIsajet: examListIsajet.o examListIsajetInterface.o $(LIBNAME)
+examListIsajet: examListIsajet.o examListIsajetInterface.o
 	$(CXX) $(CXXFLAGS) -o $@ \
 		examListIsajet.o examListIsajetInterface.o \
 		$(IsajetLIB) \
-		$(LIBNAME) -lm -lg2c
-	rm -rf ti_files
+		$(LIBNAME) $(LIBS) -lg2c
 
 run_test: examReadPDG examReadPythia examReadEvtGen examMyPDT examReadQQ
 	examReadPDG  > examReadPDG.log
@@ -125,15 +115,14 @@ run_test: examReadPDG examReadPythia examReadEvtGen examMyPDT examReadQQ
 cleanobjs:
 	rm -f *.o
 	rm -f *.d
-	rm -rf ti_files
 
 clean:
 	rm -f *.o
 	rm -f *.d
-	rm -rf ti_files
 	rm -f examReadPDG examReadPythia examReadEvtGen 
 	rm -f examMyPDT examDMF examReadQQ examListHerwig examListIsajet
 	rm -f *.out *.log
+	rm -f fort.*
 
 
 #------------------------------------------
@@ -141,7 +130,7 @@ clean:
 .PHONY:  clean cleanobjs
 
 .SUFFIXES :             # cancel implicit rules
-.SUFFIXES : .o .cc .cpp .F .inc .h .hh
+.SUFFIXES : .o .cc .cpp .F .inc .h .hh .d
 
 %.d: %.cc
 	@$(SHELL) -ec '$(CXX) -M $(CXXFLAGS) $< | sed '\''s/$*.o/& $@/g'\'' > $@'

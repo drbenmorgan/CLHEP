@@ -1,4 +1,4 @@
-// $Id: ParticleID.hh,v 1.1.1.1.2.1 2004/04/21 23:06:33 garren Exp $
+// $Id: ParticleID.hh,v 1.1.1.1.2.2 2005/03/15 23:57:31 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleID.hh
@@ -21,29 +21,14 @@
 
 // Particle names
 #include "CLHEP/HepPDT/ParticleName.hh"
+// Translation free functions
+#include "CLHEP/HepPDT/ParticleIDTranslations.hh"
 
 namespace HepPDT {
 
 // convert from 2J+1 to the actual spin value 
 double spinitod( int js );
 int spindtoi( double spin );
-
-// translate between generator ID's and standard numbering scheme
-int translatePythiatoPDT( const int pythiaID );
-int translateIsajettoPDT( const int isajetID );
-int translateHerwigtoPDT( const int herwigID);
-int translateQQtoPDT( const int qqID);
-int translateGeanttoPDT( const int geantID);
-int translatePDGtabletoPDT( const int pdgID);
-int translateEvtGentoPDT( const int evtGenID );
-
-int translatePDTtoPythia( const int pid );
-int translatePDTtoIsajet( const int pid );
-int translatePDTtoHerwig( const int pid );
-int translatePDTtoQQ( const int pid );
-int translatePDTtoGeant( const int pid );
-int translatePDTtoPDGtable( const int pid );
-int translatePDTtoEvtGen( const int pid );
 
 //  PID digits (base 10) are: n nr nl nq1 nq2 nq3 nj
 //  the location enum provides a convenient index into the PID

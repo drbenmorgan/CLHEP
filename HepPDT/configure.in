@@ -73,6 +73,7 @@ AC_CONFIG_FILES([test/listPDGNames.sh], [chmod +x test/listPDGNames.sh])
 AC_CONFIG_FILES([test/listPDGNames.cc])
 AC_CONFIG_FILES([examples/Makefile])
 AC_CONFIG_FILES([examples/GNUmakefile.example])
+AC_CONFIG_FILES([examples/examReadPDG.cc])
 AC_CONFIG_FILES([examples/data/Makefile])
 
 # ----------------------------------------------------------------------

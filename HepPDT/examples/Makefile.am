@@ -28,5 +28,6 @@ EXTRA_DIST = \
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(prefix)/examples/@PACKAGE@
 	$(INSTALL_DATA) GNUmakefile.example $(DESTDIR)$(prefix)/examples/@PACKAGE@/GNUmakefile
+	$(INSTALL_DATA) examReadPDG.cc $(DESTDIR)$(prefix)/examples/@PACKAGE@/examReadPDG.cc
 	for file in $(EXTRA_DIST); do \
 	  $(INSTALL_DATA) $(srcdir)/$$file $(DESTDIR)$(prefix)/examples/@PACKAGE@/$$file; done

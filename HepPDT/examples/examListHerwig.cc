@@ -1,4 +1,4 @@
-// $Id: examListHerwig.cc,v 1.1.4.1 2004/04/21 23:06:33 garren Exp $
+// $Id: examListHerwig.cc,v 1.1.4.2 2005/03/15 23:57:31 garren Exp $
 // -------------------------------------------------------------------
 // 
 // List the herwig translation
@@ -24,7 +24,6 @@ extern "C" {
 int main()
 {
     int nevt=20;
-    int idir=1;
     int i, j, iend, isize;
     int hid, id;
     char cname[10];
@@ -47,7 +46,7 @@ int main()
     os << "      " << title << std::endl;
     os << " number of Herwig particles: " << isize << std::endl;
     
-    for( i=1, iend=isize+1; i<isize; ++i ) {
+    for( i=1, iend=isize+1; i<iend; ++i ) {
 	// get info from herwig
 	for( j=0; j<10; ++j) { cname[j] = '\0'; }
 	get_herwig_name_( & i, & hid, cname );
