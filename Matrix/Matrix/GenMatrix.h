@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: GenMatrix.h,v 1.3.2.2 2004/09/02 09:49:38 pfeiffer Exp $
+// $Id: GenMatrix.h,v 1.3.2.3 2004/09/08 22:51:05 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -70,7 +70,8 @@ public:
    virtual ~HepGenMatrix() {}
 
 
-
+#if defined __GNUC__ && (__GNUC__ < 3)   // redefining Alloc does not work in gcc 2.95
+#else                                    // redefine Alloc for all other compilers
    template <class T, size_t size> class Alloc 
    {
  
@@ -98,10 +99,15 @@ public:
    private:  
      T pool[size];
    };
-   
+#endif
 
+#if defined __GNUC__ && (__GNUC__ < 3)
+   typedef std::vector<double >::iterator mIter;
+   typedef std::vector<double >::const_iterator mcIter;
+#else
    typedef std::vector<double,Alloc<double,25> >::iterator mIter;
    typedef std::vector<double,Alloc<double,25> >::const_iterator mcIter;
+#endif
 
    virtual int num_row() const = 0;
    virtual int num_col() const = 0;
@@ -139,7 +145,11 @@ public:
    // ** Note that the indexing starts from [0][0]. **
 
    inline static void swap(int&,int&);
+#if defined __GNUC__ && (__GNUC__ < 3)
+   inline static void swap(std::vector<double >&, std::vector<double >&);
+#else
    inline static void swap(std::vector<double,Alloc<double,25> >&, std::vector<double,Alloc<double,25> >&);
+#endif
 
    virtual bool operator== ( const HepGenMatrix& ) const;
    // equality operator for matrices (BaBar)

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: Vector.h,v 1.3.2.1 2004/08/25 18:37:41 pfeiffer Exp $
+// $Id: Vector.h,v 1.3.2.2 2004/09/08 22:51:05 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -196,7 +196,11 @@ private:
    friend HepSymMatrix vT_times_v(const HepVector &v);
    friend HepVector qr_solve(HepMatrix *, const HepVector &);
 
+#if defined __GNUC__ && (__GNUC__ < 3)
+   std::vector<double > m;
+#else
    std::vector<double,Alloc<double,25> > m;
+#endif
    int nrow;
 };
 

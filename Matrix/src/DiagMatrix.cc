@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DiagMatrix.cc,v 1.4.2.1 2004/08/25 18:37:41 pfeiffer Exp $
+// $Id: DiagMatrix.cc,v 1.4.2.2 2004/09/08 22:50:24 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -100,12 +100,20 @@ const double HepDiagMatrix::zero = 0;
 // Constructors. (Default constructors are inlined and in .icc file)
 
 HepDiagMatrix::HepDiagMatrix(int p)
+#if defined __GNUC__ && (__GNUC__ < 3)
+   : m(std::vector<double>(p)), nrow(p)
+#else
    : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
+#endif
 {
 }
 
 HepDiagMatrix::HepDiagMatrix(int p, int init)
+#if defined __GNUC__ && (__GNUC__ < 3)
+   : m(std::vector<double>(p)), nrow(p)
+#else
    : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
+#endif
 {   
    switch(init)
    {
@@ -126,7 +134,11 @@ HepDiagMatrix::HepDiagMatrix(int p, int init)
 }
 
 HepDiagMatrix::HepDiagMatrix(int p, HepRandom &r)
+#if defined __GNUC__ && (__GNUC__ < 3)
+  : m(std::vector<double >(p)), nrow(p)
+#else
   : m(std::vector<double,Alloc<double,25> >(p)), nrow(p)
+#endif
 {
    HepMatrix::mIter a = m.begin();
    HepMatrix::mIter b = m.begin() + num_size();
@@ -139,7 +151,11 @@ HepDiagMatrix::~HepDiagMatrix() {
 }
 
 HepDiagMatrix::HepDiagMatrix(const HepDiagMatrix &m1)
+#if defined __GNUC__ && (__GNUC__ < 3)
+   : m(std::vector<double >(m1.nrow)), nrow(m1.nrow)
+#else
    : m(std::vector<double,Alloc<double,25> >(m1.nrow)), nrow(m1.nrow)
+#endif
 {
    m = m1.m;
 }

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: DiagMatrix.h,v 1.3.2.1 2004/08/25 18:37:41 pfeiffer Exp $
+// $Id: DiagMatrix.h,v 1.3.2.2 2004/09/08 22:51:05 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -214,7 +214,11 @@ private:
    friend HepMatrix operator*(const HepMatrix &m1, const HepDiagMatrix &m2);
    friend HepVector operator*(const HepDiagMatrix &m1, const HepVector &m2);
 
+#if defined __GNUC__ && (__GNUC__ < 3)
+   std::vector<double > m;
+#else
    std::vector<double,Alloc<double,25> > m;
+#endif
    int nrow;
 #if defined(__sun) || !defined(__GNUG__)
 //

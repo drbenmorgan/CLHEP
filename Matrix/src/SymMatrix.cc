@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.1 2004/08/25 18:37:41 pfeiffer Exp $
+// $Id: SymMatrix.cc,v 1.3.2.2 2004/09/08 22:50:24 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -89,14 +89,22 @@ namespace CLHEP {
 // Constructors. (Default constructors are inlined and in .icc file)
 
 HepSymMatrix::HepSymMatrix(int p)
+#if defined __GNUC__ && (__GNUC__ < 3)
+   : m(std::vector<double >(p*(p+1)/2)), nrow(p)
+#else
    : m(std::vector<double,Alloc<double,25> >(p*(p+1)/2)), nrow(p)
+#endif
 {
    size = nrow * (nrow+1) / 2;
    m.assign(size,0);
 }
 
 HepSymMatrix::HepSymMatrix(int p, int init)
+#if defined __GNUC__ && (__GNUC__ < 3)
+   : m(std::vector<double >(p*(p+1)/2)), nrow(p)
+#else
    : m(std::vector<double,Alloc<double,25> >(p*(p+1)/2)), nrow(p)
+#endif
 {
    size = nrow * (nrow+1) / 2;
 
@@ -121,7 +129,11 @@ HepSymMatrix::HepSymMatrix(int p, int init)
 }
 
 HepSymMatrix::HepSymMatrix(int p, HepRandom &r)
-  : m(std::vector<double,Alloc<double,25> >(p*(p+1)/2)), nrow(p)
+#if defined __GNUC__ && (__GNUC__ < 3)
+   : m(std::vector<double >(p*(p+1)/2)), nrow(p)
+#else
+   : m(std::vector<double,Alloc<double,25> >(p*(p+1)/2)), nrow(p)
+#endif
 {
    size = nrow * (nrow+1) / 2;
    HepMatrix::mIter a = m.begin();
@@ -136,13 +148,21 @@ HepSymMatrix::~HepSymMatrix() {
 }
 
 HepSymMatrix::HepSymMatrix(const HepSymMatrix &m1)
+#if defined __GNUC__ && (__GNUC__ < 3)
+   : m(std::vector<double >(m1.size)), nrow(m1.nrow), size(m1.size)
+#else
    : m(std::vector<double,Alloc<double,25> >(m1.size)), nrow(m1.nrow), size(m1.size)
+#endif
 {
    m = m1.m;
 }
 
 HepSymMatrix::HepSymMatrix(const HepDiagMatrix &m1)
+#if defined __GNUC__ && (__GNUC__ < 3)
+   : m(std::vector<double >(m1.nrow*(m1.nrow+1)/2)), nrow(m1.nrow)
+#else
    : m(std::vector<double,Alloc<double,25> >(m1.nrow*(m1.nrow+1)/2)), nrow(m1.nrow)
+#endif
 {
    size = nrow * (nrow+1) / 2;
 
@@ -992,7 +1012,11 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
       
   static int * piv = new int[max_array]; 
   // used to store details of exchanges
+#if defined __GNUC__ && (__GNUC__ < 3)
+  std::vector<double >* xvec = new std::vector<double>(max_array);
+#else
   std::vector<double,Alloc<double,25> >* xvec = new std::vector<double,Alloc<double,25> >(max_array);
+#endif
   static mIter x = xvec->begin();
   // helper storage, needs to have at least size nrow,
   // which will be less than or equal 6 most of the time
