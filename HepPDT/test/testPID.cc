@@ -1,4 +1,4 @@
-// $Id: testPID.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: testPID.cc,v 1.4.2.1 2005/03/16 01:36:03 garren Exp $
 // ----------------------------------------------------------------------
 // TestPID.cc
 //
@@ -19,13 +19,13 @@ using std::setw;
 
 int main()
 {
-    int id[15] = { 5, 25, 15, 213, -3214, 10213, 9050225, -200543, 129050225,
-                   2000025, 3101, 3301, 1004002003, -1012006001, 555 };
+    int id[16] = { 5, 25, 15, 213, -3214, 10213, 9050225, -200543, 129050225,
+                   2000025, 3101, 3301, -2212, 1004002003, -1012006001, 555 };
     int it;
     int nr, nx;
     int chg, sid, extra;
     int js, ls;
-    for( it=0; it < 15; it++ ) {
+    for( it=0; it < 16; it++ ) {
         HepPDT::ParticleID pid( id[it] );
 	nx = pid.digit(HepPDT::n);
 	nr = pid.digit(HepPDT::nr);
@@ -44,7 +44,8 @@ int main()
 	chg = pid.threeCharge();
         if( !pid.isValid() ) {
 	   cout << "**** Invalid PID: " << pid.pid() << " ****" << endl;
-	} else if( pid.isHadron() ) {
+	} else  {
+	  if( pid.isHadron() ) {
 	    if( pid.isMeson() ) {
 	       cout << "meson   " << setw(10) << id[it] << ": " << nx
                          << " " << nr << " "  << ls << " " 
@@ -61,32 +62,38 @@ int main()
 	        cout << "**** undefined hadron: " << pid.pid() 
                           << " ****" << endl;
 	    }
-	} else if( pid.isLepton() ) {
+	  }
+	  if( pid.isLepton() ) {
 	   cout << "lepton  " << setw(10) << id[it] << ": " << nx 
                      << " " << nr << " "  << ls << " " 
 	             << cqks.nq1 << " " << cqks.nq2 << " " << cqks.nq3
                      << " " << js << " " << sid << " " << chg
 		     << " extra bits " << extra << endl;
-	} else if( pid.isDiQuark() ) {
+	  }
+	  if( pid.isDiQuark() ) {
 	   cout << "diquark " << setw(10) << id[it] << ": " << nx 
                      << " " << nr << " "  << ls << " " 
 	             << cqks.nq1 << " " << cqks.nq2 << " " << cqks.nq3 
                      << " " << js << " " << sid << " " << chg
 		     << " extra bits " << extra << endl;
-	} else if( pid.isNucleus() ) {
+	  }
+	  if( pid.isNucleus() ) {
 	   cout << "ion    " << setw(11) << id[it] 
                      << ": " << pid.digit(HepPDT::n10)
                      << " " << setw(3) << pid.A() 
                      << " " << setw(3) << pid.Z() 
                      << " " << js << " " << sid << " " << chg
 		     << " extra bits " << extra << endl;
-	} else {
+	  }
+	  if( pid.isHadron() || pid.isLepton() || pid.isDiQuark() || pid.isNucleus() ) {
+	  } else {
 	   cout << "unknown " << setw(10) << id[it] << ": " << nx 
                      << " " << nr << " "  << ls << " " 
 	             << cqks.nq1 << " " << cqks.nq2 << " " << cqks.nq3 
                      << " " << js << " " << sid << " " << chg
 		     << " extra bits " << extra << endl;
-	}
+	  }
+        }
         if( pid.isValid() ) {
 	    js = pid.jSpin();
 	    chg = pid.threeCharge();

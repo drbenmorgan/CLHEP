@@ -1,4 +1,7 @@
 2005-03-15  Lynn Garren  <garren@fnal.gov>
+
+	* ParticleID: The isNucleus method will recognize a proton (2212) 
+	as a nuclear fragment.
 	
 	* The translation free functions are now in ParticleIDTranslations.hh
 	which is included in ParticleID.hh. 
