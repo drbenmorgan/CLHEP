@@ -35,7 +35,7 @@ install-docs:
 	done
 
 clheplib: build-clheplib
-	build-clheplib $(SUBDIRS)
+	./build-clheplib $(SUBDIRS)
 
 install-exec-local: install-LTCLHEPLIB
 
