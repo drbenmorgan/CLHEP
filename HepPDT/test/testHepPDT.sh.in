@@ -3,5 +3,5 @@
 
 
 ./testHepPDT@EXEEXT@ < testHepPDT.input 
-diff -w -q testHepPDT.out @srcdir@/testHepPDT.output > /dev/null
+diff -b -q testHepPDT.out @srcdir@/testHepPDT.output > /dev/null
 

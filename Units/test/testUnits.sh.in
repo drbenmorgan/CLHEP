@@ -3,4 +3,4 @@
 
 
 ./testUnits@EXEEXT@  \
-  | diff -w -q - @srcdir@/testUnits.output > /dev/null
+  | diff -b -q - @srcdir@/testUnits.output > /dev/null

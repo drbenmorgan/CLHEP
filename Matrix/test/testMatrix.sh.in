@@ -3,4 +3,4 @@
 
 
 ./testMatrix@EXEEXT@  \
-  | diff -w -q - @srcdir@/testMatrix.output > /dev/null
+  | diff -b -q - @srcdir@/testMatrix.output > /dev/null
