@@ -15,9 +15,8 @@ AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/AxisAngle.cc])
 AM_INIT_AUTOMAKE(1.6 foreign)
 AC_PROG_LIBTOOL
-AC_PROG_LN_S
 AC_PROG_INSTALL
-
+AC_PROG_LN_S
 
 # ----------------------------------------------------------------------
 # Identify the files that 'configure' is to produce:
@@ -106,6 +105,7 @@ AH_BOTTOM([#endif  // VECTOR_DEFS_H])
 # ----------------------------------------------------------------------
 # Account for any user configuration options:
 # ----------------------------------------------------------------------
+
 
 # ----------------------------------------------------------------------
 # Check for needed programs:

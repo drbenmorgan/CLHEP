@@ -8,7 +8,7 @@ includedir=@includedir@
 
 usage()
 {
-    cat >2 <<EOF
+    cat  <<EOF
 Usage: Vector-config [OPTION]
 
 Known values for OPTION are:
@@ -60,7 +60,10 @@ while test $# -gt 0; do
 	;;
 
     --cxx)
-       	echo @CXX@
+       	echo "CXX:    " @CXX@
+       	echo "CC:     " @CC@
+       	echo "CPP:    " @CPP@
+       	echo "CXXCPP: " @CXXCPP@
        	;;
 
     --cppflags)
