@@ -1,3 +1,13 @@
+2005-03-15  Mark Fischler <mf@fnal.gov>
+
+	* engineIDulong.cc, engineIDulong.h
+	  DoubConv.cc, DoubConv.h
+	  EngineFactory.cc, ranRestoreTest.cc
+	  all Random Engine classes
+
+	Add put() and get() methods to every engine transfering state to a
+	vector of unsigned longs.
+	
 Thu Mar 10  2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
 
 	* Geometry/BasicVector3D.h : added operator to convert to Hep3Vector
@@ -5,6 +15,34 @@ Thu Mar 10  2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
 	* Geometry/config.in, Geometry/test/testBug6740.cc, Geometry/test/testBug6740.sh,
 	Geometry/test/testBug6740.output, Geometry/test/Makefile.am: added test for bug ID 6740
 	
+2005-02-14  Mark Fischler <mf@fnal.gov>
+
+	* JamesRandom.cc
+	
+	  Check that seed is non-negative. 
+	  Negative seeds give terrible sequences.
+
+2005-02-11  Mark Fischler <mf@fnal.gov>
+
+	* RandPoissonQ.cc RandPoissonT.cc RandomEngine.cc
+	
+	  Added missing implementations, per bug # 1806
+	  (FireArray(), shootArray(), getTableSeeds)
+
+2005-03-15  Mark Fischler  <mf@fnal.gov>
+
+	* SymMatrix.cc, testBug7328.cc
+	
+	Repair of bug 7328, a memory leak encountered when inverting symmetric
+	matrices above the size of 6x6.
+	
+2005-02-25  Mark Fischler  <mf@fnal.gov>
+
+	* Matrix.cc, testBug6181.cc
+	
+	Repair of bug 6181, a serious error in inverting matrices above the
+	size of 6x6.  
+
 2005-02-18  Lynn Garren  <garren@fnal.gov>
 
 	* configure.in, Makefile.am: Stop using libtool.  
