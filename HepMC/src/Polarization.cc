@@ -7,6 +7,9 @@
 #include "HepMC/defs.h"
 #include "CLHEP/HepMC/Polarization.h"
 
+#include <cmath>
+#include <stdlib.h>
+
 namespace HepMC {
 
     Polarization::Polarization( double theta, double phi ){
@@ -48,7 +51,7 @@ namespace HepMC {
     double Polarization::set_theta( double theta ) {
 	// Theta is restricted to be between 0 --> pi
 	// if an out of range value is given, it is translated to this range.
-	theta = abs( theta );
+	theta = std::abs( theta );
 	// translate to 0 < theta < 2pi
 	theta = ( theta/(2*HepMC_pi) - int(theta/(2*HepMC_pi)) ) 
 		* 2*HepMC_pi;
