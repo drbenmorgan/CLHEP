@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: GenMatrix.h,v 1.3.2.1 2004/08/25 18:37:41 pfeiffer Exp $
+// $Id: GenMatrix.h,v 1.3.2.2 2004/09/02 09:49:38 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -88,7 +88,7 @@ public:
      Alloc() throw() {}  
      Alloc(const Alloc<T,size>&) throw() {}   
      ~Alloc() throw() {}  
-     pointer allocate(size_type n ) { if( n <= size ) return pool; else return new T[n]; }  
+     pointer allocate(size_type n, const void* hint=0 ) { if( n <= size ) return pool; else return new T[n]; }  
      void deallocate(pointer p, size_type n) { if (p == pool ) return; delete [] p; }  
      void construct(pointer p, const T& val ) { new(p) T(val); }  
      void destroy(pointer p) { p->~T(); }  
