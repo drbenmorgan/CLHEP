@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.cc,v 1.4.2.2 2004/12/28 16:11:34 fischler Exp $
+// $Id: NonRandomEngine.cc,v 1.4.2.3 2005/03/11 23:24:36 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -26,7 +26,10 @@ std::string NonRandomEngine::name() const {return "NonRandomEngine";}
 
 NonRandomEngine::NonRandomEngine() : nextHasBeenSet(false), 
 				     sequenceHasBeenSet(false),
-				     intervalHasBeenSet(false) { }
+				     intervalHasBeenSet(false) ,
+                                     nextRandom(0.05),
+				     nInSeq(0),
+				     randomInterval(0.1) { }
 
 NonRandomEngine::~NonRandomEngine() { }
 
