@@ -31,6 +31,8 @@
 #include "CLHEP/Random/RandomEngine.h"
 #include "CLHEP/Matrix/Vector.h"
 
+namespace CLHEP {
+
 /**
  * @author Mark Fischler <mf@fnal.gov>
  * @ingroup robjects
@@ -115,6 +117,8 @@ private:       // -------- Data members ---------
   // True if the engine should be deleted on destruction.
 
 };
+
+}  // namespace CLHEP
 
 #include "CLHEP/RandomObjects/RandomVector.icc"
 

@@ -1,4 +1,4 @@
-// $Id: RandMultiGauss.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandMultiGauss.cc,v 1.2 2003/07/18 05:06:59 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -48,6 +48,8 @@
 #include "CLHEP/RandomObjects/RandMultiGauss.h"
 #include "RandomObjects/defs.h"
 #include <cmath>	// for log()
+
+namespace CLHEP {
 
 // ------------
 // Constructors
@@ -292,3 +294,5 @@ HepVector RandMultiGauss::operator()
   return fire(mu,S);
 } 
 
+
+}  // namespace CLHEP

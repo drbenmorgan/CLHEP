@@ -1,4 +1,4 @@
-// $Id: RandMultiGauss.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RandMultiGauss.h,v 1.2 2003/07/18 05:06:59 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -34,6 +34,8 @@
 #include "CLHEP/Matrix/Vector.h"
 #include "CLHEP/Matrix/Matrix.h"
 #include "CLHEP/Matrix/SymMatrix.h"
+
+namespace CLHEP {
 
 /**
  * @author Mark Fischler <mf@fnal.gov>
@@ -130,5 +132,7 @@ private:
   // with means of 0.
 		       
 };
+
+}  // namespace CLHEP
 
 #endif // RandMultiGauss_h 

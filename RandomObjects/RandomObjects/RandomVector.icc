@@ -9,6 +9,8 @@
 // Mark Fischler - Created: 19th October 1998
 // =======================================================================
 
+namespace CLHEP {
+
 inline void HepRandomVector::setSeed(long seed, int lux) {
   theEngine->setSeed(seed,lux);
 }
@@ -86,3 +88,4 @@ inline void HepRandomVector::flatArray(HepRandomEngine* theNewEngine,
   }
 }
 
+}  // namespace CLHEP
