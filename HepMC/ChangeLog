@@ -1,0 +1,426 @@
+==============================
+11.05.04 Release CLHEP-2.0.0.2
+==============================
+
+==============================
+11.05.04 Release CLHEP-1.9.0.2
+==============================
+    
+Tue May 11          2004 Lynn Garren <garren@fnal.gov>
+       
+	* HepMC 1.25 changes merged with CLHEP/HepMC
+	* HepMC/HepMC/CBhepevt.icc: include stdio.h
+	* HepMC/HepMC/CBherwig.icc: include stdio.h
+	
+	note that CLHEP/HepMC already had the most important change to use
+	std::iterator<std::forward_iterator_tag,GenParticle*,ptrdiff_t>
+
+==============================
+21.04.04 Release CLHEP-2.0.0.1
+==============================
+
+==============================
+24.10.03 Release CLHEP-2.0.0.0
+==============================
+
+==============================
+23.10.03 Release CLHEP-1.9.0.0
+==============================
+
+
+Fri Oct 10          2003 Lynn Garren <garren@fnal.gov>
+
+	* HepMC 1.24 changes merged with CLHEP/HepMC
+
+Wed Jan 22 16:35:11 2003 Lynn Garren <garren@fnal.gov>
+
+	* HepMC/GenParticle.h,GenVertex.h:
+	* HepMC/particleHas.cc,particleNum.cc (Added):
+	* HepMC/vertexHas.cc,vertexNum.cc (Added):
+
+	added (by request) numChildren(), numParents(), hasChildren(),
+	and hasParents() methods to HepMC::GenVertex and HepMC::GenParticle.
+	
+	* HepMC/GenParticle.cc:
+
+	don't attempt to print address of non-existent vertex pointer
+
+	* HepMC/examples/GNUmakefile: minor improvements
+	* HepMC/examples/testMethods.cc: testing new utility methods
+	* HepMC/doc/HepMC_user_manual.ps: CLHEP revision
+	
+
+Tue Oct  1 11:56:09 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepMC/doc/README, ChangeLog:
+	
+
+Fri Jul 26 16:11:29 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepMC/ParticleDataTableConfig.h: for osf1
+	* HepMC/examples/exampleReadHepMC.cc: remove extraneous semicolon
+	* HepMC/examples/GNUmakefile,example_UsingIterators.cc:
+
+	use proper true/false instead of 1/0
+
+=============================
+01.06.02 Release CLHEP-1.8.0.0
+==============================
+
+
+Thu May 30 18:51:37 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepMC/ConvertHEPEVT.h,Makefile.in:
+	* HepMC/CBInterface.h,CBhepevt.h,CBhepevt.icc (Added):
+	* HepMC/GenEventConvert.h,GenEventConvert.icc (Added):
+	* HepMC/GenEventtoHEPEVT.icc,HEPEVTtoGenEvent.icc (Added):
+	* HepMC/ConvertHEPEVT.cc,FIhepevt.cc,FIhepevt.h (Removed):
+	* HepMC/GenEventtoHEPEVT.cc,HEPEVTtoGenEvent.cc,clean.cc (Removed):
+
+	redesign interface to common blocks
+
+	* StdHep/ConversionMethods.hh,combineEvents.cc,printVersion.cc:
+	* StdHep/CBcm.hh,CBstdhep.hh,CBstdhep.icc,StdEventConvert.hh (Added):
+	* StdHep/StdEventConvert.icc,StdHep.hh,StdHepfromStdEvent.icc (Added):
+	* StdHep/StdHeptoGenEvent.icc,StdRunInfoConvert.hh (Added):
+	* StdHep/StdRunInfoConvert.icc (Added):
+	* StdHep/CollisionToStdTmp.cc,FIcm.cc,FIcm.hh,FIstdtmp.cc (Removed):
+	* StdHep/FIstdtmp.hh,MultipleInteractionInfo.cc (Removed):
+	* StdHep/RunInfoToSTDCM.cc,StdEventToHEPEVT.cc,cleantmp.cc (Removed):
+	* StdHep/findInTemporaryMap.cc,getRunInfoFromSTDCM.cc (Removed):
+	* StdHep/getStdEventfromHEPEVT.cc,setConsistencyCheck.cc (Removed):
+	* StdHep/setTrustMothers.cc setupConversion.cc (Removed):
+
+	redesign interface to common blocks
+
+	* StdHep/examples/GNUmakefile,dummy.F,examHerwigToStdHep.cc:
+	* StdHep/examples/examPythiaToStdHep.cc,readPythia.cc:
+	* StdHep/examples/readPythiaHerwig.cc:
+
+	redesign interface to common blocks
+
+	* StdHep/include/stdtmp.inc (Added): need stdtmp.inc
+
+
+Tue May 28 17:46:34 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepPDT/DMFactory.icc,ParticleDataTableT.icc: add typename
+	* HepPDT/ParticleDataTableT.icc: got one extra typename
+	
+	* HepMC/GenEventtoHEPEVT.cc,HEPEVTtoGenEvent.cc (Restored):
+	* StdHep/CollisionToStdTmp.cc,MultipleInteractionInfo.cc (Restored):
+	* StdHep/RunInfoToSTDCM.cc,StdEventToHEPEVT.cc (Restored):
+	* StdHep/getRunInfoFromSTDCM.cc,getStdEventfromHEPEVT.cc (Restored):
+
+	restore necessary files
+
+Sun May 26 11:44:07 2002 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* HepMC/DummyDecayModel.h:
+
+	Added empty implementation of ~DummyDecayModel()
+
+	* HepMC/FIhepevt.h,FIhepevt.cc:
+
+	Implementation of instance() has been moved to the header
+
+	* HepMC/GenEventtoHEPEVT.cc,HEPEVTtoGenEvent.cc (Removed):
+
+	Use of FIhepevt::instance() does not allow to create usable
+	shared library
+
+	* StdHep/FIcm.hh,FIcm.cc,FIstdtmp.hh,FIstdtmp.cc:
+
+	Implementation of instance() has been moved to the header
+
+	* StdHep/CollisionToStdTmp.cc,MultipleInteractionInfo.cc (Removed):
+	* StdHep/RunInfoToSTDCM.cc,StdEventToHEPEVT.cc (Removed):
+	* StdHep/getRunInfoFromSTDCM.cc,getStdEventfromHEPEVT.cc (Removed):
+
+	Use of FIcm::instance() and FIstdtmp::instance() does not allow
+	to create usable shared library
+
+Fri May 24 17:07:39 2002 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* configure.in:
+
+	Added cygwin
+	Disabled HepPDT, HepMC and StdHep on Windows
+
+Mon May 20 12:39:57 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepPDT/test/testHepPDT.cc,testHepPDT.out.save (Removed):
+
+	test has been moved
+
+	* HepPDT/test/Makefile.in:
+
+	only testPID remains
+
+	* HepMC/ReadHepMC.h,WriteHepMC.h:
+	* HepMC/examples/GNUmakefile:
+
+	use iostream instead of istream or ostream
+
+	* StdHep/ConversionMethods.hh,ReadStdHep.hh,StdEvent.hh,WriteStdHep.hh:
+	* StdHep/print.cc,printVersion.cc,tree.cc:
+
+	use iostream instead of istream or ostream
+
+	* StdHep/ConversionMethods.hh,Makefile.in:
+	* StdHep/CollisionFromC.cc,CollisionToC.cc,StdEventC.h (Removed):
+	* StdHep/StdEventToC.cc,getStdEventFromC.cc (Removed):
+
+	to avoid confusion, remove StdEventC.h until it works properly
+	
+Fri May 10 12:32:25 2002 Lynn Garren <garren@fnal.gov>
+
+	* StdHep/parseStdEventLine.cc,readBlockType.cc,readRunInfo.cc:
+	* StdHep/parseStdEventLine.cc,readBlockType.cc,readRunInfo.cc:
+	* StdHep/parseStdEventLine.cc,readBlockType.cc,readRunInfo.cc:
+
+	need CLHEP/config/sstream.h header
+
+	* HepMC/HepMCConfig.h,ReadHepMCBlockType.cc:
+	* HepMC/ParticleDataTableConfig.h:
+
+	remove unnecessary template instantiation
+
+	* HepMC/examples/GNUmakefile,examplePythiaWriteHepMC.cc:
+
+	remove unnecessary template instantiation
+
+	
+
+Wed May  8 11:14:51 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepMC/GenEvent.h,GenVertex.h:
+
+	use conditional typedefs for forward iterators
+	
+Wed May  1 15:32:04 2002 Lynn Garren <garren@fnal.gov>
+
+	* StdHep/ReadStdHep.hh,StdEvent.hh,StdRunInfo.cc,StdRunInfo.hh:
+	* StdHep/WriteStdHep.cc,WriteStdHep.hh,particle.cc,readRunInfo.cc:
+	* StdHep/readStdComment.cc,readStdEvent.cc,readStdRun.cc:
+	* StdHep/writeEventKey.cc,writeRunInfo.cc,writeStdComment.cc:
+	* StdHep/StdEventPAncestors.cc,StdEventPChildren.cc (Added):
+	* StdHep/StdEventPDescendants.cc,StdEventPParents.cc (Added):
+	* StdHep/StdEventVAncestors.cc,StdEventVChildren.cc (Added):
+	* StdHep/StdEventVDescendants.cc,StdEventVParents.cc (Added):
+	* StdHep/StdEventVertex.cc,collision.cc,findBlockType.cc (Added):
+	* StdHep/findNextStdEvent.cc,readBlockType.cc (Added):
+
+	improve functionality
+
+	* StdHep/examples/.cvsignore,GNUmakefile,bookhist.F:
+	* StdHep/examples/examHerwigToStdHep.cc,examPythiaToStdHep.cc:
+	* StdHep/examples/readPythia.cc,readPythiaHerwig.cc:
+	* StdHep/examples/analyzeEvent.cc,analyzeEvent.hh (Added):
+
+	improve functionality
+
+	* HepMC/ReadHepMC.cc,ReadHepMC.h,ReadHepMCDetail.cc,WriteHepMC.cc:
+	* HepMC/WriteHepMC.h,writeComment.cc:
+	* HepMC/ReadHepMCBlockType.cc,ReadHepMCComment.cc (Added):
+	* HepMC/ReadHepMCFindBlock.cc,ReadNextHepMC.cc (Added):
+
+	improve functionality
+	
+	* HepMC/examples/examplePythiaWriteHepMC.cc,exampleReadHepMC.cc:
+
+	improve functionality
+
+=========================================
+25.04.02 revised StdHep uses HepMC
+=========================================
+
+Thu Apr 25 16:13:27 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepMC/GenEvent.cc,GenEvent.h,ReadHepMCDetail.cc,WriteHepMC.cc:
+	* HepMC/examples/IO_Ascii.cc:
+
+	need to save random state as doubles
+
+	* StdHep: added to the repository
+
+	* Makefile.in,configure.in: rename StdHepC++ to StdHep
+
+	* StdHep/CollisionFromC.cc,CollisionToC.cc (Added):
+	* StdHep/CollisionToStdTmp.cc,ConversionMethods.hh (Added):
+	* StdHep/FIcm.cc,FIcm.hh,FIstdtmp.cc,FIstdtmp.hh (Added):
+	* StdHep/Makefile.in,MultipleInteractionInfo.cc,ReadStdHep.hh (Added):
+	* StdHep/RunInfoToSTDCM.cc,StdEvent.cc,StdEvent.hh,StdEventC.h (Added):
+	* StdHep/StdEventToC.cc,StdEventToHEPEVT.cc,StdHepVersion.h (Added):
+	* StdHep/StdRunInfo.cc,StdRunInfo.hh,WriteStdHep.cc (Added):
+	* StdHep/WriteStdHep.hh,appendCollision.cc,cleantmp.cc (Added):
+	* StdHep/combineEvents.cc,findInTemporaryMap.cc (Added):
+	* StdHep/getRunInfoFromSTDCM.cc,getStdEventFromC.cc (Added):
+	* StdHep/getStdEventfromHEPEVT.cc,numParticles.cc (Added):
+	* StdHep/numVertices.cc,parseStdEventLine.cc,particle.cc (Added):
+	* StdHep/print.cc,printVersion.cc,readRunInfo.cc (Added):
+	* StdHep/readStdComment.cc,readStdEvent.cc,readStdEventInfo.cc (Added):
+	* StdHep/readStdRun.cc,setConsistencyCheck.cc (Added):
+	* StdHep/setTrustMothers.cc,setupConversion.cc,tree.cc (Added):
+	* StdHep/writeEventKey.cc,writeRunInfo.cc,writeStdComment.cc (Added):
+
+	revised StdHep uses HepMC
+
+	* StdHep/include/Makefile.in,herwig61.inc,herwig64.inc (Added):
+	* StdHep/include/stdcm1.h,stdcm1.inc,stdcnt.h,stdcnt.inc (Added):
+	* StdHep/include/stdevent.h,stdlun.h,stdlun.inc,stdtmp.h (Added):
+	* StdHep/include/stdver.h,stdver.inc (Added):
+
+	revised StdHep uses HepMC
+
+	* StdHep/examples/GNUmakefile,bookhist.F,dummy.F (Added):
+	* StdHep/examples/examHerwigToStdHep.cc,examPythiaToStdHep.cc (Added):
+	* StdHep/examples/hwghep.F,hwtran.F,lunhep.F,lutran.F (Added):
+	* StdHep/examples/readPythia.cc,readPythiaHerwig.cc,readcxx.F (Added):
+	* StdHep/examples/stdflhwxsec.F,stdflpyxsec.F,stdhwgcxx.F (Added):
+	* StdHep/examples/stdpytcxx.F (Added):
+
+	revised StdHep uses HepMC
+
+	* HepMC/FIhepevt.cc: need pretend-to-use
+
+Tue Apr 23 09:51:58 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepMC/Polarization.cc: TemplateFuntions.h required for egcs
+	* HepMC/ReadHepMCDetail.cc,WriteHepMCDetail.cc: use explicit namespace
+	* HepMC/Flow.h,GenParticle.h: remove set_unique_icode
+	* HepMC/vertexPointers.cc: improve failure checks
+	* HepMC/examples/GNUmakefile: add debug option
+	* Makefile.in: don't clean HepPDT/test here
+
+Thu Apr 18 12:21:36 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepMC/include/hepev4.h,hepev4.inc (Added): more information
+
+	* HepMC/Polarization.h:
+	* HepPDT/addPDGParticles.cc,digit.cc:
+
+	for consistency, get math.h from CLHEP.h
+
+	* HepPDT,HepPDT/test: replace HepStd and HepSTL with std
+
+	* HepMC/GenEvent.cc,GenEventtoHEPEVT.cc,GenParticle.cc,GenVertex.cc:
+
+	use stdio.h instead of cstdio - for DEC
+
+	* HepMC/HepMCConfig.h: fix forward declaration
+
+	* HepMC/examples/testMethods.cc: get rid of cmath
+	
+Wed Apr 17 13:33:45 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepMC/FIhepevt.h,GenEvent.h,GenEventtoHEPEVT.cc,GenParticle.h:
+	* HepMC/HEPEVTtoGenEvent.cc,clean.cc:
+	* HepMC/particleMotherDaughter.cc (Added):
+
+	adding old StdHepC++ methods
+        deal with another common block
+
+	* HepMC/examples/initpydata.F: deal with another common block
+
+	* HepMC/Polarization.h:
+	* HepPDT/addPDGParticles.cc,digit.cc:
+
+	use math.h instead of cmath
+        cannot use std::sqrt or std::pow with math.h
+
+	
+Fri Mar  8 12:00:47 2002 Lynn Garren <garren@fnal.gov>
+
+	* Makefile.in,configure.in:
+	Added HepMC.
+
+=========================================
+08.03.02 HepMC has become a part of CLHEP
+=========================================
+
+Fri Mar  8 12:00:47 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepMC (Added):
+	* HepMC/include (Added):
+	* HepMC/doc (Added):
+	* HepMC/examples (Added):
+
+	HepMC added the repository.
+
+Fri Mar  8 09:55:09 2002 Lynn Garren <garren@fnal.gov>
+
+	* config/CLHEP-target.h.in,CLHEP.h:
+	* config/istream.h,ostream.h (Added):
+
+	Need to deal with base_ios (standard) versus ios (old).
+	
+        * HepPDT/ParticleDataTableT.icc,TableBuilderPythiaT.icc: 
+        * HepPDT/TableBuilderT.hh,TableBuilderT.icc:
+	* HepPDT/stringtodouble.cc,stringtodouble.hh (Added):
+
+	Get ready for HepMC.
+	
+	* HepPDT/test/testHepPDT.cc,testHepPDT.out.save:
+
+	Get ready for HepMC.
+
+	* HepPDT/examples/examMyPDT.out.save,examReadEvtGen.out.save:
+	* HepPDT/examples/examReadPDG.out.save,examReadPythia.out.save:
+	* HepPDT/examples/examReadQQ.out.save: 
+	
+	Get ready for HepMC.
+	
+==========================================
+09.11.01 HepPDT has become a part of CLHEP
+==========================================
+
+==============================
+15.06.01 Release CLHEP-1.7.0.0
+==============================
+
+==========================================================================
+18.01.01 ZOOM PhysicsVectors Capabilities have become part of CLHEP/Vector
+==========================================================================
+
+======================================================================
+24.10.00 Generic Functions by Joe Boudreau have become a part of CLHEP
+======================================================================
+
+==============================
+20.10.00 Release CLHEP-1.6.0.0
+==============================
+
+==============================================================================
+12.10.00 Expression Evaluator by Evgueni Tcherniaev has become a part of CLHEP
+         Alist, String and Combination have been disabled
+==============================================================================
+
+==============================
+08.05.00 Release CLHEP-1.5.0.0
+==============================
+
+===========================================================
+24.04.00 StdHepC++ by Lynn Garren has become a part of CLHEP
+============================================================
+
+==============================
+20.04.99 Release CLHEP-1.4.0.0
+==============================
+
+=========================================================================
+16.12.98 Started: merging with BaBar version of CLHEP provided by G.Cosmo
+=========================================================================
+
+==========================
+28.07.98 Release CLHEP-1.3
+==========================
+
+==========================
+05.02.98 Release CLHEP-1.2
+==========================
+
+========================================================
+08.12.97 Release CLHEP-1.1: Geant4 has migrated to CLHEP
+========================================================
+

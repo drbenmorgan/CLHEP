@@ -1,0 +1,269 @@
+==============================
+11.05.04 Release CLHEP-2.0.0.2
+==============================
+
+==============================
+11.05.04 Release CLHEP-1.9.0.2
+==============================
+    
+==============================
+21.04.04 Release CLHEP-2.0.0.1
+==============================
+
+==============================
+24.10.03 Release CLHEP-2.0.0.0
+==============================
+
+==============================
+23.10.03 Release CLHEP-1.9.0.0
+==============================
+
+Mon May  5 10:32:18 2003 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/BasicVector3D.h,Normal3D.h,Plane3D.cc,Plane3D.h,Point3D.h:
+	* Geometry/Transform3D.cc,Transform3D.h,Vector3D.h:
+	* Geometry/BasicVector3D.cc,Normal3D.cc,Point3D.cc (Added):
+	* Geometry/Transform3D.icc,Vector3D.cc (Added):
+
+	Template implementation of Point3D<T>, Vector3D<T> and Normal3D<T>.
+
+	* test/testBasicVector3D.cc:
+	* test/testBasicVector3D.input,testBasicVector3D.out.save:
+
+	New (rather complete) test for basic geometrical classes.
+
+	* test/Makefile.in:
+
+	Use diff -w to avoid problems on Windows.	
+
+Wed Jul 31 18:29:05 2002 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Transform3D.cc,Transform3D.h:
+	* test/testTransform3D.cc:
+
+	Rewritten test for equality
+
+Mon Jul 29 18:24:13 2002 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Transform3D.cc,Transform3D.h:
+	* test/testTransform3D.cc:
+
+	 Added isNear() function
+
+==============================
+01.06.02 Release CLHEP-1.8.0.0
+==============================
+
+=========================================
+25.04.02 revised StdHep uses HepMC
+=========================================
+
+Fri Apr 19 18:33:41 2002 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/BasicVector3D.h,Normal3D.h,Plane3D.h,Point3D.h:
+	* Geometry/Transform3D.h,Vector3D.h:
+
+	Added documenting comments.
+	
+=========================================
+08.03.02 HepMC has become a part of CLHEP
+=========================================
+
+==========================================
+09.11.01 HepPDT has become a part of CLHEP
+==========================================
+
+
+Mon Aug 13 11:21:31 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/BasicVector3D.h: Corrected operator>>
+	
+Tue Jul 31 18:54:39 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/BasicVector3D.h:
+
+	Constructor from Hep3Vector is now protected.
+	Changed the signature of the conversion operator to Hep3Vector.
+	
+Thu Jul 26 18:51:47 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/BasicVector3D.h:
+
+	Added r(), getR(), SetR(), getPhi(), getTheta(),
+	eta(), getEta(), setEta().	
+	
+==============================
+15.06.01 Release CLHEP-1.7.0.0
+==============================
+
+Fri Jun 15 09:30:42 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Transform3D.cc,Transform3D.h: Disabled m^-1.
+
+	* configure.in:
+
+	Set default options for MS VC++ to "-DWIN32 -O -GX -GR -MD"
+
+	* test/testEvaluator.cc:
+
+	Added "return 0" to avoid problems with "make -check" on NT.
+	Added header comments.
+
+	* test/testBasicVector3D.cc:
+
+	Changed endl to HepStd::endl
+
+Thu Jun 14 11:27:44 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/BasicVector3D.h (Added):
+	* Geometry/Point3D.h,Vector3D.h,Normal3D.h:
+
+	* test/testBasicVector3D.cc (Added):
+	* test/testBasicVector3D.input,testBasicVector3D.out.save (Added):
+	* test/testTransform3D.cc,Makefile.in:
+
+	Added BasicVector3D.h to decouple functionality of Point3D,
+	Vector3D and Normal3D from functionality of Hep3Vector.
+
+	* test/testEvaluator.in (Removed):
+	* test/testEvaluator.input (Added):
+	* test/Makefile.in:
+
+	testEvaluator.in has been renamed to testEvaluator.input
+	
+Mon Jun 11 10:20:35 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+	
+	* Geometry/Transform3D.cc,Transform3D.h:
+
+	Added getDecomposition(Scale &, Rotation &, Translation &)
+	
+	* test/Makefile.in:
+	* test/testTransform3D.cc (Added): Added test for Transform3D.
+
+	* test/testAList.cc,testCmd.cc,testCmd.out.save (Removed): 
+	* test/testComb.cc,testStrings.cc (Removed):
+
+	Removed obsolete tests.
+	
+Fri May 18 09:32:21 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Evaluator/hash_map.src,utility.src:
+
+	removed "using HepSTL::pair", because it does not compile on HP.
+
+Mon Jan 29 16:59:00 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Transform3D.cc,Transform3D.h: Added subscripting
+	
+==========================================================================
+18.01.01 ZOOM PhysicsVectors Capabilities have become part of CLHEP/Vector
+==========================================================================
+
+======================================================================
+24.10.00 Generic Functions by Joe Boudreau have become a part of CLHEP
+======================================================================
+
+==============================
+20.10.00 Release CLHEP-1.6.0.0
+==============================
+
+Sun Oct 15 18:26:12 2000 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Plane3D.h:
+
+	Bug correction in transform(). Thanks to Helge.Voss@cern.ch.
+
+==============================================================================
+12.10.00 Expression Evaluator by Evgueni Tcherniaev has become a part of CLHEP
+         Alist, String and Combination have been disabled
+==============================================================================
+
+==============================
+08.05.00 Release CLHEP-1.5.0.0
+==============================
+
+============================================================
+24.04.00 StdHepC++ by Lynn Garren has become a part of CLHEP
+============================================================
+
+==============================
+20.04.99 Release CLHEP-1.4.0.0
+==============================
+
+	
+Sun Apr 18 15:36:46 1999 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Transform3D.h:
+
+	Changes in comments to avoid warnings when compile with
+	g++ -Wall -pedantic
+
+Tue Apr  6 19:13:35 1999 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Normal3D.h,Plane3D.h,Point3D.h,Vector3D.h:
+
+	Added explicit destructor by request of S.Giani
+
+=========================================================================
+16.12.98 Started: merging with BaBar version of CLHEP provided by G.Cosmo
+=========================================================================
+
+	
+Fri Oct 23 14:14:07 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Point3D.h: 
+
+	Added const in arguments of distance() and distance2()
+
+==========================
+28.07.98 Release CLHEP-1.3
+==========================
+
+
+Wed May 13 18:02:38 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Normal3D.h,Plane3D.h,Vector3D.h (transform):
+
+	In transform() the non-const argument changed to const
+
+Thu Apr  9 15:47:33 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Plane3D.h: Rewritten operator ==, added operator !=
+
+	* Makefile.in: "distclean" target now does not erase "configure"
+
+==========================
+05.02.98 Release CLHEP-1.2
+==========================
+
+
+Fri Jan 23 16:24:24 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Plane3D.h:
+	* Matrix/DiagMatrix.h,Matrix.h,SymMatrix.h,Vector.h:
+	* String/CmdLine.h:
+	* Vector/LorentzVector.h,ThreeVector.h: 
+	
+	Declaration class ostream; changed to #include <iostream.h>
+	to avoid problems with KCC
+
+Tue Dec 16 11:24:16 1997 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Point3D.h:
+
+	Added const for distance() and distance2()
+
+========================================================
+08.12.97 Release CLHEP-1.1: Geant4 has migrated to CLHEP
+========================================================
+
+	
+Fri Oct 10 12:10:57 1997 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/:
+	* Normal3D.h,Plane3D.cc,Plane3D.h,Point3D.h,Transform3D.cc: 
+	* Transform3D.h,Vector3D.h:
+
+	Changes in comments
+
+

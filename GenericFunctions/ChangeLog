@@ -1,0 +1,336 @@
+==============================
+11.05.04 Release CLHEP-2.0.0.2
+==============================
+
+==============================
+11.05.04 Release CLHEP-1.9.0.2
+==============================
+    
+==============================
+21.04.04 Release CLHEP-2.0.0.1
+==============================
+
+
+==============================
+24.10.03 Release CLHEP-2.0.0.0
+==============================
+
+Fri Oct 24          2003 Lynn Garren <garren@fnal.gov>
+
+	* tagged for CLHEP 2.0.0.0
+	
+	* backwards compatibility code disabled
+
+==============================
+23.10.03 Release CLHEP-1.9.0.0
+==============================
+
+Sun Nov 24 16:03:56 2002 Joe Boudreau <boudreau@fnal.gov>
+
+	* GenericFunctions/GSLMetaProxy.c,GSLMetaProxy.h (Removed): 
+	* GenericFunctions/Bessel.hh,EllipticIntegral.hh,SphericalBessel.hh:
+	* GenericFunctions/SphericalNeumann.hh:
+	* GenericFunctions/Bessel.cc,EllipticIntegral.cc,SphericalBessel.cc:
+	* GenericFunctions/SphericalNeumann.cc:
+
+	Finally got rid of the MetaProxy scheme in favor of something
+	much simpler suggested a long time ago by Evgueni.. Namely
+	putting all the code that calls GSL into .icc files.
+	That makes CLHEP independent of the external package
+	but user code will develop a dependency as soon as it includes
+	either the Bessels, the Spherical Bessels/Neumanns, or
+	the Elliptic Integrals.
+
+Mon Oct 28 15:07:43 2002 Mark Fischler <mf@fnal.gov>
+
+	* GenericFunctions/Psi2Hydrogen.cc:
+
+	Correct a warning about double to int, caused by using a 1.0
+	in an expression being used as int argument to factorial. 
+
+Thu Oct 10 16:33:48 2002 Joe Boudreau <boudreau@fnal.gov>
+
+	* GenericFunctions/Psi2Hydrogen.cc,Psi2Hydrogen.hh (Added):
+
+	Added Hydrogenic Wavefunctions
+
+	* GenericFunctions/Abs.cc,Abs.hh (Added):
+
+	Added Absolute value functions
+
+	* GenericFunctions/Variable.cc,Variable.hh:
+
+	Brought the variable class up to date with the FNAL repository
+	version where most of the development work has been taking place
+	till now
+
+	* GenericFunctions/Parameter.cc:
+
+	Portability change in print method
+
+	* GenericFunctions/ParamToArgAdaptor.icc:
+
+	Removed numeric_limits class, use of which limits portability
+	
+==============================
+01.06.02 Release CLHEP-1.8.0.0
+==============================
+
+
+Mon May 27 15:07:16 2002 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* GenericFunctions/AbsFunction.hh,AbsParameter.hh:
+
+	The copy constructors are now public rather than private.
+	It has been done to avoid multiple warnings on Sun Solaris.
+	An example of the compiler message:
+
+	"ACos.cc", line 33: Warning (Anachronism):
+	Genfun::AbsFunction::AbsFunction(const Genfun::AbsFunction&) is not
+	accessible from Genfun::ACos::partial(unsigned) const.
+	1 Warning(s) detected. 
+
+Wed May  8 13:46:50 2002 Mark Fischler <mf@fnal.gov>
+
+	* GenericFunctions/DoubleParamToArgAdaptor.icc,ParamToArgAdaptor.icc:
+	* GenericFunctions/ACos.cc,ACos.hh,ASin.cc,ASin.hh (Added):
+	* GenericFunctions/ATan.cc,ATan.hh,Bessel.cc (Added):
+	* GenericFunctions/EllipticIntegral.cc,EllipticIntegral.hh (Added):
+	* GenericFunctions/SphericalBessel.cc,SphericalNeumann.cc (Added):
+
+	Files that had been in ZOOM's CLHEP but were not in the CERN version.
+	These have been brought up to date so as to work with the latest
+	config.h (that is, HEP_BEGIN_NAMESPACE no longer appears, etc.)
+
+Wed May  8 11:14:51 2002 Lynn Garren <garren@fnal.gov>
+
+	* HepMC/GenEvent.h,GenVertex.h:
+
+	use conditional typedefs for forward iterators
+	
+=========================================
+25.04.02 revised StdHep uses HepMC
+=========================================
+
+Wed Apr 17 10:08:52 2002 Mark Fischler <mf@fnal.gov>
+
+	* GenericFunctions/IncompleteGamma.hh,IncompleteGamma.cc:
+
+	Prevent the warning in gcc 3 about comparison of signed to
+	unsigned int, while not breaking the behavion of the code,
+	by making the static const ITMAX into an int instead of
+	an unsigned int.
+	
+=========================================
+08.03.02 HepMC has become a part of CLHEP
+=========================================
+
+	
+Tue Mar  5 16:41:23 2002 Mark Fischler <mf@fnal.gov>
+
+	* GenericFunctions/IncompleteGamma.cc:
+	Fix something that fails to compile on some good compilers (gcc 3).
+
+==========================================
+09.11.01 HepPDT has become a part of CLHEP
+==========================================
+
+==============================
+15.06.01 Release CLHEP-1.7.0.0
+==============================
+
+Mon Jun 11 10:20:35 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+
+	* GenericFunctions/FunctionNumDeriv.cc: Replaced max() by if()
+
+	* GenericFunctions/Variable.hh:
+
+	Removed const from parameters of the constructor
+	Variable(unsigned int selectionIndex=0);
+	
+Fri Jun  8 17:47:25 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* GenericFunctiuons/Makefile.in:
+
+	Disabled compilation of Bessel.cc, SphericalBessel.cc
+	and SphericalNeumann.cc
+
+
+Wed May 16 07:10:41 2001 Joe Boudreau <boudreau@fnal.gov>
+
+	* ENTIRE_GenericFunctions_Package:
+	* GenericFunctions/Bessel.cc,Bessel.hh (Added):
+	* GenericFunctions/BivariateGaussian.cc,BivariateGaussian.hh (Added):
+	* GenericFunctions/CutBase.hh,CutBase.icc (Added):
+	* GenericFunctions/DoubleParamToArgAdaptor.hh (Added):
+	* GenericFunctions/DoubleParamToArgAdaptor.icc (Added):
+	* GenericFunctions/Exp.cc,Exp.hh (Added):
+	* GenericFunctions/FunctionNoop.cc,FunctionNoop.hh (Added):
+	* GenericFunctions/FunctionNumDeriv.cc,FunctionNumDeriv.hh (Added):
+	* GenericFunctions/GSLMetaProxy.c,GSLMetaProxy.h (Added):
+	* GenericFunctions/Landau.cc,Landau.hh,Ln.cc,Ln.hh (Added):
+	* GenericFunctions/ParamToArgAdaptor.hh,ParamToArgAdaptor.icc (Added):
+	* GenericFunctions/Tan.cc,Tan.hh (Added):
+	* GenericFunctions/TrivariateGaussian.cc (Added):
+	* GenericFunctions/TrivariateGaussian.hh (Added):
+
+	* GenericFunctions/doc/genericFunctions.tex:
+	
+	Bringing the official CLHEP release up to date. The development
+	has been happening within another repository (at Fermilab),
+	now I am putting several months of work back into the CLHEP
+	repository.
+
+	In addition to routine bug fixes, the major points are:
+
+	* Automatic derivative computation
+	* Bessel functions, Landau functions, Bivariate and Trivariate
+	  Gaussian distributions, Parameter-to-argument adaptors.
+	* Use of GSL where available, and a Meta-proxy library used
+	  to limp along without the GSL.
+	* The base classes for Cuts, providing a for functions that
+	  return a yes/no decision for a particular data type, BUT..
+	  obeying a boolean algebra.  Designed to interoperate with
+	  the STL; and templated on the data type which is cut upon.
+
+	  I discussed this a little in HEPVis'01, and just decided to
+	  implement it.
+
+==========================================================================
+18.01.01 ZOOM PhysicsVectors Capabilities have become part of CLHEP/Vector
+==========================================================================
+	
+======================================================================
+24.10.00 Generic Functions by Joe Boudreau have become a part of CLHEP
+======================================================================
+
+Tue Oct 24 09:16:12 2000 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Makefile.in,configure.in:
+
+	* GenericFunctions/Makefile.in (Added): 
+	* GenericFunctions/AbsFunction.cc,AbsFunction.hh (Added):
+	* GenericFunctions/AbsFunctional.cc,AbsFunctional.hh (Added):
+	* GenericFunctions/AbsParameter.cc,AbsParameter.hh (Added):
+	* GenericFunctions/AnalyticConvolution.cc (Added):
+	* GenericFunctions/AnalyticConvolution.hh (Added):
+	* GenericFunctions/Argument.hh,ArgumentList.hh (Added):
+	* GenericFunctions/AssociatedLaguerre.cc (Added):
+	* GenericFunctions/AssociatedLaguerre.hh (Added):
+	* GenericFunctions/AssociatedLegendre.cc (Added):
+	* GenericFunctions/AssociatedLegendre.hh (Added): 
+	* GenericFunctions/ConstMinusFunction.cc (Added):
+	* GenericFunctions/ConstMinusFunction.hh (Added): 
+	* GenericFunctions/ConstMinusParameter.cc (Added):
+	* GenericFunctions/ConstMinusParameter.hh (Added): 
+	* GenericFunctions/ConstOverFunction.cc,ConstOverFunction.hh (Added): 
+	* GenericFunctions/ConstOverParameter.cc (Added):
+	* GenericFunctions/ConstOverParameter.hh (Added): 
+	* GenericFunctions/ConstPlusFunction.cc,ConstPlusFunction.hh (Added): 
+	* GenericFunctions/ConstPlusParameter.cc (Added):
+	* GenericFunctions/ConstPlusParameter.hh (Added): 
+	* GenericFunctions/ConstTimesFunction.cc (Added):
+	* GenericFunctions/ConstTimesFunction.hh (Added): 
+	* GenericFunctions/ConstTimesParameter.cc (Added):
+	* GenericFunctions/ConstTimesParameter.hh (Added):
+	* GenericFunctions/Cos.cc,Cos.hh (Added): 
+	* GenericFunctions/CumulativeChiSquare.cc (Added):
+	* GenericFunctions/CumulativeChiSquare.hh (Added): 
+	* GenericFunctions/DefiniteIntegral.cc,DefiniteIntegral.hh (Added):
+	* GenericFunctions/Erf.cc,Erf.hh (Added):
+	* GenericFunctions/Exponential.cc,Exponential.hh (Added):
+	* GenericFunctions/FixedConstant.cc,FixedConstant.hh (Added):
+	* GenericFunctions/FloatingConstant.cc,FloatingConstant.hh (Added): 
+	* GenericFunctions/FunctionComposition.cc (Added):
+	* GenericFunctions/FunctionComposition.hh (Added):
+	* GenericFunctions/FunctionConvolution.cc (Added):
+	* GenericFunctions/FunctionConvolution.hh (Added): 
+	* GenericFunctions/FunctionDifference.cc (Added):
+	* GenericFunctions/FunctionDifference.hh (Added): 
+	* GenericFunctions/FunctionDirectProduct.cc (Added):
+	* GenericFunctions/FunctionDirectProduct.hh (Added): 
+	* GenericFunctions/FunctionNegation.cc,FunctionNegation.hh (Added): 
+	* GenericFunctions/FunctionPlusParameter.cc (Added):
+	* GenericFunctions/FunctionPlusParameter.hh (Added): 
+	* GenericFunctions/FunctionProduct.cc,FunctionProduct.hh (Added):
+	* GenericFunctions/FunctionQuotient.cc,FunctionQuotient.hh (Added):
+	* GenericFunctions/FunctionSum.cc,FunctionSum.hh (Added): 
+	* GenericFunctions/FunctionTimesParameter.cc (Added):
+	* GenericFunctions/FunctionTimesParameter.hh (Added): 
+	* GenericFunctions/Gaussian.cc,Gaussian.hh (Added):
+	* GenericFunctions/GenericFunctions.hh (Added):
+	* GenericFunctions/IncompleteGamma.cc,IncompleteGamma.hh (Added):
+	* GenericFunctions/LikelihoodFunctional.cc (Added): 
+	* GenericFunctions/LikelihoodFunctional.hh (Added):
+	* GenericFunctions/LogGamma.cc,LogGamma.hh (Added):
+	* GenericFunctions/Parameter.cc,Parameter.hh (Added):
+	* GenericFunctions/ParameterDifference.cc (Added):
+	* GenericFunctions/ParameterDifference.hh (Added):
+	* GenericFunctions/ParameterNegation.cc,ParameterNegation.hh (Added):
+	* GenericFunctions/ParameterProduct.cc,ParameterProduct.hh (Added): 
+	* GenericFunctions/ParameterQuotient.cc,ParameterQuotient.hh (Added):
+	* GenericFunctions/ParameterSum.cc,ParameterSum.hh (Added):
+	* GenericFunctions/PeriodicRectangular.cc (Added):
+	* GenericFunctions/PeriodicRectangular.hh (Added):
+	* GenericFunctions/Power.cc,Power.hh (Added):
+	* GenericFunctions/Rectangular.cc,Rectangular.hh (Added): 
+	* GenericFunctions/ReverseExponential.cc (Added):
+	* GenericFunctions/ReverseExponential.hh (Added):
+	* GenericFunctions/Sin.cc,Sin.hh (Added): 
+	* GenericFunctions/SphericalBessel.cc,SphericalBessel.hh (Added):
+	* GenericFunctions/SphericalNeumann.cc,SphericalNeumann.hh (Added):
+	* GenericFunctions/Sqrt.cc,Sqrt.hh (Added):
+	* GenericFunctions/Square.cc,Square.hh (Added): 
+	* GenericFunctions/Variable.cc,Variable.hh,X.cc,X.hh (Added):
+	
+	* GenericFunctions/doc/Makefile (Added):
+	* GenericFunctions/doc/PartiallyClosed.ps,TotallyClosed.ps (Added):
+	* GenericFunctions/doc/WideOpen.ps,example.ps,hydrogen.ps (Added):
+	* GenericFunctions/doc/genericFunctions.ps (Added):
+	* GenericFunctions/doc/genericFunctions.tex (Added):
+
+	* test/Makefile.in:
+	* test/testGenericFunctions.cc,testGenericFunctions.out.save (Added):
+
+	Added new package - GenericFunctions
+	
+==============================
+20.10.00 Release CLHEP-1.6.0.0
+==============================
+
+
+==============================================================================
+12.10.00 Expression Evaluator by Evgueni Tcherniaev has become a part of CLHEP
+         Alist, String and Combination have been disabled
+==============================================================================
+
+==============================
+08.05.00 Release CLHEP-1.5.0.0
+==============================
+
+============================================================
+24.04.00 StdHepC++ by Lynn Garren has become a part of CLHEP
+============================================================
+
+
+==============================
+20.04.99 Release CLHEP-1.4.0.0
+==============================
+
+=========================================================================
+16.12.98 Started: merging with BaBar version of CLHEP provided by G.Cosmo
+=========================================================================
+
+==========================
+28.07.98 Release CLHEP-1.3
+==========================
+
+	
+==========================
+05.02.98 Release CLHEP-1.2
+==========================
+
+========================================================
+08.12.97 Release CLHEP-1.1: Geant4 has migrated to CLHEP
+========================================================

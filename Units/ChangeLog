@@ -1,0 +1,173 @@
+==============================
+11.05.04 Release CLHEP-2.0.0.2
+==============================
+
+==============================
+11.05.04 Release CLHEP-1.9.0.2
+==============================
+    
+==============================
+21.04.04 Release CLHEP-2.0.0.1
+==============================
+==============================
+24.10.03 Release CLHEP-2.0.0.0
+==============================
+
+==============================
+23.10.03 Release CLHEP-1.9.0.0
+==============================
+	
+==============================
+01.06.02 Release CLHEP-1.8.0.0
+==============================
+
+=========================================
+25.04.02 revised StdHep uses HepMC
+=========================================
+
+=========================================
+08.03.02 HepMC has become a part of CLHEP
+=========================================
+
+==========================================
+09.11.01 HepPDT has become a part of CLHEP
+==========================================
+	
+Mon Jun 18 13:58:16 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Units/doc (Added):
+	* Units/doc/Units.tex (Added):
+
+	Added documentation for Units.
+	
+==============================
+15.06.01 Release CLHEP-1.7.0.0
+==============================
+	
+Mon Mar  5 17:09:31 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Units/SystemOfUnits.h:
+
+	Added 'parsec'. It corresponds to the latest developments going
+	on in Geant4.
+	
+==========================================================================
+18.01.01 ZOOM PhysicsVectors Capabilities have become part of CLHEP/Vector
+==========================================================================
+
+======================================================================
+24.10.00 Generic Functions by Joe Boudreau have become a part of CLHEP
+======================================================================
+
+==============================
+20.10.00 Release CLHEP-1.6.0.0
+==============================
+
+==============================================================================
+12.10.00 Expression Evaluator by Evgueni Tcherniaev has become a part of CLHEP
+         Alist, String and Combination have been disabled
+==============================================================================
+
+==============================
+08.05.00 Release CLHEP-1.5.0.0
+==============================
+
+============================================================
+24.04.00 StdHepC++ by Lynn Garren has become a part of CLHEP
+============================================================
+
+==============================
+20.04.99 Release CLHEP-1.4.0.0
+==============================
+
+Fri Feb 12 11:37:21 1999 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* configure.in: Added +DAportable option for CC
+
+	* test/testUnits.cc:
+
+	Added check that local variables do not	interfere with global ones
+ 
+=========================================================================
+16.12.98 Started: merging with BaBar version of CLHEP provided by G.Cosmo
+=========================================================================
+
+Mon Sep 14 15:24:00 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Units/SystemOfUnits.h: 
+
+	Added angstrom, picobarn, microsecond, picosecond, petaelectronvolt
+	
+==========================
+28.07.98 Release CLHEP-1.3
+==========================
+
+
+Fri Jul  3 15:44:38 1998 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Units/PhysicalConstants.h,SystemOfUnits.h:
+
+	Modifications provided by Michel Maire taking into account comments
+	from the STAR group
+
+	* PersistenIO/:	
+	* ClassDescription.cc,ClassDescription.h,ClassDescription.icc: 
+	* DescriptionList.cc,DescriptionList.h,GenericLoader.cc: 
+	* GenericLoader.h,Makefile.in,PIBinStream.cc,PIBinStream.h: 
+	* PICharStream.cc,PICharStream.h,PICharStream.icc,PIOStream.cc: 
+	* PIOStream.h,PIStream.cc,PIStream.h,PIStream.icc,PIXdrStream.cc: 
+	* PIXdrStream.h,PIXdrStream.icc,POBinStream.cc,POBinStream.h: 
+	* POCharStream.cc,POCharStream.h,POCharStream.icc,POStream.cc: 
+	* POStream.h,POStream.icc,POXdrStream.cc,POXdrStream.h: 
+	* POXdrStream.icc,PersistentBase.cc,PersistentBase.h:
+	* RTTIBase.cc,RTTIBase.h,RTTIBase.icc,TypeInfo.cc,TypeInfo.h:
+	* TypeInfo.icc (Removed): 
+
+	* Combination/:
+	* DecayChannel.h,FloatWithError.h,HepBaseParticle.cc: 
+	* HepBaseParticle.h,HepBaseParticle.icc,InterfaceParticle.cc: 
+	* InterfaceParticle.h,InterfaceParticle.icc,ParticleData.h (Removed): 
+
+	* test/:
+	* A.cc,A.h,B.cc,B.h,C.cc,C.h,D.cc,D.h,matrixBug.cc,testPIBS.cc: 
+	* testPIBSd.cc,testPIBSdc.cc,testPIBSdcb.cc,testPICS.cc: 
+	* testPIXS.cc,testPOS.cc,testRTTI.cc (Removed):
+
+	PersistentIO removal
+	
+========================
+05.02.98 Release CLHEP-1.2
+==========================
+
+========================================================
+08.12.97 Release CLHEP-1.1: Geant4 has migrated to CLHEP
+========================================================
+
+	
+Fri Dec  5 09:28:25 1997 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Units/PhysicalConstants.h,SystemOfUnits.h: 
+
+	Removed all HepUnitOf...
+	Redefined pascal
+	Replaced pasc to pascal
+ 	Added km, km2, km3 and mg
+
+Thu Nov 27 14:59:23 1997 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* test/testUnits.cc:
+
+	exit(0) changed to return 0
+
+	
+Sun Oct 12 11:47:36 1997 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Units/PhysicalConstants.h,SystemOfUnits.h: Changes in comments
+
+
+Wed Mar 12 07:53:31 1997  Nobu KATAYAMA  <katayama@hpca02.cern.ch>
+
+	- Added Units from the Geant4 team.
+
+	- Added HEP_ to HAVE_STL,HAVE_BOOL and BOOL_IS_NOT_INT 
+

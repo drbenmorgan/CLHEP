@@ -1,0 +1,173 @@
+==============================
+11.05.04 Release CLHEP-2.0.0.2
+==============================
+
+==============================
+11.05.04 Release CLHEP-1.9.0.2
+==============================
+    
+==============================
+21.04.04 Release CLHEP-2.0.0.1
+==============================
+
+==============================
+24.10.03 Release CLHEP-2.0.0.0
+==============================
+
+==============================
+23.10.03 Release CLHEP-1.9.0.0
+==============================
+
+Fri Aug  9 14:55:05 2002 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Evaluator/Evaluator.cc:
+
+	Fixed memory leak. Thanks to <Martin.Liendl@cern.ch>
+
+==============================
+01.06.02 Release CLHEP-1.8.0.0
+==============================
+
+=========================================
+25.04.02 revised StdHep uses HepMC
+=========================================
+
+=========================================
+08.03.02 HepMC has become a part of CLHEP
+=========================================
+
+==========================================
+09.11.01 HepPDT has become a part of CLHEP
+==========================================
+	
+==============================
+15.06.01 Release CLHEP-1.7.0.0
+==============================
+
+Fri Jun 15 09:30:42 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/Transform3D.cc,Transform3D.h: Disabled m^-1.
+
+	* configure.in:
+
+	Set default options for MS VC++ to "-DWIN32 -O -GX -GR -MD"
+
+	* test/testEvaluator.cc:
+
+	Added "return 0" to avoid problems with "make -check" on NT.
+	Added header comments.
+
+	* test/testBasicVector3D.cc:
+
+	Changed endl to HepStd::endl
+
+Thu Jun 14 11:27:44 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Geometry/BasicVector3D.h (Added):
+	* Geometry/Point3D.h,Vector3D.h,Normal3D.h:
+
+	* test/testBasicVector3D.cc (Added):
+	* test/testBasicVector3D.input,testBasicVector3D.out.save (Added):
+	* test/testTransform3D.cc,Makefile.in:
+
+	Added BasicVector3D.h to decouple functionality of Point3D,
+	Vector3D and Normal3D from functionality of Hep3Vector.
+
+	* test/testEvaluator.in (Removed):
+	* test/testEvaluator.input (Added):
+	* test/Makefile.in:
+
+	testEvaluator.in has been renamed to testEvaluator.input
+		
+Wed May 30 15:51:33 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Evaluator/Evaluator.cc,string.src:
+	* test/testEvaluator.cc:
+	
+	Added code to ignore leading and trailing spaces in names.
+
+Fri May 18 09:32:21 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Evaluator/hash_map.src,utility.src:
+
+	removed "using HepSTL::pair", because it does not compile on HP.
+
+Thu Apr  5 10:58:07 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Evaluator/utility.src: Avoidance of clashes with ::pair in GCC.
+	
+Thu Mar 15 17:42:19 2001 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Evaluator/hash_map.src: Bug fix in clear(): added table[i] = 0;
+	
+==========================================================================
+18.01.01 ZOOM PhysicsVectors Capabilities have become part of CLHEP/Vector
+==========================================================================
+
+Mon Nov  6 16:25:21 2000 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Evaluator/Evaluator.cc,Evaluator.h:
+
+	More accurate usage of const.
+	
+======================================================================
+24.10.00 Generic Functions by Joe Boudreau have become a part of CLHEP
+======================================================================
+
+==============================
+20.10.00 Release CLHEP-1.6.0.0
+==============================
+
+==============================================================================
+12.10.00 Expression Evaluator by Evgueni Tcherniaev has become a part of CLHEP
+         Alist, String and Combination have been disabled
+==============================================================================
+
+Thu Oct 12 11:28:06 2000 Evgueni Tcherniaev <Evgueni.Tcherniaev@cern.ch>
+
+	* Makefile.in,configure.in:
+	* test/Makefile.in:
+
+	Disabled Alist, String and Combination.
+
+	* Makefile.in,configure.in:
+
+	* Evaluator/Makefile.in,Evaluator.cc,Evaluator.h (Added):
+	* Evaluator/setStdMath.cc setSystemOfUnits.cc (Added):
+	* Evaluator/hash_map.src,stack.src,string.src,utility.src (Added):
+
+	* test/Makefile.in:
+	* test/testEvaluator.cc (Added):
+	* test/testEvaluator.in,testEvaluator.out.save (Added):
+
+	Added new package - Evaluator.
+	
+==============================
+08.05.00 Release CLHEP-1.5.0.0
+==============================
+
+
+============================================================
+24.04.00 StdHepC++ by Lynn Garren has become a part of CLHEP
+============================================================
+
+==============================
+20.04.99 Release CLHEP-1.4.0.0
+==============================
+
+=========================================================================
+16.12.98 Started: merging with BaBar version of CLHEP provided by G.Cosmo
+=========================================================================
+
+==========================
+28.07.98 Release CLHEP-1.3
+==========================
+
+==========================
+05.02.98 Release CLHEP-1.2
+==========================
+
+========================================================
+08.12.97 Release CLHEP-1.1: Geant4 has migrated to CLHEP
+========================================================
+
