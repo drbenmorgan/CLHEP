@@ -4,6 +4,7 @@
 set -x
 
 # run autotool commands
+cp Vector/autotools/ltmain.sh .
 aclocal
 automake --add-missing --copy
 autoconf
