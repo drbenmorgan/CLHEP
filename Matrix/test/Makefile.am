@@ -21,16 +21,16 @@ CXXFLAGS = @CXXFLAGS@ -DINSTALLATION_CHECK
 # Identify executables needed during testing:
 check_PROGRAMS = \
 	testMatrix testInversion \
-	testBug6176 
+	testBug6176 testBug6181
 
 check_SCRIPTS = \
 	testMatrix.sh testInversion.sh \
-	testBug6176.sh
+	testBug6176.sh 
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
 	testMatrix.sh testInversion.sh \
-	testBug6176.sh
+	testBug6176.sh testBug6181
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
@@ -39,6 +39,7 @@ XFAIL_TESTS =
 testMatrix_SOURCES = testMatrix.cc
 testInversion_SOURCES = testInversion.cc
 testBug6176_SOURCES = testBug6176.cc
+testBug6181_SOURCES = testBug6181.cc
 
 # Identify input data file(s) and prototype output file(s):
 EXTRA_DIST = \
