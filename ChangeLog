@@ -1,3 +1,9 @@
+Wed Dec 22	2004 Mark Fischler <mf@fnal.gov>
+
+	* Random.h StaticRandomState.h Random.cc StaticRandomState.cc
+	
+	Added HepRandom::saveStaticRandomState(ostream) and restore to istream. 
+
 Mon Dec 20	2004 Mark Fischler <mf@fnal.gov>
 
 	* Random.h RandGauss.h RandFlat.h RandFlat.icc RandBit.h
