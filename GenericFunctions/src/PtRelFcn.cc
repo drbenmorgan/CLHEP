@@ -3,7 +3,6 @@
 #include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/PtRelFcn.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
-#include "CLHEP/Units/PhysicalConstants.h"
 #include <assert.h>
 #include <cmath>	// for pow() and exp()
 #include <float.h>
@@ -55,7 +54,7 @@ double PtRelFcn::operator() (double x) const {
   static const double s2 = sqrt(2.0);
   double retVal= 
     norm*p0*pow(x,p1)*exp(-p2*pow(x,p3)) +
-    (2.0/(1+_erf(p5/p4/s2))*(1.0-p0)/(sqrt(CLHEP::twopi)*p4))*exp(-(x-p5)*(x-p5)/(2.0*p4*p4));
+    (2.0/(1+_erf(p5/p4/s2))*(1.0-p0)/(sqrt(2*M_PI)*p4))*exp(-(x-p5)*(x-p5)/(2.0*p4*p4));
 
   //if (!finite(retVal)) return 1.0E-10;
 
