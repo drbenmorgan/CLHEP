@@ -1,3 +1,21 @@
+Fri Oct 08          2004 Andreas Pfeiffer <andreas.pfeiffer@cern.ch>
+
+	* Geometry/BasicVector3D.h: made dtor virtual as this is a base class
+	* Geometry/Transform3D.h: added virtual dtor for persistency. This may go away in later releases.
+
+Fri Sep 24          2004 Lynn Garren <garren@fnal.gov>
+
+	* use AM_CXXFLAGS
+
+Tue Sep 14          2004 Lynn Garren <garren@fnal.gov>
+
+	* require autoconf 2.59, automake 1.9.1, and libtool 1.9b
+
+Tue Aug 31         2004 Lynn Garren <garren@fnal.gov>
+	
+	* change Solaris CC compile flags from "-O -mt" to "-O"
+	* libtools 1.9b or later is required for Solaris CC
+
 ==============================
 11.05.04 Release CLHEP-2.0.0.2
 ==============================
