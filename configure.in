@@ -19,8 +19,7 @@ AC_PROG_LIBTOOL
 # subpackages
 # ----------------------------------------------------------------------
 
-##AC_CONFIG_SUBDIRS(Vector Evaluator GenericFunctions Geometry Matrix Random RandomObjects Units Utilities HepPDT HepMC StdHep)
-AC_CONFIG_SUBDIRS(Vector Evaluator  Geometry)
+AC_CONFIG_SUBDIRS(Vector Evaluator GenericFunctions Geometry Matrix Random RandomObjects Units Utilities HepPDT HepMC StdHep)
 
 # ----------------------------------------------------------------------
 # Identify the files that 'configure' is to produce:
