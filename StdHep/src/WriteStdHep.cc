@@ -1,4 +1,4 @@
-// $Id: WriteStdHep.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
+// $Id: WriteStdHep.cc,v 1.2.4.1 2005/03/18 22:26:51 garren Exp $
 // ----------------------------------------------------------------------
 //
 // WriteStdHep.cc
@@ -38,7 +38,7 @@ std::ostream & writeStdEvent( std::ostream & os, StdEvent const * evt )
 	//
 	// output the GenEvent data including the number of primary vertices
 	//  and the total number of vertices
-	std::vector<double> random = col->random_states();
+	std::vector<unsigned long> random = col->random_states();
 	os << "E" << " " << col->event_number();
 	HepMC::Detail::output( os, col->event_scale() );
 	HepMC::Detail::output( os, col->alphaQCD() );
@@ -48,7 +48,7 @@ std::ostream & writeStdEvent( std::ostream & os, StdEvent const * evt )
 		  col->signal_process_vertex()->barcode() : 0);
 	os << " " << col->vertices_size()	// total number of vertices.
 	   << " " << (int)random.size();
-	for ( std::vector<double>::iterator rs = random.begin(); 
+	for ( std::vector<unsigned long>::iterator rs = random.begin(); 
 	      rs != random.end(); ++rs ) {
             os << " " << *rs;
 	}

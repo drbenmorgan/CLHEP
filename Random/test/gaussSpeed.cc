@@ -21,6 +21,9 @@ using namespace CLHEP;
 
 // ---------
 // RandGauss
+//
+// mf 12/13/04	Correction in way engines are supplied to RandBit() ctor
+//   		(gcc3.3.1 exposed previously innocuous mistake)
 // ---------
 
 double gammln1(double xx) {
@@ -130,7 +133,7 @@ if (choice==2) {
 
 if (choice==3) {
   cout << "\n--------------------------------------------\n";
-  cout << "Test of DUalRand flat speed\n\n";
+  cout << "Test of DualRand flat speed\n\n";
 
   long seed;
   cout << "Please enter an integer seed:        ";
@@ -215,26 +218,26 @@ if (choice==3) {
 #define MISC
 #ifdef MISC
 
-  DualRand * e= new DualRand();
+  DualRand e;
 
   // RandGauss usage modes
 
   cout << "testing RandGaussT::shoot():  "  << RandGaussT::shoot()  << "\n";
-  cout << "testing RandGaussT::shoot(e): "  << RandGaussT::shoot(e) << "\n";
+  cout << "testing RandGaussT::shoot(&e): "  << RandGaussT::shoot(&e) << "\n";
   cout << "testing RandGaussT::shoot(100,10): " << 
 			RandGaussT::shoot(100,10) << "\n";
-  cout << "testing RandGaussT::shoot(e,100,10): " << 
-			RandGaussT::shoot(e,100,10) << "\n";
+  cout << "testing RandGaussT::shoot(&e,100,10): " << 
+			RandGaussT::shoot(&e,100,10) << "\n";
   RandGaussT gt (e, 50,2);
   cout << "testing gt.fire(): " << gt.fire() << "\n";
   cout << "testing gt.fire(200,2): " << gt.fire(200,2) << "\n";
 
   cout << "testing RandGaussQ::shoot():  "  << RandGaussQ::shoot()  << "\n";
-  cout << "testing RandGaussQ::shoot(e): "  << RandGaussQ::shoot(e) << "\n";
+  cout << "testing RandGaussQ::shoot(&e): "  << RandGaussQ::shoot(&e) << "\n";
   cout << "testing RandGaussQ::shoot(100,10): " << 
 			RandGaussQ::shoot(100,10) << "\n";
-  cout << "testing RandGaussQ::shoot(e,100,10): " << 
-			RandGaussQ::shoot(e,100,10) << "\n";
+  cout << "testing RandGaussQ::shoot(&e,100,10): " << 
+			RandGaussQ::shoot(&e,100,10) << "\n";
   RandGaussQ qt (e, 50,2);
   cout << "testing qt.fire(): " << qt.fire() << "\n";
   cout << "testing qt.fire(200,2): " << qt.fire(200,2) << "\n";
@@ -242,21 +245,22 @@ if (choice==3) {
   // RandPoisson usage modes
 
   cout << "testing RandPoissonT::shoot():  "  << RandPoissonT::shoot()  << "\n";
-  cout << "testing RandPoissonT::shoot(e): "  << RandPoissonT::shoot(e) << "\n";
+  cout << "testing RandPoissonT::shoot(&e): "  
+  					<< RandPoissonT::shoot(&e) << "\n";
   cout << "testing RandPoissonT::shoot(90): " << 
 			RandPoissonT::shoot(90) << "\n";
-  cout << "testing RandPoissonT::shoot(e,90): " << 
-			RandPoissonT::shoot(e,90) << "\n";
+  cout << "testing RandPoissonT::shoot(&e,90): " << 
+			RandPoissonT::shoot(&e,90) << "\n";
   RandPoissonT pgt (e,50);
   cout << "testing pgt.fire(): " << pgt.fire() << "\n";
   cout << "testing pgt.fire(20): " << pgt.fire(20) << "\n";
 
   cout << "testing RandPoissonQ::shoot():  "  << RandPoissonQ::shoot()  << "\n";
-  cout << "testing RandPoissonQ::shoot(e): "  << RandPoissonQ::shoot(e) << "\n";
+  cout << "testing RandPoissonQ::shoot(&e): " << RandPoissonQ::shoot(&e) << "\n";
   cout << "testing RandPoissonQ::shoot(90): " << 
 			RandPoissonQ::shoot(90) << "\n";
-  cout << "testing RandPoissonQ::shoot(e,90): " << 
-			RandPoissonQ::shoot(e,90) << "\n";
+  cout << "testing RandPoissonQ::shoot(&e,90): " << 
+			RandPoissonQ::shoot(&e,90) << "\n";
   RandPoissonQ pqt (e,50);
   cout << "testing pqt.fire(): " << pqt.fire() << "\n";
   cout << "testing pqt.fire(20): " << pqt.fire(20) << "\n";
@@ -264,9 +268,10 @@ if (choice==3) {
   // RandBit modes coming from RandFlat and bit modes
 
   cout << "testing RandBit::shoot():  " << RandBit::shoot()  << "\n";
-  cout << "testing RandBit::shoot(e): " << RandBit::shoot(e) << "\n";
+  cout << "testing RandBit::shoot(&e): " << RandBit::shoot(&e) << "\n";
   cout << "testing RandBit::shoot(10,20): "  << RandBit::shoot(10,20)   << "\n";
-  cout << "testing RandBit::shoot(e,10,20): "<< RandBit::shoot(e,10,20) << "\n";
+  cout << "testing RandBit::shoot(&e,10,20): "<< 
+  					RandBit::shoot(&e,10,20) << "\n";
   RandBit b ( e, 1000, 1100 );
   cout << "testing b.fire(): " << b.fire() << "\n";
   cout << "testing b.fire(10,20): " << b.fire(10,20) << "\n";
@@ -275,9 +280,9 @@ if (choice==3) {
   for (i=0; i<40; i++) {
     cout << RandBit::shootBit();
   } cout << "\n";
-  cout << "testing RandBit::shootBit(e):  "; 
+  cout << "testing RandBit::shootBit(&e):  "; 
   for (i=0; i<40; i++) {
-    cout << RandBit::shootBit(e);
+    cout << RandBit::shootBit(&e);
   } cout << "\n";
   cout << "testing RandBit::fireBit():  ";
   for (i=0; i<40; i++) {

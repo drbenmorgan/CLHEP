@@ -1,4 +1,4 @@
-// $Id: ParticleDataT.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ParticleDataT.icc,v 1.1.1.1.4.1 2005/03/18 22:26:26 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleDataT.icc
@@ -46,6 +46,12 @@ void ParticleDataT<Config>::write( std::ostream & os ) const
 {
   itsCPDID->write( os );
   itsDDID->write( os );
+}
+
+template< class Config >
+void ParticleDataT<Config>::writeParticleInfo( std::ostream & os ) const
+{
+  itsCPDID->write( os );
 }
 
 template< class Config >

@@ -76,7 +76,7 @@ namespace HepMC {
 	//
 	// output the event data including the number of primary vertices
 	//  and the total number of vertices
-	std::vector<double> random_states = evt->random_states();
+	std::vector<unsigned long> random_states = evt->random_states();
 	m_file << 'E';
 	output( evt->event_number() );
 	output( evt->event_scale() );
@@ -87,7 +87,7 @@ namespace HepMC {
 		    evt->signal_process_vertex()->barcode() : 0 )   );
 	output( evt->vertices_size() ); // total number of vertices.
 	output( (int)random_states.size() );
-	for ( std::vector<double>::iterator rs = random_states.begin(); 
+	for ( std::vector<unsigned long>::iterator rs = random_states.begin(); 
 	      rs != random_states.end(); ++rs ) {
 	    output( *rs );
 	}
@@ -165,7 +165,7 @@ namespace HepMC {
 	m_file >> event_number >> eventScale >> alpha_qcd >> alpha_qed
 	       >> signal_process_id >> signal_process_vertex
 	       >> num_vertices >> random_states_size;
-	std::vector<double> random_states(random_states_size);
+	std::vector<unsigned long> random_states(random_states_size);
 	for ( int i = 0; i < random_states_size; ++i ) {
 	    m_file >> random_states[i];
 	}

@@ -1,4 +1,4 @@
-// $Id: RandGaussQ.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandGaussQ.icc,v 1.2.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -11,10 +11,14 @@
 // =======================================================================
 // M. Fischler	  - Created: 24 Janm 2000
 //
+// M. Fischler    - Modified fire() to use local engine, not getTheEngine()
+//		    12/13/04
 // =======================================================================
 
 // Constructors
 // ------------
+
+//#define TRACE_DEBUG
 
 namespace CLHEP {
 
@@ -31,7 +35,13 @@ RandGaussQ::RandGaussQ(HepRandomEngine * anEngine, double mean,
 
 double RandGaussQ::shoot()
 {
+#ifdef TRACE_DEBUG
+  std::cout << "RandGaussQ::shoot() in icc file\n";
+#endif
   HepRandomEngine* anEngine = HepRandom::getTheEngine();
+#ifdef TRACE_DEBUG
+  std::cout << "RandGaussQ::shoot() engine is " << anEngine->name() << "\n";
+#endif
   return transformQuick (anEngine->flat());
 }
 
@@ -53,11 +63,11 @@ double RandGaussQ::shoot(HepRandomEngine* anotherEngine,
 // ---------------------------------------------
 
 double RandGaussQ::fire() {
-  return transformQuick(getTheEngine()->flat()) * defaultStdDev + defaultMean;
+  return transformQuick(localEngine->flat()) * defaultStdDev + defaultMean;
 }
 
 double RandGaussQ::fire(double mean, double stdDev) {
-  return transformQuick(getTheEngine()->flat()) * stdDev + mean;
+  return transformQuick(localEngine->flat()) * stdDev + mean;
 }
 
 }  // namespace CLHEP

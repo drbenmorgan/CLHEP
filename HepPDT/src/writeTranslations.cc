@@ -1,4 +1,4 @@
-// $Id: writeTranslations.cc,v 1.2.4.1 2004/04/21 16:14:51 garren Exp $
+// $Id: writeTranslations.cc,v 1.2.4.2 2005/03/18 22:26:44 garren Exp $
 // ----------------------------------------------------------------------
 //
 // writeTranslations.cc

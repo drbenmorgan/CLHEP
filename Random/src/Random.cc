@@ -1,4 +1,4 @@
-// $Id: Random.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: Random.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/Random.h"
+#include "CLHEP/Random/StaticRandomStates.h"
 
 // -----------------------------
 // Static members initialisation
@@ -82,6 +83,23 @@ double HepRandom::operator()() {
   return flat();
 }
 
+std::string HepRandom::name() const {return "HepRandom";}
+HepRandomEngine & HepRandom::engine() {
+  std::cerr << "HepRandom::engine() called -- there is no assigned engine!\n";
+  return *theEngine;
+} 
+
+std::ostream & operator<< (std::ostream & os, const HepRandom & dist) {
+  return dist.put(os);
+}
+
+std::istream & operator>> (std::istream & is, HepRandom & dist) {
+  return dist.get(is);
+}
+
+std::ostream & HepRandom::put(std::ostream & os) const {return os;}
+std::istream & HepRandom::get(std::istream & is) {return is;}
+
 // --------------------------
 // Static methods definitions
 // --------------------------
@@ -139,6 +157,24 @@ void HepRandom::restoreEngineStatus( const char filename[] )
 {
   theEngine->restoreStatus( filename );
 }  
+
+std::ostream& HepRandom::saveFullState ( std::ostream & os ) {
+  os << *getTheEngine();
+  return os;
+}
+
+std::istream& HepRandom::restoreFullState ( std::istream & is ) {
+  is >> *getTheEngine();
+  return is;
+}
+
+std::ostream& HepRandom::saveStaticRandomStates ( std::ostream & os ) {
+  return StaticRandomStates::save(os);
+}
+
+std::istream& HepRandom::restoreStaticRandomStates ( std::istream & is ) {
+  return StaticRandomStates::restore(is);
+}
 
 void HepRandom::showEngineStatus()
 {

@@ -1,3 +1,23 @@
+2005-03-17  Lynn Garren  <garren@fnal.gov>
+
+	* fix a bug in the PDG to PDT translations
+	
+	* use PDG 2004 numbering (only a few changes)
+
+	* ParticleID: The isNucleus() method will recognize a proton (2212) 
+	as a nuclear fragment.  Add isPentaquark() method.
+	
+	* The translation free functions are now in ParticleIDTranslations.hh
+	which is included in ParticleID.hh.  Pythia, Isajet, Herwig, and PDG
+	translation functions use static translation maps.
+
+	* examples are now installed 
+
+2005-02-03  Lynn Garren  <garren@fnal.gov>
+
+	* HepPDT: define HepPDT::QQDecayTable::writeTable,
+	HepPDT::QQChannel::write, and HepPDT::QQDecay::write
+
 ==============================
 30.11.04 Release CLHEP-2.0.1.2
 ==============================

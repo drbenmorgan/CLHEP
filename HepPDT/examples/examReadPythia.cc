@@ -1,4 +1,4 @@
-// $Id: examReadPythia.cc,v 1.2 2003/08/26 21:56:39 garren Exp $
+// $Id: examReadPythia.cc,v 1.2.4.1 2005/03/18 22:26:43 garren Exp $
 // ----------------------------------------------------------------------
 // examReadPythia.cc
 //
@@ -48,4 +48,6 @@ int main()
     //datacol.particle( HepPDT::ParticleID(213) )->write(wpdfile);
     double mumass = datacol.particle( HepPDT::ParticleID(13) )->mass();
     datacol.writeParticleData(wpdfile);
+    
+    return 0;
 }

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: DiagMatrix.h,v 1.3.4.1 2004/09/24 21:28:13 garren Exp $
+// $Id: DiagMatrix.h,v 1.3.4.2 2005/03/18 22:26:46 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -145,11 +145,9 @@ public:
 
    HepDiagMatrix sub(int min_row, int max_row) const;
    // Returns a sub matrix of a SymMatrix.
-#ifdef HEP_CC_NEED_SUB_WITHOUT_CONST
    HepDiagMatrix sub(int min_row, int max_row);
    // SGI CC bug. I have to have both with/without const. I should not need
    // one without const.
-#endif
 
    void sub(int row, const HepDiagMatrix &m1);
    // Sub matrix of this SymMatrix is replaced with m1.

@@ -1,4 +1,4 @@
-// $Id: RandPoissonQ.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandPoissonQ.h,v 1.3.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -13,6 +13,7 @@
 
 // =======================================================================
 // M. Fischler - Created: 4th Feb 2000
+// M Fischler      - put and get to/from streams 12/10/04
 //
 // =======================================================================
 
@@ -46,6 +47,11 @@ public:
 
   virtual ~RandPoissonQ();
   // Destructor
+
+  // Save and restore to/from streams
+  
+  std::ostream & put ( std::ostream & os ) const;
+  std::istream & get ( std::istream & is );
 
   // Methods to generate Poisson-distributed random deviates.
 
@@ -90,6 +96,13 @@ public:
 
   double operator()();
   double operator()( double m );
+
+  std::string name() const;
+  HepRandomEngine & engine();
+
+  static std::string distributionName() {return "RandPoissonQ";}  
+  // Provides the name of this distribution class
+
   
   // static constants of possible interest to users:
 

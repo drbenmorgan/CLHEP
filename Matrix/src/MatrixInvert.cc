@@ -113,6 +113,110 @@ namespace CLHEP {
 #define F33 15
 
 
+void HepMatrix::invertHaywood4  (int & ifail) {
+
+  ifail = 0;
+
+  // Find all NECESSARY 2x2 dets:  (18 of them)
+
+  double Det2_12_01 = m[F10]*m[F21] - m[F11]*m[F20];
+  double Det2_12_02 = m[F10]*m[F22] - m[F12]*m[F20];
+  double Det2_12_03 = m[F10]*m[F23] - m[F13]*m[F20];			//
+  double Det2_12_13 = m[F11]*m[F23] - m[F13]*m[F21];			//
+  double Det2_12_23 = m[F12]*m[F23] - m[F13]*m[F22];			//
+  double Det2_12_12 = m[F11]*m[F22] - m[F12]*m[F21];
+  double Det2_13_01 = m[F10]*m[F31] - m[F11]*m[F30];
+  double Det2_13_02 = m[F10]*m[F32] - m[F12]*m[F30];
+  double Det2_13_03 = m[F10]*m[F33] - m[F13]*m[F30];
+  double Det2_13_12 = m[F11]*m[F32] - m[F12]*m[F31];
+  double Det2_13_13 = m[F11]*m[F33] - m[F13]*m[F31];
+  double Det2_13_23 = m[F12]*m[F33] - m[F13]*m[F32];			//
+  double Det2_23_01 = m[F20]*m[F31] - m[F21]*m[F30];
+  double Det2_23_02 = m[F20]*m[F32] - m[F22]*m[F30];
+  double Det2_23_03 = m[F20]*m[F33] - m[F23]*m[F30];
+  double Det2_23_12 = m[F21]*m[F32] - m[F22]*m[F31];
+  double Det2_23_13 = m[F21]*m[F33] - m[F23]*m[F31];
+  double Det2_23_23 = m[F22]*m[F33] - m[F23]*m[F32];
+
+  // Find all NECESSARY 3x3 dets:   (16 of them)
+
+  double Det3_012_012 = m[F00]*Det2_12_12 - m[F01]*Det2_12_02 
+				+ m[F02]*Det2_12_01;
+  double Det3_012_013 = m[F00]*Det2_12_13 - m[F01]*Det2_12_03 
+				+ m[F03]*Det2_12_01;			//
+  double Det3_012_023 = m[F00]*Det2_12_23 - m[F02]*Det2_12_03 
+				+ m[F03]*Det2_12_02;			//
+  double Det3_012_123 = m[F01]*Det2_12_23 - m[F02]*Det2_12_13 
+				+ m[F03]*Det2_12_12;			//
+  double Det3_013_012 = m[F00]*Det2_13_12 - m[F01]*Det2_13_02 
+				+ m[F02]*Det2_13_01;
+  double Det3_013_013 = m[F00]*Det2_13_13 - m[F01]*Det2_13_03
+				+ m[F03]*Det2_13_01;
+  double Det3_013_023 = m[F00]*Det2_13_23 - m[F02]*Det2_13_03
+				+ m[F03]*Det2_13_02;			//
+  double Det3_013_123 = m[F01]*Det2_13_23 - m[F02]*Det2_13_13
+				+ m[F03]*Det2_13_12;			//
+  double Det3_023_012 = m[F00]*Det2_23_12 - m[F01]*Det2_23_02 
+				+ m[F02]*Det2_23_01;
+  double Det3_023_013 = m[F00]*Det2_23_13 - m[F01]*Det2_23_03
+				+ m[F03]*Det2_23_01;
+  double Det3_023_023 = m[F00]*Det2_23_23 - m[F02]*Det2_23_03
+				+ m[F03]*Det2_23_02;
+  double Det3_023_123 = m[F01]*Det2_23_23 - m[F02]*Det2_23_13
+				+ m[F03]*Det2_23_12;			//
+  double Det3_123_012 = m[F10]*Det2_23_12 - m[F11]*Det2_23_02 
+				+ m[F12]*Det2_23_01;
+  double Det3_123_013 = m[F10]*Det2_23_13 - m[F11]*Det2_23_03 
+				+ m[F13]*Det2_23_01;
+  double Det3_123_023 = m[F10]*Det2_23_23 - m[F12]*Det2_23_03 
+				+ m[F13]*Det2_23_02;
+  double Det3_123_123 = m[F11]*Det2_23_23 - m[F12]*Det2_23_13 
+				+ m[F13]*Det2_23_12;
+
+  // Find the 4x4 det:
+
+  double det =    m[F00]*Det3_123_123 
+		- m[F01]*Det3_123_023 
+		+ m[F02]*Det3_123_013 
+		- m[F03]*Det3_123_012;
+
+  if ( det == 0 ) {  
+#ifdef SINGULAR_DIAGNOSTICS
+    std::cerr << "Kramer's rule inversion of a singular 4x4 matrix: "
+	<< *this << "\n";
+#endif
+    ifail = 1;
+    return;
+  } 
+
+  double oneOverDet = 1.0/det;
+  double mn1OverDet = - oneOverDet;
+
+  m[F00] =  Det3_123_123 * oneOverDet;
+  m[F01] =  Det3_023_123 * mn1OverDet;
+  m[F02] =  Det3_013_123 * oneOverDet;
+  m[F03] =  Det3_012_123 * mn1OverDet;
+
+  m[F10] =  Det3_123_023 * mn1OverDet;
+  m[F11] =  Det3_023_023 * oneOverDet;
+  m[F12] =  Det3_013_023 * mn1OverDet;
+  m[F13] =  Det3_012_023 * oneOverDet;
+
+  m[F20] =  Det3_123_013 * oneOverDet;
+  m[F21] =  Det3_023_013 * mn1OverDet;
+  m[F22] =  Det3_013_013 * oneOverDet;
+  m[F23] =  Det3_012_013 * mn1OverDet;
+
+  m[F30] =  Det3_123_012 * mn1OverDet;
+  m[F31] =  Det3_023_012 * oneOverDet;
+  m[F32] =  Det3_013_012 * mn1OverDet;
+  m[F33] =  Det3_012_012 * oneOverDet;
+
+  return;
+}
+
+
+
 void HepMatrix::invertHaywood5  (int & ifail) {
 
   ifail = 0;
@@ -844,108 +948,6 @@ void HepMatrix::invertHaywood6  (int & ifail) {
   m[A53] =  Det5_01245_01234*oneOverDet;
   m[A54] =  Det5_01235_01234*mn1OverDet;
   m[A55] =  Det5_01234_01234*oneOverDet;
-
-  return;
-}
-
-void HepMatrix::invertHaywood4  (int & ifail) {
-
-  ifail = 0;
-
-  // Find all NECESSARY 2x2 dets:  (18 of them)
-
-  double Det2_12_01 = m[F10]*m[F21] - m[F11]*m[F20];
-  double Det2_12_02 = m[F10]*m[F22] - m[F12]*m[F20];
-  double Det2_12_03 = m[F10]*m[F23] - m[F13]*m[F20];			//
-  double Det2_12_13 = m[F11]*m[F23] - m[F13]*m[F21];			//
-  double Det2_12_23 = m[F12]*m[F23] - m[F13]*m[F22];			//
-  double Det2_12_12 = m[F11]*m[F22] - m[F12]*m[F21];
-  double Det2_13_01 = m[F10]*m[F31] - m[F11]*m[F30];
-  double Det2_13_02 = m[F10]*m[F32] - m[F12]*m[F30];
-  double Det2_13_03 = m[F10]*m[F33] - m[F13]*m[F30];
-  double Det2_13_12 = m[F11]*m[F32] - m[F12]*m[F31];
-  double Det2_13_13 = m[F11]*m[F33] - m[F13]*m[F31];
-  double Det2_13_23 = m[F12]*m[F33] - m[F13]*m[F32];			//
-  double Det2_23_01 = m[F20]*m[F31] - m[F21]*m[F30];
-  double Det2_23_02 = m[F20]*m[F32] - m[F22]*m[F30];
-  double Det2_23_03 = m[F20]*m[F33] - m[F23]*m[F30];
-  double Det2_23_12 = m[F21]*m[F32] - m[F22]*m[F31];
-  double Det2_23_13 = m[F21]*m[F33] - m[F23]*m[F31];
-  double Det2_23_23 = m[F22]*m[F33] - m[F23]*m[F32];
-
-  // Find all NECESSARY 3x3 dets:   (16 of them)
-
-  double Det3_012_012 = m[F00]*Det2_12_12 - m[F01]*Det2_12_02 
-				+ m[F02]*Det2_12_01;
-  double Det3_012_013 = m[F00]*Det2_12_13 - m[F01]*Det2_12_03 
-				+ m[F03]*Det2_12_01;			//
-  double Det3_012_023 = m[F00]*Det2_12_23 - m[F02]*Det2_12_03 
-				+ m[F03]*Det2_12_02;			//
-  double Det3_012_123 = m[F01]*Det2_12_23 - m[F02]*Det2_12_13 
-				+ m[F03]*Det2_12_12;			//
-  double Det3_013_012 = m[F00]*Det2_13_12 - m[F01]*Det2_13_02 
-				+ m[F02]*Det2_13_01;
-  double Det3_013_013 = m[F00]*Det2_13_13 - m[F01]*Det2_13_03
-				+ m[F03]*Det2_13_01;
-  double Det3_013_023 = m[F00]*Det2_13_23 - m[F02]*Det2_13_03
-				+ m[F03]*Det2_13_02;			//
-  double Det3_013_123 = m[F01]*Det2_13_23 - m[F02]*Det2_13_13
-				+ m[F03]*Det2_13_12;			//
-  double Det3_023_012 = m[F00]*Det2_23_12 - m[F01]*Det2_23_02 
-				+ m[F02]*Det2_23_01;
-  double Det3_023_013 = m[F00]*Det2_23_13 - m[F01]*Det2_23_03
-				+ m[F03]*Det2_23_01;
-  double Det3_023_023 = m[F00]*Det2_23_23 - m[F02]*Det2_23_03
-				+ m[F03]*Det2_23_02;
-  double Det3_023_123 = m[F01]*Det2_23_23 - m[F02]*Det2_23_13
-				+ m[F03]*Det2_23_12;			//
-  double Det3_123_012 = m[F10]*Det2_23_12 - m[F11]*Det2_23_02 
-				+ m[F12]*Det2_23_01;
-  double Det3_123_013 = m[F10]*Det2_23_13 - m[F11]*Det2_23_03 
-				+ m[F13]*Det2_23_01;
-  double Det3_123_023 = m[F10]*Det2_23_23 - m[F12]*Det2_23_03 
-				+ m[F13]*Det2_23_02;
-  double Det3_123_123 = m[F11]*Det2_23_23 - m[F12]*Det2_23_13 
-				+ m[F13]*Det2_23_12;
-
-  // Find the 4x4 det:
-
-  double det =    m[F00]*Det3_123_123 
-		- m[F01]*Det3_123_023 
-		+ m[F02]*Det3_123_013 
-		- m[F03]*Det3_123_012;
-
-  if ( det == 0 ) {  
-#ifdef SINGULAR_DIAGNOSTICS
-    std::cerr << "Kramer's rule inversion of a singular 4x4 matrix: "
-	<< *this << "\n";
-#endif
-    ifail = 1;
-    return;
-  } 
-
-  double oneOverDet = 1.0/det;
-  double mn1OverDet = - oneOverDet;
-
-  m[F00] =  Det3_123_123 * oneOverDet;
-  m[F01] =  Det3_023_123 * mn1OverDet;
-  m[F02] =  Det3_013_123 * oneOverDet;
-  m[F03] =  Det3_012_123 * mn1OverDet;
-
-  m[F10] =  Det3_123_023 * mn1OverDet;
-  m[F11] =  Det3_023_023 * oneOverDet;
-  m[F12] =  Det3_013_023 * mn1OverDet;
-  m[F13] =  Det3_012_023 * oneOverDet;
-
-  m[F20] =  Det3_123_013 * oneOverDet;
-  m[F21] =  Det3_023_013 * mn1OverDet;
-  m[F22] =  Det3_013_013 * oneOverDet;
-  m[F23] =  Det3_012_013 * mn1OverDet;
-
-  m[F30] =  Det3_123_012 * mn1OverDet;
-  m[F31] =  Det3_023_012 * oneOverDet;
-  m[F32] =  Det3_013_012 * mn1OverDet;
-  m[F33] =  Det3_012_012 * oneOverDet;
 
   return;
 }

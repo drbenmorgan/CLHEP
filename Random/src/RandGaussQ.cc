@@ -1,4 +1,4 @@
-// $Id: RandGaussQ.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandGaussQ.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -9,6 +9,7 @@
 
 // =======================================================================
 // M Fischler	  - Created 24 Jan 2000
+// M Fischler     - put and get to/from streams 12/13/04
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -19,6 +20,9 @@
 
 namespace CLHEP {
 
+std::string RandGaussQ::name() const {return "RandGaussQ";}
+HepRandomEngine & RandGaussQ::engine() {return RandGauss::engine();}
+
 RandGaussQ::~RandGaussQ() {
 }
 
@@ -26,11 +30,11 @@ RandGaussQ::RandGaussQ(const RandGaussQ& right) :  RandGauss(right) {
 }
 
 double RandGaussQ::operator()() {
-  return transformQuick(getTheEngine()->flat()) * defaultStdDev + defaultMean;
+  return transformQuick(localEngine->flat()) * defaultStdDev + defaultMean;
 }
 
 double RandGaussQ::operator()( double mean, double stdDev ) {
-  return transformQuick(getTheEngine()->flat()) * stdDev + mean;
+  return transformQuick(localEngine->flat()) * stdDev + mean;
 }
 
 void RandGaussQ::shootArray( const int size, double* vect,
@@ -103,9 +107,7 @@ static const float gaussTables [TableSize] = {
 };
 
 
-
 double RandGaussQ::transformQuick (double r) {
-
   double sign = +1.0;	// We always compute a negative number of 
 				// sigmas.  For r > 0 we will multiply by
 				// sign = -1 to return a positive number.
@@ -177,9 +179,31 @@ double RandGaussQ::transformSmall (double r) {
     if ( fabs(v-guess) < eps ) break;
     guess = v;
   }
- 
   return -v;
 
 } // transformSmall()
+
+std::ostream & RandGaussQ::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  RandGauss::put(os);
+  os.precision(pr);
+  return os;
+}
+
+std::istream & RandGaussQ::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  RandGauss::get(is);
+  return is;
+}
 
 }  // namespace CLHEP

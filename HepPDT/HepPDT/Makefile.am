@@ -58,6 +58,7 @@ pkginclude_HEADERS = \
 	QQDecayTable.hh	\
 	StringStream.h	\
 	ParticleName.hh	\
+	ParticleIDTranslations.hh	\
 	ParticleTranslation.hh	\
 	ParticleTranslation.icc	\
 	TranslationList.hh	\

@@ -1,0 +1,622 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<BODY bgcolor="FFFFFF">
+<title>
+Saving and Restoring States of CLHEP Random Engines and Distributions
+</title>
+
+<center><h1><img src="http://www.fnal.gov/docs/working-groups/fpcltf/icons/
+particle_coll_bar_463_grey.gif" align="center"> </h1></center>
+
+<center><font color=ff0000>
+<h1> Saving and Restoring States of CLHEP Random Engines and Distributions
+ </h1> <p>
+</font></center>
+<p>
+
+We have added new (as of late 2004) methods to the CLHEP Random classes
+allowing more convenient and natural saving and restoring of engines and 
+distributions.  Some inconvenient features of the original methods are:
+<ul>
+<li> 
+The <font size=+1><code>saveStatus</code></font>
+ and <font size=+1><code>restoreStatus</code></font> methods are 
+based on a named file, so that each distribution saved must be placed in 
+its own file.
+<li>
+Since opening the file is left to the 
+<font size=+1><code><code>restoreStatus</code></font> method,
+there can be no user-controlled flexibility in how to deal with trouble
+(such as file not found) in opening that file.
+<li>
+Each distribution saves the state of the engine it is using.  If several 
+distributions share a single instance of an engine, then this wastes I/O
+time and space on multiple copies of the same data.
+<li>
+There was never a way to save an engine, and then have another program
+instantiate a <em>HepRandomEngine*</em> and read back the state to create 
+an engine of the appropriate type, without knowing what sort of engine was 
+saved.  We call this functionallity an "engine factory."
+<li>
+For cases where the user program has its own scheme to persist numbers (for
+example, unsigned longs), there is no way to cause an engine to produce
+its state (or restore from a saved state) as a vector of unsigned longs.
+</ul>
+
+The usual idiom for saving data would be to write to an ostream and read
+from an istream.  
+It is assumed that users know how to construct an <em>fstream</em>
+(<em>ofstream</em> or <em>ifstream</em>) to work with a file, and 
+using these 
+<em>fstream</em>s as <em>ostream</em>s and <em>istream</em>s.
+<p>
+We have added methods that stick to this idiom, which 
+greatly helps matters.  (In fact, 
+the first two of these inconveniences are immediately resolved, 
+and the structure is right for dealing with the third.)
+<p>
+We have also added engine factory 
+capability to deal with anonymous engine saves,
+and we have given every engine the ability to save and restore to/from
+a vector of unsigned longs.
+
+<ul>
+<li> <a href="#usecases"> Use Cases </a>
+<li> <a href="#addedmethods"> Added Methods </a>
+<li> <a href="#howcode"> How the Use Cases Can Be Coded</a>
+</ul>
+
+<font color=blue>
+<h2> Use Cases </h2>
+</font>
+<a name=usecases> </a>
+
+Each of these motivating use cases are based on the following theme:
+An experiment wishes, when running a simulation job in "debuggable" mode, 
+to capture before each event enough information that a subsequent job can 
+restart at an arbitrary critical event and get the same results (or
+more typically, exhibit the same problem for investigation).
+The states of all random engines evolve across events, so this state information
+must be saved with each event (and restored for the critical event).
+<p>
+
+<ul>
+There have been occasional requests for methods to let a job
+restore a "generic" engine (that is, to start using an engine
+without knowing at compile time which type of engine will have been saved).
+Some of these added methods provide that capability in special circumstances.
+In general, however, 
+we make the assumption that the restoring user knows the classes which have
+been saved.  If the restore does not match the save, this will be indicated
+in the usual ways; in the Random package, this includes output to 
+<font size=+1><code>cerr</code></font> 
+and setting the state of the restoring istream to "bad."
+</ul>
+
+<h3> One static distribution </h3>
+
+The user employs one static distribution, calling (say) 
+<font size=+1><code>RandGauss::shoot()</code></font>.
+She wishes to save/restore the full state (including underlying engine)
+of just that distribution. 
+This is completely analogous to doing 
+<font size=+1><code></font>RandGauss::saveState("filename")</code></font>,
+but it is desired that this state be added to a file rather than
+placed in its own file.
+
+<h3> One instance of a distribution </h3>
+
+The user has an instance of a distribution, which uses some instance 
+of an engine.  She wishes to save/restore its full state, including that of 
+the underlying engine.
+
+<h3> Some distributions sharing various engines </h3>
+
+The user has several instances of a distributions of various types, 
+(and/or uses the <font size=+1><code>shoot()</code></font> 
+method of several static distributions)
+and one or more instances of engines of various types.  
+To conserve I/O space, she wishes to separately save each engine and
+the non-engine-dependant state of each distribution.
+Since she knows which engines are used by which distributions, she will 
+be able to restore the full states of all the distributions after restoring
+individual engine and distribution states.  
+
+<h3> All the static distributions </h3>
+
+A multi-module program written by a collaboration makes extensive use
+of the <font size=+1><code>shoot()</code></font> 
+method of various static distributions.  
+They wish to make a single call to save/restore the states of all the
+static distributions in the CLHEP Randoms package.  
+The program restoring the states of the distributions and
+the common underlying engine has no <em>a priori</em> 
+knowledge of which type of the underlying engine has been set.  
+<p>
+If the static distributions each used a separate engine, 
+this method would need to
+ensure that states of shared engines would be saved only once,
+and that all needed engine instances would be saved.  
+However, as currently implemented, <em>every static distribution shares
+one common engine</em>.  
+Since the (non-engine) state of a distribution itself is miniscule,
+and only a couple of distributions contain state information other than
+non-standard distribution parameters (which do not apply to static 
+distributions), 
+the "wasted" cost of saving any unused static distributions is acceptable.
+<p>
+
+<h3> One engine of unknown type </h3>
+
+An application wishes to deal with an engine restored from a saved 
+engine state, without compile-time
+knowledge of which engine type this will be.
+For example, the saved engine may be a product of a simulation job 
+where the engine created was determined by run-time input.
+
+<h3> Saving and restoring state via a vector of unsigned longs </h3>
+
+An experiment framework has a means of imbedding an array of numbers into 
+the data for an event, and would wish to use this to hold the state of
+the engine(s) used.  Here, the model of saving to a stream is less convenient
+and much less efficient.  HepMC assumes random engines can produce their
+states in the form of a vector of unsigned longs.
+  
+<font color=blue>
+<h2> Added Methods in CLHEP Random </h2>
+</font>
+<a name=addedmethods> </a>
+
+There are two types of save and restore activities on a distribution,
+just as there are two modes of using a distribution to generate a random 
+variate, depending on whether you want the static distribution or an instance
+of the distribution.  
+For the generation activity, the methods are 
+<em>Class</em><font size=+1><code>::shoot()</code></font> 
+to use the static distribution, and 
+<em>instance</em><font size=+1><code>.fire()</code></font> to use
+an instance.  
+<p>
+For these added methods which deal with saving and restoring to 
+an <em>fstream</em>, the static methods all take the stream as an argument, 
+while the
+instance methods use the 
+<font size=+1><code>ostream << </code></font> <em>whatever</em> 
+or
+<font size=+1><code>istream >>  </code></font> <em>whatever</em> 
+syntax.
+<p>
+As in the case of variate generation, all the methods dealing with just an 
+engine are based on an instance.
+
+<h3> Static methods in the distribution classes </h3>
+
+Each distribution has six new static methods, 
+which override static methods of the same names in the 
+<font size=+1><code>HepRandom</code></font>
+class:
+
+<font size=+1, color=red>  
+<pre>
+static ostream& saveFullState   (ostream& os) const;
+static istream& restoreFullState(istream& is);
+</pre>
+</font>
+<ul>
+Saves (or restores) the state of the distribution,
+including the engine used when <font size=+1><code>shoot()</code></font> 
+is invoked and any
+additional cached data, such as the second gaussian in the Box-Mueller
+method used by RandGauss.
+</ul>
+
+<font size=+1, color=red>  
+<pre>
+static ostream& saveDistState   (ostream& os) const;
+static istream& restoreDistState(istream& is);
+</pre>
+</font>
+<ul>
+Saves (or restores) the static state of the distribution,
+including cached data used in the course of the 
+<font size=+1><code>shoot()</code></font> method, 
+so that if the engine used is also restored,
+the full state will have been replicated.
+For distributions which do not distributions contain cached data
+(all distributions other than RandGauss, RandFlat, and RandBit) this method
+has no effect.
+</ul>
+
+<font size=+1, color=red>  
+<pre>
+static ostream& saveStaticRandomStates (ostream& os) const;
+</pre>
+</font>
+<ul>
+Determines the identity of  
+<font size=+1><code>theEngine</code></font> 
+used in the static <font size=+1><code>shoot()</code></font>
+method of the distributions.
+Saves the state of that engine, followed by the static state of each 
+distribution, such that the states
+can be restored by    
+<font size=+1><code>restoreStaticRandomStates</code></font>.
+</ul>
+
+<font size=+1, color=red>  
+<pre>
+static istream& restoreStaticRandomStates(istream& is);
+</pre>
+</font>
+<ul>
+Restores the cached data for every static distribution and 
+the engine used as <font size=+1><code>theEngine</code></font> 
+in the static <font size=+1><code>shoot()</code></font> 
+method of the distributions.
+<p>
+If, at the point of calling 
+<font size=+1><code>restoreStaticRandomStates</code></font>,
+the common engine has been set to an engine of the type matching
+that saved, then that engine's state will be changed to the saved state.
+<p>
+If the two engine types do not match, a new engine of the saved type will
+be instantiated, and attached to the static distribuitions via a 
+<font size=+1><code>setTheEngine()</code></font> call.  
+The previously existing engine
+will not be deleted (since it might be shared by some distribution 
+objects), and the new engine is a post-startup new object that 
+won't automatically be deleted, so this may be detected by tools such
+as Purify as a memory leak.
+
+</ul>
+
+
+
+<h3> Instance methods in the distribution classes </h3> 
+
+<font size=+1, color=red>  
+<pre>
+ostream& operator << (ostream& os, const HepRandom & distribution);
+istream& operator >> (istream& is,       HepRandom & distribution);
+</pre>
+</font>
+<ul>
+Saves (or restores) the state of this instance of the distribution,
+including cached data used in the course of the 
+<font size=+1><code>fire()</code></font> method, 
+so that if the engine used is also restored,
+the full state will have been replicated.
+</ul>
+  
+<font size=+1, color=red>  
+<pre>
+RandomEngine * HepRandom::engine();
+</pre>
+</font>
+<ul>
+Provides a pointer to engine underlying this instance of distribution.
+This is needed to save the full state of this instance of distribution.
+</ul>
+  
+Conventionally, when saving the full state of a distribution, one should
+follow the order used by the methods for static distributions, which save the
+engine and then the remainder of the distribution state.
+ 
+<h3> Instance methods in the engine classes </h3> 
+
+Some added methods of engine are provided, as tools for implementation 
+of "generic engine" capability:
+<font size=+1, color=red>  
+<pre>
+string RandomEngine::name();
+</pre>
+</font>
+<ul>
+Provides a string identifying the engine type.
+</ul>
+<font size=+1, color=red>  
+<pre>
+istream& RandomEngine::getName(istream&);
+</pre>
+</font>
+<ul>
+Reads a string identifying the engine type, and verifies that it is the 
+expected identification.
+</ul>
+<font size=+1, color=red>  
+<pre>
+istream& RandomEngine::getState(istream&);
+</pre>
+</font>
+<ul>
+Inputs engine state.
+</ul>
+<font size=+1, color=red>  
+<pre>
+ostream& RandomEngine::put(ostream&);
+istream& RandomEngine::get(istream&);
+</pre>
+</font>
+<ul>
+Outputs or inputs engine state, including identifying name.  <br>
+Used by operator<< and operator>>.
+</ul>
+<font size=+1, color=red>  
+<pre>
+vector < unsigned long > RandomEngine::put() const;
+bool RandomEngine::get(const vector<unsigned long> &);
+</pre>
+</font>
+<ul>
+Writes or sets engine state, including 32-bit identifier, 
+to a vector of unsigned longs.  
+</ul>
+
+Methods for I/O of engine states to streams are already present.  
+Though not "additional methods," this are listed here because they
+are logically on the same footing as the distribution I/O methods, 
+and will appear in the section describing how to code the use cases.
+
+<font size=+1, color=blue>  
+<pre>
+ostream& operator << (ostream& os, const RandomEngine & engine);
+istream& operator >> (istream& is,       RandomEngine & engine);
+</pre>
+</font>
+<ul>
+Saves (or restores) the state of the engine, including an identifying string
+to help catch mismatches where erroneous code tries to use an engine state 
+as the state of a different kind of engine.
+</ul>
+
+Finally, the base class <em>HepRandomEngine </em>
+has a pair of methods to obtain a pointer to a new engine based on 
+"generic" or anonymous engine input:  
+
+<font size=+1, color=red>  
+<pre>
+static HepRandomEngine* HepRandomEngine::newEngine(istream& is);
+static HepRandomEngine* HepRandomEngine::newEngine
+				(const vector<unsigned long> & v);
+</pre>
+</font>
+<ul>
+Based on the contents of the istream or vector, 
+which must contain the output of
+saving some engine, this instantiates a <em>new</em> engine of the
+saved type, and returns a pointer to that object.  The semantics are
+that of <em>new</em>:  It is the user's responsibility to invoke delete 
+when the engine is no longer needed.
+<br>
+Note that although the engine type is deduced from the input, if the
+saving program had any non-trivial engine sharing among multiple distribution
+objects, the restoring program would have to set up the same sharing to get
+the same subsequent random sequence behaviors.
+</ul>
+
+
+<h3> Caveat concerning RandEngine </h3>
+
+In the case of an engine based on system random generator engine whose 
+internal state is not controllable by the
+<b>Random</b> package, such as 
+<font size=+1><code>RandEngine</code></font>,
+the additional save/restore capability is still presented. 
+However, in such a case, the only way to achieve the restore is to 
+start in the original seed state, and fire off however many 
+variates were requested prior to the save.  In the case of restoring
+state based on a late event in a long job, this may be quite 
+inefficient.  Therefore, we heavily recommend against using 
+<font size=+1><code>RandEngine</code></font> in applications 
+involving saving and restoring engine states.
+
+<font color=blue>
+<h2> How the Use Cases Can Be Coded </h2>
+</font>
+<a name=howcode> </a>
+
+<h3> One static distribution </h3>
+
+The "saving job" does:
+
+<font color=blue> 
+<pre>
+  DualRand e(24681357);         // Illustrating that the engine need not 
+  RandGauss::setTheEngine (&e); // be the default engine for RandGauss.
+  ofstream fs(filename);        // Open it, or pass an ofstream already in use
+  codeUsingRandGaussManyTimes();
+<font size=+1, color=red><b> 
+  RandGauss::saveFullState(fs);
+</b></font>
+</pre>
+</font>
+
+The "restoring job" does:
+
+<font color=blue> 
+<pre>
+  DualRand e();   
+  RandGauss::setTheEngine (e);  
+  ifstream file(filename);      // Open it, or pass an ifstream already in use
+<font size=+1, color=red><b> 
+  RandGauss::restoreFullState(fs);  
+</b></font>
+</pre>
+</font>
+
+
+<h3> One instance of a distribution </h3>
+
+The "saving job" does:
+
+<font color=blue> 
+<pre>
+  DualRand e(24681357);   
+  RandGauss g(e);               // Normal distribution, based on engine e  
+  ofstream fs(filename);        
+  codeUsing_g_ManyTimes();
+<font size=+1, color=red><b> 
+  fs << g.engine() << g;
+</b></font>
+</pre>
+</font>
+
+The "restoring job" does:
+
+<font color=blue> 
+<pre>
+  DualRand e();   
+  RandGauss g(e);
+  ifstream fs(filename);      
+<font size=+1, color=red><b> 
+  fs >> g.engine() >> g; 
+</b></font>
+</pre>
+</font>
+
+<h3> Some distributions sharing various engines </h3>
+
+The "saving job" does:
+
+<font color=blue> 
+<pre>
+  DualRand e1(24681357);  
+  MTwistEngine e2(135797531); 
+  RandGauss g(e1);
+  RandFlat  f(e1); 
+  RandBit   b(e2);                
+  ofstream fs(filename);        
+  codeUsing_g_f_and_b();
+<font size=+1, color=red><b> 
+  fs << e1 << e2 << g << f << b;
+</b></font>
+</pre>
+</font>
+
+The "restoring job" does:
+
+<font color=blue> 
+<pre>
+  e = new DualRand();   
+  RandGauss g(e);
+  ifstream fs(filename);      
+<font size=+1, color=red><b> 
+  fs >> e1 >> e2 >> g >> f >> b;
+</b></font>
+</pre>
+</font>
+
+To save and restore successfully in the general case, 
+you must know not only which types of 
+engines underlie the various distributions, but also which distributions 
+share an engine.
+
+<h3> All the static distributions </h3>
+
+The "saving job" does:
+
+<font color=blue> 
+<pre>
+  e = new DualRand(24681357);   // illustrating that the some distributions 
+  RandGauss::setTheEngine (e);  // need not use the default engine
+  ofstream fs(filename);        
+  codeUsingVariousDistributions();
+<font size=+1, color=red><b> 
+  saveStaticRandomStates(fs);
+</b></font>
+</pre>
+</font>
+
+The "restoring job" does:
+
+<font color=blue> 
+<pre>
+  e = new DualRand();   
+  RandGauss::setTheEngine (e);  
+  ifstream file(filename);      
+<font size=+1, color=red><b> 
+  restoreStaticRandomStates(fs);
+</b></font>
+</pre>
+</font>
+
+<h3> One engine of unknown type </h3>
+
+The "saving job" does:
+
+<font color=blue> 
+<pre>
+  DualRand *     e1 = new DualRand(24681357);
+  RanecuEngine * e2 = new RanecuEngine(24563291);  
+  HepRandomEngine *eptr;
+  if (someControl) eptr = e1; else eptr = e2;  
+  RandGauss g(*eptr);             
+  ofstream fs(filename);        
+  codeUsing_g_ManyTimes();
+<font size=+1, color=red><b> 
+  fs << g.engine() << g;
+</b></font>
+  delete e1; delete e2; // (when g goes out of scope)
+</pre>
+</font>
+
+The "restoring job" does:
+
+<font color=blue> 
+<pre>
+  ifstream fs(filename);      
+<font size=+1, color=red><b> 
+  HepRandomEngine * eptr = HepRandomEngine::newEngine(fs);
+  if (eptr==0) throw "problem inputting an engine";
+  RandGauss g(*eptr);
+</b></font>
+  codeUsing_g();  // using g without knowing or caring 
+                  // what type the engine is
+  delete eptr;    // (delete engine when g goes out of scope) 
+</pre>
+</font>
+
+<h3> Saving and restoring state via a vector of unsigned longs </h3>
+  
+The "saving job" does:
+ 
+<font color=blue> 
+<pre>
+  HepJamesRandom e = new HepJamesRandom(12343211);  
+  codeUsing_e (e);
+  std::vector < unsigned long > v;
+<font size=+1, color=red><b> 
+  v = e.put();
+</b></font>
+  eventData.add_a_vector (v);
+</pre>
+</font>
+
+The "restoring job" does:
+
+<font color=blue> 
+<pre>
+  eventData.add_a_vector (v);
+  HepJamesRandom e;
+<font size=+1, color=red><b> 
+  bool ok = e.get(v);
+  if (!ok) throw "problem restoring an engine";
+</b></font>
+  codeUsing_e(e);  
+</pre>
+</font>
+
+
+<p>
+<center>
+<img src="http://www.fnal.gov/docs/working-groups/fpcltf/icons/bar.gif"><p>
+</center>
+
+<p>
+<hr>
+Author: <address><a href="mailto:mf@fnal.gov">Mark Fischler</a></address>
+<p>
+<!-- hhmts start -->
+Last modified: March 15, 2005
+<!-- hhmts end -->
+</body>
+</html>

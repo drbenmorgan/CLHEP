@@ -1,4 +1,4 @@
-// $Id: isValid.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: isValid.cc,v 1.1.1.1.4.1 2005/03/18 22:26:44 garren Exp $
 // ----------------------------------------------------------------------
 //
 // isValid.cc
@@ -25,6 +25,9 @@ bool ParticleID::isValid( ) const
     if( isDiQuark() ) { return true; }
     // fundamental particle
     if( fundamentalID() > 0 ) { return true; }
+    // pentaquark
+    if( isPentaquark() ) { return true; }
+    // don't recognize this number
     return false;
 }
 

@@ -1,3 +1,35 @@
+2005-03-15  Mark Fischler  <mf@fnal.gov>
+
+	* SymMatrix.cc, testBug7328.cc
+	
+	Repair of bug 7328, a memory leak encountered when inverting symmetric
+	matrices above the size of 6x6.
+	
+2005-02-25  Mark Fischler  <mf@fnal.gov>
+
+	* Matrix.cc, testBug6181.cc
+	
+	Repair of bug 6181, a serious error in inverting matrices above the
+	size of 6x6.  
+
+2005-02-14  Mark Fischler  <mf@fnal.gov>
+
+	* SymMatrixInvert.cc
+	
+	  Implementation of invertHaywood4()
+
+2005-02-01  Lynn Garren  <garren@fnal.gov>
+
+	* Matrix: remove HEP_CC_NEED_SUB_WITHOUT_CONST ifdefs
+	HEP_CC_NEED_SUB_WITHOUT_CONST has been defined to 1 in all 
+	cases for a long time.
+
+2005-01-31  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* src/Matrix.h: fixed error in sub(int, int, int, int), savannah 
+	bug id 6176, added corresponding files (testBug6176*) in test/,
+	updated Makefile.am accordingly to generate tests.
+
 ==============================
 30.11.04 Release CLHEP-2.0.1.2
 ==============================

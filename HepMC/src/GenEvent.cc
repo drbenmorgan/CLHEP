@@ -11,6 +11,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include "CLHEP/HepMC/GenEvent.h"
+#include "CLHEP/HepMC/DoubleConversion.hh"
 #include <stdio.h>       // needed for formatted output using sprintf 
 
 namespace HepMC {
@@ -18,7 +19,7 @@ namespace HepMC {
     GenEvent::GenEvent( int signal_process_id, int event_number,
 			GenVertex* signal_vertex,
 			const WeightContainer& weights,
-			const std::vector<double>& random_states ) :
+			const std::vector<unsigned long>& random_states ) :
 	m_signal_process_id(signal_process_id), m_event_number(event_number),
 	m_event_scale(-1), m_alphaQCD(-1), m_alphaQED(-1),
 	m_signal_process_vertex(signal_vertex), m_weights(weights),
@@ -123,7 +124,7 @@ namespace HepMC {
 	     << particles_size() << " particles.\n"; 
 	// Random State
 	ostr << " RndmState(" << m_random_states.size() << ")=";
-	for ( std::vector<double>::const_iterator rs 
+	for ( std::vector<unsigned long>::const_iterator rs 
 		  = m_random_states.begin();
 	      rs != m_random_states.end(); rs++ ) { ostr << *rs << " "; }
 	ostr << "\n";
@@ -349,6 +350,50 @@ namespace HepMC {
 	m_vertex_barcodes[suggested_barcode] = v;
 	v->set_barcode_( suggested_barcode );
 	return insert_success;
+    }
+
+    std::vector<double> GenEvent::random_states_double() const 
+    { 
+	std::vector<double> result;
+	double dd;
+	// take two longs and make a double
+	// we assume here that these were initially passed in as doubles
+	for( unsigned int i=0; i<(m_random_states.size()-1); ++i) {
+	   dd = DoubleConversion::longs2double(m_random_states[i],m_random_states[i+1]);
+           ++i;
+	   result.push_back(dd);
+	}
+	return result;
+    }
+
+    void GenEvent::set_random_states_double( const std::vector<double>& randomstates )
+    {
+        // convert doubles to longs and save
+	unsigned long l1, l2;
+	for( unsigned int i=0; i<randomstates.size(); ++i ) {
+	   DoubleConversion::dto2longs(randomstates[i], l1, l2);
+	   m_random_states.push_back(l1);
+	   m_random_states.push_back(l2);
+	}
+    }
+
+    std::ostream& GenEvent::random_states_stream(std::ostream& out) const
+    { 
+	for( unsigned int i=0; i<m_random_states.size(); ++i ) {
+	   out << m_random_states[i] << " ";
+	}
+	return out;
+    }
+
+    std::istream & GenEvent::set_random_states_stream( std::istream & in )
+    {
+        // input MUST be a series of longs
+        unsigned long ir = 0;
+	while (in) {
+	   in >> ir;
+	   m_random_states.push_back(ir);
+        }
+	return in;
     }
 
     /////////////

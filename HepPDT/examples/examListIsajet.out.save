@@ -594,8 +594,8 @@ Isajet:       6600 TT0.      HepPDT:         6603 tt_1
 Isajet:      -6600 ATT0.     HepPDT:        -6603 tt_1~
 Isajet:       6661 TTT*      HepPDT:         6664 Omega*_ttt++
 Isajet:      -6661 ATTT*     HepPDT:        -6664 Omega*_ttt~--
-Isajet:      10000   HepPDT:            0 
-Isajet:     -10000   HepPDT:            0 
+Isajet:      10000 with name "" has no HepPDT translation 
+Isajet:     -10000 with name "" has no HepPDT translation 
 Isajet:      10110 F0        HepPDT:      9010221 f_0(980)
 Isajet:      10111 A10       HepPDT:        20113 a_1(1260)0
 Isajet:      10121 A1+       HepPDT:        20213 a_1(1260)+

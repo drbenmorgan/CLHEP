@@ -1,4 +1,4 @@
-// $Id: ReadHepMCDetail.cc,v 1.2 2003/08/13 20:00:11 garren Exp $
+// $Id: ReadHepMCDetail.cc,v 1.2.4.1 2005/03/18 22:26:25 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ReadHepMCDetail.cc
@@ -118,7 +118,7 @@ void  HepMC::Detail::parseEventLine( std::string & evline,
     signalVertex=0;
     int evnum=0, signalID=0, numRan=0, numW=0;
     double escale=0, qcd=0, qed=0;
-    std::vector<double> ranState;
+    std::vector<unsigned long> ranState;
     evstr >> key 
 	  >> evnum
 	  >> escale

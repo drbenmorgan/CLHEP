@@ -1,4 +1,4 @@
-// $Id: isNucleus.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: isNucleus.cc,v 1.1.1.1.4.1 2005/03/18 22:26:44 garren Exp $
 // ----------------------------------------------------------------------
 //
 // isNucleus.cc
@@ -18,6 +18,9 @@ namespace HepPDT {
 
 bool ParticleID::isNucleus( ) const
 {
+     // a proton can also be a Hydrogen nucleus
+     if( abspid() == 2212 ) { return true; }
+     // ad-hoc nuclear fragment numbering
      if( ( digit(n10) == 1 ) && ( digit(nq2) == 0 ) && ( digit(nq3) == 0 ) )
          { return true; }
      return false;

@@ -1,0 +1,5 @@
+#! /bin/sh
+# @configure_input@
+
+./testBug6176@EXEEXT@  \
+  | @DIFF_Q@ - @srcdir@/testBug6176.output > /dev/null

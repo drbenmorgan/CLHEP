@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: BasicVector3D.h,v 1.3.4.3 2004/11/30 20:08:38 garren Exp $
+// $Id: BasicVector3D.h,v 1.3.4.4 2005/03/18 22:26:24 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -14,6 +14,7 @@
 
 #include <iosfwd>
 #include "CLHEP/Geometry/defs.h"
+#include "CLHEP/Vector/ThreeVector.h"
 
 namespace HepGeom {
   /**
@@ -63,7 +64,7 @@ namespace HepGeom {
 
     /**
      * Destructor. */
-    virtual ~BasicVector3D() { /* nop */; }
+    virtual ~BasicVector3D() {}
 
     // -------------------------
     // Interface to "good old C"
@@ -76,6 +77,13 @@ namespace HepGeom {
     /**
      * Conversion (cast) to ordinary const array. */
     operator const T * () const { return v_; }
+
+    /**
+     * Conversion (cast) to CLHEP::Hep3Vector.
+     * This operator is needed only for backward compatibility and
+     * in principle should not exit.
+     */ 
+    operator CLHEP::Hep3Vector () const { return CLHEP::Hep3Vector(x(),y(),z()); }
 
     // -----------------------------
     // General arithmetic operations
@@ -393,7 +401,7 @@ namespace HepGeom {
    */
   inline BasicVector3D<float>
   operator*(const BasicVector3D<float> & v, double a) {
-    return BasicVector3D<float>(v.x()*a, v.y()*a, v.z()*a);
+    return BasicVector3D<float>(v.x()*static_cast<float>(a), v.y()*static_cast<float>(a), v.z()*static_cast<float>(a));
   }
 
   /**
@@ -411,7 +419,7 @@ namespace HepGeom {
    */
   inline BasicVector3D<float>
   operator*(double a, const BasicVector3D<float> & v) {
-    return BasicVector3D<float>(a*v.x(), a*v.y(), a*v.z());
+    return BasicVector3D<float>(static_cast<float>(a)*v.x(), static_cast<float>(a)*v.y(), static_cast<float>(a)*v.z());
   }
 
   /**
@@ -420,7 +428,7 @@ namespace HepGeom {
    */
   inline BasicVector3D<float>
   operator/(const BasicVector3D<float> & v, double a) {
-    return BasicVector3D<float>(v.x()/a, v.y()/a, v.z()/a);
+    return BasicVector3D<float>(v.x()/static_cast<float>(a), v.y()/static_cast<float>(a), v.z()/static_cast<float>(a));
   }
   
   /**

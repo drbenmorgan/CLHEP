@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DiagMatrix.cc,v 1.4.4.1 2004/09/24 21:28:14 garren Exp $
+// $Id: DiagMatrix.cc,v 1.4.4.2 2005/03/18 22:26:47 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -167,7 +167,6 @@ return mret(max_row-min_row+1);
   return mret;
 }
 
-#ifdef HEP_CC_NEED_SUB_WITHOUT_CONST
 HepDiagMatrix HepDiagMatrix::sub(int min_row, int max_row)
 {
   HepDiagMatrix mret(max_row-min_row+1);
@@ -179,7 +178,6 @@ HepDiagMatrix HepDiagMatrix::sub(int min_row, int max_row)
   for(;a<e;) *(a++) = *(b++);
   return mret;
 }
-#endif
 
 void HepDiagMatrix::sub(int row,const HepDiagMatrix &m1)
 {

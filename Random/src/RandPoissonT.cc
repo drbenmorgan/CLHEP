@@ -1,4 +1,4 @@
-// $Id: RandPoissonT.cc,v 1.4.4.1 2004/05/11 14:48:43 garren Exp $
+// $Id: RandPoissonT.cc,v 1.4.4.2 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -15,6 +15,8 @@
 //		    1/26/00.
 // M. Fischler	  - Removed mean=100 from the table-driven set, since it
 //		    uses a value just off the end of the table. (April 2004)
+// M Fischler     - put and get to/from streams 12/15/04
+// M Fischler     - fireArray using defaultMean 2/10/05
 //
 // =======================================================================
 
@@ -27,6 +29,9 @@
 //
 
 namespace CLHEP {
+
+std::string RandPoissonT::name() const {return "RandPoissonT";}
+HepRandomEngine & RandPoissonT::engine() {return RandPoisson::engine();}
 
 RandPoissonT::RandPoissonT(HepRandomEngine & anEngine, double m )
 : RandPoisson(anEngine, m)
@@ -95,6 +100,37 @@ void RandPoissonT::fireArray(const int size, long* vect, double m) {
    for (i=0; i<size; ++i) {
      vect[i] = fire( m );
    }
+}
+
+void RandPoissonT::fireArray(const int size, long* vect) {
+   int i;
+   for (i=0; i<size; ++i) {
+     vect[i] = fire( defaultMean );
+   }
+}
+
+
+std::ostream & RandPoissonT::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  RandPoisson::put(os);
+  os.precision(pr);
+  return os;
+}
+
+std::istream & RandPoissonT::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  RandPoisson::get(is);
+  return is;
 }
 
 

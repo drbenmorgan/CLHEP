@@ -1,3 +1,15 @@
+Fri Feb 11          2005 Mark Fischler <mf@fnal.gov>
+
+	* LogGamma.h
+	
+	  Removed sigms(), which never should have been there for this one.
+	  (Bug 2167)
+
+	* Bessel.icc, SphericalBessel.icc, SphericalNeumann.icc,
+	  EllibpitcIntegral.icc
+	  
+	  Declared methods inline to prevent double-inclusion problem (Bug 2166) 
+
 ==============================
 30.11.04 Release CLHEP-2.0.1.2
 ==============================

@@ -111,6 +111,7 @@ namespace HepMC {
 	void          output( const double& );
 	void          output( const int& );
 	void          output( const long int& );
+	void          output( const unsigned long int& );
 	void          output( const char& );
     private: // use of copy constructor is not allowed
 	IO_Ascii( const IO_Ascii& ) {}
@@ -133,6 +134,7 @@ namespace HepMC {
     }
     inline void IO_Ascii::output( const int& i ) { m_file << ' ' << i; }
     inline void IO_Ascii::output( const long int& i ) { m_file << ' ' << i; }
+    inline void IO_Ascii::output( const unsigned long int& i ) { m_file << ' ' << i; }
     inline void IO_Ascii::output( const char& c ) { m_file << c; }
     inline int  IO_Ascii::rdstate() const { return (int)m_file.rdstate(); }
     inline void IO_Ascii::clear() { m_file.clear(); }

@@ -1,4 +1,4 @@
-// $Id: DualRand.cc,v 1.3 2003/08/13 20:00:12 garren Exp $
+// $Id: DualRand.cc,v 1.3.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -42,10 +42,16 @@
 //                  correct the rounding procedure              15 Sep 1998
 // J. Marraffino  - Remove dependence on hepString class        13 May 1999
 // M. Fischler    - Put endl at end of a save			10 Apr 2001
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - methods for distrib. instacne save/restore  12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
+// Mark Fischler  - methods for vector save/restore 		3/7/05    
 //=========================================================================
 
 #include "CLHEP/Random/DualRand.h"
 #include "CLHEP/Random/defs.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>	// for ldexp()
 
@@ -58,6 +64,8 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 double DualRand::twoToMinus_32;
 double DualRand::twoToMinus_53;
 double DualRand::nearlyTwoToMinus_54;
+
+std::string DualRand::name() const {return "DualRand";}
 
 void DualRand::powersOfTwo() {
   twoToMinus_32 = ldexp (1.0, -32);
@@ -147,15 +155,21 @@ void DualRand::setSeeds(const long * seeds, int) {
 void DualRand::saveStatus(const char filename[]) const {
   std::ofstream outFile(filename, std::ios::out);
   if (!outFile.bad()) {
-    outFile << std::setprecision(20) << theSeed << std::endl;
+    int pr=outFile.precision(20);
+    outFile << theSeed << std::endl;
     tausworthe.put(outFile);
     integerCong.put(outFile);
     outFile << std::endl; // This is superfluous but harmless
+    outFile.precision(pr);
   }
 }
 
 void DualRand::restoreStatus(const char filename[]) {
   std::ifstream inFile(filename, std::ios::in);
+  if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) { 
+    std::cerr << "  -- Engine state remains unchanged\n";
+    return;			  
+  }									  
   if (!inFile.bad()) {
     inFile >> theSeed;
     tausworthe.get(inFile);
@@ -164,7 +178,8 @@ void DualRand::restoreStatus(const char filename[]) {
 }
 
 void DualRand::showStatus() const {
-  std::cout << std::setprecision(20) << std::endl;
+  int pr=std::cout.precision(20);
+  std::cout << std::endl;
   std::cout <<         "-------- DualRand engine status ---------"
 	    << std::endl;
   std::cout << "Initial seed          = " << theSeed << std::endl;
@@ -174,6 +189,7 @@ void DualRand::showStatus() const {
   integerCong.put(std::cout);
   std::cout << std::endl << "-----------------------------------------"
 	    << std::endl;
+  std::cout.precision(pr);
 }
 
 DualRand::operator float() {
@@ -186,22 +202,29 @@ DualRand::operator unsigned int() {
   return (integerCong ^ tausworthe) & 0xffffffff;
 }
 
-std::ostream & operator<< (std::ostream & os, const DualRand & e) {
+std::ostream & DualRand::put(std::ostream & os) const {
   char beginMarker[] = "DualRand-begin";
   char endMarker[]   = "DualRand-end";
-
+  int pr=os.precision(20);
   os << " " << beginMarker << " ";
-  os << std::setprecision(20) << e.theSeed << " ";
-  e.tausworthe.put(os);
-  e.integerCong.put(os);
-  os << " " <<  endMarker  << " ";
+  os << theSeed << " ";
+  tausworthe.put(os);
+  integerCong.put(os);
+  os << " " <<  endMarker  << "\n";
+  os.precision(pr);
   return os;
 }
 
-std::istream & operator>> (std::istream & is, DualRand & e) {
-  char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
+std::vector<unsigned long> DualRand::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<DualRand>());
+  tausworthe.put(v);
+  integerCong.put(v);
+  return v;
+}
 
+std::istream & DualRand::get(std::istream & is) {
+  char beginMarker [MarkerLen];
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -214,19 +237,55 @@ std::istream & operator>> (std::istream & is, DualRand & e) {
 	      << "\nwrong engine type found." << std::endl;
     return is;
   }
-  is >> e.theSeed;
-  e.tausworthe.get(is);
-  e.integerCong.get(is);
+  return getState(is);
+}
+
+std::string DualRand::beginTag ( )  { 
+  return "DualRand-begin"; 
+}
+  
+std::istream & DualRand::getState ( std::istream & is ) {
+  char endMarker   [MarkerLen];
+  is >> theSeed;
+  tausworthe.get(is);
+  integerCong.get(is);
   is >> std::ws;
   is.width(MarkerLen);  
-  is >> endMarker;
+   is >> endMarker;
   if (strcmp(endMarker,"DualRand-end")) {
     is.clear(std::ios::badbit | is.rdstate());
-    std::cerr << "\nDualRand state description incomplete."
+    std::cerr << "DualRand state description incomplete."
 	      << "\nInput stream is probably mispositioned now." << std::endl;
     return is;
   }
   return is;
+}
+
+bool DualRand::get(const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<DualRand>()) {
+    std::cerr << 
+    	"\nDualRand get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  if (v.size() != 9) {
+    std::cerr << "\nDualRand get:state vector has wrong size: " 
+    << v.size() << " - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool DualRand::getState (const std::vector<unsigned long> & v) {
+  std::vector<unsigned long>::const_iterator iv = v.begin()+1;
+  if (!tausworthe.get(iv)) return false;
+  if (!integerCong.get(iv)) return false;
+  if (iv != v.end()) {
+    std::cerr << 
+    	"\nDualRand get:state vector has wrong size: " << v.size() 
+	<< "\n         Apparently " << iv-v.begin() << " words were consumed\n";
+    return false;
+  }
+  return true;
 }
 
 DualRand::Tausworthe::Tausworthe() {
@@ -304,14 +363,22 @@ void DualRand::Tausworthe::put(std::ostream & os) const {
   char beginMarker[] = "Tausworthe-begin";
   char endMarker[]   = "Tausworthe-end";
 
+  int pr=os.precision(20);
   os << " " << beginMarker << " ";
-  os << std::setprecision(20);
   for (int i = 0; i < 4; ++i) {
     os << words[i] << " ";
   }
   os << wordIndex;
   os << " " <<  endMarker  << " ";
   os << std::endl;
+  os.precision(pr);
+}
+
+void DualRand::Tausworthe::put(std::vector<unsigned long> & v) const {
+  for (int i = 0; i < 4; ++i) {
+    v.push_back(static_cast<unsigned long>(words[i]));
+  }
+  v.push_back(static_cast<unsigned long>(wordIndex)); 
 }
 
 void DualRand::Tausworthe::get(std::istream & is) {
@@ -341,6 +408,15 @@ void DualRand::Tausworthe::get(std::istream & is) {
     std::cerr << "\nTausworthe state description incomplete."
 	      << "\nInput stream is probably mispositioned now." << std::endl;
   }
+}
+
+bool 
+DualRand::Tausworthe::get(std::vector<unsigned long>::const_iterator & iv){
+  for (int i = 0; i < 4; ++i) {
+    words[i] = *iv++;
+  }
+  wordIndex = *iv++;
+  return true;
 }
 
 DualRand::IntegerCong::IntegerCong() 
@@ -378,11 +454,18 @@ void DualRand::IntegerCong::put(std::ostream & os) const {
   char beginMarker[] = "IntegerCong-begin";
   char endMarker[]   = "IntegerCong-end";
 
+  int pr=os.precision(20);
   os << " " << beginMarker << " ";
-  os << std::setprecision(20);
   os << state << " " << multiplier << " " << addend;
   os << " " <<  endMarker  << " ";
   os << std::endl;
+  os.precision(pr);
+}
+
+void DualRand::IntegerCong::put(std::vector<unsigned long> & v) const {
+  v.push_back(static_cast<unsigned long>(state));
+  v.push_back(static_cast<unsigned long>(multiplier));
+  v.push_back(static_cast<unsigned long>(addend));
 }
 
 void DualRand::IntegerCong::get(std::istream & is) {
@@ -409,6 +492,14 @@ void DualRand::IntegerCong::get(std::istream & is) {
     std::cerr << "\nIntegerCong state description incomplete."
 	      << "\nInput stream is probably mispositioned now." << std::endl;
   }
+}
+
+bool 
+DualRand::IntegerCong::get(std::vector<unsigned long>::const_iterator & iv) {
+  state      = *iv++;
+  multiplier = *iv++;
+  addend     = *iv++;
+  return true;
 }
 
 }  // namespace CLHEP

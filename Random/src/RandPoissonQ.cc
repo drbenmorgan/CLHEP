@@ -1,4 +1,4 @@
-// $Id: RandPoissonQ.cc,v 1.4.4.1 2004/05/11 14:48:43 garren Exp $
+// $Id: RandPoissonQ.cc,v 1.4.4.2 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -15,6 +15,17 @@
 //		    approximation for large mu.
 // M. Fischler	  - Removed mean=100 from the table-driven set, since it
 //		    uses a value just off the end of the table.  (April 2004)
+// M Fischler     - put and get to/from streams 12/15/04
+// M Fischler     - Utilize RandGaussQ rather than RandGauss, as clearly 
+//		    intended by the inclusion of RandGaussQ.h.  Using RandGauss
+//		    introduces a subtle trap in that the state of RandPoissonQ
+//		    can never be properly captured without also saveing the
+//		    state of RandGauss!  RandGaussQ is, on the other hand,
+//		    stateless except for the engine used.
+// M Fisculer	  - Modified use of wrong engine when shoot (anEngine, mean)
+//		    is called.  This flaw was preventing any hope of proper
+//		    saving and restoring in the instance cases.
+// M Fischler     - fireArray using defaultMean 2/10/05
 //
 // =======================================================================
 
@@ -25,6 +36,9 @@
 #include <cmath>	// for pow()
 
 namespace CLHEP {
+
+std::string RandPoissonQ::name() const {return "RandPoissonQ";}
+HepRandomEngine & RandPoissonQ::engine() {return RandPoisson::engine();}
 
 // Initialization of static data:  Note that this is all const static data,
 // so that saveEngineStatus properly saves all needed information. 
@@ -137,7 +151,7 @@ long RandPoissonQ::shoot(HepRandomEngine* anEngine, double mean) {
   static double lastSigma;		
 
   if ( mean < LAST_MU + S ) {
-    return poissonDeviateSmall ( getTheEngine(), mean );
+    return poissonDeviateSmall ( anEngine, mean );
   } else {
     if ( mean != lastLargeMean ) {
       // Compute the coefficients defining the quadratic transformation from a 
@@ -149,8 +163,7 @@ long RandPoissonQ::shoot(HepRandomEngine* anEngine, double mean) {
       lastA1 = sqrt (1-2*lastA2*lastA2*sig2);
       lastA0 = mean + .5 - sig2 * lastA2;
     }
-    return poissonDeviateQuick ( getTheEngine(), 
-			lastA0, lastA1, lastA2, lastSigma );
+    return poissonDeviateQuick ( anEngine, lastA0, lastA1, lastA2, lastSigma );
   }
 
 } // shoot (anEngine, mean)
@@ -169,6 +182,13 @@ void RandPoissonQ::fireArray(const int size, long* vect, double m) {
    int i;
    for (i=0; i<size; ++i) {
      vect[i] = fire( m );
+   }
+}
+
+void RandPoissonQ::fireArray(const int size, long* vect) {
+   int i;
+   for (i=0; i<size; ++i) {
+     vect[i] = fire( defaultMean );
    }
 }
 
@@ -214,7 +234,7 @@ long RandPoissonQ::poissonDeviateQuick ( HepRandomEngine *e,
 // We substitute for the gaussian a quadratic function of that gaussian random.
 // The expression looks very nearly like mu + .5 - 1/6 + g + g**2/(6*mu).  
 // The small positive quadratic term causes the resulting variate to have 
-// a positive skew; the -1/6 constant term is there to corrects for this bias 
+// a positive skew; the -1/6 constant term is there to correct for this bias 
 // in the mean.  By adjusting these two and the linear term, we can match the
 // first three moments to high accuracy in 1/mu.
 //
@@ -223,7 +243,7 @@ long RandPoissonQ::poissonDeviateQuick ( HepRandomEngine *e,
 // To compensate, sig is multiplied by a factor which is slightly less than 1.
 
   //  double g = RandGauss::shootQuick( e );   // TEMPORARY MOD:
-  double g = RandGauss::shoot( e );   // Unit normal
+  double g = RandGaussQ::shoot( e );   // Unit normal
   g *= sig;
   double p = A2*g*g + A1*g + A0;
   if ( p < 0 ) return 0;	// Shouldn't ever possibly happen since 
@@ -238,7 +258,6 @@ long RandPoissonQ::poissonDeviateQuick ( HepRandomEngine *e,
 
 
 long RandPoissonQ::poissonDeviateSmall (HepRandomEngine * e, double mean) {
-
   long N1;
   long N2;
   // The following are for later use to form a secondary random s:
@@ -528,6 +547,31 @@ long RandPoissonQ::poissonDeviateSmall (HepRandomEngine * e, double mean) {
 
 } // poissonDeviate()
 
+std::ostream & RandPoissonQ::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << a0 << " " << a1 << " " << a2 << "\n";
+  os << sigma << "\n";
+  RandPoisson::put(os);
+  os.precision(pr);
+  return os;
+}
+
+std::istream & RandPoissonQ::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  is >> a0 >> a1 >> a2 >> sigma;
+  RandPoisson::get(is);
+  return is;
+}
 
 }  // namespace CLHEP
 

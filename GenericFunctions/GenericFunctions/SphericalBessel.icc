@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SphericalBessel.icc,v 1.2 2003/09/06 14:04:13 boudreau Exp $
+// $Id: SphericalBessel.icc,v 1.2.4.1 2005/03/18 22:26:23 garren Exp $
 #include "CLHEP/GenericFunctions/Sin.hh"
 #include "CLHEP/GenericFunctions/Cos.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
@@ -16,22 +16,26 @@ FUNCTION_OBJECT_IMP(SphericalBessel)
 // relation.                                                                       //
 //---------------------------------------------------------------------------------//
 
+inline
 SphericalBessel::SphericalBessel(unsigned int l):
   _l(l)
 {
   create();
 }
 
+inline
 SphericalBessel::~SphericalBessel() {
   delete _function;
 }
 
+inline
 SphericalBessel::SphericalBessel(const SphericalBessel & right):
 _l(right._l)
 {
   create();
 }
 
+inline
 double SphericalBessel::operator() (double x) const {
   //
   // First try the GSL implementation:
@@ -47,10 +51,12 @@ double SphericalBessel::operator() (double x) const {
   //return (*_function)(x);
 }
 
+inline
 unsigned int SphericalBessel::l() const {
   return _l;
 }
 
+inline
 void SphericalBessel::create() {
   Sin   sine;
   Cos  cosine;

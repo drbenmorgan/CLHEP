@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# get a list of object files
+ 
+# getObjectList [-static|-shared] <subdir list>
+
+filelist=""
+for arg in "$@"
+do
+   if [ "$arg" = "-static" ] 
+   then
+      extra=""
+   elif [ "$arg" = "-shared" ] 
+   then
+      extra="/shared"
+   else
+      thispkg=`ls $arg/src$extra/*.@OBJEXT@`
+      filelist="$filelist $thispkg"
+   fi
+done
+
+echo $filelist

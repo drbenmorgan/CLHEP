@@ -1,4 +1,4 @@
-// $Id: RanluxEngine.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RanluxEngine.h,v 1.3.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -27,6 +27,8 @@
 //                  Added automatic seed selection from seed table and
 //                  engine counter: 14th Feb 1998
 // Ken Smith      - Added conversion operators:  6th Aug 1998
+// Mark Fischler    Methods put, get for instance save/restore 12/8/04    
+// Mark Fischler    methods for anonymous save/restore 12/27/04    
 // =======================================================================
 
 #ifndef RanluxEngine_h
@@ -98,9 +100,18 @@ public:
 
   operator unsigned int(); // 32-bit flat, but slower than double or float
 
-  friend std::ostream& operator<< (std::ostream& os, const RanluxEngine& e);
-  friend std::istream& operator>> (std::istream& is,       RanluxEngine& e);
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+  static  std::string beginTag ( );
+  virtual std::istream & getState ( std::istream & is );
 
+  std::string name() const;
+  static std::string engineName() {return "RanluxEngine";}
+
+  std::vector<unsigned long> put () const;
+  bool get (const std::vector<unsigned long> & v);
+  bool getState (const std::vector<unsigned long> & v);
+  
 private:
 
   int nskip, luxury;

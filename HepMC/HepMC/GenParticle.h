@@ -157,7 +157,7 @@ namespace HepMC {
         //  momentum()
 
 	// StdHep mutators
-	void setParticleID      ( HepPDT::ParticleID pid );
+	void setParticleID      ( HepPDT::ParticleID p ) { m_pdg_id=p.pid(); }
 	void setCollisionNumber ( int coll );
 	void setMomentum        ( double px, double py, double pz, double E );
 	void changeParticleType (ParticleData & pd) { itsParticleData = &pd; }
@@ -251,7 +251,6 @@ namespace HepMC {
     inline int  GenParticle::barcode() const { return m_barcode; }
 
     inline void GenParticle::set_barcode_( int bc ) { m_barcode = bc; }
-
 } // HepMC
 
 #endif  // HEPMC_GEN_PARTICLE_H

@@ -1,4 +1,4 @@
-// $Id: ParticleTranslation.hh,v 1.1.2.1 2004/04/21 16:14:51 garren Exp $
+// $Id: ParticleTranslation.hh,v 1.1.2.2 2005/03/18 22:26:26 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleTranslation.hh
@@ -47,6 +47,7 @@ public:
   int                            oid()    const { return itsOriginalID; }
   
   inline void write( std::ostream & os ) const;
+  inline void writeComparison( std::ostream & os ) const;
 
 private:
   // ---  class-specific data:

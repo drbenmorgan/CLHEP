@@ -1,4 +1,4 @@
-// $Id: CBherwig.h,v 1.1 2003/10/10 15:56:34 garren Exp $
+// $Id: CBherwig.h,v 1.1.4.1 2005/03/18 22:26:24 garren Exp $
 // ----------------------------------------------------------------------
 // CBherwig.h
 // ----------------------------------------------------------------------
@@ -22,9 +22,8 @@
 //  the Herwig monte carlo program.
 // Notes:
 //   - The HERWIG HEPEVT common block is non-standard, primarily because it 
-//     contains some color flow information. When you call CBherwig, the 
-//     HEPEVT common block is transformed to the standard. THIS CHANGES THE
-//     CONTENT of HEPEVT!.
+//     contains some color flow information. When you call CBherwig, a copy
+//     is made of the HEPEVT common block and all work is done on the copy.
 //   - The HERWIG HEPEVT common block has some EXTRA non-physical ENTRIES 
 //     (such as CMS frame, HARD subprocess, and CONE).
 //     These are removed by CBherwig. Thus the HepMC event will APPEAR
@@ -58,6 +57,7 @@ class CBherwig {
 public:
 
   CBherwig();
+  ~CBherwig();
 
   hepevt_t * hepevt() { return hptr; }
   static int max_number_entries() { return NMXHEP; }
@@ -100,9 +100,6 @@ private:
   bool       itsTrustMothers;
   bool       itsTrustMothersAndDaughters;
   bool       itsNoBarcodeGaps;
-  // we need to use HepPDT translation instead
-  std::vector<int>  m_herwig_to_pdg_id;
-  std::set<int>     m_no_antiparticles;
 
   // internal functions
   GenParticle* createParticle( int index );

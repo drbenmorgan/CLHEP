@@ -1,4 +1,4 @@
-// $Id: Hurd160Engine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: Hurd160Engine.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -19,12 +19,18 @@
 //		    be produced by differnt seeds.		15 Sep 1998
 // J. Marraffino  - Remove dependence on hepStrings class       13 May 1999
 // M. Fischler    - Put endl at end of a save                   10 Apr 2001
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - Methods put, get for instance save/restore   12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
 //		    
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/Hurd160Engine.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>	// for ldexp()
 #include <stdlib.h>	// for abs(int)
@@ -38,6 +44,8 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 double Hurd160Engine::twoToMinus_32;
 double Hurd160Engine::twoToMinus_53;
 double Hurd160Engine::nearlyTwoToMinus_54;
+
+std::string Hurd160Engine::name() const {return "Hurd160Engine";}
 
 void Hurd160Engine::powersOfTwo() {
   twoToMinus_32 = ldexp (1.0, -32);
@@ -183,6 +191,10 @@ void Hurd160Engine::saveStatus( const char filename[] ) const {
 
 void Hurd160Engine::restoreStatus( const char filename[] ) {
   std::ifstream inFile(filename, std::ios::in);
+  if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) { 
+    std::cerr << "  -- Engine state remains unchanged\n";		  
+    return;								  
+  }									  
   if( !inFile.bad() ) {
     inFile >> theSeed;
     inFile >> wordIndex;
@@ -193,7 +205,8 @@ void Hurd160Engine::restoreStatus( const char filename[] ) {
 }
 
 void Hurd160Engine::showStatus() const {
-  std::cout << std::setprecision(20) << std::endl;
+  int pr = std::cout.precision(20);
+  std::cout << std::endl;
   std::cout << "----------- Hurd engine status ----------" << std::endl;
   std::cout << "Initial seed  = " << theSeed   << std::endl;
   std::cout << "Current index = " << wordIndex << std::endl;
@@ -202,6 +215,7 @@ void Hurd160Engine::showStatus() const {
     std::cout << "    " << words[i] << std::endl;
   }
   std::cout << "------------------------------------------" << std::endl;
+  std::cout.precision(pr);
 }
 
 Hurd160Engine::operator float() {
@@ -218,25 +232,35 @@ Hurd160Engine::operator unsigned int() {
   return words[--wordIndex];
 }
 
-std::ostream& operator<< (std::ostream& os, const Hurd160Engine& e) {
+std::ostream& Hurd160Engine::put(std::ostream& os) const {
   char beginMarker[] = "Hurd160Engine-begin";
   char endMarker[]   = "Hurd160Engine-end";
 
+  int pr = os.precision(20);
   os << " " << beginMarker << " ";
-
-  os << std::setprecision(20)  << e.theSeed  << " ";
-  os << e.wordIndex << " ";
+  os << theSeed  << " ";
+  os << wordIndex << " ";
   for (int i = 0; i < 5; ++i) {
-    os << e.words[i]  << " ";
+    os << words[i]  << "\n";
   }
-  os << " " << endMarker   << " ";
+  os << endMarker   << "\n ";
+  os.precision(pr);
   return os;
 }
 
-std::istream& operator>> (std::istream& is, Hurd160Engine& e) {
-  char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
+std::vector<unsigned long> Hurd160Engine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<Hurd160Engine>());
+  v.push_back(static_cast<unsigned long>(wordIndex));
+  for (int i = 0; i < 5; ++i) {
+    v.push_back(static_cast<unsigned long>(words[i]));
+  }
+  return v;
+}
 
+
+std::istream& Hurd160Engine::get(std::istream& is) {
+  char beginMarker [MarkerLen];
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -249,9 +273,18 @@ std::istream& operator>> (std::istream& is, Hurd160Engine& e) {
 	      << "\nwrong engine type found." << std::endl;
     return is;
   }
-  is >> e.theSeed >> e.wordIndex;
+  return getState(is);
+}
+
+std::string Hurd160Engine::beginTag ( )  { 
+  return "Hurd160Engine-begin"; 
+}
+
+std::istream& Hurd160Engine::getState(std::istream& is) {
+  char endMarker   [MarkerLen];
+  is >> theSeed >> wordIndex;
   for (int i = 0; i < 5; ++i) {
-    is >> e.words[i];
+    is >> words[i];
   }
   is >> std::ws;
   is.width(MarkerLen);
@@ -264,5 +297,29 @@ std::istream& operator>> (std::istream& is, Hurd160Engine& e) {
   }
   return is;
 }
+
+
+bool Hurd160Engine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<Hurd160Engine>()) {
+    std::cerr << 
+    	"\nHurd160Engine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool Hurd160Engine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != 7 ) {
+    std::cerr << 
+    	"\nHurd160Engine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  wordIndex = v[1];
+  for (int i = 0; i < 5; ++i) {
+    words[i] = v[i+2];
+  }
+  return true;
+}
+
 
 }  // namespace CLHEP

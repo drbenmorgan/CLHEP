@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: JamesRandom.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -25,11 +25,21 @@
 // Ken Smith      - Added conversion operators:  6th Aug 1998
 // J. Marraffino  - Remove dependence on hepString class  13 May 1999
 // V. Innocente   - changed pointers to indices     3 may 2000
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - Methods for distrib. instacne save/restore  12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - Enforcement that seeds be non-negative
+//		    (lest the sequence be non-random)	         2/14/05    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
+//		    
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/JamesRandom.h"
+#include "CLHEP/Random/engineIDulong.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <string.h>
 #include <cmath>
 #include <stdlib.h>
@@ -37,6 +47,8 @@
 namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
+
+std::string HepJamesRandom::name() const {return "HepJamesRandom";}
 
 // Number of instances with automatic seed selection
 int HepJamesRandom::numEngines = 0;
@@ -140,6 +152,10 @@ void HepJamesRandom::restoreStatus( const char filename[] )
 {
    int ipos, jpos;
    std::ifstream inFile( filename, std::ios::in);
+   if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+     std::cerr << "  -- Engine state remains unchanged\n";
+     return;
+   }
 
    if (!inFile.bad() && !inFile.eof()) {
      inFile >> theSeed;
@@ -172,11 +188,22 @@ void HepJamesRandom::showStatus() const
 void HepJamesRandom::setSeed(long seed, int)
 {
   // The input value for "seed" should be within the range [0,900000000]
+  //
+  // Negative seeds result in serious flaws in the randomness;
+  // seeds above 900000000 are OK because of the %177 in the expression for i,
+  // but may have the same effect as other seeds below 900000000.
 
   int m, n;
   float s, t;
   long mm;
 
+  if (seed < 0) {
+    std::cout << "Seed for HepJamesRandom must be non-negative\n" 
+    	<< "Seed value supplied was " << seed  
+	<< "\nUsing its absolute value instead\n";
+    seed = -seed;
+  }
+  
   long ij = seed/30082;
   long kl = seed - 30082*ij;
   long i = (ij/177) % 177 + 2;
@@ -256,31 +283,47 @@ HepJamesRandom::operator unsigned int() {
          ((unsigned int)( u[i97] * exponent_bit_32)>>16)  & 0xff;
 }
 
-std::ostream & operator<< ( std::ostream& os, const HepJamesRandom& e )
-{
+std::ostream & HepJamesRandom::put ( std::ostream& os ) const {
    char beginMarker[] = "JamesRandom-begin";
    char endMarker[]   = "JamesRandom-end";
 
-   int pos = e.j97;
+   int pos = j97;
+   int pr = os.precision(20);
    os << " " << beginMarker << " ";
-   os <<  e.theSeed << " ";
+   os <<  theSeed << " ";
    for (int i=0; i<97; ++i) {
-     os << std::setprecision(20) << e.u[i] << " ";
+     os << std::setprecision(20) << u[i] << "\n";
    }
-   os << std::setprecision(20) << e.c << " ";
-   os << std::setprecision(20) << e.cd << " ";
-   os << std::setprecision(20) << e.cm << " ";
-   os << pos << " ";
-   os << endMarker << " ";
+   os << std::setprecision(20) << c << " ";
+   os << std::setprecision(20) << cd << " ";
+   os << std::setprecision(20) << cm << " ";
+   os << pos << "\n";
+   os << endMarker << "\n";
+   os.precision(pr);
    return os;
 }
 
-std::istream & operator >> ( std::istream& is, HepJamesRandom& e )
-{
-  int ipos, jpos;
-  char beginMarker [MarkerLen];
-  char   endMarker [MarkerLen];
+std::vector<unsigned long> HepJamesRandom::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<HepJamesRandom>());
+  std::vector<unsigned long> t;
+  for (int i=0; i<97; ++i) {
+    t = DoubConv::dto2longs(u[i]);
+    v.push_back(t[0]); v.push_back(t[1]);
+  }
+  t = DoubConv::dto2longs(c);
+  v.push_back(t[0]); v.push_back(t[1]);
+  t = DoubConv::dto2longs(cd);
+  v.push_back(t[0]); v.push_back(t[1]);
+  t = DoubConv::dto2longs(cm);
+  v.push_back(t[0]); v.push_back(t[1]);
+  v.push_back(static_cast<unsigned long>(j97));
+  return v;
+}
 
+
+std::istream & HepJamesRandom::get  ( std::istream& is) {
+  char beginMarker [MarkerLen];
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -293,11 +336,21 @@ std::istream & operator >> ( std::istream& is, HepJamesRandom& e )
 	       << "\nwrong engine type found." << std::endl;
      return is;
   }
-  is >> e.theSeed;
+  return getState(is);
+}
+
+std::string HepJamesRandom::beginTag ( )  { 
+  return "JamesRandom-begin"; 
+}
+
+std::istream & HepJamesRandom::getState  ( std::istream& is) {
+  int ipos, jpos;
+  char   endMarker [MarkerLen];
+  is >> theSeed;
   for (int i=0; i<97; ++i) {
-     is >> e.u[i];
+     is >> u[i];
   }
-  is >> e.c; is >> e.cd; is >> e.cm;
+  is >> c; is >> cd; is >> cm;
   is >> jpos;
   is >> std::ws;
   is.width(MarkerLen);
@@ -310,9 +363,37 @@ std::istream & operator >> ( std::istream& is, HepJamesRandom& e )
   }
 
   ipos = (64+jpos)%97;
-  e.i97 = ipos;
-  e.j97 = jpos;
+  i97 = ipos;
+  j97 = jpos;
   return is;
+}
+
+bool HepJamesRandom::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<HepJamesRandom>()) {
+    std::cerr << 
+    	"\nHepJamesRandom get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool HepJamesRandom::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != 202 ) {
+    std::cerr << 
+    	"\nHepJamesRandom get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  std::vector<unsigned long> t(2);
+  for (int i=0; i<97; ++i) {
+    t[0] = v[2*i+1]; t[1] = v[2*i+2];
+    u[i] = DoubConv::longs2double(t);
+  }
+  t[0] = v[195]; t[1] = v[196]; c  = DoubConv::longs2double(t);
+  t[0] = v[197]; t[1] = v[198]; cd = DoubConv::longs2double(t);
+  t[0] = v[199]; t[1] = v[200]; cm = DoubConv::longs2double(t);
+  j97  = v[201];
+  i97  = (64+j97)%97; 
+  return true;
 }
 
 }  // namespace CLHEP

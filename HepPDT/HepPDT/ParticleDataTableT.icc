@@ -1,4 +1,4 @@
-// $Id: ParticleDataTableT.icc,v 1.1.1.1.4.2 2004/11/30 20:08:39 garren Exp $
+// $Id: ParticleDataTableT.icc,v 1.1.1.1.4.3 2005/03/18 22:26:26 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleDataTableT.icc
@@ -108,8 +108,8 @@ void ParticleDataTableT<Config>::writeParticleData( std::ostream & outstr )
   outstr << "                  ( " << size() << " entries )" << std::endl;
   outstr << "PARTICLE NAME                 ID  CHARGE COLOR"
          << " SPIN: J  S   L"
-	 << "   MASS"
-	 << "                     WIDTH"
+	 << "  MASS"
+	 << "                       WIDTH"
 	 << "                    LIFETIME"
          << std::endl;  
   // write particle info
@@ -119,6 +119,31 @@ void ParticleDataTableT<Config>::writeParticleData( std::ostream & outstr )
     pd.write( outstr );
   }
   outstr << "HepPDT-ParticleDataTable-end" << std::endl;
+  return;
+}
+
+template< class Config >
+void ParticleDataTableT<Config>::writeParticleInfo( std::ostream & outstr )
+{
+  // write header
+  outstr << std::endl;
+  outstr << "HepPDT-ParticleDataTable-Particle-Information-begin" << std::endl;
+  outstr << "             *****  ParticleDataTable  *****" << std::endl;
+  outstr << "             Table Name : " << tableName() << std::endl;
+  outstr << "                  ( " << size() << " entries )" << std::endl;
+  outstr << "PARTICLE NAME                 ID  CHARGE COLOR"
+         << " SPIN: J  S   L"
+	 << "  MASS"
+	 << "                       WIDTH"
+	 << "                    LIFETIME"
+         << std::endl;  
+  // write particle info
+  const_iterator cit;
+  for( cit=begin(); cit != end(); ++cit ) {
+    const ParticleData & pd = cit->second;
+    pd.writeParticleInfo( outstr );
+  }
+  outstr << "HepPDT-ParticleDataTable-Particle-Information-end" << std::endl;
   return;
 }
 

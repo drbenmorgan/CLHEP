@@ -78,11 +78,12 @@ namespace HepMC {
 //                       allow for reweighting etc. We envision a list of
 //                       WeightTags to be included with a run class which
 //                       would specify the meaning of the Weights .
-// random_states()       Vector of doubles which specify the random number 
-//                       generator's state for this event. It is left to the
-//                       generator to make use of this. We envision a vector of
-//                       RndmStatesTags to be included with a run class which
-//                       would specify the meaning of the random_states.
+// random_states()       Vector of unsigned long int which specifies the 
+//                       random number generator's state for this event. 
+//                       This vector may be passed as either double or long,
+//                       but it is stored as longs which are intended to be
+//                       strictly 32 bits in length.
+//                       It is left to the generator to make use of this.
 //
 ///////////////////////
 // Memory allocation //
@@ -147,8 +148,8 @@ namespace HepMC {
 	GenEvent( int signal_process_id = 0, int event_number = 0,
 		  GenVertex* signal_vertex = 0,
 		  const WeightContainer& weights = std::vector<double>(),
-		  const std::vector<double>& randomstates
-		  = std::vector<double>() );
+		  const std::vector<unsigned long>& randomstates
+		  = std::vector<unsigned long>() );
 	GenEvent( const GenEvent& inevent );          // deep copy
 	GenEvent& operator=( const GenEvent& inevent ); // deep.
 	virtual ~GenEvent(); //deletes all vertices/particles in this evt
@@ -177,8 +178,10 @@ namespace HepMC {
 	WeightContainer&        weights();
 	const WeightContainer&  weights() const;
 
-	std::vector<double> random_states() const;
-	double              random_states( int i ) const;
+	std::vector<unsigned long> random_states() const;
+	std::vector<double>        random_states_double() const;
+	std::ostream&              random_states_stream(std::ostream&) const;
+	unsigned long              random_states( int i ) const;
 
 	void set_signal_process_id( int id );
 	void set_event_number( int eventno );
@@ -186,7 +189,9 @@ namespace HepMC {
 	void set_alphaQCD( double a );
 	void set_alphaQED( double a );
 	void set_signal_process_vertex( GenVertex* );
-	void set_random_states( const std::vector<double>& randomstates );
+	void set_random_states( const std::vector<unsigned long>& randomstates );
+	void set_random_states_double( const std::vector<double>& randomstates );
+	std::istream& set_random_states_stream( std::istream& randomstates );
 
 	int     particles_size() const;
 	bool    particles_empty() const;
@@ -382,7 +387,7 @@ namespace HepMC {
 	GenVertex*            m_signal_process_vertex;
 	WeightContainer       m_weights; // weights for this event first weight
 	                                 // is used by default for hit and miss
-	std::vector<double>   m_random_states; // container of rndm num 
+	std::vector<unsigned long>   m_random_states; // container of rndm num 
 	                                       // generator states
 
 	std::map< int,GenVertex*,std::greater<int> >   m_vertex_barcodes;
@@ -416,10 +421,10 @@ namespace HepMC {
     inline const WeightContainer& GenEvent::weights() const 
     { return m_weights; }
 
-    inline std::vector<double> GenEvent::random_states() const 
+    inline std::vector<unsigned long> GenEvent::random_states() const 
     { return m_random_states; }
 
-    inline double GenEvent::random_states( int i ) const 
+    inline unsigned long GenEvent::random_states( int i ) const 
     { return m_random_states[i]; }
 
     inline void GenEvent::set_signal_process_id( int id )
@@ -440,7 +445,7 @@ namespace HepMC {
 	if ( m_signal_process_vertex ) add_vertex( m_signal_process_vertex );
     }
 
-    inline void GenEvent::set_random_states( const std::vector<double>&
+    inline void GenEvent::set_random_states( const std::vector<unsigned long>&
 					     randomstates )
     { m_random_states = randomstates; }
 

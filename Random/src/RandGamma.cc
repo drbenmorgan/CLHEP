@@ -1,4 +1,4 @@
-// $Id: RandGamma.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandGamma.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -9,6 +9,7 @@
 
 // =======================================================================
 // John Marraffino - Created: 12th May 1998
+// M Fischler      - put and get to/from streams 12/13/04
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -16,6 +17,9 @@
 #include <cmath>	// for log()
 
 namespace CLHEP {
+
+std::string RandGamma::name() const {return "RandGamma";}
+HepRandomEngine & RandGamma::engine() {return *localEngine;}
 
 RandGamma::~RandGamma() {
   if ( deleteEngine ) delete localEngine;
@@ -223,6 +227,29 @@ double v1,v2,v12;
 	   }
        }
    }
+}
+
+std::ostream & RandGamma::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << defaultK << " " << defaultLambda << "\n";
+  os.precision(pr);
+  return os;
+}
+
+std::istream & RandGamma::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  is >> defaultK >> defaultLambda;
+  return is;
 }
 
 }  // namespace CLHEP

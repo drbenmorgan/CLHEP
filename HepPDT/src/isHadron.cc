@@ -1,4 +1,4 @@
-// $Id: isHadron.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: isHadron.cc,v 1.1.1.1.4.1 2005/03/18 22:26:44 garren Exp $
 // ----------------------------------------------------------------------
 //
 // isHadron.cc
@@ -16,6 +16,7 @@ bool ParticleID::isHadron( ) const
     if( extraBits() > 0 ) { return false; }
     if( isMeson() )   { return true; }
     if( isBaryon() )  { return true; }
+    if( isPentaquark() ) { return true; }
     return false;
 }
 

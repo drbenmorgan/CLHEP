@@ -1,3 +1,155 @@
+2005-03-15  Mark Fischler <mf@fnal.gov>
+
+	* engineIDulong.cc, engineIDulong.h
+	  DoubConv.cc, DoubConv.h
+	  EngineFactory.cc, ranRestoreTest.cc
+	  all Random Engine classes
+
+	Add put() and get() methods to every engine transfering state to a
+	vector of unsigned longs.
+	
+Thu Mar 10  2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
+
+	* Geometry/BasicVector3D.h : added operator to convert to Hep3Vector
+	for backward compatibility (savannah bug id 6740)
+	* Geometry/config.in, Geometry/test/testBug6740.cc, Geometry/test/testBug6740.sh,
+	Geometry/test/testBug6740.output, Geometry/test/Makefile.am: added test for bug ID 6740
+	
+2005-02-14  Mark Fischler <mf@fnal.gov>
+
+	* JamesRandom.cc
+	
+	  Check that seed is non-negative. 
+	  Negative seeds give terrible sequences.
+
+2005-02-11  Mark Fischler <mf@fnal.gov>
+
+	* RandPoissonQ.cc RandPoissonT.cc RandomEngine.cc
+	
+	  Added missing implementations, per bug # 1806
+	  (FireArray(), shootArray(), getTableSeeds)
+
+2005-03-15  Mark Fischler  <mf@fnal.gov>
+
+	* SymMatrix.cc, testBug7328.cc
+	
+	Repair of bug 7328, a memory leak encountered when inverting symmetric
+	matrices above the size of 6x6.
+	
+2005-02-25  Mark Fischler  <mf@fnal.gov>
+
+	* Matrix.cc, testBug6181.cc
+	
+	Repair of bug 6181, a serious error in inverting matrices above the
+	size of 6x6.  
+
+2005-02-18  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in, Makefile.am: Stop using libtool.  
+	The newer releases of libtool seem to have dropped support for 
+	Windows Visual C++.  
+
+2005-02-14  Lynn Garren  <garren@fnal.gov>
+
+	* */configure.in: Visual C++ flags are now "-EHsc -nologo -GR -GX -MD"
+
+2005-02-03  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: install step creates libCLHEP.a, libCLHEP.so,
+	and/or libCLHEP.dylib by adding a symbolic link.
+
+	* HepMC/GenParticle.h: define HepMC::GenParticle::setParticleID 
+
+	* HepPDT: define HepPDT::QQDecayTable::writeTable,
+	HepPDT::QQChannel::write, and HepPDT::QQDecay::write
+
+2005-02-02  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* */configure.in: modified compiler flags for windows:
+	added "-O -GR -GX -MD" as this is needed for the multi-thread
+	environments used.
+
+2005-02-01  Lynn Garren  <garren@fnal.gov>
+
+	* config: remove HEP_CC_NEED_SUB_WITHOUT_CONST from config/CLHEP.h.
+	HEP_CC_NEED_SUB_WITHOUT_CONST has been defined to 1 in all cases for
+	a long time.
+
+	* Matrix: remove HEP_CC_NEED_SUB_WITHOUT_CONST ifdefs
+
+2005-02-01  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* Geometry/Geometry/BasicVector3D.h : changed template specialisations for 
+	multiplication of vector<float> with scalar and division of vector<float>
+	by scalar to use float scalars instead of double (savannah bug id 6523)
+
+2005-01-31  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* Matrix/src/Matrix.h: fixed error in sub(int, int, int, int), savannah 
+	bug id 6176, added corresponding files (testBug6176*) in test/,
+	updated Makefile.am accordingly to generate tests.
+
+Mon Dec 27	2004 Mark Fischler <mf@fnal.gov>
+
+	* *.cc  and .h for all the engine classes.
+	* Random.cc EngineFactory.cc StaticRandomStates.cc
+
+	Ability to restore engines and distributions without knowing in
+	the restoring program which type of engine was used in the saving
+	program.
+
+Wed Dec 22	2004 Mark Fischler <mf@fnal.gov>
+
+	* Random.h StaticRandomState.h Random.cc StaticRandomState.cc
+	
+	Added HepRandom::saveStaticRandomState(ostream) and restore to istream. 
+
+Mon Dec 20	2004 Mark Fischler <mf@fnal.gov>
+
+	* Random.h RandGauss.h RandFlat.h RandFlat.icc RandBit.h
+	  Random.cc RandGauss.cc RandFlat.cc
+
+	  Added static methods for save/restore to streams.
+
+Thu Dec 16	2004 Mark Fischler <mf@fnal.gov>
+
+	* Random/*.cc for all engines and distributions. 	  
+	* Random/test/ranRestoreTest.cc 
+	  
+	  Added put and get methods, as well as ostream operations, so that
+	  engine and distribution instances can be saved and restored to/from
+	  streams.
+	  
+Thu Dec 16
+Wed Dec 15	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandPoissonQ.cc (RandPoissonT.cc)
+	
+	  RandPoissonQ has a path, potentially taken when mean is more
+	  than 100, where an additional gaussian random number is needed.
+	  Instead we use the engine owned by the RandPoissonQ instance.
+	  
+	  This will affect in rare cases the values of random variates 
+	  delivered by **instances** (not the shoot() methods) of RandPoissonQ
+	  and RandPoissonT.
+
+Thu Dec 16
+Tue Dec 14	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandGeneral.cc 
+	
+	  Modify local variable theIntegralPdf, using a std::vector instead
+	  of a double* pointing to a new-ed array.  No behavioral change.
+	  
+Thu Dec 16
+Fri Dec 3	2004 Mark Fischler <mf@fnal.gov>
+
+	* Random/*.cc for all engines
+	* Random/test/ranRestoreTest.cc
+		Modified engines and additional-state distributions so that
+		restoreENgineState behaves better (error message and return
+		instead of hang up) when file requested is not found.
+
 ==============================
 30.11.04 Release CLHEP-2.0.1.2
 ==============================

@@ -1,4 +1,4 @@
-// $Id: RanshiEngine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RanshiEngine.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -24,11 +24,16 @@
 //                  to avoid per-instance space overhead and
 //                  correct the rounding procedure              16 Sep 1998
 // J. Marraffino  - Remove dependence on hepString class        13 May 1999
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - Methods for instance save/restore            12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
 //
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RanshiEngine.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>	// for ldexp()
 
@@ -41,6 +46,8 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 double RanshiEngine::twoToMinus_32;
 double RanshiEngine::twoToMinus_53;
 double RanshiEngine::nearlyTwoToMinus_54;
+
+std::string RanshiEngine::name() const {return "RanshiEngine";}
 
 void RanshiEngine::powersOfTwo() {
   twoToMinus_32 = ldexp (1.0, -32);
@@ -173,6 +180,10 @@ void RanshiEngine::saveStatus(const char filename[]) const {
 
 void RanshiEngine::restoreStatus(const char filename[]) {
   std::ifstream inFile(filename, std::ios::in);
+  if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+    std::cerr << "  -- Engine state remains unchanged\n";
+    return;
+  }
   if (!inFile.bad()) {
     inFile >> theSeed;
     for (int i = 0; i < numBuff; ++i) {
@@ -223,26 +234,38 @@ RanshiEngine::operator unsigned int() {
   return blkSpin;
 }
 
-std::ostream& operator<< (std::ostream& os, const RanshiEngine& e) {
+std::ostream& RanshiEngine::put (std::ostream& os ) const {
   char beginMarker[] = "RanshiEngine-begin";
   char endMarker[]   = "RanshiEngine-end";
  
+  int pr=os.precision(20);
   os << " " << beginMarker << " ";
   
-  os << std::setprecision(20)  << e.theSeed  << " ";
-  for (int i = 0; i < e.numBuff; ++i) {
-    os << e.buffer[i]  << " ";
+  os << theSeed  << "\n";
+  for (int i = 0; i < numBuff; ++i) {
+    os << buffer[i]  << "\n";
   }
-  os << e.redSpin  << " " << e.numFlats << " " << e.halfBuff; 
+  os << redSpin  << " " << numFlats << "\n" << halfBuff; 
   
-  os << " " << endMarker   << " ";
+  os << " " << endMarker   << "\n";
+  os.precision(pr);
   return os;
 }
 
-std::istream& operator>> (std::istream& is, RanshiEngine& e) {
-  char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
+std::vector<unsigned long> RanshiEngine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<RanshiEngine>());
+  for (int i = 0; i < numBuff; ++i) {
+    v.push_back(static_cast<unsigned long>(buffer[i]));
+  }
+  v.push_back(static_cast<unsigned long>(redSpin));
+  v.push_back(static_cast<unsigned long>(numFlats));
+  v.push_back(static_cast<unsigned long>(halfBuff));  
+  return v;
+}
 
+std::istream& RanshiEngine::get (std::istream& is) {
+  char beginMarker [MarkerLen];
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -255,11 +278,20 @@ std::istream& operator>> (std::istream& is, RanshiEngine& e) {
 	      << "\nwrong engine type found." << std::endl;
     return is;
   }
-  is >> e.theSeed;
-  for (int i = 0; i < e.numBuff; ++i) {
-    is >> e.buffer[i];
+  return getState(is);
+}
+
+std::string RanshiEngine::beginTag ( )  { 
+  return "RanshiEngine-begin"; 
+}
+  
+std::istream& RanshiEngine::getState (std::istream& is) {
+  char endMarker   [MarkerLen];
+  is >> theSeed;
+  for (int i = 0; i < numBuff; ++i) {
+    is >> buffer[i];
   }
-  is >> e.redSpin >> e.numFlats >> e.halfBuff;
+  is >> redSpin >> numFlats >> halfBuff;
   is >> std::ws;
   is.width(MarkerLen);  
   is >> endMarker;
@@ -270,6 +302,30 @@ std::istream& operator>> (std::istream& is, RanshiEngine& e) {
     return is;
   }
   return is;
+}
+
+bool RanshiEngine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<RanshiEngine>()) {
+    std::cerr << 
+    	"\nRanshiEngine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool RanshiEngine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != numBuff + 4 ) {
+    std::cerr << 
+    	"\nRanshiEngine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  for (int i = 0; i < numBuff; ++i) {
+    buffer[i] = v[i+1];
+  }
+  redSpin  = v[numBuff+1];
+  numFlats = v[numBuff+2]; 
+  halfBuff = v[numBuff+3];
+  return true;
 }
 
 }  // namespace CLHEP

@@ -1,4 +1,4 @@
-// $Id: testHepPDT.cc,v 1.3.4.1 2004/07/23 23:09:29 garren Exp $
+// $Id: testHepPDT.cc,v 1.3.4.2 2005/03/18 22:26:45 garren Exp $
 // ----------------------------------------------------------------------
 // testHepPDT.cc
 //
@@ -50,6 +50,7 @@ int main()
       exit(-1);
     }
     datacol.writeParticleData(wpdfile);
+    wpdfile << std::endl;
     DefaultConfig::ParticleData * pd;
     pd=datacol.particle(HepPDT::ParticleID(111));
     if(pd) pd->write(wpdfile);
@@ -59,5 +60,6 @@ int main()
     if(pd) pd->write(wpdfile);
     pd=datacol.particle(std::string("pi"));
     if(pd) pd->write(wpdfile);
+    datacol.writeParticleInfo(wpdfile);
 
 }

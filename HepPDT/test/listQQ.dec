@@ -1,7 +1,13 @@
 ;
-; $Id: listQQ.dec,v 1.1.2.1 2004/04/21 16:14:52 garren Exp $
+; $Id: listQQ.dec,v 1.1.2.2 2005/03/18 22:26:45 garren Exp $
 ;
 ; $Log: listQQ.dec,v $
+; Revision 1.1.2.2  2005/03/18 22:26:45  garren
+; merging changes from 1.9
+;
+; Revision 1.1.4.1  2004/04/21 23:06:34  garren
+; merge in fix to Herwig and Isajet translations
+;
 ; Revision 1.1.2.1  2004/04/21 16:14:52  garren
 ; merge in changes and translation bug fix from HEAD
 ;

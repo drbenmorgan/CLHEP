@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.4.1 2004/09/24 21:28:14 garren Exp $
+// $Id: Matrix.cc,v 1.4.4.2 2005/03/18 22:26:47 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -214,8 +214,7 @@ return mret(max_row-min_row+1,max_col-min_col+1);
     error("HepMatrix::sub: Index out of range");
   mIter a = mret.m.begin();
   int nc = num_col();
-  //-ap mcIter b1 = mret.m.begin() + (min_row - 1) + nc + min_col - 1;
-  mcIter b1 = m.begin() + (min_row - 1) + nc + min_col - 2;
+  mcIter b1 = m.begin() + (min_row - 1) * nc + min_col - 1;
   
   for(int irow=1; irow<=mret.num_row(); irow++) {
     mcIter brc = b1;
@@ -591,9 +590,11 @@ int HepMatrix::dfinv_matrix(int *ir) {
     mIter mki = m.begin() + i - 1;
     mIter mkj = m.begin() + j - 1;
     for (k=1; k<=n;k++) {
-      register mIter ti = mki;
+      // 2/24/05 David Sachs fix of improper swap bug that was present
+      // for many years:
+      double ti = *mki; // 2/24/05
       *mki = *mkj;
-      *mkj = *ti;
+      *mkj = ti;	// 2/24/05
       mki += n;
       mkj += n;
     }

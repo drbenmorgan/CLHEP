@@ -1,4 +1,4 @@
-// $Id: listQQTranslation.cc.in,v 1.1.2.1 2004/04/21 16:14:52 garren Exp $
+// $Id: listQQTranslation.cc.in,v 1.1.2.2 2005/03/18 22:26:45 garren Exp $
 // ----------------------------------------------------------------------
 // listQQTranslation.cc
 //
@@ -26,15 +26,17 @@ int main()
       std::cerr << "cannot open " << infile << std::endl;
       exit(-1);
     }
-    // read decay.dec 
-    HepPDT::QQDecayTable qdt( pdfile );
-    // create the translation table
-    HepPDT::PDGtoQQTable::instance()->buildTable( qdt );
     std::ofstream wpdfile( outfile );
     if( !wpdfile ) { 
       std::cerr << "cannot open " << outfile << std::endl;
       exit(-1);
     }
+    // read decay.dec 
+    HepPDT::QQDecayTable qdt( pdfile );
+    // write information we just read
+    qdt.writeTable( wpdfile );
+    // create the translation table
+    HepPDT::PDGtoQQTable::instance()->buildTable( qdt );
     // write the tranlations
     HepPDT::PDGtoQQTable::instance()->writeTranslations( wpdfile );
 }

@@ -1,4 +1,4 @@
-// $Id: RanluxEngine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RanluxEngine.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -28,11 +28,18 @@
 //                  array of seeds: 19th Feb 1998
 // Ken Smith      - Added conversion operators:  6th Aug 1998
 // J. Marraffino  - Remove dependence on hepString class  13 May 1999
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - Methods put, getfor instance save/restore       12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
+//
 // ===============================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/RanluxEngine.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>
 #include <stdlib.h>	// for abs(int)
@@ -42,6 +49,8 @@ using namespace std;
 namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
+
+std::string RanluxEngine::name() const {return "RanluxEngine";}
 
 // Number of instances with automatic seed selection
 int RanluxEngine::numEngines = 0;
@@ -306,6 +315,10 @@ void RanluxEngine::saveStatus( const char filename[] ) const
 void RanluxEngine::restoreStatus( const char filename[] )
 {
    std::ifstream inFile( filename, std::ios::in);
+   if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+     std::cerr << "  -- Engine state remains unchanged\n";
+     return;
+   }
 
    if (!inFile.bad() && !inFile.eof()) {
      inFile >> theSeed;
@@ -442,28 +455,44 @@ RanluxEngine::operator unsigned int() {
    // which therefore doesn't fill all bits of the integer.
 }
 
-std::ostream & operator << ( std::ostream& os, const RanluxEngine& e )
+std::ostream & RanluxEngine::put ( std::ostream& os ) const
 {
    char beginMarker[] = "RanluxEngine-begin";
    char endMarker[]   = "RanluxEngine-end";
 
+   int pr = os.precision(20);
    os << " " << beginMarker << " ";
-   os << e.theSeed << " ";
+   os << theSeed << "\n";
    for (int i=0; i<24; ++i) {
-     os << std::setprecision(20) << e.float_seed_table[i] << " ";
+     os << float_seed_table[i] << "\n";
    }
-   os << e.i_lag << " " << e.j_lag << " ";
-   os << std::setprecision(20) << e.carry << " " << e.count24 << " ";
-   os << e.luxury << " " << e.nskip << " ";
-   os << endMarker << " ";
+   os << i_lag << " " << j_lag << "\n";
+   os << carry << " " << count24 << " ";
+   os << luxury << " " << nskip << "\n";
+   os << endMarker << "\n";
+   os.precision(pr);
    return os;
 }
 
-std::istream & operator >> ( std::istream& is, RanluxEngine& e )
+std::vector<unsigned long> RanluxEngine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<RanluxEngine>());
+  for (int i=0; i<24; ++i) {
+    v.push_back
+    	(static_cast<unsigned long>(float_seed_table[i]/mantissa_bit_24));
+  }
+  v.push_back(static_cast<unsigned long>(i_lag));
+  v.push_back(static_cast<unsigned long>(j_lag));
+  v.push_back(static_cast<unsigned long>(carry));
+  v.push_back(static_cast<unsigned long>(count24));
+  v.push_back(static_cast<unsigned long>(luxury));
+  v.push_back(static_cast<unsigned long>(nskip));
+  return v;
+}
+
+std::istream & RanluxEngine::get ( std::istream& is )
 {
   char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
-
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -476,13 +505,23 @@ std::istream & operator >> ( std::istream& is, RanluxEngine& e )
 	       << "\nwrong engine type found." << std::endl;
      return is;
   }
-  is >> e.theSeed;
+  return getState(is);
+}
+
+std::string RanluxEngine::beginTag ( )  { 
+  return "RanluxEngine-begin"; 
+}
+
+std::istream & RanluxEngine::getState ( std::istream& is )
+{
+  char endMarker   [MarkerLen];
+  is >> theSeed;
   for (int i=0; i<24; ++i) {
-     is >> e.float_seed_table[i];
+     is >> float_seed_table[i];
   }
-  is >> e.i_lag; is >> e.j_lag;
-  is >> e.carry; is >> e.count24;
-  is >> e.luxury; is >> e.nskip;
+  is >> i_lag; is >>  j_lag;
+  is >> carry; is >> count24;
+  is >> luxury; is >> nskip;
   is >> std::ws;
   is.width(MarkerLen);  
   is >> endMarker;
@@ -493,6 +532,33 @@ std::istream & operator >> ( std::istream& is, RanluxEngine& e )
      return is;
   }
   return is;
+}
+
+bool RanluxEngine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<RanluxEngine>()) {
+    std::cerr << 
+    	"\nRanluxEngine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool RanluxEngine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != 31 ) {
+    std::cerr << 
+    	"\nRanluxEngine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  for (int i=0; i<24; ++i) {
+    float_seed_table[i] = v[i+1]*mantissa_bit_24;
+  }
+  i_lag    = v[25];
+  j_lag    = v[26];
+  carry    = v[27];
+  count24  = v[28];
+  luxury   = v[29];
+  nskip    = v[30];
+  return true;
 }
 
 }  // namespace CLHEP

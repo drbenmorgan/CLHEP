@@ -1,4 +1,4 @@
-// $Id: RandBit.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandBit.h,v 1.3.4.1 2005/03/18 22:26:48 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,8 @@
 
 // =======================================================================
 // M. Fischler    - Created: 15th Feb 2000
+// M Fischler      - put and get to/from streams 12/10/04
+// M Fischler      - static save/restore to streams streams 12/20/04
 // =======================================================================
 
 #ifndef RandBit_h
@@ -69,12 +71,39 @@ public:
 
   inline int fireBit();
 
+  // Save and restore to/from streams
+  
+  std::ostream & put ( std::ostream & os ) const;
+  std::istream & get ( std::istream & is );
+
+  std::string name() const;
+
+  static std::string distributionName() {return "RandBit";}  
+  // Provides the name of this distribution class
+
+  static std::ostream& saveFullState ( std::ostream & os ) 
+  // Saves to stream the state of the engine and cached data.
+  					{return RandFlat::saveFullState(os);}
+					
+  static std::istream& restoreFullState ( std::istream & is )
+  // Restores from stream the state of the engine and cached data.
+  					{return RandFlat::restoreFullState(is);}
+
+  static std::ostream& saveDistState ( std::ostream & os )
+  // Saves to stream the state of the cached data.
+  					{return RandFlat::saveDistState(os);}
+
+  static std::istream& restoreDistState ( std::istream & is )
+  // Restores from stream the state of the cached data.
+  					{return RandFlat::restoreDistState(is);}
+
+
 private:
 
   // Private copy constructor. Defining it here disallows use.
   RandBit(const RandBit& d);
 
-  // All the engine info, and the default A nad B, are in the RandFlat
+  // All the engine info, and the default A and B, are in the RandFlat
   // base class.
 
 };
