@@ -3,4 +3,4 @@
 
 
 ./testRandDists@EXEEXT@ < @srcdir@/testRandDists.input \
-  | sed 's/e-00\([0-9]\)/e-0\1/g' | diff -b -q - @srcdir@/testRandDists.output > /dev/null
+  | sed 's/e-00\([0-9]\)/e-0\1/g' | @DIFF_Q@ -b - @srcdir@/testRandDists.output > /dev/null

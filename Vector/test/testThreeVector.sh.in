@@ -3,4 +3,4 @@
 
 
 ./testThreeVector@EXEEXT@ < @srcdir@/testThreeVector.input \
-  | diff -b -q - @srcdir@/testThreeVector.output > /dev/null
+  | @DIFF_Q@ -b - @srcdir@/testThreeVector.output > /dev/null
