@@ -1,9 +1,13 @@
 // -*- C++ -*-
-// $Id: BivariateGaussian.cc,v 1.6 2003/12/29 18:17:18 boudreau Exp $
+// $Id: BivariateGaussian.cc,v 1.7 2004/04/20 15:03:52 pfeiffer Exp $
 #include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/BivariateGaussian.hh"
 #include <assert.h>
 #include <cmath>      // for exp()
+
+#if (defined __STRICT_ANSI__) || (defined _WIN32)
+#define M_PI            3.14159265358979323846
+#endif // __STRICT_ANSI__
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(BivariateGaussian)

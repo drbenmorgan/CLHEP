@@ -1,7 +1,8 @@
 // -*- C++ -*-
-// $Id: Sqrt.cc,v 1.4 2003/09/06 14:04:14 boudreau Exp $
+// $Id: Sqrt.cc,v 1.5 2004/04/20 15:03:52 pfeiffer Exp $
 #include "CLHEP/GenericFunctions/Sqrt.hh"
 #include <assert.h>
+#include <cmath>
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Sqrt)
 

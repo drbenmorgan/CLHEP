@@ -1,7 +1,8 @@
 // -*- C++ -*-
-// $Id: PuncturedSmearedExp.cc,v 1.1 2004/02/05 15:35:25 boudreau Exp $
+// $Id: PuncturedSmearedExp.cc,v 1.2 2004/04/20 15:03:52 pfeiffer Exp $
 #include "CLHEP/GenericFunctions/PuncturedSmearedExp.hh"
 #include <sstream>
+#include <cmath>
 namespace Genfun {
 FUNCTION_OBJECT_IMP(PuncturedSmearedExp)
 

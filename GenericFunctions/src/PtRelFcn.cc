@@ -7,6 +7,10 @@
 #include <cmath>	// for pow() and exp()
 #include <float.h>
 
+#if (defined __STRICT_ANSI__) || (defined _WIN32)
+#define M_PI            3.14159265358979323846
+#endif // __STRICT_ANSI__
+
 namespace Genfun {
 FUNCTION_OBJECT_IMP(PtRelFcn)
 
