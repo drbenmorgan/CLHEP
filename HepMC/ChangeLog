@@ -1,3 +1,9 @@
+2005-03-15  Lynn Garren  <garren@fnal.gov>
+
+	* CBherwig.h now uses HepPDT translation method
+
+	* examples are now installed 
+
 2005-03-03  Lynn Garren  <garren@fnal.gov>
 
 	* HepMC/CBherwig.h: Because the HEPEVT common block is changed while

@@ -1,3 +1,7 @@
+2005-03-15  Lynn Garren  <garren@fnal.gov>
+
+	* examples are now installed 
+
 2005-03-11  Lynn Garren  <garren@fnal.gov>
 
 	* add RandomState class which "saves" the random state as a string
