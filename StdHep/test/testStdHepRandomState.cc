@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////
 // Lynn Garren
 //
-// This program tests StdHep::StdRandom
+// This program tests StdHep::RandomState
 // 
 //////////////////////////////////////////////////////////////////////////
 
@@ -10,7 +10,7 @@
 #include <sstream>
 #include <string>
 
-#include "CLHEP/StdHep/StdRandom.hh"
+#include "CLHEP/StdHep/RandomState.hh"
 
 #include "SimpleRand.hh"
 
@@ -18,7 +18,7 @@ int main() {
 
     int status=0;
     double d, saved;
-    StdHep::StdRandom rstate;
+    StdHep::RandomState rstate;
 
     // fill and save an arbitrary vector just for grins
     std::vector<unsigned long> rs;

@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 
-#include "CLHEP/StdHep/StdRandom.hh"
+#include "CLHEP/StdHep/RandomState.hh"
 
 namespace StdHep  {
 
@@ -68,7 +68,7 @@ private:
   std::string         itsRunIdentifier;
   std::string         itsGeneratorName;
   std::string         itsPDFName;
-  StdRandom	      itsSeedList;
+  RandomState	      itsSeedList;
   
 };	// StdRunInfo
 

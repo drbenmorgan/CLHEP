@@ -19,7 +19,7 @@ pkginclude_HEADERS = \
 	StdHep.hh	\
 	StdHeptoGenEvent.icc	\
 	StdHepVersion.h	\
-	StdRandom.hh	\
+	RandomState.hh	\
 	StdRunInfoConvert.hh	\
 	StdRunInfoConvert.icc	\
 	StdRunInfo.hh	\

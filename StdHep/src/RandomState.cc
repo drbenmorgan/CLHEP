@@ -1,26 +1,26 @@
 // ----------------------------------------------------------------------
-// StdRandom.cc
+// RandomState.cc
 // ----------------------------------------------------------------------
 
 #include <vector>
 #include <string>
 #include <sstream>
 
-#include "CLHEP/StdHep/StdRandom.hh"
+#include "CLHEP/StdHep/RandomState.hh"
 #include "CLHEP/HepMC/DoubleConversion.hh"
 
 namespace StdHep  {
-StdRandom::StdRandom(  )
+RandomState::RandomState(  )
 : myRandomState( "" )
 { ; }
 
 
-StdRandom::StdRandom( const StdRandom & orig )
+RandomState::RandomState( const RandomState & orig )
 : myRandomState( orig.myRandomState )
 { ; }
 
 
-StdRandom& StdRandom::operator=( const StdRandom & rhs )
+RandomState& RandomState::operator=( const RandomState & rhs )
 { if( this != & rhs )
   {
     myRandomState = rhs.myRandomState;
@@ -28,17 +28,17 @@ StdRandom& StdRandom::operator=( const StdRandom & rhs )
   return *this;
 }
 
-StdRandom:: ~StdRandom()
+RandomState:: ~RandomState()
 { ; }
 
-std::ostream& StdRandom::getStateAsStream( std::ostream & os )  const
+std::ostream& RandomState::getStateAsStream( std::ostream & os )  const
 {
     os << myRandomState << std::endl;
     return os;
 }
 
 
-std::vector<unsigned long> StdRandom::getStateAsLongs(  )  const
+std::vector<unsigned long> RandomState::getStateAsLongs(  )  const
 {
     // we assume here that this makes sense
     // this method assumes that the state consists solely of a list of longs
@@ -53,14 +53,14 @@ std::vector<unsigned long> StdRandom::getStateAsLongs(  )  const
 }
 
 
-void StdRandom::print( std::ostream & os ) const
+void RandomState::print( std::ostream & os ) const
 {
-    os << "begin StdRandom state"  << std::endl;
+    os << "begin RandomState state"  << std::endl;
     os << myRandomState << std::endl;
-    os << "end StdRandom state" << std::endl;
+    os << "end RandomState state" << std::endl;
 }
 
-void  StdRandom::putState( std::istream& ist )
+void  RandomState::putState( std::istream& ist )
 {
    std::ostringstream st;
    std::string str;
@@ -71,12 +71,12 @@ void  StdRandom::putState( std::istream& ist )
    myRandomState = st.str();
 }
 
-void  StdRandom::putState( std::string const & st )
+void  RandomState::putState( std::string const & st )
 {
    myRandomState = st;
 }
 
-void  StdRandom::putState( std::vector<unsigned long> const & rs )
+void  RandomState::putState( std::vector<unsigned long> const & rs )
 {
    std::ostringstream st;
    for( unsigned int i=0; i<rs.size(); ++i ) {
@@ -85,14 +85,14 @@ void  StdRandom::putState( std::vector<unsigned long> const & rs )
    myRandomState = st.str();
 }
 
-void  StdRandom::appendSeed( unsigned long sd )
+void  RandomState::appendSeed( unsigned long sd )
 {
    std::ostringstream st(myRandomState);
    st << " " << sd;
    myRandomState = st.str();
 }
 
-void  StdRandom::appendSeed( double sd )
+void  RandomState::appendSeed( double sd )
 {
    std::ostringstream st(myRandomState);
    std::vector<unsigned long> two;
@@ -103,7 +103,7 @@ void  StdRandom::appendSeed( double sd )
    myRandomState = st.str();
 }
 
-void  StdRandom::clear(  )
+void  RandomState::clear(  )
 {
     myRandomState = "";
 }

@@ -1,7 +1,7 @@
-#ifndef STDRANDOM_HH
-#define STDRANDOM_HH
+#ifndef STDHEP_RANDOMSTATE_HH
+#define STDHEP_RANDOMSTATE_HH
 // ----------------------------------------------------------------------
-// StdRandom.hh
+// RandomState.hh
 //
 // Container for the random state
 // ----------------------------------------------------------------------
@@ -16,16 +16,16 @@ namespace StdHep  {
  * @author
  * @ingroup stdhep
  */
-class StdRandom {
+class RandomState {
 
 public:
 
   // ---  birth/death:
   //
-  StdRandom(  );
-  StdRandom( const StdRandom & orig );
-  StdRandom& operator=( const StdRandom & );
-  ~StdRandom();
+  RandomState(  );
+  RandomState( const RandomState & orig );
+  RandomState& operator=( const RandomState & );
+  ~RandomState();
 
   // ---  accessors:
   //
@@ -48,8 +48,8 @@ private:
 
   std::string myRandomState;
   
-};	// StdRandom
+};	// RandomState
 
 }
 
-#endif // STDRANDOM_HH
+#endif // STDHEP_RANDOMSTATE_HH

@@ -15,19 +15,19 @@ endif
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
-        testStdRandom
+        testStdHepRandomState
 
 #check_SCRIPTS =
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
-        testStdRandom
+        testStdHepRandomState
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
 
 # Identify the dependencies on a per-test basis:
-testStdRandom_SOURCES      = testStdRandom.cc SimpleRand.cc
+testStdHepRandomState_SOURCES      = testStdHepRandomState.cc SimpleRand.cc
 
 # Identify input data file(s) and prototype output file(s):
 #EXTRA_DIST = 

@@ -31,7 +31,7 @@ libCLHEP_StdHep_@VERSION@_a_SOURCES = \
 	StdEventVDescendants.cc	\
 	StdEventVertex.cc	\
 	StdEventVParents.cc	\
-	StdRandom.cc \
+	RandomState.cc \
 	StdRunInfo.cc	\
 	tree.cc	\
 	writeEventKey.cc	\

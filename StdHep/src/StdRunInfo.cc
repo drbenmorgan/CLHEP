@@ -20,7 +20,7 @@ StdRunInfo::StdRunInfo( int runno, int togen, int ngen, int nwrt,
   itsRunIdentifier    ( " " ),
   itsGeneratorName    ( " " ),
   itsPDFName          ( " " ),
-  itsSeedList         ( StdRandom() )
+  itsSeedList         ( RandomState() )
 { ; }
 
 StdRunInfo::StdRunInfo( const StdRunInfo & orig )
