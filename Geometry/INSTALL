@@ -2,15 +2,14 @@
 #  platform specific issues
 #-------------------------------------------------------------
 
-Support for shared libraries with CC 5.4 on Solaris requires libtool 1.9b 
-or later.  This also implies the use of autoconf 2.59 or later and
-automake 1.9.1 or later.  If you bootstrap, you will probably have to build 
-these yourself.  See "building autotools" below.
+This package requires autoconf 2.59 or later and automake 1.9.1 or later.
+If you bootstrap, you will probably have to build these yourself.  
+See "building autotools" below.
 
 The new libtool no longer properly supports shared libraries for gcc 2.95.2.
 If you build CLHEP with gcc 2.95.2, you must configure --disable-shared.
 
-To build for Solaris CC, configure with CXX=CC CC=cc LIBS=-lsunmath.
+To build for Solaris CC, configure with CXX=CC CC=cc and use gmake.
 
 #-------------------------------------------------------------
 #  installing from a source code tar ball

@@ -1,5 +1,5 @@
 # Applicable to each test program:
-INCLUDES = -I../
+INCLUDES = -I$(top_builddir)/
 LDADD = @config_LDFLAGS@  @config_LIBS@	# libraries to link, and whence
 
 # Identify executables needed during testing:

@@ -1,8 +1,15 @@
 # Applicable to each test program:
-INCLUDES = -I../
+INCLUDES = -I$(top_builddir)/
 # libraries to link, and whence
-LDADD = ${top_builddir}/src/libCLHEP-@PACKAGE@-@VERSION@.la \
-        ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.la
+if BUILD_STATIC
+  LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.a \
+          ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.a
+else
+  LIBS += $(MY_LD)$(top_builddir)/src \
+          $(MY_LD)${top_builddir}/../Vector/src
+  LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT) \
+          ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
+endif
 
 # Identify executables needed during testing:
 check_PROGRAMS = \

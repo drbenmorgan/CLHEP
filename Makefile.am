@@ -8,21 +8,37 @@ SUBDIRS = config Units Vector Evaluator GenericFunctions Geometry \
 
 bin_SCRIPTS = clheplib clhep-config
 
-CLEANFILES = clheplib library-list $(LTCLHEPLIB)
-
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 CXXFLAGS = @CXXFLAGS@
-LTCLHEPLIB = libCLHEP-@VERSION@.la
 CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 
-all-local: $(LTCLHEPLIB)
+# these if/else blocks will be parsed by automake and translated
+if BUILD_SHARED
+  shareddir = shared
+  lib_shared = libCLHEP-@VERSION@.$(SHEXT)
+  SHFLAGS = @MY_SHFLAGS@
+  SHLINK = @MY_SHLINK@
+  SHNAME = @MY_SHNAME@
+endif
+if BUILD_STATIC
+  CLHEPLIB = libCLHEP-@VERSION@.a
+endif
 
-$(LTCLHEPLIB): 
-	liblist=`$(srcdir)/getObjectList $(SUBDIRS)`; \
-	$(CXXLINK) -rpath $(libdir) $$liblist $(LIBS)
+CLEANFILES = clheplib library-list $(CLHEPLIB) $(lib_shared) 
+
+all-local: $(CLHEPLIB) $(lib_shared)
+
+$(CLHEPLIB): 
+	-rm -f $@
+	liblist=`$(top_builddir)/getObjectList -static $(SUBDIRS)`; \
+	$(AR) $(ARFLAGS) $@ $$liblist; $(RANLIB) $@
+
+$(lib_shared): 
+	-rm -f $@
+	liblist=`$(top_builddir)/getObjectList -shared $(SUBDIRS)`; \
+	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $$liblist -o $@
 
 docs:
 	list='$(SUBDIRS)'; for subdir in $$list; do \
@@ -37,30 +53,42 @@ install-docs:
 clheplib: build-clheplib
 	./build-clheplib $(SUBDIRS)
 
-install-exec-local: install-LTCLHEPLIB
+install-exec-local: install-CLHEPLIB
 
-install-LTCLHEPLIB: $(LTCLHEPLIB)
+install-CLHEPLIB: $(CLHEPLIB) $(lib_shared)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libdir)
-	@list='$(LTCLHEPLIB)'; for p in $$list; do \
+	test -z "$(libdir)" || $(mkdir_p) "$(DESTDIR)$(libdir)"
+	@list='$(CLHEPLIB)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    f="`echo $$p | sed -e 's|^.*/||'`"; \
-	    echo " $(LIBTOOL) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) $$p $(DESTDIR)$(libdir)/$$f"; \
-	    $(LIBTOOL) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$p $(DESTDIR)$(libdir)/$$f; \
+	    echo " $(INSTALL_DATA) '$$p' '$(DESTDIR)$(libdir)/$$p'"; \
+	    $(INSTALL_DATA) "$$p" "$(DESTDIR)$(libdir)/$$p"; \
 	  else :; fi; \
 	done
-	if test -f $(DESTDIR)$(libdir)/libCLHEP-@VERSION@.a; then \
-	   if ! test -f $(DESTDIR)$(libdir)/libCLHEP.a; then \
-	     (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.a libCLHEP.a ); \
-	   fi; fi
-	if test -f $(DESTDIR)$(libdir)/libCLHEP-@VERSION@.so; then \
-	   if ! test -f $(DESTDIR)$(libdir)/libCLHEP.so; then \
-	     (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.so libCLHEP.so ); \
-	   fi; fi
-	if test -f $(DESTDIR)$(libdir)/libCLHEP-@VERSION@.dylib; then \
-	   if ! test -f $(DESTDIR)$(libdir)/libCLHEP.dylib; then \
-	     (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.dylib libCLHEP.dylib ); \
-	   fi; fi
+	@$(POST_INSTALL)
+	@list='$(CLHEPLIB)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo " $(RANLIB) '$(DESTDIR)$(libdir)/$$p'"; \
+	    $(RANLIB) "$(DESTDIR)$(libdir)/$$p"; \
+	    if test -f $(DESTDIR)$(libdir)/libCLHEP.a; then \
+	    (rm -f $(DESTDIR)$(libdir)/libCLHEP.a); fi; \
+	    (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.a libCLHEP.a ); \
+	  else :; fi; \
+	done
+	@$(NORMAL_INSTALL)
+	@list='$(lib_shared)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo " $(INSTALL) '$$p' '$(DESTDIR)$(libdir)/$$p'"; \
+	    $(INSTALL) "$$p" "$(DESTDIR)$(libdir)/$$f"; \
+	  else :; fi; \
+	done
+	@$(POST_INSTALL)
+	@list='$(lib_shared)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    if test -f $(DESTDIR)$(libdir)/libCLHEP.a; then \
+	    (rm -f $(DESTDIR)$(libdir)/libCLHEP.$(SHEXT)); fi; \
+	    (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.$(SHEXT) libCLHEP.$(SHEXT) ); \
+	  else :; fi; \
+	done
 
 clean-local:
 	rm -f *-dep-list

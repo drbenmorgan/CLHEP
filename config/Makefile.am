@@ -53,3 +53,7 @@ temp-package-dirs:
 	  $(mkinstalldirs) $(abs_top_builddir)/CLHEP/$$pkg; \
 	done;
 
+# extra clean rule
+clean-local:
+	rm -rf $(top_builddir)/CLHEP
+

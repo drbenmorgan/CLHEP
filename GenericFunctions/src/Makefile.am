@@ -2,9 +2,7 @@
 
 INCLUDES = -I$(top_builddir)
 
-lib_LTLIBRARIES = libCLHEP-GenericFunctions-@VERSION@.la
-
-libCLHEP_GenericFunctions_@VERSION@_la_SOURCES = \
+libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	Abs.cc       \
 	AbsFunctional.cc       \
 	AbsFunction.cc       \
@@ -76,3 +74,46 @@ libCLHEP_GenericFunctions_@VERSION@_la_SOURCES = \
 	TrivariateGaussian.cc       \
 	Variable.cc       \
 	X.cc
+
+libCLHEP_GenericFunctions_@VERSION@_so_OBJECTS = $(patsubst %.cc,$(shareddir)/%.$(OBJEXT),$(libCLHEP_GenericFunctions_@VERSION@_a_SOURCES))
+
+# these if/else blocks will be parsed by automake and translated
+if BUILD_SHARED
+  shareddir = shared
+  lib_shared = libCLHEP-GenericFunctions-@VERSION@.$(SHEXT)
+  SHFLAGS = @MY_SHFLAGS@
+  SHLINK = @MY_SHLINK@
+  SHNAME = @MY_SHNAME@
+endif
+if BUILD_STATIC
+  lib_LIBRARIES = libCLHEP-GenericFunctions-@VERSION@.a
+endif
+
+CLEANFILES =  $(lib_shared)
+
+all-local: $(shareddir) $(lib_shared)
+
+$(shareddir):
+	test -d $(shareddir) || mkdir $(shareddir)
+
+$(lib_shared): $(libCLHEP_GenericFunctions_@VERSION@_so_OBJECTS)
+	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_GenericFunctions_@VERSION@_so_OBJECTS) -o $@
+
+$(shareddir)/%.$(OBJEXT): %.cc
+	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<
+
+install-exec-local: $(lib_shared)
+	@$(NORMAL_INSTALL)
+	test -z "$(libdir)" || $(mkdir_p) "$(DESTDIR)$(libdir)"
+	@list='$(lib_shared)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo " $(INSTALL) '$$p' '$(DESTDIR)$(libdir)/$$p'"; \
+	    $(INSTALL) "$$p" "$(DESTDIR)$(libdir)/$$f"; \
+	  else :; fi; \
+	done
+
+clean-local:
+	-test -d $(shareddir) && rm -f $(shareddir)/*.$(OBJEXT)
+
+distclean-local:
+	-test -d $(shareddir) && rm -rf ./$(shareddir)
