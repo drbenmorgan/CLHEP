@@ -51,29 +51,16 @@ C
       return
       END 
 
-      subroutine get_isajet_name( i, id1, id2, lb1, lb2 )
+      subroutine get_label( id, lb)
       
-      integer I,ifL1,ifL2,ifL3,JSPIN,IDEX
-      integer id,ID1,ID2
-      character*8 LB1,LB2,LABEL
+      integer id
+      character*8 LB,LABEL
 
-      ID1 = I
-      ID2=-ID1
-      lb1 = '    '
-      lb2 = '    '
-      call FLAVOR(ID1,ifL1,ifL2,ifL3,JSPIN,IDEX)
-      if(IDEX.GT.0)then
-        LB1 = LABEL(ID1)
-        if(LB1.NE.'LERR' .AND. LB1.NE.'ERR')then
-          LB2=LABEL(ID2)
-          if(LB2.EQ.'LERR' .OR. LB2.EQ.'ERR') id2 = 0
-	else
-	  id1 = 0
-	  id2 = 0
-        endif
-      else
-	 id1 = 0
-	 id2 = 0
+      lb = '    '
+      
+      if ( id.ne.0) then
+         lb = LABEL(id)
       endif
+
       return
       end

@@ -50,11 +50,10 @@ libCLHEP_HepPDT_@VERSION@_a_SOURCES = \
 	translateEvtGentoPDT.cc	\
 	translateGeanttoPDT.cc	\
 	translateHerwig.cc	\
-	translateIsajettoPDT.cc	\
+	translateIsajet.cc	\
 	translatePDGtabletoPDT.cc	\
 	translatePDTtoEvtGen.cc	\
 	translatePDTtoGeant.cc	\
-	translatePDTtoIsajet.cc	\
 	translatePDTtoPDGtable.cc	\
 	translatePDTtoPythia.cc	\
 	translatePDTtoQQ.cc	\

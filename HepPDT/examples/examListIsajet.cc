@@ -1,4 +1,4 @@
-// $Id: examListIsajet.cc,v 1.1.4.1 2004/04/21 23:06:33 garren Exp $
+// $Id: examListIsajet.cc,v 1.1.4.2 2005/03/16 18:10:33 garren Exp $
 // -------------------------------------------------------------------
 // 
 // List the isajet translation
@@ -16,17 +16,12 @@
 
 extern "C" {
     void list_isajet_init_ ( );
-    void get_isajet_name_( int * i, int * id, int * aid, char *name, char *aname );
+    void flavor_( int *, int *, int *, int *, int *, int * );
+    void get_label_( int * id, char *name );
 }
 
 int main()
 {
-    int i, j;
-    int aid, id, hid;
-    char cname[10];
-    char acname[10];
-    std::string hname;
-    std::string pn;
     static char outfile[] = "examListIsajet.out";
     std::string title = "HepPDT listing of Isajet translations";
 
@@ -42,38 +37,71 @@ int main()
 
     os << "      " << title << std::endl;
     
-    for( i=1; i<100001; ++i ) {
-	// get info from isajet
+    int i, j;
+    int id, aid, fl1, fl2, fl3, js, indx;
+    int pid;
+    char cname[10];
+    char acname[10];
+    std::string hname;
+    std::string pn;
+    for( i=1; i<100005; ++i ) {
+	// make sure names are empty
 	for( j=0; j<10; ++j) { cname[j] = '\0'; }
 	for( j=0; j<10; ++j) { acname[j] = '\0'; }
-	get_isajet_name_( & i, & id, &aid, cname, acname );
-	// particle
-	if( id != 0 ) {
-	    hname = std::string( cname );
-	    hid = HepPDT::translateIsajettoPDT( id );
-            pn = HepPDT::particleName( hid );
- 	    os << "Isajet: ";
-	    os.width(10);
-	    os << id << " " << hname;
-	    os << "  HepPDT: " ;
-	    os.width(12);
-	    os << hid << " " << pn << std::endl;
+	// get info from isajet
+	id = i;
+	aid = 0;
+	flavor_(&id, &fl1, &fl2, &fl3, &js, &indx );
+	// we need both a valid index and a valid label
+	// check the label only if there is a valid translation
+	if ( indx > 0 ) {
+	   get_label_(&id,cname);
+	   aid = -id;
+	   get_label_(&aid,acname);
+	} else {
+	   id = aid = 0;
 	}
-        // antiparticle
+	
+	// print particle
+	if( id != 0 ) {
+	    pid = HepPDT::translateIsajettoPDT( id );
+	    hname = std::string( cname );
+	    if ( pid != 0 ) {
+        	pn = HepPDT::particleName( pid );
+ 		os << "Isajet: ";
+		os.width(10);
+		os << id << " " << hname;
+		os << "  HepPDT: " ;
+		os.width(12);
+		os << pid << " " << pn << std::endl;
+	    } else if ( strncmp( cname, "ERR", 3 ) != 0 ) {
+ 		os << "Isajet: ";
+		os.width(10);
+		os << id << " with name \"" << hname;
+		os << "\" has no HepPDT translation " << std::endl;
+	    }
+	}
+        // print antiparticle
 	if( aid != 0 ) {
 	    hname = std::string( acname );
-	    hid = HepPDT::translateIsajettoPDT( aid );
-            pn = HepPDT::particleName( hid );
- 	    os << "Isajet: ";
-	    os.width(10);
-	    os << aid << " " << hname;
-	    os << "  HepPDT: " ;
-	    os.width(12);
-	    os << hid << " " << pn << std::endl;
+	    pid = HepPDT::translateIsajettoPDT( aid );
+	    if ( pid != 0 ) {
+        	pn = HepPDT::particleName( pid );
+ 		os << "Isajet: ";
+		os.width(10);
+		os << aid << " " << hname;
+		os << "  HepPDT: " ;
+		os.width(12);
+		os << pid << " " << pn << std::endl;
+	    } else if ( strncmp( acname, "ERR", 3 ) != 0 ) {
+ 		os << "Isajet: ";
+		os.width(10);
+		os << aid << " with name \"" << hname;
+		os << "\" has no HepPDT translation " << std::endl;
+	    }
 	}
     }
 
     
     return 0;
 }
-
