@@ -1,4 +1,4 @@
-// $Id: QQChannel.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: QQChannel.cc,v 1.1.1.1.2.1 2005/02/04 00:24:43 garren Exp $
 // ----------------------------------------------------------------------
 //
 // QQChannel.cc
@@ -6,6 +6,12 @@
 //
 // ----------------------------------------------------------------------
 
+#include "CLHEP/HepPDT/defs.h"
+#if HAVE_SSTREAM
+#include <sstream>
+#else
+#include "CLHEP/HepPDT/StringStream.h"
+#endif
 #include <algorithm>	// swap()
 
 #include "CLHEP/HepPDT/QQChannel.hh"
@@ -68,6 +74,18 @@ void  QQChannel::clear(  )
   itsAngularHelicity.clear();
   itsHelicity.clear();
   itsCPTag = false;
+}
+
+void QQChannel::write( std::ostream & os ) const
+{
+    // intended for diagnostic use
+    // incomplete
+    os << "        " << itsBranchingFraction << " " <<  itsMatrixCode << " " 
+       << itsSinPhi << " " << itsCPTag ;
+    for( int i=0; i<itsDaughters.size(); ++i ){
+        os << " " << itsDaughters[i] ;
+    }
+    os << std::endl;
 }
 
 }	// HepPDT

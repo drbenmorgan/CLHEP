@@ -1,3 +1,8 @@
+2005-02-03  Lynn Garren  <garren@fnal.gov>
+
+	* HepPDT: define HepPDT::QQDecayTable::writeTable,
+	HepPDT::QQChannel::write, and HepPDT::QQDecay::write
+
 ==============================
 29.11.04 Release CLHEP-1.9.1.2
 ==============================
