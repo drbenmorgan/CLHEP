@@ -22,3 +22,6 @@ pkginclude_HEADERS = \
 	StdRunInfo.hh	\
 	WriteStdHep.hh	\
 	defs.h
+
+# Identify generated file(s) to be removed when 'make clean' is requested:
+CLEANFILES = defs.h

@@ -1,5 +1,5 @@
 #include "CLHEP/Random/Randomize.h"
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include <iostream>
 
 #include "CLHEP/Random/RandGaussQ.h"

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Transform3D.cc,v 1.4 2003/08/06 21:11:57 garren Exp $
+// $Id: Transform3D.cc,v 1.5 2003/08/13 20:00:11 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -14,7 +14,7 @@
 #include <iostream>
 #include <cmath>	// double abs()
 #include <stdlib.h>	// int abs()
-#include "Geometry/defs.h"
+#include "CLHEP/Geometry/defs.h"
 #include "CLHEP/Geometry/Transform3D.h"
 
 using std::abs;

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DRand48Engine.cc,v 1.3 2003/07/25 20:59:21 garren Exp $
+// $Id: DRand48Engine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
 // -----------------------------------------------------------------------
 //                             HEP Random
 //                        --- DRand48Engine ---
@@ -23,7 +23,7 @@
 //                  a code extracted from GNU C Library 2.1.3: 8th Nov 2000
 // =======================================================================
 
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/DRand48Engine.h"
 #include "CLHEP/Random/RandomFunc.h"

@@ -1,7 +1,6 @@
 // -*- C++ -*-
-// $Id: AnalyticConvolution.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
-#include "GenericFunctions/defs.h"
-
+// $Id: AnalyticConvolution.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/AnalyticConvolution.hh"
 #include "CLHEP/GenericFunctions/Gaussian.hh"
 #include "CLHEP/GenericFunctions/Exponential.hh"

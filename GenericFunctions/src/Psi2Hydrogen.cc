@@ -1,7 +1,6 @@
 // -*- C++ -*-
 // $Id: 
-#include "GenericFunctions/defs.h"
-
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/Psi2Hydrogen.hh"
 #include "CLHEP/GenericFunctions/AssociatedLegendre.hh"
 #include "CLHEP/GenericFunctions/AssociatedLaguerre.hh"

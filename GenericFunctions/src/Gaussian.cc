@@ -1,7 +1,6 @@
 // -*- C++ -*-
-// $Id: Gaussian.cc,v 1.2 2003/08/08 13:47:09 garren Exp $
-#include "GenericFunctions/defs.h"
-
+// $Id: Gaussian.cc,v 1.3 2003/08/13 20:00:10 garren Exp $
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/Gaussian.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include "CLHEP/Units/PhysicalConstants.h"
@@ -9,6 +8,7 @@
 #include <cmath>	// for exp()
 
 namespace Genfun {
+
 FUNCTION_OBJECT_IMP(Gaussian)
 
 Gaussian::Gaussian():

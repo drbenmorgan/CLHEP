@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testInversion.cc,v 1.1 2003/07/22 20:05:35 garren Exp $
+// $Id: testInversion.cc,v 1.2 2003/08/13 20:00:12 garren Exp $
 //
 // This file is a part of CLHEP - a Class Library for High Energy Physics.
 //
@@ -8,9 +8,9 @@
 // 9/97, Mario Stanke
 
 #include <time.h>
-
 #include <iostream>
-#include "Matrix/defs.h"
+
+#include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/Matrix.h"
 #include "CLHEP/Matrix/SymMatrix.h"
 #include "CLHEP/Matrix/DiagMatrix.h"

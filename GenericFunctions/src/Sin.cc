@@ -1,7 +1,6 @@
 // -*- C++ -*-
-// $Id: Sin.cc,v 1.2 2003/07/16 12:35:41 garren Exp $
-#include "GenericFunctions/defs.h"
-
+// $Id: Sin.cc,v 1.3 2003/08/13 20:00:10 garren Exp $
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/Sin.hh"
 #include "CLHEP/GenericFunctions/Cos.hh"
 #include <iostream>

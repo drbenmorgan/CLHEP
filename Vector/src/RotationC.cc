@@ -13,7 +13,7 @@
 #pragma implementation
 #endif
 
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Vector/ZMxpv.h"
 

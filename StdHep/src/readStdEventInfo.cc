@@ -1,4 +1,4 @@
-// $Id: readStdEventInfo.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: readStdEventInfo.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
 // ----------------------------------------------------------------------
 //
 // readStdEventInfo.cc
@@ -9,11 +9,11 @@
 // use explicit namespaces
 // ----------------------------------------------------------------------
 
-#include "StdHep/defs.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 
+#include "CLHEP/StdHep/defs.h"
 #include "CLHEP/StdHep/ReadStdHep.hh"
 #include "CLHEP/HepMC/ReadHepMC.h"
 #include "CLHEP/StdHep/StdEvent.hh"

@@ -1,4 +1,4 @@
-// $Id: testHepPDT.cc,v 1.2 2003/07/23 14:40:47 garren Exp $
+// $Id: testHepPDT.cc,v 1.3 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 // testHepPDT.cc
 //
@@ -11,7 +11,7 @@
 
 #include <fstream>
 
-#include "HepPDT/defs.h"
+#include "CLHEP/HepPDT/defs.h"
 #include "CLHEP/HepPDT/DefaultConfig.hh"
 #include "CLHEP/HepPDT/TableBuilder.hh"
 #include "CLHEP/HepPDT/ParticleDataTableT.hh"

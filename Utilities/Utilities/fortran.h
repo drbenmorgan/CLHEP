@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: fortran.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: fortran.h,v 1.2 2003/08/13 20:00:14 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -83,7 +83,7 @@
 #ifndef _FORTRAN_H_
 #define _FORTRAN_H_
 
-#include "Utilities/defs.h"
+#include "CLHEP/Utilities/defs.h"
 
 #ifdef FORTRAN_PPU
 #define ADD_UNDERSCORE(name) name ## _

@@ -1,4 +1,4 @@
-// $Id: combineEvents.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: combineEvents.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
 // ----------------------------------------------------------------------
 //
 // combineEvents.cc
@@ -6,11 +6,11 @@
 //
 // combine 2 StdHep events into a single event
 // ----------------------------------------------------------------------
-#include "StdHep/defs.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 
+#include "CLHEP/StdHep/defs.h"
 #include "CLHEP/StdHep/StdHep.hh"
 #include "CLHEP/StdHep/StdEvent.hh"
 

@@ -1,4 +1,4 @@
-// $Id: WriteStdHep.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: WriteStdHep.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
 // ----------------------------------------------------------------------
 //
 // WriteStdHep.cc
@@ -7,10 +7,10 @@
 // write to an ostream in ascii format
 // ----------------------------------------------------------------------
 
-#include "StdHep/defs.h"
 #include <iostream>
 #include <vector>
 
+#include "CLHEP/StdHep/defs.h"
 #include "CLHEP/StdHep/StdEvent.hh"
 #include "CLHEP/StdHep/WriteStdHep.hh"
 #include "CLHEP/HepMC/WriteHepMC.h"

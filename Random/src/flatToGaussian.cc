@@ -1,4 +1,4 @@
-// $Id: flatToGaussian.cc,v 1.3 2003/08/08 13:47:09 garren Exp $
+// $Id: flatToGaussian.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -19,7 +19,7 @@
 // =======================================================================
 
 #include "CLHEP/Random/Stat.h"
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include "CLHEP/Units/PhysicalConstants.h"
 #include <iostream>
 #include <cmath>

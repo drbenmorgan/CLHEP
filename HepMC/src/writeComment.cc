@@ -1,4 +1,4 @@
-// $Id: writeComment.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: writeComment.cc,v 1.2 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 //
 // writeComment.cc
@@ -7,10 +7,10 @@
 // write a comment
 // ----------------------------------------------------------------------
 
-#include "HepMC/defs.h"
 #include <iostream>
 #include <string>
 
+#include "CLHEP/HepMC/defs.h"
 #include "CLHEP/HepMC/WriteHepMC.h"
 
 namespace HepMC  {

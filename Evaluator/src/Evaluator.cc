@@ -1,10 +1,10 @@
 // -*- C++ -*-
-// $Id: Evaluator.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Evaluator.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
 // ---------------------------------------------------------------------------
 
-#include "Evaluator/defs.h"
-
+#include "CLHEP/Evaluator/defs.h"
 #include "CLHEP/Evaluator/Evaluator.h"
+
 #include <iostream>
 #include <cmath>	// for pow()
 #include "stack.src"

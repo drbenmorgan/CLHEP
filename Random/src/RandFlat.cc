@@ -1,4 +1,4 @@
-// $Id: RandFlat.cc,v 1.3 2003/07/25 20:59:21 garren Exp $
+// $Id: RandFlat.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -20,7 +20,7 @@
 //		    non-reproducing shootBit() 3/1/00.
 // =======================================================================
 
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandFlat.h"
 #include <string.h>
 

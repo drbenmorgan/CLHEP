@@ -1,4 +1,4 @@
-// $Id: stringtodouble.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: stringtodouble.cc,v 1.2 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 //
 // stringtodouble.cc
@@ -6,7 +6,7 @@
 //
 // ----------------------------------------------------------------------
 
-#include "HepPDT/defs.h"
+#include "CLHEP/HepPDT/defs.h"
 #if HAVE_SSTREAM
 #include <sstream>
 #else

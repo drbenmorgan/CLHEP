@@ -1,8 +1,7 @@
 // $Id: 
 // -*- C++ -*-
 //
-#include "GenericFunctions/defs.h"
-
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/Abs.hh"
 #include <cmath>
 

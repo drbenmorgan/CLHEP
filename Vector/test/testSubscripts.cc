@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testSubscripts.cc,v 1.1 2003/07/22 21:29:12 garren Exp $
+// $Id: testSubscripts.cc,v 1.2 2003/08/13 20:00:14 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -8,7 +8,7 @@
 //
 
 #include <assert.h>
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Vector/LorentzVector.h"

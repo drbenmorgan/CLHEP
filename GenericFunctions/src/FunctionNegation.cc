@@ -1,10 +1,10 @@
 // -*- C++ -*-
-// $Id: FunctionNegation.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
-#include "GenericFunctions/defs.h"
-
+// $Id: FunctionNegation.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/FunctionNegation.hh"
 
 namespace Genfun {
+
 FUNCTION_OBJECT_IMP(FunctionNegation)
 
 FunctionNegation::FunctionNegation(const AbsFunction *arg1):

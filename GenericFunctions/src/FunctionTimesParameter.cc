@@ -1,12 +1,12 @@
 // -*- C++ -*-
-// $Id: FunctionTimesParameter.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
-#include "GenericFunctions/defs.h"
-
+// $Id: FunctionTimesParameter.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/FunctionTimesParameter.hh"
 #include "CLHEP/GenericFunctions/Parameter.hh"
 #include <iostream>
 
 namespace Genfun {
+
 FUNCTION_OBJECT_IMP(FunctionTimesParameter)
 
 FunctionTimesParameter::FunctionTimesParameter(const AbsParameter *parameter, const AbsFunction *function):

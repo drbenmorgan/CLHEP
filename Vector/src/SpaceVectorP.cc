@@ -14,7 +14,7 @@
 #pragma implementation
 #endif
 
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/ZMxpv.h"
 

@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.3 2003/07/17 19:20:02 garren Exp $
+// $Id: JamesRandom.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -27,7 +27,7 @@
 // V. Innocente   - changed pointers to indices     3 may 2000
 // =======================================================================
 
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/JamesRandom.h"
 #include <string.h>

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testUnits.cc,v 1.2 2003/08/06 18:31:22 garren Exp $
+// $Id: testUnits.cc,v 1.3 2003/08/13 20:00:13 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -8,7 +8,7 @@
 //
 
 #include <assert.h>
-#include "Units/defs.h"
+#include "CLHEP/Units/defs.h"
 #include "CLHEP/Units/PhysicalConstants.h"
 #include <iostream>
 #include <iomanip>

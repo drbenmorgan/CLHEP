@@ -1,8 +1,8 @@
 // -*- C++ -*-
-// $Id: ranRestoreTest.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: ranRestoreTest.cc,v 1.3 2003/08/13 20:00:12 garren Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include <iostream>
 
 using namespace CLHEP;

@@ -16,6 +16,7 @@ AC_CONFIG_SRCDIR([src/Constituent.cc])
 AM_INIT_AUTOMAKE(1.6 foreign)
 AC_PROG_LIBTOOL
 AC_PROG_INSTALL
+AC_PROG_LN_S
 
 
 # ----------------------------------------------------------------------
@@ -86,34 +87,34 @@ case "$target" in
   cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";;
   g++) CXXFLAGS="-O";;
   c++) CXXFLAGS="-O";;
-  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;;
 *-*-cygwin*)
   case "$CXX" in
   cl)  CXXFLAGS="-DWIN32 -O -GX -GR -MD";;
   g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
   c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;;
 *-*-solaris*)
   case "$CXX" in
   CC)  CXXFLAGS="-O -mt";;
   g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
   c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;;
 *-*-linux*)
   case "$CXX" in
   g++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
   c++) CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE";;
-  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;;
 alpha*-dec-osf*)
   case "$CXX" in
   cxx) CXXFLAGS="-O -std strict_ansi -timplicit_local";;
   g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
   c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;;
 *-*-hpux*)
   case "$CXX" in
@@ -121,27 +122,27 @@ alpha*-dec-osf*)
   CC)  CXXFLAGS="+O3 +DAportable +a1 -z -pta +Onolimit";;
   g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
   c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;; 
 *-*-aix*)
   case "$CXX" in
   xlC) CXXFLAGS="-O3 -qtwolink -+";;
   g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
   c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;; 
 *-*-irix*)
   case "$CXX" in
   CC)  CXXFLAGS="-O -OPT:Olimit=0 -pta";;
   g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
   c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;; 
 powerpc-apple-darwin*)
   case "$CXX" in
   g++) CXXFLAGS="-O -ansi -pedantic -Wall";;
   c++) CXXFLAGS="-O -ansi -pedantic -Wall";;
-  *)   echo UNEXPECTED CHOISE OF C++ COMPILER: $CXX
+  *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
   esac;; 
 esac
 

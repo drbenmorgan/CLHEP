@@ -1,16 +1,16 @@
 // -*- C++ -*-
-// $Id: testRotation.cc,v 1.2 2003/08/08 13:47:09 garren Exp $
+// $Id: testRotation.cc,v 1.3 2003/08/13 20:00:14 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
 //
 // This is a test for HepRotation class.
 //
-#include <assert.h>
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Units/PhysicalConstants.h"
+#include <assert.h>
 #include <cmath>
 #include <stdlib.h>
 

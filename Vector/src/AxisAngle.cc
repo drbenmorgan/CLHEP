@@ -11,7 +11,7 @@
 //
 // ----------------------------------------------------------------------
 
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/AxisAngle.h"
 
 namespace CLHEP  {

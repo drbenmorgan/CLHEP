@@ -82,4 +82,8 @@ pkginclude_HEADERS = \
 	Tan.hh         \
 	TrivariateGaussian.hh         \
 	Variable.hh         \
-	X.hh
+	X.hh	\
+	defs.h
+
+# Identify generated file(s) to be removed when 'make clean' is requested:
+CLEANFILES = defs.h

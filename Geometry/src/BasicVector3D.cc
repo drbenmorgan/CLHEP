@@ -1,11 +1,11 @@
 // -*- C++ -*-
-// $Id: BasicVector3D.cc,v 1.2 2003/07/25 18:03:53 garren Exp $
+// $Id: BasicVector3D.cc,v 1.3 2003/08/13 20:00:11 garren Exp $
 // ---------------------------------------------------------------------------
 
 #include <math.h>
 #include <float.h>
 #include <iostream>
-#include "Geometry/defs.h"
+#include "CLHEP/Geometry/defs.h"
 #include "CLHEP/Geometry/BasicVector3D.h"
 
 namespace HepGeom {

@@ -1,11 +1,11 @@
 // -*- C++ -*-
-// $Id: FixedConstant.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
-#include "GenericFunctions/defs.h"
-
+// $Id: FixedConstant.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/FixedConstant.hh"
 #include <assert.h>
 
 namespace Genfun {
+
 FUNCTION_OBJECT_IMP(FixedConstant)
 
 FixedConstant::FixedConstant(double value):

@@ -21,7 +21,7 @@
 // ----------------------------------------------------------------------
 
 
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/EulerAngles.h"
 
 #include "CLHEP/Vector/ThreeVector.h"

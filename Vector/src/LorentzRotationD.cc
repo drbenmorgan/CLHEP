@@ -10,7 +10,7 @@
 #pragma implementation
 #endif
 
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/LorentzRotation.h"
 
 namespace CLHEP  {

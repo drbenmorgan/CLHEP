@@ -1,4 +1,4 @@
-// $Id: RandMultiGauss.cc,v 1.2 2003/07/18 05:06:59 garren Exp $
+// $Id: RandMultiGauss.cc,v 1.3 2003/08/13 20:00:13 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -46,7 +46,7 @@
 // sigmas for both the default S and the latest S value provided.  
 
 #include "CLHEP/RandomObjects/RandMultiGauss.h"
-#include "RandomObjects/defs.h"
+#include "CLHEP/RandomObjects/defs.h"
 #include <cmath>	// for log()
 
 namespace CLHEP {

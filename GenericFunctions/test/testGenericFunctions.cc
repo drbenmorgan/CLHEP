@@ -1,7 +1,7 @@
 #include "CLHEP/GenericFunctions/GenericFunctions.hh"
 #include "CLHEP/GenericFunctions/Sin.hh"
 #include "CLHEP/GenericFunctions/Cos.hh"
-#include "GenericFunctions/defs.h"
+#include "CLHEP/GenericFunctions/defs.h"
 #include <float.h>
 #include <assert.h>
 #include <cmath>

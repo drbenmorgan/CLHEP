@@ -11,7 +11,7 @@
 #pragma implementation
 #endif
 
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/RotationZ.h"
 #include "CLHEP/Vector/AxisAngle.h"
 #include "CLHEP/Vector/EulerAngles.h"

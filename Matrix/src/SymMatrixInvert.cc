@@ -9,11 +9,11 @@
 #pragma implementation
 #endif
 
-#include "Matrix/defs.h"
 #include <string.h>
 #include <float.h>        // for DBL_EPSILON
 #include <cmath>
 
+#include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/SymMatrix.h"
 
 namespace CLHEP {

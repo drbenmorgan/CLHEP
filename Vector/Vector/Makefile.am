@@ -36,3 +36,6 @@ pkginclude_HEADERS = \
 	TwoVector.icc		\
 	ZMxpv.h			\
 	defs.h
+
+# Identify generated file(s) to be removed when 'make clean' is requested:
+CLEANFILES = defs.h

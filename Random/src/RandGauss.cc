@@ -1,4 +1,4 @@
-// $Id: RandGauss.cc,v 1.3 2003/07/25 20:59:21 garren Exp $
+// $Id: RandGauss.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,7 +21,7 @@
 //		    by saving cached gaussian.  March 2000.
 // =======================================================================
 
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandGauss.h"
 #include <string.h>
 #include <cmath>	// for log()

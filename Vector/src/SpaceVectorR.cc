@@ -12,7 +12,7 @@
 #pragma implementation
 #endif
 
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/AxisAngle.h"
 #include "CLHEP/Vector/EulerAngles.h"

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.4 2003/08/08 13:47:09 garren Exp $
+// $Id: testRandDists.cc,v 1.5 2003/08/13 20:00:12 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -36,7 +36,7 @@
 #include "CLHEP/Random/RandPoissonQ.h"
 #include "CLHEP/Random/RandPoissonT.h"
 #include "CLHEP/Units/PhysicalConstants.h"
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include <iostream>
 #include <cmath>		// double abs()
 #include <stdlib.h>		// int abs()

@@ -1,4 +1,4 @@
-// $Id: ReadHepMCComment.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ReadHepMCComment.cc,v 1.2 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ReadHepMCComment.cc
@@ -7,11 +7,11 @@
 // read from an ascii file
 // ----------------------------------------------------------------------
 
-#include "HepMC/defs.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 
+#include "CLHEP/HepMC/defs.h"
 #include "CLHEP/HepMC/ReadHepMC.h"
 
 namespace HepMC  {

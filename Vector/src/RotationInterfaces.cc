@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: RotationInterfaces.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: RotationInterfaces.cc,v 1.2 2003/08/13 20:00:14 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -12,7 +12,7 @@
 #pragma implementation
 #endif
 
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/RotationInterfaces.h"
 
 namespace CLHEP  {

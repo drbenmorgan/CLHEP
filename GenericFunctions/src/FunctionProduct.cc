@@ -1,12 +1,12 @@
 // -*- C++ -*-
-// $Id: FunctionProduct.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
-#include "GenericFunctions/defs.h"
-
+// $Id: FunctionProduct.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/FunctionProduct.hh"
 #include <iostream>
 #include <assert.h>
 
 namespace Genfun {
+
 FUNCTION_OBJECT_IMP(FunctionProduct)
 
 FunctionProduct::FunctionProduct(const AbsFunction *arg1, const AbsFunction *arg2):

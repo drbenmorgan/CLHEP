@@ -1,8 +1,7 @@
 // -*- C++ -*-
-// $Id: Tan.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Tan.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
 // ---------------------------------------------------------------------------
-#include "GenericFunctions/defs.h"
- 
+#include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/Tan.hh"
 #include "CLHEP/GenericFunctions/Cos.hh"
 #include <iostream>

@@ -1,4 +1,4 @@
-// $Id: RandGaussT.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandGaussT.cc,v 1.3 2003/08/13 20:00:12 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -11,7 +11,7 @@
 // M Fischler	  - Created 04 Feb 2000
 // =======================================================================
 
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandGaussT.h"
 #include <iostream>
 

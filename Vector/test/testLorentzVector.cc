@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testLorentzVector.cc,v 1.1 2003/07/22 21:29:12 garren Exp $
+// $Id: testLorentzVector.cc,v 1.2 2003/08/13 20:00:14 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of what might become CLHEP -
@@ -9,7 +9,7 @@
 // and the interaction with the HepLorentzRotation class.
 //
 
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/LorentzVector.h"
 #include "CLHEP/Vector/LorentzRotation.h"
 #include "CLHEP/Vector/Sqr.h"

@@ -57,3 +57,6 @@ pkginclude_HEADERS = \
 	Stat.h	\
 	TripleRand.h	\
 	defs.h
+
+# Identify generated file(s) to be removed when 'make clean' is requested:
+CLEANFILES = defs.h

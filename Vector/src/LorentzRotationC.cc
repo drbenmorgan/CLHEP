@@ -11,7 +11,7 @@
 #pragma implementation
 #endif
 
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/LorentzRotation.h"
 #include "CLHEP/Vector/LorentzVector.h"
 #include "CLHEP/Vector/ZMxpv.h"

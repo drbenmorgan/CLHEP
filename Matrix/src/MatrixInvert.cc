@@ -9,9 +9,9 @@
 #pragma implementation
 #endif
 
-#include "Matrix/defs.h"
 #include <string.h>
 
+#include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/Matrix.h"
 
 namespace CLHEP {

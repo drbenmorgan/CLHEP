@@ -1,4 +1,4 @@
-// $Id: findBlockType.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: findBlockType.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
 // ----------------------------------------------------------------------
 //
 // findBlockType.cc
@@ -8,7 +8,7 @@
 // find a block with the specified type
 // ----------------------------------------------------------------------
 
-#include "StdHep/defs.h"
+#include "CLHEP/StdHep/defs.h"
 #include <iostream>
 #if HAVE_SSTREAM
 #include <sstream>

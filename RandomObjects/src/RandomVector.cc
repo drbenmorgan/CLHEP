@@ -1,4 +1,4 @@
-// $Id: RandomVector.cc,v 1.2 2003/07/18 05:06:59 garren Exp $
+// $Id: RandomVector.cc,v 1.3 2003/08/13 20:00:13 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -12,10 +12,9 @@
 
 #include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/RandomObjects/RandomVector.h"
-#include "RandomObjects/defs.h"
+#include "CLHEP/RandomObjects/defs.h"
 
 namespace CLHEP {
-
 
 //------------------------- HepRandomVector ---------------------------------
 

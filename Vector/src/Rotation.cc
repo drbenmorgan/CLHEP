@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Rotation.cc,v 1.3 2003/08/08 13:47:09 garren Exp $
+// $Id: Rotation.cc,v 1.4 2003/08/13 20:00:14 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -12,7 +12,7 @@
 #pragma implementation
 #endif
 
-#include "Vector/defs.h"
+#include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Units/PhysicalConstants.h"
 

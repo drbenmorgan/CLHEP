@@ -1,4 +1,4 @@
-// $Id: gaussTables.src,v 1.2 2003/08/08 13:47:09 garren Exp $
+// $Id: gaussTables.src,v 1.3 2003/08/13 20:00:12 garren Exp $
 // -*- C++ -*-
 //
 // gaussTables.src
@@ -49,7 +49,7 @@
 //		gaussTables.cc was renamed .src and moved to Random area.
 // --------------------------------------------------------------
 
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include "CLHEP/Units/PhysicalConstants.h"
 #include <iostream>
 #include <fstream>

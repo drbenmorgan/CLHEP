@@ -4,7 +4,7 @@
 // Polarization object for a particle. All angles are in radians.
 //////////////////////////////////////////////////////////////////////////
 
-#include "HepMC/defs.h"
+#include "CLHEP/HepMC/defs.h"
 #include "CLHEP/HepMC/Polarization.h"
 
 #include <cmath>

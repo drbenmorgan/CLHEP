@@ -1,4 +1,4 @@
-// $Id: poissonTables.src,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: poissonTables.src,v 1.2 2003/08/13 20:00:12 garren Exp $
 // -*- C++ -*-
 //
 // poissonTables.src
@@ -33,7 +33,7 @@
 //		poissonTables.cc was renamed .src and moved to Random area.
 // --------------------------------------------------------------
 
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include <iostream>
 #include <fstream>
 #include <iomanip>

@@ -1,9 +1,8 @@
 // -*- C++ -*-
-// $Id: Landau.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Landau.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
 // ---------------------------------------------------------------------------
-#include "GenericFunctions/defs.h"
- 
-#include "CLHEP/GenericFunctions/Landau.hh"
+#include "CLHEP/GenericFunctions/defs.h"
+ #include "CLHEP/GenericFunctions/Landau.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include <cmath>
 #include <assert.h>
@@ -11,6 +10,7 @@
 using namespace std;
 
 namespace Genfun {
+
 FUNCTION_OBJECT_IMP(Landau)
 
 Landau::Landau():

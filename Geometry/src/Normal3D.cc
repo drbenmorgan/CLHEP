@@ -1,8 +1,8 @@
 // -*- C++ -*-
-// $Id: Normal3D.cc,v 1.2 2003/07/25 18:03:53 garren Exp $
+// $Id: Normal3D.cc,v 1.3 2003/08/13 20:00:11 garren Exp $
 // ---------------------------------------------------------------------------
 
-#include "Geometry/defs.h"
+#include "CLHEP/Geometry/defs.h"
 #include "CLHEP/Geometry/Normal3D.h"
 #include "CLHEP/Geometry/Transform3D.h"
 

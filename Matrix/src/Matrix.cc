@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.3 2003/07/18 05:31:48 garren Exp $
+// $Id: Matrix.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -40,14 +40,13 @@
 #pragma implementation
 #endif
 
-#include "Matrix/defs.h"
 #include <string.h>
 #include <float.h>        // for DBL_EPSILON
 #include <cmath>
 #include <stdlib.h>
 
+#include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Random/Random.h"
-
 #include "CLHEP/Matrix/Matrix.h"
 #include "CLHEP/Matrix/SymMatrix.h"
 #include "CLHEP/Matrix/DiagMatrix.h"

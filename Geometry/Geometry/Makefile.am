@@ -11,3 +11,6 @@ pkginclude_HEADERS = \
 	Transform3D.icc	\
 	Vector3D.h	\
 	defs.h
+
+# Identify generated file(s) to be removed when 'make clean' is requested:
+CLEANFILES = defs.h

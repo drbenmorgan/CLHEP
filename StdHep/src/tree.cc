@@ -1,4 +1,4 @@
-// $Id: tree.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: tree.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
 // -*- C++ -*-
 //
 // ----------------------------------------------------------------------
@@ -10,9 +10,9 @@
 //  place holder for now - just do simple print
 // ----------------------------------------------------------------------
 
-#include "StdHep/defs.h"
 #include <iostream>
 
+#include "CLHEP/StdHep/defs.h"
 #include "CLHEP/StdHep/StdEvent.hh"
 
 namespace StdHep  {

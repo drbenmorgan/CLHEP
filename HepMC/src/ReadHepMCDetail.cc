@@ -1,4 +1,4 @@
-// $Id: ReadHepMCDetail.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ReadHepMCDetail.cc,v 1.2 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ReadHepMCDetail.cc
@@ -8,7 +8,7 @@
 // don't use implicit namespace, since this seems to confuse old compilers
 // ----------------------------------------------------------------------
 
-#include "HepMC/defs.h"
+#include "CLHEP/HepMC/defs.h"
 #include <iostream>
 #include <string>
 #if HAVE_SSTREAM

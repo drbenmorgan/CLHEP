@@ -1,4 +1,4 @@
-// $Id: readBlockType.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: readBlockType.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
 // ----------------------------------------------------------------------
 //
 // readBlockType.cc
@@ -8,7 +8,7 @@
 // find the block identifier lines and return the type
 // ----------------------------------------------------------------------
 
-#include "StdHep/defs.h"
+#include "CLHEP/StdHep/defs.h"
 #if HAVE_SSTREAM
 #include <sstream>
 #else

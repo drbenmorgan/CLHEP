@@ -1,4 +1,4 @@
-// $Id: testVectorDists.cc,v 1.1 2003/07/22 19:40:16 garren Exp $
+// $Id: testVectorDists.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
 // -*- C++ -*-
 // ----------------------------------------------------------------------
 
@@ -11,13 +11,13 @@
 // 
 // ----------------------------------------------------------------------
 
-#include "RandomObjects/defs.h"
+#include "CLHEP/RandomObjects/defs.h"
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/RandomObjects/RandMultiGauss.h"
-#include <iostream>
 #include "CLHEP/Matrix/SymMatrix.h"
 #include "CLHEP/Matrix/Matrix.h"
 #include "CLHEP/Matrix/Vector.h"
+#include <iostream>
 
 using namespace std;
 using namespace CLHEP;

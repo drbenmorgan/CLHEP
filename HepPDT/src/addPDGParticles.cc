@@ -1,4 +1,4 @@
-// $Id: addPDGParticles.cc,v 1.2 2003/07/16 13:01:04 garren Exp $
+// $Id: addPDGParticles.cc,v 1.3 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 //
 // addPDGParticles.cc
@@ -11,7 +11,7 @@
 #include <string>
 #include <cmath>
 
-#include "HepPDT/defs.h"
+#include "CLHEP/HepPDT/defs.h"
 #if HAVE_SSTREAM
 #include <sstream>
 #else

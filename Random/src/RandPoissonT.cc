@@ -1,4 +1,4 @@
-// $Id: RandPoissonT.cc,v 1.3 2003/07/25 20:59:21 garren Exp $
+// $Id: RandPoissonT.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -15,7 +15,7 @@
 //		    1/26/00.
 // =======================================================================
 
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandPoissonT.h"
 #include "CLHEP/Random/RandPoissonQ.h"
 

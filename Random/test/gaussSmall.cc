@@ -1,6 +1,6 @@
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
-#include "Random/defs.h"
+#include "CLHEP/Random/defs.h"
 #include <iostream>
 #include <iomanip>
 
