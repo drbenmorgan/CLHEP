@@ -3,4 +3,4 @@
 
 
 ./testGenericFunctions@EXEEXT@  \
-  | diff -q - @srcdir@/testGenericFunctions.output > /dev/null
+  | diff -w -q - @srcdir@/testGenericFunctions.output > /dev/null

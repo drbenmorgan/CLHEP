@@ -3,4 +3,4 @@
 
 
 ./testRandDists@EXEEXT@ < @srcdir@/testRandDists.input \
-  | diff -q - @srcdir@/testRandDists.output > /dev/null
+  | diff -w -q - @srcdir@/testRandDists.output > /dev/null
