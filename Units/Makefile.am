@@ -24,7 +24,7 @@ $(top_builddir)/CLHEP:
 	    hdrs=`ls $$linksource/$$pkg/$$pkg`; \
 	    for hdr in $$hdrs; do $(LN_S) $$linksource/$$pkg/$$pkg/$$hdr $$hdr; done; \
 	    if test -f "$$linktree"/../"$$pkg"/"$$pkg"/defs.h; then $(LN_S) $$linktree/../$$pkg/$$pkg/defs.h defs.h; fi; \
-	    if test -f "$$linktree/$$pkg"/defs.h && test ! -l defs.h ; then $(LN_S) $$linktree/$$pkg/defs.h defs.h; fi); \
+	    if test -f "$$linktree/$$pkg"/defs.h && test ! -e defs.h ; then $(LN_S) $$linktree/$$pkg/defs.h defs.h; fi); \
 	  fi; done
 	cd $(top_builddir); linktree=`pwd`; \
 	if test -n $(CLHEPSOURCE_DIR) && test -d $(CLHEPSOURCE_DIR)/CLHEP; then \
