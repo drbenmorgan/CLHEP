@@ -41,4 +41,5 @@ libCLHEP_Vector_@VERSION@_la_SOURCES = \
 	ThreeVector.cc		\
 	ThreeVectorR.cc		\
 	TwoVector.cc		\
-	ZMinput.cc
+	ZMinput.cc		\
+	ZMxpv.cc
