@@ -1,3 +1,42 @@
+Thu Dec 16	2004 Mark Fischler <mf@fnal.gov>
+
+	* Random/*.cc for all engines and distributions. 	  
+	* Random/test/ranRestoreTest.cc 
+	  
+	  Added put and get methods, as well as ostream operations, so that
+	  engine and distribution instances can be saved and restored to/from
+	  streams.
+	  
+Thu Dec 16
+Wed Dec 15	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandPoissonQ.cc (RandPoissonT.cc)
+	
+	  RandPoissonQ has a path, potentially taken when mean is more
+	  than 100, where an additional gaussian random number is needed.
+	  Instead we use the engine owned by the RandPoissonQ instance.
+	  
+	  This will affect in rare cases the values of random variates 
+	  delivered by **instances** (not the shoot() methods) of RandPoissonQ
+	  and RandPoissonT.
+
+Thu Dec 16
+Tue Dec 14	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandGeneral.cc 
+	
+	  Modify local variable theIntegralPdf, using a std::vector instead
+	  of a double* pointing to a new-ed array.  No behavioral change.
+	  
+Thu Dec 16
+Fri Dec 3	2004 Mark Fischler <mf@fnal.gov>
+
+	* Random/*.cc for all engines
+	* Random/test/ranRestoreTest.cc
+		Modified engines and additional-state distributions so that
+		restoreENgineState behaves better (error message and return
+		instead of hang up) when file requested is not found.
+
 ==============================
 29.11.04 Release CLHEP-1.9.1.2
 ==============================
