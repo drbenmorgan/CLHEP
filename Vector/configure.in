@@ -36,7 +36,9 @@ AC_CONFIG_FILES([Vector-config], [chmod +x Vector-config])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testThreeVector.sh], [chmod +x test/testThreeVector.sh])
-
+AC_CONFIG_FILES([test/testLorentzVector.sh], [chmod +x test/testLorentzVector.sh])
+AC_CONFIG_FILES([test/testRotation.sh], [chmod +x test/testRotation.sh])
+AC_CONFIG_FILES([test/testSubscripts.sh], [chmod +x test/testSubscripts.sh])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:

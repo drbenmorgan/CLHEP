@@ -29,6 +29,7 @@ pkginclude_HEADERS = \
 	RotationY.icc		\
 	RotationZ.h		\
 	RotationZ.icc		\
+	Sqr.h			\
 	ThreeVector.h		\
 	ThreeVector.icc		\
 	TwoVector.h		\
