@@ -31,6 +31,9 @@ namespace HepPDT {
 
 namespace {	// PythiaPDTMapInit is private
 
+ PythiaPDTMap const & getPythiaPDTMap();
+ PDTPythiaMap const & getPDTPythiaMap();
+
 PythiaPDTMap const & PythiaPDTMapInit()
 {
 
@@ -597,8 +600,6 @@ PDTPythiaMap const & PDTPythiaMapInit()
     }
     return m;
 }
- 
-} // unnamed namespace
   
 //
 // getPythiaPDTMap is the ONLY function allowed to call PythiaPDTMapInit
@@ -618,6 +619,7 @@ PDTPythiaMap const & getPDTPythiaMap()
   return hmap;
 }  // getPDTPythiaMap()
 
+} // unnamed namespace
   
 int translatePythiatoPDT( const int id )
 {

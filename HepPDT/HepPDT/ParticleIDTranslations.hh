@@ -9,8 +9,6 @@
 //
 // ----------------------------------------------------------------------
 
-#include <map>
-
 namespace HepPDT {
 
 // translate between generator ID's and standard numbering scheme
@@ -23,34 +21,18 @@ int translatePDTtoGeant( const int pid );
 int translatePDTtoEvtGen( const int pid );
 
 // Herwig translations
-typedef  std::map< int, int >  HerwigPDTMap;
-typedef  std::map< int, int >  PDTHerwigMap;
-HerwigPDTMap const & getHerwigPDTMap();
-PDTHerwigMap const & getPDTHerwigMap();
 int translateHerwigtoPDT( const int herwigID);
 int translatePDTtoHerwig( const int pid );
 
 // Isajet translations
-typedef  std::map< int, int >  IsajetPDTMap;
-typedef  std::map< int, int >  PDTIsajetMap;
-IsajetPDTMap const & getIsajetPDTMap();
-PDTIsajetMap const & getPDTIsajetMap();
 int translateIsajettoPDT( const int isajetID );
 int translatePDTtoIsajet( const int pid );
 
 // Pythia translations
-typedef  std::map< int, int >  PythiaPDTMap;
-typedef  std::map< int, int >  PDTPythiaMap;
-PythiaPDTMap const & getPythiaPDTMap();
-PDTPythiaMap const & getPDTPythiaMap();
 int translatePythiatoPDT( const int pythiaID );
 int translatePDTtoPythia( const int pid );
 
 // PDG table translations
-typedef  std::map< int, int >  PDGtoPDTMap;
-typedef  std::map< int, int >  PDTtoPDGMap;
-PDGtoPDTMap const & getPDGtoPDTMap();
-PDTtoPDGMap const & getPDTtoPDGMap();
 int translatePDGtabletoPDT( const int pdgID);
 int translatePDTtoPDGtable( const int pid );
 

@@ -5,6 +5,9 @@
 // translate an ID number to or from the standard numbering scheme and Isajet
 // use static maps
 //
+// Isajet uses a different numbering scheme
+// Private methods will attempt to convert mesons and baryons not in the map
+//
 //  The maps are initialized if and only if the public functions are called.
 //  Because the maps are static, the initialization happens only once.
 //
@@ -30,6 +33,9 @@ namespace HepPDT {
  typedef  std::map< int, int >  PDTIsajetMap;
 
 namespace {	// IsajetPDTMapInit is private
+
+ IsajetPDTMap const & getIsajetPDTMap();
+ PDTIsajetMap const & getPDTIsajetMap();
 
 IsajetPDTMap const & IsajetPDTMapInit()
 {
@@ -670,8 +676,211 @@ PDTIsajetMap const & PDTIsajetMapInit()
     }
     return m;
 }
- 
-} // unnamed namespace
+
+// if a number isn't in the map, we try to convert it
+int convIsajettoPDT( const int id )
+{
+    // make a ParticleID so we can use some of the methods, 
+    // even though this ID is not a valid PDT number
+    ParticleID pid(id);
+    // we have no idea what to do, these numbers must be in the map
+    if( pid.abspid() <= 100 ) { return 0; }
+    if( pid.abspid() > 99999 ) { return 0; }
+
+    // find constituents
+    int istran;
+    unsigned short js = pid.digit(nj);
+    unsigned short i1 = pid.digit(nq3);
+    unsigned short i2 = pid.digit(nq2);
+    unsigned short i3 = pid.digit(nq1);
+    unsigned short i4 = pid.digit(nl);
+    
+    // mesons
+    if(i1 != 0 && i2 != 0 && i3 == 0) {
+          //   u and d have opposite definitions - sometimes
+          if(i2 <= 2 && i1 <= 2){
+              //     don't change
+          } else {
+	      if(i1 = 2) { 
+	          i1 = 1; 
+	      } else if(i1 = 1) { 
+	          i1 = 2; 
+	      }
+	      if(i2 = 2) { 
+	          i2 = 1; 
+	      } else if(i2 = 1) { 
+	          i2 = 2; 
+	      }
+          }
+          istran=i1*100 + i2*10 + 2*js+1 + i4*10000;
+          if( id < 0 ) { istran = -istran; }
+          //  charmed and top mesons have wrong sign
+          if(i1 == 4 && i2 != 4) { istran = -istran; }
+          if(i1 == 6 && i2 != 6 && i2 != 4) { istran = -istran; }
+          // ...check for illegal antiparticles
+          if(i2 == i1 && id < 0) { istran=0; }
+	  return istran;
+    }
+    // diquarks
+    if(i2 != 0 && i3 != 0 && i1 == 0) {
+          // ...         u and d have opposite definitions
+	  if(i3 = 2) { 
+	      i3 = 1; 
+	  } else if(i3 = 1) { 
+	      i3 = 2; 
+	  }
+	  if(i2 = 2) { 
+	      i2 = 1; 
+	  } else if(i2 = 1) { 
+	      i2 = 2; 
+	  }
+	  istran = 0;
+          if(i2 < i3){
+            istran=i3*1000 + i2*100 + 1;
+          } else if(i2 == i3){
+            istran=i2*1000 + i3*100 + 3;
+          } else {
+            istran=i2*1000 + i3*100 + 1;
+          }
+          if( id < 0 ) { istran = -istran; }
+          // ...         charmed and top quarks have wrong sign
+          if(i2 == 4 && i3 != 4) { istran=-istran; }
+          if(i2 == 6 && i3 != 6 && i3 != 4) { istran=-istran; }
+	  return istran;
+    }
+    // baryons
+    if( i1 != 0 && i3 != 0 && i2 != 0 ) {
+          //   u and d have opposite definitions
+	  if(i3 = 2) { 
+	      i3 = 1; 
+	  } else if(i3 = 1) { 
+	      i3 = 2; 
+	  }
+	  if(i2 = 2) { 
+	      i2 = 1; 
+	  } else if(i2 = 1) { 
+	      i2 = 2; 
+	  }
+	  if(i1 = 2) { 
+	      i1 = 1; 
+	  } else if(i1 = 1) { 
+	      i1 = 2; 
+	  }
+	  istran = 0;
+          if(i1 <= 2){
+            istran=i3*1000 + i2*100 + i1*10 + 2*js+2;
+          } else if(i3 <= 2 && i2 <= 2){
+            istran=i1*1000 + i3*100 + i2*10 + 2*js+2;
+          } else {
+            istran=i1*1000 + i2*100 + i3*10 + 2*js+2;
+          }
+          if( id < 0 ) { istran = -istran; }
+    }
+    // unknown
+    return 0;
+
+}
+
+// if a number isn't in the map, we try to convert it
+int convPDTtoIsajet( const int id )
+{
+    // make a ParticleID so we can use the methods 
+    ParticleID pid(id);
+    // we have no idea what to do, these numbers must be in the map
+    if( pid.fundamentalID() != 0 ) { return 0; }
+    if( pid.abspid() > 99999 ) { return 0; }
+
+    // find constituents
+    int istran;
+    unsigned short js = pid.digit(nj);
+    unsigned short i1 = pid.digit(nq3);
+    unsigned short i2 = pid.digit(nq2);
+    unsigned short i3 = pid.digit(nq1);
+    unsigned short i4 = pid.digit(nl);
+
+    // mesons
+    if(i1 != 0 && i2 != 0 && i3 == 0) {
+          //   u and d have opposite definitions - sometimes
+          if(i2 <= 2 && i1 <= 2){
+              //     don't change
+          } else {
+	      if(i1 = 2) { 
+	          i1 = 1; 
+	      } else if(i1 = 1) { 
+	          i1 = 2; 
+	      }
+	      if(i2 = 2) { 
+	          i2 = 1; 
+	      } else if(i2 = 1) { 
+	          i2 = 2; 
+	      }
+          }
+          istran=i1*100 + i2*10 + (js-1)/2 + i4*10000;
+          if( id < 0 ) { istran = -istran; }
+          // ...         charmed and top mesons have wrong sign
+          if(i2 == 4 && i1 != 4) { istran = -istran; }
+          if(i2 == 6 && i1 != 6 && i1 != 4) { istran = -istran; }
+          // ...check for illegal antiparticles
+          if(i2 == i1 && id < 0) { istran=0; }
+	  return istran;
+    }
+    // diquarks
+    if(i1 == 0){
+          // ...         u and d have opposite definitions
+	  if(i3 = 2) { 
+	      i3 = 1; 
+	  } else if(i3 = 1) { 
+	      i3 = 2; 
+	  }
+	  if(i2 = 2) { 
+	      i2 = 1; 
+	  } else if(i2 = 1) { 
+	      i2 = 2; 
+	  }
+	  istran = 0;
+          if(i3 < i2){
+            istran=i3*1000 + i2*100 + (js-1)/2;
+          } else {
+            istran=i2*1000 + i3*100 + (js-1)/2;
+          }
+          if( id < 0 ) { istran = -istran; }
+          // ...         charmed and top mesons have wrong sign
+          if(i2 == 4 && i3 != 4) { istran=-istran; }
+          if(i2 == 6 && i3 != 6 && i3 != 4) { istran=-istran; }
+	  return istran;
+    }
+    // ...spin 1/2 or spin 3/2 baryons
+    if( i1 != 0 && i3 != 0 && i2 != 0 && ( js == 2 || js == 4) && i4 == 0 ) {
+          //   u and d have opposite definitions
+	  if(i3 = 2) { 
+	      i3 = 1; 
+	  } else if(i3 = 1) { 
+	      i3 = 2; 
+	  }
+	  if(i2 = 2) { 
+	      i2 = 1; 
+	  } else if(i2 = 1) { 
+	      i2 = 2; 
+	  }
+	  if(i1 = 2) { 
+	      i1 = 1; 
+	  } else if(i1 = 1) { 
+	      i1 = 2; 
+	  }
+	  istran = 0;
+          if(i3 <= 2){
+            istran=i3*1000 + i2*100 + i1*10 + (js-2)/2;
+          } else if(i1 <= 2 && i2 <= 2){
+            istran=i2*1000 + i1*100 + i3*10 + (js-2)/2;
+          } else {
+            istran=i1*1000 + i2*100 + i3*10 + (js-2)/2;
+          }
+          if( id < 0 ) { istran = -istran; }
+	  return istran;
+    }
+    // unknown
+    return 0;
+}
   
 //
 // getIsajetPDTMap is the ONLY function allowed to call IsajetPDTMapInit
@@ -690,28 +899,29 @@ PDTIsajetMap const & getPDTIsajetMap()
   static PDTIsajetMap const & hmap = PDTIsajetMapInit();
   return hmap;
 }  // getPDTIsajetMap()
-
-
-int translatePDTtoIsajet( const int id )
-{
-    static PDTIsajetMap const & pmap = getPDTIsajetMap();
-
-    PDTIsajetMap::const_iterator const cit = pmap.find( id );
-    // for Isajet, if it isn't in the map, then it isn't a valid particle
-    return ( cit == pmap.end() )
-         ? 0
-	 : cit->second;
-}
+ 
+} // unnamed namespace
 
 int translateIsajettoPDT( const int id )
 {
     static IsajetPDTMap const & hmap = getIsajetPDTMap();
 
     IsajetPDTMap::const_iterator const cit = hmap.find( id );
-    // for Isajet, if it isn't in the map, then it isn't a valid particle
-    return ( cit == hmap.end() )
-         ? 0
-	 : cit->second;
+    // found it in the map
+    if ( cit != hmap.end() ) { return cit->second; }
+    // try converting anyway
+    return convIsajettoPDT(id);
+}
+
+int translatePDTtoIsajet( const int id )
+{
+    static PDTIsajetMap const & pmap = getPDTIsajetMap();
+
+    PDTIsajetMap::const_iterator const cit = pmap.find( id );
+    // found it in the map
+    if ( cit != pmap.end() ) { return cit->second; }
+    // try converting anyway
+    return convPDTtoIsajet(id);
 }
 
 }	// HepPDT

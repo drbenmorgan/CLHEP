@@ -31,6 +31,9 @@ namespace HepPDT {
 
 namespace {	// PDGtoPDTMapInit is private
 
+ PDGtoPDTMap const & getPDGtoPDTMap();
+ PDTtoPDGMap const & getPDTtoPDGMap();
+
 PDGtoPDTMap const & PDGtoPDTMapInit()
 {
 
@@ -267,8 +270,6 @@ PDTtoPDGMap const & PDTtoPDGMapInit()
     }
     return m;
 }
- 
-} // unnamed namespace
   
 //
 // getPDGtoPDTMap is the ONLY function allowed to call PDGtoPDTMapInit
@@ -287,7 +288,8 @@ PDTtoPDGMap const & getPDTtoPDGMap()
   static PDTtoPDGMap const & hmap = PDTtoPDGMapInit();
   return hmap;
 }  // getPDTtoPDGMap()
-
+ 
+} // unnamed namespace
   
 int translatePDGtabletoPDT( const int id )
 {

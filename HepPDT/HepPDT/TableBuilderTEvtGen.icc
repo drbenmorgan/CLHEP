@@ -1,4 +1,4 @@
-// $Id: TableBuilderTEvtGen.icc,v 1.1.1.1.2.1 2004/04/29 19:57:43 garren Exp $
+// $Id: TableBuilderTEvtGen.icc,v 1.1.1.1.2.2 2005/03/18 17:15:01 garren Exp $
 // ----------------------------------------------------------------------
 //
 // TableBuilderTEvtGen.icc
@@ -92,7 +92,7 @@ bool  addEvtGenParticles( std::istream & pdfile, TableBuilderT<Config> & tb )
 template< class Config >
 void findDecayModel( TempParticleData & tpd, TableBuilderT<Config> & tb )
 {
-    int cit, it, ddend, iend;
+    unsigned int cit, it, ddend, iend;
     std::string name;
     for( cit=0; cit < tpd.tempDecayList.size(); ++cit ) {
         TempDecayData & tdd = tpd.tempDecayList[cit];
@@ -124,7 +124,7 @@ void findDecayModel( TempParticleData & tpd, TableBuilderT<Config> & tb )
 template< class Config >
 void findAliasDecayModel( TempAliasData & tad, TableBuilderT<Config> & tb )
 {
-    int cit, it, ddend, iend;
+    unsigned int cit, it, ddend, iend;
     std::string name;
     for( cit=0; cit < tad.tempAliasDecayList.size(); ++cit ) {
         TempDecayData & tdd = tad.tempAliasDecayList[cit];

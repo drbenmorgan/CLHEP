@@ -1,4 +1,4 @@
-// $Id: QQChannel.cc,v 1.1.1.1.2.1 2005/02/04 00:24:43 garren Exp $
+// $Id: QQChannel.cc,v 1.1.1.1.2.2 2005/03/18 17:15:02 garren Exp $
 // ----------------------------------------------------------------------
 //
 // QQChannel.cc
@@ -82,7 +82,7 @@ void QQChannel::write( std::ostream & os ) const
     // incomplete
     os << "        " << itsBranchingFraction << " " <<  itsMatrixCode << " " 
        << itsSinPhi << " " << itsCPTag ;
-    for( int i=0; i<itsDaughters.size(); ++i ){
+    for( unsigned int i=0; i<itsDaughters.size(); ++i ){
         os << " " << itsDaughters[i] ;
     }
     os << std::endl;

@@ -1,4 +1,4 @@
-// $Id: translateHerwig.cc,v 1.1.2.2 2005/03/17 22:42:53 garren Exp $
+// $Id: translateHerwig.cc,v 1.1.2.3 2005/03/18 17:15:02 garren Exp $
 // ------------------------------------
 //
 // translateHerwig.cc
@@ -30,6 +30,9 @@ namespace HepPDT {
  typedef  std::map< int, int >  PDTHerwigMap;
 
 namespace {	// HerwigPDTMapInit is private
+
+ HerwigPDTMap const & getHerwigPDTMap();
+ PDTHerwigMap const & getPDTHerwigMap();
 
 HerwigPDTMap const & HerwigPDTMapInit()
 {
@@ -486,8 +489,6 @@ PDTHerwigMap const & PDTHerwigMapInit()
     }
     return m;
 }
- 
-} // unnamed namespace
   
 //
 // getHerwigPDTMap is the ONLY function allowed to call HerwigPDTMapInit
@@ -506,7 +507,8 @@ PDTHerwigMap const & getPDTHerwigMap()
   static PDTHerwigMap const & hmap = PDTHerwigMapInit();
   return hmap;
 }  // getPDTHerwigMap()
-
+ 
+} // unnamed namespace
   
 int translateHerwigtoPDT( const int id )
 {

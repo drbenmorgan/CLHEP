@@ -1,4 +1,4 @@
-// $Id: QQDecay.cc,v 1.1.1.1.2.1 2005/02/04 00:24:43 garren Exp $
+// $Id: QQDecay.cc,v 1.1.1.1.2.2 2005/03/18 17:15:02 garren Exp $
 // ----------------------------------------------------------------------
 //
 // QQDecay.cc
@@ -51,8 +51,7 @@ void QQDecay::write( std::ostream & os ) const
     if ( itsStable ) {
         os << "        particle is stable" << std::endl;
     } else {
-	int i;
-	for( i=0; i<itsChannels.size(); ++i ) {
+	for( unsigned int i=0; i<itsChannels.size(); ++i ) {
 	    itsChannels[i].write( os );
 	}
     }
