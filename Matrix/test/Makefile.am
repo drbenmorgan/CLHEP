@@ -1,6 +1,9 @@
 # Applicable to each test program:
 INCLUDES = -I../
-LDADD = -L${top_builddir}/src  @Matrix_LIBS@	# libraries to link, and whence
+# libraries to link, and whence
+LDADD = -L${top_builddir}/src -lCLHEP-@PACKAGE@-@VERSION@ \
+        -L${top_builddir}/../Random/src -lCLHEP-Random-@VERSION@ \
+	-L${top_builddir}/../Vector/src -lCLHEP-Vector-@VERSION@
 # add -D needed by testInversion
 CXXFLAGS = @CXXFLAGS@ -DINSTALLATION_CHECK
 

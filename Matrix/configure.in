@@ -31,6 +31,7 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([Matrix/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([Matrix-deps])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testMatrix.sh], [chmod +x test/testMatrix.sh])
@@ -42,7 +43,7 @@ AC_CONFIG_FILES([test/testInversion.sh], [chmod +x test/testInversion.sh])
 
 Matrix_CPPFLAGS="-I$includedir"
 Matrix_LDFLAGS="-L$libdir"
-Matrix_LIBS="-lCLHEP-$PACKAGE-$VERSION $prefix/lib/libCLHEP-Vector-$VERSION.so $prefix/lib/libCLHEP-Random-$VERSION.so -lm"
+Matrix_LIBS="-lCLHEP-$PACKAGE-$VERSION -lCLHEP-Random-$VERSION -lCLHEP-Vector-$VERSION"
 
 AC_SUBST(Matrix_CPPFLAGS)
 AC_SUBST(Matrix_LIBS)
