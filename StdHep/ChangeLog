@@ -1,3 +1,7 @@
+2005-03-07  Lynn Garren  <garren@fnal.gov>
+
+	* add StdRandom class which "saves" the random state as a string
+
 ==============================
 29.11.04 Release CLHEP-1.9.1.2
 ==============================
