@@ -133,7 +133,7 @@ namespace HepMC {
 	      wgt != weights().end(); wgt++ ) { ostr << *wgt << " "; }
 	ostr << "\n";
 	ostr << " EventScale " << event_scale() 
-	     << " GeV \t alphaQCD=" << alphaQCD() 
+	     << " [energy] \t alphaQCD=" << alphaQCD() 
 	     << "\t alphaQED=" << alphaQED() << std::endl;
 	// print a legend to describe the particle info
 	char particle_legend[80];

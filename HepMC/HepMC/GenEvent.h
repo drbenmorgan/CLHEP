@@ -376,7 +376,7 @@ namespace HepMC {
     private: // data members
 	int                   m_signal_process_id;
 	int                   m_event_number;  
-	double                m_event_scale;// GeV, see hep-ph/0109068
+	double                m_event_scale;// energy scale, see hep-ph/0109068
 	double                m_alphaQCD;   // QCD coupling, see hep-ph/0109068
 	double                m_alphaQED;   // QED coupling, see hep-ph/0109068
 	GenVertex*            m_signal_process_vertex;

@@ -145,14 +145,14 @@ namespace HepMC {
 	    if ( position() != CLHEP::HepLorentzVector(0,0,0,0) ) {
 		sprintf( outline,
 			 "Vertex:%9p ID:%5d (X,cT)=%+9.2e,%+9.2e,%+9.2e,%+9.2e"
-			 ,this, id(),
+			 ,(void*)this, id(),
 			 position().x(),
 			 position().y(),
 			 position().z(),
 			 position().t() );
 	    } else {
 		sprintf( outline, "GenVertex:%9p ID:%5d (X,cT):0", 
-			 this, id() );
+			 (void*)this, id() );
 	    }
 	}
 
