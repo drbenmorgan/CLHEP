@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: GenMatrix.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: GenMatrix.icc,v 1.2 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -35,6 +35,8 @@
 // held liable for any liability with respect to any claim by the user or any
 // other party arising from use of the program.
 //
+
+namespace CLHEP {
 
 // swap
 //
@@ -76,6 +78,8 @@ HepGenMatrix_row_const (const HepGenMatrix&a, int r)
   _r = r;
 }
 
+
+}  // namespace CLHEP
 
 
 // -----------------------------------------------------------------

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: Matrix.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Matrix.h,v 1.2 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -229,20 +229,15 @@
 #endif
 
 #include "CLHEP/Matrix/GenMatrix.h"
-#ifdef HEP_USE_RANDOM
-class HepRandom;
-#endif
 
-#ifdef HEP_NO_INLINE_IN_DECLARATION
-#define inline
-#endif
+namespace CLHEP {
+
+class HepRandom;
 
 class HepSymMatrix;
 class HepDiagMatrix;
 class HepVector;
-#ifdef HEP_USE_VECTOR_MODULE
 class HepRotation;
-#endif
 
 /**
  * @author
@@ -261,10 +256,8 @@ public:
    // If i=0, it is initialized to all 0. If i=1, the diagonal elements
    // are set to 1.0.
 
-#ifdef HEP_USE_RANDOM
    HepMatrix(int p, int q, HepRandom &r);
    // Constructor with a Random object.
-#endif
 
    HepMatrix(const HepMatrix &m1);
    // Copy constructor.
@@ -309,9 +302,7 @@ public:
    HepMatrix & operator = ( const HepSymMatrix &m2);
    HepMatrix & operator = ( const HepDiagMatrix &m2);
    HepMatrix & operator = ( const HepVector &m2);
-#ifdef HEP_USE_VECTOR_MODULE
    HepMatrix & operator = ( const HepRotation &m2);
-#endif
    // Assignment operators.
 
    HepMatrix operator- () const;
@@ -530,14 +521,7 @@ void row_house(HepMatrix *a, const HepMatrix &v, int row, int col,
 	       int row_start, int col_start);
 // Does a row Householder update.
 
-
-#ifdef HEP_NO_INLINE_IN_DECLARATION
-#undef inline
-#endif
-
-#ifdef HEP_SHORT_NAMES
-typedef HepMatrix Matrix;
-#endif
+}  // namespace CLHEP
 
 #ifndef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/Matrix.icc"

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: DiagMatrix.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: DiagMatrix.h,v 1.2 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -52,13 +52,10 @@
 #endif
 
 #include "CLHEP/Matrix/GenMatrix.h"
-#ifdef HEP_USE_RANDOM
-class HepRandom;
-#endif
 
-#ifdef HEP_NO_INLINE_IN_DECLARATION
-#define inline
-#endif
+namespace CLHEP {
+
+class HepRandom;
 
 class HepMatrix;
 class HepSymMatrix;
@@ -80,9 +77,7 @@ public:
    // With a second argument, either 0 or 1, the matrix is initialized.
    // 0 means a zero matrix, 1 means the identity matrix.
 
-#ifdef HEP_USE_RANDOM
    HepDiagMatrix(int p, HepRandom &r);
-#endif
 
    HepDiagMatrix(const HepDiagMatrix &m1);
    // Copy constructor.
@@ -258,13 +253,7 @@ HepSymMatrix operator-(const HepDiagMatrix &d1, const HepSymMatrix &s2);
 HepDiagMatrix dsum(const HepDiagMatrix &s1, const HepDiagMatrix &s2);
 // Direct sum of two diagonal matricies;
 
-#ifdef HEP_NO_INLINE_IN_DECLARATION
-#undef inline
-#endif
-
-#if defined(HEP_SHORT_NAMES)
-typedef HepDiagMatrix DiagMatrix;
-#endif
+}  // namespace CLHEP
 
 #ifndef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/DiagMatrix.icc"

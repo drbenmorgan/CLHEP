@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: GenMatrix.cc,v 1.2 2003/07/16 12:35:41 garren Exp $
+// $Id: GenMatrix.cc,v 1.3 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -54,6 +54,8 @@
 #ifdef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/GenMatrix.icc"
 #endif
+
+namespace CLHEP {
 
 #ifdef HEP_THIS_FUNCTION_IS_NOT_NEEDED
 static void delete_array(double *m)
@@ -142,4 +144,6 @@ double* HepGenMatrix::new_m(int size)
     }
   }
 }
+
+}  // namespace CLHEP
 

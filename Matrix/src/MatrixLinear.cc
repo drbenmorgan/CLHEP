@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: MatrixLinear.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: MatrixLinear.cc,v 1.2 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -44,6 +44,8 @@
 #include "CLHEP/Matrix/Matrix.h"
 #include "CLHEP/Matrix/Vector.h"
 #include "CLHEP/Matrix/SymMatrix.h"
+
+namespace CLHEP {
 
 static inline int sign(double x) { return (x>0 ? 1: -1);}
 
@@ -920,3 +922,5 @@ void row_house(HepMatrix *a,const HepMatrix &v,int row,int col,
    if (normsq !=0)
       row_house(a,v,normsq,row,col,row_start,col_start);
 }
+
+}  // namespace CLHEP

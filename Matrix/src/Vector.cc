@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Vector.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Vector.cc,v 1.2 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -42,13 +42,9 @@
 #include "Matrix/defs.h"
 #include <string.h>
 
-#ifdef HEP_USE_RANDOM
 #include "CLHEP/Random/Random.h"
-#endif
 
-#ifdef HEP_USE_VECTOR_MODULE
 #include "CLHEP/Vector/ThreeVector.h"
-#endif
 
 #include "CLHEP/Matrix/Vector.h"
 #include "CLHEP/Matrix/Matrix.h"
@@ -56,6 +52,8 @@
 #ifdef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/Vector.icc"
 #endif
+
+namespace CLHEP {
 
 // Simple operation for all elements
 
@@ -117,7 +115,6 @@ HepVector::HepVector(int p, int init)
    }
 }
 
-#ifdef HEP_USE_RANDOM
 HepVector::HepVector(int p, HepRandom &r)
    : nrow(p)
 {
@@ -126,7 +123,6 @@ HepVector::HepVector(int p, HepRandom &r)
    double *b = m + nrow;
    for(;a<b;a++) *a = r();
 }
-#endif
 
 
 //
@@ -507,7 +503,6 @@ HepVector & HepVector::operator=(const HepMatrix &m1)
    return (*this);
 }
 
-#ifdef HEP_USE_VECTOR_MODULE
 HepVector & HepVector::operator=(const Hep3Vector &v)
 {
    if(nrow != 3)
@@ -521,7 +516,6 @@ HepVector & HepVector::operator=(const Hep3Vector &v)
    m[2] = v.z();
    return (*this);
 }
-#endif
 
 //
 // Copy constructor from the class of other precision
@@ -653,3 +647,5 @@ HepVector solve(const HepMatrix &a, const HepVector &v)
   }
   return vret;
 }
+
+}  // namespace CLHEP

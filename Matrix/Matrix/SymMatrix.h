@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: SymMatrix.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: SymMatrix.h,v 1.2 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 // 
@@ -110,13 +110,10 @@
 #endif
 
 #include "CLHEP/Matrix/GenMatrix.h"
-#ifdef HEP_USE_RANDOM
-class HepRandom;
-#endif
 
-#ifdef HEP_NO_INLINE_IN_DECLARATION
-#define inline
-#endif
+namespace CLHEP {
+
+class HepRandom;
 
 class HepMatrix;
 class HepDiagMatrix;
@@ -138,9 +135,7 @@ public:
    // With a second argument, the matrix is initialized. 0 means a zero
    // matrix, 1 means the identity matrix.
 
-#ifdef HEP_USE_RANDOM
    HepSymMatrix(int p, HepRandom &r);
-#endif
 
    HepSymMatrix(const HepSymMatrix &m1);
    // Copy constructor.
@@ -373,13 +368,7 @@ void tridiagonal(HepSymMatrix *a, HepMatrix *hsm);
 HepMatrix tridiagonal(HepSymMatrix *a);
 // Does a Householder tridiagonalization of a symmetric matrix.
 
-#ifdef HEP_NO_INLINE_IN_DECLARATION
-#undef inline
-#endif
-
-#if defined(HEP_SHORT_NAMES)
-typedef HepSymMatrix SymMatrix;
-#endif
+}  // namespace CLHEP
 
 #ifndef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/SymMatrix.icc"

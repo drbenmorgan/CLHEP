@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: Vector.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Vector.h,v 1.2 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -53,16 +53,15 @@
 #endif
 
 #include "CLHEP/Matrix/GenMatrix.h"
-#ifdef HEP_USE_RANDOM
+
+namespace CLHEP {
+
 class HepRandom;
-#endif
 
 class HepMatrix;
 class HepSymMatrix;
 class HepDiagMatrix;
-#ifdef HEP_USE_VECTOR_MODULE
 class Hep3Vector;
-#endif
 
 /**
  * @author
@@ -78,9 +77,7 @@ public:
    HepVector(int p, int);
    // Constructor. Gives vector of length p.
 
-#ifdef HEP_USE_RANDOM
    HepVector(int p, HepRandom &r);
-#endif
 
    HepVector(const HepVector &v);
    HepVector(const HepMatrix &m);
@@ -122,9 +119,7 @@ public:
    // Assignment operators.
 
    HepVector& operator=(const HepMatrix &);
-#ifdef HEP_USE_VECTOR_MODULE
    HepVector& operator=(const Hep3Vector &);
-#endif
    // assignment operators from other classes.
 
    HepVector operator- () const;
@@ -233,9 +228,7 @@ HepVector operator-(const HepVector &v1, const HepVector &v2);
 HepVector dsum(const HepVector &s1, const HepVector &s2);
 // Direct sum of two vectors;
 
-#ifdef HEP_SHORT_NAMES
-typedef HepVector Vector;
-#endif
+}  // namespace CLHEP
 
 #include "CLHEP/Matrix/Vector.icc"
 

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: SymMatrix.cc,v 1.2 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -44,9 +44,7 @@
 #include <string.h>
 #include <float.h>        // for DBL_EPSILON
 
-#ifdef HEP_USE_RANDOM
 #include "CLHEP/Random/Random.h"
-#endif
 
 #include "CLHEP/Matrix/SymMatrix.h"
 #include "CLHEP/Matrix/Matrix.h"
@@ -56,6 +54,8 @@
 #ifdef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/SymMatrix.icc"
 #endif
+
+namespace CLHEP {
 
 // Simple operation for all elements
 
@@ -123,7 +123,6 @@ HepSymMatrix::HepSymMatrix(int p, int init)
    }
 }
 
-#ifdef HEP_USE_RANDOM
 HepSymMatrix::HepSymMatrix(int p, HepRandom &r)
   : nrow(p)
 {
@@ -133,7 +132,6 @@ HepSymMatrix::HepSymMatrix(int p, HepRandom &r)
    double *b = m + size;
    for(;a<b;a++) *a = r();
 }
-#endif
 
 //
 // Destructor
@@ -1373,3 +1371,5 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
   return; // inversion successful
 
 }
+
+}  // namespace CLHEP

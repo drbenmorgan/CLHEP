@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.2 2003/07/16 12:35:41 garren Exp $
+// $Id: Matrix.cc,v 1.3 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -46,9 +46,7 @@
 #include <cmath>
 #include <stdlib.h>
 
-#ifdef HEP_USE_RANDOM
 #include "CLHEP/Random/Random.h"
-#endif
 
 #include "CLHEP/Matrix/Matrix.h"
 #include "CLHEP/Matrix/SymMatrix.h"
@@ -58,6 +56,8 @@
 #ifdef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/Matrix.icc"
 #endif
+
+namespace CLHEP {
 
 // Simple operation for all elements
 
@@ -131,7 +131,6 @@ HepMatrix::HepMatrix(int p,int q,int init)
    }
 }
 
-#ifdef HEP_USE_RANDOM
 HepMatrix::HepMatrix(int p,int q, HepRandom &r)
    : nrow(p), ncol(q)
 {
@@ -142,7 +141,6 @@ HepMatrix::HepMatrix(int p,int q, HepRandom &r)
    double *b = m + size;
    for(; a<b; a++) *a = r();
 }
-#endif
 //
 // Destructor
 //
@@ -855,3 +853,5 @@ double HepMatrix::trace() const {
       t += *d;
    return t;
 }
+
+}  // namespace CLHEP

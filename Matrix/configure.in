@@ -27,11 +27,10 @@ AM_CONFIG_HEADER([Matrix/defs.h])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([Matrix/Makefile])
 AC_CONFIG_FILES([src/Makefile])
-#AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([test/Makefile])
 
 # Test driver program/script:
-#AC_CONFIG_FILES([test/testPID.sh])
-
+AC_CONFIG_FILES([test/testMatrix.sh], [chmod +x test/testMatrix.sh])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:
@@ -39,7 +38,7 @@ AC_CONFIG_FILES([src/Makefile])
 
 Matrix_CPPFLAGS="-I$includedir"
 Matrix_LDFLAGS="-L$libdir"
-Matrix_LIBS="-l$PACKAGE_TARNAME -lm"
+Matrix_LIBS="-l$PACKAGE-$VERSION $prefix/lib/libVector-$VERSION.so $prefix/lib/libRandom-$VERSION.so -lm"
 
 AC_SUBST(Matrix_CPPFLAGS)
 AC_SUBST(Matrix_LIBS)

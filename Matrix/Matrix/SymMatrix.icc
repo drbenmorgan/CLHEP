@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: SymMatrix.icc,v 1.2 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -38,6 +38,8 @@
 // This is the definitions of the inline member functions of the
 // HepSymMatrix class
 //
+
+namespace CLHEP {
 
 inline HepSymMatrix::HepSymMatrix() 
   : m(0), nrow(0), size(0)
@@ -144,4 +146,7 @@ inline HepSymMatrix HepSymMatrix::inverse(int &ifail) const
   mTmp.invert(ifail);
   return mTmp;
 }
+
+}  // namespace CLHEP
+
 

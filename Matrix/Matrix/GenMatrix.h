@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: GenMatrix.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: GenMatrix.h,v 1.2 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -50,6 +50,8 @@
 #endif
 
 #include <iostream>
+
+namespace CLHEP {
 
 class HepGenMatrix_row;
 class HepGenMatrix_row_const;
@@ -137,13 +139,7 @@ double norm1(const HepGenMatrix &m);
 double norm_infinity(const HepGenMatrix &m);
 // 2, 1 or infinity-norm of a matrix.
 
-#ifdef HEP_NO_INLINE_IN_DECLARATION
-#undef inline
-#endif
-
-#ifdef HEP_SHORT_NAMES
-typedef HepGenMatrix GenMatrix;
-#endif
+}  // namespace CLHEP
 
 #ifndef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/GenMatrix.icc"

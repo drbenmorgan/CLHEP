@@ -14,6 +14,8 @@
 
 #include "CLHEP/Matrix/Matrix.h"
 
+namespace CLHEP {
+
 // Aij are indices for a 6x6 matrix.
 // Mij are indices for a 5x5 matrix.
 // Fij are indices for a 4x4 matrix.
@@ -948,3 +950,5 @@ void HepMatrix::invertHaywood4  (int & ifail) {
   return;
 }
 
+
+}  // namespace CLHEP

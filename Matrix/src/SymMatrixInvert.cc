@@ -16,6 +16,8 @@
 
 #include "CLHEP/Matrix/SymMatrix.h"
 
+namespace CLHEP {
+
 double HepSymMatrix::posDefFraction5x5 = 1.0;
 double HepSymMatrix::posDefFraction6x6 = 1.0;
 double HepSymMatrix::adjustment5x5 = 0.0;
@@ -1032,4 +1034,6 @@ void HepSymMatrix::invert4  (int & ifail) {
 
   return;
 }
+
+}  // namespace CLHEP
 

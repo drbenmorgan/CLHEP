@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: Pile.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Pile.h,v 1.2 2003/07/18 05:31:48 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -76,6 +76,9 @@
  * @author
  * @ingroup matrix
  */
+
+namespace CLHEP {
+
 template<class T> 
 class HepPile 
 {
@@ -134,5 +137,7 @@ private:
    void previous(int *n) const {if (--(*n) < 0) *n = sz;}
    void destroy(T t) { if (destroy_fun) (*destroy_fun)(t); }
 };
+
+}  // namespace CLHEP
 
 #endif /*_PILE_H */
