@@ -1,0 +1,58 @@
+// ----------------------------------------------------------------------
+//
+// ZMhandleTo.icc - generic handle class for objects that need to be
+//   reference-counted
+//
+// History:
+//   19-Sep-1997  WEB  Design stolen, and code adapted, from
+//     Stroustrup: "The C++ Programming Language, 3rd ed" (1997), p 783
+//     Koenig & Moo: "Ruminations on C++" (1996), ch 7
+//   22-Sep-1997  WEB  Updated to require (& use) clone() operator
+//     for reference-counted objects; this is to insure against a user's
+//     destroying the object while one or more handles are still pointing
+//     to it
+//
+// ----------------------------------------------------------------------
+
+
+template< class T>
+inline ZMhandleTo<T>::ZMhandleTo()
+: u_()
+, rep_( new T )
+{ ; }
+
+
+template< class T>
+inline ZMhandleTo<T>::ZMhandleTo( const ZMhandleTo<T> & h )
+: u_  ( h.u_   )
+, rep_( h.rep_ )
+{ ; }  // copy constructor, share the representation
+
+
+template< class T>
+inline ZMhandleTo<T>::~ZMhandleTo()  {
+  if ( u_.only() )
+    delete rep_;
+}  // destructor
+
+
+template< class T>
+inline ZMhandleTo<T> & ZMhandleTo<T>::operator=( const ZMhandleTo<T> & rhs )  {
+  if ( u_.reattach( rhs.u_) )
+    delete rep_;
+  rep_ = rhs.rep_;
+
+  return *this;
+}  // operator=()
+
+
+template< class T>
+inline ZMhandleTo<T>::ZMhandleTo( const T & t )
+: rep_( t.clone() )
+{ ; }
+
+
+template< class T>
+inline ZMhandleTo<T>::ZMhandleTo( const T * t )
+: rep_( t->clone() )
+{ ; }
