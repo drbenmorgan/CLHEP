@@ -1,4 +1,4 @@
-// $Id: RandPoisson.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandPoisson.cc,v 1.3 2003/07/25 20:59:21 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -19,6 +19,7 @@
 // Gabriele Cosmo - Relocated static data from HepRandom: 5th Jan 1999
 // =======================================================================
 
+#include "Random/defs.h"
 #include "CLHEP/Random/RandPoisson.h"
 #include <cmath>	// for floor()
 

@@ -1,4 +1,4 @@
-// $Id: Random.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: Random.cc,v 1.3 2003/07/25 20:59:21 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -18,6 +18,7 @@
 //                  initialisation of static generator: 5th Jan 1999
 // =======================================================================
 
+#include "Random/defs.h"
 #include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/Random.h"
 

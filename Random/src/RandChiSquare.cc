@@ -1,4 +1,4 @@
-// $Id: RandChiSquare.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandChiSquare.cc,v 1.3 2003/07/25 20:59:21 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -11,6 +11,7 @@
 // John Marraffino - Created: 12th May 1998
 // =======================================================================
 
+#include "Random/defs.h"
 #include "CLHEP/Random/RandChiSquare.h"
 #include <cmath>	// for log()
 

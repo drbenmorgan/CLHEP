@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: RandomFunc.h,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandomFunc.h,v 1.3 2003/07/25 20:59:21 garren Exp $
 // -----------------------------------------------------------------------
 //                             HEP RandomFunc
 //                      get proper system headers for drand, etc.
@@ -27,7 +27,16 @@ extern "C" {
   extern unsigned short * seed48(unsigned short int [3]);
 }
 #else
+// only use stdlib.h if -D_GNU_SOURCE is present
+#if defined(_GNU_SOURCE)
 #include <stdlib.h>
+#else
+extern "C" {
+  extern double	drand48(void);
+  extern void	srand48(long);
+  extern unsigned short * seed48(unsigned short int [3]);
+}
+#endif
 #endif
 
 namespace CLHEP {

@@ -1,4 +1,4 @@
-// $Id: RanluxEngine.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RanluxEngine.cc,v 1.3 2003/07/25 20:59:21 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -30,6 +30,7 @@
 // J. Marraffino  - Remove dependence on hepString class  13 May 1999
 // ===============================================================
 
+#include "Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/RanluxEngine.h"
 #include <string.h>

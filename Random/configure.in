@@ -205,7 +205,7 @@ AC_CHECK_DECL(M_2PI,
 # Check for needed library functions:
 # ----------------------------------------------------------------------
 
-AC_CHECK_FUNCS([floor pow sqrt])
+AC_CHECK_FUNCS([floor pow sqrt drand48])
 
 # ----------------------------------------------------------------------
 # Finish up:

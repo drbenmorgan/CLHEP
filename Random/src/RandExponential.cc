@@ -1,4 +1,4 @@
-// $Id: RandExponential.cc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandExponential.cc,v 1.3 2003/07/25 20:59:21 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -15,6 +15,7 @@
 //                  operator() with mean: 16th Feb 1998
 // =======================================================================
 
+#include "Random/defs.h"
 #include "CLHEP/Random/RandExponential.h"
 
 namespace CLHEP {

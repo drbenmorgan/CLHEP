@@ -10,3 +10,5 @@ all-local: $(top_builddir)/CLHEP
 $(top_builddir)/CLHEP:
 	$(top_srcdir)/makeCLHEPdir  $(top_srcdir)/..
 
+doc:
+	cd doc; $(MAKE) $(AM_MAKEFLAGS) doc || exit 1
