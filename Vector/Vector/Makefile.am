@@ -50,6 +50,6 @@ install-tmpHEADERS:
 	  for p in $$list; do \
 	    if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	    f="`echo $$p | sed -e 's|^.*/||'`"; \
-	    copy-header.pl $$d$$p $(tempincludedir)/$$f; \
+	    ./copy-header.pl $$d$$p $(tempincludedir)/$$f; \
 	  done; \
 	fi; test -z "$$fail"
