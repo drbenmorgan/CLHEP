@@ -27,13 +27,13 @@ cd $thisdir
 cd $1; tardir=`pwd`
 
 cd $srccodedir;
-tar -cf $tardir/clhep-@VERSION@-src.tar CLHEP
+tar -zcf $tardir/clhep-@VERSION@-src.tgz CLHEP
 
 for pkg in `ls $srccodedir/CLHEP`
 do
     if [ -e $srccodedir/CLHEP/$pkg/configure.in ] 
     then
         cd $srccodedir;
-        tar -cf $tardir/clhep-$pkg-@VERSION@-src.tar CLHEP/$pkg
+        tar -zcf $tardir/clhep-$pkg-@VERSION@-src.tgz CLHEP/$pkg
     fi
 done
