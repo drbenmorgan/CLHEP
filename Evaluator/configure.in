@@ -27,7 +27,10 @@ AM_CONFIG_HEADER([Evaluator/defs.h])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([Evaluator/Makefile])
 AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_FILES([test/Makefile])
 
+# Test driver program/script:
+AC_CONFIG_FILES([test/testEvaluator.sh])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:
@@ -35,7 +38,7 @@ AC_CONFIG_FILES([src/Makefile])
 
 Evaluator_CPPFLAGS="-I$includedir"
 Evaluator_LDFLAGS="-L$libdir"
-Evaluator_LIBS="-l$PACKAGE_TARNAME -lm"
+Evaluator_LIBS="-l$PACKAGE-$VERSION -lm"
 
 AC_SUBST(Evaluator_CPPFLAGS)
 AC_SUBST(Evaluator_LIBS)
