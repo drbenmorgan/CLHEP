@@ -32,7 +32,7 @@ $(top_builddir)/CLHEP:
 	    if test -f $(abs_top_builddir)/"$$pkg"/defs.h && test ! -e defs.h ; then $(LN_S) $(abs_top_builddir)/$$pkg/defs.h defs.h; fi); \
 	  fi; done
 	cd $(abs_top_builddir);  \
-	if test -n $(CLHEPSOURCE_DIR) && test -d $(CLHEPSOURCE_DIR)/CLHEP; then \
+	if test -n "$(CLHEPSOURCE_DIR)" && test -d $(CLHEPSOURCE_DIR)/CLHEP; then \
 	  (list=`ls $(CLHEPSOURCE_DIR)/CLHEP`;  \
 	  for pkg in $$list; do cd $(abs_top_builddir)/CLHEP; \
 	    if test -d $(CLHEPSOURCE_DIR)/CLHEP/"$$pkg"/"$$pkg" && test ! -d "$$pkg"; then \
@@ -41,7 +41,7 @@ $(top_builddir)/CLHEP:
 	      for hdr in $$hdrs; do $(LN_S) $(CLHEPSOURCE_DIR)/CLHEP/$$pkg/$$pkg/$$hdr $$hdr; done); \
 	    fi; done); fi
 	cd $(abs_top_builddir);  \
-	if test -n $(CLHEP_DIR) && test -d $(CLHEP_DIR)/CLHEP; then \
+	if test -n "$(CLHEP_DIR)" && test -d $(CLHEP_DIR)/CLHEP; then \
 	  (list=`ls $(CLHEP_DIR)/CLHEP`;  \
 	  for pkg in $$list; do cd $(abs_top_builddir)/CLHEP; \
 	    if test -d $(CLHEP_DIR)/CLHEP/"$$pkg"/"$$pkg" && test ! -d "$$pkg"; then \
