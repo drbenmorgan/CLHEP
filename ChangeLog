@@ -1,4 +1,3 @@
-
 Thu Mar 10  2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
 
 	* Geometry/BasicVector3D.h : added operator to convert to Hep3Vector
