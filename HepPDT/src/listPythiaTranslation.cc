@@ -1,4 +1,4 @@
-// $Id: listPythiaTranslation.cc,v 1.1.2.1 2004/04/21 16:14:51 garren Exp $
+// $Id: listPythiaTranslation.cc,v 1.1.2.2 2004/05/19 22:59:10 garren Exp $
 // ----------------------------------------------------------------------
 //
 // listPythiaTranslation.cc
@@ -68,8 +68,9 @@ ParticleTranslation getPythiaAntiParticle( int & anti,
                     std::string & aname, ParticleTranslation & pt )
 {
    std::string mc = std::string("Pythia");
-   ParticleID pid( translatePythiatoPDT( anti ) );
-   return ParticleTranslation( pid, anti, aname, mc );
+   int ap = -pt.oid();
+   ParticleID pid( translatePythiatoPDT( ap ) );
+   return ParticleTranslation( pid, ap, aname, mc );
 }
 
 bool  listPythiaTranslation ( std::istream & pdfile, std::ostream & os )

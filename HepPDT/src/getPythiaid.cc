@@ -1,4 +1,4 @@
-// $Id: getPythiaid.cc,v 1.1.2.1 2004/04/21 16:14:51 garren Exp $
+// $Id: getPythiaid.cc,v 1.1.2.2 2004/05/19 22:59:10 garren Exp $
 // ----------------------------------------------------------------------
 //
 // getPythiaid.cc
@@ -22,9 +22,16 @@ namespace HepPDT {
 bool getPythiaid( int & id, const std::string & pdline )
 {
     int sl = pdline.length();
-    std::string firstc = pdline.substr(0,1);
     id = 0;
-    if( sl > 30 && firstc == " " ){
+    // line is too short
+    if( sl < 30 ) return false;
+    // now check for various comments to avoid problems with Solaris
+    std::string stars  = pdline.substr(1,2);
+    std::string kfline = pdline.substr(0,10);
+    if( stars == "**" || kfline == "        KF" ) return false;
+    // try to read the kf number
+    std::string firstc = pdline.substr(0,1);
+    if( firstc == " " ){
       std::istringstream var1( pdline.substr(0,10).c_str() );
       var1 >> id;		// if var1 is blank, id is not changed
       return true;
