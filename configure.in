@@ -48,6 +48,9 @@ AC_CONFIG_FILES([makeBinaryTar], [chmod +x makeBinaryTar])
 # build clheplib
 AC_CONFIG_FILES([build-clheplib], [chmod +x build-clheplib])
 
+# Configuration inquiry program/script:
+AC_CONFIG_FILES([clhep-config], [chmod +x clhep-config])
+
 # ----------------------------------------------------------------------
 # Capture post-install information:
 # ----------------------------------------------------------------------
