@@ -1,3 +1,10 @@
+Tue Apr 05   2005 Andreas Pfeiffer <andreas.pfeiffer@cern.ch.
+
+	* On request from Geant-4 users added GlobalPhysicalConstants.h 
+	and GlobalSystemOfUnits.h to allow users to use Units from global 
+	namespace.
+
+	
 ==============================
 30.11.04 Release CLHEP-2.0.1.2
 ==============================
