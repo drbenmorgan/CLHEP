@@ -1,5 +1,5 @@
 # 
-# $Id: GNUmakefile,v 1.1.1.1.2.1 2004/04/21 23:06:33 garren Exp $
+# $Id: GNUmakefile,v 1.1.1.1.2.2 2004/05/11 22:14:52 garren Exp $
 #
 # makefile for HepPDT examples
 #
@@ -23,7 +23,7 @@ ifndef CXX
 endif
 
 ifndef PDTLIB
-    PDTLIB =  $(CLHEP_DIR)/lib/libCLHEP-HepPDT-1.9.0.0.a
+    PDTLIB =  $(CLHEP_DIR)/lib/libCLHEP-HepPDT-1.9.0.2.a
 endif
 
 ifndef INCDIR

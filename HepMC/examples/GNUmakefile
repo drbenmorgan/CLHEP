@@ -27,8 +27,9 @@ endif
   INCDIR    = -I$(CLHEP_DIR)/include
   HepMCinc  = $(INCDIR)/CLHEP/HepMC
   PythiaLIB = $(LULIB)/pydata.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
-  HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a
-  LIBNAME = $(CLHEP_DIR)/lib/libCLHEP-1.9.0.0.a
+  HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a \
+              $(HERWIG_DIR)/lib/timel.o
+  LIBNAME = $(CLHEP_DIR)/lib/libCLHEP-1.9.0.2.a
 
 
 ################################################################################ 
@@ -95,9 +96,9 @@ all: $(examples)
 
 run: $(runList) $(runListAscii)
 
-example_MyHerwig.exe: example_MyHerwig$(SFX).o IO_HERWIG$(SFX).o
+example_MyHerwig.exe: example_MyHerwig$(SFX).o
 	@echo "Building $@ ..."
-	$(CXX) $(FLAGS) example_MyHerwig$(SFX).o IO_HERWIG$(SFX).o \
+	$(CXX) $(FLAGS) example_MyHerwig$(SFX).o \
                $(LIBNAME) \
 	       $(HerwigLIB) $(LINK_LIBS) -o $@
 
