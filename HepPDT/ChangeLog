@@ -1,3 +1,7 @@
+2005-04-07  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: set AR and ARFLAGS
+
 2005-03-17  Lynn Garren  <garren@fnal.gov>
 
 	* fix a bug in the PDG to PDT translations
@@ -13,10 +17,31 @@
 
 	* examples are now installed 
 
+2005-02-18  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in, Makefile.am: Stop using libtool.  
+	The newer releases of libtool seem to have dropped support for 
+	Windows Visual C++.  
+
+2005-02-14  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: Visual C++ flags are now "-EHsc -nologo -GR -GX -MD"
+
+2005-02-03  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: install step creates libCLHEP.a, libCLHEP.so,
+	and/or libCLHEP.dylib by adding a symbolic link.
+
 2005-02-03  Lynn Garren  <garren@fnal.gov>
 
 	* HepPDT: define HepPDT::QQDecayTable::writeTable,
 	HepPDT::QQChannel::write, and HepPDT::QQDecay::write
+
+2005-02-02  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* configure.in: modified compiler flags for windows:
+	added "-O -GR -GX -MD" as this is needed for the multi-thread
+	environments used.
 
 ==============================
 29.11.04 Release CLHEP-1.9.1.2
