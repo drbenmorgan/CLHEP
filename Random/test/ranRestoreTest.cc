@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ranRestoreTest.cc,v 1.3.4.1 2005/03/18 22:26:49 garren Exp $
+// $Id: ranRestoreTest.cc,v 1.3.4.2 2005/04/08 17:49:39 garren Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
@@ -1047,7 +1047,7 @@ int anonymousRestore(int n) {
 // ----------- Anonymous restore of all static distributions -----------
 
 template <class E>
-int anonymousRestoreStatics() {
+int anonymousRestoreStatics1() {
   int stat = 0;
   HepRandomEngine *e = new E(12456);
   HepRandom::setTheEngine(e);
@@ -1082,7 +1082,7 @@ template <class E1, class E2>
 int anonymousRestoreStatics() {
   int stat = 0;
   if ( E1::engineName() == E2::engineName() ) {
-    return anonymousRestoreStatics<E1>();
+    return anonymousRestoreStatics1<E1>();
   }
   HepRandomEngine *e1 = new E1(12456);
   HepRandom::setTheEngine(e1);

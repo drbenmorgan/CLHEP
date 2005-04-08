@@ -1,5 +1,9 @@
 # This makefile is used to copy files during the "make install" step
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 # files to distribute
 EXTRA_DIST = \
     analyzeEvent.cc \

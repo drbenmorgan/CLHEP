@@ -1,35 +1,5 @@
 ;
-; $Id: listQQ.dec,v 1.1.2.2 2005/03/18 22:26:45 garren Exp $
-;
-; $Log: listQQ.dec,v $
-; Revision 1.1.2.2  2005/03/18 22:26:45  garren
-; merging changes from 1.9
-;
-; Revision 1.1.4.1  2004/04/21 23:06:34  garren
-; merge in fix to Herwig and Isajet translations
-;
-; Revision 1.1.2.1  2004/04/21 16:14:52  garren
-; merge in changes and translation bug fix from HEAD
-;
-; Revision 1.1  2004/04/14 23:56:28  garren
-; fix bugs in translation
-; add translation tests
-; add isajet and herwig example listings
-;
-; Revision 1.1.1.1  2003/07/15 20:15:05  garren
-; beginning of new CLHEP structure
-;
-; Revision 1.1.1.1  2003/02/14 17:17:06  garren
-; test of new CLHEP arrangement
-;
-; Revision 1.1  2001/11/12 15:28:20  garren
-; example particle data table files
-;
-; Revision 1.1.1.1  2001/11/08 01:57:47  garren
-; clhep for testing StdHep parts
-;
-; Revision 1.1  2001/08/02 22:02:16  garren
-; create class to contain the QQ translation data
+; $Id: listQQ.dec,v 1.1.2.3 2005/04/08 17:49:38 garren Exp $
 ;
 ; Revision 1.13  1996/08/07 18:31:40  clib
 ; Bug fix.  a00,a20,f0,f0' -> K0S K0S and K0L K0L, not K0S K0L.

@@ -1,3 +1,11 @@
+Thu Apr  7 2005 Lynn Garren <garren@fnal.gov>
+
+	* configure.in: set AR and ARFLAGS
+
+2005-03-15  Lynn Garren  <garren@fnal.gov>
+
+	* examples are now installed 
+
 2005-03-15  Mark Fischler <mf@fnal.gov>
 
 	* engineIDulong.cc, engineIDulong.h

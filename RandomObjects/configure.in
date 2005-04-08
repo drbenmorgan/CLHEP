@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP RandomObjects, 2.0.1.2, CLHEP@cern.ch, RandomObjects)
+AC_INIT(CLHEP RandomObjects, 2.0.2.0, CLHEP@cern.ch, RandomObjects)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/RandMultiGauss.cc])
@@ -39,6 +39,15 @@ AC_ARG_ENABLE(static,
           *)   build_static="yes";;
         esac],
         [build_static="yes"])
+
+AC_ARG_ENABLE(gmake,
+   AC_HELP_STRING([--enable-gmake],[use gmake (default is make)]),
+        [case "${enableval}" in
+          yes) use_gmake="yes";;
+          no)  use_gmake="no";;
+          *)   use_gmake="no";;
+        esac],
+        [use_gmake="no"])
 
 # ----------------------------------------------------------------------
 # Identify the files that 'configure' is to produce:
@@ -141,6 +150,7 @@ case "$target" in
   ;;
 *-*-solaris*)
   COPY_P="cp -p";DIFF_Q="diff -b"
+  use_gmake="yes"
   ;;
 *-*-linux*)
   COPY_P="cp -p";DIFF_Q="diff -q -b"
@@ -148,6 +158,8 @@ case "$target" in
 *)
   COPY_P="cp -p";DIFF_Q="diff -q -b"
 esac
+
+AM_CONDITIONAL(USE_GMAKE, test x$use_gmake = xyes)
 
 AC_SUBST(COPY_P)
 AC_SUBST(DIFF_Q)
@@ -160,16 +172,19 @@ g++)
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
       ;;
    *-*-darwin*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=dylib
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
    esac;;
 c++) 
    case "$target" in
@@ -177,19 +192,23 @@ c++)
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
       ;;
    *-*-darwin*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=dylib
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
    esac;;
 cl)  
    AM_CXXFLAGS="-EHsc -nologo -GR -GX -MD"
+   AR="ar"; ARFLAGS="cru"
    build_shared="no"
    ;;
 CC)  
@@ -199,25 +218,31 @@ CC)
       MY_SHFLAGS="-KPIC -DPIC"; MY_SHLINK="-G"; SHEXT=so
       MY_SHNAME="-h"; MY_LD="-R"
       AM_LDFLAGS="-lsunmath"
+      AR="CC"; ARFLAGS="-xar -o"
       ;;
    *-*-hpux*) AM_CXXFLAGS="+O3 +DAportable +a1 -z -pta +Onolimit"
+              AR="ar"; ARFLAGS="cru"
               build_shared="no"
 	      ;;
    *-*-irix*) AM_CXXFLAGS="-O -OPT:Olimit=0 -pta"
+              AR="ar"; ARFLAGS="cru"
               build_shared="no"
 	      ;;
    *)   echo UNEXPECTED CHOICE OF OPERATING SYSTEM FOR $CXX: $target
    esac;;
 aCC) 
    AM_CXXFLAGS="-O -Aa +DAportable +Onolimit"
+   AR="ar"; ARFLAGS="cru"
    build_shared="no"
    ;;
 cxx) 
    AM_CXXFLAGS="-O -std strict_ansi -timplicit_local"
+   AR="ar"; ARFLAGS="cru"
    build_shared="no"
    ;;
 xlC) 
    AM_CXXFLAGS="-O3 -qtwolink -+"
+   AR="ar"; ARFLAGS="cru"
    build_shared="no"
    ;;
 *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
@@ -233,6 +258,8 @@ AC_SUBST(MY_SHLINK)
 AC_SUBST(MY_SHNAME)
 AC_SUBST(MY_LD)
 AC_SUBST(SHEXT)
+AC_SUBST(AR)
+AC_SUBST(ARFLAGS)
 
 # ----------------------------------------------------------------------
 # Set system-dependent options:

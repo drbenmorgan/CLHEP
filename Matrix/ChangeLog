@@ -1,3 +1,18 @@
+2005-04-07  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: set AR and ARFLAGS
+
+2005-03-23  Mark Fischler  <mf@fnal.gov>
+
+	* SymMatrix.cc, testBug7328.cc
+
+	Repair bug introduced into determinant of large matrices, and exposed
+	by testBug7328 when it is run on VC++ 7.1.
+	Also clean up the test program to avoid declaring loop indices
+	in the for loop statement when indices of the same name will be used
+	later -- VC++ still fouls up when this is done, though it is proper 
+	C++.
+
 2005-03-15  Mark Fischler  <mf@fnal.gov>
 
 	* SymMatrix.cc, testBug7328.cc
@@ -12,11 +27,32 @@
 	Repair of bug 6181, a serious error in inverting matrices above the
 	size of 6x6.  
 
+2005-02-18  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in, Makefile.am: Stop using libtool.  
+	The newer releases of libtool seem to have dropped support for 
+	Windows Visual C++.  
+
+2005-02-14  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: Visual C++ flags are now "-EHsc -nologo -GR -GX -MD"
+
 2005-02-14  Mark Fischler  <mf@fnal.gov>
 
 	* SymMatrixInvert.cc
 	
 	  Implementation of invertHaywood4()
+
+2005-02-03  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: install step creates libCLHEP.a, libCLHEP.so,
+	and/or libCLHEP.dylib by adding a symbolic link.
+
+2005-02-02  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* configure.in: modified compiler flags for windows:
+	added "-O -GR -GX -MD" as this is needed for the multi-thread
+	environments used.
 
 2005-02-01  Lynn Garren  <garren@fnal.gov>
 
@@ -44,6 +80,11 @@ Fri Sep 24          2004 Lynn Garren <garren@fnal.gov>
 
 	* Matrix: remove unnecessary copy and disable allocator
 
+Tue Aug 31         2004 Lynn Garren <garren@fnal.gov>
+	
+	* change Solaris CC compile flags from "-O -mt" to "-O"
+	* libtools 1.9b or later is required for Solaris CC
+
 ==============================
 23.07.04 Release CLHEP-2.0.1.0
 ==============================
@@ -55,7 +96,7 @@ Fri Sep 24          2004 Lynn Garren <garren@fnal.gov>
 ==============================
 11.05.04 Release CLHEP-1.9.0.2
 ==============================
-    
+        
 ==============================
 21.04.04 Release CLHEP-2.0.0.1
 ==============================

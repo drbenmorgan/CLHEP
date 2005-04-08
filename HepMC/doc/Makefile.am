@@ -1,5 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 TEX = latex
 doc_srcdir = $(top_srcdir)/doc/latex_user_manual
 doc_builddir = $(top_builddir)/doc

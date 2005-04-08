@@ -1,4 +1,8 @@
 # Applicable to each test program:
+
+if USE_GMAKE
+  MAKE = gmake
+endif
 INCLUDES = -I../
 LDADD = @Units_LDFLAGS@  @Units_LIBS@	# libraries to link, and whence
 

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.4.2 2005/03/18 22:26:47 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.4.3 2005/04/08 17:49:38 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -953,8 +953,9 @@ void HepSymMatrix::invert(int &ifail) {
 
 double HepSymMatrix::determinant() const {
   static const int max_array = 20;
-  static std::vector<int> ir_vec (max_array); 
-  ir_vec.resize(nrow);
+  // ir must point to an array which is ***1 longer than*** nrow
+  static std::vector<int> ir_vec (max_array+1); 
+  if (ir_vec.size() <= static_cast<unsigned int>(nrow)) ir_vec.resize(nrow+1);
   int * ir = &ir_vec[0];   
 
   double det;
@@ -999,9 +1000,10 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
   static std::vector<int,   Alloc<int,   25> > pivv (max_array);
   typedef std::vector<int,Alloc<int,25> >::iterator pivIter; 
 #endif	
-  xvec.resize(nrow);
-  pivv.resize(nrow);
-     // Note - resize does nothing if the size is already larger than nrow.
+  if (xvec.size() < static_cast<unsigned int>(nrow)) xvec.resize(nrow);
+  if (pivv.size() < static_cast<unsigned int>(nrow)) pivv.resize(nrow);
+     // Note - resize shuld do  nothing if the size is already larger than nrow,
+     //        but on VC++ there are indications that it does so we check.
      // Note - the data elements in a vector are guaranteed to be contiguous,
      //        so x[i] and piv[i] are optimally fast.
   mIter   x   = xvec.begin();

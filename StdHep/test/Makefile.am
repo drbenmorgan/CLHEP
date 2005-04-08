@@ -1,16 +1,22 @@
 # Applicable to each test program:
+
+if USE_GMAKE
+  MAKE = gmake
+endif
 INCLUDES = -I$(top_builddir)/
 
 # libraries to link, and whence
 if BUILD_STATIC
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.a \
           $(top_builddir)/../HepMC/src/libCLHEP-HepMC-@VERSION@.a \
-          $(top_builddir)/../Random/src/libCLHEP-Random-@VERSION@.a
+          $(top_builddir)/../Vector/src/libCLHEP-Vector-@VERSION@.a
 else
-  LIBS += $(MY_LD)$(top_builddir)/src
+  LIBS += $(MY_LD)$(top_builddir)/src \
+          $(MY_LD)$(top_builddir)/../HepMC/src \
+	  $(MY_LD)$(top_builddir)/../Vector/src
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT) \
           $(top_builddir)/../HepMC/src/libCLHEP-HepMC-@VERSION@.$(SHEXT) \
-          $(top_builddir)/../Random/src/libCLHEP-Random-@VERSION@.$(SHEXT)
+          $(top_builddir)/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
 endif
 
 # Identify executables needed during testing:
