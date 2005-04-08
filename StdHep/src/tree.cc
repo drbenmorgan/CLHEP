@@ -1,8 +1,8 @@
-// $Id: tree.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
 // -*- C++ -*-
 //
 // ----------------------------------------------------------------------
 // tree.cc
+// Author: Lynn Garren
 // print an event tree to the specified output stream (default is std::cout)
 // start with signal vertex
 // if no signal vertex, just loop over all vertices

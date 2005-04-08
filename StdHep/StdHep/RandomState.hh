@@ -2,6 +2,7 @@
 #define STDHEP_RANDOMSTATE_HH
 // ----------------------------------------------------------------------
 // RandomState.hh
+// Author:  Lynn Garren
 //
 // Container for the random state
 // ----------------------------------------------------------------------

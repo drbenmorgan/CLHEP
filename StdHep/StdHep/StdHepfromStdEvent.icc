@@ -1,8 +1,7 @@
-// $Id: StdHepfromStdEvent.icc,v 1.2 2003/08/29 02:06:13 garren Exp $
 // ----------------------------------------------------------------------
 // HEPEVTfromStdEvent.icc
 // ----------------------------------------------------------------------
-// Author:  Lynn Garren, Marc Paterno,
+// Author:  Lynn Garren, Marc Paterno
 //
 
 #include "CLHEP/HepMC/GenParticle.h"

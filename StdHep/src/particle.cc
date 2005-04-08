@@ -1,8 +1,9 @@
-// $Id: particle.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // -*- C++ -*-
 //
 // ----------------------------------------------------------------------
 // particle.cc
+// Author: Lynn Garren
+//
 // treat the aggregate particles as one big collection
 //  Reference by barcode within collision
 // ----------------------------------------------------------------------

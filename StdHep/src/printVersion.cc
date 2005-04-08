@@ -1,8 +1,9 @@
-// $Id: printVersion.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
 // -*- C++ -*-
 //
 // ----------------------------------------------------------------------
 // printVersion.cc
+// Author: Lynn Garren
+//
 // fill and print the StdHep version information
 // must be accessable by C, so use string.h
 // ----------------------------------------------------------------------
