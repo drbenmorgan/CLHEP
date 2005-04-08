@@ -1,8 +1,8 @@
-// $Id: print.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
 // -*- C++ -*-
 //
 // ----------------------------------------------------------------------
 // print.cc
+// Author: Lynn Garren
 // print an event to the specified output stream (default is std::cout)
 // ----------------------------------------------------------------------
 

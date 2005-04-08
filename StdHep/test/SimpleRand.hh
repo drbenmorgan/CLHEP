@@ -1,6 +1,9 @@
 #ifndef SIMPLE_RAND_HH
 #define SIMPLE_RAND_HH
 //////////////////////////////////////////////////////////////////////////
+// SimpleRand.hh
+// Author: Lynn Garren
+//
 // Since it is unfair to introduce a dependency on CLHEP Random for the sake
 // of the test, we use a simple, non-robust, interface to random() 
 //////////////////////////////////////////////////////////////////////////
