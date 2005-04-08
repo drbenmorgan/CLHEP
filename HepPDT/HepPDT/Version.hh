@@ -1,7 +1,7 @@
-// $Id: Version.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // Version.hh
+// Author:  Lynn Garren
 //
 //  for now, this is a free function
 //

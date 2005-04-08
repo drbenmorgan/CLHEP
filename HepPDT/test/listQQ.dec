@@ -1,6 +1,4 @@
 ;
-; $Id: listQQ.dec,v 1.1.2.3 2005/04/08 17:49:38 garren Exp $
-;
 ; Revision 1.13  1996/08/07 18:31:40  clib
 ; Bug fix.  a00,a20,f0,f0' -> K0S K0S and K0L K0L, not K0S K0L.
 ;

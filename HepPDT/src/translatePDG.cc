@@ -1,7 +1,8 @@
 // ------------------------------------
 //
 // translatePDG.cc
-///
+// Author: Lynn Garren
+//
 // translate an ID number to or from the standard numbering scheme and the PDG table
 // use static maps
 //

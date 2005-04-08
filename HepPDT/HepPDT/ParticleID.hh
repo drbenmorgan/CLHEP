@@ -1,7 +1,7 @@
-// $Id: ParticleID.hh,v 1.1.1.1.4.2 2005/03/18 22:26:26 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleID.hh
+// Author:  Lynn Garren
 //
 //  various utilities to extract information from the particle ID
 //

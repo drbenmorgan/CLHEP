@@ -1,6 +1,7 @@
 // ------------------------------------
 //
 // translatePythia.cc
+// Author: Lynn Garren
 //
 // translate an ID number to or from the standard numbering scheme and Pythia
 // use static maps

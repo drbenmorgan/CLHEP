@@ -1,7 +1,6 @@
 ////////////////////////////////////////////////////////////////////////
 //
 // File: DMFactory.cc
-// $Id: DMFactory.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // Purpose: DMFactory class
 //
 // Author:  Marc Paterno

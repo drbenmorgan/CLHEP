@@ -1,7 +1,7 @@
-// $Id: fundamentalID.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // fundamentalID.cc
+// Author: Lynn Garren
 //
 //  return the first two digits if this is a "fundamental" particle
 //  ID = 100 is a special case (internal generator ID's are 81-100)

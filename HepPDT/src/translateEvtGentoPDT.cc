@@ -1,7 +1,7 @@
-// $Id: translateEvtGentoPDT.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // translateEvtGentoPDT.cc
+// Author: Lynn Garren
 //
 // translate a EvtGen ID number to the standard numbering scheme
 //

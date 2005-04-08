@@ -1,6 +1,7 @@
 // ----------------------------------------------------------------------
 //
 // translateIsajet.cc
+// Author: Lynn Garren
 //
 // translate an ID number to or from the standard numbering scheme and Isajet
 // use static maps
@@ -701,14 +702,14 @@ int convIsajettoPDT( const int id )
           if(i2 <= 2 && i1 <= 2){
               //     don't change
           } else {
-	      if(i1 = 2) { 
+	      if(i1 == 2) { 
 	          i1 = 1; 
-	      } else if(i1 = 1) { 
+	      } else if(i1 == 1) { 
 	          i1 = 2; 
 	      }
-	      if(i2 = 2) { 
+	      if(i2 == 2) { 
 	          i2 = 1; 
-	      } else if(i2 = 1) { 
+	      } else if(i2 == 1) { 
 	          i2 = 2; 
 	      }
           }
@@ -724,14 +725,14 @@ int convIsajettoPDT( const int id )
     // diquarks
     if(i2 != 0 && i3 != 0 && i1 == 0) {
           // ...         u and d have opposite definitions
-	  if(i3 = 2) { 
+	  if(i3 == 2) { 
 	      i3 = 1; 
-	  } else if(i3 = 1) { 
+	  } else if(i3 == 1) { 
 	      i3 = 2; 
 	  }
-	  if(i2 = 2) { 
+	  if(i2 == 2) { 
 	      i2 = 1; 
-	  } else if(i2 = 1) { 
+	  } else if(i2 == 1) { 
 	      i2 = 2; 
 	  }
 	  istran = 0;
@@ -751,19 +752,19 @@ int convIsajettoPDT( const int id )
     // baryons
     if( i1 != 0 && i3 != 0 && i2 != 0 ) {
           //   u and d have opposite definitions
-	  if(i3 = 2) { 
+	  if(i3 == 2) { 
 	      i3 = 1; 
-	  } else if(i3 = 1) { 
+	  } else if(i3 == 1) { 
 	      i3 = 2; 
 	  }
-	  if(i2 = 2) { 
+	  if(i2 == 2) { 
 	      i2 = 1; 
-	  } else if(i2 = 1) { 
+	  } else if(i2 == 1) { 
 	      i2 = 2; 
 	  }
-	  if(i1 = 2) { 
+	  if(i1 == 2) { 
 	      i1 = 1; 
-	  } else if(i1 = 1) { 
+	  } else if(i1 == 1) { 
 	      i1 = 2; 
 	  }
 	  istran = 0;
@@ -804,14 +805,14 @@ int convPDTtoIsajet( const int id )
           if(i2 <= 2 && i1 <= 2){
               //     don't change
           } else {
-	      if(i1 = 2) { 
+	      if(i1 == 2) { 
 	          i1 = 1; 
-	      } else if(i1 = 1) { 
+	      } else if(i1 == 1) { 
 	          i1 = 2; 
 	      }
-	      if(i2 = 2) { 
+	      if(i2 == 2) { 
 	          i2 = 1; 
-	      } else if(i2 = 1) { 
+	      } else if(i2 == 1) { 
 	          i2 = 2; 
 	      }
           }
@@ -827,14 +828,14 @@ int convPDTtoIsajet( const int id )
     // diquarks
     if(i1 == 0){
           // ...         u and d have opposite definitions
-	  if(i3 = 2) { 
+	  if(i3 == 2) { 
 	      i3 = 1; 
-	  } else if(i3 = 1) { 
+	  } else if(i3 == 1) { 
 	      i3 = 2; 
 	  }
-	  if(i2 = 2) { 
+	  if(i2 == 2) { 
 	      i2 = 1; 
-	  } else if(i2 = 1) { 
+	  } else if(i2 == 1) { 
 	      i2 = 2; 
 	  }
 	  istran = 0;
@@ -852,19 +853,19 @@ int convPDTtoIsajet( const int id )
     // ...spin 1/2 or spin 3/2 baryons
     if( i1 != 0 && i3 != 0 && i2 != 0 && ( js == 2 || js == 4) && i4 == 0 ) {
           //   u and d have opposite definitions
-	  if(i3 = 2) { 
+	  if(i3 == 2) { 
 	      i3 = 1; 
-	  } else if(i3 = 1) { 
+	  } else if(i3 == 1) { 
 	      i3 = 2; 
 	  }
-	  if(i2 = 2) { 
+	  if(i2 == 2) { 
 	      i2 = 1; 
-	  } else if(i2 = 1) { 
+	  } else if(i2 == 1) { 
 	      i2 = 2; 
 	  }
-	  if(i1 = 2) { 
+	  if(i1 == 2) { 
 	      i1 = 1; 
-	  } else if(i1 = 1) { 
+	  } else if(i1 == 1) { 
 	      i1 = 2; 
 	  }
 	  istran = 0;

@@ -1,6 +1,6 @@
-// $Id: listPythiaNames.cc.in,v 1.1.2.2 2005/03/18 22:26:45 garren Exp $
 // ----------------------------------------------------------------------
 // listPythiaNames.cc
+// Author: Lynn Garren
 //
 // read Pythia table and write out translation from pythia to HepPDT
 //
