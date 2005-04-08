@@ -1,7 +1,7 @@
-// $Id: isNucleus.cc,v 1.1.1.1.2.1 2005/03/16 01:36:02 garren Exp $
 // ----------------------------------------------------------------------
 //
 // isNucleus.cc
+// Author: Lynn Garren
 //
 //  extended PID type
 //

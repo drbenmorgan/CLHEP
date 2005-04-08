@@ -1,7 +1,7 @@
-// $Id: translateHerwig.cc,v 1.1.2.3 2005/03/18 17:15:02 garren Exp $
 // ------------------------------------
 //
 // translateHerwig.cc
+// Author: Lynn Garren
 // ..convert from HERWIG numbering scheme to PDT numbering scheme
 //  use a static map for both translateHerwigtoPDT and translatePDTtoHerwig
 //

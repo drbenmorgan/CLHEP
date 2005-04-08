@@ -1,4 +1,3 @@
-// $Id: ParticleTranslation.hh,v 1.1.4.2 2005/03/17 22:42:53 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleTranslation.hh

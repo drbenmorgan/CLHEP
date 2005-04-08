@@ -1,7 +1,7 @@
-// $Id: isLepton.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // isLepton.cc
+// Author: Lynn Garren
 //
 //  check to see if this is a valid meson
 //

@@ -1,6 +1,6 @@
-// $Id: testHepPDT.cc,v 1.3.2.2 2005/03/17 22:42:53 garren Exp $
 // ----------------------------------------------------------------------
 // testHepPDT.cc
+// Author: Lynn Garren
 //
 // test by reading the PDG table
 // get filename and location of PDG table from input stream

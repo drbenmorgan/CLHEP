@@ -1,7 +1,7 @@
-// $Id: ResonanceStructure.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ResonanceStructure.hh
+// Author:  Lynn Garren
 //
 // ResonanceStructure contains the minimum information for a Breit-Wigner
 // distribution about a given mass.

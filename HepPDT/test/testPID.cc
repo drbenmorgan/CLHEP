@@ -1,6 +1,6 @@
-// $Id: testPID.cc,v 1.4.2.1 2005/03/16 01:36:03 garren Exp $
 // ----------------------------------------------------------------------
 // TestPID.cc
+// Author: Lynn Garren
 //
 // test ParticleID
 //

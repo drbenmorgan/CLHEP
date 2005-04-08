@@ -1,7 +1,7 @@
-// $Id: version.cc,v 1.1.1.1.2.1 2004/06/23 23:37:21 garren Exp $
 // ----------------------------------------------------------------------
 //
 // version.cc
+// Author: Lynn Garren
 //
 //  for now, this is a free function
 //

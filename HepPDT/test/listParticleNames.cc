@@ -1,6 +1,6 @@
-// $Id: listParticleNames.cc,v 1.1.4.1 2004/04/21 23:06:34 garren Exp $
 // ----------------------------------------------------------------------
 // listParticleNames.cc
+// Author: Lynn Garren
 //
 // list all known HepPDT particle names
 //

@@ -1,6 +1,7 @@
 // ----------------------------------------------------------------------
 //
 // isPentaquark.cc
+// Author: Lynn Garren
 //
 //  check to see if this is a valid pentaquark
 //

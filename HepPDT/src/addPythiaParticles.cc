@@ -1,7 +1,7 @@
-// $Id: addPythiaParticles.cc,v 1.2.2.1 2004/04/21 23:06:33 garren Exp $
 // ----------------------------------------------------------------------
 //
 // addPythiaParticles.cc
+// Author: Lynn Garren
 //
 // this has the functions used by addPythiaParticles
 //

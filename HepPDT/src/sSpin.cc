@@ -1,7 +1,7 @@
-// $Id: sSpin.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // sSpin.cc
+// Author: Lynn Garren
 //
 //  return the spin - valid for mesons only
 //

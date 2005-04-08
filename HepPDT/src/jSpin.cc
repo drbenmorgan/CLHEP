@@ -1,7 +1,7 @@
-// $Id: jSpin.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // jSpin.cc
+// Author: Lynn Garren
 //
 //  return the total spin as 2J+1
 //

@@ -1,4 +1,3 @@
-// $Id: listPythiaTranslation.cc,v 1.1.4.3 2004/11/05 22:16:39 garren Exp $
 // ----------------------------------------------------------------------
 //
 // listPythiaTranslation.cc

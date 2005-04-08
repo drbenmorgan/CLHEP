@@ -1,6 +1,6 @@
-// $Id: listQQTranslation.cc.in,v 1.1.4.2 2005/02/04 00:24:43 garren Exp $
 // ----------------------------------------------------------------------
 // listQQTranslation.cc
+// Author: Lynn Garren
 //
 // list all valid QQ translation IDs
 // must read the translation list from a QQ decay table

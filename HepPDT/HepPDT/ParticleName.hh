@@ -1,6 +1,5 @@
 #ifndef PARTICLENAME_HH
 #define PARTICLENAME_HH
-// $Id: ParticleName.hh,v 1.1.4.1 2004/04/21 23:06:33 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ParticleName.hh

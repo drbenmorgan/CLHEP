@@ -1,22 +1,4 @@
 ;
-; $Id: decay.dec,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
-;
-; $Log: decay.dec,v $
-; Revision 1.1.1.1  2003/07/15 20:15:05  garren
-; beginning of new CLHEP structure
-;
-; Revision 1.1.1.1  2003/02/14 17:17:06  garren
-; test of new CLHEP arrangement
-;
-; Revision 1.1  2001/11/12 15:28:20  garren
-; example particle data table files
-;
-; Revision 1.1.1.1  2001/11/08 01:57:47  garren
-; clhep for testing StdHep parts
-;
-; Revision 1.1  2001/08/02 22:02:16  garren
-; create class to contain the QQ translation data
-;
 ; Revision 1.13  1996/08/07 18:31:40  clib
 ; Bug fix.  a00,a20,f0,f0' -> K0S K0S and K0L K0L, not K0S K0L.
 ;

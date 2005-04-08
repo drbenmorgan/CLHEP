@@ -1,6 +1,7 @@
 // ----------------------------------------------------------------------
 //
 // translateIsajet.cc
+// Author: Lynn Garren
 //
 // translate an ID number to or from the standard numbering scheme and Isajet
 // use static maps
