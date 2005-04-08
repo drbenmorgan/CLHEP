@@ -1,4 +1,3 @@
-// $Id: ReadHepMCFindBlock.cc,v 1.2 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 //
 // ReadHepMCFindBlock.cc

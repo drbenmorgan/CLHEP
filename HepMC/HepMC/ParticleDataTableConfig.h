@@ -1,4 +1,3 @@
-// $Id: ParticleDataTableConfig.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 // ParticleDataTableConfig.h
 // L. Garren
