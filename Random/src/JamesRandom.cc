@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4.2.5 2005/03/15 21:20:42 fischler Exp $
+// $Id: JamesRandom.cc,v 1.4.2.6 2005/04/11 18:59:07 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -133,9 +133,22 @@ HepJamesRandom & HepJamesRandom::operator = (const HepJamesRandom &p)
 
 void HepJamesRandom::saveStatus( const char filename[] ) const
 {
-   std::ofstream outFile( filename, std::ios::out ) ;
+  std::ofstream outFile( filename, std::ios::out ) ;
 
-   if (!outFile.bad()) {
+  if (!outFile.bad()) {
+    outFile << "Uvec\n";
+    std::vector<unsigned long> v = put();
+    // std::cout << "Result of v.put() is:\n"; 
+    for (unsigned int i=0; i<v.size(); ++i) {
+      outFile << "0x" << std::hex << std::setw(8) 
+      	      << std::setfill('0') << v[i] << std::dec << "\n";
+      //std::cout << "0x" << std::hex << std::setw(8) 
+      //	<< std::setfill('0') << v[i] << std::dec << " ";
+      //if (i%6==0) std::cout << "\n";
+    }
+    //std::cout << "\n";
+  }
+#ifdef REMOVED
      int pos = j97;
      outFile << theSeed << std::endl;
      for (int i=0; i<97; ++i)
@@ -145,7 +158,7 @@ void HepJamesRandom::saveStatus( const char filename[] ) const
      outFile << std::setprecision(20) << cd << " ";
      outFile << std::setprecision(20) << cm << std::endl;
      outFile << pos << std::endl;
-   }
+#endif
 }
 
 void HepJamesRandom::restoreStatus( const char filename[] )
@@ -156,9 +169,30 @@ void HepJamesRandom::restoreStatus( const char filename[] )
      std::cerr << "  -- Engine state remains unchanged\n";
      return;
    }
+  if ( possibleKeywordInput ( inFile, "Uvec", theSeed ) ) {
+    //std::cout << "theSeed = " << std::hex << theSeed << std::dec << "\n";
+    std::vector<unsigned long> v;
+    unsigned long xin;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      inFile >> std::hex >> xin >> std::dec;
+      //std::cout << "ivec = " << ivec << "  xin = " 
+      //		<< std::hex << xin << std::dec << "    ";
+      //if (ivec%3 == 0) std::cout << "\n"; 
+      if (!inFile) {
+        inFile.clear(std::ios::badbit | inFile.rdstate());
+        std::cerr << "\nJamesRandom state (vector) description improper."
+	       << "\nrestoreStatus has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return;
+      }
+      v.push_back(xin);
+    }
+    getState(v);
+    return;
+  }
 
    if (!inFile.bad() && !inFile.eof()) {
-     inFile >> theSeed;
+//     inFile >> theSeed;  removed -- encompased by possibleKeywordInput
      for (int i=0; i<97; ++i)
        inFile >> u[i];
      inFile >> c; inFile >> cd; inFile >> cm;
@@ -284,9 +318,16 @@ HepJamesRandom::operator unsigned int() {
 }
 
 std::ostream & HepJamesRandom::put ( std::ostream& os ) const {
-   char beginMarker[] = "JamesRandom-begin";
+  char beginMarker[] = "JamesRandom-begin";
+  os << beginMarker << "\nUvec\n";
+  std::vector<unsigned long> v = put();
+  for (unsigned int i=0; i<v.size(); ++i) {
+     os << "0x" << std::hex << std::setw(8) 
+     		<< std::setfill('0') << v[i] << std::dec << "\n";
+  }
+  return os;  
+#ifdef REMOVED 
    char endMarker[]   = "JamesRandom-end";
-
    int pos = j97;
    int pr = os.precision(20);
    os << " " << beginMarker << " ";
@@ -301,6 +342,7 @@ std::ostream & HepJamesRandom::put ( std::ostream& os ) const {
    os << endMarker << "\n";
    os.precision(pr);
    return os;
+#endif
 }
 
 std::vector<unsigned long> HepJamesRandom::put () const {
@@ -344,9 +386,28 @@ std::string HepJamesRandom::beginTag ( )  {
 }
 
 std::istream & HepJamesRandom::getState  ( std::istream& is) {
+  if ( possibleKeywordInput ( is, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long u;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      is >> std::hex >> u >> std::dec;
+      if (!is) {
+        is.clear(std::ios::badbit | is.rdstate());
+        std::cerr << "\nJamesRandom state (vector) description improper."
+		<< "\ngetState() has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return is;
+      }
+      v.push_back(u);
+    }
+    getState(v);
+    return (is);
+  }
+
+//  is >> theSeed;  Removed, encompassed by possibleKeywordInput()
+
   int ipos, jpos;
   char   endMarker [MarkerLen];
-  is >> theSeed;
   for (int i=0; i<97; ++i) {
      is >> u[i];
   }
@@ -378,7 +439,7 @@ bool HepJamesRandom::get (const std::vector<unsigned long> & v) {
 }
 
 bool HepJamesRandom::getState (const std::vector<unsigned long> & v) {
-  if (v.size() != 202 ) {
+  if (v.size() != VECTOR_STATE_SIZE ) {
     std::cerr << 
     	"\nHepJamesRandom get:state vector has wrong length - state unchanged\n";
     return false;

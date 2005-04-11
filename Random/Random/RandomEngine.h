@@ -1,4 +1,4 @@
-// $Id: RandomEngine.h,v 1.3.2.6 2005/03/15 21:20:41 fischler Exp $
+// $Id: RandomEngine.h,v 1.3.2.7 2005/04/11 18:59:06 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -42,6 +42,7 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
+#include <sstream>
 #include <vector>
 #include "CLHEP/Random/defs.h"
 
@@ -154,6 +155,16 @@ protected:
 
 std::ostream & operator<< (std::ostream & os, const HepRandomEngine & e);
 std::istream & operator>> (std::istream & is, HepRandomEngine & e);
+
+template <class IS, class T> 
+bool possibleKeywordInput (IS & is, const std::string & key, T & t) {
+  std::string firstWord;
+  is >> firstWord;
+  if (firstWord == key) return true;
+  std::istringstream reread(firstWord);
+  reread >> t;
+  return false;
+}
 
 }  // namespace CLHEP
 
