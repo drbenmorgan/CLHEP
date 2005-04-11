@@ -1,3 +1,10 @@
+2005-04-11  Mark Fischler <mf@fnal.gov>
+
+	* JamesRandom.cc ranRestoreTest.cc NonRandomEngine.h
+	
+	Express state of this engine in hex form rather than as doubles, to
+	avoid precision issues.  
+
 2005-04-07  Lynn Garren <garren@fnal.gov>
 
 	* configure.in: set AR and ARFLAGS
