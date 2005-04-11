@@ -2,6 +2,7 @@
 //
 // translateHerwig.cc
 // Author: Lynn Garren
+//
 // ..convert from HERWIG numbering scheme to PDT numbering scheme
 //  use a static map for both translateHerwigtoPDT and translatePDTtoHerwig
 //
