@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4.2.6 2005/04/11 18:59:07 fischler Exp $
+// $Id: JamesRandom.cc,v 1.4.2.7 2005/04/12 14:05:04 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -138,15 +138,19 @@ void HepJamesRandom::saveStatus( const char filename[] ) const
   if (!outFile.bad()) {
     outFile << "Uvec\n";
     std::vector<unsigned long> v = put();
-    // std::cout << "Result of v.put() is:\n"; 
+		     #ifdef TRACE_IO
+			 std::cout << "Result of v = put() is:\n"; 
+		     #endif
     for (unsigned int i=0; i<v.size(); ++i) {
-      outFile << "0x" << std::hex << std::setw(8) 
-      	      << std::setfill('0') << v[i] << std::dec << "\n";
-      //std::cout << "0x" << std::hex << std::setw(8) 
-      //	<< std::setfill('0') << v[i] << std::dec << " ";
-      //if (i%6==0) std::cout << "\n";
+      outFile << v[i] << std::dec << "\n";
+		     #ifdef TRACE_IO
+			   std::cout << v[i] << std::dec << " ";
+			   if (i%6==0) std::cout << "\n";
+		     #endif
     }
-    //std::cout << "\n";
+		     #ifdef TRACE_IO
+			 std::cout << "\n";
+		     #endif
   }
 #ifdef REMOVED
      int pos = j97;
@@ -170,14 +174,14 @@ void HepJamesRandom::restoreStatus( const char filename[] )
      return;
    }
   if ( possibleKeywordInput ( inFile, "Uvec", theSeed ) ) {
-    //std::cout << "theSeed = " << std::hex << theSeed << std::dec << "\n";
     std::vector<unsigned long> v;
     unsigned long xin;
     for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
-      inFile >> std::hex >> xin >> std::dec;
-      //std::cout << "ivec = " << ivec << "  xin = " 
-      //		<< std::hex << xin << std::dec << "    ";
-      //if (ivec%3 == 0) std::cout << "\n"; 
+      inFile >> xin;
+	       #ifdef TRACE_IO
+	       std::cout << "ivec = " << ivec << "  xin = " << xin << "    ";
+	       if (ivec%3 == 0) std::cout << "\n"; 
+	       #endif
       if (!inFile) {
         inFile.clear(std::ios::badbit | inFile.rdstate());
         std::cerr << "\nJamesRandom state (vector) description improper."
@@ -322,8 +326,7 @@ std::ostream & HepJamesRandom::put ( std::ostream& os ) const {
   os << beginMarker << "\nUvec\n";
   std::vector<unsigned long> v = put();
   for (unsigned int i=0; i<v.size(); ++i) {
-     os << "0x" << std::hex << std::setw(8) 
-     		<< std::setfill('0') << v[i] << std::dec << "\n";
+     os <<  v[i] <<  "\n";
   }
   return os;  
 #ifdef REMOVED 
