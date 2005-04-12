@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4.2.7 2005/04/12 14:05:04 fischler Exp $
+// $Id: JamesRandom.cc,v 1.4.2.8 2005/04/12 14:41:16 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -32,6 +32,7 @@
 // M. Fischler    - Enforcement that seeds be non-negative
 //		    (lest the sequence be non-random)	         2/14/05    
 // M. Fischler    - put/get for vectors of ulongs		3/14/05
+// M. Fischler    - State-saving using only ints, for portability 4/12/05
 //		    
 // =======================================================================
 
@@ -43,6 +44,8 @@
 #include <string.h>
 #include <cmath>
 #include <stdlib.h>
+
+//#define TRACE_IO
 
 namespace CLHEP {
 
@@ -391,9 +394,9 @@ std::string HepJamesRandom::beginTag ( )  {
 std::istream & HepJamesRandom::getState  ( std::istream& is) {
   if ( possibleKeywordInput ( is, "Uvec", theSeed ) ) {
     std::vector<unsigned long> v;
-    unsigned long u;
+    unsigned long uu;
     for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
-      is >> std::hex >> u >> std::dec;
+      is >> uu;
       if (!is) {
         is.clear(std::ios::badbit | is.rdstate());
         std::cerr << "\nJamesRandom state (vector) description improper."
@@ -401,7 +404,7 @@ std::istream & HepJamesRandom::getState  ( std::istream& is) {
 	       << "\nInput stream is probably mispositioned now." << std::endl;
         return is;
       }
-      v.push_back(u);
+      v.push_back(uu);
     }
     getState(v);
     return (is);
