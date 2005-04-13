@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4.2.8 2005/04/12 14:41:16 fischler Exp $
+// $Id: JamesRandom.cc,v 1.4.2.9 2005/04/13 20:49:19 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -145,9 +145,9 @@ void HepJamesRandom::saveStatus( const char filename[] ) const
 			 std::cout << "Result of v = put() is:\n"; 
 		     #endif
     for (unsigned int i=0; i<v.size(); ++i) {
-      outFile << v[i] << std::dec << "\n";
+      outFile << v[i] << "\n";
 		     #ifdef TRACE_IO
-			   std::cout << v[i] << std::dec << " ";
+			   std::cout << v[i] << " ";
 			   if (i%6==0) std::cout << "\n";
 		     #endif
     }

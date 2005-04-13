@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.h,v 1.3.2.5 2005/03/15 21:20:41 fischler Exp $
+// $Id: RanecuEngine.h,v 1.3.2.6 2005/04/13 20:49:19 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -114,6 +114,8 @@ protected:
   const int shift1, shift2;
   const double prec;
 
+  static const unsigned int VECTOR_STATE_SIZE = 4;
+  
 private:
 
   // Members defining the current state of the generator.

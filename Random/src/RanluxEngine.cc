@@ -1,4 +1,4 @@
-// $Id: RanluxEngine.cc,v 1.4.2.3 2005/03/15 21:20:42 fischler Exp $
+// $Id: RanluxEngine.cc,v 1.4.2.4 2005/04/13 20:49:19 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -33,6 +33,7 @@
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
 // M. Fischler    - put/get for vectors of ulongs		3/14/05
+// M. Fischler    - State-saving using only ints, for portability 4/12/05
 //
 // ===============================================================
 
@@ -44,9 +45,15 @@
 #include <cmath>
 #include <stdlib.h>	// for abs(int)
 
+#ifdef TRACE_IO
+  #include "CLHEP/Random/DoubConv.hh"
+  bool flat_trace = false;
+#endif
+
 using namespace std;
 
 namespace CLHEP {
+
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
@@ -301,6 +308,24 @@ void RanluxEngine::setSeeds(const long *seeds, int lux) {
 void RanluxEngine::saveStatus( const char filename[] ) const
 {
    std::ofstream outFile( filename, std::ios::out ) ;
+  if (!outFile.bad()) {
+    outFile << "Uvec\n";
+    std::vector<unsigned long> v = put();
+		     #ifdef TRACE_IO
+			 std::cout << "Result of v = put() is:\n"; 
+		     #endif
+    for (unsigned int i=0; i<v.size(); ++i) {
+      outFile << v[i] << "\n";
+		     #ifdef TRACE_IO
+			   std::cout << v[i] << " ";
+			   if (i%6==0) std::cout << "\n";
+		     #endif
+    }
+		     #ifdef TRACE_IO
+			 std::cout << "\n";
+		     #endif
+  }
+#ifdef REMOVED
    if (!outFile.bad()) {
      outFile << theSeed << std::endl;
      for (int i=0; i<24; ++i)
@@ -310,6 +335,7 @@ void RanluxEngine::saveStatus( const char filename[] ) const
      outFile << std::setprecision(20) << carry << " " << count24 << std::endl;
      outFile << luxury << " " << nskip << std::endl;
    }
+#endif
 }
 
 void RanluxEngine::restoreStatus( const char filename[] )
@@ -319,9 +345,30 @@ void RanluxEngine::restoreStatus( const char filename[] )
      std::cerr << "  -- Engine state remains unchanged\n";
      return;
    }
+  if ( possibleKeywordInput ( inFile, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long xin;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      inFile >> xin;
+	       #ifdef TRACE_IO
+	       std::cout << "ivec = " << ivec << "  xin = " << xin << "    ";
+	       if (ivec%3 == 0) std::cout << "\n"; 
+	       #endif
+      if (!inFile) {
+        inFile.clear(std::ios::badbit | inFile.rdstate());
+        std::cerr << "\nRanluxEngine state (vector) description improper."
+	       << "\nrestoreStatus has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return;
+      }
+      v.push_back(xin);
+    }
+    getState(v);
+    return;
+  }
 
    if (!inFile.bad() && !inFile.eof()) {
-     inFile >> theSeed;
+//     inFile >> theSeed;  removed -- encompased by possibleKeywordInput
      for (int i=0; i<24; ++i)
        inFile >> float_seed_table[i];
      inFile >> i_lag; inFile >> j_lag;
@@ -352,6 +399,20 @@ double RanluxEngine::flat() {
   int i;
 
   uni = float_seed_table[j_lag] - float_seed_table[i_lag] - carry;
+	#ifdef TRACE_IO
+	if (flat_trace) {
+	  std::cout << "float_seed_table[" << j_lag << "] = "
+	  << float_seed_table[j_lag] 
+	  << "  float_seed_table[" << i_lag << "] = " << float_seed_table[i_lag]
+	  << "  uni = " << uni << "\n";
+	  std::cout << float_seed_table[j_lag] 
+	            << " - " << float_seed_table[i_lag]
+		    << " - " << carry << " = " 
+		    << (double)float_seed_table[j_lag] 
+		    -  (double) float_seed_table[i_lag] - (double)carry
+		    << "\n";
+	}
+	#endif
   if(uni < 0. ){
      uni += 1.0;
      carry = mantissa_bit_24;
@@ -377,6 +438,11 @@ double RanluxEngine::flat() {
 
   if(count24 == 24 ){
      count24 = 0;
+         	#ifdef TRACE_IO
+		if (flat_trace) {
+		  std::cout << "carry = " << carry << "\n"; 
+		}
+		#endif
      for( i = 0; i != nskip ; i++){
          uni = float_seed_table[j_lag] - float_seed_table[i_lag] - carry;
          if(uni < 0. ){
@@ -386,12 +452,25 @@ double RanluxEngine::flat() {
             carry = 0.;
          }
          float_seed_table[i_lag] = uni;
-         i_lag --;
+         	#ifdef TRACE_IO
+		if (flat_trace) {
+		  double xfst = float_seed_table[i_lag];
+		  std::cout << "fst[" << i_lag << "] = " 
+			    << DoubConv::d2x(xfst) << "\n";
+		}
+		#endif
+	 i_lag --;
          j_lag --;
          if(i_lag < 0)i_lag = 23;
          if(j_lag < 0) j_lag = 23;
       }
   } 
+	#ifdef TRACE_IO
+	if (flat_trace) {
+	  std::cout << "next_random = " << next_random << "\n";
+          // flat_trace = false;
+	}
+	#endif
   return (double) next_random;
 }
 
@@ -458,8 +537,14 @@ RanluxEngine::operator unsigned int() {
 std::ostream & RanluxEngine::put ( std::ostream& os ) const
 {
    char beginMarker[] = "RanluxEngine-begin";
+  os << beginMarker << "\nUvec\n";
+  std::vector<unsigned long> v = put();
+  for (unsigned int i=0; i<v.size(); ++i) {
+     os <<  v[i] <<  "\n";
+  }
+  return os;  
+#ifdef REMOVED 
    char endMarker[]   = "RanluxEngine-end";
-
    int pr = os.precision(20);
    os << " " << beginMarker << " ";
    os << theSeed << "\n";
@@ -472,21 +557,38 @@ std::ostream & RanluxEngine::put ( std::ostream& os ) const
    os << endMarker << "\n";
    os.precision(pr);
    return os;
+#endif
 }
 
 std::vector<unsigned long> RanluxEngine::put () const {
   std::vector<unsigned long> v;
   v.push_back (engineIDulong<RanluxEngine>());
+	#ifdef TRACE_IO
+	std::cout << "RanluxEngine put: ID is " << v[0] << "\n";
+	#endif
   for (int i=0; i<24; ++i) {
     v.push_back
     	(static_cast<unsigned long>(float_seed_table[i]/mantissa_bit_24));
+	#ifdef TRACE_IO
+	std::cout << "v[" << i+1 << "] = " << v[i+1] << 
+	" float_seed_table[" << i << "] = " << float_seed_table[i] << "\n";
+	#endif
   }
   v.push_back(static_cast<unsigned long>(i_lag));
   v.push_back(static_cast<unsigned long>(j_lag));
-  v.push_back(static_cast<unsigned long>(carry));
+  v.push_back(static_cast<unsigned long>(carry/mantissa_bit_24));
   v.push_back(static_cast<unsigned long>(count24));
   v.push_back(static_cast<unsigned long>(luxury));
   v.push_back(static_cast<unsigned long>(nskip));
+	#ifdef TRACE_IO
+	std::cout << "i_lag: " << v[25] << "  j_lag: " << v[26] 
+		  << "  carry: " << v[27] << "\n";
+	std::cout << "count24: " << v[28] << "  luxury: " << v[29] 
+		  << "  nskip: " << v[30] << "\n";
+	#endif
+	#ifdef TRACE_IO
+	flat_trace = true;
+	#endif
   return v;
 }
 
@@ -514,8 +616,31 @@ std::string RanluxEngine::beginTag ( )  {
 
 std::istream & RanluxEngine::getState ( std::istream& is )
 {
+  if ( possibleKeywordInput ( is, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long uu;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      is >> uu;
+      if (!is) {
+        is.clear(std::ios::badbit | is.rdstate());
+        std::cerr << "\nRanluxEngine state (vector) description improper."
+		<< "\ngetState() has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return is;
+      }
+      v.push_back(uu);
+	#ifdef TRACE_IO
+	std::cout << "RanluxEngine::getState -- v[" << v.size()-1
+	          << "] = " << v[v.size()-1] << "\n";
+	#endif
+    }
+    getState(v);
+    return (is);
+  }
+
+//  is >> theSeed;  Removed, encompassed by possibleKeywordInput()
+
   char endMarker   [MarkerLen];
-  is >> theSeed;
   for (int i=0; i<24; ++i) {
      is >> float_seed_table[i];
   }
@@ -544,20 +669,34 @@ bool RanluxEngine::get (const std::vector<unsigned long> & v) {
 }
 
 bool RanluxEngine::getState (const std::vector<unsigned long> & v) {
-  if (v.size() != 31 ) {
+  if (v.size() != VECTOR_STATE_SIZE ) {
     std::cerr << 
     	"\nRanluxEngine get:state vector has wrong length - state unchanged\n";
     return false;
   }
   for (int i=0; i<24; ++i) {
     float_seed_table[i] = v[i+1]*mantissa_bit_24;
+	#ifdef TRACE_IO
+	std::cout <<
+	"float_seed_table[" << i << "] = " << float_seed_table[i] << "\n";
+	#endif
   }
   i_lag    = v[25];
   j_lag    = v[26];
-  carry    = v[27];
+  carry    = v[27]*mantissa_bit_24;
   count24  = v[28];
   luxury   = v[29];
   nskip    = v[30];
+	#ifdef TRACE_IO
+	std::cout << "i_lag: " << i_lag << "  j_lag: " << j_lag 
+		  << "  carry: " << carry << "\n";
+	std::cout << "count24: " << count24 << "  luxury: " << luxury 
+		  << "  nskip: " << nskip << "\n";
+
+	#endif
+	#ifdef TRACE_IO
+	flat_trace = true;
+	#endif
   return true;
 }
 

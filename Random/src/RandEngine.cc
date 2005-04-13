@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.4.2.5 2005/03/15 21:20:42 fischler Exp $
+// $Id: RandEngine.cc,v 1.4.2.6 2005/04/13 20:49:19 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -34,6 +34,7 @@
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
 // M. Fischler    - put/get for vectors of ulongs		3/14/05
+// M. Fischler    - State-saving using only ints, for portability 4/12/05
 //                                                                            
 // =======================================================================
 
@@ -164,10 +165,29 @@ void RandEngine::saveStatus( const char filename[] ) const
 {
    std::ofstream outFile( filename, std::ios::out ) ;
 
+  if (!outFile.bad()) {
+    outFile << "Uvec\n";
+    std::vector<unsigned long> v = put();
+		     #ifdef TRACE_IO
+			 std::cout << "Result of v = put() is:\n"; 
+		     #endif
+    for (unsigned int i=0; i<v.size(); ++i) {
+      outFile << v[i] << "\n";
+		     #ifdef TRACE_IO
+			   std::cout << v[i] << " ";
+			   if (i%6==0) std::cout << "\n";
+		     #endif
+    }
+		     #ifdef TRACE_IO
+			 std::cout << "\n";
+		     #endif
+  }
+#ifdef REMOVED
    if (!outFile.bad()) {
      outFile << theSeed << std::endl;
      outFile << seq << std::endl;
    }
+#endif
 }
 
 void RandEngine::restoreStatus( const char filename[] )
@@ -182,10 +202,32 @@ void RandEngine::restoreStatus( const char filename[] )
      std::cout << "  -- Engine state remains unchanged\n";	 	  
      return;							 	  
    }								 	  
+  if ( possibleKeywordInput ( inFile, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long xin;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      inFile >> xin;
+	       #ifdef TRACE_IO
+	       std::cout << "ivec = " << ivec << "  xin = " << xin << "    ";
+	       if (ivec%3 == 0) std::cout << "\n"; 
+	       #endif
+      if (!inFile) {
+        inFile.clear(std::ios::badbit | inFile.rdstate());
+        std::cerr << "\nRandEngine state (vector) description improper."
+	       << "\nrestoreStatus has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return;
+      }
+      v.push_back(xin);
+    }
+    getState(v);
+    return;
+  }
+
    long count;
    
    if (!inFile.bad() && !inFile.eof()) {
-     inFile >> theSeed;
+//     inFile >> theSeed;  removed -- encompased by possibleKeywordInput
      inFile >> count;
      setSeed(theSeed,0);
      seq = 0;
@@ -396,9 +438,28 @@ std::string RandEngine::beginTag ( )  {
   
 std::istream & RandEngine::getState ( std::istream& is )
 {
+  if ( possibleKeywordInput ( is, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long uu;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      is >> uu;
+      if (!is) {
+        is.clear(std::ios::badbit | is.rdstate());
+        std::cerr << "\nRandEngine state (vector) description improper."
+		<< "\ngetState() has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return is;
+      }
+      v.push_back(uu);
+    }
+    getState(v);
+    return (is);
+  }
+
+//  is >> theSeed;  Removed, encompassed by possibleKeywordInput()
+
   char endMarker   [MarkerLen];
   long count;
-  is >> theSeed;
   is >> count;
   is >> std::ws;
   is.width(MarkerLen);  
@@ -424,7 +485,7 @@ bool RandEngine::get (const std::vector<unsigned long> & v) {
 }
 
 bool RandEngine::getState (const std::vector<unsigned long> & v) {
-  if (v.size() != 3 ) {
+  if (v.size() != VECTOR_STATE_SIZE ) {
     std::cerr << 
     	"\nRandEngine get:state vector has wrong length - state unchanged\n";
     return false;
