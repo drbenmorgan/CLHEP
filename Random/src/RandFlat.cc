@@ -1,4 +1,4 @@
-// $Id: RandFlat.cc,v 1.4.2.2 2004/12/20 22:12:36 fischler Exp $
+// $Id: RandFlat.cc,v 1.4.2.3 2005/04/14 21:15:22 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -22,10 +22,14 @@
 //                  12/3/04
 // M Fischler     - put and get to/from streams 12/10/04
 // M Fischler     - save and restore dist to streams 12/20/04
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			4/14/05
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandFlat.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <string.h>
 
 namespace CLHEP {
@@ -158,11 +162,33 @@ void RandFlat::restoreEngineStatus( const char filename[] ) {
 
 std::ostream & RandFlat::put ( std::ostream & os ) const {
   int pr=os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << " " << name() << "\n";
+  os << "Uvec" << "\n";
+  os << randomInt << " " << firstUnusedBit << "\n";
+  t = DoubConv::dto2longs(defaultWidth);
+  os << defaultWidth << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(defaultA);
+  os << defaultA << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(defaultB);
+  os << defaultB << " " << t[0] << " " << t[1] << "\n";
+		#ifdef TRACE_IO
+		std::cout << "RandFlat::put(): randomInt = " << randomInt
+			  << " firstUnusedBit = " << firstUnusedBit 
+			  << "\ndefaultWidth = " << defaultWidth
+			  << " defaultA = " << defaultA
+			  << " defaultB = " << defaultB << "\n";
+		#endif
+  os.precision(pr);
+  return os;
+#ifdef REMOVED
+   int pr=os.precision(20);
   os << " " << name() << "\n";
   os << randomInt << " " << firstUnusedBit << "\n";
   os << defaultWidth << " " << defaultA << " " << defaultB << "\n";
   os.precision(pr);
   return os;
+#endif
 }
 
 std::istream & RandFlat::get ( std::istream & is ) {
@@ -176,7 +202,29 @@ std::istream & RandFlat::get ( std::istream & is ) {
 	      << "\nistream is left in the badbit state\n";
     return is;
   }
-  is >> randomInt >> firstUnusedBit;
+  if (possibleKeywordInput(is, "Uvec", randomInt)) {
+    std::vector<unsigned long> t(2);
+    is >> randomInt >> firstUnusedBit;
+    is >> defaultWidth >>t[0]>>t[1]; defaultWidth = DoubConv::longs2double(t); 
+    is >> defaultA >> t[0] >> t[1]; defaultA = DoubConv::longs2double(t); 
+    is >> defaultB >> t[0] >> t[1]; defaultB = DoubConv::longs2double(t); 
+		#ifdef TRACE_IO
+		std::cout << "RandFlat::get(): randomInt = " << randomInt
+			  << " firstUnusedBit = " << firstUnusedBit 
+			  << "\ndefaultWidth = " << defaultWidth
+			  << " defaultA = " << defaultA
+			  << " defaultB = " << defaultB << "\n";
+		#endif
+    if (!is) {
+      is.clear(std::ios::badbit | is.rdstate());
+      std::cerr << "\nRandFlat input failed"
+	     << "\nInput stream is probably mispositioned now." << std::endl;
+      return is;
+    }
+    return is;
+  }
+  // is >> randomInt encompassed by possibleKeywordInput
+  is >> firstUnusedBit;
   is >> defaultWidth >> defaultA >> defaultB;
   return is;
 }

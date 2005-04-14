@@ -22,8 +22,8 @@
 
 // Normally off for routine validation:
 
-//#define VERBOSER
-//#define VERBOSER2
+#define VERBOSER
+#define VERBOSER2
 
 using namespace CLHEP;
 
@@ -172,6 +172,9 @@ int main() {
      output << "testSaveSharedEngines passed with no problems detected.\n";    
   }
 
-  return stat;
+  if (stat == 0) return 0;
+  if (stat > 0) return -(stat|1);
+  return stat|1;
+  return stat > 0 ? -stat : stat;
 }	
 

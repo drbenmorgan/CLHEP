@@ -1,4 +1,4 @@
-// $Id: RandPoissonT.cc,v 1.4.2.3 2005/02/11 23:10:33 fischler Exp $
+// $Id: RandPoissonT.cc,v 1.4.2.4 2005/04/14 21:15:22 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -17,12 +17,17 @@
 //		    uses a value just off the end of the table. (April 2004)
 // M Fischler     - put and get to/from streams 12/15/04
 // M Fischler     - fireArray using defaultMean 2/10/05
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			-- appears not to need modification, relying on
+//			RandPoisson::put() instead  4/14/05
 //
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandPoissonT.h"
 #include "CLHEP/Random/RandPoissonQ.h"
+#include "CLHEP/Random/DoubConv.hh"
 
 //
 // Constructors and destructors:

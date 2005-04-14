@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testVectorSave.cc,v 1.1.2.1 2005/04/13 20:49:20 fischler Exp $
+// $Id: testVectorSave.cc,v 1.1.2.2 2005/04/14 21:15:23 fischler Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
@@ -185,6 +185,8 @@ int main() {
      output << "ranRestoreTest passed with no problems detected.\n";    
   }
 
-  return stat;
+  if (stat == 0) return 0;
+  if (stat > 0) return -(stat|1);
+  return stat|1;
 }	
 

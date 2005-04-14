@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.5.2.1 2004/11/04 23:35:02 garren Exp $
+// $Id: testRandDists.cc,v 1.5.2.2 2005/04/14 21:15:23 fischler Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -1046,6 +1046,6 @@ int main() {
   mask |= testRandPoissonQ();
   mask |= testRandPoissonT();
 
-  return mask;
+  return mask > 0 ? -mask : mask;
 }
 

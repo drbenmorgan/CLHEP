@@ -22,8 +22,8 @@
 #define TEST_ENGINE_NAMES
 #define TEST_INSTANCE_METHODS
 
-//#define VERBOSER
-//#define VERBOSER2
+#define VERBOSER
+#define VERBOSER2
 
 using namespace CLHEP;
 
@@ -335,7 +335,6 @@ int checkDistributions() {
 int main() {
   int stat = 0;
 
-
 #ifdef TEST_ENGINE_NAMES
   output << "\n=============================================\n";
   output << "              Part II \n";
@@ -364,17 +363,17 @@ int main() {
   output << "===========================================\n\n";
 
   {DualRand e(234);	    stat |= checkEngineInstanceSave(e);}
-  {Hurd160Engine e(234);      stat |= checkEngineInstanceSave(e);}
-  {Hurd288Engine e(234);      stat |= checkEngineInstanceSave(e);}
-  {HepJamesRandom e(234);     stat |= checkEngineInstanceSave(e);}
-  {MTwistEngine e(234); 	    stat |= checkEngineInstanceSave(e);}
+  {Hurd160Engine e(234);    stat |= checkEngineInstanceSave(e);}
+  {Hurd288Engine e(234);    stat |= checkEngineInstanceSave(e);}
+  {HepJamesRandom e(234);   stat |= checkEngineInstanceSave(e);}
+  {MTwistEngine e(234);     stat |= checkEngineInstanceSave(e);}
   {RandEngine e(234);	    stat |= checkEngineInstanceSave(e);}
-  {RanecuEngine e(234); 	    stat |= checkEngineInstanceSave(e);}
-  {Ranlux64Engine e(234);     stat |= checkEngineInstanceSave(e);}
-  {RanluxEngine e(234);		stat |= checkEngineInstanceSave(e);}
-  {RanshiEngine e(234); 	      stat |= checkEngineInstanceSave(e);}
-  {TripleRand e(234);	      stat |= checkEngineInstanceSave(e);}
-  
+  {RanecuEngine e(234);     stat |= checkEngineInstanceSave(e);}
+  {Ranlux64Engine e(234);   stat |= checkEngineInstanceSave(e);}
+  {RanluxEngine e(234);     stat |= checkEngineInstanceSave(e);}
+  {RanshiEngine e(234);     stat |= checkEngineInstanceSave(e);}
+  {TripleRand e(234);	    stat |= checkEngineInstanceSave(e);}
+
   {std::vector<double> nonRand = aSequence(500);
    NonRandomEngine e; 
    e.setRandomSequence(&nonRand[0], nonRand.size());
@@ -402,6 +401,9 @@ int main() {
      output << "testInstanceRestore passed with no problems detected.\n";    
   }
 
-  return stat;
+  if (stat == 0) return 0;
+  if (stat > 0) return -(stat|1);
+  return stat|1;
+
 }	
 

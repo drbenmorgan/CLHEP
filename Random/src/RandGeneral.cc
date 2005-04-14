@@ -1,4 +1,4 @@
-// $Id: RandGeneral.cc,v 1.4.2.1 2004/12/17 20:19:38 fischler Exp $
+// $Id: RandGeneral.cc,v 1.4.2.2 2005/04/14 21:15:22 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -41,11 +41,15 @@
 //			+ changed from assert (above = below+1) to ==
 // M Fischler         - put and get to/from streams 12/15/04
 //			+ Modifications to use a vector as theIntegraPdf
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			4/14/05
 //
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandGeneral.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <assert.h>
 
 namespace CLHEP {
@@ -246,6 +250,21 @@ void RandGeneral::fireArray( const int size, double* vect )
 
 std::ostream & RandGeneral::put ( std::ostream & os ) const {
   int pr=os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << " " << name() << "\n";
+  os << "Uvec" << "\n";
+  os << nBins << " " << oneOverNbins << " " << InterpolationType << "\n";    
+  t = DoubConv::dto2longs(oneOverNbins);
+  os << t[0] << " " << t[1] << "\n";
+  assert (static_cast<int>(theIntegralPdf.size())==nBins+1);
+  for (unsigned int i=0; i<theIntegralPdf.size(); ++i) {
+    t = DoubConv::dto2longs(theIntegralPdf[i]);
+    os << theIntegralPdf[i] << " " << t[0] << " " << t[1] << "\n";
+  }
+  os.precision(pr);
+  return os;
+#ifdef REMOVED
+  int pr=os.precision(20);
   os << " " << name() << "\n";
   os << nBins << " " << oneOverNbins << " " << InterpolationType << "\n";
   assert (static_cast<int>(theIntegralPdf.size())==nBins+1);
@@ -253,6 +272,7 @@ std::ostream & RandGeneral::put ( std::ostream & os ) const {
   	os << theIntegralPdf[i] << "\n";
   os.precision(pr);
   return os;
+#endif
 }
 
 std::istream & RandGeneral::get ( std::istream & is ) {
@@ -266,7 +286,19 @@ std::istream & RandGeneral::get ( std::istream & is ) {
 	      << "\nistream is left in the badbit state\n";
     return is;
   }
-  is >> nBins >> oneOverNbins >> InterpolationType;
+  if (possibleKeywordInput(is, "Uvec", nBins)) {
+    std::vector<unsigned long> t(2);
+    is >> nBins >> oneOverNbins >> InterpolationType;
+    is >> t[0] >> t[1]; oneOverNbins = DoubConv::longs2double(t); 
+    theIntegralPdf.resize(nBins+1);
+    for (unsigned int i=0; i<theIntegralPdf.size(); ++i) {
+      is >> theIntegralPdf[i] >> t[0] >> t[1];
+      theIntegralPdf[i] = DoubConv::longs2double(t); 
+    }
+    return is;
+  }
+  // is >> nBins encompassed by possibleKeywordInput
+  is >> oneOverNbins >> InterpolationType;
   theIntegralPdf.resize(nBins+1);
   for (unsigned int i=0; i<theIntegralPdf.size(); ++i) is >> theIntegralPdf[i];
   return is;

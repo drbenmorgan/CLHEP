@@ -22,8 +22,8 @@
 #define TEST_SAVE_STATIC_STATES
 
 
-//#define VERBOSER
-//#define VERBOSER2
+#define VERBOSER
+#define VERBOSER2
 
 using namespace CLHEP;
 
@@ -374,6 +374,8 @@ int main() {
      output << "testStaticStreamSave passed with no problems detected.\n";    
   }
 
-  return stat;
+  if (stat == 0) return 0;
+  if (stat > 0) return -(stat|1);
+  return stat|1;
 }	
 
