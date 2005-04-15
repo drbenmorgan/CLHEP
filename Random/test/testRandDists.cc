@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.5.2.2 2005/04/14 21:15:23 fischler Exp $
+// $Id: testRandDists.cc,v 1.5.2.3 2005/04/15 16:58:26 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -29,7 +29,7 @@
 //				Poisson and Gauss
 // M. Fischler     11/04/04     Add kludge to gaussianTest to deal with
 //                              different behaviour under optimization on
-//                              some compilers (gcc 3.95.2)
+//                              some compilers (gcc 2.95.2)
 //                              This behaviour was only seen with stepwise 
 //                              RandGeneral and appears to be solely a 
 //                              function of the test program.
