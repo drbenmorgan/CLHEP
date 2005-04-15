@@ -1,4 +1,4 @@
-// $Id: MTwistEngine.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
+// $Id: MTwistEngine.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -31,6 +31,7 @@
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
 // M. Fischler    - put/get for vectors of ulongs		3/14/05
+// M. Fischler    - State-saving using only ints, for portability 4/12/05
 //		    
 // =======================================================================
 
@@ -363,7 +364,7 @@ bool MTwistEngine::get (const std::vector<unsigned long> & v) {
 }
 
 bool MTwistEngine::getState (const std::vector<unsigned long> & v) {
-  if (v.size() != 626 ) {
+  if (v.size() != VECTOR_STATE_SIZE ) {
     std::cerr << 
     	"\nMTwistEngine get:state vector has wrong length - state unchanged\n";
     return false;

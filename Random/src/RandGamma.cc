@@ -1,4 +1,4 @@
-// $Id: RandGamma.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
+// $Id: RandGamma.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -10,10 +10,14 @@
 // =======================================================================
 // John Marraffino - Created: 12th May 1998
 // M Fischler      - put and get to/from streams 12/13/04
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			4/14/05
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandGamma.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <cmath>	// for log()
 
 namespace CLHEP {
@@ -231,10 +235,22 @@ double v1,v2,v12;
 
 std::ostream & RandGamma::put ( std::ostream & os ) const {
   int pr=os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << " " << name() << "\n";
+  os << "Uvec" << "\n";
+  t = DoubConv::dto2longs(defaultK);
+  os << defaultK << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(defaultLambda);
+  os << defaultLambda << " " << t[0] << " " << t[1] << "\n";
+  os.precision(pr);
+  return os;
+#ifdef REMOVED
+  int pr=os.precision(20);
   os << " " << name() << "\n";
   os << defaultK << " " << defaultLambda << "\n";
   os.precision(pr);
   return os;
+#endif
 }
 
 std::istream & RandGamma::get ( std::istream & is ) {
@@ -248,7 +264,14 @@ std::istream & RandGamma::get ( std::istream & is ) {
 	      << "\nistream is left in the badbit state\n";
     return is;
   }
-  is >> defaultK >> defaultLambda;
+  if (possibleKeywordInput(is, "Uvec", defaultK)) {
+    std::vector<unsigned long> t(2);
+    is >> defaultK >> t[0] >> t[1]; defaultK = DoubConv::longs2double(t); 
+    is >> defaultLambda>>t[0]>>t[1]; defaultLambda = DoubConv::longs2double(t); 
+    return is;
+  }
+  // is >> defaultK encompassed by possibleKeywordInput
+  is >> defaultLambda;
   return is;
 }
 

@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
+// $Id: NonRandomEngine.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -14,6 +14,7 @@
 // M. Fischler	  - Initialization of all state data (even those parts unused)
 //                - at ctor time, to thwart a VC++ i/o bug.
 // M. Fischler    - put/get for vectors of ulongs		3/15/05
+// M. Fischler    - State-saving using only ints, for portability 4/12/05
 //
 //=========================================================================
 
@@ -25,6 +26,8 @@
 #include <iostream>
 #include <string>
 #include <cassert>
+
+//#define TRACE_IO
 
 namespace CLHEP {
 
@@ -97,8 +100,14 @@ void NonRandomEngine::flatArray(const int size, double* vect) {
 
 std::ostream & NonRandomEngine::put (std::ostream & os) const {
   std::string beginMarker = "NonRandomEngine-begin";
+  os << beginMarker << "\nUvec\n";
+  std::vector<unsigned long> v = put();
+  for (unsigned int i=0; i<v.size(); ++i) {
+     os <<  v[i] <<  "\n";
+  }
+  return os;  
+#ifdef REMOVED 
   std::string  endMarker  = "NonRandomEngine-end";
-
   int pr = os.precision(20);
   os << " " << beginMarker << "\n";
   os << nextHasBeenSet  << " ";
@@ -112,6 +121,7 @@ std::ostream & NonRandomEngine::put (std::ostream & os) const {
   os << endMarker   << "\n ";
   os.precision(pr);
   return os;
+#endif
 }
 
 std::vector<unsigned long> NonRandomEngine::put () const {
@@ -127,7 +137,7 @@ std::vector<unsigned long> NonRandomEngine::put () const {
   t = DoubConv::dto2longs(randomInterval);
   v.push_back(t[0]); v.push_back(t[1]);
   v.push_back(static_cast<unsigned long>(sequence.size()));
-  for (int i=0; i<sequence.size(); ++i) {
+  for (unsigned int i=0; i<sequence.size(); ++i) {
     t = DoubConv::dto2longs(sequence[i]);
     v.push_back(t[0]); v.push_back(t[1]);
   }
@@ -152,8 +162,52 @@ std::string NonRandomEngine::beginTag ( )  {
 }  
 
 std::istream & NonRandomEngine::getState (std::istream & is) {
+  if ( possibleKeywordInput ( is, "Uvec", nextHasBeenSet ) ) {
+    std::vector<unsigned long> v;
+    unsigned long uu = 99999;
+    unsigned long ssiz = 0;  
+    //std::string temporary;
+    //is >> temporary;
+    //std::cout << "*** " << temporary << "\n";
+    for (unsigned int istart=0; istart < 10; ++istart) {
+      is >> uu;
+      if (!is) {
+	is.clear(std::ios::badbit | is.rdstate());
+        std::cout << "istart = " << istart << "\n";
+	std::cerr 
+	<< "\nNonRandomEngine state (vector) description has no sequence size."
+		<< "\ngetState() has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return is;
+      } 
+      v.push_back(uu);
+		#ifdef TRACE_IO
+		std::cout << "v[" << istart << "] = " << uu << "\n";
+		#endif 
+      if (istart==9) ssiz = uu;
+    }   
+    for (unsigned int ivec=0; ivec < 2*ssiz; ++ivec) {
+      is >> uu;
+      if (!is) {
+        is.clear(std::ios::badbit | is.rdstate());
+        std::cerr << "\nNonRandomEngine state (vector) description improper."
+		<< "\ngetState() has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return is;
+      }
+      v.push_back(uu);
+		#ifdef TRACE_IO
+		std::cout << "v[" << v.size()-1 << "] = " << uu << "\n";
+		#endif 
+    }
+    getState(v);
+    return (is);
+  }
+
+//  is >> nextHasBeenSet;  Removed, encompassed by possibleKeywordInput()
+
   std::string  endMarker  = "NonRandomEngine-end";
-  is >> nextHasBeenSet >> sequenceHasBeenSet >> intervalHasBeenSet;
+  is >> sequenceHasBeenSet >> intervalHasBeenSet;
   is >> nextRandom >> nInSeq >> randomInterval;
   unsigned int seqSize;
   is >> seqSize;
@@ -187,6 +241,8 @@ bool NonRandomEngine::getState (const std::vector<unsigned long> & v) {
   if (v.size() != 2*seqSize + 10 ) {
     std::cerr << 
    "\nNonRandomEngine get:state vector has wrong length - state unchanged\n";
+    std::cerr << "  (length = " << v.size() 
+              << "; expected " << 2*seqSize + 10 << ")\n"; 
     return false;
   }
   std::vector<unsigned long> t(2);
@@ -197,7 +253,7 @@ bool NonRandomEngine::getState (const std::vector<unsigned long> & v) {
   nInSeq = v[6];
   t[0] = v[7]; t[1] = v[8]; randomInterval = DoubConv::longs2double(t);
   sequence.clear();
-  for (int i=0; i<seqSize; ++i) {
+  for (unsigned int i=0; i<seqSize; ++i) {
     t[0] = v[2*i+10]; t[1] = v[2*i+11];
     sequence.push_back(DoubConv::longs2double(t));
   }

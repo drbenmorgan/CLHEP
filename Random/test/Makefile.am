@@ -16,14 +16,18 @@ endif
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
-	testRandom testRandDists ranRestoreTest gaussSpeed gaussSmall
+	testRandom testRandDists gaussSpeed gaussSmall \
+	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
+	testStaticStreamSave testAnonymousEngineRestore testVectorSave
 
 check_SCRIPTS = \
 	testRandom.sh testRandDists.sh
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
-	testRandom.sh testRandDists.sh ranRestoreTest
+	testRandom.sh testRandDists.sh \
+	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
+	testStaticStreamSave testAnonymousEngineRestore testVectorSave
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
@@ -31,7 +35,12 @@ XFAIL_TESTS =
 # Identify the dependencies on a per-test basis:
 testRandDists_SOURCES = testRandDists.cc
 testRandom_SOURCES = testRandom.cc
-ranRestoreTest_SOURCES = ranRestoreTest.cc
+testSaveEngineStatus_SOURCES = testSaveEngineStatus.cc
+testInstanceRestore_SOURCES = testInstanceRestore.cc
+testSaveSharedEngines_SOURCES = testSaveSharedEngines.cc
+testStaticStreamSave_SOURCES = testStaticStreamSave.cc
+testAnonymousEngineRestore_SOURCES = testAnonymousEngineRestore.cc
+testVectorSave_SOURCES = testVectorSave.cc
 gaussSpeed_SOURCES = gaussSpeed.cc
 gaussSmall_SOURCES = gaussSmall.cc
 
@@ -43,5 +52,8 @@ EXTRA_DIST = \
 CLEANFILES = testRandom.sh testRandDists.sh  \
 	gaussSpeed.sh gaussSmall.sh testRandom.out \
 	distribution.save distribution.save1 distribution.save2 \
-	engine.save shared.save1 shared.save2 ranRestoreTest.cout \
+	engine.save shared.save1 shared.save2 \
+	testSaveEngineStatus.cout testInstanceRestore.cout \
+	testSaveSharedEngines.cout testStaticStreamSave.cout \
+	testAnonymousEngineRestore.cout testVectorSave.cout \
 	anonymous.save

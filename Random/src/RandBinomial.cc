@@ -1,4 +1,4 @@
-// $Id: RandBinomial.cc,v 1.3.4.1 2005/03/18 22:26:48 garren Exp $
+// $Id: RandBinomial.cc,v 1.3.4.2 2005/04/15 16:32:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -10,10 +10,15 @@
 // =======================================================================
 // John Marraffino - Created: 12th May 1998
 // M Fischler     - put and get to/from streams 12/10/04
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			4/14/05
+//
 // =======================================================================
 
 #include "CLHEP/Random/RandBinomial.h"
 #include "CLHEP/Random/defs.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <algorithm>	// for min() and max()
 #include <cmath>	// for exp()
 
@@ -339,10 +344,20 @@ double RandBinomial::genBinomial( HepRandomEngine *anEngine, long n, double p )
 
 std::ostream & RandBinomial::put ( std::ostream & os ) const {
   int pr=os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << " " << name() << "\n";
+  os << "Uvec" << "\n";
+  t = DoubConv::dto2longs(defaultP);
+  os << defaultN << " " << defaultP << " " << t[0] << " " << t[1] << "\n";
+  os.precision(pr);
+  return os;
+#ifdef REMOVED
+  int pr=os.precision(20);
   os << " " << name() << "\n";
   os << defaultN << " " << defaultP << "\n";
   os.precision(pr);
   return os;
+#endif
 }
 
 std::istream & RandBinomial::get ( std::istream & is ) {
@@ -356,7 +371,14 @@ std::istream & RandBinomial::get ( std::istream & is ) {
 	      << "\nistream is left in the badbit state\n";
     return is;
   }
-  is >> defaultN >> defaultP;
+  if (possibleKeywordInput(is, "Uvec", defaultN)) {
+    std::vector<unsigned long> t(2);
+    is >> defaultN >> defaultP;
+    is >> t[0] >> t[1]; defaultP = DoubConv::longs2double(t); 
+    return is;
+  }
+  // is >> defaultN encompassed by possibleKeywordInput
+  is >> defaultP;
   return is;
 }
 

@@ -1,4 +1,4 @@
-// $Id: MTwistEngine.h,v 1.3.4.1 2005/03/18 22:26:48 garren Exp $
+// $Id: MTwistEngine.h,v 1.3.4.2 2005/04/15 16:32:52 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -84,6 +84,8 @@ public:
   std::vector<unsigned long> put () const;
   bool get (const std::vector<unsigned long> & v);
   bool getState (const std::vector<unsigned long> & v);
+
+  static const unsigned int VECTOR_STATE_SIZE = 626;
   
 private:
 

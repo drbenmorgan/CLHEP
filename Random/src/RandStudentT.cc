@@ -1,4 +1,4 @@
-// $Id: RandStudentT.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
+// $Id: RandStudentT.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -12,12 +12,16 @@
 // G.Cosmo         - Fixed minor bug on inline definition for shoot()
 //                   methods : 20th Aug 1998
 // M Fischler      - put and get to/from streams 12/13/04
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			4/14/05
 // =======================================================================
 
 #include <float.h>
 #include <cmath>	// for log() exp()
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandStudentT.h"
+#include "CLHEP/Random/DoubConv.hh"
 
 namespace CLHEP {
 
@@ -147,10 +151,20 @@ double RandStudentT::shoot( HepRandomEngine *anEngine, double a ) {
 
 std::ostream & RandStudentT::put ( std::ostream & os ) const {
   int pr=os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << " " << name() << "\n";
+  os << "Uvec" << "\n";
+  t = DoubConv::dto2longs(defaultA);
+  os << defaultA << " " << t[0] << " " << t[1] << "\n";
+  os.precision(pr);
+  return os;
+#ifdef REMOVED
+  int pr=os.precision(20);
   os << " " << name() << "\n";
   os << defaultA << "\n";
   os.precision(pr);
   return os;
+#endif
 }
 
 std::istream & RandStudentT::get ( std::istream & is ) {
@@ -164,7 +178,12 @@ std::istream & RandStudentT::get ( std::istream & is ) {
 	      << "\nistream is left in the badbit state\n";
     return is;
   }
-  is >> defaultA;
+  if (possibleKeywordInput(is, "Uvec", defaultA)) {
+    std::vector<unsigned long> t(2);
+    is >> defaultA >> t[0] >> t[1]; defaultA = DoubConv::longs2double(t); 
+    return is;
+  }
+  // is >> defaultA encompassed by possibleKeywordInput
   return is;
 }
 

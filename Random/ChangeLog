@@ -1,3 +1,41 @@
+2005-04-14  Mark Fischler <mf@fnal.gov>
+
+	* RandFlat.cc RandGauss.cc RandBinomial.cc ... all the distributions
+
+	Express states of all distributions which ave private double
+	members as sequences of ordinary unsigned ints,
+	to avoid precision issues and avoid issues of non-portability of hex 
+	input manipulators.
+
+2005-04-13  Mark Fischler <mf@fnal.gov>
+
+	* DRand48Engine.cc DualRand.cc Hurd160Engine.cc
+	  Hurd288Engine.cc JamesRandom.cc MTwistEngine.cc RandFlat.cc
+	  RandGauss.cc RandomEngine.cc RandomEngine.cc RanecuEngine.cc
+	  Ranlux64Engine.cc RanluxEngine.cc TripleRand.cc 
+	  (and tiny change in corresponding .h files)	  
+
+	Express states of all engines as sequences of ordinary unsigned ints,
+	to avoid precision issues and avoid issues of non-portability of hex 
+	input manipulators.
+	
+	* testAnonymousEngineRestore.cc testInstanceRestore.cc 
+	  testSaveEngineStatus.cc testSaveSharedEngines.cc 
+	  testStaticStreamSave.cc testVectorSave.cc
+	
+	* test/Makefile.am
+	
+	Break up the very lengthy validation of engine saves and restores.
+	Compilation time grows worse than linearly on some systems; this 
+	split should make the check target go faster.   
+	  
+2005-04-11  Mark Fischler <mf@fnal.gov>
+
+	* JamesRandom.cc ranRestoreTest.cc NonRandomEngine.h
+	
+	Express state of this engine in hex form rather than as doubles, to
+	avoid precision issues.  
+
 2005-04-07  Lynn Garren <garren@fnal.gov>
 
 	* configure.in: set AR and ARFLAGS

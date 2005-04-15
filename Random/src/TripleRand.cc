@@ -1,4 +1,4 @@
-// $Id: TripleRand.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
+// $Id: TripleRand.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -33,6 +33,7 @@
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
 // M. Fischler    - put/get for vectors of ulongs		3/14/05
+// M. Fischler    - State-saving using only ints, for portability 4/12/05
 //
 // =======================================================================
 
@@ -147,11 +148,28 @@ void TripleRand::setSeeds(const long * seeds, int) {
 void TripleRand::saveStatus(const char filename[]) const {
   std::ofstream outFile(filename, std::ios::out);
   if (!outFile.bad()) {
+    outFile << "Uvec\n";
+    std::vector<unsigned long> v = put();
+		     #ifdef TRACE_IO
+			 std::cout << "Result of v = put() is:\n"; 
+		     #endif
+    for (unsigned int i=0; i<v.size(); ++i) {
+      outFile << v[i] << "\n";
+		     #ifdef TRACE_IO
+			   std::cout << v[i] << " ";
+			   if (i%6==0) std::cout << "\n";
+		     #endif
+    }
+		     #ifdef TRACE_IO
+			 std::cout << "\n";
+		     #endif
+  }
+#ifdef REMOVED
     outFile << std::setprecision(20) << theSeed << " ";
     tausworthe.put ( outFile );
     integerCong.put( outFile);
     outFile << ConstHurd() << std::endl;
-  }
+#endif
 }
 
 void TripleRand::restoreStatus(const char filename[]) {
@@ -160,8 +178,30 @@ void TripleRand::restoreStatus(const char filename[]) {
     std::cerr << "  -- Engine state remains unchanged\n";
     return;
   }
+  if ( possibleKeywordInput ( inFile, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long xin;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      inFile >> xin;
+	       #ifdef TRACE_IO
+	       std::cout << "ivec = " << ivec << "  xin = " << xin << "    ";
+	       if (ivec%3 == 0) std::cout << "\n"; 
+	       #endif
+      if (!inFile) {
+        inFile.clear(std::ios::badbit | inFile.rdstate());
+        std::cerr << "\nTripleRand state (vector) description improper."
+	       << "\nrestoreStatus has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return;
+      }
+      v.push_back(xin);
+    }
+    getState(v);
+    return;
+  }
+
   if (!inFile.bad()) {
-    inFile >> theSeed;
+//     inFile >> theSeed;  removed -- encompased by possibleKeywordInput
     tausworthe.get ( inFile );
     integerCong.get( inFile );
     inFile >> Hurd();
@@ -200,8 +240,14 @@ const Hurd288Engine & TripleRand::ConstHurd() const
 
 std::ostream & TripleRand::put (std::ostream & os ) const {
   char beginMarker[] = "TripleRand-begin";
+  os << beginMarker << "\nUvec\n";
+  std::vector<unsigned long> v = put();
+  for (unsigned int i=0; i<v.size(); ++i) {
+     os <<  v[i] <<  "\n";
+  }
+  return os;  
+#ifdef REMOVED 
   char endMarker[]   = "TripleRand-end";
-
   int pr=os.precision(20);
   os << " " << beginMarker << "\n";
   os << theSeed << "\n";
@@ -211,6 +257,7 @@ std::ostream & TripleRand::put (std::ostream & os ) const {
   os << " " <<  endMarker  << "\n";
   os.precision(pr);
   return os;
+#endif
 }
 
 std::vector<unsigned long> TripleRand::put () const {
@@ -247,8 +294,27 @@ std::string TripleRand::beginTag ( )  {
 }
   
 std::istream & TripleRand::getState (std::istream & is) {
+  if ( possibleKeywordInput ( is, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long uu;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      is >> uu;
+      if (!is) {
+        is.clear(std::ios::badbit | is.rdstate());
+        std::cerr << "\nTripleRand state (vector) description improper."
+		<< "\ngetState() has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return is;
+      }
+      v.push_back(uu);
+    }
+    getState(v);
+    return (is);
+  }
+
+//  is >> theSeed;  Removed, encompassed by possibleKeywordInput()
+
   char endMarker   [MarkerLen];
-  is >> theSeed;
   tausworthe.get( is );
   integerCong.get( is );
   is >> Hurd();
@@ -270,7 +336,7 @@ bool TripleRand::get (const std::vector<unsigned long> & v) {
     	"\nTripleRand get:state vector has wrong ID word - state unchanged\n";
     return false;
   }
-  if (v.size() != 20) {
+  if (v.size() != VECTOR_STATE_SIZE) {
     std::cerr << "\nTripleRand get:state vector has wrong size: " 
     << v.size() << " - state unchanged\n";
     return false;

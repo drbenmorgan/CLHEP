@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DRand48Engine.cc,v 1.4.4.1 2005/03/18 22:26:48 garren Exp $
+// $Id: DRand48Engine.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
 // -----------------------------------------------------------------------
 //                             HEP Random
 //                        --- DRand48Engine ---
@@ -26,6 +26,7 @@
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
 // M. Fischler    - put/get for vectors of ulongs		3/8/05
+// M. Fischler    - State-saving using only ints, for portability 4/12/05
 //
 // =======================================================================
 
@@ -35,6 +36,8 @@
 #include "CLHEP/Random/RandomFunc.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
+
+//#define TRACE_IO
 
 namespace CLHEP {
 
@@ -130,9 +133,27 @@ void DRand48Engine::saveStatus( const char filename[] ) const
 {
    std::ofstream outFile( filename, std::ios::out ) ;
 
+   if (!outFile.bad()) {
+    outFile << "Uvec\n";
+    std::vector<unsigned long> v = put();
+		     #ifdef TRACE_IO
+			 std::cout << "Result of v = put() is:\n"; 
+		     #endif
+    for (unsigned int i=0; i<v.size(); ++i) {
+      outFile << v[i] << "\n";
+		     #ifdef TRACE_IO
+			   std::cout << v[i] << " ";
+			   if (i%6==0) std::cout << "\n";
+		     #endif
+    }
+		     #ifdef TRACE_IO
+			 std::cout << "\n";
+		     #endif
+  }
+
+#ifdef REMOVED
    unsigned short dummy[] = { 0, 0, 0 };
    unsigned short* cseed = seed48(dummy);
-
    if (!outFile.bad()) {
      outFile << theSeed << std::endl;
      for (int i=0; i<3; ++i) {
@@ -141,6 +162,7 @@ void DRand48Engine::saveStatus( const char filename[] ) const
      }
      seed48(dummy);
    }
+#endif
 }
 
 void DRand48Engine::restoreStatus( const char filename[] )
@@ -152,10 +174,32 @@ void DRand48Engine::restoreStatus( const char filename[] )
      std::cerr << "  -- Engine state remains unchanged\n";
      return;
    }
+  if ( possibleKeywordInput ( inFile, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long xin;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      inFile >> xin;
+	       #ifdef TRACE_IO
+	       std::cout << "ivec = " << ivec << "  xin = " << xin << "    ";
+	       if (ivec%3 == 0) std::cout << "\n"; 
+	       #endif
+      if (!inFile) {
+        inFile.clear(std::ios::badbit | inFile.rdstate());
+        std::cerr << "\nDRand48Engine state (vector) description improper."
+	       << "\nrestoreStatus has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return;
+      }
+      v.push_back(xin);
+    }
+    getState(v);
+    return;
+  }
+
    if (!inFile.bad() && !inFile.eof()) {
      inFile >> theSeed;
      for (int i=0; i<3; ++i)
-       inFile >> cseed[i];
+//     inFile >> theSeed;  removed -- encompased by possibleKeywordInput
      seed48(cseed);
    }
 }
@@ -195,11 +239,18 @@ void DRand48Engine::flatArray(const int size, double* vect)
 
 std::ostream & DRand48Engine::put ( std::ostream& os ) const
 {
+   char beginMarker[] = "DRand48Engine-begin";
+   os << beginMarker << "\nUvec\n";
+   std::vector<unsigned long> v = put();
+   for (unsigned int i=0; i<v.size(); ++i) {
+     os <<  v[i] <<  "\n";
+   }
+  return os;  
+
+#ifdef REMOVED
    unsigned short dummy[] = { 0, 0, 0 };
    unsigned short* cseed = seed48(dummy);
-   char beginMarker[] = "DRand48Engine-begin";
    char endMarker[] = "DRand48Engine-end";
-
    os << " " << beginMarker << " ";
    os << theSeed << " ";
    for (int i=0; i<3; ++i) {
@@ -209,6 +260,7 @@ std::ostream & DRand48Engine::put ( std::ostream& os ) const
    os << endMarker << " ";
    seed48(dummy);
    return os;
+#endif
 }
 
 std::vector<unsigned long> DRand48Engine::put () const {
@@ -246,12 +298,40 @@ std::string DRand48Engine::beginTag ( )  {
   return "DRand48Engine-begin"; 
 }
 
-std::istream & DRand48Engine::getState ( std::istream& is ) 
+std::istream & DRand48Engine::getState ( std::istream& is )  
 {
-  char endMarker   [MarkerLen];
   unsigned short cseed[3];
+  if ( possibleKeywordInput ( is, "Uvec", cseed[0] ) ) {
+    std::vector<unsigned long> v;
+    unsigned long uu;
+    #ifdef TRACE_IO
+    std::cout << "DRand48Engine::getState detected Uvec keyword\n";
+    uu = 999999;
+    #endif
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      uu = 999999;
+      is >> uu;
+      #ifdef TRACE_IO
+      std::cout << "ivec = " << ivec << " uu = " << uu << "\n";
+      #endif
+      if (!is) {
+        is.clear(std::ios::badbit | is.rdstate());
+        std::cerr << "\nDRand48Engine state (vector) description improper."
+		<< "\ngetState() has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return is;
+      }
+      v.push_back(uu);
+    }
+    getState(v);
+    return (is);
+  }
+
+//  is >> cseed[0] was removed from loop, encompassed by possibleKeywordInput()
+
+  char endMarker   [MarkerLen];
   is >> theSeed;
-  for (int i=0; i<3; ++i) {
+  for (int i=1; i<3; ++i) {
     is >> cseed[i];
   }
   is >> std::ws;
@@ -277,9 +357,9 @@ bool DRand48Engine::get (const std::vector<unsigned long> & v) {
 }
 
 bool DRand48Engine::getState (const std::vector<unsigned long> & v) {
-  if (v.size() != 4 ) {
+  if (v.size() != VECTOR_STATE_SIZE ) {
     std::cerr << 
-    	"\nDRand48Engine get:state vector has wrong length - state unchanged\n";
+   "\nDRand48Engine getState:state vector has wrong length - state unchanged\n";
     return false;
   }
   unsigned short cseed[3];

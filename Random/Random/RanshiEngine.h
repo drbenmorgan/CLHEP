@@ -1,4 +1,4 @@
-// $Id: RanshiEngine.h,v 1.3.4.1 2005/03/18 22:26:48 garren Exp $
+// $Id: RanshiEngine.h,v 1.3.4.2 2005/04/15 16:32:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -116,6 +116,8 @@ private:
     unsigned int buffer[numBuff];
     unsigned int redSpin;
 
+    static const unsigned int VECTOR_STATE_SIZE = numBuff + 4;
+  
 }; // RanshiEngine
 
 }  // namespace CLHEP

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ranRestoreTest.cc,v 1.3.4.2 2005/04/08 17:49:39 garren Exp $
+// $Id: ranRestoreTest.cc,v 1.3.4.3 2005/04/15 16:32:53 garren Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
@@ -17,10 +17,11 @@
 
 // Normally on  for routine validation:
 
+#define TEST_ORIGINAL_SAVE
+
 #ifdef TURNOFF
 #endif
 
-#define TEST_ORIGINAL_SAVE
 #define TEST_ENGINE_NAMES
 #define TEST_INSTANCE_METHODS
 #define TEST_SHARED_ENGINES

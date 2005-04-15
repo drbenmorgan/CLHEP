@@ -1,4 +1,4 @@
-// $Id: RandPoissonQ.cc,v 1.4.4.2 2005/03/18 22:26:48 garren Exp $
+// $Id: RandPoissonQ.cc,v 1.4.4.3 2005/04/15 16:32:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -26,12 +26,16 @@
 //		    is called.  This flaw was preventing any hope of proper
 //		    saving and restoring in the instance cases.
 // M Fischler     - fireArray using defaultMean 2/10/05
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			4/14/05
 //
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandPoissonQ.h"
 #include "CLHEP/Random/RandGaussQ.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include "CLHEP/Random/Stat.h"
 #include <cmath>	// for pow()
 
@@ -549,12 +553,29 @@ long RandPoissonQ::poissonDeviateSmall (HepRandomEngine * e, double mean) {
 
 std::ostream & RandPoissonQ::put ( std::ostream & os ) const {
   int pr=os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << " " << name() << "\n";
+  os << "Uvec" << "\n";
+  t = DoubConv::dto2longs(a0);
+  os << a0 << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(a1);
+  os << a1 << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(a2);
+  os << a2 << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(sigma);
+  os << sigma << " " << t[0] << " " << t[1] << "\n";
+  RandPoisson::put(os);
+  os.precision(pr);
+  return os;
+#ifdef REMOVED
+  int pr=os.precision(20);
   os << " " << name() << "\n";
   os << a0 << " " << a1 << " " << a2 << "\n";
   os << sigma << "\n";
   RandPoisson::put(os);
   os.precision(pr);
   return os;
+#endif
 }
 
 std::istream & RandPoissonQ::get ( std::istream & is ) {
@@ -568,7 +589,17 @@ std::istream & RandPoissonQ::get ( std::istream & is ) {
 	      << "\nistream is left in the badbit state\n";
     return is;
   }
-  is >> a0 >> a1 >> a2 >> sigma;
+  if (possibleKeywordInput(is, "Uvec", a0)) {
+    std::vector<unsigned long> t(2);
+    is >> a0 >> t[0] >> t[1]; a0 = DoubConv::longs2double(t); 
+    is >> a1 >> t[0] >> t[1]; a1 = DoubConv::longs2double(t); 
+    is >> a2 >> t[0] >> t[1]; a2 = DoubConv::longs2double(t); 
+    is >> sigma >> t[0] >> t[1]; sigma = DoubConv::longs2double(t); 
+    RandPoisson::get(is);
+    return is;
+  }
+  // is >> a0 encompassed by possibleKeywordInput
+  is >> a1 >> a2 >> sigma;
   RandPoisson::get(is);
   return is;
 }
