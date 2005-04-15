@@ -21,7 +21,7 @@ AC_PROG_RANLIB
 # subpackages
 # ----------------------------------------------------------------------
 
-AC_CONFIG_SUBDIRS(config Units Vector Evaluator GenericFunctions Geometry Random Matrix RandomObjects HepPDT HepMC StdHep RefCount Cast Exceptions)
+AC_CONFIG_SUBDIRS(Units Vector Evaluator GenericFunctions Geometry Random Matrix RandomObjects HepPDT HepMC StdHep RefCount Cast Exceptions)
 
 # ----------------------------------------------------------------------
 # --enable-exceptions or --disable-exceptions
