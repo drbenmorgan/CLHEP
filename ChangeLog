@@ -1,3 +1,6 @@
+==============================
+22.04.05 Release CLHEP-1.9.2.0
+==============================
 Fri Apr 22 2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
 
 	* configure.in: changed flags for building dynamic libs on Mac OS X
