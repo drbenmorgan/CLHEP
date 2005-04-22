@@ -180,9 +180,10 @@ g++)
       ;;
    *-*-darwin*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
-      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=dylib
+      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-dynamiclib -single_module"; SHEXT=dylib
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
+      build_shared="no"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
@@ -200,9 +201,10 @@ c++)
       ;;
    *-*-darwin*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
-      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=dylib
+      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-dynamiclib -single_module"; SHEXT=dylib
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
+      build_shared="no"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
