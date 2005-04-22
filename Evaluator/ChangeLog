@@ -1,3 +1,6 @@
+==============================
+22.04.05 Release CLHEP-2.0.2.0
+==============================
 2005-04-07  Lynn Garren <garren@fnal.gov>
 
 	* configure.in: set AR and ARFLAGS

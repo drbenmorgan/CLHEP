@@ -1,3 +1,12 @@
+==============================
+22.04.05 Release CLHEP-2.0.2.0
+==============================
+Fri Apr 22 2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
+
+	* configure.in: changed flags for building dynamic libs on Mac OS X
+	still problems building them for OS X 10.3, to be checked on 10.4
+	prepared for tagging release 1.9.2.0
+
 Thu Apr  7 2005 Lynn Garren <garren@fnal.gov>
 
 	* configure.in: set AR and ARFLAGS
