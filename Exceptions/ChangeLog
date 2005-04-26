@@ -1,3 +1,49 @@
+2005-04-07  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: set AR and ARFLAGS
+
+2005-02-18  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in, Makefile.am: Stop using libtool.  
+	The newer releases of libtool seem to have dropped support for 
+	Windows Visual C++.  
+
+2005-02-14  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: Visual C++ flags are now "-EHsc -nologo -GR -GX -MD"
+
+2005-02-03  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: install step creates libCLHEP.a, libCLHEP.so,
+	and/or libCLHEP.dylib by adding a symbolic link.
+
+2005-02-02  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* configure.in: modified compiler flags for windows:
+	added "-O -GR -GX -MD" as this is needed for the multi-thread
+	environments used.
+
+==============================
+30.11.04 Release CLHEP-2.0.1.2
+==============================
+==============================
+27.10.04 Release CLHEP-2.0.1.1
+==============================
+
+Fri Sep 24          2004 Lynn Garren <garren@fnal.gov>
+
+	* use AM_CXXFLAGS
+	* require autoconf 2.59, automake 1.9.1, and libtool 1.9b
+
+Tue Aug 31         2004 Lynn Garren <garren@fnal.gov>
+	
+	* change Solaris CC compile flags from "-O -mt" to "-O"
+	* libtools 1.9b or later is required for Solaris CC
+
+==============================
+23.07.04 Release CLHEP-2.0.1.0
+==============================
+
 ==============================
 11.05.04 Release CLHEP-2.0.0.2
 ==============================
@@ -9,7 +55,6 @@
 ==============================
 21.04.04 Release CLHEP-2.0.0.1
 ==============================
-
 
 Thu Nov 06          2003 Lynn Garren <garren@fnal.gov>
 

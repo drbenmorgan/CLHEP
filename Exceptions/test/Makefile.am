@@ -1,9 +1,24 @@
 # Applicable to each test program:
-INCLUDES = -I../
+
+if USE_GMAKE
+  MAKE = gmake
+endif
+
+INCLUDES = -I$(top_builddir)/
+
 # libraries to link, and whence
-LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.la     \
-	${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.la	\
-	${top_builddir}/../RefCount/src/libCLHEP-RefCount-@VERSION@.la
+if BUILD_STATIC
+  LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.a    \
+	  ${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.a \
+	  ${top_builddir}/../RefCount/src/libCLHEP-RefCount-@VERSION@.a
+else
+  LIBS += $(MY_LD)$(top_builddir)/src \
+          $(MY_LD)${top_builddir}/../Cast/src \
+          $(MY_LD)${top_builddir}/../RefCount/src
+  LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT)    \
+	  ${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.$(SHEXT) \
+	  ${top_builddir}/../RefCount/src/libCLHEP-RefCount-@VERSION@.$(SHEXT)
+endif
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
