@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SphericalNeumann.icc,v 1.2 2003/09/06 14:04:13 boudreau Exp $
+// $Id: SphericalNeumann.icc,v 1.3 2005/04/26 20:47:40 garren Exp $
 #include "CLHEP/GenericFunctions/Sin.hh"
 #include "CLHEP/GenericFunctions/Cos.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
@@ -16,22 +16,26 @@ FUNCTION_OBJECT_IMP(SphericalNeumann)
 // relation.                                                                        //
 //----------------------------------------------------------------------------------//
 
+inline
 SphericalNeumann::SphericalNeumann(unsigned int l):
   _l(l)
 {
   create();
 }
 
+inline
 SphericalNeumann::~SphericalNeumann() {
   delete _function;
 }
 
+inline
 SphericalNeumann::SphericalNeumann(const SphericalNeumann & right):
 _l(right._l)
 {
   create();
 }
 
+inline
 double SphericalNeumann::operator() (double x) const {
   //
   // First try the GSL implementation:
@@ -47,10 +51,12 @@ double SphericalNeumann::operator() (double x) const {
   //return (*_function)(x);
 }
 
+inline
 unsigned int SphericalNeumann::l() const {
   return _l;
 }
 
+inline
 void SphericalNeumann::create() {
   Sin   sine;
   Cos cosine;
