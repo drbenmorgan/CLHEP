@@ -1,4 +1,3 @@
-// $Id: WriteHepMC.cc,v 1.2 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 //
 // WriteHepMC.cc
@@ -29,7 +28,7 @@ std::ostream & writeGenEvent( std::ostream & os, GenEvent const * evt )
     //
     // output the event data including the number of primary vertices
     //  and the total number of vertices
-    std::vector<double> random = evt->random_states();
+    std::vector<unsigned long> random = evt->random_states();
     os << "BlockType GenEvent" << std::endl;
     os << "E" << " " << evt->event_number();
     Detail::output( os, evt->event_scale() );
@@ -40,7 +39,7 @@ std::ostream & writeGenEvent( std::ostream & os, GenEvent const * evt )
 	      evt->signal_process_vertex()->barcode() : 0);
     os << " " << evt->vertices_size()	// total number of vertices.
        << " " << (int)random.size();
-    for ( std::vector<double>::iterator rs = random.begin(); 
+    for ( std::vector<unsigned long>::iterator rs = random.begin(); 
 	  rs != random.end(); ++rs ) {
         os << " " << *rs;
     }

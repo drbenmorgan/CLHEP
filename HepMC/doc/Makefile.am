@@ -1,5 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 TEX = latex
 doc_srcdir = $(top_srcdir)/doc/latex_user_manual
 doc_builddir = $(top_builddir)/doc
@@ -12,7 +16,12 @@ DOC_INCLUDES = graph_interpretation.eps \
                HepMC_UML.eps \
 	       html.sty
 
-SUFFIXES = .ps .tex
+SUFFIXES = .ps .dvi .tex
+
+.dvi.ps:
+	dvips -o $@ $(@:.ps=.dvi)
+
+all: docs
 
 all-local: docs
 
@@ -25,7 +34,7 @@ $(DOC_POSTSCRIPT): $(DOC_SOURCE)
 	  if test ! -f $$file; then  \
 	  (cp $(doc_srcdir)/$$file $(doc_builddir)/$$file); fi; done
 	$(TEX)	$(DOC_SOURCE)
-	dvips HepMC_user_manual.dvi
+	dvips -o HepMC_user_manual.dvi
 
 install-docs: $(DOC_POSTSCRIPT)
 	$(mkinstalldirs) $(DESTDIR)$(doc_installdir)

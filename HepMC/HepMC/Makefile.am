@@ -1,5 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 includedir = $(prefix)/include/CLHEP
 tempincludedir = $(TEMPDIR)/CLHEP/@PACKAGE@
 COPY_P = @COPY_P@
@@ -29,6 +33,7 @@ pkginclude_HEADERS = \
 	ReadHepMC.h	\
 	WeightContainer.h	\
 	WriteHepMC.h	\
+	DoubleConversion.hh	\
 	defs.h
 
 # Identify generated file(s) to be removed when 'make clean' is requested:

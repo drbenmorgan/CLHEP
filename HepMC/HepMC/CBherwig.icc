@@ -1,84 +1,48 @@
-// $Id: CBherwig.icc,v 1.2 2004/05/12 05:19:35 garren Exp $
 // ----------------------------------------------------------------------
 // CBherwig.icc
 // ----------------------------------------------------------------------
 // Author:  Lynn Garren, Marc Paterno,
 //
+// In order to avoid overwriting the HEPEVT common block, we must make a copy
+//
 #include <stdio.h>       // needed for formatted output using sprintf 
+#include "CLHEP/HepPDT/ParticleIDTranslations.hh"
 
 namespace HepMC  {
 
 CBherwig::CBherwig()
-: hptr( & hepevt_ ),
+: hptr( new hepevt_t ),
   itsTrustMothers( false ),
   itsTrustMothersAndDaughters( true ),
-  itsNoBarcodeGaps( true ),
-  m_herwig_to_pdg_id(100,0)
+  itsNoBarcodeGaps( true )
 { 
-    //
-    // HepPDT translation tables should be used instead
-    //
-    // These arrays are copied from Lynn Garren's stdhep 5.01.
-    //   see http://www-pat.fnal.gov/stdhep.html
-    // Translation from HERWIG particle ID's to PDG particle ID's.
-    m_herwig_to_pdg_id[1] =1; 
-    m_herwig_to_pdg_id[2] =2;
-    m_herwig_to_pdg_id[3] =3;
-    m_herwig_to_pdg_id[4] =4;
-    m_herwig_to_pdg_id[5] =5;
-    m_herwig_to_pdg_id[6] =6;
-    m_herwig_to_pdg_id[7] =7;
-    m_herwig_to_pdg_id[8] =8;
+    // make the actual copy of HEPEVT here, so we can access the info
+    hptr->nevhep = hepevt_.nevhep;
+    hptr->nhep	 = hepevt_.nhep;
+    unsigned int i, j;
+    for (i=0; i < NMXHEP; ++i) {
+	hptr->isthep[i] = hepevt_.isthep[i];
+	hptr->idhep[i]  = hepevt_.idhep[i];
+	hptr->jmohep[i][0] = hepevt_.jmohep[i][0];
+	hptr->jmohep[i][1] = hepevt_.jmohep[i][1];
+	hptr->jdahep[i][0] = hepevt_.jdahep[i][0];
+	hptr->jdahep[i][1] = hepevt_.jdahep[i][1];
+	hptr->phep[i][0] = hepevt_.phep[i][0];
+	hptr->phep[i][1] = hepevt_.phep[i][1];
+	hptr->phep[i][2] = hepevt_.phep[i][2];
+	hptr->phep[i][3] = hepevt_.phep[i][3];
+	hptr->phep[i][4] = hepevt_.phep[i][4];
+	hptr->vhep[i][0] = hepevt_.vhep[i][0];
+	hptr->vhep[i][1] = hepevt_.vhep[i][1];
+	hptr->vhep[i][2] = hepevt_.vhep[i][2];
+	hptr->vhep[i][3] = hepevt_.vhep[i][3];
+    }
 
-    m_herwig_to_pdg_id[11] =11;
-    m_herwig_to_pdg_id[12] =12;
-    m_herwig_to_pdg_id[13] =13;
-    m_herwig_to_pdg_id[14] =14;
-    m_herwig_to_pdg_id[15] =15;
-    m_herwig_to_pdg_id[16] =16;
+}
 
-    m_herwig_to_pdg_id[21] =21;
-    m_herwig_to_pdg_id[22] =22;
-    m_herwig_to_pdg_id[23] =23;
-    m_herwig_to_pdg_id[24] =24;
-    m_herwig_to_pdg_id[25] =25;
-    m_herwig_to_pdg_id[26] =51; // <--
-
-    m_herwig_to_pdg_id[32] =32;
-    m_herwig_to_pdg_id[35] =35;
-    m_herwig_to_pdg_id[36] =36;
-    m_herwig_to_pdg_id[37] =37;
-    m_herwig_to_pdg_id[39] =39;
-
-    m_herwig_to_pdg_id[81] =81;
-    m_herwig_to_pdg_id[82] =82;
-    m_herwig_to_pdg_id[83] =83;
-    m_herwig_to_pdg_id[84] =84;
-    m_herwig_to_pdg_id[85] =85;
-    m_herwig_to_pdg_id[86] =86;
-    m_herwig_to_pdg_id[87] =87;
-    m_herwig_to_pdg_id[88] =88;
-    m_herwig_to_pdg_id[89] =89;
-    m_herwig_to_pdg_id[90] =90;
-
-    m_herwig_to_pdg_id[91] =91;
-    m_herwig_to_pdg_id[92] =92;
-    m_herwig_to_pdg_id[93] =93;
-    m_herwig_to_pdg_id[94] =94;
-    m_herwig_to_pdg_id[95] =95;
-    m_herwig_to_pdg_id[96] =96;
-    m_herwig_to_pdg_id[97] =97;
-    m_herwig_to_pdg_id[98] =9920022; // <--
-    m_herwig_to_pdg_id[99] =9922212; // <--
-
-    // These particle ID's have no antiparticle, so aren't allowed.
-    m_no_antiparticles.insert(-21);
-    m_no_antiparticles.insert(-22);
-    m_no_antiparticles.insert(-23);
-    m_no_antiparticles.insert(-25);
-    m_no_antiparticles.insert(-51);
-    m_no_antiparticles.insert(-35);
-    m_no_antiparticles.insert(-36);
+CBherwig::~CBherwig()
+{
+    delete hptr;
 }
 
 int CBherwig::number_children( int index ) 
@@ -969,66 +933,11 @@ void CBherwig::zero_hepevt_entry( int i )
     hptr->vhep[i][3] = 0;
 }
 
-// this needs to come from HepPDT
 int CBherwig::translate_herwig_to_pdg_id( int id, bool printInconsistencyErrors ) const 
 {
-    // This routine is copied from Lynn Garren's stdhep 5.01.
-    //   see http://www-pat.fnal.gov/stdhep.html
+    int hwtran = HepPDT::translateHerwigtoPDT( id );
 
-	                                   // example -9922212
-    int hwtran = id;                       //         -9922212
-    int ida    = abs(id);                  //          9922212
-    int j1     = ida%10;                   //                2
-    int i1     = (ida/10)%10;              //               1
-    int i2     = (ida/100)%10;             //              2
-    int i3     = (ida/1000)%10;            //             2
-    //int i4     =(ida/10000)%10;          //            2
-    //int i5     =(ida/100000)%10;         //           9
-    //int k99    = (ida/100000)%100;       //          9
-    int ksusy  = (ida/1000000)%10;         //         0
-    //int ku     = (ida/10000000)%10;      //        0
-    int kqn    = (ida/1000000000)%10;      //       0
-
-    if ( kqn==1 ) {
-	//  ions not recognized
-	hwtran=0;
-	if ( printInconsistencyErrors ) {
-	    std::cerr << "CBherwig::translate_herwig_to_pdg_id " << id
-		      << "nonallowed ion" << std::endl;
-	}
-    } 
-    else if (ida < 100) {
-	// Higgs, etc.
-	hwtran = m_herwig_to_pdg_id[ida];
-	if ( id < 0 ) hwtran *= -1;
-	// check for illegal antiparticles
-	if ( id < 0 ) {
-	    if ( hwtran>=-99 && hwtran<=-81) hwtran=0;
-	    if ( m_no_antiparticles.count(hwtran) ) hwtran=0;
-	}
-    }
-    else if ( ksusy==1 || ksusy==2 ) { ; }
-    //  SUSY
-    else if ( i1!=0 && i3!=0 && j1==2 ) {;}
-    // spin 1/2 baryons
-    else if ( i1!=0 && i3!=0 && j1==4 ) {;}
-    // spin 3/2 baryons
-    else if ( i1!=0 && i2!=0 && i3==0 ) {
-	// mesons 
-	// check for illegal antiparticles
-	if ( i1==i2 && id<0) hwtran=0;
-    } 
-    else if ( i2!=0 && i3!=0 && i1==0 ) {;}
-    // diquarks
-    else {
-	// undefined
-	hwtran=0;
-    }
-
-    // check for illegal anti KS, KL
-    if ( id==-130 || id==-310 ) hwtran=0;
-
-    if ( hwtran==0 && ida!=0 && printInconsistencyErrors ) {
+    if ( hwtran==0 && id!=0 && printInconsistencyErrors ) {
 	std::cerr 
 	    << "CBherwig::translate_herwig_to_pdg_id HERWIG particle " 
 	    << id << " translates to zero." << std::endl;

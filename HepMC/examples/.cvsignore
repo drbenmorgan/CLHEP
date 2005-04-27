@@ -4,3 +4,4 @@
 *.o
 *.exe
 *.bak
+Makefile.in

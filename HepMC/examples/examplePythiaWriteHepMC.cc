@@ -40,7 +40,7 @@ int main() {
     call_pyinit( "CMS", "p", "p", 14000. );
 
     //........................................Particle Data Table
-    const char infile[] = "../src/HepPDT/examples/data/pythia.tbl";
+    const char infile[] = "pythia.tbl";
     // open input file
     std::ifstream pdfile( infile );
     if( !pdfile ) { 
