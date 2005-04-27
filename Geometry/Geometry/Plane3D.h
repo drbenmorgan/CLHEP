@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Plane3D.h,v 1.3 2003/10/23 21:29:50 garren Exp $
+// $Id: Plane3D.h,v 1.4 2005/04/27 15:40:17 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -106,7 +106,7 @@ namespace HepGeom {
 
     /**
      * Returns projection of the point to the plane. */
-    Point3D<T> point(const Point3D<float> & p) const {
+    Point3D<T> point(const Point3D<T> & p) const {
       T k = distance(p)/(a()*a()+b()*b()+c()*c());
       return Point3D<T>(p.x()-a()*k, p.y()-b()*k, p.z()-c()*k);
     }

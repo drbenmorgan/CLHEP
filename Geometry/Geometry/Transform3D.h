@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Transform3D.h,v 1.3 2003/10/23 21:29:50 garren Exp $
+// $Id: Transform3D.h,v 1.4 2005/04/27 15:40:17 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -233,6 +233,13 @@ namespace HepGeom {
       : xx_(m.xx_), xy_(m.xy_), xz_(m.xz_), dx_(m.dx_),
 	yx_(m.yx_), yy_(m.yy_), yz_(m.yz_), dy_(m.dy_),
 	zx_(m.zx_), zy_(m.zy_), zz_(m.zz_), dz_(m.dz_) {}
+
+    /**
+     * Destructor. 
+     * Virtual for now as some persistency mechanism needs that,
+     * in future releases this might go away again.
+     */
+    ~Transform3D() { /* nop */ }
 
     /**
      * Returns object of the helper class for C-style subscripting r[i][j] */
