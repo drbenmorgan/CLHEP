@@ -1,4 +1,3 @@
-// $Id: writeRunInfo.cc,v 1.2 2003/08/13 20:00:13 garren Exp $
 // ----------------------------------------------------------------------
 //
 // writeRunInfo.cc
@@ -26,7 +25,6 @@ std::ostream & writeRunInfo( std::ostream & os, StdRunInfo const * run )
     os.setf(HepIOS::dec,HepIOS::basefield);		// integer
     os.setf(HepIOS::scientific,HepIOS::floatfield);	// floating
     // output StdRunInfo data
-    int nseed = (int)run->size();
     os << "BlockType StdRunInfo" << std::endl;
     os << "RunID " << run->runIdentifier() << std::endl;
     os << "R " << run->runNumber() << " " 
@@ -34,14 +32,9 @@ std::ostream & writeRunInfo( std::ostream & os, StdRunInfo const * run )
        << run->eventsGenerated() << " " 
        << run->eventsWritten() << " " 
        << run->CoMEnergy() << " "
-       << run->crossSection() << " "
-       << nseed << std::endl;
+       << run->crossSection() << std::endl;
     // write seeds on a separate line
-    os << "SeedList " ;
-    for( int i=0; i<nseed; ++i ) {
-        os << " " << run->seed( i );
-    }
-    os << std::endl;
+    os << "SeedList " << run->seedStream() << std::endl;
     // write strings
     os << "RunInfo " << run->generatorName() 
        << " " << run->pdfName() << std::endl;

@@ -1,5 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 includedir = $(prefix)/include/CLHEP
 tempincludedir = $(TEMPDIR)/CLHEP/@PACKAGE@
 COPY_P = @COPY_P@
@@ -19,6 +23,7 @@ pkginclude_HEADERS = \
 	StdHep.hh	\
 	StdHeptoGenEvent.icc	\
 	StdHepVersion.h	\
+	RandomState.hh	\
 	StdRunInfoConvert.hh	\
 	StdRunInfoConvert.icc	\
 	StdRunInfo.hh	\

@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------------
 // StdRunInfo.cc
+// Author: Lynn Garren
 // ----------------------------------------------------------------------
 
 #include <vector>
@@ -19,7 +20,8 @@ StdRunInfo::StdRunInfo( int runno, int togen, int ngen, int nwrt,
   itsCrossSection     ( xsec ),
   itsRunIdentifier    ( " " ),
   itsGeneratorName    ( " " ),
-  itsPDFName          ( " " )
+  itsPDFName          ( " " ),
+  itsSeedList         ( RandomState() )
 { ; }
 
 StdRunInfo::StdRunInfo( const StdRunInfo & orig )

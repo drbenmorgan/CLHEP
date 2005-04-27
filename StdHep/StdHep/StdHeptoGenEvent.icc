@@ -1,7 +1,7 @@
-// $Id: StdHeptoGenEvent.icc,v 1.2 2003/08/29 02:06:13 garren Exp $
 // ----------------------------------------------------------------------
 //
 // StdHeptoHepMC::GenEvent.icc
+// Author:  Lynn Garren
 //
 //  builds HepMC::GenEvent from the information in HEPEVT
 //

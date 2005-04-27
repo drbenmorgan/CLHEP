@@ -1,12 +1,18 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 
 includedir = $(prefix)/include/CLHEP
 
 # put . first so that CLHEP directory is built before anything else
-SUBDIRS = StdHep . src
+SUBDIRS = StdHep . src test examples
 # list all subdirectories - for distribution and cleaning
-DIST_SUBDIRS = StdHep . src examples
+DIST_SUBDIRS = StdHep . src test examples
+
+bin_SCRIPTS = StdHep-config
 
 all-local: $(top_builddir)/CLHEP
 

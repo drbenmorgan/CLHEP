@@ -1,25 +1,48 @@
 #
 # StdHep examples makefile
 #
-# for KCC:
-# gmake LIBNAME=libCLHEP-KCC.1.8.0.0.a CXX=KCC
+# use: gmake [INCDIR= ] [CXX= ] [LIBNAME= ] all
+#      gmake [INCDIR= ] [CXX= ] [LIBNAME= ] run
+#
+# other variables:
+#      [PythiaLIB= ]
+#      [HerwigLIB= ]
+#      [CLHEP_BASE= ]
 #
 ################################################################################ 
 
-ifndef CXX
-    CXX = g++
-endif
-
-ifndef LIBNAME
-    LIBNAME = libCLHEP-2.1.0.0.a
-endif
-
-ifndef PythiaLIB
-    PythiaLIB = $(LULIB)/pydata.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
-endif
+  CLHEP_BASE= @prefix@
+  CXX = @CXX@
+  INCDIR    = -I$(CLHEP_BASE)/include
+  LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-@VERSION@
 
 
 ################################################################################ 
+
+ifdef HERWIG_DIR
+    INCDIR += -I$(HERWIG_DIR)/src
+    HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a $(HERWIG_DIR)/lib/timel.o
+endif
+ifdef LUND_DIR
+    INCDIR += -I$(LUND_DIR)/src/inc
+    PythiaLIB = $(LULIB)/pydata.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
+endif
+ifdef PYTHIA_DIR
+    INCDIR += -I$(PYTHIA_DIR)/src/inc
+    PythiaLIB = $(PYLIB)/libpythia.a $(PYLIB)/libpydum.a
+endif
+
+################################################################################ 
+
+CXXFLAGS = $(DFLG) @AM_CXXFLAGS@ @CXXFLAGS@ $(INCDIR)
+
+ifeq "$(CXX)" "g++"
+    F77 = g77
+    FFLAGS = $(DFLG) -fno-second-underscore $(INCDIR)
+else
+    F77 = f77
+    FFLAGS = $(DFLG) $(INCDIR)
+endif
 
 UNAME = $(shell uname)
 ifeq "$(UNAME)" "IRIX"
@@ -45,74 +68,28 @@ else
     SFX = _g
 endif
 
-CXX = g++
-##CXX = CC
-
 ifeq "$(UNAME)" "IRIX"
-    CC=cc
-    CPP = /lib/cpp
-    F77=f77
-    KPPFLAGS= -C -P -DIRIX -DUNIX
-    CFLAGS= $(DFLG)
-    FFLAGS= $(DFLG)
     LCXX = -lftn
 endif
 ifeq "$(UNAME)" "IRIX64"
-    CC=cc
-    CPP = /lib/cpp
-    F77=f77
-    CFLAGS= $(DFLG) -n32
-    FFLAGS= $(DFLG) -n32
-    KPPFLAGS= -C -P -DIRIX -DUNIX
     LCXX = -lftn -lm
 endif
 ifeq "$(UNAME)" "Linux"
-    CC=gcc
-    CPP=gcc -E
-    F77=g77
-    CFLAGS= $(DFLG) 
-    FFLAGS= $(DFLG) -fno-second-underscore
-    KPPFLAGS= -C -P -DLinux -DUNIX
     LCXX = -lg2c
     LOCAL = -lnsl
-    ## setup egcs gets this wrong, so fix it here
-    CPLUS_INCLUDE_PATH = $(EGCS_DIR)/include/g++
 endif
 ifeq "$(UNAME)" "Linux22"
-    CC=/usr/bin/gcc
-    CPP=/usr/bin/gcc -E
-    F77=/usr/bin/g77
-    CFLAGS= $(DFLG)
-    FFLAGS= $(DFLG) -fno-second-underscore
-    KPPFLAGS= -C -P -DLinux -DUNIX
     LCXX = -lg2c
     LOCAL = -lnsl
 endif
 ifeq "$(UNAME)" "OSF1"
-    CC=cc
-    CPP = /usr/lib/cpp
-    F77=f77
-    CFLAGS= $(DFLG) 
-    FFLAGS= $(DFLG) -fpe2 -check underflow -check overflow
-    KPPFLAGS= -C -P -DOSF1 -DUNIX
     LCXX = -lfor -lUfor
 endif
 ifeq "$(UNAME)" "SunOS"
-    CC=/opt/SUNWspro/bin/cc
-    CPP = /usr/ccs/lib/cpp
-    F77=f77
-    CFLAGS= $(DFLG)
-    FFLAGS= $(DFLG)
-    KPPFLAGS= -C -P -DSunOS -DUNIX
     LOCAL= -L/opt/SUNWspro/lib -lm -lnsl -lsocket -lF77 -lM77 -ldbxFintr -lsunmath -R/opt/SUNWspro/lib
 endif
 
-INCDIR = -I$(CLHEP_DIR)/include -I$(LUND_DIR)/src/inc -I$(HERWIG_DIR)/src 
-CPPFLGS = $(KPPFLAGS) $(INCDIR)
-CXXFLAGS = $(DFLG) $(INCDIR)
-
-STDHEPLIB = $(CLHEP_DIR)/lib/$(LIBNAME)
-
+################################################################################ 
 
 PYTOBJS = examPythiaToStdHep$(SFX).o stdpytcxx$(SFX).o dummy$(SFX).o \
           lunhep$(SFX).o lutran$(SFX).o stdflpyxsec$(SFX).o \
@@ -137,57 +114,55 @@ all: examPythiaToStdHep examHerwigToStdHep readPythia readPythiaHerwig
 
 xdr: examPythiaToStdHepXDR examHerwigToStdHepXDR readMultipleXDR readStdHepXDR
 
-examPythiaToStdHep: $(STDHEPLIB) $(PYTOBJS)
+examPythiaToStdHep: $(PYTOBJS)
 	$(CXX) -o $@  \
 	$(PYTOBJS) \
-	$(STDHEPLIB) \
+	$(LIBNAME) \
         $(PythiaLIB) \
 	$(CRNLIB)/libpacklib.a $(LCXX) $(LOCAL)
 
-examHerwigToStdHep: $(STDHEPLIB) $(HWGOBJS)
+examHerwigToStdHep: $(HWGOBJS)
 	$(CXX) -o $@ \
 	$(HWGOBJS) \
-	$(HERWIG_DIR)/lib/hwudat.o \
-	$(STDHEPLIB) \
-	-L$(HERWIG_DIR)/lib -lherwig -lherdum \
+	$(LIBNAME) \
+	$(HerwigLIB) \
 	$(CRNLIB)/libpacklib.a $(LCXX) $(LOCAL)
 
-examPythiaToStdHepXDR: $(STDHEPLIB) $(PYTOBJS)
+examPythiaToStdHepXDR: $(PYTOBJS)
 	$(CXX) -o $@  \
 	$(PYTOBJS) \
-	$(STDHEPLIB) \
+	$(LIBNAME) \
         $(PythiaLIB) \
 	libFmcfioCXX$(SFX).a \
 	$(CRNLIB)/libpacklib.a $(LCXX) $(LOCAL)
 
-examHerwigToStdHepXDR: $(STDHEPLIB) $(HWGOBJS)
+examHerwigToStdHepXDR: $(HWGOBJS)
 	$(CXX) -o $@ \
 	$(HWGOBJS) \
-	$(HERWIG_DIR)/lib/hwudat.o \
-	$(STDHEPLIB) \
+	$(LIBNAME) \
 	libFmcfioCXX$(SFX).a \
-	-L$(HERWIG_DIR)/lib -lherwig -lherdum \
+	$(HerwigLIB) \
 	$(CRNLIB)/libpacklib.a $(LCXX) $(LOCAL)
 
-readPythia:  readPythia$(SFX).o $(READOBJS) $(STDHEPLIB) 
+readPythia:  readPythia$(SFX).o $(READOBJS) 
 	$(CXX) -o $@ readPythia$(SFX).o $(READOBJS) \
-	$(STDHEPLIB) \
+	$(LIBNAME) \
 	$(CRNLIB)/libpacklib.a $(LCXX) $(LOCAL)
 
-readPythiaHerwig:  readPythiaHerwig$(SFX).o $(READOBJS) $(STDHEPLIB) 
+readPythiaHerwig:  readPythiaHerwig$(SFX).o $(READOBJS) 
 	$(CXX) -o $@ readPythiaHerwig$(SFX).o $(READOBJS) \
-	$(STDHEPLIB) \
+	$(LIBNAME) \
 	$(CRNLIB)/libpacklib.a $(LCXX) $(LOCAL)
 
-readMultipleXDR:  $(STDHEPLIB) $(RXDROBJS)
+readMultipleXDR: $(RXDROBJS)
 	$(CXX) -o $@ $(RXDROBJS) \
-	$(STDHEPLIB) \
+	$(LIBNAME) \
 	libFmcfioCXX$(SFX).a \
 	$(CRNLIB)/libpacklib.a $(LCXX) $(LOCAL)
 
-readStdHepXDR: $(STDHEPLIB) $(RFOBJS)
+readStdHepXDR: $(RFOBJS)
 	$(CXX) -o $@ $(RFOBJS) \
-	$(STDHEPLIB) \
+	$(LIBNAME) \
 	libFmcfioCXX$(SFX).a \
 	$(CRNLIB)/libpacklib.a $(LCXX) $(LOCAL)
 
@@ -250,12 +225,10 @@ runxdr: xdr
 .SUFFIXES : .o .c .cc .F .inc .h .hh 
 
 %.o: %.F
-	$(CPP) $(CPPFLGS) $< > $*.f
-	$(F77) $(FFLAGS) -c $*.f
+	$(F77) $(FFLAGS) -c -o $@ $<
 
 %_g.o: %.F
-	$(CPP) $(CPPFLGS) $< > $*.f
-	$(F77) $(FFLAGS) -c -o $@ $*.f
+	$(F77) $(FFLAGS) -c -o $@ $<
 
 %.o: %.cc
 	$(CXX) $(CXXFLAGS) -c $<
