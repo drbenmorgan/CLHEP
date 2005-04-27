@@ -5,3 +5,5 @@ autom4te.cache
 install-sh
 missing
 mkinstalldirs
+config.guess
+config.sub
