@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: ThreeVector.h,v 1.2 2003/10/23 21:29:52 garren Exp $
+// $Id: ThreeVector.h,v 1.3 2005/04/27 21:14:10 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -427,17 +427,17 @@ typedef Hep3Vector HepThreeVectorF;
 Hep3Vector operator / (const Hep3Vector &, double a);
 // Division of 3-vectors by non-zero real number
 
-Hep3Vector operator + (const Hep3Vector &, const Hep3Vector &);
+inline Hep3Vector operator + (const Hep3Vector &, const Hep3Vector &);
 // Addition of 3-vectors.
 
-Hep3Vector operator - (const Hep3Vector &, const Hep3Vector &);
+inline Hep3Vector operator - (const Hep3Vector &, const Hep3Vector &);
 // Subtraction of 3-vectors.
 
-double operator * (const Hep3Vector &, const Hep3Vector &);
+inline double operator * (const Hep3Vector &, const Hep3Vector &);
 // double product of 3-vectors.
 
-Hep3Vector operator * (const Hep3Vector &, double a);
-Hep3Vector operator * (double a, const Hep3Vector &);
+inline Hep3Vector operator * (const Hep3Vector &, double a);
+inline Hep3Vector operator * (double a, const Hep3Vector &);
 // Scaling of 3-vectors with a real number
 
 }  // namespace CLHEP
