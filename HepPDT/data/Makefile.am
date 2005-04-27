@@ -1,10 +1,15 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 PDG_TABLES = PDG_mass_width_1998.mc \
 	     PDG_mass_width_1998_withSusy.mc \
 	     PDG_mass_width_2000.mc \
 	     PDG_mass_width_2001.mc \
-	     PDG_mass_width_2002.mc
+	     PDG_mass_width_2002.mc \
+	     PDG_mass_width_2004.mc
 
 EXTRA_DIST = $(PDG_TABLES)
       

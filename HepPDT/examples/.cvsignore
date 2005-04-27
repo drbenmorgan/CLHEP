@@ -1,0 +1,7 @@
+*.out
+*.dat
+*.txt
+*.o
+*.exe
+*.bak
+Makefile.in

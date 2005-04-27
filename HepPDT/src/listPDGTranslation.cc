@@ -1,4 +1,3 @@
-// $Id: listPDGTranslation.cc,v 1.2 2004/04/29 02:47:31 garren Exp $
 // ----------------------------------------------------------------------
 //
 // listPDGTranslation.cc
@@ -7,6 +6,7 @@
 // list translations for various MonteCarlo input types
 // DO NOT mix these functions with the addXXXParticles functions
 // These functions will read a table file and write a translation list
+// and are designed to be used when checking particle ID translations
 //
 // ----------------------------------------------------------------------
 
@@ -64,8 +64,6 @@ ParticleTranslation parsePDGline( int oid,  std::string & pdline )
    if( ckey.find("M") == 0 ) {
       ParticleID pid( translatePDGtabletoPDT(oid) );
       return ParticleTranslation( pid, oid, name, mc );
-   } else {
-     return ParticleTranslation();
    }
    return ParticleTranslation();
 }
@@ -75,16 +73,25 @@ bool  listPDGTranslation    ( std::istream & pdfile, std::ostream & os )
   // mass and width lines can be in any order
   std::vector<int> idlist;
   std::string pdline;
+  std::vector<ParticleTranslation> plist;
   // read and parse each line
   while( std::getline( pdfile, pdline) ) {
     getPDGpid( idlist, pdline );
     for( unsigned int i = 0; i < idlist.size(); ++i )
     {
         ParticleTranslation pt = parsePDGline( idlist[i], pdline ); 
-	if( pt.pid() != 0 ) {
+	// test for empty ParticleTranslation
+	if( pt.oid() != 0 ) {
+	    plist.push_back( pt );
 	    pt.write( os );
 	}
     }
+  }
+  // iterate over the list for a more compact comparison listing
+  os << std::endl;
+  for ( unsigned int cit = 0; cit<plist.size(); ++cit ) {
+       ParticleTranslation p = plist[cit];
+       p.writeComparison( os );
   }
   return true;
 }

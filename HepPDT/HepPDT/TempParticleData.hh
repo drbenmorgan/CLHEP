@@ -1,7 +1,7 @@
-// $Id: TempParticleData.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // TempParticleData.hh
+// Author:  Lynn Garren
 //
 // temporary structure to hold particles while getting all the info
 // ----------------------------------------------------------------------

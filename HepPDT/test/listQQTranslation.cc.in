@@ -1,6 +1,6 @@
-// $Id: listQQTranslation.cc.in,v 1.2 2004/04/29 02:47:31 garren Exp $
 // ----------------------------------------------------------------------
 // listQQTranslation.cc
+// Author: Lynn Garren
 //
 // list all valid QQ translation IDs
 // must read the translation list from a QQ decay table
@@ -26,15 +26,17 @@ int main()
       std::cerr << "cannot open " << infile << std::endl;
       exit(-1);
     }
-    // read decay.dec 
-    HepPDT::QQDecayTable qdt( pdfile );
-    // create the translation table
-    HepPDT::PDGtoQQTable::instance()->buildTable( qdt );
     std::ofstream wpdfile( outfile );
     if( !wpdfile ) { 
       std::cerr << "cannot open " << outfile << std::endl;
       exit(-1);
     }
+    // read decay.dec 
+    HepPDT::QQDecayTable qdt( pdfile );
+    // write information we just read
+    qdt.writeTable( wpdfile );
+    // create the translation table
+    HepPDT::PDGtoQQTable::instance()->buildTable( qdt );
     // write the tranlations
     HepPDT::PDGtoQQTable::instance()->writeTranslations( wpdfile );
 }

@@ -3,5 +3,5 @@
 
 
 ./listPythiaNames@EXEEXT@ 
-diff -b -q listPythiaNames.out @srcdir@/listPythiaNames.output > /dev/null
+@DIFF_Q@ listPythiaNames.out @srcdir@/listPythiaNames.output > /dev/null
 

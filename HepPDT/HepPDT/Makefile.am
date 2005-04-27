@@ -1,5 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 includedir = $(prefix)/include/CLHEP
 tempincludedir = $(TEMPDIR)/CLHEP/@PACKAGE@
 COPY_P = @COPY_P@
@@ -58,6 +62,7 @@ pkginclude_HEADERS = \
 	QQDecayTable.hh	\
 	StringStream.h	\
 	ParticleName.hh	\
+	ParticleIDTranslations.hh	\
 	ParticleTranslation.hh	\
 	ParticleTranslation.icc	\
 	TranslationList.hh	\

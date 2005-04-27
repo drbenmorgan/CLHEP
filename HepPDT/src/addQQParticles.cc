@@ -1,7 +1,7 @@
-// $Id: addQQParticles.cc,v 1.3 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 //
 // addQQParticles.cc
+// Author: Lynn Garren
 //
 // this has the functions used by addQQParticles
 //

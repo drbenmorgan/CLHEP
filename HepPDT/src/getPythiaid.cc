@@ -1,7 +1,7 @@
-// $Id: getPythiaid.cc,v 1.3 2004/05/19 23:29:54 garren Exp $
 // ----------------------------------------------------------------------
 //
 // getPythiaid.cc
+// Author: Lynn Garren
 //
 // return pythia particle ID from a line in the table
 //

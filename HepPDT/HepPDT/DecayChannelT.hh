@@ -1,7 +1,7 @@
-// $Id: DecayChannelT.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // DecayChannelT.hh
+// Author:  Lynn Garren
 //
 // ----------------------------------------------------------------------
 #ifndef DECAYCHANNELT_HH
@@ -37,8 +37,15 @@ public:
   // defaults 'cause we need vector<DecayChannelT<> >
   inline DecayChannelT( const std::string & name = "unknown", 
                  const Measurement & branchFrac = Measurement(), 
-                 const ProductMap & decaylist = ProductMap(), 
-                 const std::vector<double> & dmparam = std::vector<double>() );
+                 const std::vector< PD > & decaylist = ProductMap(), 
+                 const std::vector<double> & dmparam = std::vector<double>() )
+  : itsDecayName            ( name ),
+  itsBranchingFraction    ( branchFrac ),
+  itsDecayChannelProducts ( decaylist ),
+  itsDecayModelParameters ( dmparam ),
+  itsDecayModel ( DMFactory<Config>::instance()->unsafeMakeProduct( name, dmparam ) )
+{ ; }
+
   virtual ~DecayChannelT();
 
   // ---  copying:

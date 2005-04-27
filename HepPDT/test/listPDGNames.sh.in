@@ -3,5 +3,5 @@
 
 
 ./listPDGNames@EXEEXT@ 
-diff -b -q listPDGNames.out @srcdir@/listPDGNames.output > /dev/null
+@DIFF_Q@ listPDGNames.out @srcdir@/listPDGNames.output > /dev/null
 

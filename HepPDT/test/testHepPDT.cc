@@ -1,6 +1,6 @@
-// $Id: testHepPDT.cc,v 1.3 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 // testHepPDT.cc
+// Author: Lynn Garren
 //
 // test by reading the PDG table
 // get filename and location of PDG table from input stream
@@ -50,4 +50,16 @@ int main()
       exit(-1);
     }
     datacol.writeParticleData(wpdfile);
+    wpdfile << std::endl;
+    DefaultConfig::ParticleData * pd;
+    pd=datacol.particle(HepPDT::ParticleID(111));
+    if(pd) pd->write(wpdfile);
+    pd=datacol.particle(HepPDT::ParticleID(-111));
+    if(pd) pd->write(wpdfile);
+    pd=datacol.particle(HepPDT::ParticleID(211));
+    if(pd) pd->write(wpdfile);
+    pd=datacol.particle(std::string("pi"));
+    if(pd) pd->write(wpdfile);
+    datacol.writeParticleInfo(wpdfile);
+
 }

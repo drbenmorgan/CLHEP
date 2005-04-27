@@ -457,3 +457,4 @@ Herwig:     454     1000024 CHGINO1+  HepPDT:      1000024 susy chi_1+
 Herwig:     455     1000037 CHGINO2+  HepPDT:      1000037 susy chi_2+
 Herwig:     456    -1000024 CHGINO1-  HepPDT:     -1000024 susy chi_1-
 Herwig:     457    -1000037 CHGINO2-  HepPDT:     -1000037 susy chi_2-
+Herwig:     458     1000039 GRAVTINO  HepPDT:      1000039 gravitino

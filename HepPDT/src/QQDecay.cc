@@ -1,4 +1,3 @@
-// $Id: QQDecay.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // QQDecay.cc
@@ -6,9 +5,12 @@
 //
 // ----------------------------------------------------------------------
 
+#include "CLHEP/HepPDT/defs.h"
+#include <sstream>
 #include <algorithm>	// swap()
 
 #include "CLHEP/HepPDT/QQDecay.hh"
+#include "CLHEP/HepPDT/QQChannel.hh"
 
 namespace HepPDT {
 
@@ -36,6 +38,18 @@ QQDecay & QQDecay::operator=( const QQDecay & rhs )
   QQDecay temp( rhs );
   swap( temp );
   return *this;
+}
+
+void QQDecay::write( std::ostream & os ) const
+{
+    // intended for diagnostic use
+    if ( itsStable ) {
+        os << "        particle is stable" << std::endl;
+    } else {
+	for( unsigned int i=0; i<itsChannels.size(); ++i ) {
+	    itsChannels[i].write( os );
+	}
+    }
 }
 
 }	// HepPDT

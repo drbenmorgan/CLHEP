@@ -1,4 +1,3 @@
-// $Id: QQDecayTable.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // QQDecayTable.cc
@@ -6,6 +5,12 @@
 //
 // ----------------------------------------------------------------------
 
+#include "CLHEP/HepPDT/defs.h"
+#if HAVE_SSTREAM
+#include <sstream>
+#else
+#include "CLHEP/HepPDT/StringStream.h"
+#endif
 #include <algorithm>	// swap()
 
 #include "CLHEP/HepPDT/QQDecayTable.hh"
@@ -67,6 +72,37 @@ QQBAR    QQDecayTable::qqbar( const std::string & name )
 QQDecay  QQDecayTable::decay( const std::string & name )
 {
     return itsDecayMap[name];
+}
+
+void QQDecayTable::writeTable( std::ostream & os ) const
+{
+    // intended for diagnostic use
+    os <<  std::endl;
+    os << "        QQ Decay Table" << std::endl;
+    os << "decay.dec version: " << itsVersion << std::endl;
+    QuarkMap::const_iterator qit;
+    for( qit=itsQuarkMap.begin(); qit !=itsQuarkMap.end(); ++qit ) {
+        std::string nm = qit->first;
+        QQBAR q = qit->second;
+	os << "  " << nm << " " << q.qqid <<  std::endl;
+    }
+    ParticleMap::const_iterator cit;
+    DecayMap::const_iterator dit;
+    for( cit=itsParticleMap.begin(); cit !=itsParticleMap.end(); ++cit ) {
+        std::string nm = cit->first;
+        PARTICLE p = cit->second;
+	os << "  " << nm << " " << p.qqid << " " << p.stableid << " " 
+	   << p.pdgid << " " <<  p.mass << " " <<  p.charge << " " 
+	   << p.spin << " " << p.lifetime << " " <<  p.width << " " 
+	   << p.minMass << " " <<  p.maxMass << " " 
+	   << p.parity << " " <<  p.cparity << std::endl;
+	dit = itsDecayMap.find( nm );
+	if( dit != itsDecayMap.end() ) {
+	    QQDecay d = dit->second;
+	    d.write( os );
+	}
+    }
+    os <<  std::endl;
 }
 
 }	// HepPDT

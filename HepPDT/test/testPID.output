@@ -55,6 +55,12 @@ quarks: 3 1 0
               3301: 0 0 0 3 3 0 1 extra bits 0
 **** Invalid PID: 3301 ****
 
+             -2212: 0 0 0 2 2 1 2 extra bits 0
+baryon       -2212: 0 0 0 -2 -2 -1 2 0 -3 extra bits 0
+ion          -2212: 0   0   2 2 0 -3 extra bits 0
+total spin: 2 0.5 orbital angular momentum: 0 spin: 0 charge: -3 -1
+quarks: -2 -2 -1
+
         1004002003: 4 0 0 2 0 0 3 extra bits 100
 ion     1004002003: 1   4   2 3 0 0 extra bits 100
 total spin: 3 1 orbital angular momentum: 0 spin: 0 charge: 0 0

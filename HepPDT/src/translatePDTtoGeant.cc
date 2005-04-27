@@ -1,7 +1,7 @@
-// $Id: translatePDTtoGeant.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // translatePDTtoGeant.cc
+// Author: Lynn Garren
 //
 //     Translate from the standard numbering scheme to GEANT.
 //     Particles unknown to GEANT are entered as geantino's.

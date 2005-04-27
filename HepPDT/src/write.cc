@@ -1,7 +1,7 @@
-// $Id: write.cc,v 1.2 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 //
 // write.cc
+// Author: Lynn Garren
 //
 // ----------------------------------------------------------------------
 
@@ -45,8 +45,8 @@ void CommonParticleData::write( std::ostream & ostr ) const
     ostr << itsSpin.spin() ;
     ostr.width(5);
     ostr << itsSpin.orbAngMom() ;
-    ostr.width(12);
-    ostr.precision(4);
+    ostr.width(13);
+    ostr.precision(5);
     ostr.setf(std::ios::scientific, std::ios::floatfield);
     ostr << mass.value() << "+/-" << mass.sigma() ;
     ostr.width(12);

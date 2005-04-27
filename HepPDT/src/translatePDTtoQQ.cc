@@ -1,7 +1,7 @@
-// $Id: translatePDTtoQQ.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // translatePDTtoQQ.cc
+// Author: Lynn Garren
 //
 // translate a Pythia ID number to the standard numbering scheme
 //

@@ -1,7 +1,7 @@
-// $Id: hasMethods.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // hasMethods.cc
+// Author: Lynn Garren
 //
 //  check to see if this CommonParticleData has a particular constituent
 //  look at Constituents, not PID

@@ -1,7 +1,7 @@
-// $Id: Constituent.hh,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // Constituent.hh
+// Author:  Lynn Garren
 //
 // Holds a particle constituent (e.g. ParticleID of the quark type)
 // ----------------------------------------------------------------------

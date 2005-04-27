@@ -1,7 +1,7 @@
-// $Id: digit.cc,v 1.2 2003/07/17 10:33:44 garren Exp $
 // ----------------------------------------------------------------------
 //
 // digit.cc
+// Author: Lynn Garren
 //
 //  split the PID into constituent integers
 //

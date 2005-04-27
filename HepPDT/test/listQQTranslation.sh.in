@@ -3,5 +3,7 @@
 
 
 ./listQQTranslation@EXEEXT@ 
-diff -b -q listQQTranslation.out @srcdir@/listQQTranslation.output > /dev/null
+sed 's/e-0\([0-9][0-9]\)/e-\1/g' listQQTranslation.out | \
+  sed 's/e+0\([0-9][0-9]\)/e+\1/g'  | \
+  @DIFF_Q@ - @srcdir@/listQQTranslation.output > /dev/null
 

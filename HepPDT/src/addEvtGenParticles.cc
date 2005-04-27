@@ -1,7 +1,7 @@
-// $Id: addEvtGenParticles.cc,v 1.3 2003/08/13 20:00:11 garren Exp $
 // ----------------------------------------------------------------------
 //
 // addEvtGenParticles.cc
+// Author: Lynn Garren
 //
 // this has the functions used by addEvtGenParticles
 //

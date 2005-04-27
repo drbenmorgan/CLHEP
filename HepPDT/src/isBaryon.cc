@@ -1,9 +1,9 @@
-// $Id: isBaryon.cc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
 // ----------------------------------------------------------------------
 //
 // isBaryon.cc
+// Author: Lynn Garren
 //
-//  check to see if this is a valid meson
+//  check to see if this is a valid baryon
 //
 // ----------------------------------------------------------------------
 

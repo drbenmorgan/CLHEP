@@ -1,6 +1,5 @@
 #ifndef TRANSLATIONLIST_HH
 #define TRANSLATIONLIST_HH
-// $Id: TranslationList.hh,v 1.2 2004/04/29 02:47:31 garren Exp $
 // ----------------------------------------------------------------------
 //
 // TranslationList.hh

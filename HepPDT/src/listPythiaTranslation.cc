@@ -1,4 +1,3 @@
-// $Id: listPythiaTranslation.cc,v 1.3 2004/05/19 23:29:54 garren Exp $
 // ----------------------------------------------------------------------
 //
 // listPythiaTranslation.cc
@@ -76,7 +75,7 @@ ParticleTranslation getPythiaAntiParticle( int & anti,
 bool  listPythiaTranslation ( std::istream & pdfile, std::ostream & os )
 {
   std::string pdline, aname;
-  int id, kf;
+  int kf;
   int anti=0;
   // read and parse each line
   while( std::getline( pdfile, pdline) ) {
