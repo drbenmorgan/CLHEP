@@ -10,7 +10,7 @@ uselibdir=$exec_prefix/lib
 
 usage()
 {
-    echo "Usage: build-clhepib <list of subdirs>"
+    echo "Usage: ./build-clheplib <list of subdirs>"
     exit $1
 }
 

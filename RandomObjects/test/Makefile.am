@@ -1,10 +1,26 @@
 # run gaussSpeed and gaussSmall interactively
+
+if USE_GMAKE
+  MAKE = gmake
+endif
 # Applicable to each test program:
-INCLUDES = -I../
+INCLUDES = -I$(top_builddir)/
 # libraries to link, and whence
-LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.la \
-        ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.la \
-	${top_builddir}/../Matrix/src/libCLHEP-Matrix-@VERSION@.la
+if BUILD_STATIC
+  LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.a \
+          ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.a \
+	  ${top_builddir}/../Matrix/src/libCLHEP-Matrix-@VERSION@.a \
+	  ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.a
+else
+  LIBS += $(MY_LD)$(top_builddir)/src \
+          $(MY_LD)${top_builddir}/../Random/src \
+          $(MY_LD)${top_builddir}/../Matrix/src \
+          $(MY_LD)${top_builddir}/../Vector/src
+  LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT) \
+          ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.$(SHEXT) \
+	  ${top_builddir}/../Matrix/src/libCLHEP-Matrix-@VERSION@.$(SHEXT) \
+	  ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
+endif
 
 # Identify executables needed during testing:
 check_PROGRAMS = \

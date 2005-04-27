@@ -1,9 +1,17 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 includedir = $(prefix)/include/CLHEP
 
 # put . first so that CLHEP directory is built before anything else
 SUBDIRS = RandomObjects . src test
+# list all subdirectories - for distribution and cleaning
+DIST_SUBDIRS = RandomObjects . src test
+
+bin_SCRIPTS = RandomObjects-config
 
 all-local: $(top_builddir)/CLHEP
 
