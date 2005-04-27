@@ -1,9 +1,15 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 includedir = $(prefix)/include/CLHEP
 tempincludedir = $(TEMPDIR)/CLHEP/@PACKAGE@
 
 pkginclude_HEADERS = \
+	GlobalPhysicalConstants.h	\
+	GlobalSystemOfUnits.h		\
 	PhysicalConstants.h	\
 	SystemOfUnits.h		\
 	defs.h
