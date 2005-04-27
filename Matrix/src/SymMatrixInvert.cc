@@ -29,7 +29,7 @@ const double HepSymMatrix::CHOLESKY_CREEP_6x6 = .002;
 
 // Aij are indices for a 6x6 symmetric matrix.
 //     The indices for 5x5 or 4x4 symmetric matrices are the same, 
-//     ignoring all compbinations with an index which is inapplicable.
+//     ignoring all combinations with an index which is inapplicable.
 
 #define A00 0
 #define A01 1
@@ -1033,6 +1033,11 @@ void HepSymMatrix::invert4  (int & ifail) {
   m[A33] =  Det3_012_012 * oneOverDet;
 
   return;
+}
+
+void HepSymMatrix::invertHaywood4  (int & ifail) {
+  invert4(ifail); // For the 4x4 case, the method we use for invert is already
+  		  // the Haywood method.
 }
 
 }  // namespace CLHEP

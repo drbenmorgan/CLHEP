@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: Vector.h,v 1.3 2003/10/23 21:29:50 garren Exp $
+// $Id: Vector.h,v 1.4 2005/04/27 19:31:54 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -131,11 +131,9 @@ public:
 
    HepVector sub(int min_row, int max_row) const;
    // Returns a sub vector.
-#ifdef HEP_CC_NEED_SUB_WITHOUT_CONST
    HepVector sub(int min_row, int max_row);
    // SGI CC bug. I have to have both with/without const. I should not need
    // one without const.
-#endif
 
    void sub(int row, const HepVector &v1);
    // Replaces a sub vector of a Vector with v1.
@@ -196,7 +194,11 @@ private:
    friend HepSymMatrix vT_times_v(const HepVector &v);
    friend HepVector qr_solve(HepMatrix *, const HepVector &);
 
-   double *m;
+#ifdef DISABLE_ALLOC
+   std::vector<double > m;
+#else
+   std::vector<double,Alloc<double,25> > m;
+#endif
    int nrow;
 };
 

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: DiagMatrix.h,v 1.3 2003/10/23 21:29:50 garren Exp $
+// $Id: DiagMatrix.h,v 1.4 2005/04/27 19:31:54 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -50,6 +50,8 @@
 #ifdef GNUPRAGMA
 #pragma interface
 #endif
+
+#include <vector>
 
 #include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/GenMatrix.h"
@@ -143,11 +145,9 @@ public:
 
    HepDiagMatrix sub(int min_row, int max_row) const;
    // Returns a sub matrix of a SymMatrix.
-#ifdef HEP_CC_NEED_SUB_WITHOUT_CONST
    HepDiagMatrix sub(int min_row, int max_row);
    // SGI CC bug. I have to have both with/without const. I should not need
    // one without const.
-#endif
 
    void sub(int row, const HepDiagMatrix &m1);
    // Sub matrix of this SymMatrix is replaced with m1.
@@ -212,7 +212,11 @@ private:
    friend HepMatrix operator*(const HepMatrix &m1, const HepDiagMatrix &m2);
    friend HepVector operator*(const HepDiagMatrix &m1, const HepVector &m2);
 
-   double *m;
+#ifdef DISABLE_ALLOC
+   std::vector<double > m;
+#else
+   std::vector<double,Alloc<double,25> > m;
+#endif
    int nrow;
 #if defined(__sun) || !defined(__GNUG__)
 //

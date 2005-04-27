@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: SymMatrix.h,v 1.3 2003/10/23 21:29:50 garren Exp $
+// $Id: SymMatrix.h,v 1.4 2005/04/27 19:31:54 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 // 
@@ -109,6 +109,8 @@
 #pragma interface
 #endif
 
+#include <vector>
+
 #include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/GenMatrix.h"
 
@@ -208,11 +210,9 @@ public:
    // Returns a sub matrix of a SymMatrix.
    void sub(int row, const HepSymMatrix &m1);
    // Sub matrix of this SymMatrix is replaced with m1.
-#ifdef HEP_CC_NEED_SUB_WITHOUT_CONST
    HepSymMatrix sub(int min_row, int max_row);
    // SGI CC bug. I have to have both with/without const. I should not need
    // one without const.
-#endif
 
    inline HepSymMatrix inverse(int &ifail) const;
    // Invert a Matrix. The matrix is not changed
@@ -298,7 +298,11 @@ private:
    friend HepSymMatrix vT_times_v(const HepVector &v);
    // Returns v * v.T();
 
-   double *m;
+#ifdef DISABLE_ALLOC
+   std::vector<double > m;
+#else
+   std::vector<double,Alloc<double,25> > m;
+#endif
    int nrow;
    int size;				     // total number of elements
 

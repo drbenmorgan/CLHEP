@@ -3,4 +3,4 @@
 
 
 ./testInversion@EXEEXT@  \
-  | diff -b -q - @srcdir@/testInversion.output > /dev/null
+  | @DIFF_Q@ - @srcdir@/testInversion.output > /dev/null

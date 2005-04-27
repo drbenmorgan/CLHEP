@@ -1,3 +1,94 @@
+2005-04-07  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: set AR and ARFLAGS
+
+2005-03-23  Mark Fischler  <mf@fnal.gov>
+
+	* SymMatrix.cc, testBug7328.cc
+
+	Repair bug introduced into determinant of large matrices, and exposed
+	by testBug7328 when it is run on VC++ 7.1.
+	Also clean up the test program to avoid declaring loop indices
+	in the for loop statement when indices of the same name will be used
+	later -- VC++ still fouls up when this is done, though it is proper 
+	C++.
+
+2005-03-15  Mark Fischler  <mf@fnal.gov>
+
+	* SymMatrix.cc, testBug7328.cc
+	
+	Repair of bug 7328, a memory leak encountered when inverting symmetric
+	matrices above the size of 6x6.
+	
+2005-02-25  Mark Fischler  <mf@fnal.gov>
+
+	* Matrix.cc, testBug6181.cc
+	
+	Repair of bug 6181, a serious error in inverting matrices above the
+	size of 6x6.  
+
+2005-02-18  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in, Makefile.am: Stop using libtool.  
+	The newer releases of libtool seem to have dropped support for 
+	Windows Visual C++.  
+
+2005-02-14  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: Visual C++ flags are now "-EHsc -nologo -GR -GX -MD"
+
+2005-02-14  Mark Fischler  <mf@fnal.gov>
+
+	* SymMatrixInvert.cc
+	
+	  Implementation of invertHaywood4()
+
+2005-02-03  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: install step creates libCLHEP.a, libCLHEP.so,
+	and/or libCLHEP.dylib by adding a symbolic link.
+
+2005-02-02  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* configure.in: modified compiler flags for windows:
+	added "-O -GR -GX -MD" as this is needed for the multi-thread
+	environments used.
+
+2005-02-01  Lynn Garren  <garren@fnal.gov>
+
+	* Matrix: remove HEP_CC_NEED_SUB_WITHOUT_CONST ifdefs
+	HEP_CC_NEED_SUB_WITHOUT_CONST has been defined to 1 in all 
+	cases for a long time.
+
+2005-01-31  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* src/Matrix.h: fixed error in sub(int, int, int, int), savannah 
+	bug id 6176, added corresponding files (testBug6176*) in test/,
+	updated Makefile.am accordingly to generate tests.
+
+==============================
+30.11.04 Release CLHEP-2.0.1.2
+==============================
+==============================
+27.10.04 Release CLHEP-2.0.1.1
+==============================
+
+Fri Sep 24          2004 Lynn Garren <garren@fnal.gov>
+
+	* use AM_CXXFLAGS
+	* require autoconf 2.59, automake 1.9.1, and libtool 1.9b
+
+	* Matrix: remove unnecessary copy and disable allocator
+
+Tue Aug 31         2004 Lynn Garren <garren@fnal.gov>
+	
+	* change Solaris CC compile flags from "-O -mt" to "-O"
+	* libtools 1.9b or later is required for Solaris CC
+
+==============================
+23.07.04 Release CLHEP-2.0.1.0
+==============================
+
 ==============================
 11.05.04 Release CLHEP-2.0.0.2
 ==============================
@@ -5,7 +96,7 @@
 ==============================
 11.05.04 Release CLHEP-1.9.0.2
 ==============================
-    
+        
 ==============================
 21.04.04 Release CLHEP-2.0.0.1
 ==============================

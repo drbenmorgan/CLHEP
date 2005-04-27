@@ -1,9 +1,17 @@
 ## Process this file with automake to produce Makefile.in
 
+if USE_GMAKE
+  MAKE = gmake
+endif
+
 includedir = $(prefix)/include/CLHEP
 
 # put . first so that CLHEP directory is built before anything else
 SUBDIRS = Matrix . src test
+# list all subdirectories - for distribution and cleaning
+DIST_SUBDIRS = Matrix . src test
+
+bin_SCRIPTS = Matrix-config
 
 all-local: $(top_builddir)/CLHEP
 

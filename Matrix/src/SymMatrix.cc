@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3 2003/08/13 20:00:12 garren Exp $
+// $Id: SymMatrix.cc,v 1.4 2005/04/27 19:31:55 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -59,21 +59,21 @@ namespace CLHEP {
 // Simple operation for all elements
 
 #define SIMPLE_UOP(OPER)          \
-   register double *a=m;            \
-   register double *e=m+num_size(); \
+   register HepMatrix::mIter a=m.begin();            \
+   register HepMatrix::mIter e=m.begin()+num_size(); \
    for(;a<e; a++) (*a) OPER t;
 
 #define SIMPLE_BOP(OPER)          \
-   register double *a=m;            \
-   register double *b=m2.m;         \
-   register double *e=m+num_size(); \
+   register HepMatrix::mIter a=m.begin();            \
+   register HepMatrix::mcIter b=m2.m.begin();         \
+   register HepMatrix::mcIter e=m.begin()+num_size(); \
    for(;a<e; a++, b++) (*a) OPER (*b);
 
 #define SIMPLE_TOP(OPER)          \
-   register double *a=m1.m;            \
-   register double *b=m2.m;         \
-   register double *t=mret.m;         \
-   register double *e=m1.m+m1.num_size(); \
+   register HepMatrix::mcIter a=m1.m.begin();           \
+   register HepMatrix::mcIter b=m2.m.begin();         \
+   register HepMatrix::mIter t=mret.m.begin();         \
+   register HepMatrix::mcIter e=m1.m.begin()+m1.num_size(); \
    for( ;a<e; a++, b++, t++) (*t) = (*a) OPER (*b);
 
 #define CHK_DIM_2(r1,r2,c1,c2,fun) \
@@ -89,20 +89,18 @@ namespace CLHEP {
 // Constructors. (Default constructors are inlined and in .icc file)
 
 HepSymMatrix::HepSymMatrix(int p)
-   : nrow(p)
+   : m(p*(p+1)/2), nrow(p)
 {
    size = nrow * (nrow+1) / 2;
-   m = new_m(size);
-   memset(m, 0, size * sizeof(double));
+   m.assign(size,0);
 }
 
 HepSymMatrix::HepSymMatrix(int p, int init)
-   : nrow(p)
+   : m(p*(p+1)/2), nrow(p)
 {
    size = nrow * (nrow+1) / 2;
-   m = new_m(size);
 
-   memset(m, 0, size * sizeof(double));
+   m.assign(size,0);
    switch(init)
    {
    case 0:
@@ -110,7 +108,7 @@ HepSymMatrix::HepSymMatrix(int p, int init)
       
    case 1:
       {
-	 double *a = m;
+	 HepMatrix::mIter a = m.begin();
 	 for(int i=1;i<=nrow;i++) {
 	    *a = 1.0;
 	    a += (i+1);
@@ -123,12 +121,11 @@ HepSymMatrix::HepSymMatrix(int p, int init)
 }
 
 HepSymMatrix::HepSymMatrix(int p, HepRandom &r)
-  : nrow(p)
+   : m(p*(p+1)/2), nrow(p)
 {
    size = nrow * (nrow+1) / 2;
-   m = new_m(size);
-   double *a = m;
-   double *b = m + size;
+   HepMatrix::mIter a = m.begin();
+   HepMatrix::mIter b = m.begin() + size;
    for(;a<b;a++) *a = r();
 }
 
@@ -136,27 +133,24 @@ HepSymMatrix::HepSymMatrix(int p, HepRandom &r)
 // Destructor
 //
 HepSymMatrix::~HepSymMatrix() {
-  delete_m(size, m);
 }
 
 HepSymMatrix::HepSymMatrix(const HepSymMatrix &m1)
-   : nrow(m1.nrow), size(m1.size)
+   : m(m1.size), nrow(m1.nrow), size(m1.size)
 {
-   m = new_m(size);
-   memcpy(m, m1.m, size*sizeof(double));
+   m = m1.m;
 }
 
 HepSymMatrix::HepSymMatrix(const HepDiagMatrix &m1)
-   : nrow(m1.nrow)
+   : m(m1.nrow*(m1.nrow+1)/2), nrow(m1.nrow)
 {
    size = nrow * (nrow+1) / 2;
-   m = new_m(size);
 
    int n = num_row();
-   memset(m, 0, size * sizeof(double));
+   m.assign(size,0);
 
-   double *mrr = m;
-   double *mr = m1.m;
+   HepMatrix::mIter mrr = m.begin();
+   HepMatrix::mcIter mr = m1.m.begin();
    for(int r=1;r<=n;r++) {
       *mrr = *(mr++);
       mrr += (r+1);
@@ -179,10 +173,10 @@ return mret(max_row-min_row+1);
 #endif
   if(max_row > num_row())
     error("HepSymMatrix::sub: Index out of range");
-  double *a = mret.m;
-  double *b1 = m + (min_row+2)*(min_row-1)/2;
+  HepMatrix::mIter a = mret.m.begin();
+  HepMatrix::mcIter b1 = m.begin() + (min_row+2)*(min_row-1)/2;
   for(int irow=1; irow<=mret.num_row(); irow++) {
-    double *b = b1;
+    HepMatrix::mcIter b = b1;
     for(int icol=1; icol<=irow; icol++) {
       *(a++) = *(b++);
     }
@@ -191,16 +185,15 @@ return mret(max_row-min_row+1);
   return mret;
 }
 
-#ifdef HEP_CC_NEED_SUB_WITHOUT_CONST
 HepSymMatrix HepSymMatrix::sub(int min_row, int max_row) 
 {
   HepSymMatrix mret(max_row-min_row+1);
   if(max_row > num_row())
     error("HepSymMatrix::sub: Index out of range");
-  double *a = mret.m;
-  double *b1 = m + (min_row+2)*(min_row-1)/2;
+  HepMatrix::mIter a = mret.m.begin();
+  HepMatrix::mIter b1 = m.begin() + (min_row+2)*(min_row-1)/2;
   for(int irow=1; irow<=mret.num_row(); irow++) {
-    double *b = b1;
+    HepMatrix::mIter b = b1;
     for(int icol=1; icol<=irow; icol++) {
       *(a++) = *(b++);
     }
@@ -208,16 +201,15 @@ HepSymMatrix HepSymMatrix::sub(int min_row, int max_row)
   }
   return mret;
 }
-#endif
 
 void HepSymMatrix::sub(int row,const HepSymMatrix &m1)
 {
   if(row <1 || row+m1.num_row()-1 > num_row() )
     error("HepSymMatrix::sub: Index out of range");
-  double *a = m1.m;
-  double *b1 = m + (row+2)*(row-1)/2;
+  HepMatrix::mcIter a = m1.m.begin();
+  HepMatrix::mIter b1 = m.begin() + (row+2)*(row-1)/2;
   for(int irow=1; irow<=m1.num_row(); irow++) {
-    double *b = b1;
+    HepMatrix::mIter b = b1;
     for(int icol=1; icol<=irow; icol++) {
       *(b++) = *(a++);
     }
@@ -256,9 +248,9 @@ HepSymMatrix HepSymMatrix::operator- () const
 {
    HepSymMatrix m2(nrow);
 #endif
-   register double *a=m;
-   register double *b=m2.m;
-   register double *e=m+num_size();
+   register HepMatrix::mcIter a=m.begin();
+   register HepMatrix::mIter b=m2.m.begin();
+   register HepMatrix::mcIter e=m.begin()+num_size();
    for(;a<e; a++, b++) (*b) = -(*a);
    return m2;
 }
@@ -389,6 +381,7 @@ HepSymMatrix operator*(double t,const HepSymMatrix &m1)
   return mret;
 }
 
+
 HepMatrix operator*(const HepMatrix &m1,const HepSymMatrix &m2)
 #ifdef HEP_GNU_OPTIMIZED_RETURN
      return mret(m1.num_row(),m2.num_col());
@@ -398,11 +391,12 @@ HepMatrix operator*(const HepMatrix &m1,const HepSymMatrix &m2)
     HepMatrix mret(m1.num_row(),m2.num_col());
 #endif
     CHK_DIM_1(m1.num_col(),m2.num_row(),*);
-    double *mit1,*mit2=0,*sp,*snp,temp;
-    double *mir=mret.m;
+    HepMatrix::mcIter mit1, mit2, sp,snp; //mit2=0
+    double temp;
+    HepMatrix::mIter mir=mret.m.begin();
     int step,stept;
-    for(mit1=m1.m;mit1<m1.m+m1.num_row()*m1.num_col();mit1 = mit2)
-      for(step=1,snp=m2.m;step<=m2.num_row();)
+    for(mit1=m1.m.begin();mit1<m1.m.begin()+m1.num_row()*m1.num_col();mit1 = mit2)
+      for(step=1,snp=m2.m.begin();step<=m2.num_row();)
 	{
 	  mit2=mit1;
 	  sp=snp;
@@ -431,11 +425,11 @@ HepMatrix operator*(const HepSymMatrix &m1,const HepMatrix &m2)
 #endif
   CHK_DIM_1(m1.num_col(),m2.num_row(),*);
   int step,stept;
-  double *mit1,*mit2,*sp,*snp;
+  HepMatrix::mcIter mit1,mit2,sp,snp;
   double temp;
-  double *mir=mret.m;
-  for(step=1,snp=m1.m;step<=m1.num_row();snp+=step++)
-    for(mit1=m2.m;mit1<m2.m+m2.num_col();mit1++)
+  HepMatrix::mIter mir=mret.m.begin();
+  for(step=1,snp=m1.m.begin();step<=m1.num_row();snp+=step++)
+    for(mit1=m2.m.begin();mit1<m2.m.begin()+m2.num_col();mit1++)
       {
 	mit2=mit1;
 	sp=snp;
@@ -467,10 +461,11 @@ HepMatrix operator*(const HepSymMatrix &m1,const HepSymMatrix &m2)
 #endif
   CHK_DIM_1(m1.num_col(),m2.num_row(),*);
   int step1,stept1,step2,stept2;
-  double *snp1,*sp1,*snp2,*sp2,temp;
-  double *mr = mret.m;
-  for(step1=1,snp1=m1.m;step1<=m1.num_row();snp1+=step1++)
-    for(step2=1,snp2=m2.m;step2<=m2.num_row();)
+  HepMatrix::mcIter snp1,sp1,snp2,sp2;
+  double temp;
+  HepMatrix::mIter mr = mret.m.begin();
+  for(step1=1,snp1=m1.m.begin();step1<=m1.num_row();snp1+=step1++)
+    for(step2=1,snp2=m2.m.begin();step2<=m2.num_row();)
       {
 	sp1=snp1;
 	sp2=snp2;
@@ -512,13 +507,14 @@ HepVector operator*(const HepSymMatrix &m1,const HepVector &m2)
   HepVector mret(m1.num_row());
 #endif
   CHK_DIM_1(m1.num_col(),m2.num_row(),*);
-  double *sp,*snp,*vpt,temp;
+  HepMatrix::mcIter sp,snp,vpt;
+  double temp;
   int step,stept;
-  double *vrp=mret.m;
-  for(step=1,snp=m1.m;step<=m1.num_row();)
+  HepMatrix::mIter vrp=mret.m.begin();
+  for(step=1,snp=m1.m.begin();step<=m1.num_row();)
     {
       sp=snp;
-      vpt=m2.m;
+      vpt=m2.m.begin();
       snp+=step;
       temp=0;
       while(sp<snp)
@@ -542,10 +538,10 @@ HepSymMatrix vT_times_v(const HepVector &v)
 {
   HepSymMatrix mret(v.num_row());
 #endif
-  double *mr=mret.m;
-  double *vt1,*vt2;
-  for(vt1=v.m;vt1<v.m+v.num_row();vt1++)
-    for(vt2=v.m;vt2<=vt1;vt2++)
+  HepMatrix::mIter mr=mret.m.begin();
+  HepMatrix::mcIter vt1,vt2;
+  for(vt1=v.m.begin();vt1<v.m.begin()+v.num_row();vt1++)
+    for(vt2=v.m.begin();vt2<=vt1;vt2++)
       *(mr++)=(*vt1)*(*vt2);
   return mret;
 }
@@ -558,13 +554,13 @@ HepMatrix & HepMatrix::operator+=(const HepSymMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),+=);
   int n = num_col();
-  double *sjk = m2.m;
-  double *m1j = m;
-  double *mj = m;
+  HepMatrix::mcIter sjk = m2.m.begin();
+  mIter m1j = m.begin();
+  mIter mj = m.begin();
   // j >= k
   for(int j=1;j<=num_row();j++) {
-    double *mjk = mj;
-    double *mkj = m1j;
+    mIter mjk = mj;
+    mIter mkj = m1j;
     for(int k=1;k<=j;k++) {
       *(mjk++) += *sjk;
       if(j!=k) *mkj += *sjk;
@@ -588,13 +584,13 @@ HepMatrix & HepMatrix::operator-=(const HepSymMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),-=);
   int n = num_col();
-  double *sjk = m2.m;
-  double *m1j = m;
-  double *mj = m;
+  HepMatrix::mcIter sjk = m2.m.begin();
+  mIter m1j = m.begin();
+  mIter mj = m.begin();
   // j >= k
   for(int j=1;j<=num_row();j++) {
-    double *mjk = mj;
-    double *mkj = m1j;
+    mIter mjk = mj;
+    mIter mkj = m1j;
     for(int k=1;k<=j;k++) {
       *(mjk++) -= *sjk;
       if(j!=k) *mkj -= *sjk;
@@ -630,20 +626,19 @@ HepMatrix & HepMatrix::operator=(const HepSymMatrix &m1)
 {
    if(m1.nrow*m1.nrow != size)
    {
-      delete_m(size,m);
       size = m1.nrow * m1.nrow;
-      m = new_m(size);
+      m.resize(size);
    }
    nrow = m1.nrow;
    ncol = m1.nrow;
    int n = ncol;
-   double *sjk = m1.m;
-   double *m1j = m;
-   double *mj = m;
+   mcIter sjk = m1.m.begin();
+   mIter m1j = m.begin();
+   mIter mj = m.begin();
    // j >= k
    for(int j=1;j<=num_row();j++) {
-      double *mjk = mj;
-      double *mkj = m1j;
+      mIter mjk = mj;
+      mIter mkj = m1j;
       for(int k=1;k<=j;k++) {
 	 *(mjk++) = *sjk;
 	 if(j!=k) *mkj = *sjk;
@@ -660,12 +655,11 @@ HepSymMatrix & HepSymMatrix::operator=(const HepSymMatrix &m1)
 {
    if(m1.nrow != nrow)
    {
-      delete_m(size,m);
       nrow = m1.nrow;
       size = m1.size;
-      m = new_m(size);
+      m.resize(size);
    }
-   memcpy(m, m1.m, size*sizeof(double));
+   m = m1.m;
    return (*this);
 }
 
@@ -673,15 +667,14 @@ HepSymMatrix & HepSymMatrix::operator=(const HepDiagMatrix &m1)
 {
    if(m1.nrow != nrow)
    {
-      delete_m(size, m);
       nrow = m1.nrow;
       size = nrow * (nrow+1) / 2;
-      m = new_m(size);
+      m.resize(size);
    }
 
-   memset(m, 0, size * sizeof(double));
-   double *mrr = m;
-   double *mr = m1.m;
+   m.assign(size,0);
+   HepMatrix::mIter mrr = m.begin();
+   HepMatrix::mcIter mr = m1.m.begin();
    for(int r=1; r<=nrow; r++) {
       *mrr = *(mr++);
       mrr += (r+1);
@@ -721,8 +714,8 @@ return mret(num_row());
 {
   HepSymMatrix mret(num_row());
 #endif
-  double *a = m;
-  double *b = mret.m;
+  HepMatrix::mcIter a = m.begin();
+  HepMatrix::mIter b = mret.m.begin();
   for(int ir=1;ir<=num_row();ir++) {
     for(int ic=1;ic<=ir;ic++) {
       *(b++) = (*f)(*(a++), ir, ic);
@@ -735,15 +728,14 @@ void HepSymMatrix::assign (const HepMatrix &m1)
 {
    if(m1.nrow != nrow)
    {
-      delete_m(size, m);
       nrow = m1.nrow;
       size = nrow * (nrow+1) / 2;
-      m = new_m(size);
+      m.resize(size);
    }
-   double *a = m1.m;
-   double *b = m;
+   HepMatrix::mcIter a = m1.m.begin();
+   HepMatrix::mIter b = m.begin();
    for(int r=1;r<=nrow;r++) {
-      double *d = a;
+      HepMatrix::mcIter d = a;
       for(int c=1;c<=r;c++) {
 	 *(b++) = *(d++);
       }
@@ -763,14 +755,14 @@ HepSymMatrix HepSymMatrix::similarity(const HepMatrix &m1) const
 // If m1*(*this) has correct dimensions, then so will the m1.T multiplication.
 // So there is no need to check dimensions again.
   int n = m1.num_col();
-  double *mr = mret.m;
-  double *tempr1 = temp.m;
+  HepMatrix::mIter mr = mret.m.begin();
+  HepMatrix::mIter tempr1 = temp.m.begin();
   for(int r=1;r<=mret.num_row();r++) {
-    double *m1c1 = m1.m;
+    HepMatrix::mcIter m1c1 = m1.m.begin();
     for(int c=1;c<=r;c++) {
       register double tmp = 0.0;
-      double *tempri = tempr1;
-      double *m1ci = m1c1;
+      HepMatrix::mIter tempri = tempr1;
+      HepMatrix::mcIter m1ci = m1c1;
       for(int i=1;i<=m1.num_col();i++) {
 	tmp+=(*(tempri++))*(*(m1ci++));
       }
@@ -792,15 +784,15 @@ HepSymMatrix HepSymMatrix::similarity(const HepSymMatrix &m1) const
 #endif
   HepMatrix temp = m1*(*this);
   int n = m1.num_col();
-  double *mr = mret.m;
-  double *tempr1 = temp.m;
+  HepMatrix::mIter mr = mret.m.begin();
+  HepMatrix::mIter tempr1 = temp.m.begin();
   for(int r=1;r<=mret.num_row();r++) {
-    double *m1c1 = m1.m;
+    HepMatrix::mcIter m1c1 = m1.m.begin();
     int c;
     for(c=1;c<=r;c++) {
       register double tmp = 0.0;
-      double *tempri = tempr1;
-      double *m1ci = m1c1;
+      HepMatrix::mIter tempri = tempr1;
+      HepMatrix::mcIter m1ci = m1c1;
       int i;
       for(i=1;i<c;i++) {
 	tmp+=(*(tempri++))*(*(m1ci++));
@@ -823,9 +815,9 @@ const {
   HepVector temp = (*this) *m1;
 // If m1*(*this) has correct dimensions, then so will the m1.T multiplication.
 // So there is no need to check dimensions again.
-  double *a=temp.m;
-  double *b=m1.m;
-  double *e=a+m1.num_row();
+  HepMatrix::mIter a=temp.m.begin();
+  HepMatrix::mcIter b=m1.m.begin();
+  HepMatrix::mIter e=a+m1.num_row();
   for(;a<e;) mret += (*(a++)) * (*(b++));
   return mret;
 }
@@ -840,14 +832,14 @@ HepSymMatrix HepSymMatrix::similarityT(const HepMatrix &m1) const
 #endif
   HepMatrix temp = (*this)*m1;
   int n = m1.num_col();
-  double *mrc = mret.m;
-  double *temp1r = temp.m;
+  HepMatrix::mIter mrc = mret.m.begin();
+  HepMatrix::mIter temp1r = temp.m.begin();
   for(int r=1;r<=mret.num_row();r++) {
-    double *m11c = m1.m;
+    HepMatrix::mcIter m11c = m1.m.begin();
     for(int c=1;c<=r;c++) {
       register double tmp = 0.0;
-      register double *tempir = temp1r;
-      register double *m1ic = m11c;
+      register HepMatrix::mIter tempir = temp1r;
+      register HepMatrix::mcIter m1ic = m11c;
       for(int i=1;i<=m1.num_row();i++) {
 	tmp+=(*(tempir))*(*(m1ic));
 	tempir += n;
@@ -871,28 +863,28 @@ void HepSymMatrix::invert(int &ifail) {
       double det, temp;
       double t1, t2, t3;
       double c11,c12,c13,c22,c23,c33;
-      c11 = (*(m+2)) * (*(m+5)) - (*(m+4)) * (*(m+4));
-      c12 = (*(m+4)) * (*(m+3)) - (*(m+1)) * (*(m+5));
-      c13 = (*(m+1)) * (*(m+4)) - (*(m+2)) * (*(m+3));
-      c22 = (*(m+5)) * (*m) - (*(m+3)) * (*(m+3));
-      c23 = (*(m+3)) * (*(m+1)) - (*(m+4)) * (*m);
-      c33 = (*m) * (*(m+2)) - (*(m+1)) * (*(m+1));
-      t1 = fabs(*m);
-      t2 = fabs(*(m+1));
-      t3 = fabs(*(m+3));
+      c11 = (*(m.begin()+2)) * (*(m.begin()+5)) - (*(m.begin()+4)) * (*(m.begin()+4));
+      c12 = (*(m.begin()+4)) * (*(m.begin()+3)) - (*(m.begin()+1)) * (*(m.begin()+5));
+      c13 = (*(m.begin()+1)) * (*(m.begin()+4)) - (*(m.begin()+2)) * (*(m.begin()+3));
+      c22 = (*(m.begin()+5)) * (*m.begin()) - (*(m.begin()+3)) * (*(m.begin()+3));
+      c23 = (*(m.begin()+3)) * (*(m.begin()+1)) - (*(m.begin()+4)) * (*m.begin());
+      c33 = (*m.begin()) * (*(m.begin()+2)) - (*(m.begin()+1)) * (*(m.begin()+1));
+      t1 = fabs(*m.begin());
+      t2 = fabs(*(m.begin()+1));
+      t3 = fabs(*(m.begin()+3));
       if (t1 >= t2) {
 	if (t3 >= t1) {
-	  temp = *(m+3);
+	  temp = *(m.begin()+3);
 	  det = c23*c12-c22*c13;
 	} else {
-	  temp = *m;
+	  temp = *m.begin();
 	  det = c22*c33-c23*c23;
 	}
       } else if (t3 >= t2) {
-	temp = *(m+3);
+	temp = *(m.begin()+3);
 	det = c23*c12-c22*c13;
       } else {
-	temp = *(m+1);
+	temp = *(m.begin()+1);
 	det = c13*c23-c12*c33;
       }
       if (det==0) {
@@ -901,7 +893,7 @@ void HepSymMatrix::invert(int &ifail) {
       }
       {
 	double s = temp/det;
-	double *mm = m;
+	HepMatrix::mIter mm = m.begin();
 	*(mm++) = s*c11;
 	*(mm++) = s*c12;
 	*(mm++) = s*c22;
@@ -914,25 +906,25 @@ void HepSymMatrix::invert(int &ifail) {
  case 2:
     {
       double det, temp, s;
-      det = (*m)*(*(m+2)) - (*(m+1))*(*(m+1));
+      det = (*m.begin())*(*(m.begin()+2)) - (*(m.begin()+1))*(*(m.begin()+1));
       if (det==0) {
 	ifail = 1;
 	return;
       }
       s = 1.0/det;
-      *(m+1) *= -s;
-      temp = s*(*(m+2));
-      *(m+2) = s*(*m);
-      *m = temp;
+      *(m.begin()+1) *= -s;
+      temp = s*(*(m.begin()+2));
+      *(m.begin()+2) = s*(*m.begin());
+      *m.begin() = temp;
       break;
     }
  case 1:
     {
-      if ((*m)==0) {
+      if ((*m.begin())==0) {
 	ifail = 1;
 	return;
       }
-      *m = 1.0/(*m);
+      *m.begin() = 1.0/(*m.begin());
       break;
     }
  case 5:
@@ -960,14 +952,11 @@ void HepSymMatrix::invert(int &ifail) {
 }
 
 double HepSymMatrix::determinant() const {
-  static int max_array = 20;
-  static int *ir = new int [max_array+1];
-
-  if (nrow > max_array) {
-    delete [] ir;
-    max_array = nrow;
-    ir = new int [max_array+1];
-  }
+  static const int max_array = 20;
+  // ir must point to an array which is ***1 longer than*** nrow
+  static std::vector<int> ir_vec (max_array+1); 
+  if (ir_vec.size() <= static_cast<unsigned int>(nrow)) ir_vec.resize(nrow+1);
+  int * ir = &ir_vec[0];   
 
   double det;
   HepMatrix mt(*this);
@@ -979,7 +968,7 @@ double HepSymMatrix::determinant() const {
 double HepSymMatrix::trace() const {
    double t = 0.0;
    for (int i=0; i<nrow; i++) 
-      t += *(m + (i+3)*i/2);
+     t += *(m.begin() + (i+3)*i/2);
    return t;
 }
 
@@ -994,16 +983,36 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 
   int i, j, k, s;
   int pivrow;
-  int max_array = 6;
-      
-  static int * piv = new int[max_array]; 
-  // used to store details of exchanges
-  static double *x = new double [max_array]; 
-  // helper storage, needs to have at least size nrow,
-  // which will be less than or equal 6 most of the time
+
+  // Establish the two working-space arrays needed:  x and piv are
+  // used as pointers to arrays of doubles and ints respectively, each
+  // of length nrow.  We do not want to reallocate each time through
+  // unless the size needs to grow.  We do not want to leak memory, even
+  // by having a new without a delete that is only done once.
+  
+  static const int max_array = 25;
+#ifdef DISABLE_ALLOC
+  static std::vector<double> xvec (max_array);
+  static std::vector<int>    pivv (max_array);
+  typedef std::vector<int>::iterator pivIter; 
+#else
+  static std::vector<double,Alloc<double,25> > xvec (max_array);
+  static std::vector<int,   Alloc<int,   25> > pivv (max_array);
+  typedef std::vector<int,Alloc<int,25> >::iterator pivIter; 
+#endif	
+  if (xvec.size() < static_cast<unsigned int>(nrow)) xvec.resize(nrow);
+  if (pivv.size() < static_cast<unsigned int>(nrow)) pivv.resize(nrow);
+     // Note - resize shuld do  nothing if the size is already larger than nrow,
+     //        but on VC++ there are indications that it does so we check.
+     // Note - the data elements in a vector are guaranteed to be contiguous,
+     //        so x[i] and piv[i] are optimally fast.
+  mIter   x   = xvec.begin();
+  // x[i] is used as helper storage, needs to have at least size nrow.
+  pivIter piv = pivv.begin();
+  // piv[i] is used to store details of exchanges
       
   double temp1, temp2;
-  double *ip, *mjj, *iq;
+  HepMatrix::mIter ip, mjj, iq;
   double lambda, sigma;
   const double alpha = .6404; // = (1+sqrt(17))/8
   const double epsilon = 32*DBL_EPSILON;
@@ -1011,15 +1020,7 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
   // it is set to zero.
   // this constant could be set to zero but then the algorithm
   // doesn't neccessarily detect that a matrix is singular
-      
-  if (nrow > max_array) // need more space than expected
-	{
-	  max_array = nrow;
-	  delete [] x;
-	  delete [] piv;
-	  x = new double[nrow];
-	  piv = new int[nrow];
-	} 
+  
   for (i = 0; i < nrow; i++)
 	piv[i] = i+1;
       
@@ -1031,10 +1032,10 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 	
   for (j=1; j < nrow; j+=s)  // main loop over columns
   {
-	  mjj = m + j*(j-1)/2 + j-1;
+	  mjj = m.begin() + j*(j-1)/2 + j-1;
 	  lambda = 0;           // compute lambda = max of A(j+1:n,j)
 	  pivrow = j+1;
-	  ip = m + (j+1)*j/2 + j-1;
+	  ip = m.begin() + (j+1)*j/2 + j-1;
 	  for (i=j+1; i <= nrow ; ip += i++)
 	    if (fabs(*ip) > lambda)
 	      {
@@ -1062,7 +1063,7 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 	      else
 		{
 		  sigma = 0;  // compute sigma = max A(pivrow, j:pivrow-1)
-		  ip = m + pivrow*(pivrow-1)/2+j-1;
+		  ip = m.begin() + pivrow*(pivrow-1)/2+j-1;
 		  for (k=j; k < pivrow; k++)
 		    {
 		      if (fabs(*ip) > sigma)
@@ -1074,7 +1075,7 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		      s=1;
 		      pivrow = j;
 		    }
-		  else if (fabs(*(m+pivrow*(pivrow-1)/2+pivrow-1)) 
+		  else if (fabs(*(m.begin()+pivrow*(pivrow-1)/2+pivrow-1)) 
 				>= alpha * sigma)
 		    s=1;
 		  else
@@ -1093,18 +1094,18 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		  // update A(j+1:n, j+1,n)
 		  for (i=j+1; i <= nrow; i++)
 		    {
-		      temp1 = *(m + i*(i-1)/2 + j-1) * temp2;
-		      ip = m+i*(i-1)/2+j;
+		      temp1 = *(m.begin() + i*(i-1)/2 + j-1) * temp2;
+		      ip = m.begin()+i*(i-1)/2+j;
 		      for (k=j+1; k<=i; k++)
 			{
-			  *ip -= temp1 * *(m + k*(k-1)/2 + j-1);
+			  *ip -= temp1 * *(m.begin() + k*(k-1)/2 + j-1);
 			  if (fabs(*ip) <= epsilon)
 			    *ip=0;
 			  ip++;
 			}
 		    }
 		  // update L 
-		  ip = m + (j+1)*j/2 + j-1; 
+		  ip = m.begin() + (j+1)*j/2 + j-1; 
 		  for (i=j+1; i <= nrow; ip += i++)
 		    *ip *= temp2;
 		}
@@ -1114,17 +1115,17 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		  
 		  // interchange rows and columns j and pivrow in
 		  // submatrix (j:n,j:n)
-		  ip = m + pivrow*(pivrow-1)/2 + j;
+		  ip = m.begin() + pivrow*(pivrow-1)/2 + j;
 		  for (i=j+1; i < pivrow; i++, ip++)
 		    {
-		      temp1 = *(m + i*(i-1)/2 + j-1);
-		      *(m + i*(i-1)/2 + j-1)= *ip;
+		      temp1 = *(m.begin() + i*(i-1)/2 + j-1);
+		      *(m.begin() + i*(i-1)/2 + j-1)= *ip;
 		      *ip = temp1;
 		    }
 		  temp1 = *mjj;
-		  *mjj = *(m+pivrow*(pivrow-1)/2+pivrow-1);
-		  *(m+pivrow*(pivrow-1)/2+pivrow-1) = temp1;
-		  ip = m + (pivrow+1)*pivrow/2 + j-1;
+		  *mjj = *(m.begin()+pivrow*(pivrow-1)/2+pivrow-1);
+		  *(m.begin()+pivrow*(pivrow-1)/2+pivrow-1) = temp1;
+		  ip = m.begin() + (pivrow+1)*pivrow/2 + j-1;
 		  iq = ip + pivrow-j;
 		  for (i = pivrow+1; i <= nrow; ip += i, iq += i++)
 		    {
@@ -1143,18 +1144,18 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		  // update A(j+1:n, j+1:n)
 		  for (i = j+1; i <= nrow; i++)
 		    {
-		      temp1 = *(m + i*(i-1)/2 + j-1) * temp2;
-		      ip = m+i*(i-1)/2+j;
+		      temp1 = *(m.begin() + i*(i-1)/2 + j-1) * temp2;
+		      ip = m.begin()+i*(i-1)/2+j;
 		      for (k=j+1; k<=i; k++)
 			{
-			  *ip -= temp1 * *(m + k*(k-1)/2 + j-1);
+			  *ip -= temp1 * *(m.begin() + k*(k-1)/2 + j-1);
 			  if (fabs(*ip) <= epsilon)
 			    *ip=0;
 			  ip++;
 			}
 		    }
 		  // update L
-		  ip = m + (j+1)*j/2 + j-1;
+		  ip = m.begin() + (j+1)*j/2 + j-1;
 		  for (i=j+1; i<=nrow; ip += i++)
 		    *ip *= temp2;
 		}
@@ -1167,21 +1168,21 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		    {
 		      // interchange rows and columns j+1 and pivrow in
 		      // submatrix (j:n,j:n) 
-		      ip = m + pivrow*(pivrow-1)/2 + j+1;
+		      ip = m.begin() + pivrow*(pivrow-1)/2 + j+1;
 		      for (i=j+2; i < pivrow; i++, ip++)
 			{
-			  temp1 = *(m + i*(i-1)/2 + j);
-			  *(m + i*(i-1)/2 + j) = *ip;
+			  temp1 = *(m.begin() + i*(i-1)/2 + j);
+			  *(m.begin() + i*(i-1)/2 + j) = *ip;
 			  *ip = temp1;
 			}
 		      temp1 = *(mjj + j + 1);
 		      *(mjj + j + 1) = 
-			*(m + pivrow*(pivrow-1)/2 + pivrow-1);
-		      *(m + pivrow*(pivrow-1)/2 + pivrow-1) = temp1;
+			*(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1);
+		      *(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1) = temp1;
 		      temp1 = *(mjj + j);
-		      *(mjj + j) = *(m + pivrow*(pivrow-1)/2 + j-1);
-		      *(m + pivrow*(pivrow-1)/2 + j-1) = temp1;
-		      ip = m + (pivrow+1)*pivrow/2 + j;
+		      *(mjj + j) = *(m.begin() + pivrow*(pivrow-1)/2 + j-1);
+		      *(m.begin() + pivrow*(pivrow-1)/2 + j-1) = temp1;
+		      ip = m.begin() + (pivrow+1)*pivrow/2 + j;
 		      iq = ip + pivrow-(j+1);
 		      for (i = pivrow+1; i <= nrow; ip += i, iq += i++)
 			{
@@ -1209,7 +1210,7 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		      // update A(j+2:n, j+2:n)
 		      for (i=j+2; i <= nrow ; i++)
 			{
-			  ip = m + i*(i-1)/2 + j-1;
+			  ip = m.begin() + i*(i-1)/2 + j-1;
 			  temp1 = *ip * *mjj + *(ip + 1) * *(mjj + j);
 			  if (fabs(temp1 ) <= epsilon)
 			    temp1 = 0;
@@ -1218,8 +1219,8 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 			    temp2 = 0;
 			  for (k = j+2; k <= i ; k++)
 			    {
-			      ip = m + i*(i-1)/2 + k-1;
-			      iq = m + k*(k-1)/2 + j-1;
+			      ip = m.begin() + i*(i-1)/2 + k-1;
+			      iq = m.begin() + k*(k-1)/2 + j-1;
 			      *ip -= temp1 * *iq + temp2 * *(iq+1);
 			      if (fabs(*ip) <= epsilon)
 				*ip = 0;
@@ -1228,7 +1229,7 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		      // update L
 		      for (i=j+2; i <= nrow ; i++)
 			{
-			  ip = m + i*(i-1)/2 + j-1;
+			  ip = m.begin() + i*(i-1)/2 + j-1;
 			  temp1 = *ip * *mjj + *(ip+1) * *(mjj + j);
 			  if (fabs(temp1) <= epsilon)
 			    temp1 = 0;
@@ -1245,7 +1246,7 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 
   if (j == nrow) // the the last pivot is 1x1
   {
-	  mjj = m + j*(j-1)/2 + j-1;
+	  mjj = m.begin() + j*(j-1)/2 + j-1;
 	  if (*mjj == 0)
 	    {
 	      ifail = 1;
@@ -1259,27 +1260,27 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 	 
   for (j = nrow ; j >= 1 ; j -= s) // loop over columns
   {
-	  mjj = m + j*(j-1)/2 + j-1;
+	  mjj = m.begin() + j*(j-1)/2 + j-1;
 	  if (piv[j-1] > 0) // 1x1 pivot, compute column j of inverse
 	    {
 	      s = 1; 
 	      if (j < nrow)
 		{
-		  ip = m + (j+1)*j/2 + j-1;
+		  ip = m.begin() + (j+1)*j/2 + j-1;
 		  for (i=0; i < nrow-j; ip += 1+j+i++)
 		    x[i] = *ip;
 		  for (i=j+1; i<=nrow ; i++)
 		    {
 		      temp2=0;
-		      ip = m + i*(i-1)/2 + j;
+		      ip = m.begin() + i*(i-1)/2 + j;
 		      for (k=0; k <= i-j-1; k++)
 			temp2 += *ip++ * x[k];
 		      for (ip += i-1; k < nrow-j; ip += 1+j+k++) 
 			temp2 += *ip * x[k];
-		      *(m+ i*(i-1)/2 + j-1) = -temp2;
+		      *(m.begin()+ i*(i-1)/2 + j-1) = -temp2;
 		    }
 		  temp2 = 0;
-		  ip = m + (j+1)*j/2 + j-1;
+		  ip = m.begin() + (j+1)*j/2 + j-1;
 		  for (k=0; k < nrow-j; ip += 1+j+k++)
 		    temp2 += x[k] * *ip;
 		  *mjj -= temp2;
@@ -1292,44 +1293,44 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 	      s=2; 
 	      if (j < nrow)
 		{
-		  ip = m + (j+1)*j/2 + j-1;
+		  ip = m.begin() + (j+1)*j/2 + j-1;
 		  for (i=0; i < nrow-j; ip += 1+j+i++)
 		    x[i] = *ip;
 		  for (i=j+1; i<=nrow ; i++)
 		    {
 		      temp2 = 0;
-		      ip = m + i*(i-1)/2 + j;
+		      ip = m.begin() + i*(i-1)/2 + j;
 		      for (k=0; k <= i-j-1; k++)
 			temp2 += *ip++ * x[k];
 		      for (ip += i-1; k < nrow-j; ip += 1+j+k++)
 			temp2 += *ip * x[k];
-		      *(m+ i*(i-1)/2 + j-1) = -temp2;
+		      *(m.begin()+ i*(i-1)/2 + j-1) = -temp2;
 		    }    
 		  temp2 = 0;
-		  ip = m + (j+1)*j/2 + j-1;
+		  ip = m.begin() + (j+1)*j/2 + j-1;
 		  for (k=0; k < nrow-j; ip += 1+j+k++)
 		    temp2 += x[k] * *ip;
 		  *mjj -= temp2;
 		  temp2 = 0;
-		  ip = m + (j+1)*j/2 + j-2;
+		  ip = m.begin() + (j+1)*j/2 + j-2;
 		  for (i=j+1; i <= nrow; ip += i++)
 		    temp2 += *ip * *(ip+1);
 		  *(mjj-1) -= temp2;
-		  ip = m + (j+1)*j/2 + j-2;
+		  ip = m.begin() + (j+1)*j/2 + j-2;
 		  for (i=0; i < nrow-j; ip += 1+j+i++)
 		    x[i] = *ip;
 		  for (i=j+1; i <= nrow ; i++)
 		    {
 		      temp2 = 0;
-		      ip = m + i*(i-1)/2 + j;
+		      ip = m.begin() + i*(i-1)/2 + j;
 		      for (k=0; k <= i-j-1; k++)
 			temp2 += *ip++ * x[k];
 		      for (ip += i-1; k < nrow-j; ip += 1+j+k++)
 			temp2 += *ip * x[k];
-		      *(m+ i*(i-1)/2 + j-2)= -temp2;
+		      *(m.begin()+ i*(i-1)/2 + j-2)= -temp2;
 		    }
 		  temp2 = 0;
-		  ip = m + (j+1)*j/2 + j-2;
+		  ip = m.begin() + (j+1)*j/2 + j-2;
 		  for (k=0; k < nrow-j; ip += 1+j+k++)
 		    temp2 += x[k] * *ip;
 		  *(mjj-j) -= temp2;
@@ -1340,24 +1341,24 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 	  // or rows and columns j and -piv[j-2]
 	  
 	  pivrow = (piv[j-1]==0)? -piv[j-2] : piv[j-1];
-	  ip = m + pivrow*(pivrow-1)/2 + j;
+	  ip = m.begin() + pivrow*(pivrow-1)/2 + j;
 	  for (i=j+1;i < pivrow; i++, ip++)
 	    {
-	      temp1 = *(m + i*(i-1)/2 + j-1);
-	      *(m + i*(i-1)/2 + j-1) = *ip;
+	      temp1 = *(m.begin() + i*(i-1)/2 + j-1);
+	      *(m.begin() + i*(i-1)/2 + j-1) = *ip;
 	      *ip = temp1;
 	    }
 	  temp1 = *mjj;
-	  *mjj = *(m + pivrow*(pivrow-1)/2 + pivrow-1);
-	  *(m + pivrow*(pivrow-1)/2 + pivrow-1) = temp1;
+	  *mjj = *(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1);
+	  *(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1) = temp1;
 	  if (s==2)
 	    {
 	      temp1 = *(mjj-1);
-	      *(mjj-1) = *( m + pivrow*(pivrow-1)/2 + j-2);
-	      *( m + pivrow*(pivrow-1)/2 + j-2) = temp1;
+	      *(mjj-1) = *( m.begin() + pivrow*(pivrow-1)/2 + j-2);
+	      *( m.begin() + pivrow*(pivrow-1)/2 + j-2) = temp1;
 	    }
 	  
-	  ip = m + (pivrow+1)*pivrow/2 + j-1;  // &A(i,j)
+	  ip = m.begin() + (pivrow+1)*pivrow/2 + j-1;  // &A(i,j)
 	  iq = ip + pivrow-j;
 	  for (i = pivrow+1; i <= nrow; ip += i, iq += i++)
 	    {

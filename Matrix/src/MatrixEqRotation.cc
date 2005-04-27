@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: MatrixEqRotation.cc,v 1.3 2003/08/13 20:00:12 garren Exp $
+// $Id: MatrixEqRotation.cc,v 1.4 2005/04/27 19:31:55 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -48,13 +48,13 @@ namespace CLHEP {
 
 HepMatrix & HepMatrix::operator=(const HepRotation &m2) {
   if(9!=size) {
-    delete_m(size,m);
+    //delete &m;
     size = 9;
-    m = new_m(size);
+    m.resize(size);
   }
   nrow = ncol = 3;
-  double *mm;
-  mm = m;
+  mIter mm;
+  mm = m.begin();
   *mm++ = m2.xx();
   *mm++ = m2.xy();
   *mm++ = m2.xz();
