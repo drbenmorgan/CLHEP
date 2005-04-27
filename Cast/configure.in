@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP Cast, 2.1.0.0, CLHEP@cern.ch, Cast)
+AC_INIT(CLHEP Cast, 2.1.0.0, http://savannah.cern.ch/projects/clhep/, Cast)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/itos.cc])
@@ -174,9 +174,10 @@ g++)
       ;;
    *-*-darwin*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
-      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=dylib
+      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-dynamiclib -single_module"; SHEXT=dylib
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
+      build_shared="no"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
@@ -194,9 +195,10 @@ c++)
       ;;
    *-*-darwin*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
-      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=dylib
+      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-dynamiclib -single_module"; SHEXT=dylib
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
+      build_shared="no"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
