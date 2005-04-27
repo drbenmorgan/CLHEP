@@ -1,4 +1,4 @@
-// $Id: RandPoisson.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandPoisson.h,v 1.4 2005/04/27 20:12:49 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -23,6 +23,7 @@
 // Gabriele Cosmo - Relocated static data from HepRandom: 5th Jan 1999
 // M. Fischler    - Moved meanMax and defaultMean from private to protected
 //		    to accomodate derived classes RandPoissonQ & RandPoissonT
+// M Fischler      - put and get to/from streams 12/10/04
 // =======================================================================
 
 #ifndef RandPoisson_h
@@ -55,6 +56,11 @@ public:
   virtual ~RandPoisson();
   // Destructor
 
+  // Save and restore to/from streams
+  
+  std::ostream & put ( std::ostream & os ) const;
+  std::istream & get ( std::istream & is );
+
   // Static methods to shoot random values using the static generator
 
   static  long shoot( double m=1.0 );
@@ -81,14 +87,19 @@ public:
   double operator()();
   double operator()( double m );
   
+  std::string name() const;
+  HepRandomEngine & engine();
+
+  static std::string distributionName() {return "RandPoisson";}  
+  // Provides the name of this distribution class
 
 protected:
 
   // Protected copy constructor. Defining it here disallows user use.
   RandPoisson(const RandPoisson& d);
 
-  const double meanMax;
-  const double defaultMean;
+  double meanMax;
+  double defaultMean;
 
   static  double getOldMean() {return oldm_st;}
 

@@ -1,4 +1,4 @@
-// $Id: RandGauss.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandGauss.h,v 1.4 2005/04/27 20:12:49 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -23,6 +23,7 @@
 //                  operator() with arguments. Introduced method normal()
 //                  for computation in fire(): 16th Feb 1998
 // Gabriele Cosmo - Relocated static data from HepRandom: 5th Jan 1999
+// M Fischler     - put and get to/from streams 12/8/04
 // =======================================================================
 
 #ifndef RandGauss_h
@@ -92,6 +93,17 @@ public:
   virtual double operator()();
   virtual double operator()( double mean, double stdDev );
 
+  std::string name() const;
+  HepRandomEngine & engine();
+
+  static std::string distributionName() {return "RandGauss";}  
+  // Provides the name of this distribution class
+    
+  // Save and restore to/from streams
+  
+  std::ostream & put ( std::ostream & os ) const;
+  std::istream & get ( std::istream & is );
+  
   //  Methods setFlag(false) and setF(false) if invoked in the client
   //  code before shoot/fire will force generation of a new couple of
   //  values.
@@ -115,6 +127,18 @@ public:
   static void restoreEngineStatus( const char filename[] = "Config.conf" );
   // Restores a saved status (if any) for the current engine.
 
+  static std::ostream& saveFullState ( std::ostream & os );
+  // Saves to stream the state of the engine and cached data.
+
+  static std::istream& restoreFullState ( std::istream & is );
+  // Restores from stream the state of the engine and cached data.
+
+  static std::ostream& saveDistState ( std::ostream & os );
+  // Saves to stream the state of the cached data.
+
+  static std::istream& restoreDistState ( std::istream & is );
+  // Restores from stream the state of the cached data.
+
 
 protected:
 
@@ -127,12 +151,13 @@ protected:
 
   double normal();
 
-  const double defaultMean;
-  const double defaultStdDev;
+  double defaultMean;
+  double defaultStdDev;
+
+  HepRandomEngine* localEngine;
 
 private:
 
-  HepRandomEngine* localEngine;
   bool deleteEngine, set;
   double nextGauss;
 

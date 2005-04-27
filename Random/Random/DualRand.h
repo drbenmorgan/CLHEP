@@ -1,4 +1,4 @@
-// $Id: DualRand.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: DualRand.h,v 1.4 2005/04/27 20:12:49 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,15 +21,18 @@
 //
 // =======================================================================
 //  Canopy random number generator DualRand.
-//      Doug Toussaint   5/25/88
-//      Optimized by GMH 7/26/88
-//      Optimized by GMH 7/26/88
-//      Repaired  by GMH 12/1/88 to update modular congruence state
-//      Put into ranlib by GMH 6/23/89
-//      Re-written as C++ routine for 32-bit ints MF 1/26/98
-//      Re-written for CLHEP package             KLS 6/04/98
-//      Removed pow() from flat method for speed KLS 7/21/98
-// Ken Smith      - Added conversion operators:  6th Aug 1998
+//  Doug Toussaint   5/25/88					           
+//  Optimized by GMH 7/26/88					           
+//  Optimized by GMH 7/26/88					           
+//  Repaired  by GMH 12/1/88 to update modular congruence state            
+//  Put into ranlib by GMH 6/23/89				           
+//  Re-written as C++ routine for 32-bit ints MF 1/26/98	           
+//  Re-written for CLHEP package	     KLS 6/04/98	           
+//  Removed pow() from flat method for speed KLS 7/21/98	           
+//  Ken Smith	   - Added conversion operators:  6th Aug 1998             
+//  Mark Fischler    methods for distrib. instance save/restore 12/8/04    
+//  Mark Fischler    methods for anonymous save/restore 12/27/04    
+// Mark Fischler  - methods for vector save/restore 3/7/05    
 // =======================================================================
 
 
@@ -84,8 +87,19 @@ public:
   operator float();      // flat value, without worrying about filling bits
   operator unsigned int();  // 32-bit flat value, quickest of all
 
-  friend std::ostream & operator<< (std::ostream & os, const DualRand & e);
-  friend std::istream & operator>> (std::istream & is,       DualRand & e);
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+  static  std::string beginTag ( );
+  virtual std::istream & getState ( std::istream & is );
+    
+  std::string name() const;
+  static std::string engineName() {return "DualRand";}
+
+  std::vector<unsigned long> put () const;
+  bool get (const std::vector<unsigned long> & v);
+  bool getState (const std::vector<unsigned long> & v);
+  
+  static const unsigned int VECTOR_STATE_SIZE = 9;
 
 private:
 
@@ -104,7 +118,9 @@ private:
     Tausworthe(unsigned int seed);
     operator unsigned int();
     void put(std::ostream & os) const;
+    void put(std::vector<unsigned long> & v) const;
     void get(std::istream & is);
+    bool get(std::vector<unsigned long>::const_iterator & iv);
   private:
     int wordIndex;
     unsigned int words[4];
@@ -116,7 +132,9 @@ private:
     IntegerCong(unsigned int seed, int streamNumber);
     operator unsigned int();
     void put(std::ostream & os) const;
+    void put(std::vector<unsigned long> & v) const;
     void get(std::istream & is);
+    bool get(std::vector<unsigned long>::const_iterator & iv);
   private:
     unsigned int state, multiplier, addend;
   }; // IntegerCong

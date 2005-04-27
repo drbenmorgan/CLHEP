@@ -1,4 +1,4 @@
-// $Id: RandGauss.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandGauss.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -19,14 +19,29 @@
 //		    1/26/00.
 // M Fischler     - Workaround for problem of non-reproducing saveEngineStatus
 //		    by saving cached gaussian.  March 2000.
+// M Fischler     - Avoiding hang when file not found in restoreEngineStatus 
+//                  12/3/04
+// M Fischler     - put and get to/from streams 12/8/04
+// M Fischler     - save and restore dist to streams 12/20/04
+// M Fischler	  - put/get to/from streams uses pairs of ulongs when
+//		    storing doubles avoid problems with precision.
+//		    Similarly for saveEngineStatus and RestoreEngineStatus
+//		    and for save/restore distState
+//		    Care was taken that old-form output can still be read back.
+//			4/14/05
+//              
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandGauss.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <string.h>
 #include <cmath>	// for log()
 
 namespace CLHEP {
+
+std::string RandGauss::name() const {return "RandGauss";}
+HepRandomEngine & RandGauss::engine() {return *localEngine;}
 
 // Initialisation of static data
 bool RandGauss::set_st = false;
@@ -56,8 +71,10 @@ double RandGauss::shoot()
 
   if ( getFlag() ) {
     setFlag(false);
-    return getVal();
-  }
+    double x = getVal();
+    return x; 
+    // return getVal();
+  } 
 
   double r;
   double v1,v2,fac,val;
@@ -173,9 +190,11 @@ void RandGauss::saveEngineStatus ( const char filename[] ) {
 
   std::ofstream outfile ( filename, std::ios::app );
 
-  if ( set_st ) {
-    outfile << "RANDGAUSS CACHED_GAUSSIAN: " << std::setprecision(20) 
-					<< nextGauss_st << "\n";
+  if ( getFlag() ) {
+    std::vector<unsigned long> t(2);
+    t = DoubConv::dto2longs(getVal());
+    outfile << "RANDGAUSS CACHED_GAUSSIAN: Uvec " 
+	    << getVal() << " " << t[0] << " " << t[1] << "\n";
   } else {
     outfile << "RANDGAUSS NO_CACHED_GAUSSIAN: 0 \n" ;
   }
@@ -190,6 +209,7 @@ void RandGauss::restoreEngineStatus( const char filename[] ) {
   // Now find the line describing the cached variate:
 
   std::ifstream infile ( filename, std::ios::in );
+  if (!infile) return;
 
   char inputword[] = "NO_KEYWORD    "; // leaves room for 14 characters plus \0
   while (true) {
@@ -209,16 +229,181 @@ void RandGauss::restoreEngineStatus( const char filename[] ) {
     infile.width(39);
     infile >> setword;  // setword should be CACHED_GAUSSIAN:
     if (strcmp(setword,"CACHED_GAUSSIAN:") ==0) {
-      set_st = true;
-      infile >> nextGauss_st;
+      if (possibleKeywordInput(infile, "Uvec", nextGauss_st)) {
+        std::vector<unsigned long> t(2);
+        infile >> nextGauss_st >> t[0] >> t[1]; 
+        nextGauss_st = DoubConv::longs2double(t); 
+      }
+      // is >> nextGauss_st encompassed by possibleKeywordInput
+      setFlag(true);
     } else {
-      set_st = false;
+      setFlag(false);
+      infile >> nextGauss_st; // because a 0 will have been output
     }
   } else {
-    set_st = false;
+    setFlag(false);
   }
 
 } // restoreEngineStatus
+
+  // Save and restore to/from streams
+  
+std::ostream & RandGauss::put ( std::ostream & os ) const {
+  os << name() << "\n";
+  int prec = os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << "Uvec\n";
+  t = DoubConv::dto2longs(defaultMean);
+  os << defaultMean << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(defaultStdDev);
+  os << defaultStdDev << " " << t[0] << " " << t[1] << "\n";
+  if ( set ) {
+    t = DoubConv::dto2longs(nextGauss);
+    os << "nextGauss " << nextGauss << " " << t[0] << " " << t[1] << "\n";
+	#ifdef TRACE_IO
+	std::cout << "put(): nextGauss = " << nextGauss << "\n";
+	#endif
+  } else {
+	#ifdef TRACE_IO
+	std::cout << "put(): No nextGauss \n";
+	#endif
+    os << "no_cached_nextGauss \n";
+  }
+  os.precision(prec);
+  return os;
+} // put   
+
+std::istream & RandGauss::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  std::string c1;
+  std::string c2;
+  if (possibleKeywordInput(is, "Uvec", c1)) {
+    std::vector<unsigned long> t(2);
+    is >> defaultMean >> t[0] >> t[1]; defaultMean = DoubConv::longs2double(t); 
+    is >> defaultStdDev>>t[0]>>t[1]; defaultStdDev = DoubConv::longs2double(t); 
+    std::string ng;
+    is >> ng;
+    set = false;
+	#ifdef TRACE_IO
+	if (ng != "nextGauss") 
+	std::cout << "get(): ng = " << ng << "\n";
+	#endif	
+    if (ng == "nextGauss") {
+      is >> nextGauss >> t[0] >> t[1]; nextGauss = DoubConv::longs2double(t);
+	#ifdef TRACE_IO
+	std::cout << "get(): nextGauss read back as " << nextGauss << "\n";
+	#endif	
+      set = true;
+    }
+    return is;
+  }
+  // is >> c1 encompassed by possibleKeywordInput
+  is >> defaultMean >> c2 >> defaultStdDev;
+  if ( (!is) || (c1 != "Mean:") || (c2 != "Sigma:") ) {
+    std::cerr << "i/o problem while expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "default mean and/or sigma could not be read\n";
+    return is;
+  }
+  is >> c1 >> c2 >> nextGauss;
+  if ( (!is) || (c1 != "RANDGAUSS") ) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Failure when reading caching state of RandGauss\n";
+    return is;
+  }
+  if (c2 == "CACHED_GAUSSIAN:") {
+    set = true;
+  } else if (c2 == "NO_CACHED_GAUSSIAN:") {
+    set = false;  
+  } else {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Unexpected caching state keyword of RandGauss:" << c2
+	      << "\nistream is left in the badbit state\n";
+  } 
+  return is;
+} // get
+
+  // Static save and restore to/from streams
+  
+std::ostream & RandGauss::saveDistState ( std::ostream & os ) {
+  int prec = os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << distributionName() << "\n";
+  os << "Uvec\n";
+  if ( getFlag() ) {
+    t = DoubConv::dto2longs(getVal());
+    os << "nextGauss_st " << getVal() << " " << t[0] << " " << t[1] << "\n";
+  } else {
+    os << "no_cached_nextGauss_st \n";
+  }
+  os.precision(prec);
+  return os;
+}    
+
+std::istream & RandGauss::restoreDistState ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != distributionName()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read static state of a "
+    	      << distributionName() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  std::string c1;
+  std::string c2;
+  if (possibleKeywordInput(is, "Uvec", c1)) {
+    std::vector<unsigned long> t(2);
+    std::string ng;
+    is >> ng;
+    setFlag (false);
+    if (ng == "nextGauss_st") {
+      is >> nextGauss_st >> t[0] >> t[1]; 
+      nextGauss_st = DoubConv::longs2double(t);
+      setFlag (true);
+    }
+    return is;
+  }
+  // is >> c1 encompassed by possibleKeywordInput
+  is >> c2 >> nextGauss_st;
+  if ( (!is) || (c1 != "RANDGAUSS") ) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Failure when reading caching state of static RandGauss\n";
+    return is;
+  }
+  if (c2 == "CACHED_GAUSSIAN:") {
+    setFlag(true);
+  } else if (c2 == "NO_CACHED_GAUSSIAN:") {
+    setFlag(false);  
+  } else {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Unexpected caching state keyword of static RandGauss:" << c2
+	      << "\nistream is left in the badbit state\n";
+  } 
+  return is;
+} 
+
+std::ostream & RandGauss::saveFullState ( std::ostream & os ) {
+  HepRandom::saveFullState(os);
+  saveDistState(os);
+  return os;
+}
+  
+std::istream & RandGauss::restoreFullState ( std::istream & is ) {
+  HepRandom::restoreFullState(is);
+  restoreDistState(is);
+  return is;
+}
 
 }  // namespace CLHEP
 

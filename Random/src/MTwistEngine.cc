@@ -1,4 +1,4 @@
-// $Id: MTwistEngine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: MTwistEngine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -26,11 +26,19 @@
 //                  to avoid per-instance space overhead and
 //                  correct the rounding procedure              16 Sep 1998
 // J. Marfaffino  - Remove dependence on hepString class        13 May 1999
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - Methods for distrib. instacne save/restore  12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
+// M. Fischler    - State-saving using only ints, for portability 4/12/05
+//		    
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/MTwistEngine.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>	// for ldexp()
 #include <stdlib.h>	// for abs(int)
@@ -44,6 +52,9 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 double MTwistEngine::twoToMinus_32;
 double MTwistEngine::twoToMinus_53;
 double MTwistEngine::nearlyTwoToMinus_54;
+
+std::string MTwistEngine::name() const {return "MTwistEngine";}
+
 
 void MTwistEngine::powersOfTwo() {
   twoToMinus_32 = ldexp (1.0, -32);
@@ -79,7 +90,7 @@ MTwistEngine::MTwistEngine(long seed)
   for( int i=0; i < 2000; ++i ) flat();      // Warm up just a bit
 }
 
-MTwistEngine::MTwistEngine(int rowIndex, int colIndex)  
+MTwistEngine::MTwistEngine(int rowIndex, int colIndex) 
 {
   powersOfTwo();
   int cycle = abs(int(rowIndex/maxIndex));
@@ -118,7 +129,7 @@ MTwistEngine & MTwistEngine::operator=( const MTwistEngine & p ) {
 double MTwistEngine::flat() {
   unsigned int y;
 
-  if( count624 >= N ) {
+   if( count624 >= N ) {
     register int i;
 
     for( i=0; i < NminusM; ++i ) {
@@ -187,6 +198,10 @@ void MTwistEngine::saveStatus( const char filename[] ) const
 void MTwistEngine::restoreStatus( const char filename[] )
 {
    std::ifstream inFile( filename, std::ios::in);
+   if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+     std::cerr << "  -- Engine state remains unchanged\n";
+     return;
+   }
 
    if (!inFile.bad() && !inFile.eof()) {
      inFile >> theSeed;
@@ -272,26 +287,36 @@ MTwistEngine::operator unsigned int() {
   return y;
 }
 
-std::ostream & operator << ( std::ostream& os, const MTwistEngine& e )
+std::ostream & MTwistEngine::put ( std::ostream& os ) const
 {
    char beginMarker[] = "MTwistEngine-begin";
    char endMarker[]   = "MTwistEngine-end";
 
+   int pr = os.precision(20);
    os << " " << beginMarker << " ";
-   os << e.theSeed << " ";
+   os << theSeed << " ";
    for (int i=0; i<624; ++i) {
-     os << std::setprecision(20) << e.mt[i] << " ";
+     os << mt[i] << "\n";
    }
-   os << e.count624 << " ";
-   os << endMarker << " ";
+   os << count624 << " ";
+   os << endMarker << "\n";
+   os.precision(pr);
    return os;
 }
 
-std::istream & operator >> ( std::istream& is, MTwistEngine& e )
+std::vector<unsigned long> MTwistEngine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<MTwistEngine>());
+  for (int i=0; i<624; ++i) {
+     v.push_back(static_cast<unsigned long>(mt[i]));
+  }
+  v.push_back(count624); 
+  return v;
+}
+
+std::istream &  MTwistEngine::get ( std::istream& is )
 {
   char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
-
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -304,9 +329,19 @@ std::istream & operator >> ( std::istream& is, MTwistEngine& e )
 	       << "\nwrong engine type found." << std::endl;
      return is;
    }
-  is >> e.theSeed;
-  for (int i=0; i<624; ++i)  is >> e.mt[i];
-  is >> e.count624;
+  return getState(is);
+}
+
+std::string MTwistEngine::beginTag ( )  { 
+  return "MTwistEngine-begin"; 
+}
+
+std::istream &  MTwistEngine::getState ( std::istream& is )
+{
+  char endMarker   [MarkerLen];
+  is >> theSeed;
+  for (int i=0; i<624; ++i)  is >> mt[i];
+  is >> count624;
   is >> std::ws;
   is.width(MarkerLen);  
   is >> endMarker;
@@ -317,6 +352,28 @@ std::istream & operator >> ( std::istream& is, MTwistEngine& e )
      return is;
    }
    return is;
+}
+
+bool MTwistEngine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<MTwistEngine>()) {
+    std::cerr << 
+    	"\nMTwistEngine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool MTwistEngine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != VECTOR_STATE_SIZE ) {
+    std::cerr << 
+    	"\nMTwistEngine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  for (int i=0; i<624; ++i) {
+     mt[i]=v[i+1];
+  }
+  count624 = v[625];
+  return true;
 }
 
 }  // namespace CLHEP

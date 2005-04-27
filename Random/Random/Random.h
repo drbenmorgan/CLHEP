@@ -1,4 +1,4 @@
-// $Id: Random.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: Random.h,v 1.4 2005/04/27 20:12:49 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -66,7 +66,7 @@ public:
   // Destructor
 
   double flat();
-  // Returns the flat value ( interval ]0.1[ ).
+  // Returns the flat value ( interval ]0...1[ ).
 
   void flatArray(const int size, double* vect);
   // Fills "vect" array of flat random values, given the size.
@@ -82,7 +82,15 @@ public:
   virtual double operator()();
   // To get a flat random number using the operator ().
 
-  // --------------------------------------------------
+  virtual std::string name() const;
+  virtual HepRandomEngine & engine();
+    
+  
+  virtual std::ostream & put ( std::ostream & os ) const;
+  virtual std::istream & get ( std::istream & is );
+  // Save and restore to/from streams
+
+ // --------------------------------------------------
   // Static member functions using the static generator
   // --------------------------------------------------
 
@@ -116,12 +124,33 @@ public:
   static void restoreEngineStatus( const char filename[] = "Config.conf" );
   // Restores a saved status (if any) for the current engine.
 
+  static std::ostream& saveFullState ( std::ostream & os );
+  // Saves to stream the state of the engine and cached data.
+
+  static std::istream& restoreFullState ( std::istream & is );
+  // Restores from stream the state of the engine and cached data.
+
+  static std::ostream& saveDistState ( std::ostream & os ) {return os;}
+  // Saves to stream the state of the cached data.
+
+  static std::istream& restoreDistState ( std::istream & is ) {return is;}
+  // Restores from stream the state of the cached data.
+
+  static std::ostream& saveStaticRandomStates ( std::ostream & os );
+  // Saves to stream the engine and cached data for all distributions.
+
+  static std::istream& restoreStaticRandomStates ( std::istream & is );
+  // Restores from stream the engine and cached data for all distributions.
+
   static void showEngineStatus();
   // Dumps the current engine status on screen.
 
   static int createInstance();
   // used to initialise HepRandom::isActive and instantiate singleton
-     
+
+  static std::string distributionName() {return "HepRandomEngine";}  
+  // Provides the name of this distribution class
+       
 protected:     // -------- Data members ---------
 
   static const long seedTable[215][2];
@@ -142,6 +171,9 @@ private:       // -------- Data members ---------
   // True if the engine should be deleted on destruction.
 
 };
+
+std::ostream & operator<< (std::ostream & os, const HepRandom & dist);
+std::istream & operator>> (std::istream & is, HepRandom & dist);
 
 }  // namespace CLHEP
 

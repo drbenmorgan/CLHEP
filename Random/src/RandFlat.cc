@@ -1,4 +1,4 @@
-// $Id: RandFlat.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandFlat.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -18,10 +18,18 @@
 //                  1/26/00.
 // M Fischler	  - Semi-fix to the saveEngineStatus misbehavior causing
 //		    non-reproducing shootBit() 3/1/00.
+// M Fischler     - Avoiding hang when file not found in restoreEngineStatus 
+//                  12/3/04
+// M Fischler     - put and get to/from streams 12/10/04
+// M Fischler     - save and restore dist to streams 12/20/04
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			4/14/05
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandFlat.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <string.h>
 
 namespace CLHEP {
@@ -30,6 +38,9 @@ const int RandFlat::MSBBits= 15;
 const unsigned long RandFlat::MSB= 1ul<<RandFlat::MSBBits;
 unsigned long RandFlat::staticRandomInt= 0;
 unsigned long RandFlat::staticFirstUnusedBit= 0;
+
+std::string RandFlat::name() const {return "RandFlat";}
+HepRandomEngine & RandFlat::engine() {return *localEngine;}
 
 RandFlat::~RandFlat() {
   if ( deleteEngine ) delete localEngine;
@@ -120,6 +131,7 @@ void RandFlat::restoreEngineStatus( const char filename[] ) {
   // Now find the line describing the cached data:
 
   std::ifstream infile ( filename, std::ios::in );
+  if (!infile) return;
   char inputword[] = "NO_KEYWORD    "; // leaves room for 14 characters plus \0
   while (true) {
     infile.width(13);
@@ -147,6 +159,121 @@ void RandFlat::restoreEngineStatus( const char filename[] ) {
   }
 
 } // restoreEngineStatus
+
+std::ostream & RandFlat::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << " " << name() << "\n";
+  os << "Uvec" << "\n";
+  os << randomInt << " " << firstUnusedBit << "\n";
+  t = DoubConv::dto2longs(defaultWidth);
+  os << defaultWidth << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(defaultA);
+  os << defaultA << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(defaultB);
+  os << defaultB << " " << t[0] << " " << t[1] << "\n";
+		#ifdef TRACE_IO
+		std::cout << "RandFlat::put(): randomInt = " << randomInt
+			  << " firstUnusedBit = " << firstUnusedBit 
+			  << "\ndefaultWidth = " << defaultWidth
+			  << " defaultA = " << defaultA
+			  << " defaultB = " << defaultB << "\n";
+		#endif
+  os.precision(pr);
+  return os;
+#ifdef REMOVED
+   int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << randomInt << " " << firstUnusedBit << "\n";
+  os << defaultWidth << " " << defaultA << " " << defaultB << "\n";
+  os.precision(pr);
+  return os;
+#endif
+}
+
+std::istream & RandFlat::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  if (possibleKeywordInput(is, "Uvec", randomInt)) {
+    std::vector<unsigned long> t(2);
+    is >> randomInt >> firstUnusedBit;
+    is >> defaultWidth >>t[0]>>t[1]; defaultWidth = DoubConv::longs2double(t); 
+    is >> defaultA >> t[0] >> t[1]; defaultA = DoubConv::longs2double(t); 
+    is >> defaultB >> t[0] >> t[1]; defaultB = DoubConv::longs2double(t); 
+		#ifdef TRACE_IO
+		std::cout << "RandFlat::get(): randomInt = " << randomInt
+			  << " firstUnusedBit = " << firstUnusedBit 
+			  << "\ndefaultWidth = " << defaultWidth
+			  << " defaultA = " << defaultA
+			  << " defaultB = " << defaultB << "\n";
+		#endif
+    if (!is) {
+      is.clear(std::ios::badbit | is.rdstate());
+      std::cerr << "\nRandFlat input failed"
+	     << "\nInput stream is probably mispositioned now." << std::endl;
+      return is;
+    }
+    return is;
+  }
+  // is >> randomInt encompassed by possibleKeywordInput
+  is >> firstUnusedBit;
+  is >> defaultWidth >> defaultA >> defaultB;
+  return is;
+}
+
+std::ostream & RandFlat::saveDistState ( std::ostream & os ) {
+  os << distributionName() << "\n";
+  int prec = os.precision(20);
+  os << "RANDFLAT staticRandomInt: " << staticRandomInt 
+     << "    staticFirstUnusedBit: " << staticFirstUnusedBit << "\n";
+  os.precision(prec);
+  return os;
+}    
+
+std::istream & RandFlat::restoreDistState ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != distributionName()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read static state of a "
+    	      << distributionName() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  std::string keyword;
+  std::string c1;
+  std::string c2;
+  is >> keyword;
+  if (keyword!="RANDFLAT") {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read RANDFLAT bit cache info: "
+    	      << keyword << "\n";
+    return is;
+  }
+  is >> c1 >> staticRandomInt >> c2 >> staticFirstUnusedBit;
+  return is;
+} 
+
+std::ostream & RandFlat::saveFullState ( std::ostream & os ) {
+  HepRandom::saveFullState(os);
+  saveDistState(os);
+  return os;
+}
+  
+std::istream & RandFlat::restoreFullState ( std::istream & is ) {
+  HepRandom::restoreFullState(is);
+  restoreDistState(is);
+  return is;
+}
 
 
 }  // namespace CLHEP

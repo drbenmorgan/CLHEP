@@ -1,3 +1,213 @@
+2005-04-14  Mark Fischler <mf@fnal.gov>
+
+	* RandFlat.cc RandGauss.cc RandBinomial.cc ... all the distributions
+
+	Express states of all distributions which ave private double
+	members as sequences of ordinary unsigned ints,
+	to avoid precision issues and avoid issues of non-portability of hex 
+	input manipulators.
+
+2005-04-13  Mark Fischler <mf@fnal.gov>
+
+	* DRand48Engine.cc DualRand.cc Hurd160Engine.cc
+	  Hurd288Engine.cc JamesRandom.cc MTwistEngine.cc RandFlat.cc
+	  RandGauss.cc RandomEngine.cc RandomEngine.cc RanecuEngine.cc
+	  Ranlux64Engine.cc RanluxEngine.cc TripleRand.cc 
+	  (and tiny change in corresponding .h files)	  
+
+	Express states of all engines as sequences of ordinary unsigned ints,
+	to avoid precision issues and avoid issues of non-portability of hex 
+	input manipulators.
+	
+	* testAnonymousEngineRestore.cc testInstanceRestore.cc 
+	  testSaveEngineStatus.cc testSaveSharedEngines.cc 
+	  testStaticStreamSave.cc testVectorSave.cc
+	
+	* test/Makefile.am
+	
+	Break up the very lengthy validation of engine saves and restores.
+	Compilation time grows worse than linearly on some systems; this 
+	split should make the check target go faster.   
+	  
+2005-04-11  Mark Fischler <mf@fnal.gov>
+
+	* JamesRandom.cc ranRestoreTest.cc NonRandomEngine.h
+	
+	Express state of this engine in hex form rather than as doubles, to
+	avoid precision issues.  
+
+2005-04-07  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: set AR and ARFLAGS
+
+Fri Mar 11	2005 Mark Fischler <mf@fnal.gov>
+
+	* engineIDulong.cc, engineIDulong.h
+	  DOubConv.cc, DoubConv.h
+	  EngineFactory.cc
+	  
+	* DRand48Engine.cc DualRand.cc Hurd160Engine.cc
+	  Hurd288Engine.cc JamesRandom.cc MTwistEngine.cc RandFlat.cc
+	  RandGauss.cc RandomEngine.cc RandomEngine.cc RanecuEngine.cc
+	  Ranlux64Engine.cc RanluxEngine.cc TripleRand.cc 	  
+
+	* ranRestoreTest.cc
+	
+	Add put() and get() methods to every engine transfering state to a
+	vector of unsigned longs.
+	
+Fri Mar 11	2005 Mark Fischler <mf@fnal.gov>
+
+	* NonRandomEngine.cc
+	
+	  Initialize (in the ctor) nextRandom and randomInterval (used if
+	  interval-style is set) because these are writtten out and read in
+	  as part of the state, and Microsooft VC++ fouls up the i/o when
+	  reading back the uninitialized number written out.
+
+
+2005-02-18  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in, Makefile.am: Stop using libtool.  
+	The newer releases of libtool seem to have dropped support for 
+	Windows Visual C++.  
+
+2005-02-14  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: Visual C++ flags are now "-EHsc -nologo -GR -GX -MD"
+
+Mon Feb 14	2005 Mark Fischler <mf@fnal.gov>
+
+	* JamesRandom.cc
+	
+	  Check that seed is non-negative. 
+	  Negative seeds give terrible sequences.
+
+Fri Feb 11	2005 Mark Fischler <mf@fnal.gov>
+
+	* RandPoissonQ.cc RandPoissonT.cc RandomEngine.cc
+	
+	  Added missing implementations, per bug # 1806
+	  (FireArray(), shootArray(), getTableSeeds)
+	
+	  Check that seed is non-negative negative sees give terrible sequences.
+
+2005-02-03  Lynn Garren  <garren@fnal.gov>
+
+	* configure.in: install step creates libCLHEP.a, libCLHEP.so,
+	and/or libCLHEP.dylib by adding a symbolic link.
+
+2005-02-02  Andreas PFEIFFER  <andreas.pfeiffer@cern.ch>
+
+	* configure.in: modified compiler flags for windows:
+	added "-O -GR -GX -MD" as this is needed for the multi-thread
+	environments used.
+
+Mon Dec 27	2004 Mark Fischler <mf@fnal.gov>
+
+	* DRand48Engine.cc DualRand.cc Hurd160Engine.cc
+	  Hurd288Engine.cc JamesRandom.cc MTwistEngine.cc RandFlat.cc
+	  RandGauss.cc RandomEngine.cc RandomEngine.cc RanecuEngine.cc
+	  Ranlux64Engine.cc RanluxEngine.cc TripleRand.cc 	  
+	* Random.cc EngineFactory.cc StaticRandomStates.cc
+	* Corresponding .h files	
+	* Random/test/ranRestoreTest.cc
+
+	Ability to restore engines and distributions without knowing in
+	the restoring program which type of engine was used in the saving
+	program.
+
+Wed Dec 22	2004 Mark Fischler <mf@fnal.gov>
+
+	* Random.h StaticRandomState.h 
+	* Random.cc StaticRandomState.cc
+	
+	Added HepRandom::saveStaticRandomState(ostream) and restore to istream. 
+
+Mon Dec 20	2004 Mark Fischler <mf@fnal.gov>
+
+	* Random.h RandGauss.h RandFlat.h RandFlat.icc RandBit.h
+	* Random.cc RandGauss.cc RandFlat.cc
+	
+	Added static std::ostream& saveFullState ( std::ostream & os ) 
+	and saveDistState, and the corresponding restore methods. 
+
+Thu Dec 16	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandomEngine.h DRand48Engine.cc DualRand.cc Hurd160Engine.cc
+	  Hurd288Engine.cc JamesRandom.cc MTwistEngine.cc RandFlat.cc
+	  RandGauss.cc RandomEngine.cc RandomEngine.cc RanecuEngine.cc
+	  Ranlux64Engine.cc /RanluxEngine.cc TripleRand.cc
+
+	* RandBinomial.cc RandBit.cc RandBreitWigner.cc RnadChiSquare.cc
+	  RandExponential.cc RandFlat.cc RandGamma.cc RandGauss.cc 
+	  RandGaussQ.cc RandGaussT.cc RandGeneral.cc RandLandau.cc
+	  RandPoisson.cc RandPoissonQ.cc RandPoissonT.cc RandStudentT.cc 
+	  Random.h
+	  
+	* Random/test/ranRestoreTest.cc
+	  
+	  Added put and get methods, as well as ostream operations, so that
+	  engine and distribution instances can be saved and restored to/from
+	  streams.
+	  
+Wed Dec 15	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandPoissonQ.cc (RandPoissonT.cc)
+	
+	  RandPoissonQ has a path, potentially taken when mean is more
+	  than 100, where an additional gaussian random number is needed.
+	  This had been using the static RandGauss, causing subtle confusion 
+	  when an engine other than that owned by the RandPoissonQ instance
+	  is affected by firing a variate.  Instead we use the engine owned
+	  by the RandPoissonQ instance.
+	  
+	  This will affect in rare cases the values of random variates 
+	  delivered by **instances** (not the shoot() methods) of RandPoissonQ
+	  when mean is more than 100 and, for subtle reasons, of RandPoissonT
+	  when the mean is small. 
+
+Tue Dec 14	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandGeneral.cc 
+	
+	  Modify local variable theIntegralPdf, using a std::vector instead
+	  of a double* pointing to a new-ed array.  This makes save/restore
+	  an easier matter.
+
+Fri Dec 3	2004 Mark Fischler <mf@fnal.gov>
+
+	* RandomEngine.h DRand48Engine.cc DualRand.cc Hurd160Engine.cc
+	  Hurd288Engine.cc JamesRandom.cc MTwistEngine.cc RandFlat.cc
+	  RandGauss.cc RandomEngine.cc RandomEngine.cc RanecuEngine.cc
+	  Ranlux64Engine.cc /RanluxEngine.cc TripleRand.cc
+	  Random/test/ranRestoreTest.cc
+	  
+	  Modified engines and additional-state distributions so that     
+	  restoreEngineState behaves better (error message and return     
+	  instead of hang up) when file requested is not found.           
+
+==============================
+30.11.04 Release CLHEP-2.0.1.2
+==============================
+==============================
+27.10.04 Release CLHEP-2.0.1.1
+==============================
+
+Fri Sep 24          2004 Lynn Garren <garren@fnal.gov>
+
+	* use AM_CXXFLAGS
+	* require autoconf 2.59, automake 1.9.1, and libtool 1.9b
+
+Tue Aug 31         2004 Lynn Garren <garren@fnal.gov>
+	
+	* change Solaris CC compile flags from "-O -mt" to "-O"
+	* libtools 1.9b or later is required for Solaris CC
+
+==============================
+23.07.04 Release CLHEP-2.0.1.0
+==============================
+
 ==============================
 11.05.04 Release CLHEP-2.0.0.2
 ==============================

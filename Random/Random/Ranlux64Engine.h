@@ -1,4 +1,4 @@
-// $Id: Ranlux64Engine.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: Ranlux64Engine.h,v 1.4 2005/04/27 20:12:49 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -30,6 +30,8 @@
 //			48-bits generated
 //			skip n-12 instead of n numbers
 //		  - Corrected protection agains overflow
+// 12/8/04        - Methods for instance save/restore     
+// 12/27/04       - methods for anonymous save/restore 12/27/04    
 //
 // =======================================================================
 
@@ -88,9 +90,20 @@ public:
   int getLuxury() const { return luxury; }
   // Gets the luxury level.
 
-  friend std::ostream& operator<< (std::ostream& os, const Ranlux64Engine& e);
-  friend std::istream& operator>> (std::istream& is,       Ranlux64Engine& e);
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+  static  std::string beginTag ( );
+  virtual std::istream & getState ( std::istream & is );
 
+  std::string name() const;
+  static std::string engineName() {return "Ranlux64Engine";}
+
+  std::vector<unsigned long> put () const;
+  bool get (const std::vector<unsigned long> & v);
+  bool getState (const std::vector<unsigned long> & v);
+  
+  static const unsigned int VECTOR_STATE_SIZE = 30;
+  
 private:
 
   void update();

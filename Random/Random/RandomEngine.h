@@ -1,4 +1,4 @@
-// $Id: RandomEngine.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandomEngine.h,v 1.4 2005/04/27 20:12:49 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -31,6 +31,8 @@
 //                - Moved seeds table to HepRandom: 19th Mar 1998
 // Ken Smith      - Added conversion operators:  6th Aug 1998
 // Mark Fischler  - Added static twoToMinus_xx constants: 11 Sept 1998
+// Mark Fischler  - Removed getTableSeeds, which was migrated to HepRandom
+//                  in 1998.  10 Feb 2005.
 // =======================================================================
 
 #ifndef HepRandomEngine_h
@@ -39,6 +41,9 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <string>
+#include <sstream>
+#include <vector>
 #include "CLHEP/Random/defs.h"
 
 namespace CLHEP {
@@ -84,14 +89,33 @@ public:
   virtual void showStatus() const = 0;
   // Should dump the current engine status on the screen.
 
+  virtual std::string name() const = 0;
+  // Engine name.
+
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+  // Save and restore to/from streams
+
+  static std::string beginTag ( );
+  virtual std::istream & getState ( std::istream & is );
+  // Helpers for EngineFactory which restores anonymous engine from istream
+
+  static HepRandomEngine* newEngine(std::istream & is);
+  // Instantiates on the heap a new engine of type specified by content of is
+
+  static HepRandomEngine* newEngine(const std::vector<unsigned long> & v);
+  // Instantiates on the heap a new engine of type specified by content of v
+
+  virtual std::vector<unsigned long> put () const;
+  virtual bool get (const std::vector<unsigned long> & v);
+  virtual bool getState (const std::vector<unsigned long> & v);
+  // Save and restore to/from vectors
+
   long getSeed() const { return theSeed; }
   // Gets the current seed.
 
   const long* getSeeds() const { return theSeeds; }
   // Gets the current array of seeds.
-
-  void getTableSeeds(long* seeds, int index) const;
-  // Gets back seed values stored in the table, given the index.
 
   virtual operator double();        // Returns same as flat()
   virtual operator float();         // less precise flat, faster if possible
@@ -121,8 +145,26 @@ protected:
   const long* theSeeds;
 
   const double exponent_bit_32;
+    
+  static bool checkFile (std::istream & file, 
+  		         const std::string & filename, 
+  		         const std::string & classname, 
+		         const std::string & methodname); 
 
 };
+
+std::ostream & operator<< (std::ostream & os, const HepRandomEngine & e);
+std::istream & operator>> (std::istream & is, HepRandomEngine & e);
+
+template <class IS, class T> 
+bool possibleKeywordInput (IS & is, const std::string & key, T & t) {
+  std::string firstWord;
+  is >> firstWord;
+  if (firstWord == key) return true;
+  std::istringstream reread(firstWord);
+  reread >> t;
+  return false;
+}
 
 }  // namespace CLHEP
 

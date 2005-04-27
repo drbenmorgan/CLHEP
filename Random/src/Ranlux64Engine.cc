@@ -1,4 +1,4 @@
-// $Id: Ranlux64Engine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: Ranlux64Engine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -44,12 +44,20 @@
 //		    are initialized in setSeed, which EVERY constructor
 //		    must invoke.
 // J. Marraffino  - Remove dependence on hepString class  13 May 1999
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - put get Methods for distrib instance save/restore 12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
+// M. Fischler    - State-saving using only ints, for portability 4/12/05
 //
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/Ranlux64Engine.h"
+#include "CLHEP/Random/engineIDulong.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <string.h>
 #include <cmath>	// for ldexp() and abs()
 #include <stdlib.h>	// for abs(int)
@@ -70,6 +78,8 @@ int Ranlux64Engine::maxIndex = 215;
 double Ranlux64Engine::twoToMinus_32;
 double Ranlux64Engine::twoToMinus_48;
 double Ranlux64Engine::twoToMinus_49;
+
+std::string Ranlux64Engine::name() const {return "Ranlux64Engine";}
 
 Ranlux64Engine::Ranlux64Engine()
 {
@@ -427,6 +437,24 @@ void Ranlux64Engine::setSeeds(const long * seeds, int lux) {
 void Ranlux64Engine::saveStatus( const char filename[] ) const
 {
    std::ofstream outFile( filename, std::ios::out ) ;
+  if (!outFile.bad()) {
+    outFile << "Uvec\n";
+    std::vector<unsigned long> v = put();
+		     #ifdef TRACE_IO
+			 std::cout << "Result of v = put() is:\n"; 
+		     #endif
+    for (unsigned int i=0; i<v.size(); ++i) {
+      outFile << v[i] << "\n";
+		     #ifdef TRACE_IO
+			   std::cout << v[i] << " ";
+			   if (i%6==0) std::cout << "\n";
+		     #endif
+    }
+		     #ifdef TRACE_IO
+			 std::cout << "\n";
+		     #endif
+  }
+#ifdef REMOVED
    if (!outFile.bad()) {
      outFile << theSeed << std::endl;
      for (int i=0; i<12; ++i) {
@@ -435,14 +463,40 @@ void Ranlux64Engine::saveStatus( const char filename[] ) const
      outFile << std::setprecision(20) << carry << " " << index << std::endl;
      outFile << luxury << " " << pDiscard << std::endl;
    }
+#endif
 }
 
 void Ranlux64Engine::restoreStatus( const char filename[] )
 {
    std::ifstream inFile( filename, std::ios::in);
+   if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+     std::cerr << "  -- Engine state remains unchanged\n";
+     return;
+   }
+  if ( possibleKeywordInput ( inFile, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long xin;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      inFile >> xin;
+	       #ifdef TRACE_IO
+	       std::cout << "ivec = " << ivec << "  xin = " << xin << "    ";
+	       if (ivec%3 == 0) std::cout << "\n"; 
+	       #endif
+      if (!inFile) {
+        inFile.clear(std::ios::badbit | inFile.rdstate());
+        std::cerr << "\nJamesRandom state (vector) description improper."
+	       << "\nrestoreStatus has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return;
+      }
+      v.push_back(xin);
+    }
+    getState(v);
+    return;
+  }
 
    if (!inFile.bad() && !inFile.eof()) {
-     inFile >> theSeed;
+//     inFile >> theSeed;  removed -- encompased by possibleKeywordInput
      for (int i=0; i<12; ++i) {
        inFile >> randoms[i];
      }
@@ -469,27 +523,50 @@ void Ranlux64Engine::showStatus() const
    std::cout << "----------------------------------------" << std::endl;
 }
 
-std::ostream & operator << ( std::ostream& os, const Ranlux64Engine& e )
+std::ostream & Ranlux64Engine::put( std::ostream& os ) const
 {
    char beginMarker[] = "Ranlux64Engine-begin";
+  os << beginMarker << "\nUvec\n";
+  std::vector<unsigned long> v = put();
+  for (unsigned int i=0; i<v.size(); ++i) {
+     os <<  v[i] <<  "\n";
+  }
+  return os;  
+#ifdef REMOVED 
    char endMarker[]   = "Ranlux64Engine-end";
-
+   int pr = os.precision(20);
    os << " " << beginMarker << " ";
-   os << e.theSeed << " ";
+   os << theSeed << " ";
    for (int i=0; i<12; ++i) {
-     os << std::setprecision(20) << e.randoms[i] << std::endl;
+     os << randoms[i] << std::endl;
    }
-   os << std::setprecision(20) << e.carry << " " << e.index << " ";
-   os << e.luxury << " " << e.pDiscard << " ";
+   os << carry << " " << index << " ";
+   os << luxury << " " << pDiscard << "\n";
    os << endMarker << " ";
+   os.precision(pr);
    return os;
+#endif
 }
 
-std::istream & operator >> ( std::istream& is, Ranlux64Engine& e )
+std::vector<unsigned long> Ranlux64Engine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<Ranlux64Engine>());
+  std::vector<unsigned long> t;
+  for (int i=0; i<12; ++i) {
+    t = DoubConv::dto2longs(randoms[i]);
+    v.push_back(t[0]); v.push_back(t[1]);
+  }
+  t = DoubConv::dto2longs(carry);
+  v.push_back(t[0]); v.push_back(t[1]);
+  v.push_back(static_cast<unsigned long>(index));
+  v.push_back(static_cast<unsigned long>(luxury));
+  v.push_back(static_cast<unsigned long>(pDiscard));
+  return v;
+}
+
+std::istream & Ranlux64Engine::get ( std::istream& is )
 {
   char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
-
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -502,14 +579,43 @@ std::istream & operator >> ( std::istream& is, Ranlux64Engine& e )
 	       << "\nwrong engine type found." << std::endl;
      return is;
   }
-  is >> e.theSeed;
-  for (int i=0; i<12; ++i) {
-     is >> e.randoms[i];
+  return getState(is);
+}
+
+std::string Ranlux64Engine::beginTag ( )  { 
+  return "Ranlux64Engine-begin"; 
+}
+
+std::istream & Ranlux64Engine::getState ( std::istream& is )
+{
+  if ( possibleKeywordInput ( is, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long uu;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      is >> uu;
+      if (!is) {
+        is.clear(std::ios::badbit | is.rdstate());
+        std::cerr << "\nRanlux64Engine state (vector) description improper."
+		<< "\ngetState() has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return is;
+      }
+      v.push_back(uu);
+    }
+    getState(v);
+    return (is);
   }
-  is >> e.carry; is >> e.index;
-  is >> e.luxury; is >> e.pDiscard;
-  e.pDozens  = e.pDiscard / 12;
-  e.endIters = e.pDiscard % 12;
+
+//  is >> theSeed;  Removed, encompassed by possibleKeywordInput()
+
+  char endMarker   [MarkerLen];
+  for (int i=0; i<12; ++i) {
+     is >> randoms[i];
+  }
+  is >> carry; is >> index;
+  is >> luxury; is >> pDiscard;
+  pDozens  = pDiscard / 12;
+  endIters = pDiscard % 12;
   is >> std::ws;
   is.width(MarkerLen);  
   is >> endMarker;
@@ -520,6 +626,34 @@ std::istream & operator >> ( std::istream& is, Ranlux64Engine& e )
      return is;
   }
   return is;
+}
+
+bool Ranlux64Engine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<Ranlux64Engine>()) {
+    std::cerr << 
+    	"\nRanlux64Engine get:state vector has wrong ID word - state unchanged\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool Ranlux64Engine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != VECTOR_STATE_SIZE ) {
+    std::cerr << 
+    	"\nRanlux64Engine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  std::vector<unsigned long> t(2);
+  for (int i=0; i<12; ++i) {
+    t[0] = v[2*i+1]; t[1] = v[2*i+2];
+    randoms[i] = DoubConv::longs2double(t);
+  }
+  t[0] = v[25]; t[1] = v[26];
+  carry    = DoubConv::longs2double(t);
+  index    = v[27];
+  luxury   = v[28];
+  pDiscard = v[29]; 
+  return true;
 }
 
 }  // namespace CLHEP

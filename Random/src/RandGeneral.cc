@@ -1,4 +1,4 @@
-// $Id: RandGeneral.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandGeneral.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -39,14 +39,23 @@
 //			  zero-width bin, to avoid dividing 0/0.  
 // M. Fischler	      - Minor correction in assert 31 July 2001
 //			+ changed from assert (above = below+1) to ==
+// M Fischler         - put and get to/from streams 12/15/04
+//			+ Modifications to use a vector as theIntegraPdf
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			4/14/05
 //
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandGeneral.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <assert.h>
 
 namespace CLHEP {
+
+std::string RandGeneral::name() const {return "RandGeneral";}
+HepRandomEngine & RandGeneral::engine() {return *localEngine;}
 
 
 //////////////////
@@ -99,7 +108,7 @@ void RandGeneral::prepareTable(const double* aProbFunc) {
     return;
   }
 
-  theIntegralPdf = new double[nBins+1];
+  theIntegralPdf.resize(nBins+1);
   theIntegralPdf[0] = 0;
   register int ptn;
   register double weight;
@@ -121,7 +130,6 @@ void RandGeneral::prepareTable(const double* aProbFunc) {
   if ( theIntegralPdf[nBins] <= 0 ) {
     std::cerr << 
       "RandGeneral constructed nothing in bins - will use flat distribution\n";
-    delete [] (theIntegralPdf);
     useFlatDistribution();
     return;
   }
@@ -139,7 +147,7 @@ void RandGeneral::prepareTable(const double* aProbFunc) {
   if ( (InterpolationType != 0) && (InterpolationType != 1) ) {
     std::cerr << 
       "RandGeneral does not recognize IntType " << InterpolationType 
-      << "\n WIll use type 0 (continuous linear interpolation \n";
+      << "\n Will use type 0 (continuous linear interpolation \n";
     InterpolationType = 0;
   }
 
@@ -150,7 +158,7 @@ void RandGeneral::useFlatDistribution() {
 // Private method called only by prepareTables in case of user error. 
 //
     nBins = 1;
-    theIntegralPdf = new double[2];
+    theIntegralPdf.resize(2);
     theIntegralPdf[0] = 0;
     theIntegralPdf[1] = 1;
     oneOverNbins = 1.0;
@@ -164,7 +172,6 @@ void RandGeneral::useFlatDistribution() {
 
 RandGeneral::~RandGeneral() {
   if ( deleteEngine ) delete localEngine;
-  delete [] theIntegralPdf;
 }
 
 
@@ -179,7 +186,7 @@ double RandGeneral::mapRandom(double rand) const {
 //
 
   int nbelow = 0;	  // largest k such that I[k] is known to be <= rand
-  int nabove = nBins;  // largest k such that I[k] is known to be >  rand
+  int nabove = nBins;     // largest k such that I[k] is known to be >  rand
   int middle;
   
   while (nabove > nbelow+1) {
@@ -239,6 +246,62 @@ void RandGeneral::fireArray( const int size, double* vect )
   for (i=0; i<size; ++i) {
      vect[i] = fire();
   }
+}
+
+std::ostream & RandGeneral::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << " " << name() << "\n";
+  os << "Uvec" << "\n";
+  os << nBins << " " << oneOverNbins << " " << InterpolationType << "\n";    
+  t = DoubConv::dto2longs(oneOverNbins);
+  os << t[0] << " " << t[1] << "\n";
+  assert (static_cast<int>(theIntegralPdf.size())==nBins+1);
+  for (unsigned int i=0; i<theIntegralPdf.size(); ++i) {
+    t = DoubConv::dto2longs(theIntegralPdf[i]);
+    os << theIntegralPdf[i] << " " << t[0] << " " << t[1] << "\n";
+  }
+  os.precision(pr);
+  return os;
+#ifdef REMOVED
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << nBins << " " << oneOverNbins << " " << InterpolationType << "\n";
+  assert (static_cast<int>(theIntegralPdf.size())==nBins+1);
+  for (unsigned int i=0; i<theIntegralPdf.size(); ++i) 
+  	os << theIntegralPdf[i] << "\n";
+  os.precision(pr);
+  return os;
+#endif
+}
+
+std::istream & RandGeneral::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  if (possibleKeywordInput(is, "Uvec", nBins)) {
+    std::vector<unsigned long> t(2);
+    is >> nBins >> oneOverNbins >> InterpolationType;
+    is >> t[0] >> t[1]; oneOverNbins = DoubConv::longs2double(t); 
+    theIntegralPdf.resize(nBins+1);
+    for (unsigned int i=0; i<theIntegralPdf.size(); ++i) {
+      is >> theIntegralPdf[i] >> t[0] >> t[1];
+      theIntegralPdf[i] = DoubConv::longs2double(t); 
+    }
+    return is;
+  }
+  // is >> nBins encompassed by possibleKeywordInput
+  is >> oneOverNbins >> InterpolationType;
+  theIntegralPdf.resize(nBins+1);
+  for (unsigned int i=0; i<theIntegralPdf.size(); ++i) is >> theIntegralPdf[i];
+  return is;
 }
 
 }  // namespace CLHEP

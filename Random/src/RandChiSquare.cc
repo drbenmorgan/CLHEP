@@ -1,4 +1,4 @@
-// $Id: RandChiSquare.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: RandChiSquare.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -9,13 +9,21 @@
 
 // =======================================================================
 // John Marraffino - Created: 12th May 1998
+// M Fischler     - put and get to/from streams 12/10/04
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			4/14/05
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandChiSquare.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <cmath>	// for log()
 
 namespace CLHEP {
+
+std::string RandChiSquare::name() const {return "RandChiSquare";}
+HepRandomEngine & RandChiSquare::engine() {return *localEngine;}
 
 RandChiSquare::~RandChiSquare() {
   if ( deleteEngine ) delete localEngine;
@@ -139,6 +147,46 @@ double RandChiSquare::genChiSquare( HepRandomEngine *anEngine,
      }
    }
 }
+
+std::ostream & RandChiSquare::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << " " << name() << "\n";
+  os << "Uvec" << "\n";
+  t = DoubConv::dto2longs(defaultA);
+  os << defaultA << " " << t[0] << " " << t[1] << "\n";
+  os.precision(pr);
+  return os;
+#ifdef REMOVED
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << defaultA << "\n";
+  os.precision(pr);
+  return os;
+#endif
+}
+
+std::istream & RandChiSquare::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  if (possibleKeywordInput(is, "Uvec", defaultA)) {
+    std::vector<unsigned long> t(2);
+    is >> defaultA >> t[0] >> t[1]; defaultA = DoubConv::longs2double(t); 
+    return is;
+  }
+  // is >> defaultA encompassed by possibleKeywordInput
+  return is;
+}
+
+
 
 }  // namespace CLHEP
 

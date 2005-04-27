@@ -1,4 +1,4 @@
-// $Id: RandPoisson.cc,v 1.5 2003/08/13 20:00:12 garren Exp $
+// $Id: RandPoisson.cc,v 1.6 2005/04/27 20:12:50 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -17,14 +17,22 @@
 // J.Marraffino   - Added default mean as attribute and
 //                  operator() with mean: 16th Feb 1998
 // Gabriele Cosmo - Relocated static data from HepRandom: 5th Jan 1999
+// M Fischler     - put and get to/from streams 12/15/04
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			4/14/05
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandPoisson.h"
 #include "CLHEP/Units/PhysicalConstants.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <cmath>	// for floor()
 
 namespace CLHEP {
+
+std::string RandPoisson::name() const {return "RandPoisson";}
+HepRandomEngine & RandPoisson::engine() {return *localEngine;}
 
 // Initialisation of static data
 double RandPoisson::status_st[3] = {0., 0., 0.};
@@ -277,6 +285,61 @@ void RandPoisson::fireArray(const int size, long* vect, double m)
 
    for (i=0; i<size; ++i)
      vect[i] = fire( m );
+}
+
+std::ostream & RandPoisson::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << " " << name() << "\n";
+  os << "Uvec" << "\n";
+  t = DoubConv::dto2longs(meanMax);
+  os << meanMax << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(defaultMean);
+  os << defaultMean << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(status[0]);
+  os << status[0] << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(status[1]);
+  os << status[1] << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(status[2]);
+  os << status[2] << " " << t[0] << " " << t[1] << "\n";
+  t = DoubConv::dto2longs(oldm);
+  os << oldm << " " << t[0] << " " << t[1] << "\n";
+  os.precision(pr);
+  return os;
+#ifdef REMOVED
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << meanMax << " " << defaultMean << "\n";
+  os << status[0] << " " << status[1] << " " << status[2] << "\n"; 
+  os.precision(pr);
+  return os;
+#endif
+}
+
+std::istream & RandPoisson::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  if (possibleKeywordInput(is, "Uvec", meanMax)) {
+    std::vector<unsigned long> t(2);
+    is >> meanMax     >> t[0] >> t[1]; meanMax     = DoubConv::longs2double(t); 
+    is >> defaultMean >> t[0] >> t[1]; defaultMean = DoubConv::longs2double(t); 
+    is >> status[0]   >> t[0] >> t[1]; status[0]   = DoubConv::longs2double(t); 
+    is >> status[1]   >> t[0] >> t[1]; status[1]   = DoubConv::longs2double(t); 
+    is >> status[2]   >> t[0] >> t[1]; status[2]   = DoubConv::longs2double(t); 
+    is >> oldm        >> t[0] >> t[1]; oldm        = DoubConv::longs2double(t); 
+    return is;
+  }
+  // is >> meanMax encompassed by possibleKeywordInput
+  is >> defaultMean >> status[0] >> status[1] >> status[2];
+  return is;
 }
 
 }  // namespace CLHEP

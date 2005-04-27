@@ -1,4 +1,4 @@
-// $Id: Hurd288Engine.cc,v 1.4 2003/08/13 20:00:12 garren Exp $
+// $Id: Hurd288Engine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -25,12 +25,19 @@
 //                  be produced by differnt seeds.              15 Sep 1998
 // J. Marraffino  - Remove dependence on hepString class        13 May 1999
 // M. Fischler    - Put endl at end of a save                   10 Apr 2001
+// M. Fischler    - In restore, checkFile for file not found    03 Dec 2004
+// M. Fischler    - methods for distrib. instacne save/restore  12/8/04    
+// M. Fischler    - split get() into tag validation and 
+//                  getState() for anonymous restores           12/27/04    
+// M. Fischler    - put/get for vectors of ulongs		3/14/05
+// M. Fischler    - State-saving using only ints, for portability 4/12/05
 //
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/Hurd288Engine.h"
+#include "CLHEP/Random/engineIDulong.h"
 #include <string.h>
 #include <cmath>	// for ldexp()
 #include <stdlib.h>	// for abs(int)
@@ -44,6 +51,8 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 double Hurd288Engine::twoToMinus_32;
 double Hurd288Engine::twoToMinus_53;
 double Hurd288Engine::nearlyTwoToMinus_54;
+
+std::string Hurd288Engine::name() const {return "Hurd288Engine";}
 
 void Hurd288Engine::powersOfTwo() {
   twoToMinus_32 = ldexp (1.0, -32);
@@ -193,19 +202,62 @@ void Hurd288Engine::setSeeds( const long* seeds, int ) {
 void Hurd288Engine::saveStatus( const char filename[] ) const {
   std::ofstream outFile(filename, std::ios::out);
   if( !outFile.bad() ) {
+    outFile << "Uvec\n";
+    std::vector<unsigned long> v = put();
+		     #ifdef TRACE_IO
+			 std::cout << "Result of v = put() is:\n"; 
+		     #endif
+    for (unsigned int i=0; i<v.size(); ++i) {
+      outFile << v[i] << "\n";
+		     #ifdef TRACE_IO
+			   std::cout << v[i] << " ";
+			   if (i%6==0) std::cout << "\n";
+		     #endif
+    }
+		     #ifdef TRACE_IO
+			 std::cout << "\n";
+		     #endif
+  }
+#ifdef REMOVED
     outFile << std::setprecision(20) << theSeed << " ";
     outFile << wordIndex << " ";
     for( int i = 0; i < 9; ++i ) {
       outFile << words[i] << " ";
     }
     outFile << std::endl;
-  }
+#endif
 }
 
 void Hurd288Engine::restoreStatus( const char filename[] ) {
   std::ifstream inFile(filename, std::ios::in);
+  if (!checkFile ( inFile, filename, engineName(), "restoreStatus" )) {
+    std::cerr << "  -- Engine state remains unchanged\n";
+    return;
+  }
+  if ( possibleKeywordInput ( inFile, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long xin;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      inFile >> xin;
+	       #ifdef TRACE_IO
+	       std::cout << "ivec = " << ivec << "  xin = " << xin << "    ";
+	       if (ivec%3 == 0) std::cout << "\n"; 
+	       #endif
+      if (!inFile) {
+        inFile.clear(std::ios::badbit | inFile.rdstate());
+        std::cerr << "\nHurd288Engine state (vector) description improper."
+	       << "\nrestoreStatus has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return;
+      }
+      v.push_back(xin);
+    }
+    getState(v);
+    return;
+  }
+
   if( !inFile.bad() ) {
-    inFile >> theSeed;
+//     inFile >> theSeed;  removed -- encompased by possibleKeywordInput
     inFile >> wordIndex;
     for( int i = 0; i < 9; ++i ) {
         inFile >> words[i];
@@ -239,25 +291,42 @@ Hurd288Engine::operator unsigned int() {
   return words[--wordIndex];
 }
 
-std::ostream& operator<< (std::ostream& os, const Hurd288Engine& e) {
+std::ostream& Hurd288Engine::put(std::ostream& os) const {
   char beginMarker[] = "Hurd288Engine-begin";
-  char endMarker[]   = "Hurd288Engine-end";
-
-  os << " " << beginMarker << " ";
-
-  os << std::setprecision(20)  << e.theSeed  << " ";
-  os << e.wordIndex << " ";
-  for (int i = 0; i < 9; ++i) {
-    os << e.words[i]  << " ";
+  os << beginMarker << "\nUvec\n";
+  std::vector<unsigned long> v = put();
+  for (unsigned int i=0; i<v.size(); ++i) {
+     os <<  v[i] <<  "\n";
   }
-  os << " " << endMarker   << " ";
+  return os;  
+#ifdef REMOVED 
+  char endMarker[]   = "Hurd288Engine-end";
+  int pr = os.precision(20);
+  os << " " << beginMarker << " ";
+  os << theSeed  << " ";
+  os << wordIndex << " ";
+  for (int i = 0; i < 9; ++i) {
+    os << words[i]  << "\n";
+  }
+  os << endMarker   << "\n ";
+  os.precision(pr);
   return os;
+#endif
 }
 
-std::istream& operator>> (std::istream& is, Hurd288Engine& e) {
-  char beginMarker [MarkerLen];
-  char endMarker   [MarkerLen];
+std::vector<unsigned long> Hurd288Engine::put () const {
+  std::vector<unsigned long> v;
+  v.push_back (engineIDulong<Hurd288Engine>());
+  v.push_back(static_cast<unsigned long>(wordIndex));
+  for (int i = 0; i < 9; ++i) {
+    v.push_back(static_cast<unsigned long>(words[i]));
+  }
+  return v;
+}
 
+
+std::istream& Hurd288Engine::get(std::istream& is) {
+  char beginMarker [MarkerLen];
   is >> std::ws;
   is.width(MarkerLen);  // causes the next read to the char* to be <=
 			// that many bytes, INCLUDING A TERMINATION \0 
@@ -270,9 +339,38 @@ std::istream& operator>> (std::istream& is, Hurd288Engine& e) {
 	      << "\nwrong engine type found." << std::endl;
     return is;
   }
-  is >> e.theSeed >> e.wordIndex;
+  return getState(is);
+}
+
+std::string Hurd288Engine::beginTag ( )  { 
+  return "Hurd288Engine-begin"; 
+}
+  
+std::istream& Hurd288Engine::getState(std::istream& is) {
+  if ( possibleKeywordInput ( is, "Uvec", theSeed ) ) {
+    std::vector<unsigned long> v;
+    unsigned long uu;
+    for (unsigned int ivec=0; ivec < VECTOR_STATE_SIZE; ++ivec) {
+      is >> uu;
+      if (!is) {
+        is.clear(std::ios::badbit | is.rdstate());
+        std::cerr << "\nHurd288Engine state (vector) description improper."
+		<< "\ngetState() has failed."
+	       << "\nInput stream is probably mispositioned now." << std::endl;
+        return is;
+      }
+      v.push_back(uu);
+    }
+    getState(v);
+    return (is);
+  }
+
+//  is >> theSeed;  Removed, encompassed by possibleKeywordInput()
+
+  char endMarker   [MarkerLen];
+  is >> wordIndex;
   for (int i = 0; i < 9; ++i) {
-    is >> e.words[i];
+    is >> words[i];
   }
   is >> std::ws;
   is.width(MarkerLen);  
@@ -284,6 +382,30 @@ std::istream& operator>> (std::istream& is, Hurd288Engine& e) {
     return is;
   }
   return is;
+}
+
+bool Hurd288Engine::get (const std::vector<unsigned long> & v) {
+  if (v[0] != engineIDulong<Hurd288Engine>()) {
+    std::cerr << 
+    	"\nHurd288Engine get:state vector has wrong ID word - state unchanged\n";
+    std::cerr << "The correct ID would be " << engineIDulong<Hurd288Engine>()
+    << "; the actual ID is " << v[0] << "\n";
+    return false;
+  }
+  return getState(v);
+}
+
+bool Hurd288Engine::getState (const std::vector<unsigned long> & v) {
+  if (v.size() != VECTOR_STATE_SIZE ) {
+    std::cerr << 
+    	"\nHurd288Engine get:state vector has wrong length - state unchanged\n";
+    return false;
+  }
+  wordIndex = v[1];
+  for (int i = 0; i < 9; ++i) {
+    words[i] = v[i+2];
+  }
+  return true;
 }
 
 }  // namespace CLHEP

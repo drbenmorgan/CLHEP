@@ -1,4 +1,4 @@
-// $Id: RandBinomial.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: RandBinomial.h,v 1.4 2005/04/27 20:12:49 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -19,6 +19,7 @@
 //                   by Ernst Stadlober and Franz Niederl of the Technical
 //                   University of Graz, Austria.
 // Gabriele Cosmo  - Removed useless methods and data: 5th Jan 1999
+// M Fischler      - put and get to/from streams 12/10/04
 // =======================================================================
 
 #ifndef RandBinomial_h
@@ -86,6 +87,17 @@ public:
   inline double operator()();
   inline double operator()( long n, double p );
 
+  // Save and restore to/from streams
+  
+  std::ostream & put ( std::ostream & os ) const;
+  std::istream & get ( std::istream & is );
+
+  std::string name() const;
+  HepRandomEngine & engine();
+
+  static std::string distributionName() {return "RandBinomial";}  
+  // Provides the name of this distribution class
+
 private:
 
   // Private copy constructor. Defining it here disallows use.
@@ -95,8 +107,8 @@ private:
 
   HepRandomEngine* localEngine;
   bool deleteEngine;
-  const long defaultN;
-  const double defaultP;
+  long defaultN;
+  double defaultP;
  
 };
 

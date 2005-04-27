@@ -1,4 +1,4 @@
-// $Id: TripleRand.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: TripleRand.h,v 1.4 2005/04/27 20:12:49 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -32,6 +32,8 @@
 //                - Added conversion operators:  6th Aug 1998
 // M Fischler	  - Big merge with CLHEP 13 May 1999
 //		  - Elimination of unused Taus() and Cong() accessors
+// Mark Fischler    Methods put, get for instance save/restore 12/8/04    
+// Mark Fischler    methods for anonymous save/restore 12/27/04    
 // =======================================================================
 
 #ifndef TripleRand_h
@@ -88,9 +90,20 @@ public:
   operator float();      // flat value, without worrying about filling bits
   operator unsigned int();  // 32-bit flat value, quickest of all
 
-  friend std::ostream & operator<<( std::ostream & os, const TripleRand & e );
-  friend std::istream & operator>>( std::istream & is,       TripleRand & e );
+  virtual std::ostream & put (std::ostream & os) const;
+  virtual std::istream & get (std::istream & is);
+  static  std::string beginTag ( );
+  virtual std::istream & getState ( std::istream & is );
 
+  std::string name() const;
+  static std::string engineName() {return "TripleRand";}
+
+  std::vector<unsigned long> put () const;
+  bool get (const std::vector<unsigned long> & v);
+  bool getState (const std::vector<unsigned long> & v);
+  
+  static const unsigned int VECTOR_STATE_SIZE = 20;
+  
 private:
 
   static int numEngines;
@@ -108,7 +121,9 @@ public:
   operator unsigned int();
 
   void put( std::ostream & os ) const;
+  void put(std::vector<unsigned long> & v) const;
   void get( std::istream & is );
+  bool get(std::vector<unsigned long>::const_iterator & iv);
 
 private:
  
@@ -129,7 +144,9 @@ public:
   operator unsigned int();
 
   void put( std::ostream & os ) const;
+  void put(std::vector<unsigned long> & v) const;
   void get( std::istream & is );
+  bool get(std::vector<unsigned long>::const_iterator & iv);
  
 private:
   

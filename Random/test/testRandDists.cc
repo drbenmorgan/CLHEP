@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.5 2003/08/13 20:00:12 garren Exp $
+// $Id: testRandDists.cc,v 1.6 2005/04/27 20:12:50 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -27,6 +27,12 @@
 //				confusion with the gammln in RandPoisson.
 // M. Fischler	    2/04/99	Added validation for the Q and T versions of
 //				Poisson and Gauss
+// M. Fischler     11/04/04     Add kludge to gaussianTest to deal with
+//                              different behaviour under optimization on
+//                              some compilers (gcc 2.95.2)
+//                              This behaviour was only seen with stepwise 
+//                              RandGeneral and appears to be solely a 
+//                              function of the test program.
 // 
 // ----------------------------------------------------------------------
 
@@ -38,6 +44,7 @@
 #include "CLHEP/Units/PhysicalConstants.h"
 #include "CLHEP/Random/defs.h"
 #include <iostream>
+#include <iomanip>
 #include <cmath>		// double abs()
 #include <stdlib.h>		// int abs()
 
@@ -202,6 +209,9 @@ bool gaussianTest ( HepRandom & dist, double mu,
   for (int ifire = 0; ifire < nNumbers; ifire++) {
     x = dist();		// We avoid fire() because that is not virtual 
 			// in HepRandom.
+    if( x < mu - 12.0*sigma ) {
+        cout << "x  = " << x << "\n";
+    }
     if ( (ifire % ipr) == 0 ) {
       cout << ifire << endl;
     }
@@ -376,7 +386,7 @@ double* createRefDist ( poisson pdist, int N,
   c++;
 
   // Fill all the other bins until one has less than 20 items.
-  double next;
+  double next = 0;
   while ( c < MAXBINS ) {
     for ( ic=0, binc=0; ic < clumping; ic++, r++ ) {
       binc += pdist(r) * N;
@@ -1036,6 +1046,6 @@ int main() {
   mask |= testRandPoissonQ();
   mask |= testRandPoissonT();
 
-  return mask;
+  return mask > 0 ? -mask : mask;
 }
 

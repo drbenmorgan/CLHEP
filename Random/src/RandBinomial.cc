@@ -1,4 +1,4 @@
-// $Id: RandBinomial.cc,v 1.3 2003/08/13 20:00:12 garren Exp $
+// $Id: RandBinomial.cc,v 1.4 2005/04/27 20:12:50 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -9,16 +9,25 @@
 
 // =======================================================================
 // John Marraffino - Created: 12th May 1998
+// M Fischler     - put and get to/from streams 12/10/04
+// M Fischler	      - put/get to/from streams uses pairs of ulongs when
+//			+ storing doubles avoid problems with precision 
+//			4/14/05
+//
 // =======================================================================
 
 #include "CLHEP/Random/RandBinomial.h"
 #include "CLHEP/Random/defs.h"
+#include "CLHEP/Random/DoubConv.hh"
 #include <algorithm>	// for min() and max()
 #include <cmath>	// for exp()
 
 using namespace std;
 
 namespace CLHEP {
+
+std::string RandBinomial::name() const {return "RandBinomial";}
+HepRandomEngine & RandBinomial::engine() {return *localEngine;}
 
 RandBinomial::~RandBinomial() {
   if ( deleteEngine ) delete localEngine;
@@ -332,5 +341,46 @@ double RandBinomial::genBinomial( HepRandomEngine *anEngine, long n, double p )
   }
   return ((p>0.5) ? (double)(n-K):(double)K);
 }
+
+std::ostream & RandBinomial::put ( std::ostream & os ) const {
+  int pr=os.precision(20);
+  std::vector<unsigned long> t(2);
+  os << " " << name() << "\n";
+  os << "Uvec" << "\n";
+  t = DoubConv::dto2longs(defaultP);
+  os << defaultN << " " << defaultP << " " << t[0] << " " << t[1] << "\n";
+  os.precision(pr);
+  return os;
+#ifdef REMOVED
+  int pr=os.precision(20);
+  os << " " << name() << "\n";
+  os << defaultN << " " << defaultP << "\n";
+  os.precision(pr);
+  return os;
+#endif
+}
+
+std::istream & RandBinomial::get ( std::istream & is ) {
+  std::string inName;
+  is >> inName;
+  if (inName != name()) {
+    is.clear(std::ios::badbit | is.rdstate());
+    std::cerr << "Mismatch when expecting to read state of a "
+    	      << name() << " distribution\n"
+	      << "Name found was " << inName
+	      << "\nistream is left in the badbit state\n";
+    return is;
+  }
+  if (possibleKeywordInput(is, "Uvec", defaultN)) {
+    std::vector<unsigned long> t(2);
+    is >> defaultN >> defaultP;
+    is >> t[0] >> t[1]; defaultP = DoubConv::longs2double(t); 
+    return is;
+  }
+  // is >> defaultN encompassed by possibleKeywordInput
+  is >> defaultP;
+  return is;
+}
+
 
 }  // namespace CLHEP
