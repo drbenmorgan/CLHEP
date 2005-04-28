@@ -1,3 +1,10 @@
+2005-04-28  Lynn Garren  <garren@fnal.gov>
+
+       * HepMC/CBherwig.icc: Bug fix from Matt Dobbs.
+       This bug can affect the interconnections between mothers/daughters 
+       toward the end of the event record.  The bug is only noticable when 
+       Herwig is run with Tauola.
+
 ==============================
 22.04.05 Release CLHEP-1.9.2.0
 ==============================
