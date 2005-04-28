@@ -19,7 +19,7 @@ CBherwig::CBherwig()
     // make the actual copy of HEPEVT here, so we can access the info
     hptr->nevhep = hepevt_.nevhep;
     hptr->nhep	 = hepevt_.nhep;
-    unsigned int i, j;
+    unsigned int i;
     for (i=0; i < NMXHEP; ++i) {
 	hptr->isthep[i] = hepevt_.isthep[i];
 	hptr->idhep[i]  = hepevt_.idhep[i];
@@ -643,14 +643,18 @@ void CBherwig::repair_hepevt( bool printInconsistencyErrors )
     // are not adjacent in the particle record, so we cannot properly 
     // set the daughter indices in hepevt.
     //
-    hptr->jmohep[index_121][0] = index_101;
-    hptr->jmohep[index_121][1] = 0;
-    hptr->jdahep[index_121][0] = 0;
-    hptr->jdahep[index_121][1] = 0;
-    hptr->jmohep[index_122][0] = index_102;
-    hptr->jmohep[index_122][1] = 0;
-    hptr->jdahep[index_122][0] = 0;
-    hptr->jdahep[index_122][1] = 0;
+    if (index_121) {
+	hptr->jmohep[index_121][0] = index_101;
+	hptr->jmohep[index_121][1] = 0;
+	hptr->jdahep[index_121][0] = 0;
+	hptr->jdahep[index_121][1] = 0;
+    }
+    if (index_122) {
+	hptr->jmohep[index_122][0] = index_102;
+	hptr->jmohep[index_122][1] = 0;
+	hptr->jdahep[index_122][0] = 0;
+	hptr->jdahep[index_122][1] = 0;
+    }
 
     for ( int i = CBherwig::first_child(index_hard);
 	  i <= CBherwig::last_child(index_hard); i++ ) {
@@ -671,8 +675,8 @@ void CBherwig::repair_hepevt( bool printInconsistencyErrors )
     }
 
     // now zero the collision and hard entries.
-    zero_hepevt_entry(index_hard);
-    zero_hepevt_entry(index_collision);
+    if (index_hard) zero_hepevt_entry(index_hard);
+    if (index_collision) zero_hepevt_entry(index_collision);
 
     //     Loop over the particles individually and handle oddities
     for ( int i=1; i <=hptr->nhep; i++ ) {
@@ -901,21 +905,27 @@ void CBherwig::remove_gaps_in_hepevt()
 	    mymap[i]=ilast;
 	}
     }
-    hptr->nhep = ilast;
+    // M. Dobbs (from Borut) - April 26, to fix tauolo/herwig past
+    // the end problem with daughter pointers: 
+    // hptr->nhep = ilast;
 
     // Finally we need to re-map the mother/daughter pointers.
 
-    for ( int i=1; i <=hptr->nhep; i++ ) {
+    for ( int i=1; i <=ilast; i++ ) {
 	hptr->jmohep[i][0] = mymap[CBherwig::first_parent(i)];
 	hptr->jmohep[i][1] = mymap[CBherwig::last_parent(i)];
 	hptr->jdahep[i][0] = mymap[CBherwig::first_child(i)];
 	hptr->jdahep[i][1] = mymap[CBherwig::last_child(i)];
     }
+    // M. Dobbs (from Borut, part B) - April 26, to fix tauolo/herwig past
+    // the end problem with daughter pointers: 
+    hptr->nhep = ilast;
 }
 
 // for internal use only
 void CBherwig::zero_hepevt_entry( int i )
 {
+    if ( i <=0 || i > max_number_entries() ) return;
     hptr->isthep[i] = 0;
     hptr->idhep[i] = 0;
     hptr->jmohep[i][0] = 0;
