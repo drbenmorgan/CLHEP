@@ -676,7 +676,7 @@ void CBherwig::repair_hepevt( bool printInconsistencyErrors )
 
     // now zero the collision and hard entries.
     if (index_hard) zero_hepevt_entry(index_hard);
-    if (index_collision) zero_hepevt_entry(index_collision);
+    if (index_hard) zero_hepevt_entry(index_collision);
 
     //     Loop over the particles individually and handle oddities
     for ( int i=1; i <=hptr->nhep; i++ ) {
