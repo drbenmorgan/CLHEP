@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SystemOfUnits.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: SystemOfUnits.h,v 1.3.4.1 2005/06/01 15:56:10 pfeiffer Exp $
 // ----------------------------------------------------------------------
 // HEP coherent system of Units
 //
@@ -78,6 +78,9 @@ static const double  nanobarn = 1.e-9 *barn;
 static const double  picobarn = 1.e-12*barn;
 
 // symbols
+static const double nm  = nanometer;                        
+static const double um  = micrometer;                        
+
 static const double mm  = millimeter;                        
 static const double mm2 = millimeter2;
 static const double mm3 = millimeter3;

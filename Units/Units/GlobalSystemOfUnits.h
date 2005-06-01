@@ -24,6 +24,8 @@ using CLHEP::microbarn;
 using CLHEP::nanobarn;
 using CLHEP::picobarn;
 using CLHEP::mm;
+using CLHEP::um;
+using CLHEP::nm;
 using CLHEP::mm2;
 using CLHEP::mm3;
 using CLHEP::cm;
