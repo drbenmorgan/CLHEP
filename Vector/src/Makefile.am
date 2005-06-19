@@ -56,7 +56,6 @@ if BUILD_SHARED
 endif
 if BUILD_STATIC
   lib_LIBRARIES = libCLHEP-Vector-@VERSION@.a
-  LIBNAME=libCLHEP-Vector-@VERSION@.a
 endif
 
 CLEANFILES =  $(lib_shared)

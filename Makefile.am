@@ -39,10 +39,17 @@ $(CLHEPLIB):
 	liblist=`$(top_builddir)/getObjectList -static $(SUBDIRS)`; \
 	$(AR) $(ARFLAGS) $@ $$liblist; $(RANLIB) $@
 
+if BUILD_VISUAL
+$(lib_shared): 
+	-rm -f $@
+	liblist=`$(top_builddir)/getObjectList -shared $(SUBDIRS)`; \
+	$(SHLINK) $(SHNAME)$@ $$liblist
+else
 $(lib_shared): 
 	-rm -f $@
 	liblist=`$(top_builddir)/getObjectList -shared $(SUBDIRS)`; \
 	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $$liblist -o $@
+endif
 
 docs:
 	list='$(SUBDIRS)'; for subdir in $$list; do \

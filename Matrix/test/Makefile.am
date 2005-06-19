@@ -11,9 +11,12 @@ if BUILD_STATIC
           ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.a \
 	  ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.a
 else
+if BUILD_VISUAL
+else
   LIBS += $(MY_LD)$(top_builddir)/src \
           $(MY_LD)${top_builddir}/../Random/src \
           $(MY_LD)${top_builddir}/../Vector/src
+endif
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT) \
           ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.$(SHEXT) \
 	  ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
