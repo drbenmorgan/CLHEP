@@ -1,3 +1,7 @@
+2005-06-19  Lynn Garren <garren@fnal.gov>
+
+	* configure.in, Makefile.am: Use lib when building Visual C++ libraries.
+
 2005-04-28  Lynn Garren  <garren@fnal.gov>
 
        * HepMC/CBherwig.icc: Bug fix from Matt Dobbs.
