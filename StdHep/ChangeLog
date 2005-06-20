@@ -1,6 +1,8 @@
 2005-06-19  Lynn Garren <garren@fnal.gov>
 
-	* configure.in, Makefile.am: Use lib when building Visual C++ libraries.
+	* configure.in, Makefile.am: 
+	Use lib when building Visual C++ libraries.
+	Disable shared library build for Solaris CC.
 
 ==============================
 22.04.05 Release CLHEP-1.9.2.0

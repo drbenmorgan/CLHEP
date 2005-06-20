@@ -234,6 +234,7 @@ CC)
       MY_SHNAME="-h"; MY_LD="-R"
       AM_LDFLAGS="-lsunmath"
       AR="CC"; ARFLAGS="-xar -o"
+      build_shared="no"
       ;;
    *-*-hpux*) AM_CXXFLAGS="+O3 +DAportable +a1 -z -pta +Onolimit"
               AR="ar"; ARFLAGS="cru"

@@ -35,9 +35,15 @@ check_SCRIPTS = \
 	testBug6176.sh 
 
 # Identify test(s) to run when 'make check' is requested:
+if BUILD_VISUAL
+TESTS = \
+	testMatrix.sh testInversion.sh \
+	testBug6176.sh testBug6181 
+else
 TESTS = \
 	testMatrix.sh testInversion.sh \
 	testBug6176.sh testBug6181 testBug7328
+endif
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 

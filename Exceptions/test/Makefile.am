@@ -31,8 +31,9 @@ check_PROGRAMS = \
 	exctest2 	\
 	exctest3 	\
 	exctest4 	\
- 	exctestNothrow	\
- 	excDblThrow
+ 	exctestNothrow
+
+# 	excDblThrow
 
 check_SCRIPTS = \
 	testExceptions.sh 	\
