@@ -15,17 +15,6 @@ export PATH="${VSPATH}/Common7/Tools/":${PATH}
 export PATH="${VSPATH}/Vc7/bin":${PATH}
 export PATH="${VSPATH}/Common7/IDE":${PATH}
 
-
-Before starting the build, you need to set up a 
-couple of environment variables as g++ (from
-cygwin will otherwise be found and used):
-
-export CPP='cl -E'
-export CC='cl '
-export CXXCPP='cl -E'
-export CXX='cl '
-export LD='cl '
-
 The compiler also needs the following variables set up (and 
 as these are interpreted by the compiler, they have to be in 
 "windows-syntax"):
