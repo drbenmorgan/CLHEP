@@ -181,6 +181,7 @@ g++)
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-dynamiclib -single_module"; SHEXT=dylib
       MY_SHNAME="-Wl,-install_name,"; MY_LD="-Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
+      build_shared="no"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
@@ -201,6 +202,7 @@ c++)
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-dynamiclib -single_module"; SHEXT=dylib
       MY_SHNAME="-Wl,-install_name,"; MY_LD="-Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
+      build_shared="no"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
