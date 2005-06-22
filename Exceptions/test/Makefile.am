@@ -12,9 +12,12 @@ if BUILD_STATIC
 	  ${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.a \
 	  ${top_builddir}/../RefCount/src/libCLHEP-RefCount-@VERSION@.a
 else
+if BUILD_VISUAL
+else
   LIBS += $(MY_LD)$(top_builddir)/src \
           $(MY_LD)${top_builddir}/../Cast/src \
           $(MY_LD)${top_builddir}/../RefCount/src
+endif
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT)    \
 	  ${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.$(SHEXT) \
 	  ${top_builddir}/../RefCount/src/libCLHEP-RefCount-@VERSION@.$(SHEXT)
@@ -29,8 +32,9 @@ check_PROGRAMS = \
 	exctest2 	\
 	exctest3 	\
 	exctest4 	\
- 	exctestNothrow	\
- 	excDblThrow
+ 	exctestNothrow
+
+# 	excDblThrow
 
 check_SCRIPTS = \
 	testExceptions.sh 	\

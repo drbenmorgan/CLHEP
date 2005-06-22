@@ -11,9 +11,12 @@ if BUILD_STATIC
           ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.a \
 	  ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.a
 else
+if BUILD_VISUAL
+else
   LIBS += $(MY_LD)$(top_builddir)/src \
           $(MY_LD)${top_builddir}/../Random/src \
           $(MY_LD)${top_builddir}/../Vector/src
+endif
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT) \
           ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.$(SHEXT) \
 	  ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
@@ -32,9 +35,15 @@ check_SCRIPTS = \
 	testBug6176.sh 
 
 # Identify test(s) to run when 'make check' is requested:
+if BUILD_VISUAL
+TESTS = \
+	testMatrix.sh testInversion.sh \
+	testBug6176.sh testBug6181 
+else
 TESTS = \
 	testMatrix.sh testInversion.sh \
 	testBug6176.sh testBug6181 testBug7328
+endif
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 

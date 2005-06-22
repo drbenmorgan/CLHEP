@@ -13,7 +13,7 @@
 
 #include <iostream>
 #include <math.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #include "CLHEP/Matrix/Matrix.h"
 #include "CLHEP/Matrix/SymMatrix.h"

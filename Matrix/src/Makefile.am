@@ -38,11 +38,19 @@ all-local: $(shareddir) $(lib_shared)
 $(shareddir):
 	test -d $(shareddir) || mkdir $(shareddir)
 
+if BUILD_VISUAL
+$(lib_shared): $(libCLHEP_Matrix_@VERSION@_so_OBJECTS)
+	$(SHLINK) $(SHNAME)$@ $(libCLHEP_Matrix_@VERSION@_so_OBJECTS)
+
+$(shareddir)/%.$(OBJEXT): %.cc
+	$(CXXCOMPILE) $(SHFLAGS) /c /Fo$@ $<
+else
 $(lib_shared): $(libCLHEP_Matrix_@VERSION@_so_OBJECTS)
 	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_Matrix_@VERSION@_so_OBJECTS) -o $@
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<
+endif
 
 install-exec-local: $(lib_shared)
 	@$(NORMAL_INSTALL)

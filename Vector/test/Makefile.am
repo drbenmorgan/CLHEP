@@ -10,7 +10,10 @@ INCLUDES = -I$(top_builddir)/
 if BUILD_STATIC
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.a
 else
+if BUILD_VISUAL
+else
   LIBS += $(MY_LD)$(top_builddir)/src
+endif
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT)
 endif
 
