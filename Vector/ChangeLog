@@ -1,3 +1,11 @@
+==============================
+22.06.05 Release CLHEP-1.9.2.1
+==============================
+Wed Jun 22 2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
+
+	* configure.in: changed soname to install_name for darwin targets,
+	dylibs still don't build properly on 10.3/10.4, static libs ok.
+
 2005-06-19  Lynn Garren <garren@fnal.gov>
 
 	* configure.in, Makefile.am: 
