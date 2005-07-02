@@ -14,7 +14,7 @@ do
    then
       extra="/shared"
    else
-      if [ -e ${arg}/src${extra} ]
+      if [ -d ${arg}/src${extra} ]
       then
 	 thispkg=`ls $arg/src$extra/*.@OBJEXT@`
 	 filelist="$filelist $thispkg"
