@@ -18,9 +18,6 @@ DOC_INCLUDES = graph_interpretation.eps \
 
 SUFFIXES = .ps .dvi .tex
 
-.dvi.ps:
-	dvips -o $@ $(@:.ps=.dvi)
-
 all: docs
 
 all-local: docs
@@ -34,7 +31,8 @@ $(DOC_POSTSCRIPT): $(DOC_SOURCE)
 	  if test ! -f $$file; then  \
 	  (cp $(doc_srcdir)/$$file $(doc_builddir)/$$file); fi; done
 	$(TEX)	$(DOC_SOURCE)
-	dvips -o HepMC_user_manual.dvi
+	$(TEX)	$(DOC_SOURCE)
+	dvips -o $(DOC_POSTSCRIPT) HepMC_user_manual.dvi
 
 install-docs: $(DOC_POSTSCRIPT)
 	$(mkinstalldirs) $(DESTDIR)$(doc_installdir)
