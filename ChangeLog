@@ -1,3 +1,8 @@
+2005-07-27  Lynn Garren <garren@fnal.gov>
+
+	* HepPDT/convertTemporaryMap.icc: Fill DecayData properly.
+	Also get proper particle names when parsing PDG table.
+
 ==============================
 22.06.05 Release CLHEP-1.9.2.1
 ==============================
