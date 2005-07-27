@@ -1,6 +1,7 @@
 
 HepPDT-ParticleDataTable-begin
              *****  ParticleDataTable  *****
+             HepPDT Version: 1.02.00
              Table Name :  
                   ( 5 entries )
 PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L  MASS                       WIDTH                    LIFETIME

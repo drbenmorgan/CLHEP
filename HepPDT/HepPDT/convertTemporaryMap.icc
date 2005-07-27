@@ -11,6 +11,9 @@ template< class Config >
 void ParticleDataTableT<Config>::convertTemporaryMap( TempMap & tempPDT, std::ostream & err )
 {
   TempMap::iterator cit;
+  // need an empty DecayData
+  DecayData nodecay;
+  DDID edid = addDecayData( nodecay );
   // first loop and create a PD map with empty DecayData
   for( cit=tempPDT.begin(); cit != tempPDT.end(); ++cit ) {
     TempParticleData & tempd = cit->second;
@@ -18,7 +21,7 @@ void ParticleDataTableT<Config>::convertTemporaryMap( TempMap & tempPDT, std::os
     CPD cpd( tempd );
     CPDID cid = addParticleData( cpd );
     // now create ParticleData and add it to the map
-    ParticleData pd( cid, NULL );
+    ParticleData pd( cid, edid );
     addParticle( pd );
   }
   // now loop again and add the DecayData

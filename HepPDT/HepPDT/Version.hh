@@ -10,10 +10,12 @@
 #define HEPPDTVERSION_HH
 
 #include <string>
+#include <iostream>
 
 namespace HepPDT {
 
-void version( );		// print version
+void version( );			// print version
+void writeVersion( std::ostream & os );	// write version to os
 std::string versionName( );	// return version
 
 }	// HepPDT

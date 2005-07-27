@@ -101,6 +101,7 @@ void ParticleDataTableT<Config>::writeParticleData( std::ostream & outstr )
   outstr << std::endl;
   outstr << "HepPDT-ParticleDataTable-begin" << std::endl;
   outstr << "             *****  ParticleDataTable  *****" << std::endl;
+  writeVersion( outstr );
   outstr << "             Table Name : " << tableName() << std::endl;
   outstr << "                  ( " << size() << " entries )" << std::endl;
   outstr << "PARTICLE NAME                 ID  CHARGE COLOR"
@@ -126,6 +127,7 @@ void ParticleDataTableT<Config>::writeParticleInfo( std::ostream & outstr )
   outstr << std::endl;
   outstr << "HepPDT-ParticleDataTable-Particle-Information-begin" << std::endl;
   outstr << "             *****  ParticleDataTable  *****" << std::endl;
+  writeVersion( outstr );
   outstr << "             Table Name : " << tableName() << std::endl;
   outstr << "                  ( " << size() << " entries )" << std::endl;
   outstr << "PARTICLE NAME                 ID  CHARGE COLOR"
