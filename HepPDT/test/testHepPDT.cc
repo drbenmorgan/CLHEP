@@ -51,15 +51,21 @@ int main()
     }
     datacol.writeParticleData(wpdfile);
     wpdfile << std::endl;
+
+    // output some pion information
     DefaultConfig::ParticleData * pd;
     pd=datacol.particle(HepPDT::ParticleID(111));
     if(pd) pd->write(wpdfile);
+    //  -111 is an illegal particle, no info will be written
     pd=datacol.particle(HepPDT::ParticleID(-111));
     if(pd) pd->write(wpdfile);
     pd=datacol.particle(HepPDT::ParticleID(211));
     if(pd) pd->write(wpdfile);
-    pd=datacol.particle(std::string("pi"));
+    // string lookup
+    pd=datacol.particle(std::string("pi0"));
     if(pd) pd->write(wpdfile);
+    // particle info
     datacol.writeParticleInfo(wpdfile);
-
+    
+    return 0;
 }

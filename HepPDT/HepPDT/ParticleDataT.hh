@@ -105,6 +105,7 @@ public:
   // ---  DecayData mutators:
   //
   void  appendMode( DecayChannel const & dcp)  { itsDDID->appendMode(dcp); }
+  void  setDecayData( DDID dd )                { itsDDID = dd; }
 
   // ---  accessors:
   //
@@ -120,10 +121,6 @@ public:
   //
   //bool  operator <  ( ParticleDataT<Config> const & other ) const;
   //bool  operator == ( ParticleDataT<Config> const & other ) const;
-  
-  // ---  mutator:
-  //
-  void  setDecayData( DDID dd )  { itsDDID = dd; }
 
 private:
 

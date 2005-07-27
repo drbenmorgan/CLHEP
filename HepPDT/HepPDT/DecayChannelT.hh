@@ -27,7 +27,7 @@ class DecayChannelT  {
 public:
   // --- useful typedef's
   //
-  typedef typename Config::ParticleData PD;	// ParticleDataType
+  typedef typename Config::ParticleData * PD;	// ParticleDataType
   typedef typename Config::PT           PT;	// ParticleType
 
   typedef std::vector< PD >    ProductMap;
@@ -80,7 +80,7 @@ private:
   std::string              itsDecayName;
   Measurement              itsBranchingFraction;
   ProductMap               itsDecayChannelProducts;
-  std::vector<double>   itsDecayModelParameters;
+  std::vector<double>      itsDecayModelParameters;
   DecayModelBase<Config> * itsDecayModel;
 
 };  // DecayChannelT

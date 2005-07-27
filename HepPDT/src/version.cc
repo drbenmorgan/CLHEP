@@ -15,7 +15,7 @@ namespace HepPDT {
 
 std::string versionName( )
 {
-    return "1.01.00";
+    return "1.02.00";
 }
 
 void version( )

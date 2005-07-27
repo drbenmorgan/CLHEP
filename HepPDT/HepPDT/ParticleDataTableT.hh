@@ -38,7 +38,7 @@ public:
 
   typedef  std::map<ParticleID,TempParticleData>  TempMap;
   typedef  std::map<ParticleID,ParticleData>      PDTMap;
-  typedef  std::map<std::string,ParticleData>  PDTNameMap;
+  typedef  std::map<std::string,ParticleID>       PDTNameMap;
 
   typedef typename  PDTMap::const_iterator      const_iterator;
   typedef typename  PDTNameMap::const_iterator  const_iteratorByName;
