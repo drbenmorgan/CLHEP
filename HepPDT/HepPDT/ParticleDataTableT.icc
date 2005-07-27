@@ -28,7 +28,7 @@ typename ParticleDataTableT<Config>::ParticleData * ParticleDataTableT<Config>::
     return & it->second;
   } else {
     //std::cerr << "cannot find particle " << id << " in map" << std::endl;
-    return NULL;
+    return 0;
   }
 }
 
@@ -42,7 +42,7 @@ typename ParticleDataTableT<Config>::ParticleData const * ParticleDataTableT<Con
     return & cit->second;
   } else {
     //std::cerr << "cannot find particle " << id << " in map" << std::endl;
-    return NULL;
+    return 0;
   }
 }
 
@@ -61,26 +61,24 @@ typename ParticleDataTableT<Config>::ParticleData const * ParticleDataTableT<Con
 template< class Config >
 typename ParticleDataTableT<Config>::ParticleData * ParticleDataTableT<Config>::particle( std::string nkey)
 { 
-  nameIterator it;
-  it = itsNameMap.find( nkey );
+  nameIterator it = itsNameMap.find( nkey );
   if( it != itsNameMap.end() ) {
-    return & it->second;
+    return  particle(it->second);
   } else {
     //std::cerr << "cannot find particle " << nkey << " in map" << std::endl;
-    return NULL;
+    return 0;
   }
 }
 
 template< class Config >
 typename ParticleDataTableT<Config>::ParticleData const * ParticleDataTableT<Config>::particle( std::string nkey ) const
 { 
-  const_iteratorByName cit;
-  cit = itsNameMap.find( nkey );
+  const_iteratorByName cit = itsNameMap.find( nkey );
   if( cit != itsNameMap.end() ) {
-    return & cit->second;
+    return particle(cit->second);
   } else {
     //std::cerr << "cannot find particle " << nkey << " in map" << std::endl;
-    return NULL;
+    return 0;
   }
 }
 
@@ -103,6 +101,7 @@ void ParticleDataTableT<Config>::writeParticleData( std::ostream & outstr )
   outstr << std::endl;
   outstr << "HepPDT-ParticleDataTable-begin" << std::endl;
   outstr << "             *****  ParticleDataTable  *****" << std::endl;
+  writeVersion( outstr );
   outstr << "             Table Name : " << tableName() << std::endl;
   outstr << "                  ( " << size() << " entries )" << std::endl;
   outstr << "PARTICLE NAME                 ID  CHARGE COLOR"
@@ -128,6 +127,7 @@ void ParticleDataTableT<Config>::writeParticleInfo( std::ostream & outstr )
   outstr << std::endl;
   outstr << "HepPDT-ParticleDataTable-Particle-Information-begin" << std::endl;
   outstr << "             *****  ParticleDataTable  *****" << std::endl;
+  writeVersion( outstr );
   outstr << "             Table Name : " << tableName() << std::endl;
   outstr << "                  ( " << size() << " entries )" << std::endl;
   outstr << "PARTICLE NAME                 ID  CHARGE COLOR"
@@ -170,7 +170,7 @@ void ParticleDataTableT<Config>::addParticle( ParticleData const & p )
   ParticleID id=p.ID();
   //std::string nid(p.name());
   itsMap.insert( std::make_pair( id, p )); 
-  itsNameMap.insert( std::make_pair( p.name(), p )); 
+  itsNameMap.insert( std::make_pair( p.name(), id )); 
 }
 
 }	// HepPDT

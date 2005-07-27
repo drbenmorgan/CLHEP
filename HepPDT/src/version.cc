@@ -7,21 +7,24 @@
 //
 // ----------------------------------------------------------------------
 
-#include <iostream>
-
 #include "CLHEP/HepPDT/Version.hh"
 
 namespace HepPDT {
 
 std::string versionName( )
 {
-    return "1.01.00";
+    return "1.02.00";
 }
 
 void version( )
 {
     std::cout << " --------------- HepPDT Version " << versionName()
               << " --------------- " << std::endl;
+}
+
+void writeVersion( std::ostream & os )
+{
+    os << "             HepPDT Version: " << versionName() << std::endl;
 }
 
 }	// HepPDT

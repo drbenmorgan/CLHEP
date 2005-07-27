@@ -30,27 +30,35 @@ bool CheckPDGEntry( TempParticleData & tpd, const std::string &,
 void parsePDGline( TempParticleData & tpd,  std::string & pdline )
 {
    double v, e1, e2, err;
-   std::string name, ckey, charges, bigname;
+   std::string name, ckey, charges, fullname, chg;
+   //std::string bigname;
    //int sl = pdline.length() - 1;		// <cr> at ends of lines
    // we already know that this is a valid line
    ckey = pdline.substr(0,1);
-   name = charges = "";
+   name = charges = fullname = "";
    v = e1 = e2 = 0.0;
    std::istringstream val( pdline.substr(34,33).c_str() );
    val >> v >> e1 >> e2;
    err = sqrt( (e1*e1 + e2*e2)/2.0 );
-   bigname = pdline.substr(68,21);
-   int blank = bigname.find(" ");
-   name = bigname.substr(0,blank);
+   //bigname = pdline.substr(68,21);
+   //int blank = bigname.find(" ");
+   //name = bigname.substr(0,blank);
    // really should strip out leading blanks 
    // unfortunately, the istrstream trick does not work with strings in KCC
-   charges = bigname.substr(blank+1,20-blank);
+   //charges = bigname.substr(blank+1,20-blank);
    //std::cout << blank << " -- " << pdline.substr(68,21) << std::endl;
-   //std::istringstream namelist( pdline.substr(68,21).c_str() );
-   //namelist >> name >> charges;
-   // std::cout << ckey << " " << tpd.tempID.pid() << " "  
-   //      << v << " " << e1 << " " << e2 << " " << name << " " << charges << std::endl;
-   CheckPDGEntry( tpd, ckey, name, v, err );
+   std::istringstream namelist( pdline.substr(68,21).c_str() );
+   namelist >> name >> charges;
+   //std::cout << ckey << " " << tpd.tempID.pid() << " " << name 
+   //          << " " << charges << std::endl;
+   // parse the charge list and add charge to base name
+   char buf[20];
+   std::istringstream chglst(charges);
+   while( chglst ) {
+      chglst.getline(buf,20,',');
+      if( chglst.gcount() > 0 ) fullname = name + buf;
+      CheckPDGEntry( tpd, ckey, fullname, v, err );
+   }
 }
 
 bool CheckPDGEntry( TempParticleData & tpd, const std::string & ckey, 

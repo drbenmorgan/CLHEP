@@ -1,6 +1,7 @@
 
 HepPDT-ParticleDataTable-begin
              *****  ParticleDataTable  *****
+             HepPDT Version: 1.02.00
              Table Name : EvtGen Table
                   ( 451 entries )
 PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L  MASS                       WIDTH                    LIFETIME
@@ -13,25 +14,25 @@ anti-n_diffr            -9912112       0     0  0.5    0    0  0.00000e+00+/-0.0
 pi_diff-                -9910211      -1     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 a_0-                    -9000211      -1     0    0    0    0  9.83500e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-D*(2S)0             -100423       0     0    1    1    0  2.64000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.1667
-          VVS_PWAVE 0.3333
-          VSS 0.1667
-          VSS 0.3333
+          VVS_PWAVE 0.1667 anti-D*0 pi0
+          VVS_PWAVE 0.3333 D*- pi+
+          VSS 0.1667 anti-D0 pi0
+          VSS 0.3333 D- pi+
 anti-D(2S)0              -100421       0     0    0    0    0  2.58000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          SVS 0.3333
-          SVS 0.6667
+          SVS 0.3333 anti-D*0 pi0
+          SVS 0.6667 D*- pi+
 D*(2S)-                  -100413      -1     0    1    1    0  2.64000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.1667
-          VVS_PWAVE 0.3333
-          VSS 0.1667
-          VSS 0.3333
+          VVS_PWAVE 0.1667 D*- pi0
+          VVS_PWAVE 0.3333 anti-D*0 pi-
+          VSS 0.1667 D- pi0
+          VSS 0.3333 anti-D0 pi-
 D(2S)-                   -100411      -1     0    0    0    0  2.58000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          SVS 0.3333
-          SVS 0.6667
+          SVS 0.3333 D*- pi0
+          SVS 0.6667 anti-D*0 pi-
 rho(2S)-                 -100213      -1     0    1    1    0  1.46000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.4
-          PHSP 0.4
-          PHSP 0.2
+          PHSP 0.4 pi- pi0
+          PHSP 0.4 pi- pi+ pi- pi0
+          PHSP 0.2 pi- pi0 pi0 pi0
 pi(2S)-                  -100211       0     0    1    0    0  1.30000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 rho(3S)-                  -30213      -1     0    1    1    2  1.70000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B'_c1-                    -20543      -1     0    1    1    1  7.40000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
@@ -39,31 +40,31 @@ anti-B'_s10               -20533       0     0    1    1    1  5.84000e+00+/-0.0
 B'_1-                     -20523      -1     0    1    1    1  5.74000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-B'_10                -20513       0     0    1    1    1  5.74000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D'_s1-                    -20433      -1     0    1    1    1  2.56000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.49
-          PHSP 0.5
-          PHSP 0.01
+          PHSP 0.49 D*- anti-K0
+          PHSP 0.5 anti-D*0 K-
+          PHSP 0.01 gamma D_s-
 anti-D'_10                -20423       0     0    1    1    1  2.44500e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.3333
-          VVS_PWAVE 0.6667
+          VVS_PWAVE 0.3333 anti-D*0 pi0
+          VVS_PWAVE 0.6667 D*- pi+
 D'_1-                     -20413      -1     0    1    1    1  2.44500e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.3333
-          VVS_PWAVE 0.6667
+          VVS_PWAVE 0.3333 D*- pi0
+          VVS_PWAVE 0.6667 anti-D*0 pi-
 K'_1-                     -20323      -1     0    1    1    1  1.40200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.63
-          VVS_PWAVE 0.31
-          VVS_PWAVE 0.02
-          VVS_PWAVE 0.01
-          VVS_PWAVE 0.01
-          PHSP 0.0133
-          PHSP 0.0067
+          VVS_PWAVE 0.63 anti-K*0 pi-
+          VVS_PWAVE 0.31 K*- pi0
+          VVS_PWAVE 0.02 rho- anti-K0
+          VVS_PWAVE 0.01 rho0 K-
+          VVS_PWAVE 0.01 omega K-
+          PHSP 0.0133 K- pi+ pi-
+          PHSP 0.0067 K- pi0 pi0
 anti-K'_10                -20313       0     0    1    1    1  1.40200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.63
-          VVS_PWAVE 0.31
-          VVS_PWAVE 0.02
-          VVS_PWAVE 0.01
-          VVS_PWAVE 0.01
-          PHSP 0.0133
-          PHSP 0.0067
+          VVS_PWAVE 0.63 K*- pi+
+          VVS_PWAVE 0.31 anti-K*0 pi0
+          VVS_PWAVE 0.02 rho+ K-
+          VVS_PWAVE 0.01 rho0 anti-K0
+          VVS_PWAVE 0.01 omega anti-K0
+          PHSP 0.0133 anti-K0 pi+ pi-
+          PHSP 0.0067 anti-K0 pi0 pi0
 a_1-                      -20213      -1     0    1    1    1  1.23000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B_c1-                     -10543      -1     0    1    0    1  7.30000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B_c0*-                    -10541      -1     0    0    1    1  7.25000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
@@ -74,39 +75,39 @@ B_0*-                     -10521      -1     0    0    1    1  5.69700e+00+/-0.0
 anti-B_10                 -10513       0     0    1    0    1  5.67900e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-B_0*0                -10511       0     0    0    1    1  5.69700e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D_s1-                     -10433      -1     0    1    0    1  2.53535e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.35
-          VVS_PWAVE 0.35
-          PHSP 0.25
-          PHSP 0.05
+          VVS_PWAVE 0.35 D*- anti-K0
+          VVS_PWAVE 0.35 anti-D*0 K-
+          PHSP 0.25 gamma D_s*-
+          PHSP 0.05 gamma D_s-
 D_s0*-                    -10431      -1     0    0    1    1  2.50000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.5
-          PHSP 0.5
+          PHSP 0.5 D- anti-K0
+          PHSP 0.5 anti-D0 K-
 anti-D_10                 -10423       0     0    1    0    1  2.42220e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.3333
-          VVS_PWAVE 0.6667
+          VVS_PWAVE 0.3333 anti-D*0 pi0
+          VVS_PWAVE 0.6667 D*- pi+
 anti-D_0*0                -10421       0     0    0    1    1  2.40000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.3333
-          PHSP 0.6667
+          PHSP 0.3333 anti-D0 pi0
+          PHSP 0.6667 D- pi+
 D_1-                      -10413      -1     0    1    0    1  2.42220e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D_0*-                     -10411      -1     0    0    1    1  2.40000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.3333
-          PHSP 0.6667
+          PHSP 0.3333 D- pi0
+          PHSP 0.6667 anti-D0 pi-
 K_1-                      -10323      -1     0    1    0    1  1.27300e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 K_0*-                     -10321      -1     0    0    1    1  1.42900e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.6667
-          PHSP 0.3333
+          PHSP 0.6667 anti-K0 pi-
+          PHSP 0.3333 K- pi0
 anti-K_10                 -10313       0     0    1    0    1  1.27300e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.28
-          VVS_PWAVE 0.14
-          VVS_PWAVE 0.1067
-          VVS_PWAVE 0.0533
-          VVS_PWAVE 0.11
-          PHSP 0.1444
-          PHSP 0.1244
-          PHSP 0.0412
+          VVS_PWAVE 0.28 rho+ K-
+          VVS_PWAVE 0.14 rho0 anti-K0
+          VVS_PWAVE 0.1067 K*- pi+
+          VVS_PWAVE 0.0533 anti-K*0 pi0
+          VVS_PWAVE 0.11 omega anti-K0
+          PHSP 0.1444 anti-K0 pi+ pi-
+          PHSP 0.1244 K- pi+ pi0
+          PHSP 0.0412 anti-K0 pi0 pi0
 anti-K_0*0                -10311       0     0    0    1    1  1.42900e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.6667
-          PHSP 0.3333
+          PHSP 0.6667 K- pi+
+          PHSP 0.3333 anti-K0 pi0
 b_1-                      -10213      -1     0    1    0    1  1.23100e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-bb_1                  -5503  0.6667     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-bb_0                  -5501  0.6667     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
@@ -139,22 +140,22 @@ anti-Omega_c*0             -4334       0     0  1.5    0    0  2.80000e+00+/-0.0
 anti-Omega_c0              -4332       0     0  0.5    0    0  2.70400e+00+/-0.00000e+00  3.4643e-23+/-0.0000e+00  1.9000e-02+/-0.0000e+00
 anti-Xi_c*-                -4324      -1     0  1.5    0    0  2.64000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Xi'_c-                -4322      -1     0  0.5    0    0  2.55000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.1
-          PHSP 0.08
-          PHSP 0.82
+          PHSP 0.1 anti-Lambda0 K+ pi- pi-
+          PHSP 0.08 anti-Sigma0 K+ pi- pi-
+          PHSP 0.82 gamma anti-Xi_c-
 anti-Xi_c*0                -4314       0     0  1.5    0    0  2.64380e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Xi'_c0                -4312       0     0  0.5    0    0  2.55000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 gamma anti-Xi_c0
 anti-cs_1                  -4303 -0.3333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-cs_0                  -4301 -0.3333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Xi_c-                 -4232      -1     0  0.5    0    0  2.46560e+00+/-0.00000e+00  6.2095e-24+/-0.0000e+00  1.0600e-01+/-0.0000e+00
           84 1
 anti-Sigma_c*--            -4224      -2     0  1.5    0    0  2.53000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Sigma_c--             -4222      -2     0  0.5    0    0  2.45285e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 anti-Lambda_c- pi-
 anti-Sigma_c*-             -4214      -1     0  1.5    0    0  2.53000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Sigma_c-              -4212      -1     0  0.5    0    0  2.45340e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 anti-Lambda_c- pi0
 anti-cu_1                  -4203  -1.333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-cu_0                  -4201  -1.333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Xi_c0                 -4132       0     0  0.5    0    0  2.47030e+00+/-0.00000e+00  2.2697e-23+/-0.0000e+00  2.9000e-02+/-0.0000e+00
@@ -162,74 +163,74 @@ anti-Xi_c0                 -4132       0     0  0.5    0    0  2.47030e+00+/-0.0
 anti-Lambda_c-             -4122      -1     0  0.5    0    0  2.28490e+00+/-0.00000e+00  1.0651e-23+/-0.0000e+00  6.1800e-02+/-0.0000e+00
 anti-Sigma_c*0             -4114       0     0  1.5    0    0  2.53000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Sigma_c0              -4112       0     0  0.5    0    0  2.45206e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 anti-Lambda_c- pi+
 anti-cd_1                  -4103 -0.3333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-cd_0                  -4101 -0.3333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Omega+                -3334       1     0  1.5    0    0  1.67245e+00+/-0.00000e+00  2.6757e-26+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.678
-          PHSP 0.236
-          PHSP 0.086
+          PHSP 0.678 anti-Lambda0 K+
+          PHSP 0.236 anti-Xi0 pi+
+          PHSP 0.086 anti-Xi+ pi0
 anti-Xi*0                  -3324       0     0  1.5    0    0  1.53180e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.333
-          PHSP 0.667
+          PHSP 0.333 anti-Xi0 pi0
+          PHSP 0.667 anti-Xi+ pi-
 anti-Xi0                   -3322       0     0  0.5    0    0  1.31490e+00+/-0.00000e+00  7.5570e-27+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 anti-Lambda0 pi0
 anti-Xi*+                  -3314       1     0  1.5    0    0  1.53500e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.667
-          PHSP 0.333
+          PHSP 0.667 anti-Xi0 pi+
+          PHSP 0.333 anti-Xi+ pi0
 anti-Xi+                   -3312       1     0  0.5    0    0  1.32132e+00+/-0.00000e+00  1.3406e-26+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 anti-Lambda0 pi+
 anti-ss_1                  -3303  0.6667     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-ss_0                  -3301  0.6667     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Sigma*-               -3224      -1     0  1.5    0    0  1.38280e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.88
-          PHSP 0.06
-          PHSP 0.06
+          PHSP 0.88 anti-Lambda0 pi-
+          PHSP 0.06 anti-Sigma- pi0
+          PHSP 0.06 anti-Sigma0 pi-
 anti-Sigma-                -3222      -1     0  0.5    0    0  1.18937e+00+/-0.00000e+00  2.7471e-26+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.5157
-          PHSP 0.4831
-          PHSP 0.0012
+          PHSP 0.5157 anti-p- pi0
+          PHSP 0.4831 anti-n0 pi-
+          PHSP 0.0012 anti-p- gamma
 anti-Sigma*0               -3214       0     0  1.5    0    0  1.38370e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.88
-          PHSP 0.06
-          PHSP 0.06
+          PHSP 0.88 anti-Lambda0 pi0
+          PHSP 0.06 anti-Sigma- pi+
+          PHSP 0.06 anti-Sigma+ pi-
 anti-Sigma0                -3212       0     0  0.5    0    0  1.19255e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 gamma anti-Lambda0
 anti-su_1                  -3203 -0.3333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-su_0                  -3201 -0.3333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Lambda0               -3122       0     0  0.5    0    0  1.11568e+00+/-0.00000e+00  8.3445e-27+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.639
-          PHSP 0.358
-          PHSP 0.0018
-          PHSP 0.0005
-          PHSP 0.0006
-          PHSP 0.0001
+          PHSP 0.639 anti-p- pi+
+          PHSP 0.358 anti-n0 pi0
+          PHSP 0.0018 anti-n0 gamma
+          PHSP 0.0005 anti-p- pi+ gamma
+          PHSP 0.0006 anti-p- e+ anti-nu_e
+          PHSP 0.0001 anti-p- mu+ anti-nu_mu
 anti-Sigma*+               -3114       1     0  1.5    0    0  1.38720e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.88
-          PHSP 0.06
-          PHSP 0.06
+          PHSP 0.88 anti-Lambda0 pi+
+          PHSP 0.06 anti-Sigma0 pi+
+          PHSP 0.06 anti-Sigma+ pi0
 anti-Sigma+                -3112       1     0  0.5    0    0  1.19744e+00+/-0.00000e+00  1.4845e-26+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 anti-n0 pi+
 anti-sd_1                  -3103  0.6667     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-sd_0                  -3101  0.6667     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Delta--               -2224      -2     0  1.5    0    0  1.23100e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 anti-p- pi-
 anti-Delta-                -2214      -1     0  1.5    0    0  1.23200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.663
-          PHSP 0.331
-          PHSP 0.006
+          PHSP 0.663 anti-p- pi0
+          PHSP 0.331 anti-n0 pi-
+          PHSP 0.006 anti-p- gamma
 anti-p-                    -2212      -1     0  0.5    0    0  9.38272e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-uu_1                  -2203  -1.333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-uu_0                  -2201  -1.333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Delta0                -2114       0     0  1.5    0    0  1.23300e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.331
-          PHSP 0.663
-          PHSP 0.006
+          PHSP 0.331 anti-p- pi+
+          PHSP 0.663 anti-n0 pi0
+          PHSP 0.006 anti-n0 gamma
 anti-n0                    -2112       0     0  0.5    0    0  9.39566e-01+/-0.00000e+00  2.4745e-39+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-ud_1                  -2103 -0.3333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-ud_0                  -2101 -0.3333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-Delta+                -1114       1     0  1.5    0    0  1.23400e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 anti-n0 pi+
 anti-dd_1                  -1103  0.6667     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-dd_0                  -1101  0.6667     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B_c2*-                      -545      -1     0    2    1    1  7.35000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
@@ -237,391 +238,391 @@ B_c*-                       -543      -1     0    1    1    0  6.60200e+00+/-0.0
 B_c-                        -541      -1     0    0    0    0  6.59400e+00+/-0.00000e+00  6.5821e-24+/-0.0000e+00  1.0000e-01+/-0.0000e+00
 anti-B_s2*0                 -535       0     0    2    1    1  5.85300e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-B_s*0                  -533       0     0    1    1    0  5.41630e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VSP_PWAVE 1
+          VSP_PWAVE 1 anti-B_s0 gamma
 anti-B_s0                   -531       0     0    0    0    0  5.36930e+00+/-0.00000e+00  1.4309e-24+/-0.0000e+00  4.6000e-01+/-0.0000e+00
-          ISGW2 0.021
-          ISGW2 0.049
-          ISGW2 0.004
-          ISGW2 0.004
-          ISGW2 0.007
-          ISGW2 0.007
-          ISGW2 0.021
-          ISGW2 0.049
-          ISGW2 0.004
-          ISGW2 0.004
-          ISGW2 0.007
-          ISGW2 0.007
-          ISGW2 0.007
-          ISGW2 0.015
-          ISGW2 0.0013
-          ISGW2 0.0013
-          ISGW2 0.0023
-          ISGW2 0.0023
-          JETSET 0.7868
+          ISGW2 0.021 D_s+ e- anti-nu_e
+          ISGW2 0.049 D_s*+ e- anti-nu_e
+          ISGW2 0.004 D_s1+ e- anti-nu_e
+          ISGW2 0.004 D_s0*+ e- anti-nu_e
+          ISGW2 0.007 D'_s1+ e- anti-nu_e
+          ISGW2 0.007 D_s2*+ e- anti-nu_e
+          ISGW2 0.021 D_s+ mu- anti-nu_mu
+          ISGW2 0.049 D_s*+ mu- anti-nu_mu
+          ISGW2 0.004 D_s1+ mu- anti-nu_mu
+          ISGW2 0.004 D_s0*+ mu- anti-nu_mu
+          ISGW2 0.007 D'_s1+ mu- anti-nu_mu
+          ISGW2 0.007 D_s2*+ mu- anti-nu_mu
+          ISGW2 0.007 D_s+ tau- anti-nu_tau
+          ISGW2 0.015 D_s*+ tau- anti-nu_tau
+          ISGW2 0.0013 D_s1+ tau- anti-nu_tau
+          ISGW2 0.0013 D_s0*+ tau- anti-nu_tau
+          ISGW2 0.0023 D'_s1+ tau- anti-nu_tau
+          ISGW2 0.0023 D_s2*+ tau- anti-nu_tau
+          JETSET 0.7868 anti-u d c anti-s
 B_2*-                       -525      -1     0    2    1    1  5.69200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B*-                         -523      -1     0    1    1    0  5.32460e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B-                          -521      -1     0    0    0    0  5.27890e+00+/-0.00000e+00  1.3543e-24+/-0.0000e+00  4.8600e-01+/-0.0000e+00
 anti-B_2*0                  -515       0     0    2    1    1  5.69200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-B*0                    -513       0     0    1    1    0  5.32480e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VSP_PWAVE 1
+          VSP_PWAVE 1 anti-B0 gamma
 anti-B0                     -511       0     0    0    0    0  5.27910e+00+/-0.00000e+00  1.4064e-24+/-0.0000e+00  4.6800e-01+/-0.0000e+00
-          PHOTOS 0.049
-          PHOTOS 0.021
-          PHOTOS 0.004
-          PHOTOS 0.004
-          PHOTOS 0.007
-          PHOTOS 0.007
-          PHOTOS 0.001
-          PHOTOS 0.002
-          PHOTOS 0.003
-          PHOTOS 0.006
-          HQET 0.049
-          ISGW2 0.021
-          ISGW2 0.004
-          ISGW2 0.004
-          ISGW2 0.007
-          ISGW2 0.007
-          GOITY_ROBERTS 0.001
-          GOITY_ROBERTS 0.002
-          GOITY_ROBERTS 0.003
-          GOITY_ROBERTS 0.006
-          ISGW2 0.016
-          ISGW2 0.007
-          ISGW2 0.0013
-          ISGW2 0.0013
-          ISGW2 0.002
-          ISGW2 0.002
-          PHOTOS 6.4e-05
-          PHOTOS 0.00025
-          PHOTOS 0.000274
-          PHOTOS 0.00017
-          PHOTOS 2.4e-05
-          PHOTOS 2.4e-05
-          PHOTOS 0
-          PHOTOS 0
-          PHOTOS 0
-          ISGW2 6.4e-05
-          ISGW2 0.00025
-          ISGW2 0.000274
-          ISGW2 0.00017
-          ISGW2 2.4e-05
-          ISGW2 2.4e-05
-          ISGW2 0
-          ISGW2 0
-          ISGW2 0
-          ISGW2 2.1e-05
-          ISGW2 8.3e-05
-          ISGW2 9e-05
-          ISGW2 8e-06
-          ISGW2 8e-06
-          ISGW2 8e-06
-          ISGW2 0
-          ISGW2 0
-          ISGW2 0
-          SSS_CP 1e-05
-          SSS_CP 1e-05
-          SSS_CP 1e-06
-          SSS_CP 1e-06
-          SSS_CP 1e-06
-          SSS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SSS_CP 1e-06
-          SSS_CP 1e-06
-          SSS_CP 1e-06
-          SSS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SSS_CP 1e-06
-          SSS_CP 1e-06
-          SSS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SSS_CP 1e-06
-          SSS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SSS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          SVS_CP 1e-06
-          BTO3PI_CP 5.6e-05
-          SVS_CP 0.0004
-          SVS_CP 0.0004
-          SVV_CP 0.00025
-          SVV_CP 0.00025
-          SVV_HELAMP 0.001
-          PHSP 0.001
-          PHSP 0.0005
-          PHSP 0.0014
-          PHSP 0.0007
-          PHSP 0.0007
-          PHSP 0.0005
-          PHSP 0.0005
-          SVS_CP 0.0003
-          SVS_CP 0.0003
-          SVV_CP 0.00025
-          SVV_CP 0.00025
-          SVV_HELAMP 0.001
-          PHSP 0.0004
-          PHSP 0.0002
-          PHSP 0.0004
-          PHSP 0.0002
-          PHSP 0.0002
-          SSS_CP 0.0001
-          SSS_CP 0.0001
-          SVS_CP 5e-05
-          SVS_CP 5e-05
-          SVS 0.0002
-          PHSP 0.0002
-          PHSP 0.0001
-          PHSP 0.0002
-          PHSP 0.0001
-          PHSP 0.0001
-          SSS_CP 0.0001
-          SSS_CP 0.0001
-          SVS_CP 5e-05
-          SVS_CP 5e-05
-          SVS 0.0002
-          PHSP 0.0002
-          PHSP 0.0001
-          PHSP 0.0002
-          PHSP 0.0001
-          PHSP 0.0001
-          SVS_CP 0.0003
-          SVS_CP 0.0003
-          SVV_CP 0.0002
-          SVV_CP 0.0002
-          SVV_HELAMP 0.0008
-          PHSP 0.0004
-          PHSP 0.0002
-          PHSP 0.0004
-          PHSP 0.0002
-          PHSP 0.0002
-          PHSP 0.0002
-          PHSP 0.0002
-          PHSP 0.00015
-          PHSP 0.00015
-          PHSP 0.0006
-          PHSP 0.0004
-          PHSP 0.0002
-          PHSP 0.0004
-          PHSP 0.0002
-          PHSP 0.0002
-          SVV_HELAMP 0
-          SVV_CP 0
-          SVV_CP 0
-          SSS_CP 0
-          SSS_CP 0
-          SSS_CP 0.00045
-          SVS_CP 0.00081
-          SVS_CP 0.00081
-          SVV_CP 0.00025
-          PHSP 0.0096
-          SVS 0.0102
-          SVS 0.012
-          SVS 0.0094
-          SVV_HELAMP 0.0174
-          PHSP 0.003
-          PHSP 0.006
-          PHSP 0.003
-          PHSP 0.006
-          PHSP 0.005
-          PHSP 0.0037
-          PHSP 0.0037
-          PHSP 0.005
-          PHSP 0.0037
-          PHSP 0.0037
-          PHSP 0.0025
-          PHSP 0.0025
-          PHSP 0.0025
-          PHSP 0.0025
-          PHSP 0.005
-          PHSP 0.005
-          PHSP 0.005
-          PHSP 0.005
-          PHSP 0.0025
-          PHSP 0.0025
-          PHSP 0.0025
-          PHSP 0.0025
-          PHSP 0.015
-          PHSP 0.015
-          PHSP 0.005
-          PHSP 0.005
-          SVS 0.0027
-          PHSP 0.003
-          SVS 0.0082
-          SVV_HELAMP 0.007
-          PHSP 0.001
-          PHSP 0.007
-          PHSP 0.001
-          PHSP 0.001
-          PHSP 0.0005
-          SVS 0.006
-          PHSP 0.0011
-          PHSP 0.0011
-          PHSP 0.001
-          PHSP 0.001
-          PHSP 0.001
-          PHSP 0.0001
-          SVV_HELAMP 0.0122
-          PHSP 0.001
-          PHSP 0.001
-          PHSP 0.0077
-          PHSP 0.001
-          PHSP 0.001
-          PHSP 0.0001
-          JETSET 0.01
-          JETSET 0.03
-          JETSET 0.006
-          JETSET 0.018
-          JETSET 0.32474
-          JETSET 0.046
-          JETSET 0.021
-          JETSET 0.018
-          JETSET 0.0009
-          JETSET 0
-          JETSET 0.006
-          JETSET 0.006
-          JETSET 0.004
+          PHOTOS 0.049 D*+ e- anti-nu_e
+          PHOTOS 0.021 D+ e- anti-nu_e
+          PHOTOS 0.004 D_1+ e- anti-nu_e
+          PHOTOS 0.004 D_0*+ e- anti-nu_e
+          PHOTOS 0.007 D'_1+ e- anti-nu_e
+          PHOTOS 0.007 D_2*+ e- anti-nu_e
+          PHOTOS 0.001 D*+ pi0 e- anti-nu_e
+          PHOTOS 0.002 D*0 pi+ e- anti-nu_e
+          PHOTOS 0.003 D+ pi0 e- anti-nu_e
+          PHOTOS 0.006 D0 pi+ e- anti-nu_e
+          HQET 0.049 D*+ mu- anti-nu_mu
+          ISGW2 0.021 D+ mu- anti-nu_mu
+          ISGW2 0.004 D_1+ mu- anti-nu_mu
+          ISGW2 0.004 D_0*+ mu- anti-nu_mu
+          ISGW2 0.007 D'_1+ mu- anti-nu_mu
+          ISGW2 0.007 D_2*+ mu- anti-nu_mu
+          GOITY_ROBERTS 0.001 D*+ pi0 mu- anti-nu_mu
+          GOITY_ROBERTS 0.002 D*0 pi+ mu- anti-nu_mu
+          GOITY_ROBERTS 0.003 D+ pi0 mu- anti-nu_mu
+          GOITY_ROBERTS 0.006 D0 pi+ mu- anti-nu_mu
+          ISGW2 0.016 D*+ tau- anti-nu_tau
+          ISGW2 0.007 D+ tau- anti-nu_tau
+          ISGW2 0.0013 D_1+ tau- anti-nu_tau
+          ISGW2 0.0013 D_0*+ tau- anti-nu_tau
+          ISGW2 0.002 D'_1+ tau- anti-nu_tau
+          ISGW2 0.002 D_2*+ tau- anti-nu_tau
+          PHOTOS 6.4e-05 pi+ e- anti-nu_e
+          PHOTOS 0.00025 rho+ e- anti-nu_e
+          PHOTOS 0.000274 a_1+ e- anti-nu_e
+          PHOTOS 0.00017 b_1+ e- anti-nu_e
+          PHOTOS 2.4e-05 a_0+ e- anti-nu_e
+          PHOTOS 2.4e-05 a_2+ e- anti-nu_e
+          PHOTOS 0 rho(2S)+ e- anti-nu_e
+          PHOTOS 0 D(2S)+ e- anti-nu_e
+          PHOTOS 0 D*(2S)+ e- anti-nu_e
+          ISGW2 6.4e-05 pi+ mu- anti-nu_mu
+          ISGW2 0.00025 rho+ mu- anti-nu_mu
+          ISGW2 0.000274 a_1+ mu- anti-nu_mu
+          ISGW2 0.00017 b_1+ mu- anti-nu_mu
+          ISGW2 2.4e-05 a_0+ mu- anti-nu_mu
+          ISGW2 2.4e-05 a_2+ mu- anti-nu_mu
+          ISGW2 0 rho(2S)+ mu- anti-nu_mu
+          ISGW2 0 D(2S)+ mu- anti-nu_mu
+          ISGW2 0 D*(2S)+ mu- anti-nu_mu
+          ISGW2 2.1e-05 pi+ tau- anti-nu_tau
+          ISGW2 8.3e-05 rho+ tau- anti-nu_tau
+          ISGW2 9e-05 a_1+ tau- anti-nu_tau
+          ISGW2 8e-06 b_1+ tau- anti-nu_tau
+          ISGW2 8e-06 a_0+ tau- anti-nu_tau
+          ISGW2 8e-06 a_2+ tau- anti-nu_tau
+          ISGW2 0 rho(2S)+ tau- anti-nu_tau
+          ISGW2 0 D(2S)+ tau- anti-nu_tau
+          ISGW2 0 D*(2S)+ tau- anti-nu_tau
+          SSS_CP 1e-05 pi+ pi-
+          SSS_CP 1e-05 pi0 pi0
+          SSS_CP 1e-06 pi0 eta
+          SSS_CP 1e-06 pi0 eta'
+          SSS_CP 1e-06 pi0 a_00
+          SSS_CP 1e-06 pi0 f_0
+          SVS_CP 1e-06 omega pi0
+          SVS_CP 1e-06 a_10 pi0
+          SVS_CP 1e-06 b_10 pi0
+          SSS_CP 1e-06 eta eta
+          SSS_CP 1e-06 eta eta'
+          SSS_CP 1e-06 eta a_00
+          SSS_CP 1e-06 eta f_0
+          SVS_CP 1e-06 omega eta
+          SVS_CP 1e-06 rho0 eta
+          SVS_CP 1e-06 a_10 eta
+          SVS_CP 1e-06 b_10 eta
+          SSS_CP 1e-06 eta' eta'
+          SSS_CP 1e-06 eta' a_00
+          SSS_CP 1e-06 eta' f_0
+          SVS_CP 1e-06 omega eta'
+          SVS_CP 1e-06 rho0 eta'
+          SVS_CP 1e-06 a_10 eta'
+          SVS_CP 1e-06 b_10 eta'
+          SSS_CP 1e-06 a_00 a_00
+          SSS_CP 1e-06 a_00 f_0
+          SVS_CP 1e-06 omega a_00
+          SVS_CP 1e-06 rho0 a_00
+          SVS_CP 1e-06 a_10 a_00
+          SVS_CP 1e-06 b_10 a_00
+          SSS_CP 1e-06 f_0 f_0
+          SVS_CP 1e-06 omega f_0
+          SVS_CP 1e-06 rho0 f_0
+          SVS_CP 1e-06 a_10 f_0
+          SVS_CP 1e-06 b_10 f_0
+          BTO3PI_CP 5.6e-05 pi- pi+ pi0
+          SVS_CP 0.0004 J/psi K_S0
+          SVS_CP 0.0004 J/psi K_L0
+          SVV_CP 0.00025 J/psi
+          SVV_CP 0.00025 J/psi
+          SVV_HELAMP 0.001 J/psi
+          PHSP 0.001 J/psi K- pi+
+          PHSP 0.0005 J/psi anti-K0 pi0
+          PHSP 0.0014 J/psi anti-K0 pi+ pi-
+          PHSP 0.0007 J/psi anti-K0 pi0 pi0
+          PHSP 0.0007 J/psi K- pi+ pi0
+          PHSP 0.0005 J/psi K'_10
+          PHSP 0.0005 J/psi K_2*0
+          SVS_CP 0.0003 psi(2S) K_S0
+          SVS_CP 0.0003 psi(2S) K_L0
+          SVV_CP 0.00025 psi(2S)
+          SVV_CP 0.00025 psi(2S)
+          SVV_HELAMP 0.001 psi(2S)
+          PHSP 0.0004 psi(2S) K- pi+
+          PHSP 0.0002 psi(2S) anti-K0 pi0
+          PHSP 0.0004 psi(2S) anti-K0 pi+ pi-
+          PHSP 0.0002 psi(2S) anti-K0 pi0 pi0
+          PHSP 0.0002 psi(2S) K- pi+ pi0
+          SSS_CP 0.0001 eta_c K_S0
+          SSS_CP 0.0001 eta_c K_L0
+          SVS_CP 5e-05 eta_c
+          SVS_CP 5e-05 eta_c
+          SVS 0.0002 eta_c
+          PHSP 0.0002 eta_c K- pi+
+          PHSP 0.0001 eta_c anti-K0 pi0
+          PHSP 0.0002 eta_c anti-K0 pi+ pi-
+          PHSP 0.0001 eta_c anti-K0 pi0 pi0
+          PHSP 0.0001 eta_c K- pi+ pi0
+          SSS_CP 0.0001 chi_c0 K_S0
+          SSS_CP 0.0001 chi_c0 K_L0
+          SVS_CP 5e-05 chi_c0
+          SVS_CP 5e-05 chi_c0
+          SVS 0.0002 chi_c0
+          PHSP 0.0002 chi_c0 K- pi+
+          PHSP 0.0001 chi_c0 anti-K0 pi0
+          PHSP 0.0002 chi_c0 anti-K0 pi+ pi-
+          PHSP 0.0001 chi_c0 anti-K0 pi0 pi0
+          PHSP 0.0001 chi_c0 K- pi+ pi0
+          SVS_CP 0.0003 chi_c1 K_S0
+          SVS_CP 0.0003 chi_c1 K_L0
+          SVV_CP 0.0002 chi_c1
+          SVV_CP 0.0002 chi_c1
+          SVV_HELAMP 0.0008 chi_c1
+          PHSP 0.0004 chi_c1 K- pi+
+          PHSP 0.0002 chi_c1 anti-K0 pi0
+          PHSP 0.0004 chi_c1 anti-K0 pi+ pi-
+          PHSP 0.0002 chi_c1 anti-K0 pi0 pi0
+          PHSP 0.0002 chi_c1 K- pi+ pi0
+          PHSP 0.0002 chi_c2 K_S0
+          PHSP 0.0002 chi_c2 K_L0
+          PHSP 0.00015 chi_c2
+          PHSP 0.00015 chi_c2
+          PHSP 0.0006 chi_c2
+          PHSP 0.0004 chi_c2 K- pi+
+          PHSP 0.0002 chi_c2 anti-K0 pi0
+          PHSP 0.0004 chi_c2 anti-K0 pi+ pi-
+          PHSP 0.0002 chi_c2 anti-K0 pi0 pi0
+          PHSP 0.0002 chi_c2 K- pi+ pi0
+          SVV_HELAMP 0 phi
+          SVV_CP 0 phi
+          SVV_CP 0 phi
+          SSS_CP 0 eta' K_S0
+          SSS_CP 0 eta' K_L0
+          SSS_CP 0.00045 D- D+
+          SVS_CP 0.00081 D*- D+
+          SVS_CP 0.00081 D*+ D-
+          SVV_CP 0.00025 D*+ D*-
+          PHSP 0.0096 D+ D_s-
+          SVS 0.0102 D*+ D_s-
+          SVS 0.012 D_1+ D_s-
+          SVS 0.0094 D_s*- D+
+          SVV_HELAMP 0.0174 D_s*- D*+
+          PHSP 0.003 D_s- D+ pi0
+          PHSP 0.006 D_s- D0 pi+
+          PHSP 0.003 D_s*- D+ pi0
+          PHSP 0.006 D_s*- D0 pi+
+          PHSP 0.005 D_s- D+ pi+ pi-
+          PHSP 0.0037 D_s- D+ pi0 pi0
+          PHSP 0.0037 D_s- D0 pi+ pi0
+          PHSP 0.005 D_s*- D+ pi+ pi-
+          PHSP 0.0037 D_s*- D+ pi0 pi0
+          PHSP 0.0037 D_s*- D0 pi+ pi0
+          PHSP 0.0025 D+ anti-D0 K-
+          PHSP 0.0025 D+ D- anti-K0
+          PHSP 0.0025 D+ anti-D0 K*-
+          PHSP 0.0025 D+ D- anti-K*0
+          PHSP 0.005 D*+ anti-D0 K-
+          PHSP 0.005 D*+ D- anti-K0
+          PHSP 0.005 D+ anti-D*0 K-
+          PHSP 0.005 D+ D*- anti-K0
+          PHSP 0.0025 D*+ anti-D0 K*-
+          PHSP 0.0025 D*+ D- anti-K*0
+          PHSP 0.0025 D+ anti-D*0 K*-
+          PHSP 0.0025 D+ D*- anti-K*0
+          PHSP 0.015 D*+ anti-D*0 K-
+          PHSP 0.015 D*+ D*- anti-K0
+          PHSP 0.005 D*+ anti-D*0 K*-
+          PHSP 0.005 D*+ D*- anti-K*0
+          SVS 0.0027 D*+ pi-
+          PHSP 0.003 D+ pi-
+          SVS 0.0082 rho- D+
+          SVV_HELAMP 0.007 rho- D*+
+          PHSP 0.001 D+ pi- pi0
+          PHSP 0.007 D*+ pi- pi0
+          PHSP 0.001 D0 pi+ pi-
+          PHSP 0.001 D*0 pi+ pi-
+          PHSP 0.0005 D*0 pi0 pi0
+          SVS 0.006 a_1- D+
+          PHSP 0.0011 D+ rho0 pi-
+          PHSP 0.0011 D+ rho- pi0
+          PHSP 0.001 D+ pi+ pi- pi-
+          PHSP 0.001 D+ pi0 pi- pi0
+          PHSP 0.001 D0 pi+ pi- pi0
+          PHSP 0.0001 D0 pi0 pi0 pi0
+          SVV_HELAMP 0.0122 a_1- D*+
+          PHSP 0.001 D*+ rho0 pi-
+          PHSP 0.001 D*+ rho- pi0
+          PHSP 0.0077 D*+ pi+ pi- pi-
+          PHSP 0.001 D*+ pi0 pi- pi0
+          PHSP 0.001 D*0 pi+ pi- pi0
+          PHSP 0.0001 D*0 pi0 pi0 pi0
+          JETSET 0.01 cd_0 anti-ud_0
+          JETSET 0.03 cd_1 anti-ud_1
+          JETSET 0.006 cs_0 anti-ud_0
+          JETSET 0.018 cs_1 anti-ud_1
+          JETSET 0.32474 anti-u d c anti-d
+          JETSET 0.046 anti-u d c anti-d
+          JETSET 0.021 anti-u s c anti-d
+          JETSET 0.018 anti-u c d anti-d
+          JETSET 0.0009 anti-u c s anti-d
+          JETSET 0 anti-c s c anti-d
+          JETSET 0.006 anti-c d c anti-d
+          JETSET 0.006 anti-u d u anti-d
+          JETSET 0.004 anti-c s u anti-d
 D_s2*-                      -435      -1     0    2    1    1  2.57350e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          TVS_PWAVE 0.3
-          TVS_PWAVE 0.3
-          TSS 0.2
-          TSS 0.2
+          TVS_PWAVE 0.3 D*- anti-K0
+          TVS_PWAVE 0.3 anti-D*0 K-
+          TSS 0.2 D- anti-K0
+          TSS 0.2 anti-D0 K-
 D_s*-                       -433      -1     0    1    1    0  2.11230e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VSP_PWAVE 0.98
-          VSS 0.02
+          VSP_PWAVE 0.98 D_s- gamma
+          VSS 0.02 D_s- pi0
 D_s-                        -431      -1     0    0    0    0  1.96850e+00+/-0.00000e+00  4.7015e-24+/-0.0000e+00  1.4000e-01+/-0.0000e+00
 anti-D_2*0                  -425       0     0    2    1    1  2.45900e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          TVS_PWAVE 0.103
-          TVS_PWAVE 0.209
-          TSS 0.229
-          TSS 0.459
+          TVS_PWAVE 0.103 anti-D*0 pi0
+          TVS_PWAVE 0.209 D*- pi+
+          TSS 0.229 anti-D0 pi0
+          TSS 0.459 D- pi+
 anti-D*0                    -423       0     0    1    1    0  2.00663e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VSS 0.619
-          VSP_PWAVE 0.381
+          VSS 0.619 anti-D0 pi0
+          VSP_PWAVE 0.381 anti-D0 gamma
 anti-D0                     -421       0     0    0    0    0  1.86451e+00+/-0.00000e+00  5.2911e-24+/-0.0000e+00  1.2440e-01+/-0.0000e+00
-          PHOTOS 0.0198
-          PHOTOS 0.0364
-          PHOTOS 0.0014
-          PHOTOS 0.0015
-          PHOTOS 0.005
-          PHOTOS 0.0029
-          ISGW2 0.0198
-          ISGW2 0.0364
-          ISGW2 0.0014
-          ISGW2 0.0015
-          ISGW2 0.005
-          ISGW2 0.0029
-          PHSP 0.0391
-          PHSP 0.022
-          PHSP 0.0077
-          PHSP 0.0174
-          SVS 0.0207
-          SVS 0.0159
-          SVS 0.002
-          SVS 0.0798
-          SVV_HELAMP 0.06
-          SVV_HELAMP 0.0161
-          SVV_HELAMP 0.0111
-          D_DALITZ 0.1307
-          SVS 0.0085
-          SVS 0.0107
-          SVS 0.0071
-          D_DALITZ 0.054
-          PHSP 0.0145
-          PHSP 0.0174
-          PHSP 0.0116
-          PHSP 0.01
-          PHSP 0.0068
-          PHSP 0.006
-          PHSP 0.0303
-          PHSP 0.01
-          PHSP 0.0075
-          PHSP 0.0143
-          PHSP 0.0407
-          PHSP 0.063
-          PHSP 0.02
-          PHSP 0.0038
-          PHSP 0.0038
-          PHSP 0.0038
-          PHSP 0.0038
-          SVS 0.0088
-          PHSP 0.0051
-          PHSP 0.001
-          PHSP 0.0044
-          PHSP 0.0006
-          PHSP 0.0006
-          SVS 0.002
-          SVS 0.002
-          SVS 0.0019
-          SVS 0.0035
-          SVV_HELAMP 0.001
-          SVS 0.002
-          PHSP 0.0025
-          PHSP 0.003
-          PHSP 0.003
-          PHSP 0.0015
-          PHSP 0.0015
-          PHSP 0.0015
-          PHSP 0.0009
-          PHSP 0.001
-          PHSP 0.001
-          PHSP 0.001
-          SVS 0.004
-          SVS 0.004
-          SVS 0.002
-          PHSP 0.002
-          PHSP 0.001
-          PHSP 0.0081
-          PHSP 0.005
-          PHSP 0.014
-          PHSP 0.006
+          PHOTOS 0.0198 K*+ e- anti-nu_e
+          PHOTOS 0.0364 K+ e- anti-nu_e
+          PHOTOS 0.0014 K_1+ e- anti-nu_e
+          PHOTOS 0.0015 K_2*+ e- anti-nu_e
+          PHOTOS 0.005 pi+ e- anti-nu_e
+          PHOTOS 0.0029 rho+ e- anti-nu_e
+          ISGW2 0.0198 K*+ mu- anti-nu_e
+          ISGW2 0.0364 K+ mu- anti-nu_e
+          ISGW2 0.0014 K_1+ mu- anti-nu_e
+          ISGW2 0.0015 K_2*+ mu- anti-nu_e
+          ISGW2 0.005 pi+ mu- anti-nu_e
+          ISGW2 0.0029 rho+ mu- anti-nu_e
+          PHSP 0.0391 K+ pi-
+          PHSP 0.022 K0 pi0
+          PHSP 0.0077 K0 eta
+          PHSP 0.0174 K0 eta'
+          SVS 0.0207 omega K0
+          SVS 0.0159 K*0 eta
+          SVS 0.002 K*0 eta'
+          SVS 0.0798 a_1- K+
+          SVV_HELAMP 0.06 K*+ rho-
+          SVV_HELAMP 0.0161 K*0 rho0
+          SVV_HELAMP 0.0111 K*0 omega
+          D_DALITZ 0.1307 K+ pi- pi0
+          SVS 0.0085 pi0
+          SVS 0.0107 K_1+ pi-
+          SVS 0.0071 K_10 pi0
+          D_DALITZ 0.054 K0 pi+ pi-
+          PHSP 0.0145 K0 pi0 pi0
+          PHSP 0.0174 K*0 pi+ pi-
+          PHSP 0.0116 K*0 pi0 pi0
+          PHSP 0.01 K*+ pi- pi0
+          PHSP 0.0068 K+ rho- pi0
+          PHSP 0.006 K+ pi- rho0
+          PHSP 0.0303 K+ pi- omega
+          PHSP 0.01 K+ pi- eta
+          PHSP 0.0075 K+ pi- eta'
+          PHSP 0.0143 K+ pi- pi+ pi-
+          PHSP 0.0407 K0 pi+ pi- pi0
+          PHSP 0.063 K+ pi- pi0 pi0
+          PHSP 0.02 K0 pi0 pi0 pi0
+          PHSP 0.0038 K+ pi- pi+ pi- pi0
+          PHSP 0.0038 K+ pi- pi0 pi0 pi0
+          PHSP 0.0038 K0 pi+ pi- pi+ pi-
+          PHSP 0.0038 K0 pi+ pi- pi0 pi0
+          SVS 0.0088 phi K0
+          PHSP 0.0051 K0 K+ K-
+          PHSP 0.001 K_S0 K_S0 K_S0
+          PHSP 0.0044 K+ K-
+          PHSP 0.0006 K_S0 K_S0
+          PHSP 0.0006 K_L0 K_L0
+          SVS 0.002 anti-K*0 K0
+          SVS 0.002 K*0 anti-K0
+          SVS 0.0019 K*+ K-
+          SVS 0.0035 K*- K+
+          SVV_HELAMP 0.001 K*0 anti-K*0
+          SVS 0.002 phi pi0
+          PHSP 0.0025 phi pi+ pi-
+          PHSP 0.003 K+ K- pi+ pi-
+          PHSP 0.003 K+ K- pi0 pi0
+          PHSP 0.0015 anti-K0 K0 pi+ pi-
+          PHSP 0.0015 anti-K0 K0 pi0 pi0
+          PHSP 0.0015 pi+ pi-
+          PHSP 0.0009 pi0 pi0
+          PHSP 0.001 eta pi0
+          PHSP 0.001 eta' pi0
+          PHSP 0.001 eta eta
+          SVS 0.004 rho+ pi-
+          SVS 0.004 rho- pi+
+          SVS 0.002 rho0 pi0
+          PHSP 0.002 pi+ pi- pi0
+          PHSP 0.001 pi0 pi0 pi0
+          PHSP 0.0081 pi+ pi+ pi- pi-
+          PHSP 0.005 pi+ pi- pi0 pi0
+          PHSP 0.014 pi+ pi- pi+ pi- pi0
+          PHSP 0.006 pi+ pi- pi0 pi0 pi0
 D_2*-                       -415      -1     0    2    1    1  2.45900e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          TVS_PWAVE 0.103
-          TVS_PWAVE 0.209
-          TSS 0.229
-          TSS 0.459
+          TVS_PWAVE 0.103 D*- pi0
+          TVS_PWAVE 0.209 anti-D*0 pi-
+          TSS 0.229 D- pi0
+          TSS 0.459 anti-D0 pi-
 D*-                         -413      -1     0    1    1    0  2.00993e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D-                          -411      -1     0    0    0    0  1.86929e+00+/-0.00000e+00  2.0764e-24+/-0.0000e+00  3.1700e-01+/-0.0000e+00
 K_2*-                       -325      -1     0    2    1    1  1.42500e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          TSS 0.331
-          TSS 0.166
-          TVS_PWAVE 0.168
-          TVS_PWAVE 0.084
-          PHSP 0.054
-          PHSP 0.054
-          PHSP 0.054
-          TVS_PWAVE 0.059
-          TVS_PWAVE 0.03
+          TSS 0.331 anti-K0 pi-
+          TSS 0.166 K- pi0
+          TVS_PWAVE 0.168 anti-K*0 pi-
+          TVS_PWAVE 0.084 K*- pi0
+          PHSP 0.054 anti-K*0 pi- pi0
+          PHSP 0.054 K*- pi+ pi-
+          PHSP 0.054 K*- pi0 pi0
+          TVS_PWAVE 0.059 rho- K0
+          TVS_PWAVE 0.03 rho0 K-
 K*-                         -323      -1     0    1    1    0  8.91600e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 K-                          -321      -1     0    0    0    0  4.93680e-01+/-0.00000e+00  1.7727e-28+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 anti-K_2*0                  -315       0     0    2    1    1  1.43200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          TSS 0.331
-          TSS 0.166
-          TVS_PWAVE 0.168
-          TVS_PWAVE 0.084
-          PHSP 0.054
-          PHSP 0.054
-          PHSP 0.054
-          TVS_PWAVE 0.059
-          TVS_PWAVE 0.03
+          TSS 0.331 K- pi+
+          TSS 0.166 anti-K0 pi0
+          TVS_PWAVE 0.168 K*- pi+
+          TVS_PWAVE 0.084 anti-K*0 pi0
+          PHSP 0.054 anti-K*0 pi+ pi-
+          PHSP 0.054 anti-K*0 pi0 pi0
+          PHSP 0.054 K*- pi+ pi0
+          TVS_PWAVE 0.059 rho+ K-
+          TVS_PWAVE 0.03 rho0 anti-K0
 anti-K*0                    -313       0     0    1    1    0  8.96100e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VSS 0.6657
-          VSS 0.3323
-          VSP_PWAVE 0.002
+          VSS 0.6657 K- pi+
+          VSS 0.3323 anti-K0 pi0
+          VSP_PWAVE 0.002 anti-K0 gamma
 anti-K0                     -311       0     0    0    0    0  4.97670e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.5
-          PHSP 0.5
+          PHSP 0.5 K_L0
+          PHSP 0.5 K_S0
 a_2-                        -215      -1     0    2    1    1  1.31800e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 rho-                        -213      -1     0    1    1    0  7.68500e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 pi-                         -211      -1     0    0    0    0  1.39570e-01+/-0.00000e+00  8.4337e-29+/-0.0000e+00  0.0000e+00+/-0.0000e+00
@@ -685,10 +686,10 @@ specflav                      81       0     0    0    0    0  0.00000e+00+/-0.0
 rndmflav                      82       0     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 phasespa                      83       0     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 c-hadron                      84  0.6667     0    0    0    0  2.00000e+00+/-0.00000e+00  6.5821e-24+/-0.0000e+00  1.0000e-01+/-0.0000e+00
-          JETSET 0.08
-          JETSET 0.08
-          JETSET 0.76
-          JETSET 0.08
+          JETSET 0.08 e+ nu_e s specflav
+          JETSET 0.08 mu+ nu_mu s specflav
+          JETSET 0.76 u anti-d s specflav
+          JETSET 0.08 u anti-s s specflav
 b-hadron                      85 -0.3333     0    0    0    0  5.00000e+00+/-0.00000e+00  1.7008e-24+/-0.0000e+00  3.8700e-01+/-0.0000e+00
 t-hadron                      86  0.6667     0    0    0    0  1.75000e+02+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 b'-hadron                     87 -0.3333     0    0    0    0  4.00000e+02+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
@@ -715,115 +716,115 @@ rho+                         213       1     0    1    1    0  7.68500e-01+/-0.0
 a_2+                         215       1     0    2    1    1  1.31800e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 eta                          221       0     0    0    0    0  5.47450e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 omega                        223       0     0    1    1    0  7.81940e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          OMEGA_DALITZ 0.888
-          VSP_PWAVE 0.085
-          VSS 0.0221
-          VSP_PWAVE 0.0008
-          PHSP 0.0006
-          PHSP 0.0001
-          PHSP 0.002
-          PHSP 0.0004
-          PHSP 0.001
+          OMEGA_DALITZ 0.888 pi- pi+ pi0
+          VSP_PWAVE 0.085 pi0 gamma
+          VSS 0.0221 pi- pi+
+          VSP_PWAVE 0.0008 eta gamma
+          PHSP 0.0006 pi0 e+ e-
+          PHSP 0.0001 pi0 mu+ mu-
+          PHSP 0.002 pi+ pi- gamma
+          PHSP 0.0004 pi0 pi0 gamma
+          PHSP 0.001 pi+ pi- pi+ pi-
 f_2                          225       0     0    2    1    1  1.27500e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 K_S0                         310       0     0    0    0    0  4.97670e-01+/-0.00000e+00  2.4595e-26+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 K0                           311       0     0    0    0    0  4.97670e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 K*0                          313       0     0    1    1    0  8.96100e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 K_2*0                        315       0     0    2    1    1  1.43200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          TSS 0.331
-          TSS 0.166
-          TVS_PWAVE 0.168
-          TVS_PWAVE 0.084
-          PHSP 0.054
-          PHSP 0.054
-          PHSP 0.054
-          TVS_PWAVE 0.059
-          TVS_PWAVE 0.03
+          TSS 0.331 K+ pi-
+          TSS 0.166 K0 pi0
+          TVS_PWAVE 0.168 K*+ pi-
+          TVS_PWAVE 0.084 K*0 pi0
+          PHSP 0.054 K*0 pi+ pi-
+          PHSP 0.054 K*0 pi0 pi0
+          PHSP 0.054 K*+ pi- pi0
+          TVS_PWAVE 0.059 rho- K+
+          TVS_PWAVE 0.03 rho0 K0
 K+                           321       1     0    0    0    0  4.93680e-01+/-0.00000e+00  1.7727e-28+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 K*+                          323       1     0    1    1    0  8.91600e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 K_2*+                        325       1     0    2    1    1  1.42500e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          TSS 0.331
-          TSS 0.166
-          TVS_PWAVE 0.168
-          TVS_PWAVE 0.084
-          PHSP 0.054
-          PHSP 0.054
-          PHSP 0.054
-          TVS_PWAVE 0.059
-          TVS_PWAVE 0.03
+          TSS 0.331 K0 pi+
+          TSS 0.166 K+ pi0
+          TVS_PWAVE 0.168 K*0 pi+
+          TVS_PWAVE 0.084 K*+ pi0
+          PHSP 0.054 K*0 pi+ pi0
+          PHSP 0.054 K*+ pi+ pi-
+          PHSP 0.054 K*+ pi0 pi0
+          TVS_PWAVE 0.059 rho+ K0
+          TVS_PWAVE 0.03 rho0 K+
 eta'                         331       0     0    0    0    0  9.57770e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 phi                          333       0     0    1    1    0  1.01941e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 f'_2                         335       0     0    2    1    1  1.52500e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D+                           411       1     0    0    0    0  1.86929e+00+/-0.00000e+00  2.0764e-24+/-0.0000e+00  3.1700e-01+/-0.0000e+00
 D*+                          413       1     0    1    1    0  2.00993e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D_2*+                        415       1     0    2    1    1  2.45900e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          TVS_PWAVE 0.103
-          TVS_PWAVE 0.209
-          TSS 0.229
-          TSS 0.459
+          TVS_PWAVE 0.103 D*+ pi0
+          TVS_PWAVE 0.209 D*0 pi+
+          TSS 0.229 D+ pi0
+          TSS 0.459 D0 pi+
 D0                           421       0     0    0    0    0  1.86451e+00+/-0.00000e+00  5.2911e-24+/-0.0000e+00  1.2440e-01+/-0.0000e+00
 D*0                          423       0     0    1    1    0  2.00663e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D_2*0                        425       0     0    2    1    1  2.45900e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          TVS_PWAVE 0.209
-          TVS_PWAVE 0.103
-          TSS 0.229
-          TSS 0.459
+          TVS_PWAVE 0.209 D*+ pi-
+          TVS_PWAVE 0.103 D*0 pi0
+          TSS 0.229 D0 pi0
+          TSS 0.459 D+ pi-
 D_s+                         431       1     0    0    0    0  1.96850e+00+/-0.00000e+00  4.7015e-24+/-0.0000e+00  1.4000e-01+/-0.0000e+00
 D_s*+                        433       1     0    1    1    0  2.11230e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VSP_PWAVE 0.98
-          VSS 0.02
+          VSP_PWAVE 0.98 D_s+ gamma
+          VSS 0.02 D_s+ pi0
 D_s2*+                       435       1     0    2    1    1  2.57350e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          TVS_PWAVE 0.3
-          TVS_PWAVE 0.3
-          TSS 0.2
-          TSS 0.2
+          TVS_PWAVE 0.3 D*+ K0
+          TVS_PWAVE 0.3 D*0 K+
+          TSS 0.2 D+ K0
+          TSS 0.2 D0 K+
 eta_c                        441       0     0    0    0    0  2.97980e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.0012
-          PHSP 0.0071
-          PHSP 0.013
-          PHSP 0.013
-          PHSP 0.012
-          PHSP 0.02
-          PHSP 0.0245
-          PHSP 0.0245
-          PHSP 0.0205
-          PHSP 0.0205
-          PHSP 0.014
-          PHSP 0.022
-          PHSP 0.022
-          PHSP 0.022
-          PHSP 0.0043
-          PHSP 0.0042
-          PHSP 0.01
-          PHSP 0.01
-          JETSET 0.7352
+          PHSP 0.0012 p+ anti-p-
+          PHSP 0.0071 phi phi
+          PHSP 0.013 rho0 rho0
+          PHSP 0.013 rho+ rho-
+          PHSP 0.012 pi+ pi- pi+ pi-
+          PHSP 0.02 K+ K- pi+ pi-
+          PHSP 0.0245 eta pi+ pi-
+          PHSP 0.0245 eta pi0 pi0
+          PHSP 0.0205 eta' pi+ pi-
+          PHSP 0.0205 eta' pi0 pi0
+          PHSP 0.014 eta K+ K-
+          PHSP 0.022 pi0 K+ K-
+          PHSP 0.022 K+ anti-K0 pi-
+          PHSP 0.022 K- K0 pi+
+          PHSP 0.0043 K*+ K*-
+          PHSP 0.0042 K*0 anti-K*0
+          PHSP 0.01 K*0 K- pi+
+          PHSP 0.01 anti-K*0 K+ pi-
+          JETSET 0.7352 rndmflav anti-rndmflav
 J/psi                        443       0     0    1    1    0  3.09688e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHOTOS 0.0602
-          VLL 0.0602
-          VVS_PWAVE 0.0042
-          VVS_PWAVE 0.0043
-          VVS_PWAVE 0.0043
-          PHSP 0.0036
-          PHSP 0.0036
-          PHSP 0.0036
-          PHSP 0.013
-          JETSET 0.843
+          PHOTOS 0.0602 e+ e-
+          VLL 0.0602 mu+ mu-
+          VVS_PWAVE 0.0042 rho0 pi0
+          VVS_PWAVE 0.0043 rho+ pi-
+          VVS_PWAVE 0.0043 rho- pi+
+          PHSP 0.0036 a_20 rho0
+          PHSP 0.0036 a_2+ rho-
+          PHSP 0.0036 a_2- rho+
+          PHSP 0.013 gamma eta_c
+          JETSET 0.843 rndmflav anti-rndmflav
 chi_c2                       445       0     0    2    1    1  3.55617e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.135
-          PHSP 0.0019
-          PHSP 0.022
-          PHSP 0.012
-          PHSP 0.019
-          PHSP 0.007
-          PHSP 0.007
-          PHSP 0.007
-          PHSP 0.0015
-          PHSP 0.0024
-          PHSP 0.0024
-          PHSP 0.0024
-          PHSP 0.0024
-          PHSP 0.0001
-          PHSP 0.0033
-          JETSET 0.7746
+          PHSP 0.135 gamma J/psi
+          PHSP 0.0019 pi+ pi-
+          PHSP 0.022 pi+ pi- pi+ pi-
+          PHSP 0.012 pi+ pi- pi+ pi- pi+ pi-
+          PHSP 0.019 pi+ pi- K+ K-
+          PHSP 0.007 rho0 pi+ pi-
+          PHSP 0.007 rho+ pi- pi0
+          PHSP 0.007 rho- pi+ pi0
+          PHSP 0.0015 K+ K-
+          PHSP 0.0024 anti-K*0 K+ pi-
+          PHSP 0.0024 K*0 K- pi+
+          PHSP 0.0024 K*+ anti-K0 pi-
+          PHSP 0.0024 K*- K0 pi+
+          PHSP 0.0001 p+ anti-p-
+          PHSP 0.0033 pi+ pi- p+ anti-p-
+          JETSET 0.7746 rndmflav anti-rndmflav
 B0                           511       0     0    0    0    0  5.27910e+00+/-0.00000e+00  1.4064e-24+/-0.0000e+00  4.6800e-01+/-0.0000e+00
 B*0                          513       0     0    1    1    0  5.32480e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B_2*0                        515       0     0    2    1    1  5.69200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
@@ -832,83 +833,83 @@ B*+                          523       1     0    1    1    0  5.32460e+00+/-0.0
 B_2*+                        525       1     0    2    1    1  5.69200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B_s0                         531       0     0    0    0    0  5.36930e+00+/-0.00000e+00  1.4309e-24+/-0.0000e+00  4.6000e-01+/-0.0000e+00
 B_s*0                        533       0     0    1    1    0  5.41630e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VSP_PWAVE 1
+          VSP_PWAVE 1 B_s0 gamma
 B_s2*0                       535       0     0    2    1    1  5.85300e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B_c+                         541       1     0    0    0    0  6.59400e+00+/-0.00000e+00  6.5821e-24+/-0.0000e+00  1.0000e-01+/-0.0000e+00
 B_c*+                        543       1     0    1    1    0  6.60200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B_c2*+                       545       1     0    2    1    1  7.35000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 eta_b                        551       0     0    0    0    0  9.40300e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          JETSET 1
+          JETSET 1 rndmflav anti-rndmflav
 Upsilon                      553       0     0    1    1    0  9.46037e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHOTOS 0.0256
-          VLL 0.0256
-          VLL 0.0256
-          JETSET 0.015
-          JETSET 0.045
-          JETSET 0.015
-          JETSET 0.045
-          JETSET 0.7742
-          JETSET 0.029
+          PHOTOS 0.0256 e+ e-
+          VLL 0.0256 mu+ mu-
+          VLL 0.0256 tau+ tau-
+          JETSET 0.015 d anti-d
+          JETSET 0.045 u anti-u
+          JETSET 0.015 s anti-s
+          JETSET 0.045 c anti-c
+          JETSET 0.7742 g g g
+          JETSET 0.029 gamma g g
 chi_b2                       555       0     0    2    1    1  9.91320e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.22
-          JETSET 0.78
+          PHSP 0.22 gamma Upsilon
+          JETSET 0.78 g g
 Upsilon_3(1D)                557       0     0    3    1    2  1.01599e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.002
-          PHSP 0.001
-          PHSP 0.954
-          JETSET 0.043
+          PHSP 0.002 Upsilon pi+ pi-
+          PHSP 0.001 Upsilon pi0 pi0
+          PHSP 0.954 chi_b2 gamma
+          JETSET 0.043 g g g
 pomeron                      990       0     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 dd_0                        1101 -0.6667     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 dd_1                        1103 -0.6667     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Delta-                      1114      -1     0  1.5    0    0  1.23400e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 n0 pi-
 ud_0                        2101  0.3333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 ud_1                        2103  0.3333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 n0                          2112       0     0  0.5    0    0  9.39566e-01+/-0.00000e+00  2.4745e-39+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Delta0                      2114       0     0  1.5    0    0  1.23300e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.331
-          PHSP 0.663
-          PHSP 0.006
+          PHSP 0.331 p+ pi-
+          PHSP 0.663 n0 pi0
+          PHSP 0.006 n0 gamma
 uu_0                        2201   1.333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 uu_1                        2203   1.333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 p+                          2212       1     0  0.5    0    0  9.38272e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Delta+                      2214       1     0  1.5    0    0  1.23200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.663
-          PHSP 0.331
-          PHSP 0.006
+          PHSP 0.663 p+ pi0
+          PHSP 0.331 n0 pi+
+          PHSP 0.006 p+ gamma
 Delta++                     2224       2     0  1.5    0    0  1.23100e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 p+ pi+
 sd_0                        3101 -0.6667     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 sd_1                        3103 -0.6667     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Sigma-                      3112      -1     0  0.5    0    0  1.19744e+00+/-0.00000e+00  1.4845e-26+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 n0 pi-
 Sigma*-                     3114      -1     0  1.5    0    0  1.38720e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.88
-          PHSP 0.06
-          PHSP 0.06
+          PHSP 0.88 Lambda0 pi-
+          PHSP 0.06 Sigma0 pi-
+          PHSP 0.06 Sigma- pi0
 Lambda0                     3122       0     0  0.5    0    0  1.11568e+00+/-0.00000e+00  8.3445e-27+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.639
-          PHSP 0.358
-          PHSP 0.0018
-          PHSP 0.0005
-          PHSP 0.0006
-          PHSP 0.0001
+          PHSP 0.639 p+ pi-
+          PHSP 0.358 n0 pi0
+          PHSP 0.0018 n0 gamma
+          PHSP 0.0005 p+ pi- gamma
+          PHSP 0.0006 p+ e- anti-nu_e
+          PHSP 0.0001 p+ mu- anti-nu_mu
 su_0                        3201  0.3333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 su_1                        3203  0.3333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Sigma0                      3212       0     0  0.5    0    0  1.19255e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 gamma Lambda0
 Sigma*0                     3214       0     0  1.5    0    0  1.38370e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.88
-          PHSP 0.06
-          PHSP 0.06
+          PHSP 0.88 Lambda0 pi0
+          PHSP 0.06 Sigma+ pi-
+          PHSP 0.06 Sigma- pi+
 Sigma+                      3222       1     0  0.5    0    0  1.18937e+00+/-0.00000e+00  2.7471e-26+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.5157
-          PHSP 0.4831
-          PHSP 0.0012
+          PHSP 0.5157 p+ pi0
+          PHSP 0.4831 n0 pi+
+          PHSP 0.0012 p+ gamma
 Sigma*+                     3224       1     0  1.5    0    0  1.38280e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.88
-          PHSP 0.06
-          PHSP 0.06
+          PHSP 0.88 Lambda0 pi+
+          PHSP 0.06 Sigma+ pi0
+          PHSP 0.06 Sigma0 pi+
 ss_0                        3301 -0.6667     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 ss_1                        3303 -0.6667     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Xi-                         3312      -1     0  0.5    0    0  1.32132e+00+/-0.00000e+00  1.3406e-26+/-0.0000e+00  0.0000e+00+/-0.0000e+00
@@ -916,124 +917,124 @@ Xi*-                        3314      -1     0  1.5    0    0  1.53500e+00+/-0.0
 Xi0                         3322       0     0  0.5    0    0  1.31490e+00+/-0.00000e+00  7.5570e-27+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Xi*0                        3324       0     0  1.5    0    0  1.53180e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Omega-                      3334      -1     0  1.5    0    0  1.67245e+00+/-0.00000e+00  2.6757e-26+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.678
-          PHSP 0.236
-          PHSP 0.086
+          PHSP 0.678 Lambda0 K-
+          PHSP 0.236 Xi0 pi-
+          PHSP 0.086 Xi- pi0
 cd_0                        4101  0.3333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 cd_1                        4103  0.3333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Sigma_c0                    4112       0     0  0.5    0    0  2.45206e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 Lambda_c+ pi-
 Sigma_c*0                   4114       0     0  1.5    0    0  2.53000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 Lambda_c+ pi-
 Lambda_c+                   4122       1     0  0.5    0    0  2.28490e+00+/-0.00000e+00  1.0651e-23+/-0.0000e+00  6.1800e-02+/-0.0000e+00
-          JETSET 0.018
-          JETSET 0.005
-          JETSET 0.005
-          JETSET 0.003
-          JETSET 0.002
-          JETSET 0.006
-          JETSET 0.006
-          JETSET 0.018
-          JETSET 0.005
-          JETSET 0.005
-          JETSET 0.003
-          JETSET 0.002
-          JETSET 0.006
-          JETSET 0.006
-          JETSET 0.0066
-          JETSET 0.025
-          JETSET 0.016
-          JETSET 0.0088
-          JETSET 0.005
-          JETSET 0.005
-          JETSET 0.0058
-          JETSET 0.005
-          JETSET 0.0055
-          JETSET 0.004
-          JETSET 0.004
-          JETSET 0.004
-          JETSET 0.004
-          JETSET 0.002
-          JETSET 0.002
-          JETSET 0.004
-          JETSET 0.004
-          JETSET 0.003
-          JETSET 0.002
-          JETSET 0.003
-          JETSET 0.003
-          JETSET 0.002
-          JETSET 0.002
-          JETSET 0.002
-          JETSET 0.001
-          JETSET 0.001
-          JETSET 0.002
-          JETSET 0.001
-          JETSET 0.001
-          JETSET 0.002
-          JETSET 0.002
-          JETSET 0.0013
-          JETSET 0.0018
-          JETSET 0.001
-          JETSET 0.001
-          JETSET 0.001
-          JETSET 0.001
-          JETSET 0.001
-          JETSET 0.003
-          JETSET 0.003
-          JETSET 0.003
-          JETSET 0.003
-          JETSET 0.005
-          JETSET 0.005
-          JETSET 0.002
-          JETSET 0.002
-          JETSET 0.001
-          JETSET 0.001
-          JETSET 0.002
-          JETSET 0.002
-          JETSET 0.001
-          JETSET 0.001
-          JETSET 0.1432
-          JETSET 0.057
-          JETSET 0.035
-          JETSET 0.035
-          JETSET 0.1
-          JETSET 0.15
-          JETSET 0.15
-          JETSET 0.03
-          JETSET 0.015
-          JETSET 0.015
+          JETSET 0.018 e+ nu_e Lambda0
+          JETSET 0.005 e+ nu_e Sigma0
+          JETSET 0.005 e+ nu_e Sigma*0
+          JETSET 0.003 e+ nu_e n0
+          JETSET 0.002 e+ nu_e Delta0
+          JETSET 0.006 e+ nu_e p+ pi-
+          JETSET 0.006 e+ nu_e n0 pi0
+          JETSET 0.018 mu+ nu_mu Lambda0
+          JETSET 0.005 mu+ nu_mu Sigma0
+          JETSET 0.005 mu+ nu_mu Sigma*0
+          JETSET 0.003 mu+ nu_mu n0
+          JETSET 0.002 mu+ nu_mu Delta0
+          JETSET 0.006 mu+ nu_mu p+ pi-
+          JETSET 0.006 mu+ nu_mu n0 pi0
+          JETSET 0.0066 Delta++ K-
+          JETSET 0.025 Delta++ K*-
+          JETSET 0.016 p+ anti-K0
+          JETSET 0.0088 p+ anti-K*0
+          JETSET 0.005 Delta+ anti-K0
+          JETSET 0.005 Delta+ anti-K*0
+          JETSET 0.0058 Lambda0 pi+
+          JETSET 0.005 Lambda0 rho+
+          JETSET 0.0055 Sigma0 pi+
+          JETSET 0.004 Sigma0 rho+
+          JETSET 0.004 Sigma*0 pi+
+          JETSET 0.004 Sigma*0 rho+
+          JETSET 0.004 Sigma+ pi0
+          JETSET 0.002 Sigma+ eta
+          JETSET 0.002 Sigma+ eta'
+          JETSET 0.004 Sigma+ rho0
+          JETSET 0.004 Sigma+ omega
+          JETSET 0.003 Sigma*+ pi0
+          JETSET 0.002 Sigma*+ eta
+          JETSET 0.003 Sigma*+ rho0
+          JETSET 0.003 Sigma*+ omega
+          JETSET 0.002 Xi0 K+
+          JETSET 0.002 Xi0 K*+
+          JETSET 0.002 Xi*0 K+
+          JETSET 0.001 Delta++ pi-
+          JETSET 0.001 Delta++ rho-
+          JETSET 0.002 p+ pi0
+          JETSET 0.001 p+ eta
+          JETSET 0.001 p+ eta'
+          JETSET 0.002 p+ rho0
+          JETSET 0.002 p+ omega
+          JETSET 0.0013 p+ phi
+          JETSET 0.0018 p+ f_0
+          JETSET 0.001 Delta+ pi0
+          JETSET 0.001 Delta+ eta
+          JETSET 0.001 Delta+ eta'
+          JETSET 0.001 Delta+ rho0
+          JETSET 0.001 Delta+ omega
+          JETSET 0.003 n0 pi+
+          JETSET 0.003 n0 rho+
+          JETSET 0.003 Delta0 pi+
+          JETSET 0.003 Delta0 rho+
+          JETSET 0.005 Lambda0 K+
+          JETSET 0.005 Lambda0 K*+
+          JETSET 0.002 Sigma0 K+
+          JETSET 0.002 Sigma0 K*+
+          JETSET 0.001 Sigma*0 K+
+          JETSET 0.001 Sigma*0 K*+
+          JETSET 0.002 Sigma+ K0
+          JETSET 0.002 Sigma+ K*0
+          JETSET 0.001 Sigma*+ K0
+          JETSET 0.001 Sigma*+ K*0
+          JETSET 0.1432 u anti-d d su_0
+          JETSET 0.057 u anti-d d su_1
+          JETSET 0.035 u anti-s d su_0
+          JETSET 0.035 u anti-d d ud_0
+          JETSET 0.1 s uu_1
+          JETSET 0.15 u su_0
+          JETSET 0.15 u su_1
+          JETSET 0.03 d uu_1
+          JETSET 0.015 u ud_0
+          JETSET 0.015 u ud_1
 Xi_c0                       4132       0     0  0.5    0    0  2.47030e+00+/-0.00000e+00  2.2697e-23+/-0.0000e+00  2.9000e-02+/-0.0000e+00
           84 1
 cu_0                        4201   1.333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 cu_1                        4203   1.333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Sigma_c+                    4212       1     0  0.5    0    0  2.45340e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 Lambda_c+ pi0
 Sigma_c*+                   4214       1     0  1.5    0    0  2.53000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 Lambda_c+ pi0
 Sigma_c++                   4222       2     0  0.5    0    0  2.45285e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 Lambda_c+ pi+
 Sigma_c*++                  4224       2     0  1.5    0    0  2.53000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 Lambda_c+ pi+
 Xi_c+                       4232       1     0  0.5    0    0  2.46560e+00+/-0.00000e+00  6.2095e-24+/-0.0000e+00  1.0600e-01+/-0.0000e+00
           84 1
 cs_0                        4301  0.3333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 cs_1                        4303  0.3333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Xi'_c0                      4312       0     0  0.5    0    0  2.55000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 gamma Xi_c0
 Xi_c*0                      4314       0     0  1.5    0    0  2.64380e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.5
-          PHSP 0.5
+          PHSP 0.5 Xi_c0 pi0
+          PHSP 0.5 Xi_c0 gamma
 Xi'_c+                      4322       1     0  0.5    0    0  2.55000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.1
-          PHSP 0.08
-          PHSP 0.82
+          PHSP 0.1 Lambda0 K- pi+ pi+
+          PHSP 0.08 Sigma0 K- pi+ pi+
+          PHSP 0.82 gamma Xi_c+
 Xi_c*+                      4324       1     0  1.5    0    0  2.64000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.5
-          PHSP 0.5
+          PHSP 0.5 Xi_c+ pi0
+          PHSP 0.5 Xi_c+ gamma
 Omega_c0                    4332       0     0  0.5    0    0  2.70400e+00+/-0.00000e+00  3.4643e-23+/-0.0000e+00  1.9000e-02+/-0.0000e+00
           84 1
 Omega_c*0                   4334       0     0  1.5    0    0  2.80000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 1
+          PHSP 1 Omega_c0 gamma
 cc_0                        4401   1.333     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 cc_1                        4403   1.333     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 bd_0                        5101 -0.6667     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
@@ -1067,46 +1068,46 @@ b_1+                       10213       1     0    1    0    1  1.23100e+00+/-0.0
 f'_0                       10221       0     0    0    1    1  1.40000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 h_1                        10223       0     0    1    0    1  1.17000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 K_0*0                      10311       0     0    0    1    1  1.42900e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.6667
-          PHSP 0.3333
+          PHSP 0.6667 K+ pi-
+          PHSP 0.3333 K0 pi0
 K_10                       10313       0     0    1    0    1  1.27300e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 K_0*+                      10321       1     0    0    1    1  1.42900e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.6667
-          PHSP 0.3333
+          PHSP 0.6667 K0 pi+
+          PHSP 0.3333 K+ pi0
 K_1+                       10323       1     0    1    0    1  1.27300e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 h'_1                       10333       0     0    1    0    1  1.40000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D_0*+                      10411       1     0    0    1    1  2.40000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.3333
-          PHSP 0.6667
+          PHSP 0.3333 D+ pi0
+          PHSP 0.6667 D0 pi+
 D_1+                       10413       1     0    1    0    1  2.42220e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D_0*0                      10421       0     0    0    1    1  2.40000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.3333
-          PHSP 0.6667
+          PHSP 0.3333 D0 pi0
+          PHSP 0.6667 D+ pi-
 D_10                       10423       0     0    1    0    1  2.42220e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D_s0*+                     10431       1     0    0    1    1  2.50000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.5
-          PHSP 0.5
+          PHSP 0.5 D+ K0
+          PHSP 0.5 D0 K+
 D_s1+                      10433       1     0    1    0    1  2.53535e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.35
-          VVS_PWAVE 0.35
-          PHSP 0.25
-          PHSP 0.05
+          VVS_PWAVE 0.35 D*+ K0
+          VVS_PWAVE 0.35 D*0 K+
+          PHSP 0.25 gamma D_s*+
+          PHSP 0.05 gamma D_s+
 chi_c0                     10441       0     0    0    1    1  3.41510e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.0066
-          PHSP 0.0075
-          PHSP 0.037
-          PHSP 0.015
-          PHSP 0.016
-          PHSP 0.016
-          PHSP 0.016
-          PHSP 0.0071
-          PHSP 0.006
-          PHSP 0.006
-          PHSP 0.006
-          PHSP 0.006
-          PHSP 0.03
-          PHSP 0.005
-          JETSET 0.8198
+          PHSP 0.0066 gamma J/psi
+          PHSP 0.0075 pi+ pi-
+          PHSP 0.037 pi+ pi- pi+ pi-
+          PHSP 0.015 pi+ pi- pi+ pi- pi+ pi-
+          PHSP 0.016 rho0 pi+ pi-
+          PHSP 0.016 rho+ pi- pi0
+          PHSP 0.016 rho- pi+ pi0
+          PHSP 0.0071 K+ K-
+          PHSP 0.006 anti-K*0 K+ pi-
+          PHSP 0.006 K*0 K- pi+
+          PHSP 0.006 K*+ anti-K0 pi-
+          PHSP 0.006 K*- K0 pi+
+          PHSP 0.03 pi+ pi- K+ K-
+          PHSP 0.005 pi+ pi- p+ anti-p-
+          JETSET 0.8198 rndmflav anti-rndmflav
 h_c                        10443       0     0    1    0    1  3.46000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B_0*0                      10511       0     0    0    1    1  5.69700e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B_10                       10513       0     0    1    0    1  5.67900e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
@@ -1117,246 +1118,246 @@ B_s10                      10533       0     0    1    0    1  5.81000e+00+/-0.0
 B_c0*+                     10541       1     0    0    1    1  7.25000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B_c1+                      10543       1     0    1    0    1  7.30000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 chi_b0                     10551       0     0    0    1    1  9.85980e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.05
-          JETSET 0.95
+          PHSP 0.05 gamma Upsilon
+          JETSET 0.95 rndmflav anti-rndmflav
 h_b                        10553       0     0    1    0    1  9.87500e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 eta_b2(1D)                 10555       0     0    1    0    2  1.01570e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          JETSET 1
+          JETSET 1 g g
 Cerenkov                   20022       0     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 a_10                       20113       0     0    1    1    1  1.23000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 a_1+                       20213       1     0    1    1    1  1.23000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 f_1                        20223       0     0    1    1    1  1.28220e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 K'_10                      20313       0     0    1    1    1  1.40200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.63
-          VVS_PWAVE 0.31
-          VVS_PWAVE 0.02
-          VVS_PWAVE 0.01
-          VVS_PWAVE 0.01
-          PHSP 0.0133
-          PHSP 0.0067
+          VVS_PWAVE 0.63 K*+ pi-
+          VVS_PWAVE 0.31 K*0 pi0
+          VVS_PWAVE 0.02 rho- K+
+          VVS_PWAVE 0.01 rho0 K0
+          VVS_PWAVE 0.01 omega K0
+          PHSP 0.0133 K0 pi+ pi-
+          PHSP 0.0067 K0 pi0 pi0
 K'_1+                      20323       1     0    1    1    1  1.40200e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.63
-          VVS_PWAVE 0.31
-          VVS_PWAVE 0.02
-          VVS_PWAVE 0.01
-          VVS_PWAVE 0.01
-          PHSP 0.0133
-          PHSP 0.0067
+          VVS_PWAVE 0.63 K*0 pi+
+          VVS_PWAVE 0.31 K*+ pi0
+          VVS_PWAVE 0.02 rho+ K0
+          VVS_PWAVE 0.01 rho0 K+
+          VVS_PWAVE 0.01 omega K+
+          PHSP 0.0133 K+ pi+ pi-
+          PHSP 0.0067 K+ pi0 pi0
 f'_1                       20333       0     0    1    1    1  1.42680e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D'_1+                      20413       1     0    1    1    1  2.44500e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.3333
-          VVS_PWAVE 0.6667
+          VVS_PWAVE 0.3333 D*+ pi0
+          VVS_PWAVE 0.6667 D*0 pi+
 D'_10                      20423       0     0    1    1    1  2.44500e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.6667
-          VVS_PWAVE 0.3333
+          VVS_PWAVE 0.6667 D*+ pi-
+          VVS_PWAVE 0.3333 D*0 pi0
 D'_s1+                     20433       1     0    1    1    1  2.56000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.49
-          PHSP 0.5
-          PHSP 0.01
+          PHSP 0.49 D*+ K0
+          PHSP 0.5 D*0 K+
+          PHSP 0.01 gamma D_s+
 chi_c1                     20443       0     0    1    1    1  3.51053e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVP 0.273
-          PHSP 0.016
-          PHSP 0.022
-          PHSP 0.009
-          PHSP 0.0039
-          PHSP 0.0039
-          PHSP 0.0039
-          PHSP 0.0016
-          PHSP 0.0016
-          PHSP 0.0016
-          PHSP 0.0016
-          PHSP 0.0014
-          JETSET 0.6605
+          VVP 0.273 J/psi gamma
+          PHSP 0.016 pi+ pi- pi+ pi-
+          PHSP 0.022 pi+ pi- pi+ pi- pi+ pi-
+          PHSP 0.009 pi+ pi- K+ K-
+          PHSP 0.0039 rho0 pi+ pi-
+          PHSP 0.0039 rho+ pi- pi0
+          PHSP 0.0039 rho- pi+ pi0
+          PHSP 0.0016 anti-K*0 K+ pi-
+          PHSP 0.0016 K*0 K- pi+
+          PHSP 0.0016 K*+ anti-K0 pi-
+          PHSP 0.0016 K*- K0 pi+
+          PHSP 0.0014 pi+ pi- p+ anti-p-
+          JETSET 0.6605 rndmflav anti-rndmflav
 B'_10                      20513       0     0    1    1    1  5.74000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B'_1+                      20523       1     0    1    1    1  5.74000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B'_s10                     20533       0     0    1    1    1  5.84000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 B'_c1+                     20543       1     0    1    1    1  7.40000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 chi_b1                     20553       0     0    1    1    1  9.89190e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.35
-          JETSET 0.65
+          PHSP 0.35 gamma Upsilon
+          JETSET 0.65 g g
 Upsilon_2(1D)              20555       0     0    2    1    2  1.01562e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.0014
-          PHSP 0.0007
-          PHSP 0.785
-          PHSP 0.203
-          JETSET 0.0099
+          PHSP 0.0014 Upsilon pi+ pi-
+          PHSP 0.0007 Upsilon pi0 pi0
+          PHSP 0.785 chi_b0 gamma
+          PHSP 0.203 chi_b2 gamma
+          JETSET 0.0099 g g g
 rho(3S)0                   30113       0     0    1    1    2  1.70000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 rho(3S)+                   30213       1     0    1    1    2  1.70000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 psi(3770)                  30443       0     0    1    1    2  3.76990e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VSS 0.426
-          VSS 0.574
+          VSS 0.426 D+ D-
+          VSS 0.574 D0 anti-D0
 Upsilon_1(1D)              30553       0     0    1    1    2  1.01501e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.0014
-          PHSP 0.0007
-          PHSP 0.602
-          PHSP 0.318
-          PHSP 0.026
-          JETSET 0.0519
+          PHSP 0.0014 Upsilon pi+ pi-
+          PHSP 0.0007 Upsilon pi0 pi0
+          PHSP 0.602 chi_b0 gamma
+          PHSP 0.318 chi_b1 gamma
+          PHSP 0.026 chi_b2 gamma
+          JETSET 0.0519 g g g
 pi(2S)0                   100111       0     0    1    0    0  1.30000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 rho(2S)0                  100113       0     0    1    1    0  1.46000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.4
-          PHSP 0.35
-          PHSP 0.15
-          PHSP 0.1
+          PHSP 0.4 pi+ pi-
+          PHSP 0.35 pi+ pi- pi+ pi-
+          PHSP 0.15 pi+ pi- pi0 pi0
+          PHSP 0.1 pi0 pi0 pi0 pi0
 pi(2S)+                   100211       0     0    1    0    0  1.30000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 rho(2S)+                  100213       1     0    1    1    0  1.46000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.4
-          PHSP 0.4
-          PHSP 0.2
+          PHSP 0.4 pi+ pi0
+          PHSP 0.4 pi+ pi+ pi- pi0
+          PHSP 0.2 pi+ pi0 pi0 pi0
 eta(2S)                   100221       0     0    1    0    0  1.29500e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 omega(2S)                 100223       0     0    1    1    0  1.42000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 D(2S)+                    100411       1     0    0    0    0  2.58000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          SVS 0.3333
-          SVS 0.6667
+          SVS 0.3333 D*+ pi0
+          SVS 0.6667 D*0 pi+
 D*(2S)+                   100413       1     0    1    1    0  2.64000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.1667
-          VVS_PWAVE 0.3333
-          VSS 0.1667
-          VSS 0.3333
+          VVS_PWAVE 0.1667 D*+ pi0
+          VVS_PWAVE 0.3333 D*0 pi+
+          VSS 0.1667 D+ pi0
+          VSS 0.3333 D0 pi+
 D(2S)0                    100421       0     0    0    0    0  2.58000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          SVS 0.6667
-          SVS 0.3333
+          SVS 0.6667 D*+ pi-
+          SVS 0.3333 D*0 pi0
 D*(2S)0                   100423       0     0    1    1    0  2.64000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VVS_PWAVE 0.3333
-          VVS_PWAVE 0.1667
-          VSS 0.1667
-          VSS 0.3333
+          VVS_PWAVE 0.3333 D*+ pi-
+          VVS_PWAVE 0.1667 D*0 pi0
+          VSS 0.1667 D0 pi0
+          VSS 0.3333 D+ pi-
 eta_c(2S)                 100441       0     0    0    0    0  3.59400e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 psi(2S)                   100443       0     0    1    1    0  3.68600e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHOTOS 0.0083
-          VLL 0.0083
-          PHSP 0.324
-          PHSP 0.184
-          VVS_PWAVE 0.027
-          VVS_PWAVE 0.001
-          PHSP 0.093
-          PHSP 0.087
-          PHSP 0.078
-          PHSP 0.0028
-          JETSET 0.1866
+          PHOTOS 0.0083 e+ e-
+          VLL 0.0083 mu+ mu-
+          PHSP 0.324 J/psi pi+ pi-
+          PHSP 0.184 J/psi pi0 pi0
+          VVS_PWAVE 0.027 J/psi eta
+          VVS_PWAVE 0.001 J/psi pi0
+          PHSP 0.093 gamma chi_c0
+          PHSP 0.087 gamma chi_c1
+          PHSP 0.078 gamma chi_c2
+          PHSP 0.0028 gamma eta_c
+          JETSET 0.1866 rndmflav anti-rndmflav
 eta_b(2S)                 100551       0     0    0    0    0  9.99700e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Upsilon(2S)               100553       0     0    1    1    0  1.00233e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHOTOS 0.015
-          VLL 0.015
-          VLL 0.015
-          PHSP 0.185
-          PHSP 0.09
-          PHSP 0.043
-          PHSP 0.066
-          PHSP 0.067
-          JETSET 0.005
-          JETSET 0.02
-          JETSET 0.005
-          JETSET 0.02
-          JETSET 0.438
-          JETSET 0.016
+          PHOTOS 0.015 e+ e-
+          VLL 0.015 mu+ mu-
+          VLL 0.015 tau+ tau-
+          PHSP 0.185 Upsilon pi+ pi-
+          PHSP 0.09 Upsilon pi0 pi0
+          PHSP 0.043 gamma chi_b0
+          PHSP 0.066 gamma chi_b1
+          PHSP 0.067 gamma chi_b2
+          JETSET 0.005 d anti-d
+          JETSET 0.02 u anti-u
+          JETSET 0.005 s anti-s
+          JETSET 0.02 c anti-c
+          JETSET 0.438 g g g
+          JETSET 0.016 gamma g g
 chi_b2(2P)                100555       0     0    2    1    1  1.02685e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.071
-          PHSP 0.162
-          JETSET 0.00023
-          JETSET 0.0029
-          JETSET 0.0142
-          JETSET 0.74967
+          PHSP 0.071 gamma Upsilon
+          PHSP 0.162 gamma Upsilon(2S)
+          JETSET 0.00023 Upsilon_1(1D) gamma
+          JETSET 0.0029 Upsilon_2(1D) gamma
+          JETSET 0.0142 Upsilon_3(1D) gamma
+          JETSET 0.74967 g g
 Upsilon_3(2D)             100557       0     0    3    1    2  1.04443e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0
-          PHSP 0
-          PHSP 0
-          PHSP 0
-          PHSP 0.72
-          JETSET 0.28
+          PHSP 0 Upsilon pi+ pi-
+          PHSP 0 Upsilon pi0 pi0
+          PHSP 0 Upsilon(2S) pi+ pi-
+          PHSP 0 Upsilon(2S) pi0 pi0
+          PHSP 0.72 chi_b2(2P) gamma
+          JETSET 0.28 g g g
 chi_b0(2P)                110551       0     0    0    1    1  1.02321e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.009
-          PHSP 0.046
-          JETSET 0.0015
-          JETSET 0.9435
+          PHSP 0.009 gamma Upsilon
+          PHSP 0.046 gamma Upsilon(2S)
+          JETSET 0.0015 Upsilon_1(1D) gamma
+          JETSET 0.9435 g g
 h_b(2P)                   110553       0     0    1    0    1  1.02550e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          JETSET 1
+          JETSET 1 g g
 eta_b2(2D)                110555       0     0    1    0    2  1.04410e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          JETSET 1
+          JETSET 1 g g
 chi_b1(2P)                120553       0     0    1    1    1  1.02552e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.085
-          PHSP 0.21
-          JETSET 0.0097
-          JETSET 0.0236
-          JETSET 0.6717
+          PHSP 0.085 gamma Upsilon
+          PHSP 0.21 gamma Upsilon(2S)
+          JETSET 0.0097 Upsilon_1(1D) gamma
+          JETSET 0.0236 Upsilon_2(1D) gamma
+          JETSET 0.6717 g g
 Upsilon_2(2D)             120555       0     0    2    1    2  1.04406e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0
-          PHSP 0
-          PHSP 0
-          PHSP 0
-          PHSP 0.13
-          PHSP 0.04
-          JETSET 0.83
+          PHSP 0 Upsilon pi+ pi-
+          PHSP 0 Upsilon pi0 pi0
+          PHSP 0 Upsilon(2S) pi+ pi-
+          PHSP 0 Upsilon(2S) pi0 pi0
+          PHSP 0.13 chi_b0(2P) gamma
+          PHSP 0.04 chi_b2(2P) gamma
+          JETSET 0.83 g g g
 Upsilon_1(2D)             130553       0     0    1    1    2  1.04349e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0
-          PHSP 0
-          PHSP 0
-          PHSP 0
-          PHSP 0.51
-          PHSP 0.26
-          PHSP 0.014
-          JETSET 0.216
+          PHSP 0 Upsilon pi+ pi-
+          PHSP 0 Upsilon pi0 pi0
+          PHSP 0 Upsilon(2S) pi+ pi-
+          PHSP 0 Upsilon(2S) pi0 pi0
+          PHSP 0.51 chi_b0(2P) gamma
+          PHSP 0.26 chi_b1(2P) gamma
+          PHSP 0.014 chi_b2(2P) gamma
+          JETSET 0.216 g g g
 eta_b(3S)                 200551       0     0    0    0    0  1.03350e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Upsilon(3S)               200553       0     0    1    1    0  1.03553e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHOTOS 0.015
-          VLL 0.015
-          VLL 0.015
-          PHSP 0.0448
-          PHSP 0.0206
-          PHSP 0.028
-          PHSP 0.02
-          PHSP 0.054
-          PHSP 0.114
-          PHSP 0.113
-          JETSET 0.007
-          JETSET 0.028
-          JETSET 0.007
-          JETSET 0.028
-          JETSET 0.4756
-          JETSET 0.015
+          PHOTOS 0.015 e+ e-
+          VLL 0.015 mu+ mu-
+          VLL 0.015 tau+ tau-
+          PHSP 0.0448 Upsilon pi+ pi-
+          PHSP 0.0206 Upsilon pi0 pi0
+          PHSP 0.028 Upsilon(2S) pi+ pi-
+          PHSP 0.02 Upsilon(2S) pi0 pi0
+          PHSP 0.054 gamma chi_b0(2P)
+          PHSP 0.114 gamma chi_b1(2P)
+          PHSP 0.113 gamma chi_b2(2P)
+          JETSET 0.007 d anti-d
+          JETSET 0.028 u anti-u
+          JETSET 0.007 s anti-s
+          JETSET 0.028 c anti-c
+          JETSET 0.4756 g g g
+          JETSET 0.015 gamma g g
 chi_b2(3P)                200555       0     0    2    1    1  1.05264e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.022
-          PHSP 0.004
-          PHSP 0.0004
-          PHSP 0.087
-          JETSET 0.8866
+          PHSP 0.022 Upsilon_3(2D) gamma
+          PHSP 0.004 Upsilon_2(2D) gamma
+          PHSP 0.0004 Upsilon_1(2D) gamma
+          PHSP 0.087 Upsilon(3S) gamma
+          JETSET 0.8866 g g
 chi_b0(3P)                210551       0     0    0    1    1  1.05007e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.004
-          PHSP 0.017
-          JETSET 0.979
+          PHSP 0.004 Upsilon_1(2D) gamma
+          PHSP 0.017 Upsilon(3S) gamma
+          JETSET 0.979 g g
 h_b(3P)                   210553       0     0    1    0    1  1.05160e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          JETSET 1
+          JETSET 1 g g
 chi_b1(3P)                220553       0     0    1    1    1  1.05160e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.031
-          PHSP 0.013
-          PHSP 0.15
-          JETSET 0.806
+          PHSP 0.031 Upsilon_2(2D) gamma
+          PHSP 0.013 Upsilon_1(2D) gamma
+          PHSP 0.15 Upsilon(3S) gamma
+          JETSET 0.806 g g
 Upsilon(4S)               300553       0     0    1    1    0  1.05800e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          VSS 0.5
-          VSS_MIX 0.41913
-          VSS_MIX 0.04
-          VSS_MIX 0.04
-          PHSP 0
-          PHSP 0
-          PHSP 7e-05
-          PHSP 0.00014
-          PHSP 0.00014
-          JETSET 0.0005
-          JETSET 2e-05
+          VSS 0.5 B+ B-
+          VSS_MIX 0.41913 B0 anti-B0
+          VSS_MIX 0.04 anti-B0 anti-B0
+          VSS_MIX 0.04 B0 B0
+          PHSP 0 Upsilon(2S) pi+ pi-
+          PHSP 0 Upsilon(2S) pi0 pi0
+          PHSP 7e-05 chi_b0(3P) gamma
+          PHSP 0.00014 chi_b1(3P) gamma
+          PHSP 0.00014 chi_b2(3P) gamma
+          JETSET 0.0005 g g g
+          JETSET 2e-05 gamma g g
 a_00                     9000111       0     0    0    0    0  9.83500e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 a_0+                     9000211       1     0    0    0    0  9.83500e-01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 Upsilon(5S)              9000553       0     0    1    0    0  1.08600e+01+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 f_0                      9010221       0     0    0    0    0  1.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 f_0(1500)                9020221       0     0    0    0    0  1.50000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
-          PHSP 0.05
-          PHSP 0.15
-          PHSP 0.1
-          PHSP 0.25
-          PHSP 0.1
-          PHSP 0.05
-          PHSP 0.1
-          PHSP 0.1
-          PHSP 0.1
+          PHSP 0.05 eta eta'
+          PHSP 0.15 eta eta
+          PHSP 0.1 pi0 pi0 pi0 pi0
+          PHSP 0.25 pi+ pi- pi+ pi-
+          PHSP 0.1 pi+ pi-
+          PHSP 0.05 pi0 pi0
+          PHSP 0.1 K+ K-
+          PHSP 0.1 K_S0 K_S0
+          PHSP 0.1 K_L0 K_L0
 rho_diff0                9910113       0     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 pi_diff+                 9910211       1     0    0    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
 omega_diff               9910223       0     0    1    0    0  0.00000e+00+/-0.00000e+00  0.0000e+00+/-0.0000e+00  0.0000e+00+/-0.0000e+00
