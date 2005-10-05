@@ -1,3 +1,8 @@
+2005-10-04  Lynn Garren <garren@fnal.gov>
+
+	* CommonParticleData.icc: Bug fix - low and high cutoffs for the width
+	were not being saved.
+
 2005-07-27  Lynn Garren <garren@fnal.gov>
 
 	* convertTemporaryMap.icc: Fill DecayData properly.
