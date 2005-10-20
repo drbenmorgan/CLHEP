@@ -108,7 +108,8 @@ void ParticleDataTableT<Config>::writeParticleData( std::ostream & outstr )
          << " SPIN: J  S   L"
 	 << "  MASS"
 	 << "                       WIDTH"
-	 << "                    LIFETIME"
+	 << "                    LOW CUT    HIGH CUT"
+	 << "      LIFETIME"
          << std::endl;  
   // write particle info
   const_iterator cit;
@@ -134,7 +135,8 @@ void ParticleDataTableT<Config>::writeParticleInfo( std::ostream & outstr )
          << " SPIN: J  S   L"
 	 << "  MASS"
 	 << "                       WIDTH"
-	 << "                    LIFETIME"
+	 << "                    LOW CUT    HIGH CUT"
+	 << "      LIFETIME"
          << std::endl;  
   // write particle info
   const_iterator cit;

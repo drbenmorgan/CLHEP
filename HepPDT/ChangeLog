@@ -1,7 +1,8 @@
-2005-10-04  Lynn Garren <garren@fnal.gov>
+2005-10-20  Lynn Garren <garren@fnal.gov>
 
 	* CommonParticleData.icc: Bug fix - low and high cutoffs for the width
 	were not being saved.
+	* Also write out cutoffs.
 
 2005-07-27  Lynn Garren <garren@fnal.gov>
 

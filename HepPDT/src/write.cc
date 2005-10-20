@@ -54,6 +54,9 @@ void CommonParticleData::write( std::ostream & ostr ) const
     ostr << width.value() << "+/-" << width.sigma() ;
     ostr.width(12);
     ostr.precision(4);
+    ostr << lowerCutoff() << " " << upperCutoff();
+    ostr.width(14);
+    ostr.precision(4);
     ostr << ctau.value() << "+/-" << ctau.sigma();
     // return to default settings
     ostr.precision(6);

@@ -48,6 +48,8 @@ public:
   SpinState                   spin()        const { return itsSpin; }
   Measurement                 mass()        const { return itsResonance->mass(); }
   Measurement                 totalWidth()  const { return itsResonance->totalWidth(); }
+  double                      lowerCutoff() const { return itsResonance->lowerCutoff(); }
+  double                      upperCutoff() const { return itsResonance->upperCutoff(); }
   inline Measurement          lifetime()    const;
   int                         numConstituents() const { return itsQuarks.size(); }
   inline Constituent          constituent( unsigned int i ) const;
