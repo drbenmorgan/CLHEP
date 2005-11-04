@@ -1,7 +1,7 @@
 
 HepPDT-ParticleDataTable-begin
              *****  ParticleDataTable  *****
-             HepPDT Version: 1.02.00
+             HepPDT Version: 1.02.01
              Table Name : EvtGen Table
                   ( 451 entries )
 PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L  MASS                       WIDTH                    LOW CUT    HIGH CUT      LIFETIME
