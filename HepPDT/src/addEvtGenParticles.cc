@@ -42,7 +42,7 @@ bool getEvtGenLineType( std::string & ltype, int & id, std::string & name, const
     if( firstc == "*" || firstc == "#" ) { return false; }
     // a # may be anywhere on the line
     // check for empty lines
-    if( sl > 10 ){
+    if( sl > 5 ){
 	std::istringstream thisline( pdline.substr(0,sl).c_str() );
 	thisline >> ltype;
 	if( ltype == "add" ) {
