@@ -1,3 +1,9 @@
+2005-11-03  Lynn Garren <garren@fnal.gov>
+
+	* configure.in, LorentzVector.icc
+	Provide a flag to enable code differences when compiling with 
+	Visual C++.
+
 ==============================
 22.06.05 Release CLHEP-2.0.2.1
 ==============================

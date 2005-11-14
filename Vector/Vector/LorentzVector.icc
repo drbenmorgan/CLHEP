@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: LorentzVector.icc,v 1.2 2003/10/10 21:42:35 garren Exp $
+// $Id: LorentzVector.icc,v 1.2.4.1 2005/11/14 15:49:16 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -144,7 +144,13 @@ inline double HepLorentzVector::angle(const Hep3Vector &v) const {
 }
 
 inline double HepLorentzVector::mag2() const {
+#if defined USING_VISUAL
+  // kludge for problem building Windows DLL
+  double r = metric*(t()*t() - pp.mag2());
+  return r;
+#else
   return metric*(t()*t() - pp.mag2());
+#endif
 }
 
 inline double HepLorentzVector::mag() const {
@@ -200,7 +206,13 @@ HepLorentzVector::setVectM(const Hep3Vector & spatial, double mass) {
 }
 
 inline double HepLorentzVector::dot(const HepLorentzVector & q) const {
+#if defined USING_VISUAL
+  // kludge for problem building Windows DLL
+  double r = metric*(t()*q.t() - z()*q.z() - y()*q.y() - x()*q.x());
+  return r;
+#else
   return metric*(t()*q.t() - z()*q.z() - y()*q.y() - x()*q.x());
+#endif
 }
 
 inline double
@@ -357,7 +369,13 @@ inline bool  HepLorentzVector::isLightlike(double epsilon) const {
 }
 
 inline double HepLorentzVector::diff2( const HepLorentzVector & w ) const {
+#if defined USING_VISUAL
+    // kludge for problem building Windows DLL
+    double r= metric*( (ee-w.ee)*(ee-w.ee) - (pp-w.pp).mag2() );
+    return r;
+#else
     return metric*( (ee-w.ee)*(ee-w.ee) - (pp-w.pp).mag2() );
+#endif
 }
 
 inline double HepLorentzVector::delta2Euclidean 
