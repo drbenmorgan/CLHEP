@@ -198,7 +198,7 @@ public:
 
 protected:
 
-  ~Hep4RotationInterface();	// protect destructor to forbid instatiation
+  ~Hep4RotationInterface() {}	// protect destructor to forbid instatiation
 
 };  // Hep4RotationInterface
 
@@ -297,7 +297,7 @@ public:
 
 private:
 
-  ~Hep3RotationInterface();	// private destructor to forbid instatiation
+  ~Hep3RotationInterface() {}	// private destructor to forbid instatiation
 
 };  // Hep3RotationInterface
 
