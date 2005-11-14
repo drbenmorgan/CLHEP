@@ -19,7 +19,7 @@ CommonParticleData::CommonParticleData( const TempParticleData & tpd )
   itsResonance     ( NULL )
 {
     ResonanceStructure * rs = 
-           new ResonanceStructure( tpd.tempMass, tpd.tempWidth, 0., 0. );
+           new ResonanceStructure( tpd.tempMass, tpd.tempWidth, tpd.tempLowCutoff, tpd.tempHighCutoff );
     itsResonance = rs;
     getConstituentsFromPID();
 }

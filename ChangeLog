@@ -1,3 +1,19 @@
+2005-11-04  Lynn Garren <garren@fnal.gov>
+
+	* HepPDT/addEvtGenParticles.cc: Bug fix
+
+2005-11-03  Lynn Garren <garren@fnal.gov>
+
+	* Vector/configure.in, LorentzVector.icc
+	Provide a flag to enable code differences when compiling with 
+	Visual C++.
+
+2005-10-20  Lynn Garren <garren@fnal.gov>
+
+	* HepPDT/CommonParticleData.icc: Bug fix - low and high cutoffs for the width
+	were not being saved.
+	* Also write out cutoffs.
+
 2005-07-27  Lynn Garren <garren@fnal.gov>
 
 	* HepPDT/convertTemporaryMap.icc: Fill DecayData properly.
