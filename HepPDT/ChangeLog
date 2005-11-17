@@ -1,3 +1,9 @@
+2005-11-17  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: Remove check for sstream so Windows will not generate
+	spurious complaint.  Change code to always include <sstream>.
+	Remove HepPDT/StringStream.h.
+
 ==============================
 14.11.05 Release CLHEP-1.9.2.2
 ==============================

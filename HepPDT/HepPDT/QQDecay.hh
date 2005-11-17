@@ -10,13 +10,9 @@
 #define QQDECAY_HH
 
 #include <vector>
+#include <sstream>
 
 #include "CLHEP/HepPDT/defs.h"
-#if HAVE_SSTREAM
-#include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include "CLHEP/HepPDT/QQChannel.hh"
 
 namespace HepPDT {

@@ -15,13 +15,9 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <sstream>
 
 #include "CLHEP/HepPDT/defs.h"
-#if HAVE_SSTREAM
-#include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include "CLHEP/HepPDT/ParticleTranslation.hh"
 
 namespace HepPDT {

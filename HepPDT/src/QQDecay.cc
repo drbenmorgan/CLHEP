@@ -5,14 +5,10 @@
 //
 // ----------------------------------------------------------------------
 
-#include "CLHEP/HepPDT/defs.h"
-#if HAVE_SSTREAM
 #include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include <algorithm>	// swap()
 
+#include "CLHEP/HepPDT/defs.h"
 #include "CLHEP/HepPDT/QQDecay.hh"
 #include "CLHEP/HepPDT/QQChannel.hh"
 

@@ -9,13 +9,9 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 
 #include "CLHEP/HepPDT/defs.h"
-#if HAVE_SSTREAM
-#include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include "CLHEP/HepPDT/QQStructs.hh"
 
 namespace HepPDT {

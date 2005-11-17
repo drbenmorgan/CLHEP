@@ -6,13 +6,9 @@
 // ----------------------------------------------------------------------
 
 #include <iomanip>
+#include <sstream>
 
 #include "CLHEP/HepPDT/defs.h"
-#if HAVE_SSTREAM
-#include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include "CLHEP/HepPDT/PDGtoQQTable.hh"
 
 // Particle names
