@@ -2,7 +2,7 @@
 #ifdef ENABLE_BACKWARDS_COMPATIBILITY
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: sstream.h,v 1.1.2.1 2004/06/30 15:22:26 garren Exp $
+// $Id: sstream.h,v 1.1.2.2 2005/11/17 23:48:25 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -16,11 +16,7 @@
 #define HEP_SSTREAM_H
 
 #include "CLHEP/config/defs.h"
-#if HAVE_SSTREAM
 #include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 
 #endif /* HEP_SSTREAM_H */
 

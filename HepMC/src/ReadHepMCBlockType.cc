@@ -6,15 +6,11 @@
 // read from an ascii file
 // ----------------------------------------------------------------------
 
-#include "CLHEP/HepMC/defs.h"
-#if HAVE_SSTREAM
 #include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include <fstream>
 #include <string>
 
+#include "CLHEP/HepMC/defs.h"
 #include "CLHEP/HepMC/ReadHepMC.h"
 
 namespace HepMC  {

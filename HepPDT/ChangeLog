@@ -4,9 +4,6 @@
 	spurious complaint.  Change code to always include <sstream>.
 	Remove HepPDT/StringStream.h.
 
-==============================
-14.11.05 Release CLHEP-1.9.2.2
-==============================
 2005-11-04  Lynn Garren <garren@fnal.gov>
 
 	* addEvtGenParticles.cc: Bug fix

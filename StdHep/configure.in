@@ -308,8 +308,6 @@ AC_SUBST(ARFLAGS)
 # Check for needed header files:
 # ----------------------------------------------------------------------
 
-AC_CHECK_HEADERS([sstream])
-
 # ----------------------------------------------------------------------
 # Check for needed typedefs, structures, and compiler characteristics:
 # ----------------------------------------------------------------------

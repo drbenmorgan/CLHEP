@@ -93,7 +93,6 @@ pkginclude_HEADERS = \
 	SphericalNeumann.icc	\
 	Sqrt.hh         \
 	Square.hh         \
-	StringStream.h    \
 	Tan.hh         \
 	TrivariateGaussian.hh         \
 	Variable.hh         \

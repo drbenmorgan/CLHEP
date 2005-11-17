@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: CLHEP.h,v 1.1.2.2 2005/02/01 20:25:37 garren Exp $
+// $Id: CLHEP.h,v 1.1.2.3 2005/11/17 23:48:25 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -26,9 +26,7 @@
 // names have been changed to protect the innocent
 // These will be unneccessary after CLHEP 1.9 since gcc 2.95.2
 // will no longer be supported
-#ifdef HAVE_SSTREAM
 #define HEP_HAVE_SSTREAM
-#endif
 #ifdef HAVE_IOS_BASE
 #define HEP_USE_IOS_BASE
 #endif

@@ -90,6 +90,7 @@
 //			the look of the output when this path is taken, and
 //			when logging to an ErrorLog allows statistics to work.
 //	031105	LG	Get rid of all ZMutility references
+//	051117	LG	Always use <sstream>
 //
 // ----------------------------------------------------------------------
 
@@ -118,11 +119,7 @@
   #include "CLHEP/Exceptions/ZMexClassInfo.h"
 #endif
 
-#if HAVE_SSTREAM
 #include <sstream>
-#else
-#include "CLHEP/Cast/StringStream.h"
-#endif
 
 
 #ifdef ZM_USE_NAMESPACES

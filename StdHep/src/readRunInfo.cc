@@ -7,16 +7,12 @@
 // use explicit namespaces
 // ----------------------------------------------------------------------
 
-#include "CLHEP/StdHep/defs.h"
 #include <iostream>
-#if HAVE_SSTREAM
 #include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include <fstream>
 #include <string>
 
+#include "CLHEP/StdHep/defs.h"
 #include "CLHEP/StdHep/ReadStdHep.hh"
 #include "CLHEP/HepMC/ReadHepMC.h"
 #include "CLHEP/StdHep/StdRunInfo.hh"

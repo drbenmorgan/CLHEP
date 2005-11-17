@@ -13,6 +13,7 @@
 //
 // ----------------------------------------------------------------------
 
+#include <sstream>
 #include <string>
   using std::string;
 
@@ -21,12 +22,6 @@
 #include "CLHEP/Exceptions/ZMthrow.h"
 #include "CLHEP/Exceptions/ZMexception.h"
 #include "CLHEP/Exceptions/ZMerrno.h"
-
-#if HAVE_SSTREAM
-#include <sstream>
-#else
-#include "CLHEP/Cast/StringStream.h"
-#endif
 
 
 using namespace zmex;
