@@ -5,12 +5,9 @@
 //
 // ----------------------------------------------------------------------
 
-#include "CLHEP/HepPDT/defs.h"
-#if HAVE_SSTREAM
 #include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
+
+#include "CLHEP/HepPDT/defs.h"
 #include "CLHEP/HepPDT/stringtodouble.hh"
 
 namespace HepPDT {

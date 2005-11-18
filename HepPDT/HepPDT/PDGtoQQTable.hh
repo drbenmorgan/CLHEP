@@ -12,13 +12,9 @@
 #include <assert.h>
 #include <vector>
 #include <map>
+#include <sstream>
 
 #include "CLHEP/HepPDT/defs.h"
-#if HAVE_SSTREAM
-#include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include "CLHEP/HepPDT/QQDecayTable.hh"
 
 #define QQTOPDTARRAYSIZE 520

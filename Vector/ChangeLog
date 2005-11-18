@@ -1,6 +1,3 @@
-==============================
-14.11.05 Release CLHEP-2.0.2.2
-==============================
 2005-11-14  Lynn Garren <garren@fnal.gov>
 
 	* RotationInterfaces.h: Instantiate private destructors so that 

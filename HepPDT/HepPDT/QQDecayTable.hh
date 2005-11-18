@@ -11,13 +11,9 @@
 
 #include <string>
 #include <map>
+#include <sstream>
 
 #include "CLHEP/HepPDT/defs.h"
-#if HAVE_SSTREAM
-#include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include "CLHEP/HepPDT/QQStructs.hh"
 #include "CLHEP/HepPDT/QQDecay.hh"
 #include "CLHEP/HepPDT/Version.hh"

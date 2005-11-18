@@ -10,13 +10,9 @@
 #include <string>
 #include <algorithm>	// min()
 #include <iostream>
+#include <sstream>
 
 #include "CLHEP/HepPDT/defs.h"
-#if HAVE_SSTREAM
-#include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include "CLHEP/HepPDT/TempParticleData.hh"
 
 namespace HepPDT {

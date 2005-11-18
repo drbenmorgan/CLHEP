@@ -38,12 +38,7 @@
 #include "CLHEP/Exceptions/ZMexLogger.h"
 #include "CLHEP/Exceptions/ZMexLogResult.h"
 
-#if HAVE_SSTREAM
 #include <sstream>
-#else
-#include "CLHEP/Cast/StringStream.h"
-#endif
-
 #include <ctime>
 
 

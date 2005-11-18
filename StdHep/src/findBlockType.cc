@@ -7,15 +7,11 @@
 // find a block with the specified type
 // ----------------------------------------------------------------------
 
-#include "CLHEP/StdHep/defs.h"
 #include <iostream>
-#if HAVE_SSTREAM
 #include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include <string>
 
+#include "CLHEP/StdHep/defs.h"
 #include "CLHEP/StdHep/ReadStdHep.hh"
 
 namespace StdHep  {

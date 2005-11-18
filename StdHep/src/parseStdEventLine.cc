@@ -7,15 +7,11 @@
 // use explicit namespaces
 // ----------------------------------------------------------------------
 
-#include "CLHEP/StdHep/defs.h"
-#if HAVE_SSTREAM
 #include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include <fstream>
 #include <string>
 
+#include "CLHEP/StdHep/defs.h"
 #include "CLHEP/StdHep/ReadStdHep.hh"
 
 void  StdHep::Detail::parseStdEventLine( std::string & evline, int & evnum, int & ncol )

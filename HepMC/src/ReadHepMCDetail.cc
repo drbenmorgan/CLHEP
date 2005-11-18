@@ -7,17 +7,13 @@
 // don't use implicit namespace, since this seems to confuse old compilers
 // ----------------------------------------------------------------------
 
-#include "CLHEP/HepMC/defs.h"
 #include <iostream>
 #include <string>
-#if HAVE_SSTREAM
 #include <sstream>
-#else
-#include "CLHEP/HepPDT/StringStream.h"
-#endif
 #include <vector>
 #include <map>
 
+#include "CLHEP/HepMC/defs.h"
 #include "CLHEP/HepMC/ReadHepMC.h"
 #include "CLHEP/HepMC/GenEvent.h"
 #include "CLHEP/HepMC/GenParticle.h"

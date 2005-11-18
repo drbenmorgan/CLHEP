@@ -1,6 +1,9 @@
-==============================
-14.11.05 Release CLHEP-2.0.2.2
-==============================
+2005-11-17  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: Remove check for sstream so Windows will not generate
+	spurious complaint.  
+	Remove HepPDT/StringStream.h.
+
 2005-11-04  Lynn Garren <garren@fnal.gov>
 
 	* addEvtGenParticles.cc: Bug fix
