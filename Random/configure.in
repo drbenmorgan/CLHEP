@@ -231,6 +231,8 @@ cl)
    build_static="no"
    build_shared="yes"
    build_visual="yes"
+   CXXFLAGS=" "
+   AC_SUBST(CXXFLAGS)
    ;;
 CC)  
    case "$target" in
