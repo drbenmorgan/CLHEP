@@ -29,6 +29,13 @@ endif
 if BUILD_STATIC
   CLHEPLIB = libCLHEP-@VERSION@.a
 endif
+if BUILD_VISUAL
+  MAKE_STATIC_CLHEP = $(COPY_P) libCLHEP-@VERSION@.a libCLHEP.a
+  MAKE_SHARED_CLHEP = $(COPY_P) libCLHEP-@VERSION@.$(SHEXT) libCLHEP.$(SHEXT)
+else
+  MAKE_STATIC_CLHEP = $(LN_S) libCLHEP-@VERSION@.a libCLHEP.a
+  MAKE_SHARED_CLHEP = $(LN_S) libCLHEP-@VERSION@.$(SHEXT) libCLHEP.$(SHEXT)
+endif
 
 CLEANFILES = clheplib library-list $(CLHEPLIB) $(lib_shared) 
 
@@ -82,7 +89,7 @@ install-CLHEPLIB: $(CLHEPLIB) $(lib_shared)
 	    $(RANLIB) "$(DESTDIR)$(libdir)/$$p"; \
 	    if test -f $(DESTDIR)$(libdir)/libCLHEP.a; then \
 	    (rm -f $(DESTDIR)$(libdir)/libCLHEP.a); fi; \
-	    (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.a libCLHEP.a ); \
+	    (cd $(DESTDIR)$(libdir) && $(MAKE_STATIC_CLHEP) ); \
 	  else :; fi; \
 	done
 	@$(NORMAL_INSTALL)
@@ -97,7 +104,7 @@ install-CLHEPLIB: $(CLHEPLIB) $(lib_shared)
 	  if test -f $$p; then \
 	    if test -f $(DESTDIR)$(libdir)/libCLHEP.a; then \
 	    (rm -f $(DESTDIR)$(libdir)/libCLHEP.$(SHEXT)); fi; \
-	    (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.$(SHEXT) libCLHEP.$(SHEXT) ); \
+	    (cd $(DESTDIR)$(libdir) && $(MAKE_SHARED_CLHEP) ); \
 	  else :; fi; \
 	done
 
