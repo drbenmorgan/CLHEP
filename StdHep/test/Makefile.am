@@ -12,14 +12,17 @@ if BUILD_STATIC
           $(top_builddir)/../Vector/src/libCLHEP-Vector-@VERSION@.a
 else
 if BUILD_VISUAL
+  LDADD = $(top_builddir)/src/CLHEP-@PACKAGE@-@VERSION@.$(SHEXT) \
+          $(top_builddir)/../HepMC/src/CLHEP-HepMC-@VERSION@.$(SHEXT) \
+          $(top_builddir)/../Vector/src/CLHEP-Vector-@VERSION@.$(SHEXT)
 else
   LIBS += $(MY_LD)$(top_builddir)/src \
           $(MY_LD)$(top_builddir)/../HepMC/src \
 	  $(MY_LD)$(top_builddir)/../Vector/src
-endif
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT) \
           $(top_builddir)/../HepMC/src/libCLHEP-HepMC-@VERSION@.$(SHEXT) \
           $(top_builddir)/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
+endif
 endif
 
 # Identify executables needed during testing:

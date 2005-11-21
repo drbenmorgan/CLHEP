@@ -12,14 +12,17 @@ if BUILD_STATIC
 	  ${top_builddir}/../RefCount/src/libCLHEP-RefCount-@VERSION@.a
 else
 if BUILD_VISUAL
+  LDADD = $(top_builddir)/src/CLHEP-@PACKAGE@-@VERSION@.$(SHEXT)    \
+	  ${top_builddir}/../Cast/src/CLHEP-Cast-@VERSION@.$(SHEXT) \
+	  ${top_builddir}/../RefCount/src/CLHEP-RefCount-@VERSION@.$(SHEXT)
 else
   LIBS += $(MY_LD)$(top_builddir)/src \
           $(MY_LD)${top_builddir}/../Cast/src \
           $(MY_LD)${top_builddir}/../RefCount/src
-endif
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT)    \
 	  ${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.$(SHEXT) \
 	  ${top_builddir}/../RefCount/src/libCLHEP-RefCount-@VERSION@.$(SHEXT)
+endif
 endif
 
 # Identify executables needed during testing:

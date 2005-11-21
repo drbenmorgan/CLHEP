@@ -50,7 +50,11 @@ libCLHEP_HepMC_@VERSION@_so_OBJECTS = $(patsubst %.cc,$(shareddir)/%.$(OBJEXT),$
 # these if/else blocks will be parsed by automake and translated
 if BUILD_SHARED
   shareddir = shared
+if BUILD_VISUAL
+  lib_shared = CLHEP-HepMC-@VERSION@.$(SHEXT)
+else
   lib_shared = libCLHEP-HepMC-@VERSION@.$(SHEXT)
+endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@

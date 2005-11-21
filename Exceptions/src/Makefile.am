@@ -20,7 +20,11 @@ libCLHEP_Exceptions_@VERSION@_so_OBJECTS = $(patsubst %.cc,$(shareddir)/%.$(OBJE
 # these if/else blocks will be parsed by automake and translated
 if BUILD_SHARED
   shareddir = shared
+if BUILD_VISUAL
+  lib_shared = CLHEP-Exceptions-@VERSION@.$(SHEXT)
+else
   lib_shared = libCLHEP-Exceptions-@VERSION@.$(SHEXT)
+endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@
