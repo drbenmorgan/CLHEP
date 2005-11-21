@@ -21,7 +21,11 @@ CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 # these if/else blocks will be parsed by automake and translated
 if BUILD_SHARED
   shareddir = shared
+if BUILD_VISUAL
+  lib_shared = CLHEP-@VERSION@.$(SHEXT)
+else
   lib_shared = libCLHEP-@VERSION@.$(SHEXT)
+endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@
@@ -31,7 +35,7 @@ if BUILD_STATIC
 endif
 if BUILD_VISUAL
   MAKE_STATIC_CLHEP = $(COPY_P) libCLHEP-@VERSION@.a libCLHEP.a
-  MAKE_SHARED_CLHEP = $(COPY_P) libCLHEP-@VERSION@.$(SHEXT) CLHEP.$(SHEXT)
+  MAKE_SHARED_CLHEP = $(COPY_P) CLHEP-@VERSION@.$(SHEXT) CLHEP.$(SHEXT)
 else
   MAKE_STATIC_CLHEP = $(LN_S) libCLHEP-@VERSION@.a libCLHEP.a
   MAKE_SHARED_CLHEP = $(LN_S) libCLHEP-@VERSION@.$(SHEXT) libCLHEP.$(SHEXT)
