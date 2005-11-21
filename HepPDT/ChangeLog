@@ -1,3 +1,8 @@
+2005-11-21  Lynn Garren <garren@fnal.gov>
+
+	* src/Makefile.am, test/Makefile.am: Build libraries for 
+	Windows Visual C++ without lib prefix.
+
 2005-11-17  Lynn Garren <garren@fnal.gov>
 
 	* configure.in: Remove check for sstream so Windows will not generate
