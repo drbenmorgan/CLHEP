@@ -10,10 +10,11 @@ if BUILD_STATIC
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.a
 else
 if BUILD_VISUAL
+  LDADD = $(top_builddir)/src/CLHEP-@PACKAGE@-@VERSION@.$(SHEXT)
 else
   LIBS += $(MY_LD)$(top_builddir)/src
-endif
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT)
+endif
 endif
 
 # Identify executables needed during testing:

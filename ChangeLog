@@ -1,3 +1,10 @@
+==============================
+21.11.05 Release CLHEP-2.0.2.2
+==============================
+2005-11-21  Lynn Garren <garren@fnal.gov>
+
+	* Makefile.am: Library for Windows Visual C++ is named CLHEP.lib.
+
 2005-11-17  Lynn Garren <garren@fnal.gov>
 
 	* configure.in: Remove check for sstream so Windows will not generate

@@ -1,4 +1,12 @@
 ==============================
+21.11.05 Release CLHEP-2.0.2.2
+==============================
+2005-11-21  Lynn Garren <garren@fnal.gov>
+
+	* src/Makefile.am, test/Makefile.am: Build libraries for 
+	Windows Visual C++ without lib prefix.
+
+==============================
 22.06.05 Release CLHEP-2.0.2.1
 ==============================
 Wed Jun 22 2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>

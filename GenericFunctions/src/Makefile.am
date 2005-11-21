@@ -84,7 +84,11 @@ libCLHEP_GenericFunctions_@VERSION@_so_OBJECTS = $(patsubst %.cc,$(shareddir)/%.
 # these if/else blocks will be parsed by automake and translated
 if BUILD_SHARED
   shareddir = shared
+if BUILD_VISUAL
+  lib_shared = CLHEP-GenericFunctions-@VERSION@.$(SHEXT)
+else
   lib_shared = libCLHEP-GenericFunctions-@VERSION@.$(SHEXT)
+endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@
