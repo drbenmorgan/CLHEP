@@ -17,7 +17,6 @@
 
 #include "CLHEP/HepMC/CBInterface.h"
 #include "CLHEP/HepMC/GenEvent.h"
-#include "CLHEP/HepMC/HepMCConfig.h"
 
 namespace HepMC {
 

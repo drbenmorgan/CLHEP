@@ -16,9 +16,7 @@ namespace HepMC {
         m_polarization(0), m_production_vertex(0), m_end_vertex(0),
         m_barcode(0),
         itsGeneratedMass( 0 ),
-	itsCollisionNumber(0),
-	itsParticleData( NULL ),
-	itsDecayData( NULL )
+	itsCollisionNumber(0)
     {
 	s_counter++;
     }
@@ -31,29 +29,7 @@ namespace HepMC {
 	m_polarization(polar), m_production_vertex(0), m_end_vertex(0),
 	m_barcode(0),
         itsGeneratedMass( momentum.m() ),
-	itsCollisionNumber(0),
-	itsParticleData( NULL ),
-	itsDecayData( NULL )
-    {
-	// Establishing *this as the owner of m_flow is done above,
-	// then we set it equal to the other flow pattern (subtle)
-	set_flow(itsflow);
-	s_counter++;
-    }
-
-    GenParticle::GenParticle( const CLHEP::HepLorentzVector& momentum, 
-		        ParticleData * pd, DecayData * dd,
-			int status, 
-			const Flow& itsflow,
-			const Polarization& polar ) : 
-	m_momentum(momentum), m_pdg_id( pd->pid() ), 
-	m_status(status), m_flow(this),
-	m_polarization(polar), m_production_vertex(0), m_end_vertex(0),
-	m_barcode(0),
-        itsGeneratedMass( momentum.m() ),
-	itsCollisionNumber(0),
-	itsParticleData( pd ),
-	itsDecayData( dd )
+	itsCollisionNumber(0)
     {
 	// Establishing *this as the owner of m_flow is done above,
 	// then we set it equal to the other flow pattern (subtle)

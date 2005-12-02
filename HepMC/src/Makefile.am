@@ -14,7 +14,6 @@ libCLHEP_HepMC_@VERSION@_a_SOURCES = \
 	genMass.cc	\
 	GenParticle.cc	\
 	GenVertex.cc	\
-	getParticleID.cc	\
 	particleCollision.cc	\
 	particleCreationVertex.cc	\
 	particleDecayVertex.cc	\
