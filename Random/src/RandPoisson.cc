@@ -1,4 +1,4 @@
-// $Id: RandPoisson.cc,v 1.5.2.2 2005/04/14 21:15:22 fischler Exp $
+// $Id: RandPoisson.cc,v 1.5.2.3 2006/01/13 19:23:23 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,8 @@
 // M Fischler	      - put/get to/from streams uses pairs of ulongs when
 //			+ storing doubles avoid problems with precision 
 //			4/14/05
+// Mark Fischler  - Repaired BUG - when mean > 2 billion, was returning
+//                  mean instead of the proper value.
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -77,6 +79,21 @@ double gammln(double xx) {
   return -tmp + log(2.5066282746310005*ser);
 }
 
+static
+double normal (HepRandomEngine* eptr) 		// mf 1/13/06
+{
+  double r;
+  double v1,v2,fac;
+  do {
+    v1 = 2.0 * eptr->flat() - 1.0;
+    v2 = 2.0 * eptr->flat() - 1.0;
+    r = v1*v1 + v2*v2;
+  } while ( r > 1.0 );
+
+  fac = sqrt(-2.0*log(r)/r);
+  return v2*fac;
+}
+
 long RandPoisson::shoot(double xm) {
 
 // Returns as a floating-point number an integer value that is a random
@@ -124,13 +141,9 @@ long RandPoisson::shoot(double xm) {
     } while( anEngine->flat() > t );
   }
   else {
-    if ( xm != om ) {
-      setOldMean(xm);
-      sq = sqrt(2.0*xm);
-      alxm = log(xm);
-      g = xm*alxm - gammln(xm + 1.0);
-    }
-    em = xm;
+    em = xm + sqrt(xm) * normal (anEngine);	// mf 1/13/06
+    if ( static_cast<long>(em) < 0 ) 
+      em = static_cast<long>(xm) >= 0 ? xm : getMaxMean();
   }    
   setPStatus(sq,alxm,g);
   return long(em);
@@ -190,13 +203,9 @@ long RandPoisson::shoot(HepRandomEngine* anEngine, double xm) {
     } while( anEngine->flat() > t );
   }
   else {
-    if ( xm != om ) {
-      setOldMean(xm);
-      sq = sqrt(2.0*xm);
-      alxm = log(xm);
-      g = xm*alxm - gammln(xm + 1.0);
-    }
-    em = xm;
+    em = xm + sqrt(xm) * normal (anEngine);	// mf 1/13/06
+    if ( static_cast<long>(em) < 0 ) 
+      em = static_cast<long>(xm) >= 0 ? xm : getMaxMean();
   }    
   setPStatus(sq,alxm,g);
   return long(em);
@@ -259,13 +268,9 @@ long RandPoisson::fire(double xm) {
     } while( localEngine->flat() > t );
   }
   else {
-    if ( xm != oldm ) {
-      oldm = xm;
-      sq = sqrt(2.0*xm);
-      alxm = log(xm);
-      g = xm*alxm - gammln(xm + 1.0);
-    }
-    em = xm;
+    em = xm + sqrt(xm) * normal (localEngine);	// mf 1/13/06
+    if ( static_cast<long>(em) < 0 ) 
+      em = static_cast<long>(xm) >= 0 ? xm : getMaxMean();
   }    
   status[0] = sq; status[1] = alxm; status[2] = g;
   return long(em);
