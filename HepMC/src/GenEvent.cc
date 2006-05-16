@@ -138,7 +138,7 @@ namespace HepMC {
 	// print a legend to describe the particle info
 	ostr << "                                    GenParticle Legend\n";
  	ostr  << "        Barcode   PDG ID      "
-	      << "( Px,       Py,       Pz,      E )"
+	      << "( Px,       Py,       Pz,     E )"
 	      << " Stat  DecayVtx\n";
 	ostr << "________________________________________"
 	     << "________________________________________\n";

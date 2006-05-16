@@ -1,6 +1,7 @@
 2006-05-16  Lynn Garren <garren@fnal.gov>
 
-	* src/GenEvent.cc: get rid of sprintf
+	* src/GenEvent.cc,src/GenParticle.cc,src/GenVertex.cc : 
+	  replace sprintf with ios formatting
 
 ==============================
 21.11.05 Release CLHEP-2.0.2.2
