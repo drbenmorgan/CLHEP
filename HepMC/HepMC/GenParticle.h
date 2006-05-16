@@ -38,6 +38,8 @@
 #include "CLHEP/HepMC/Flow.h"
 #include "CLHEP/HepMC/Polarization.h"
 #include "CLHEP/Vector/LorentzVector.h"
+#include "CLHEP/HepMC/HepMCConfig.h"
+#include "CLHEP/HepPDT/ParticleID.hh"
 
 #include <vector>
 #include <iostream>
@@ -59,8 +61,15 @@ namespace HepMC {
 
     public:
 
+        typedef  HepMCConfig::ParticleData   ParticleData;
+        typedef  HepMCConfig::DecayData      DecayData;
+
         GenParticle(void);
 	GenParticle( const CLHEP::HepLorentzVector& momentum, int pdg_id,
+		     int status = 0, const Flow& itsflow = Flow(),
+		     const Polarization& polar = Polarization(0,0) );
+	GenParticle( const CLHEP::HepLorentzVector& momentum, 
+		     ParticleData * pd, DecayData * dd = 0,
 		     int status = 0, const Flow& itsflow = Flow(),
 		     const Polarization& polar = Polarization(0,0) );
 	GenParticle( const GenParticle& inparticle ); // shallow copy.
@@ -93,6 +102,12 @@ namespace HepMC {
 	GenVertex*           production_vertex() const;
 	GenVertex*           end_vertex() const;
 	GenEvent*            parent_event() const;
+
+        HepPDT::ParticleID   particleID()   const;
+	ParticleData const & particledata() const { return *itsParticleData; }
+	ParticleData       & particledata()       { return *itsParticleData; }
+	DecayData    const & decaydata()    const { return *itsDecayData; }
+	DecayData          & decaydata()          { return *itsDecayData; }
 	
 	// get pointers to mothers and daughters
 	GenParticle *      mother()         const;
@@ -142,8 +157,11 @@ namespace HepMC {
         //  momentum()
 
 	// StdHep mutators
+	void setParticleID      ( HepPDT::ParticleID p ) { m_pdg_id=p.pid(); }
 	void setCollisionNumber ( int coll );
 	void setMomentum        ( double px, double py, double pz, double E );
+	void changeParticleType (ParticleData & pd) { itsParticleData = &pd; }
+	void changeDecayData    (DecayData & dd)    { itsDecayData = &dd; }
 
 	// old StdHepC++ methods
 	// ---  accessors:
@@ -182,6 +200,9 @@ namespace HepMC {
 	int              m_barcode;           // unique identifier in the event
         double           itsGeneratedMass;    // 
         int              itsCollisionNumber;  // for StdHep
+	ParticleData *   itsParticleData;	// should be null only if no 
+	                                        //    particle data is desired
+	DecayData *      itsDecayData; 		// null if not customized
 
 	static unsigned int s_counter;
     };  

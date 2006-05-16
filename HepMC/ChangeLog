@@ -1,7 +1,3 @@
-2005-12-02  Lynn Garren <garren@fnal.gov>
-
-	* GenParticle: remove pointers to HepPDT
-
 ==============================
 21.11.05 Release CLHEP-1.9.2.2
 ==============================
