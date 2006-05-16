@@ -3,7 +3,8 @@
 // ----------------------------------------------------------------------
 // Author:  Lynn Garren, Marc Paterno,
 //
-#include <stdio.h>       // needed for formatted output using sprintf 
+#include <iomanip>       // needed for formatted output
+#include <stdio.h>       // needed for sprintf 
 
 namespace HepMC  {
 
@@ -99,15 +100,19 @@ void CBhepevt::printHEPEVT( std::ostream & os )
 
 void CBhepevt::print_legend( std::ostream & os )
 {
-    char outline[81];
-    sprintf( outline,"%4s %4s %4s %5s   %10s, %9s, %9s, %9s, %10s",
-	     "Indx","Stat","Par-","chil-",
-	     "(  P_x","P_y","P_z","Energy","M ) [GeV]");
-    os << outline << std::endl;
-    sprintf( outline,"%9s %4s %4s    %10s, %9s, %9s, %9s) %9s",
-	     "ID ","ents","dren",
-	     "Prod (   X","Y","Z","cT", "[mm]");
-    os << outline << std::endl;
+    //char outline[81];
+    //sprintf( outline,"%4s %4s %4s %5s   %10s, %9s, %9s, %9s, %10s",
+	//     "Indx","Stat","Par-","chil-",
+	//     "(  P_x","P_y","P_z","Energy","M ) [GeV]");
+    //os << outline << std::endl;
+    //sprintf( outline,"%9s %4s %4s    %10s, %9s, %9s, %9s) %9s",
+	//     "ID ","ents","dren",
+	//     "Prod (   X","Y","Z","cT", "[mm]");
+    //os << outline << std::endl;
+    os << "Indx Stat Par- chil-   "
+       << "(  P_x    , P_y      , P_z      , Energy  , M ) [GeV]" << std::endl;
+    os << "ID        ents dren"
+       << "Prod (   X, Y, Z, cT) [mm]") << std::endl;
 }	
 
 void CBhepevt::printHEPEVTparticle( int i, std::ostream & os )
@@ -116,19 +121,67 @@ void CBhepevt::printHEPEVTparticle( int i, std::ostream & os )
     // here i is the C array index (i.e. it starts at 0 ... whereas the
     // fortran array index starts at 1) So if there's 100 particles, the
     // last valid index is 100-1=99
-    char outline[81];
-    sprintf( outline,
-	     "%4d %+4d %4d %4d    (%9.3g, %9.3g, %9.3g, %9.3g, %9.3g)"
-	     ,i, hptr->isthep[i], first_parent(i), first_child(i),
-	     hptr->phep[i][0], hptr->phep[i][1], hptr->phep[i][2], 
-	     hptr->phep[i][3], hptr->phep[i][4] );
-    os << outline << "\n";
-    sprintf( outline,"%+9d %4d %4d    (%9.3g, %9.3g, %9.3g, %9.3g)",
+    //char outline[81];
+    //sprintf( outline,
+	//     "%4d %+4d %4d %4d    (%9.3g, %9.3g, %9.3g, %9.3g, %9.3g)"
+	//     ,i, hptr->isthep[i], first_parent(i), first_child(i),
+	//     hptr->phep[i][0], hptr->phep[i][1], hptr->phep[i][2], 
+	//     hptr->phep[i][3], hptr->phep[i][4] );
+    //os << outline << "\n";
+    //sprintf( outline,"%+9d %4d %4d    (%9.3g, %9.3g, %9.3g, %9.3g)",
 	     // old version was:" (%+9.2e, %+9.2e, %+9.2e, %+9.2e)"
-	     hptr->idhep[i], last_parent(i), last_child(i), 
-	     hptr->vhep[i][0], hptr->vhep[i][1], hptr->vhep[i][2], 
-	     hptr->vhep[i][3] );
-    os << outline << std::endl;
+	//     hptr->idhep[i], last_parent(i), last_child(i), 
+	//     hptr->vhep[i][0], hptr->vhep[i][1], hptr->vhep[i][2], 
+	//     hptr->vhep[i][3] );
+   // os << outline << std::endl;
+   os.width(4);
+   os << i << " ";
+   os.width(4);
+   os << hptr->isthep[i] << " ";
+   os.width(4);
+   os << first_parent(i) << " ";
+   os.width(4);
+   os << first_child(i) << "    (";
+   os.width(9);
+   os.precision(3);
+   os.setf(std::ios::scientific, std::ios::floatfield);
+   os << hptr->phep[i][0] << ", ";
+   os.width(9);
+   os.precision(3);
+   os << hptr->phep[i][1] << ", ";
+   os.width(9);
+   os.precision(3);
+   os << hptr->phep[i][2] << ", ";
+   os.width(9);
+   os.precision(3);
+   os << hptr->phep[i][3] << ", ";
+   os.width(9);
+   os.precision(3);
+   os << hptr->phep[i][4] << ")\n";
+   os.width(9);
+   os.setf(std::ios_base::showpos);
+   os << hptr->idhep[i] << " ";
+   os.unsetf(std::ios_base::showpos);
+   os.width(4);
+   os << last_parent(i) << " ";
+   os.width(4);
+   os << last_child(i) << "    (";
+   os.width(9);
+   os.precision(3);
+   os.setf(std::ios::scientific, std::ios::floatfield);
+   os << hptr->vhep[i][0] << ", ";
+   os.width(9);
+   os.precision(3);
+   os << hptr->vhep[i][0] << ", ";
+   os.width(9);
+   os.precision(3);
+   os << hptr->vhep[i][1] << ", ";
+   os.width(9);
+   os.precision(3);
+   os << hptr->vhep[i][2] << ", ";
+   os.width(9);
+   os.precision(3);
+   os << hptr->vhep[i][3] << ")";
 }
 
 bool CBhepevt::check_hepevt_consistency( std::ostream & os )

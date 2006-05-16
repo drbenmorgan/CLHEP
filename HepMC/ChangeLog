@@ -1,6 +1,7 @@
 2006-05-16  Lynn Garren <garren@fnal.gov>
 
-	* src/GenEvent.cc,src/GenParticle.cc,src/GenVertex.cc : 
+	* src/GenEvent.cc, src/GenParticle.cc, src/GenVertex.cc,
+	  HepMC/CBhepevt.icc, HepMC/CBherwig.icc:
 	  replace sprintf with ios formatting
 
 ==============================
