@@ -4,6 +4,9 @@
 	  HepMC/CBhepevt.icc, HepMC/CBherwig.icc:
 	  replace sprintf with ios formatting
 
+	* test/testPrintBug.cc: new test for formatting
+	  (code supplied by Bob McElrath and Frank Siegert)
+
 ==============================
 21.11.05 Release CLHEP-2.0.2.2
 ==============================

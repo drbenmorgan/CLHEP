@@ -1,16 +1,10 @@
 //
-// Thanks to Bob McElrath for this test
+// Thanks to Bob McElrath and Frank Siegert for this test
 //
 
 #include <fstream>
 
 #include "CLHEP/HepMC/GenEvent.h"
-#include "CLHEP/HepPDT/ParticleDataTable.hh"
-#include "CLHEP/HepPDT/ParticleData.hh"
-#include "CLHEP/HepPDT/DefaultConfig.hh"
-#include "CLHEP/HepPDT/TableBuilder.hh"
-#include "CLHEP/HepPDT/ParticleDataTableT.hh"
-#include "CLHEP/HepPDT/TempParticleData.hh"
 #include "CLHEP/Vector/LorentzVector.h"
 
 int main(int argc,char* argv[]) 
