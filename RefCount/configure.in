@@ -141,7 +141,7 @@ AH_BOTTOM([#endif  // REFCOUNT_DEFS_H])
 # ----------------------------------------------------------------------
 
 # Locate a C++ compiler:
-AC_PROG_CXX(cl g++ c++ aCC CC cxx cc++ FCC KCC RCC xlC_r xlC gpp)
+AC_PROG_CXX(cl g++ g++4 c++ aCC CC cxx cc++ FCC KCC RCC xlC_r xlC gpp)
 
 # Use it hereinafter:
 AC_LANG(C++)
@@ -176,6 +176,27 @@ AC_SUBST(DIFF_Q)
 # worry about compiler flags
 case "$CXX" in
 g++) 
+   case "$target" in
+   *-*-linux*) 
+      AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
+      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
+      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
+      ;;
+   *-*-darwin*) 
+      AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
+      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-dynamiclib -single_module"; SHEXT=dylib
+      MY_SHNAME="-Wl,-install_name,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
+      build_shared="no"
+      ;;
+   *) 
+      AM_CXXFLAGS="-O -ansi -pedantic -Wall"
+      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
+      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
+   esac;;
+g++4) 
    case "$target" in
    *-*-linux*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"

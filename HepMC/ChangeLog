@@ -1,3 +1,12 @@
+2006-05-17  Lynn Garren <garren@fnal.gov>
+
+	* src/GenEvent.cc, src/GenParticle.cc, src/GenVertex.cc,
+	  HepMC/CBhepevt.icc, HepMC/CBherwig.icc:
+	  replace sprintf with ios formatting
+
+	* test/testPrintBug.cc: new test for formatting
+	  (code supplied by Bob McElrath and Frank Siegert)
+
 ==============================
 21.11.05 Release CLHEP-1.9.2.2
 ==============================

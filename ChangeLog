@@ -1,3 +1,7 @@
+2006-05-17  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: add support for g++4
+
 ==============================
 21.11.05 Release CLHEP-1.9.2.2
 ==============================

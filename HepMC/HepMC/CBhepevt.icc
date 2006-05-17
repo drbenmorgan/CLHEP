@@ -3,7 +3,8 @@
 // ----------------------------------------------------------------------
 // Author:  Lynn Garren, Marc Paterno,
 //
-#include <stdio.h>       // needed for formatted output using sprintf 
+#include <iomanip>       // needed for formatted output
+#include <stdio.h>       // needed for sprintf 
 
 namespace HepMC  {
 
@@ -99,15 +100,10 @@ void CBhepevt::printHEPEVT( std::ostream & os )
 
 void CBhepevt::print_legend( std::ostream & os )
 {
-    char outline[81];
-    sprintf( outline,"%4s %4s %4s %5s   %10s, %9s, %9s, %9s, %10s",
-	     "Indx","Stat","Par-","chil-",
-	     "(  P_x","P_y","P_z","Energy","M ) [GeV]");
-    os << outline << std::endl;
-    sprintf( outline,"%9s %4s %4s    %10s, %9s, %9s, %9s) %9s",
-	     "ID ","ents","dren",
-	     "Prod (   X","Y","Z","cT", "[mm]");
-    os << outline << std::endl;
+    os << "Indx Stat Par- chil-       "
+       << "(  P_x,       P_y,       P_z,    Energy,  M ) [GeV]" << std::endl;
+    os << "      ID  ents dren    "
+       << "Prod (   X,         Y,         Z,        cT)      [mm]" << std::endl;
 }	
 
 void CBhepevt::printHEPEVTparticle( int i, std::ostream & os )

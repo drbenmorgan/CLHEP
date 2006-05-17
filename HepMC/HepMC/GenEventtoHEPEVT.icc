@@ -9,7 +9,6 @@
 #include <iostream>
 #include <set>
 #include <vector>
-#include <stdio.h>       // needed for formatted output using sprintf 
 
 namespace HepMC {
 

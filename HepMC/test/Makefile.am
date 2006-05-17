@@ -23,13 +23,13 @@ endif
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
-        testDoubleConversion testRandomState
+        testDoubleConversion testRandomState testPrintBug
 
-#check_SCRIPTS =
+check_SCRIPTS = testPrintBug.sh
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
-        testDoubleConversion testRandomState
+        testDoubleConversion testRandomState testPrintBug.sh
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
@@ -37,9 +37,10 @@ XFAIL_TESTS =
 # Identify the dependencies on a per-test basis:
 testDoubleConversion_SOURCES = testDoubleConversion.cc
 testRandomState_SOURCES      = testRandomState.cc
+testPrintBug_SOURCES         = testPrintBug.cc
 
 # Identify input data file(s) and prototype output file(s):
-#EXTRA_DIST = 
+EXTRA_DIST = testPrintBug.output
 
 # Identify generated file(s) to be removed when 'make clean' is requested:
 CLEANFILES =
