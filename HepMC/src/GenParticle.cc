@@ -216,7 +216,7 @@ namespace HepMC {
 	ostr.width(9);
         ostr.precision(2);
 	ostr << part.momentum().e() << " ";
-        //ostr.unsetf(std::ios::scientific, std::ios::floatfield);
+        ostr.setf(std::ios::fmtflags(0), std::ios::floatfield);
 	ostr.unsetf(std::ios_base::showpos);
 	if ( part.end_vertex() && part.end_vertex()->barcode()!=0 ) {
 	    ostr.width(3);

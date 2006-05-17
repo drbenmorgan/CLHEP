@@ -23,7 +23,7 @@ endif
   CXX = @CXX@
   INCDIR    = -I$(CLHEP_BASE)/include
   HepMCinc  = $(INCDIR)/CLHEP/HepMC
-  PythiaLIB = $(LULIB)/pydata.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
+  PythiaLIB = $(PYLIB)/pydata.o $(PYLIB)/libpythia.a $(PYLIB)/libpydum.a
   HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a $(HERWIG_DIR)/lib/timel.o
   LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-@VERSION@
   LIBS = @AM_LDFLAGS@

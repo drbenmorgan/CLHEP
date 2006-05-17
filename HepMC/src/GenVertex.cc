@@ -148,7 +148,7 @@ namespace HepMC {
 		ostr.width(9);
                 ostr.precision(2);
 		ostr << position().t();
-                //ostr.unsetf(std::ios::scientific, std::ios::floatfield);
+                ostr.setf(std::ios::fmtflags(0), std::ios::floatfield);
 		ostr.unsetf(std::ios_base::showpos);
 	        ostr << std::endl;
 	    } else {
@@ -187,6 +187,7 @@ namespace HepMC {
 		ostr.width(9);
                 ostr.precision(2);
 		ostr << position().t();
+                ostr.setf(std::ios::fmtflags(0), std::ios::floatfield);
 		ostr.unsetf(std::ios_base::showpos);
 	        ostr << std::endl;
 	    } else {
