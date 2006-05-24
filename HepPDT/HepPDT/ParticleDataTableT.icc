@@ -36,7 +36,7 @@ template< class Config >
 typename ParticleDataTableT<Config>::ParticleData const * ParticleDataTableT<Config>::particle( ParticleID key ) const
 { 
   const_iterator cit;
-  int id = key.pid();
+  //int id = key.pid();
   cit = itsMap.find( key );
   if( cit != itsMap.end() ) {
     return & cit->second;
