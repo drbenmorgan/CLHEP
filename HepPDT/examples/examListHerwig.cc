@@ -1,4 +1,3 @@
-// $Id: examListHerwig.cc,v 1.1.4.2 2005/03/15 23:57:31 garren Exp $
 // -------------------------------------------------------------------
 // 
 // List the herwig translation

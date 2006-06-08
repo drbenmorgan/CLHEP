@@ -1,4 +1,3 @@
-// $Id: examListIsajet.cc,v 1.1.4.3 2005/03/17 02:05:56 garren Exp $
 // -------------------------------------------------------------------
 // 
 // List the isajet translation
