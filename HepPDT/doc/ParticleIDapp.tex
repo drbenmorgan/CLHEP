@@ -25,33 +25,18 @@
 
 \begin{document}
 
-\section { ParticleID HEADER}
+\section {ParticleID headers}
 \label{PIDclass}
+
+\subsection {ParticleID.hh}
 
 \begin{tabbing}
 
 {\bf namespace HepPDT} \\  \\
 
 {\bf Free functions:} \\
-\hspace{0.5in}  double spinitod( int js ); \\
-\hspace{0.5in}  int spindtoi( double spin ); \\  \\
-
-{\bf Translation functions:} \\
-\hspace{0.5in} int translatePythiatoPDT( const int pythiaID ); \\
-\hspace{0.5in} int translateIsajettoPDT( const int isajetID ); \\
-\hspace{0.5in} int translateHerwigtoPDT( const int herwigID); \\
-\hspace{0.5in} int translateQQtoPDT( const int qqID); \\
-\hspace{0.5in} int translateGeanttoPDT( const int geantID); \\
-\hspace{0.5in} int translatePDGtabletoPDT( const int pdgID); \\
-\hspace{0.5in} int translateEvtGentoPDT( const int evtGenID ); \\
-
-\hspace{0.5in} int translatePDTtoPythia( const int pid ); \\
-\hspace{0.5in} int translatePDTtoIsajet( const int pid ); \\
-\hspace{0.5in} int translatePDTtoHerwig( const int pid ); \\
-\hspace{0.5in} int translatePDTtoQQ( const int pid ); \\
-\hspace{0.5in} int translatePDTtoGeant( const int pid ); \\
-\hspace{0.5in} int translatePDTtoPDGtable( const int pid ); \\
-\hspace{0.5in} int translatePDTtoEvtGen( const int pid ); \\  \\
+\hspace{0.5in}  {\bf double spinitod( int js ); } \\
+\hspace{0.5in}  {\bf int spindtoi( double spin ); } \\  \\
 
 {\bf Public members:} \\
 \hspace{0.5in}  {\bf enum location } 
@@ -96,6 +81,8 @@
 \hspace{0.5in}  Returns true if the fundamentalID is 11-18. \\ \\
 \hspace{0.5in}  {\bf bool isNucleus( )  const; }\\
 \hspace{0.5in}  Returns true if this integer obeys the ion numbering scheme rules. \\ \\
+\hspace{0.5in}  {\bf bool isPentaquark( )  const; }\\
+\hspace{0.5in}  Returns true if this integer obeys the pentaquark numbering scheme rules. \\ \\
 
 \hspace{0.5in}  {\bf bool hasUp( )      const; }\\
 \hspace{0.5in}  Returns true if this is a valid PID and it has an up quark. \\ \\
@@ -136,12 +123,74 @@
 \hspace{0.5in}  If this is an ion, returns Z.\\ \\
 \hspace{0.5in}  {\bf unsigned short digit(location) const; }\\
 \hspace{0.5in}  digit returns the base 10 digit at a named location in the PID \\ \\
+\hspace{0.5in}  {\bf const std::string PDTname() const; }\\
+\hspace{0.5in}  Returns the HepPDT standard name. \\ \\
 
 {\bf Private Members:} \\
 \hspace{0.5in}  {\bf int itsPID; } \\
 
 \end{tabbing}
 
+\vfill\eject
+
+\subsection {ParticleIDTranslations.hh}
+
+\begin{tabbing}
+
+{\bf namespace HepPDT} \\  \\
+
+{\bf Free functions:} \\
+\hspace{0.5in} {\bf int translatePythiatoPDT( const int pythiaID );} \\
+\hspace{0.5in} {\bf int translatePDTtoPythia( const int pid );} \\  \\
+
+\hspace{0.5in} {\bf int translateIsajettoPDT( const int isajetID );} \\
+\hspace{0.5in} {\bf int translatePDTtoIsajet( const int pid );} \\  \\
+
+\hspace{0.5in} {\bf int translateHerwigtoPDT( const int herwigID);} \\
+\hspace{0.5in} {\bf int translatePDTtoHerwig( const int pid );} \\  \\
+
+\hspace{0.5in} {\bf int translateQQtoPDT( const int qqID);} \\
+\hspace{0.5in} {\bf int translatePDTtoQQ( const int pid );} \\  \\
+
+\hspace{0.5in} {\bf int translateGeanttoPDT( const int geantID);} \\
+\hspace{0.5in} {\bf int translatePDTtoGeant( const int pid );} \\  \\
+
+\hspace{0.5in} {\bf int translatePDGtabletoPDT( const int pdgID);} \\
+\hspace{0.5in} {\bf int translatePDTtoPDGtable( const int pid );} \\  \\
+
+\hspace{0.5in} {\bf int translateEvtGentoPDT( const int evtGenID );} \\
+\hspace{0.5in} {\bf int translatePDTtoEvtGen( const int pid );} \\  \\
+
+\end{tabbing}
+
+\vfill\eject
+
+\subsection {ParticleName.hh}
+
+\begin{tabbing}
+
+{\bf namespace HepPDT} \\  \\
+
+{\bf Free functions:} \\
+
+\hspace{0.5in} {\bf std::string  particleName( const int );} \\
+\hspace{0.5in}  Returns the HepPDT standard name. \\ \\
+
+\hspace{0.5in} {\bf void  listHepPDTParticleNames( std::ostream \& os );} \\
+\hspace{0.5in} List all defined names.  \\ \\
+
+\hspace{0.5in} {\bf bool validParticleName( const int );} \\
+\hspace{0.5in} Verify that this particle ID has a valid name.  \\ \\
+
+\hspace{0.5in} {\bf typedef  std::map$<$ int, std::string $>$  ParticleNameMap;} \\
+\hspace{0.5in} {\bf ParticleNameMap const \&  getParticleNameMap();} \\
+\hspace{0.5in} Access ParticleNameMap for other purposes.  \\
+\end{tabbing}
+
+Only getParticleNameMap is allowed to access ParticleNameMap.
+ParticleNameMap is initalized by the first call to getParticleNameMap.
+Because the map is static, this initialization only happens once.
+We use a data table so that compile time is not impacted.
 
 \vfill\eject
 
