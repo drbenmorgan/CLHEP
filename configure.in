@@ -144,7 +144,6 @@ g++)
       MY_SHFLAGS=""; MY_SHLINK="-dynamiclib -single_module -undefined dynamic_lookup"; SHEXT=dylib
       MY_SHNAME="-Wl,-install_name,"; MY_LD="-bind_at_load -Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
-      build_shared="yes"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
@@ -165,7 +164,6 @@ g++4)
       MY_SHFLAGS=""; MY_SHLINK="-dynamiclib -single_module -undefined dynamic_lookup"; SHEXT=dylib
       MY_SHNAME="-Wl,-install_name,"; MY_LD="-bind_at_load -Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
-      build_shared="yes"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
@@ -186,7 +184,6 @@ c++)
       MY_SHFLAGS=""; MY_SHLINK="-dynamiclib -single_module -undefined dynamic_lookup"; SHEXT=dylib
       MY_SHNAME="-Wl,-install_name,"; MY_LD="-bind_at_load -Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
-      build_shared="yes"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
