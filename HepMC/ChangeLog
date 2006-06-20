@@ -1,3 +1,10 @@
+==============================
+20.06.06 Release CLHEP-1.9.2.3
+==============================
+2006-06-19  Lynn Garren <garren@fnal.gov>
+
+	* test/testPrintBug.sh.in: fix for Windows
+
 2006-05-17  Lynn Garren <garren@fnal.gov>
 
 	* src/GenEvent.cc, src/GenParticle.cc, src/GenVertex.cc,
