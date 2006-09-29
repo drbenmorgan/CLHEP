@@ -1,3 +1,7 @@
+2006-09-29  Lynn Garren <garren@fnal.gov>
+
+	* configure.in. Makefile.am: stop building HepMC, HepPDT, and StdHep
+
 ==============================
 20.06.06 Release CLHEP-1.9.2.3
 ==============================
