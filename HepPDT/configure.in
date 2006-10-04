@@ -270,7 +270,7 @@ icc)
    case "$target" in
    *-*-linux*)
       AM_CXXFLAGS="-O -ansi -mp -no-gcc -w1"
-      AM_LDFLAGS="-lstdc++"
+      AM_LDFLAGS="-lstdc++ -lcxa -lunwind"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="xiar"; ARFLAGS="cru"
