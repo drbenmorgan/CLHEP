@@ -1,3 +1,7 @@
+2006-10-04  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: add flags for the Intel compiler (icc)
+
 2006-09-29  Lynn Garren <garren@fnal.gov>
 
 	* configure.in. Makefile.am: stop building HepMC, HepPDT, and StdHep

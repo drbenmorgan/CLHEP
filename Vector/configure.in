@@ -157,7 +157,7 @@ AH_BOTTOM([#endif  // VECTOR_DEFS_H])
 # ----------------------------------------------------------------------
 
 # Locate a C++ compiler:
-AC_PROG_CXX(cl g++ g++4 c++ aCC CC cxx cc++ FCC KCC RCC xlC_r xlC gpp)
+AC_PROG_CXX(cl icc g++ g++4 c++ aCC CC cxx cc++ FCC KCC RCC xlC_r xlC gpp)
 
 # Use it hereinafter:
 AC_LANG(C++)
@@ -248,6 +248,27 @@ c++)
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
+      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
+   esac;;
+icc)
+   case "$target" in
+   *-*-linux*)
+      AM_CXXFLAGS="-O -ansi -mp -no-gcc -w1"
+      AM_LDFLAGS="-lstdc++ -lcxa -lunwind"
+      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
+      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="xiar"; ARFLAGS="cru"
+      ;;
+   *-*-darwin*)
+      AM_CXXFLAGS="-O -ansi -mp -no-gcc -w1"
+      MY_SHFLAGS=""; MY_SHLINK="-dynamiclib"; SHEXT=dylib
+      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
+      ;;
+   *)
+      AM_CXXFLAGS="-O -ansi -mp -no-gcc -w1"
+      MY_SHFLAGS="-fPIC"; MY_SHLINK="-shared"; SHEXT=so
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
    esac;;
