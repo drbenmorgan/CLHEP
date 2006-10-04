@@ -1,3 +1,8 @@
+2006-10-04  Lynn Garren <garren@fnal.gov>
+
+        * configure.in: add flags for the Intel compiler (icc)
+	Exceptions is not supported for use with icc.
+
 ==============================
 20.06.06 Release CLHEP-1.9.2.3
 ==============================
