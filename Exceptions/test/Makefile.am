@@ -51,6 +51,10 @@ check_SCRIPTS = \
  	excDblThrow.sh
 
 # Identify test(s) to run when 'make check' is requested:
+if USING_ICC
+# Exceptions is not supported for icc
+TESTS = 
+else
 TESTS = \
 	testExceptions.sh 	\
 	testzmex.sh		\
@@ -60,6 +64,7 @@ TESTS = \
 	exctest3.sh 		\
 	exctest4.sh 		\
  	exctestNothrow.sh	
+endif
 
 # 	excDblThrow.sh
 
@@ -75,7 +80,7 @@ exctest2_SOURCES = exctest2.cc
 exctest3_SOURCES = exctest3.cc
 exctest4_SOURCES = exctest4.cc
 exctestNothrow_SOURCES = exctestNothrow.cc	
-excDblThrow_SOURCES = excDblThrow.cc
+#excDblThrow_SOURCES = excDblThrow.cc
 
 # Identify input data file(s) and prototype output file(s):
 #EXTRA_DIST = testExceptions.input testExceptions.output 

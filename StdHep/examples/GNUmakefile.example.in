@@ -14,7 +14,8 @@
   CLHEP_BASE= @prefix@
   CXX = @CXX@
   INCDIR    = -I$(CLHEP_BASE)/include
-  LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-@VERSION@
+  LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-StdHep-@VERSION@ \
+            -lCLHEP-HepMC-@VERSION@ -lCLHEP-HepPDT-@VERSION@ -lCLHEP-@VERSION@
 
 
 ################################################################################ 
