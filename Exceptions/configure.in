@@ -243,7 +243,7 @@ c++)
       AR="ar"; ARFLAGS="cru"
    esac;;
 icc)
-   AM_CONDITIONAL(USING_ICC, test yes)
+   useicc=true
    case "$target" in
    *-*-linux*)
       AM_CXXFLAGS="-O -ansi -mp -no-gcc -w1"
@@ -317,6 +317,7 @@ esac
 AM_CONDITIONAL(BUILD_SHARED, test x$build_shared = xyes)
 AM_CONDITIONAL(BUILD_STATIC, test x$build_static = xyes)
 AM_CONDITIONAL(BUILD_VISUAL, test x$build_visual = xyes)
+AM_CONDITIONAL(USING_ICC, test x$useicc = xtrue)
 
 AC_SUBST(AM_CXXFLAGS)
 AC_SUBST(AM_LDFLAGS)
