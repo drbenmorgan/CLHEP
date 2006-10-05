@@ -23,7 +23,7 @@
   LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-HepPDT-@VERSION@ -lCLHEP-@VERSION@ 
   HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a $(HERWIG_DIR)/lib/timel.o
   IsajetLIB = $(ISAJET_DIR)/isajet.a
-  PythiaLIB = $(LULIB)/pydata.o $(LULIB)/pyr.o $(LULIB)/liblund.a $(LULIB)/libpydum.a
+  PythiaLIB = $(PYLIB)/pydata.o $(PYLIB)/libpythia.a $(PYLIB)/libpydum.a
   INCDIR    = -I$(CLHEP_BASE)/include
   LIBS = @AM_LDFLAGS@
 
