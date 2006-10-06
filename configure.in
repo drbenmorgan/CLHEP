@@ -144,6 +144,12 @@ g++)
       MY_SHNAME="-Wl,-install_name,"; MY_LD="-bind_at_load -Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
       ;;
+   *-*-cygwin*)
+      AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURC"
+      MY_SHFLAGS="-DPIC"; MY_SHLINK="-shared"; SHEXT=so
+      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
+      ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
@@ -156,12 +162,6 @@ g++4)
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
-      AR="ar"; ARFLAGS="cru"
-      ;;
-   *-*-darwin*) 
-      AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
-      MY_SHFLAGS=""; MY_SHLINK="-dynamiclib -single_module -undefined dynamic_lookup"; SHEXT=dylib
-      MY_SHNAME="-Wl,-install_name,"; MY_LD="-bind_at_load -Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
       ;;
    *) 
@@ -182,6 +182,12 @@ c++)
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
       MY_SHFLAGS=""; MY_SHLINK="-dynamiclib -single_module -undefined dynamic_lookup"; SHEXT=dylib
       MY_SHNAME="-Wl,-install_name,"; MY_LD="-bind_at_load -Wl,--rpath -Wl,"
+      AR="ar"; ARFLAGS="cru"
+      ;;
+   *-*-cygwin*)
+      AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURC"
+      MY_SHFLAGS="-DPIC"; MY_SHLINK="-shared"; SHEXT=so
+      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
       ;;
    *) 
