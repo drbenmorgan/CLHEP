@@ -12,12 +12,7 @@ if BUILD_STATIC
 else
 if BUILD_VISUAL
   LDADD = $(top_builddir)/src/CLHEP-@PACKAGE@-@VERSION@.$(SHEXT)
-endif
-if BUILD_CYGWIN
-  LIBS += $(MY_LD)$(top_builddir)/src
-  LDADD = -L$(top_builddir)/src -lCLHEP-@PACKAGE@-@VERSION@
-endif
-if BUILD_UNIX
+else
   LIBS += $(MY_LD)$(top_builddir)/src
   LDADD = $(top_builddir)/src/libCLHEP-@PACKAGE@-@VERSION@.$(SHEXT)
 endif
