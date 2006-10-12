@@ -53,11 +53,18 @@ if BUILD_SHARED
   shareddir = shared
 if BUILD_VISUAL
   lib_shared = CLHEP-Random-@VERSION@.$(SHEXT)
-else
+endif
+if BUILD_UNIX
   lib_shared = libCLHEP-Random-@VERSION@.$(SHEXT)
+endif
+if BUILD_CYGWIN
+  lib_shared_import = libCLHEP-Random-@VERSION@.$(SHEXT).a
+  lib_shared = cygCLHEP-Random-@VERSION@.$(SHEXT)
+  DEPLIBS =
 endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
+  SHLINKEXTRA = @MY_SHLINKEXTRA@
   SHNAME = @MY_SHNAME@
 endif
 if BUILD_STATIC
@@ -77,9 +84,19 @@ $(lib_shared): $(libCLHEP_Random_@VERSION@_so_OBJECTS)
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) /c /Fo$@ $<
-else
+endif
+if BUILD_CYGWIN
 $(lib_shared): $(libCLHEP_Random_@VERSION@_so_OBJECTS)
-	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_Random_@VERSION@_so_OBJECTS) -o $@
+	$(CXXLINK) $(SHLINK) $(SHNAME)$(lib_shared_import) \
+	  $(libCLHEP_Random_@VERSION@_so_OBJECTS) \
+	  $(SHLINKEXTRA) $(DEPLIBS)
+
+$(shareddir)/%.$(OBJEXT): %.cc
+	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<
+endif
+if BUILD_UNIX
+$(lib_shared): $(libCLHEP_Random_@VERSION@_so_OBJECTS)
+	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_Random_@VERSION@_so_OBJECTS)
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<

@@ -185,6 +185,39 @@ AM_CONDITIONAL(USE_GMAKE, test x$use_gmake = xyes)
 AC_SUBST(COPY_P)
 AC_SUBST(DIFF_Q)
 
+# set the platform type
+case "$target" in
+*-*-cygwin*)
+   case "$CXX" in
+   g++) 
+      build_cygwin="yes"
+      ;;
+   c++) 
+      build_cygwin="yes"
+      ;;
+   cl)  
+      build_visual="yes"
+      ;;
+   *)   echo UNEXPECTED CHOICE OF COMILER FOR $target: $CXX
+      build_unix="yes"
+   esac;;
+*-*-win32*)
+   case "$CXX" in
+   cl)  
+      build_visual="yes"
+      ;;
+   *)   echo UNEXPECTED CHOICE OF COMILER FOR $target: $CXX
+      build_unix="yes"
+   esac;;
+*)
+   build_unix="yes"
+esac
+# one, and only one, of these should be true
+AM_CONDITIONAL(BUILD_VISUAL, test x$build_visual = xyes)
+AM_CONDITIONAL(BUILD_CYGWIN, test x$build_cygwin = xyes)
+AM_CONDITIONAL(BUILD_UNIX, test x$build_unix = xyes)
+
+
 # worry about compiler flags
 case "$CXX" in
 g++) 
@@ -204,7 +237,8 @@ g++)
    *-*-cygwin*)
       AM_CXXFLAGS="-O -Wall"
       MY_SHFLAGS="-DPIC"; SHEXT=dll
-      MY_SHLINK="-shared -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--whole-archive -Wl,--no-whole-archive"
+      MY_SHLINK="-shared -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--whole-archive"
+      MY_SHLINKEXTRA="-Wl,--no-whole-archive"
       MY_SHNAME="-Wl,-out-implib="; MY_LD="-Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
       ;;
@@ -283,7 +317,6 @@ cl)
    MY_SHNAME="/OUT:"; MY_LD=" "
    build_static="no"
    build_shared="yes"
-   build_visual="yes"
    CXXFLAGS=" "
    AC_SUBST(CXXFLAGS)
    ;;
@@ -327,12 +360,12 @@ esac
 
 AM_CONDITIONAL(BUILD_SHARED, test x$build_shared = xyes)
 AM_CONDITIONAL(BUILD_STATIC, test x$build_static = xyes)
-AM_CONDITIONAL(BUILD_VISUAL, test x$build_visual = xyes)
 
 AC_SUBST(AM_CXXFLAGS)
 AC_SUBST(AM_LDFLAGS)
 AC_SUBST(MY_SHFLAGS)
 AC_SUBST(MY_SHLINK)
+AC_SUBST(MY_SHLINKEXTRA)
 AC_SUBST(MY_SHNAME)
 AC_SUBST(MY_LD)
 AC_SUBST(SHEXT)
