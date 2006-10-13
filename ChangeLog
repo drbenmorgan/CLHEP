@@ -1,6 +1,13 @@
+2006-10-13  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: build only static libraries when using gcc with cygwin
+
 2006-10-05  Lynn Garren <garren@fnal.gov>
 
 	* configure.in: add flags for the Intel compiler (icc)
+
+2006-09-29  Lynn Garren <garren@fnal.gov>
+
 	* configure.in. Makefile.am: stop building HepMC, HepPDT, and StdHep
 
 ==============================
