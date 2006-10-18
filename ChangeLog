@@ -1,3 +1,6 @@
+==============================
+18.10.06 Release CLHEP-2.0.3.0
+==============================
 2006-10-13  Lynn Garren <garren@fnal.gov>
 
 	* configure.in: build only static libraries when using gcc with cygwin
