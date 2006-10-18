@@ -1,3 +1,6 @@
+==============================
+18.10.06 Release CLHEP-1.9.3.0
+==============================
 2006-10-04  Lynn Garren <garren@fnal.gov>
 
         * configure.in: add flags for the Intel compiler (icc)
