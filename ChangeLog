@@ -1,3 +1,8 @@
+2006-11-15  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: change ordering of possible C++ compilers so that
+	                g++ remains the default compiler if icc is in the path
+
 ==============================
 18.10.06 Release CLHEP-2.0.3.0
 ==============================
