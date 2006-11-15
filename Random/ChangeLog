@@ -1,3 +1,6 @@
+==============================
+15.11.06 Release CLHEP-1.9.3.1
+==============================
 2006-11-15  Mark Fischler <mf@fnal.gov>
 
 	* Random/src/MTwistEngine.cc: improve seeding method
