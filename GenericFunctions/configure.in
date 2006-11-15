@@ -158,7 +158,7 @@ AH_BOTTOM([/*  use correct std::ios_base or std::ios (old) */
 # ----------------------------------------------------------------------
 
 # Locate a C++ compiler:
-AC_PROG_CXX(cl icc g++ g++4 c++ aCC CC cxx cc++ FCC KCC RCC xlC_r xlC gpp)
+AC_PROG_CXX(cl g++ g++4 c++ icc aCC CC cxx cc++ FCC KCC RCC xlC_r xlC gpp)
 
 # Use it hereinafter:
 AC_LANG(C++)
