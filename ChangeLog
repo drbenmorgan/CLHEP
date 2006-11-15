@@ -1,3 +1,6 @@
+==============================
+15.11.06 Release CLHEP-2.0.3.1
+==============================
 2006-11-15  Lynn Garren <garren@fnal.gov>
 
 	* configure.in: change ordering of possible C++ compilers so that
