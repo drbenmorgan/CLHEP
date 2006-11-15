@@ -1,4 +1,4 @@
-// $Id: MTwistEngine.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
+// $Id: MTwistEngine.cc,v 1.4.4.3 2006/11/15 17:23:01 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -32,6 +32,10 @@
 //                  getState() for anonymous restores           12/27/04    
 // M. Fischler    - put/get for vectors of ulongs		3/14/05
 // M. Fischler    - State-saving using only ints, for portability 4/12/05
+// M. Fischler    - Improved seeding in setSeed  (Savanah bug #17479) 11/15/06
+//		  - (Possible optimization - now that the seeding is improved,
+//		    is it still necessary for ctor to "warm up" by discarding
+//		    2000 iterations?)
 //		    
 // =======================================================================
 
@@ -164,15 +168,31 @@ void MTwistEngine::flatArray( const int size, double *vect ) {
 }
 
 void MTwistEngine::setSeed(long seed, int k) {
+
+  // MF 11/15/06 - Change seeding algorithm to a newer one recommended 
+  //               by Matsumoto: The original algorithm was 
+  //		   mt[i] = (69069 * mt[i-1]) & 0xffffffff and this gives
+  //		   problems when the seed bit pattern has lots of zeros
+  //		   (for example, 0x08000000).  Savanah bug #17479.
+
   theSeed = seed ? seed : 4357;
-  mt[0] = (unsigned int)theSeed;
-  int i;
-  for( i=1; i < 624; ++i ) {
-    mt[i] = (69069 * mt[i-1]) & 0xffffffff;
+  int mti;
+  const int N=624;
+  mt[0] = (unsigned int) (theSeed&0xffffffffUL);
+  for (mti=1; mti<N; mti++) {
+    mt[mti] = (1812433253UL * (mt[mti-1] ^ (mt[mti-1] >> 30)) + mti); 
+        /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
+        /* In the previous versions, MSBs of the seed affect   */
+        /* only MSBs of the array mt[].                        */
+        /* 2002/01/09 modified by Makoto Matsumoto             */
+    mt[mti] &= 0xffffffffUL;
+        /* for >32 bit machines */
   }
-  for( i=1; i < 624; ++i ) {
+  for( int i=1; i < 624; ++i ) {
     mt[i] ^= k;			// MF 9/16/98: distinguish starting points
   }
+  // MF 11/15/06 This distinction of starting points based on values of k
+  //             is kept even though the seeding algorithm itself is improved.
 }
 
 void MTwistEngine::setSeeds(const long *seeds, int k) {
