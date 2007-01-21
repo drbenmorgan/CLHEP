@@ -14,6 +14,8 @@ pkginclude_HEADERS = \
 	Abs.hh         \
 	AbsParameter.hh         \
 	ACos.hh         \
+	Airy.hh         \
+	Airy.icc        \
 	AnalyticConvolution.hh         \
 	Argument.hh         \
 	ArgumentList.hh         \
@@ -63,11 +65,14 @@ pkginclude_HEADERS = \
 	GenericFunctions.hh         \
 	IncompleteGamma.hh         \
 	Landau.hh         \
+	Legendre.hh         \
+	Legendre.icc         \
 	LikelihoodFunctional.hh         \
 	Ln.hh         \
 	LogGamma.hh         \
 	LogisticFunction.hh         \
 	Mod.hh         \
+	ParameterComposition.hh         \
 	ParameterDifference.hh         \
 	Parameter.hh         \
 	ParameterNegation.hh         \
@@ -93,6 +98,8 @@ pkginclude_HEADERS = \
 	SphericalNeumann.icc	\
 	Sqrt.hh         \
 	Square.hh         \
+	SymToArgAdaptor.hh \
+	SymToArgAdaptor.icc \
 	Tan.hh         \
 	TrivariateGaussian.hh         \
 	Variable.hh         \

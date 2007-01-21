@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: AbsFunction.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
+// $Id: AbsFunction.cc,v 1.4 2007/01/21 20:20:41 boudreau Exp $
 #include "CLHEP/GenericFunctions/AbsFunction.hh"
 #include "CLHEP/GenericFunctions/ConstTimesFunction.hh"
 #include "CLHEP/GenericFunctions/ConstOverFunction.hh"
@@ -17,6 +17,7 @@
 #include "CLHEP/GenericFunctions/FunctionNumDeriv.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include "CLHEP/GenericFunctions/FunctionNoop.hh"
+#include "CLHEP/GenericFunctions/ParameterComposition.hh"
 #include <assert.h>
 namespace Genfun {
 AbsFunction::AbsFunction() {
@@ -32,6 +33,10 @@ AbsFunction *AbsFunction::clone() const {
 
 FunctionComposition AbsFunction::operator () (const AbsFunction &function) const {
   return FunctionComposition(this, &function);
+}
+
+ParameterComposition AbsFunction::operator() (const AbsParameter &p) const {
+  return ParameterComposition(this, &p);
 }
 
 Derivative AbsFunction::partial(unsigned int index) const {

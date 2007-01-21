@@ -56,6 +56,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	LogisticFunction.cc       \
 	Mod.cc       \
 	Parameter.cc       \
+	ParameterComposition.cc       \
 	ParameterDifference.cc       \
 	ParameterNegation.cc       \
 	ParameterProduct.cc       \

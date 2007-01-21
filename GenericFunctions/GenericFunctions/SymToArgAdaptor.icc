@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // $Id:
-#include "SymToArgAdaptor.h"
+#include "SymToArgAdaptor.hh"
 #include <assert.h>
 #include <iostream>
 #include <cfloat>
@@ -11,70 +11,71 @@ namespace Genfun {
 //FUNCTION_OBJECT_IMP(SymToArgAdaptor) Do it by hand here:
 
 template <class F>
+inline
 FunctionComposition SymToArgAdaptor<F>::operator()(const AbsFunction & function) const
 {                                            
   return AbsFunction::operator() (function); 
 }     
                  
 template <class F>                      
+inline
 SymToArgAdaptor<F> *SymToArgAdaptor<F>::clone () const {       
   return (SymToArgAdaptor<F> *) _clone();             
 }
                                             
 template <class F>                      
+inline
 AbsFunction *SymToArgAdaptor<F>::_clone () const {    
   return new SymToArgAdaptor<F>(*this);                       
 }
-
-
+template <class F>
+inline
+ParameterComposition SymToArgAdaptor<F>::operator()(const AbsParameter & p) const
+{                                            \
+  return AbsFunction::operator() (p);        \
+}      
 
 template<class F> 
-SymToArgAdaptor<F>::SymToArgAdaptor(const F        &function,
+inline
+SymToArgAdaptor<F>::SymToArgAdaptor(F        &function,
 				    const AbsFunction & f_expression,
 				    SymToArgAdaptor<F>::ScopedMethodPtr parameterFetchMethod,
-	                            const AbsFunction * p_expression,
-				    SymToArgAdaptor<F>::ScopedMethodPtr parameterFetchMethodII,
-	                            const AbsFunction * p_expressionII):
+	                            const AbsFunction * p_expression):
+
   _function(function.clone()),
   _f_expression(f_expression.clone()),
   _parameterFetchMethod(parameterFetchMethod),
-  _p_expression(p_expression->clone()),
-  _parameterFetchMethodII(parameterFetchMethodII),
-  _p_expressionII(p_expressionII->clone())
+  _p_expression(p_expression->clone())
 
 {
   _parameterFetchMethod(*_function).setLowerLimit(-DBL_MAX);
   _parameterFetchMethod(*_function).setUpperLimit(+DBL_MAX);
-  _parameterFetchMethodII(*_function).setLowerLimit(-DBL_MAX);
-  _parameterFetchMethodII(*_function).setUpperLimit(+DBL_MAX);
   assert(f_expression.dimensionality()==p_expression->dimensionality());
 }
 
 template <class F>
+inline
 SymToArgAdaptor<F>::~SymToArgAdaptor() {
   delete _function;
   delete _f_expression;
   delete _p_expression;
-  delete _p_expressionII;
 }
 
 template <class F>
+inline
 SymToArgAdaptor<F>::SymToArgAdaptor(const SymToArgAdaptor & right):
   _function(right._function->clone()),
   _f_expression(right._f_expression->clone()),
   _parameterFetchMethod(right._parameterFetchMethod),
-  _p_expression(right._p_expression->clone()),
-  _parameterFetchMethodII(right._parameterFetchMethodII),
-  _p_expressionII(right._p_expressionII==NULL ? NULL : right._p_expressionII->clone())
+  _p_expression(right._p_expression->clone())
 {
   _parameterFetchMethod(*_function).setLowerLimit(-DBL_MAX);
   _parameterFetchMethod(*_function).setUpperLimit(+DBL_MAX);
-  _parameterFetchMethodII(*_function).setLowerLimit(-DBL_MAX);
-  _parameterFetchMethodII(*_function).setUpperLimit(+DBL_MAX);
 }
 
 
 template <class F>
+inline
 double SymToArgAdaptor<F>::operator ()(double x) const
 {
   std::cerr
@@ -85,11 +86,13 @@ double SymToArgAdaptor<F>::operator ()(double x) const
 }
 
 template <class F>
+inline
 unsigned int SymToArgAdaptor<F>::dimensionality() const {
   return _f_expression->dimensionality();
 }
 
 template <class F> 
+inline
 double SymToArgAdaptor<F>::operator() (const Argument & a) const {
   if (dimensionality()!= a.dimension()) {
     std::cerr
@@ -105,10 +108,6 @@ double SymToArgAdaptor<F>::operator() (const Argument & a) const {
   // Then set the associated parameter:
   (_parameterFetchMethod(*_function)).setValue(pVal);
   
-  // If there is a another parameter then set it too:
-  double pVal2=(*_p_expressionII) (a);
-  (_parameterFetchMethodII(*_function)).setValue(pVal2);
-   
   // Now evaluate the function:
   return (*_function)((*_f_expression) (a));
 }

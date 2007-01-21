@@ -21,7 +21,6 @@ Bessel::Bessel(Type type, unsigned int order):
 }
 
 inline
-inline
 Bessel::~Bessel() {
 }
 

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: AbsFunction.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
+// $Id: AbsFunction.hh,v 1.3 2007/01/21 20:20:40 boudreau Exp $
 //------------------------AbsFunction-----------------------------------//
 //                                                                      //
 //  AbsFunction, base class for function objects                        //
@@ -37,6 +37,7 @@ namespace Genfun {
   class FunctionNumDeriv;
   class Variable;
   class FunctionNoop;
+  class ParameterComposition;
 
   typedef FunctionNoop Derivative;
 
@@ -70,6 +71,9 @@ namespace Genfun {
     // Function composition.  Do not attempt to override:
     virtual FunctionComposition operator () (const AbsFunction &f) const;
     
+    // Parameter composition.  Do not attempt to override:
+    virtual ParameterComposition operator() ( const AbsParameter &p) const;
+
     // Derivative, (All functions)  (do not override)
     Derivative derivative(const Variable &v) const;
 
@@ -143,7 +147,8 @@ typedef const AbsFunction & GENFUNCTION;
 
 #define FUNCTION_OBJECT_DEF(classname) \
 public:                                \
-  virtual FunctionComposition operator()(const AbsFunction &function) const; \
+  virtual FunctionComposition  operator()(const AbsFunction  &function) const; \
+  virtual ParameterComposition operator()(const AbsParameter &p) const; \
   classname *clone() const;            \
 private:                               \
   virtual AbsFunction *_clone() const;
@@ -157,6 +162,10 @@ private:                               \
 FunctionComposition classname::operator()(const AbsFunction & function) const\
 {                                            \
   return AbsFunction::operator() (function); \
+}                                            \
+ParameterComposition classname::operator()(const AbsParameter & p) const\
+{                                            \
+  return AbsFunction::operator() (p);        \
 }                                            \
 classname *classname::clone () const {       \
   return (classname *) _clone();             \
@@ -183,5 +192,6 @@ AbsFunction *classname::_clone () const {    \
 #include "CLHEP/GenericFunctions/FunctionPlusParameter.hh"
 #include "CLHEP/GenericFunctions/FunctionTimesParameter.hh"
 #include "CLHEP/GenericFunctions/FunctionNoop.hh"
+#include "CLHEP/GenericFunctions/ParameterComposition.hh"
 
 #endif
