@@ -65,6 +65,7 @@ pkginclude_HEADERS = \
 	GenericFunctions.hh         \
 	IncompleteGamma.hh         \
 	Landau.hh         \
+	KroneckerDelta.hh \
 	Legendre.hh         \
 	Legendre.icc         \
 	LikelihoodFunctional.hh         \

@@ -49,6 +49,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	FunctionTimesParameter.cc       \
 	Gaussian.cc       \
 	IncompleteGamma.cc       \
+	KroneckerDelta.cc    \
 	Landau.cc       \
 	LikelihoodFunctional.cc       \
 	Ln.cc       \
