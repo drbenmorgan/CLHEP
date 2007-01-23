@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: AnalyticConvolution.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
+// $Id: AnalyticConvolution.cc,v 1.4 2007/01/23 21:09:24 boudreau Exp $
 #include "CLHEP/GenericFunctions/AnalyticConvolution.hh"
 #include "CLHEP/GenericFunctions/Gaussian.hh"
 #include "CLHEP/GenericFunctions/Exponential.hh"
@@ -68,7 +68,7 @@ double AnalyticConvolution::operator() (double argument) const {
   double freq   = _frequency.getValue();
  
   // smeared exponential an its asymmetry.
-  double expG=0, asymm=0;  
+  double expG=0.0, asymm=0.0;  
   
   if (_type==SMEARED_NEG_EXP) {
     expG = exp((sigma*sigma +2*tau*(/*offset*/x))/(2.0*tau*tau)) * 
@@ -93,6 +93,14 @@ double AnalyticConvolution::operator() (double argument) const {
   // this instead: 
   if (sigma>6.0*tau) {
     asymm = expG*(1/(1+tau*tau*freq*freq));
+  }
+  else if (sigma==0.0) {
+    if (_type==SMEARED_COS_EXP|| _type==MIXED || _type==UNMIXED ) {
+      if (x>=0) asymm=  (expG*cos(freq*x));
+    }
+    else if (_type==SMEARED_SIN_EXP) {
+      if (x>=0) asymm= (expG*sin(freq*x));
+    } 
   }
   else {
     std::complex<double> z(freq*sigma/sqrtTwo, (sigma/tau-x/sigma)/sqrtTwo);
