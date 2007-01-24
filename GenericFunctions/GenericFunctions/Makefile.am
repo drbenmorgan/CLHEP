@@ -62,6 +62,8 @@ pkginclude_HEADERS = \
 	FunctionSum.hh         \
 	FunctionTimesParameter.hh         \
 	Gaussian.hh         \
+	Gamma.hh         \
+	GammaDistribution.hh         \
 	GenericFunctions.hh         \
 	IncompleteGamma.hh         \
 	Landau.hh         \

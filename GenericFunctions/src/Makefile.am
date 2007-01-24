@@ -48,6 +48,8 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	FunctionSum.cc       \
 	FunctionTimesParameter.cc       \
 	Gaussian.cc       \
+	GammaDistribution.cc       \
+	Gamma.cc       \
 	IncompleteGamma.cc       \
 	KroneckerDelta.cc    \
 	Landau.cc       \
