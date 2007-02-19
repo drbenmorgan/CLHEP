@@ -3,16 +3,97 @@
 // TableBuilderIsajetT.icc
 // Author: Lynn Garren
 //
+//  Isajet provides a decay table, but you need to export the particle list
+//  with CALL PRTLST(...) [see the isajet manual]
 // ----------------------------------------------------------------------
 
 
 namespace HepPDT {
 
 
+bool getIsajetID( int & id, const std::string & pdline );
+void parseIsajetLine( TempParticleData & tpd, const std::string & pdline );
+template< class Config >
+void parseIsajetDecayLine( TempParticleData & tpd, const std::string & pdline, TableBuilderT<Config> & tb );
+
 template< class Config >
 bool  addIsajetParticles( std::istream & pdfile, TableBuilderT<Config> & tb )
 {
+  // this function should only be called on isaparticles.dat, not on isadecay.dat
+  std::string pdline;
+  int id, isaid;
+  // read and parse each line
+  while( std::getline( pdfile, pdline) ) {
+    if( getIsajetID( isaid, pdline ) ) {
+          // this is a new particle definition
+          id = translateIsajettoPDT( isaid );
+          TempParticleData& tpd = tb.getParticleData( ParticleID( id ) );
+          parseIsajetLine( tpd, pdline );
+    }
+  }
+  std::cout << "found " << tb.size() << " particles" << std::endl;
   return true;
+}
+
+template< class Config >
+bool  addIsajetDecay( std::istream & pdfile, TableBuilderT<Config> & tb )
+{
+  // this function should only be called on isadecay.dat, not on isaparticles.dat
+  std::string pdline;
+  int id, isaid;
+  int count = 0;
+  // read and parse each line
+  while( std::getline( pdfile, pdline) ) {
+    if( getIsajetID( isaid, pdline ) ) {
+          // decay info
+          id = translateIsajettoPDT( isaid );
+          TempParticleData& tpd = tb.getParticleData( ParticleID( id ) );
+          parseIsajetDecayLine( tpd, pdline, tb );
+	  ++count;
+    }
+  }
+  std::cout << "found " << count << " decay lines" << std::endl;
+  return true;
+}
+
+template< class Config >
+void parseIsajetDecayLine( TempParticleData & tpd, const std::string & pdline, TableBuilderT<Config> & tb )
+{
+    // check for valid TempParticleData
+    if( tpd.tempID.pid() == 0 ) { return; }
+    int isaid, dc, id;
+    int comma;
+    TempDecayData tdd;
+    int sl = pdline.length();
+    std::string dname;
+    //std::cout << "parsing " << pdline << std::endl;
+    // have to deal with commas
+    int i = 0;
+    int idx = 0;
+    while( i < sl ) {
+        comma = pdline.substr(i,16).find(",");
+	if( comma <= 0 ) comma = sl-i-1;
+        std::istringstream part( pdline.substr(i,comma).c_str() );
+	if(idx == 0 ) {
+	  part >> isaid;
+	} else if(idx == 1 ) {
+          part >> tdd.tempDecayName;
+	} else if(idx == 2 ) {
+	  part >> tdd.tempBranchingFraction;
+	} else {
+	  part >> dc;
+          id = translateIsajettoPDT( dc );
+          TempParticleData& tpd = tb.getParticleData( ParticleID( id ) );
+          tdd.tempDaughterList.push_back( tpd.tempParticleName );
+	}
+	i += comma;
+	++i;
+	++idx;
+    }
+    //  std::cout << " decay parameters " << isaid << " " <<  tdd.tempDecayName
+    //       << " " << tdd.tempBranchingFraction 
+    //	 << std::endl;
+    tpd.tempDecayList.push_back( tdd );
 }
 
 }  // namespace HepPDT
