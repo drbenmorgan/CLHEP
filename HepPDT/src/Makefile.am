@@ -21,6 +21,7 @@ libCLHEP_HepPDT_@VERSION@_a_SOURCES = \
 	listPythiaTranslation.cc	\
 	listPDGTranslation.cc	\
 	addEvtGenParticles.cc	\
+	addIsajetParticles.cc	\
 	addPDGParticles.cc	\
 	addPythiaParticles.cc	\
 	addQQParticles.cc	\
@@ -29,6 +30,7 @@ libCLHEP_HepPDT_@VERSION@_a_SOURCES = \
 	digit.cc		\
 	extraBits.cc		\
 	fundamentalID.cc	\
+	getIsajetID.cc		\
 	getPDGpid.cc		\
 	getPythiaid.cc		\
 	hasMethods.cc		\
