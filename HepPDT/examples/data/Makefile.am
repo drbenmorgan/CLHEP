@@ -9,6 +9,8 @@ EXTRA_DIST = \
     decay.dec \
     DECAY.EvtGen.DEC \
     evt.pdl \
+    isadecay.dat \
+    isaparticles.dat \
     pdt.table \
     pythia.tbl
 
