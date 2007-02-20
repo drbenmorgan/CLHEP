@@ -1,7 +1,7 @@
 
 HepPDT-ParticleDataTable-begin
              *****  ParticleDataTable  *****
-             HepPDT Version: 1.02.01
+             HepPDT Version: 1.02.02
              Table Name : PDG Table
                   ( 251 entries )
 PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L  MASS                       WIDTH                    LOW CUT    HIGH CUT      LIFETIME
@@ -264,7 +264,7 @@ pi0                          111       0     0    0    0    0  1.34977e-01+/-6.0
 
 HepPDT-ParticleDataTable-Particle-Information-begin
              *****  ParticleDataTable  *****
-             HepPDT Version: 1.02.01
+             HepPDT Version: 1.02.02
              Table Name : PDG Table
                   ( 251 entries )
 PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L  MASS                       WIDTH                    LOW CUT    HIGH CUT      LIFETIME
