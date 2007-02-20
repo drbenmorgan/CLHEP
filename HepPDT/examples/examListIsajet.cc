@@ -12,6 +12,7 @@
  
 #include "CLHEP/HepPDT/ParticleName.hh"
 #include "CLHEP/HepPDT/ParticleID.hh"
+#include "CLHEP/HepPDT/Version.hh"
 
 extern "C" {
     void list_isajet_init_ ( );
@@ -33,6 +34,7 @@ int main()
         std::cout << "error opening output file"  << std::endl;
         exit(1);
     }
+    HepPDT::writeVersion(os);
 
     os << "      " << title << std::endl;
     

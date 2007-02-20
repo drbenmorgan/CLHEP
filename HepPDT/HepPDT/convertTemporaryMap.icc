@@ -57,7 +57,7 @@ void ParticleDataTableT<Config>::convertTemporaryMap( TempMap & tempPDT, std::os
     thisPD->setDecayData( did );
     
   }
-  os << "your PDT has been built" << std::endl;
+  os << "PDT " << tableName() << " has been built" << std::endl;
 }
 
 }	// HepPDT

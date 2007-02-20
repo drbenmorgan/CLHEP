@@ -42,8 +42,8 @@ ifdef HERWIG_DIR
     INCDIR += -I$(HERWIG_DIR)/src
 endif
 
-ifdef LUND_DIR
-    INCDIR += -I$(LUND_DIR)/src/inc
+ifdef PYTHIA_DIR
+    INCDIR += -I$(PYTHIA_DIR)/src/inc
 endif
 
 ifeq "$(CXX)" "g++"

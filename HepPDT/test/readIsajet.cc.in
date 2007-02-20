@@ -31,7 +31,7 @@ int main()
     char decaydat[300] = "@top_srcdir@/examples/data/isadecay.dat";
     const char outfile[] = "readIsajet.out";
     // construct empty PDT
-    DefaultConfig::ParticleDataTable datacol( "PDG Table" );
+    DefaultConfig::ParticleDataTable datacol( "Isajet Table" );
     {
 	// open input files
 	std::ifstream pdfile( pdgfile );
