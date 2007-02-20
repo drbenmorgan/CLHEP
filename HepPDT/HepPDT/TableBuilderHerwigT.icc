@@ -15,7 +15,7 @@ bool  addHerwigParticles( std::istream & pdfile, TableBuilderT<Config> & tb )
   // this is a dummy routine 
   // Herwig does not provide any output of its particle definitions
   int id = 111;
-  count = 0;
+  int count = 0;
   std::string pdline;
   // read and parse each line
   while( std::getline( pdfile, pdline) ) {

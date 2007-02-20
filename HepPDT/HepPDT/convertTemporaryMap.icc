@@ -8,7 +8,7 @@
 namespace HepPDT {
 
 template< class Config >
-void ParticleDataTableT<Config>::convertTemporaryMap( TempMap & tempPDT, std::ostream & err )
+void ParticleDataTableT<Config>::convertTemporaryMap( TempMap & tempPDT, std::ostream & os )
 {
   TempMap::iterator cit;
   // need an empty DecayData
@@ -40,7 +40,7 @@ void ParticleDataTableT<Config>::convertTemporaryMap( TempMap & tempPDT, std::os
 	  if( dtr ) { 
 	      decaylist.push_back( dtr ); 
 	  //} else {
-	  //    err << " cannot find match for decay product " 
+	  //    os << " cannot find match for decay product " 
 	  //        << tdd.tempDaughterList[i] << std::endl;
 	  }
       }
@@ -57,6 +57,7 @@ void ParticleDataTableT<Config>::convertTemporaryMap( TempMap & tempPDT, std::os
     thisPD->setDecayData( did );
     
   }
+  os << "your PDT has been built" << std::endl;
 }
 
 }	// HepPDT
