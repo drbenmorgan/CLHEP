@@ -1,7 +1,11 @@
+pi0                          111       0     0    0    0    0  1.34980e-01+/-0.00000e+00  2.1940e-20+/-0.0000e+00  0.0000e+00 0.0000e+00    3.0000e-05+/-0.0000e+00
+          0 0.988 gamma gamma
+          2 0.012 gamma e- e+
+muon mass: 0.10566
 
 HepPDT-ParticleDataTable-begin
              *****  ParticleDataTable  *****
-             HepPDT Version: 1.02.01
+             HepPDT Version: 1.02.03
              Table Name : Pythia Table
                   ( 529 entries )
 PARTICLE NAME                 ID  CHARGE COLOR SPIN: J  S   L  MASS                       WIDTH                    LOW CUT    HIGH CUT      LIFETIME

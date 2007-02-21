@@ -22,7 +22,7 @@
   CXX = @CXX@
   LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-HepPDT-@VERSION@ -lCLHEP-@VERSION@ 
   HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a $(HERWIG_DIR)/lib/timel.o
-  IsajetLIB = $(ISAJET_DIR)/isajet.a
+  IsajetLIB = $(ISAJET_DIR)/libisajet.a
   PythiaLIB = $(PYLIB)/pydata.o $(PYLIB)/libpythia.a $(PYLIB)/libpydum.a
   INCDIR    = -I$(CLHEP_BASE)/include
   LIBS = @AM_LDFLAGS@
@@ -42,8 +42,8 @@ ifdef HERWIG_DIR
     INCDIR += -I$(HERWIG_DIR)/src
 endif
 
-ifdef LUND_DIR
-    INCDIR += -I$(LUND_DIR)/src/inc
+ifdef PYTHIA_DIR
+    INCDIR += -I$(PYTHIA_DIR)/src/inc
 endif
 
 ifeq "$(CXX)" "g++"

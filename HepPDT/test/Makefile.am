@@ -20,7 +20,7 @@ endif
 # Identify executables needed during testing:
 check_PROGRAMS = \
         testPID testHepPDT listQQTranslation listParticleNames \
-	listPythiaNames listPDGNames
+	listPythiaNames listPDGNames readIsajet
 
 check_SCRIPTS = \
         testPID.sh testHepPDT.sh testHepPDT.input \
@@ -30,7 +30,7 @@ check_SCRIPTS = \
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
         testPID.sh testHepPDT.sh listQQTranslation.sh listParticleNames.sh \
-	listPythiaNames.sh listPDGNames.sh
+	listPythiaNames.sh listPDGNames.sh readIsajet
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
@@ -39,6 +39,8 @@ XFAIL_TESTS =
 testPID_SOURCES = testPID.cc
 
 testHepPDT_SOURCES = testHepPDT.cc
+
+readIsajet_SOURCES = readIsajet.cc
 
 listQQTranslation_SOURCES = listQQTranslation.cc
 

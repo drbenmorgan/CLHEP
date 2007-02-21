@@ -43,9 +43,10 @@ int main()
       exit(-1);
     }
     DefaultConfig::ParticleData * pd = datacol.particle( HepPDT::ParticleID(111) );
-    //pd->write(wpdfile);
+    pd->write(wpdfile);
     //datacol.particle( HepPDT::ParticleID(213) )->write(wpdfile);
     double mumass = datacol.particle( HepPDT::ParticleID(13) )->mass();
+    wpdfile << "muon mass: " << mumass << std::endl;
     datacol.writeParticleData(wpdfile);
     
     return 0;

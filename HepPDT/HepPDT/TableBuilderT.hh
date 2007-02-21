@@ -113,6 +113,10 @@ bool  addIsajetParticles( std::istream & pdfile, TableBuilderT<Config> & tb );
 
 template< class Config >
 inline
+bool  addIsajetDecay( std::istream & pdfile, TableBuilderT<Config> & tb );
+
+template< class Config >
+inline
 bool  addQQParticles( QQDecayTable & qd, TableBuilderT<Config> & tb );
 
 template< class Config >

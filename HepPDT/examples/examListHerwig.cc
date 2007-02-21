@@ -12,6 +12,7 @@
  
 #include "CLHEP/HepPDT/ParticleName.hh"
 #include "CLHEP/HepPDT/ParticleID.hh"
+#include "CLHEP/HepPDT/Version.hh"
 
 extern "C" {
     void list_herwig_init_ ( int * nevt );
@@ -40,6 +41,7 @@ int main()
         std::cout << "error opening output file"  << std::endl;
         exit(1);
     }
+    HepPDT::writeVersion(os);
 
     get_list_size_( & isize );
     os << "      " << title << std::endl;

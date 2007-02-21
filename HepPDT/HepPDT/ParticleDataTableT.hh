@@ -73,7 +73,7 @@ public:
   void writeParticleData( std::ostream & outstr );
   void writeParticleInfo( std::ostream & outstr );
   
-  void convertTemporaryMap( TempMap & tempPDT, std::ostream & err );
+  void convertTemporaryMap( TempMap & tempPDT, std::ostream & os );
 
   DDID addDecayData( DecayData const & d );
 

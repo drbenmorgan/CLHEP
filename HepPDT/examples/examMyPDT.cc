@@ -56,6 +56,8 @@ int main()
         std::cout << "ERROR: particle is not in particle data table" << std::endl;
     }
     pd = datacol[ HepPDT::ParticleID(-24) ];
+    // we expect this next line to produce an error
+    std::cout << "the error is expected" << std::endl;
     if( datacol[ HepPDT::ParticleID(111) ] )  {
         std::cout << "particle " << datacol[ HepPDT::ParticleID(111) ]->name() << " is defined" << std::endl;
     } else { 

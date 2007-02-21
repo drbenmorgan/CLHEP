@@ -9,6 +9,7 @@
 #include <fstream>
 
 #include "CLHEP/HepPDT/TranslationList.hh"
+#include "CLHEP/HepPDT/Version.hh"
 
 extern "C" {
     void list_pythia_ ( );
@@ -30,6 +31,7 @@ int main()
       std::cerr << "cannot open " << outfile << std::endl;
       exit(-1);
     }
+    HepPDT::writeVersion(os);
     // get Pythia listing using the fortran pylist function
     // write the output of pylist to examListPythia.lpt
     list_pythia_();
