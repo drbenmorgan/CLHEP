@@ -1,3 +1,8 @@
+2006-06-19  Lynn Garren <garren@fnal.gov>
+
+	* HepMC/include/PythiaWrapper6_152.h,PythiaWrapper6_2.h:
+	  inline the method definitions to avoid conflicts
+
 ==============================
 15.11.06 Release CLHEP-1.9.3.1
 ==============================
