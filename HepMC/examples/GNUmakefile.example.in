@@ -25,7 +25,7 @@ endif
   HepMCinc  = $(INCDIR)/CLHEP/HepMC
   PythiaLIB = $(PYLIB)/pydata.o $(PYLIB)/libpythia.a $(PYLIB)/libpydum.a
   HerwigLIB = $(HERWIG_DIR)/lib/libherwig.a $(HERWIG_DIR)/lib/libherdum.a $(HERWIG_DIR)/lib/timel.o
-  LIBNAME = -L$(CLHEP_BASE)/lib -lCLHEP-@VERSION@
+  LIBNAME = -L$(CLHEP_BASE)/lib  -lCLHEP-HepMC-@VERSION@  -lCLHEP-HepPDT-@VERSION@ -lCLHEP-@VERSION@
   LIBS = @AM_LDFLAGS@
 
 ################################################################################ 
