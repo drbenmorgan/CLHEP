@@ -1,3 +1,6 @@
+==============================
+18.10.07 Release CLHEP-1.9.3.2
+==============================
 2007-10-18  Mark Fischler <mf@fnal.gov>
 
 	* RandPoissonQ.cc:  Change fire(mena) to call 
