@@ -1,3 +1,10 @@
+2007-10-18  Mark Fischler <mf@fnal.gov>
+
+	* RandPoissonQ.cc:  Change fire(mena) to call 
+	  		    shoot(theLocalEngine(),mean) instead of
+			    shoot(mean), which had caused "cross-talk" between
+			    modules that should not have affected eah other.
+
 ==============================
 15.11.06 Release CLHEP-2.0.3.1
 ==============================

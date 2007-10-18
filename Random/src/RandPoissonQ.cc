@@ -1,4 +1,4 @@
-// $Id: RandPoissonQ.cc,v 1.4.4.3 2005/04/15 16:32:53 garren Exp $
+// $Id: RandPoissonQ.cc,v 1.4.4.4 2007/10/18 21:01:20 fischler Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -29,6 +29,11 @@
 // M Fischler	      - put/get to/from streams uses pairs of ulongs when
 //			+ storing doubles avoid problems with precision 
 //			4/14/05
+// M Fisculer	  - Modified use of shoot (mean) instead of 
+//		    shoot(getLocalEngine(), mean) when fire(mean) is called.  
+//		    This flaw was causing bad "cross-talk" between modules
+//		    in CMS, where one used its own engine, and the other 
+//		    used the static generator.  10/18/07
 //
 // =======================================================================
 
@@ -130,7 +135,7 @@ double RandPoissonQ::operator()( double mean ) {
 }
 
 long RandPoissonQ::fire(double mean) {
-  return shoot(mean);
+  return shoot(getLocalEngine(), mean);
 }
 
 long RandPoissonQ::fire() {
