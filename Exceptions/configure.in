@@ -154,7 +154,7 @@ AH_BOTTOM([#endif  // EXCEPTIONS_DEFS_H])
 # ----------------------------------------------------------------------
 
 # Locate a C++ compiler:
-AC_PROG_CXX(cl g++ g++4 c++ icc aCC CC cxx cc++ FCC KCC RCC xlC_r xlC gpp)
+AC_PROG_CXX(cl g++ g++4 c++ icc aCC CC cxx cc++ FCC RCC xlC_r xlC gpp)
 
 # Use it hereinafter:
 AC_LANG(C++)
@@ -266,14 +266,14 @@ icc)
    useicc=true
    case "$target" in
    *-*-linux*)
-      AM_CXXFLAGS="-O -ansi -mp -no-gcc -w1"
+      AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
       AM_LDFLAGS="-lstdc++ -lcxa -lunwind"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="xiar"; ARFLAGS="cru"
       ;;
    *)
-      AM_CXXFLAGS="-O -ansi -mp -no-gcc -w1"
+      AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
       AM_LDFLAGS="-lstdc++"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
