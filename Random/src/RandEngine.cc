@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.4.2.6 2005/04/13 20:49:19 fischler Exp $
+// $Id: RandEngine.cc,v 1.4.2.7 2008/04/04 18:07:52 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -123,30 +123,6 @@ RandEngine::RandEngine(std::istream& is)
 }
 
 RandEngine::~RandEngine() {}
-
-RandEngine::RandEngine(const RandEngine &p)
-: mantissa_bit_32( pow(0.5,32.) )
-{
-  // Assignment and copy of RandEngine objects may provoke
-  // undesired behavior in a single thread environment.
-  
-  std::cerr << "!!! WARNING !!! - Illegal operation." << std::endl;
-  std::cerr << "- Copy constructor and operator= are NOT allowed on "
-	    << "RandEngine objects -" << std::endl;
-  *this = p;
-}
-
-RandEngine & RandEngine::operator = (const RandEngine &p)
-{
-  // Assignment and copy of RandEngine objects may provoke
-  // undesired behavior in a single thread environment.
-
-  std::cerr << "!!! WARNING !!! - Illegal operation." << std::endl;
-  std::cerr << "- Copy constructor and operator= are NOT allowed on "
-	    << "RandEngine objects -" << std::endl;
-  *this = p;
-  return *this;
-}
 
 void RandEngine::setSeed(long seed, int)
 {
