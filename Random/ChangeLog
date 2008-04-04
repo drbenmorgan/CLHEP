@@ -1,3 +1,16 @@
+2008-04-04  Lynn Garren <garren@fnal.gov>
+
+	* Random/src/DRand48Engine.cc,RandEngine.cc:
+	Remove (incorrect) implementation of private, unused, copy constructor 
+	and operator=.
+
+	* Random/src/drand48.src: 
+	The implementaton of the drand48_iterate method contained a problematic  
+	"if (sizeof (unsigned short int) == 2) { } else {}" structure.
+	Code contained in the else portion had unintended side effects.
+	We have retained only the code in the if portion, which should work
+	on all machines. 
+
 ==============================
 18.10.07 Release CLHEP-1.9.3.2
 ==============================
