@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Evaluator.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
+// $Id: Evaluator.cc,v 1.2.2.1 2008/04/09 23:24:02 garren Exp $
 // ---------------------------------------------------------------------------
 
 #include "CLHEP/Evaluator/defs.h"
@@ -16,16 +16,22 @@
 #include <stdlib.h>	// for strtod()
 
 //---------------------------------------------------------------------------
+// Fix non ISO C++ compliant cast from pointer to function
+// to void*, which is a pointer to an object
+typedef void (*voidfuncptr)();
 struct Item {
   enum { UNKNOWN, VARIABLE, EXPRESSION, FUNCTION } what;
   double variable;
   string expression;
-  void   *function;
+  // Fix non ISO C++ compliant cast from pointer to function
+  // to void*, which is a pointer to an object
+  //void   *function;
+  voidfuncptr function;
 
   Item()         : what(UNKNOWN),   variable(0),expression(), function(0) {}
   Item(double x) : what(VARIABLE),  variable(x),expression(), function(0) {}
   Item(string x) : what(EXPRESSION),variable(0),expression(x),function(0) {}
-  Item(void  *x) : what(FUNCTION),  variable(0),expression(), function(x) {}
+  Item(voidfuncptr x) : what(FUNCTION),  variable(0),expression(), function(x) {}
 };
 
 typedef char * pchar;
@@ -646,29 +652,31 @@ void Evaluator::setVariable(const char * name, const char * expression)
 { setItem("", name, Item(expression), (Struct *)p); }
 
 //---------------------------------------------------------------------------
+// Fix non ISO C++ compliant cast from pointer to function
+// to void*, which is a pointer to an object
 void Evaluator::setFunction(const char * name,
 			    double (*fun)())
-{ setItem("0", name, Item((void *)fun), (Struct *)p); }
+{ setItem("0", name, Item(reinterpret_cast<voidfuncptr>(fun)), (Struct *)p); }
 
 void Evaluator::setFunction(const char * name,
 			    double (*fun)(double))
-{ setItem("1", name, Item((void *)fun), (Struct *)p); }
+{ setItem("1", name, Item(reinterpret_cast<voidfuncptr>(fun)), (Struct *)p); }
 
 void Evaluator::setFunction(const char * name,
 			    double (*fun)(double,double))
-{ setItem("2", name, Item((void *)fun), (Struct *)p); }
+{ setItem("2", name, Item(reinterpret_cast<voidfuncptr>(fun)), (Struct *)p); }
 
 void Evaluator::setFunction(const char * name,
 			    double (*fun)(double,double,double))
-{ setItem("3", name, Item((void *)fun), (Struct *)p); }
+{ setItem("3", name, Item(reinterpret_cast<voidfuncptr>(fun)), (Struct *)p); }
 
 void Evaluator::setFunction(const char * name,
 			    double (*fun)(double,double,double,double))
-{ setItem("4", name, Item((void *)fun), (Struct *)p); }
+{ setItem("4", name, Item(reinterpret_cast<voidfuncptr>(fun)), (Struct *)p); }
 
 void Evaluator::setFunction(const char * name,
 			    double (*fun)(double,double,double,double,double))
-{ setItem("5", name, Item((void *)fun), (Struct *)p); }
+{ setItem("5", name, Item(reinterpret_cast<voidfuncptr>(fun)), (Struct *)p); }
 
 //---------------------------------------------------------------------------
 bool Evaluator::findVariable(const char * name) const {
