@@ -1,3 +1,12 @@
+2008-04-09  Lynn Garren <garren@fnal.gov>
+
+	* add explicit parentheses in various places to keep gcc 4.3 happy
+	
+	* src/RandEngine.cc: change how the compiler decides how to implement flat()
+
+	* test/testRandDists.cc: force variables to be in memory so
+	testRandGeneral() behaves the same with both gcc 4.3 and 3.4.
+
 2008-04-04  Lynn Garren <garren@fnal.gov>
 
 	* Random/src/DRand48Engine.cc,RandEngine.cc:
