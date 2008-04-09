@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4.2.9 2005/04/13 20:49:19 fischler Exp $
+// $Id: JamesRandom.cc,v 1.4.2.10 2008/04/09 19:35:41 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -320,8 +320,8 @@ void HepJamesRandom::flatArray(const int size, double* vect)
 }
 
 HepJamesRandom::operator unsigned int() {
-   return (unsigned int)(flat() * exponent_bit_32) & 0xffffffff   |
-         ((unsigned int)( u[i97] * exponent_bit_32)>>16)  & 0xff;
+   return ((unsigned int)(flat() * exponent_bit_32) & 0xffffffff )  |
+         (((unsigned int)( u[i97] * exponent_bit_32)>>16)  & 0xff);
 }
 
 std::ostream & HepJamesRandom::put ( std::ostream& os ) const {

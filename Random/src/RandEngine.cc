@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.4.2.7 2008/04/04 18:07:52 garren Exp $
+// $Id: RandEngine.cc,v 1.4.2.8 2008/04/09 19:35:41 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -257,8 +257,11 @@ void RandEngine::showStatus() const
       iS = RAND_MAX + 1;                     
       iK = 1;                                
 //    int StoK = S;                          
-      int StoK = iS;                         
-      if ( (RAND_MAX >> 32) == 0) {          
+      int StoK = iS;          
+      // The two statements below are equivalent, but some compilers
+      // are getting too smart and complain about the first statement.               
+      //if ( (RAND_MAX >> 32) == 0) {  
+      if( (unsigned long) (RAND_MAX) <= (( (1uL) << 31 ) - 1 ) ) {
         iK = 2;                              
 //      StoK = S*S;                          
         StoK = iS*iS;                        
