@@ -26,6 +26,8 @@
 
 using namespace CLHEP;
 
+template <class E1, class E2> int anonymousRestoreStatics();
+
 
 // Absolutely Safe Equals Without Registers Screwing Us Up
 bool equals01(const std::vector<double> &ab) {
@@ -214,7 +216,7 @@ int anonymousRestoreStatics1() {
       stat |= 131072;
     }
   }
-  if (stat & 131072 == 0) {
+  if ( (stat & 131072) == 0) {
     output << "All captured output agrees with earlier values\n";
   }
   return stat;
@@ -274,7 +276,7 @@ int anonymousRestoreStatics() {
       stat |= 524288;
     }
   }
-  if (stat & 524288 == 0) {
+  if ((stat & 524288) == 0) {
     output << "All captured output agrees with earlier values\n";
   }
   double k1 = e2->flat();

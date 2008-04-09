@@ -1,8 +1,9 @@
 // -*- C++ -*-
-// $Id: testRandom.cc,v 1.1 2003/07/17 19:20:29 garren Exp $
+// $Id: testRandom.cc,v 1.1.2.1 2008/04/09 16:07:19 garren Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include <iostream>
+#include <cstdlib>	// for exit()
 
 using std::cout;
 using std::endl;
