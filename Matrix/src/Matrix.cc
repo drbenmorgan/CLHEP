@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.2.5 2005/02/25 20:47:16 fischler Exp $
+// $Id: Matrix.cc,v 1.4.2.6 2008/04/10 20:35:03 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -633,14 +633,21 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
     p = (fabs(*mjj));
     if (j!=n) {
       mIter mij = mj + n + j - 1; 
-      for (int i=j+1;i<=n;i++) {
+      for (int i=j+1;i<n;i++) {
 	q = (fabs(*(mij)));
 	if (q > p) {
 	  k = i;
 	  p = q;
 	}
 	mij += n;
+      }	// for i
+      // special case for i=n
+      q = (fabs(*(mij)));
+      if (q > p) {
+	k = n;
+	p = q;
       }
+      // end special case
       if (k==j) {
 	if (p <= epsilon) {
 	  det = 0;
@@ -682,7 +689,7 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
       mIter mk = mj + n;
       mIter mkjp = mk + j;
       mIter mjk = mj + j;
-      for (k=j+1;k<=n;k++) {
+      for (k=j+1;k<n;k++) {
 	s11 = - (*mjk);
 	s12 = - (*mkjp);
 	if (j!=1) {
@@ -695,17 +702,38 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
 	    s12 += (*mijp) * (*(mki++));
 	    mik += n;
 	    mijp += n;
-	  }
-	}
+	  }	// for i
+	}	// j!=1
 	*(mjk++) = -s11 * (*mjj);
 	*(mkjp) = -(((*(mjj+1)))*((*(mkjp-1)))+(s12));
 	mk += n;
 	mkjp += n;
-      }
+      }	// for k
+      // special handling for k=n so we don't point off the end of the vector
+      s11 = - (*mjk);
+      s12 = - (*mkjp);
+      if (j!=1) {
+	mIter mik = m.begin() + k - 1;
+	mIter mijp = m.begin() + j;
+	mIter mki = mk;
+	mIter mji = mj;
+	for (int i=1;i<j;i++) {
+	  s11 += (*mik) * (*(mji++));
+	  s12 += (*mijp) * (*(mki++));
+	  mik += n;
+	  mijp += n;
+	}	// for i
+      }	// j!=1
+      *(mjk++) = -s11 * (*mjj);
+      *(mkjp) = -(((*(mjj+1)))*((*(mkjp-1)))+(s12));
+      // end special handling for k=n
+    }	// j!=n
+    // avoid setting the iterator beyond the end of the vector
+    if(j!=n) {
+      mj += n;
+      mjj += (n+1);
     }
-    mj += n;
-    mjj += (n+1);
-  }
+  }	// for j
   if (nxch%2==1) det = -det;
   if (jfail !=jrange) det = 0.0;
   ir[n] = nxch;
