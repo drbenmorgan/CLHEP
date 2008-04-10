@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.8 2005/03/23 17:57:54 fischler Exp $
+// $Id: SymMatrix.cc,v 1.3.2.9 2008/04/10 15:53:02 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -624,6 +624,7 @@ HepSymMatrix & HepSymMatrix::operator*=(double t)
 
 HepMatrix & HepMatrix::operator=(const HepSymMatrix &m1)
 {
+   // define size, rows, and columns of *this
    if(m1.nrow*m1.nrow != size)
    {
       size = m1.nrow * m1.nrow;
@@ -631,22 +632,28 @@ HepMatrix & HepMatrix::operator=(const HepSymMatrix &m1)
    }
    nrow = m1.nrow;
    ncol = m1.nrow;
+   // begin copy
    int n = ncol;
    mcIter sjk = m1.m.begin();
    mIter m1j = m.begin();
    mIter mj = m.begin();
    // j >= k
-   for(int j=1;j<=num_row();j++) {
+   for(int j=1;j<=num_row();++j) {
       mIter mjk = mj;
       mIter mkj = m1j;
-      for(int k=1;k<=j;k++) {
+      // k < j to avoid iterating off the end of m (VC++ problem)
+      for(int k=1;k<j;++k) {
 	 *(mjk++) = *sjk;
 	 if(j!=k) *mkj = *sjk;
-	 sjk++;
+	 ++sjk;
 	 mkj += n;
       }
+      // j = k
+      *(mjk++) = *sjk;
+      ++sjk;
+      // setup iterators for next row
       mj += n;
-      m1j++;
+      ++m1j;
    }
    return (*this);
 }
