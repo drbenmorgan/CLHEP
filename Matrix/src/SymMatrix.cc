@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.9 2008/04/10 15:53:02 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.10 2008/04/11 21:20:38 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -553,23 +553,16 @@ HepSymMatrix vT_times_v(const HepVector &v)
 HepMatrix & HepMatrix::operator+=(const HepSymMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),+=);
-  int n = num_col();
   HepMatrix::mcIter sjk = m2.m.begin();
-  mIter m1j = m.begin();
-  mIter mj = m.begin();
   // j >= k
-  for(int j=1;j<=num_row();j++) {
-    mIter mjk = mj;
-    mIter mkj = m1j;
-    for(int k=1;k<=j;k++) {
-      *(mjk++) += *sjk;
-      if(j!=k) *mkj += *sjk;
-      sjk++;
-      mkj += n;
-    }
-    mj += n;
-    m1j++;
-  }
+  for(int j=0; j!=nrow; ++j) {
+     for(int k=0; k<=j; ++k) {
+	m[j*ncol+k] += *sjk;
+	// make sure this is not a diagonal element
+	if(k!=j) m[k*nrow+j] += *sjk;
+        ++sjk;
+     } 
+  }   
   return (*this);
 }
 
@@ -583,23 +576,16 @@ HepSymMatrix & HepSymMatrix::operator+=(const HepSymMatrix &m2)
 HepMatrix & HepMatrix::operator-=(const HepSymMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),-=);
-  int n = num_col();
   HepMatrix::mcIter sjk = m2.m.begin();
-  mIter m1j = m.begin();
-  mIter mj = m.begin();
   // j >= k
-  for(int j=1;j<=num_row();j++) {
-    mIter mjk = mj;
-    mIter mkj = m1j;
-    for(int k=1;k<=j;k++) {
-      *(mjk++) -= *sjk;
-      if(j!=k) *mkj -= *sjk;
-      sjk++;
-      mkj += n;
-    }
-    mj += n;
-    m1j++;
-  }
+  for(int j=0; j!=nrow; ++j) {
+     for(int k=0; k<=j; ++k) {
+	m[j*ncol+k] -= *sjk;
+	// make sure this is not a diagonal element
+	if(k!=j) m[k*nrow+j] -= *sjk;
+        ++sjk;
+     } 
+  }   
   return (*this);
 }
 
@@ -625,36 +611,25 @@ HepSymMatrix & HepSymMatrix::operator*=(double t)
 HepMatrix & HepMatrix::operator=(const HepSymMatrix &m1)
 {
    // define size, rows, and columns of *this
-   if(m1.nrow*m1.nrow != size)
+   nrow = ncol = m1.nrow;
+   if(nrow*ncol != size)
    {
-      size = m1.nrow * m1.nrow;
+      size = nrow*ncol;
       m.resize(size);
    }
-   nrow = m1.nrow;
-   ncol = m1.nrow;
    // begin copy
-   int n = ncol;
    mcIter sjk = m1.m.begin();
-   mIter m1j = m.begin();
-   mIter mj = m.begin();
    // j >= k
-   for(int j=1;j<=num_row();++j) {
-      mIter mjk = mj;
-      mIter mkj = m1j;
-      // k < j to avoid iterating off the end of m (VC++ problem)
-      for(int k=1;k<j;++k) {
-	 *(mjk++) = *sjk;
-	 if(j!=k) *mkj = *sjk;
-	 ++sjk;
-	 mkj += n;
-      }
-      // j = k
-      *(mjk++) = *sjk;
-      ++sjk;
-      // setup iterators for next row
-      mj += n;
-      ++m1j;
-   }
+   for(int j=0; j!=nrow; ++j) {
+      for(int k=0; k<=j; ++k) {
+	 m[j*ncol+k] = *sjk;
+	 // we could copy the diagonal element twice or check 
+	 // doing the check may be a tiny bit faster,
+	 // so we choose that option for now
+	 if(k!=j) m[k*nrow+j] = *sjk;
+         ++sjk;
+      } 
+   }   
    return (*this);
 }
 

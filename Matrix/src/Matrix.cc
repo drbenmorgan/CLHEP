@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.2.6 2008/04/10 20:35:03 garren Exp $
+// $Id: Matrix.cc,v 1.4.2.7 2008/04/11 21:20:38 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -153,23 +153,18 @@ HepMatrix::HepMatrix(const HepSymMatrix &m1)
 {
    size = nrow * ncol;
 
-   int n = ncol;
    mcIter sjk = m1.m.begin();
-   mIter m1j = m.begin();
-   mIter mj  = m.begin();
    // j >= k
-   for(int j=1;j<=nrow;j++) {
-      mIter mjk = mj;
-      mIter mkj = m1j;
-      for(int k=1;k<=j;k++) {
-	 *(mjk++) = *sjk;
-	 if(j!=k) *mkj = *sjk;
-	 sjk++;
-	 mkj += n;
-      }
-      mj += n;
-      m1j++;
-   }
+   for(int j=0; j!=nrow; ++j) {
+      for(int k=0; k<=j; ++k) {
+	 m[j*ncol+k] = *sjk;
+	 // we could copy the diagonal element twice or check 
+	 // doing the check may be a tiny bit faster,
+	 // so we choose that option for now
+	 if(k!=j) m[k*nrow+j] = *sjk;
+         ++sjk;
+      } 
+   }   
 }
 
 HepMatrix::HepMatrix(const HepDiagMatrix &m1)

@@ -1,10 +1,10 @@
-2008-04-10  Lynn Garren <garren@fnal.gov>
+2008-04-11  Lynn Garren <garren@fnal.gov>
 
-	* src/SymMatrix.cc: fix bug in 
-	HepMatrix& HepMatrix::operator=(const HepSymMatrix)
-	The final iteration of the column loop setup an unused but nonexistent
-	memory location, which causes a problem for some compilers.  
-	The logic has been fixed and the copy should be a bit faster.
+	* src/SymMatrix.cc, Matrix.cc: in several places, iterators were
+	set to a nonexistent memory location.  Even though the iterators were
+	not used, this operation is not allowed and causes problems with the
+	newer VC++ compilers.  In some cases, a more efficient rewrite 
+	was possible.
 
 ==============================
 18.10.07 Release CLHEP-1.9.3.2
