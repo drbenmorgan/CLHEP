@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.2.7 2008/04/11 21:20:38 garren Exp $
+// $Id: Matrix.cc,v 1.4.2.8 2008/04/14 18:24:57 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -511,12 +511,13 @@ int HepMatrix::dfinv_matrix(int *ir) {
   *m21 = -(*m22) * (*m11) * (*m21);
   *m12 = -(*m12);
   if (n>2) {
-    mIter mi = m.begin() + 2 * n;
-    mIter mii= m.begin() + 2 * n + 2;
-    mIter mimim = m.begin() + n + 1;
+    mIter mimim = m11 + n + 1;
     for (int i=3;i<=n;i++) {
+      // calculate these to avoid pointing off the end of the storage array
+      mIter mi = m11 + (i-1) * n;
+      mIter mii= m11 + (i-1) * n + i - 1;
       int im2 = i - 2;
-      mIter mj = m.begin();
+      mIter mj = m11;
       mIter mji = mj + i - 1;
       mIter mij = mi;
       for (int j=1;j<=im2;j++) { 
@@ -531,22 +532,20 @@ int HepMatrix::dfinv_matrix(int *ir) {
 	  s32 += (*(mjkp++)) * (*mkpi);
 	  mkj += n;
 	  mkpi += n;
-	}
+	}	// for k
 	*mij = -(*mii) * (((*(mij-n)))*( (*(mii-1)))+(s31));
 	*mji = -s32;
 	mj += n;
 	mji += n;
 	mij++;
-      }
+      }	// for j
       *(mii-1) = -(*mii) * (*mimim) * (*(mii-1));
       *(mimim+1) = -(*(mimim+1));
-      mi += n;
       mimim += (n+1);
-      mii += (n+1);
-    }
-  }
-  mIter mi = m.begin();
-  mIter mii = m.begin();
+    }	// for i
+  }	// n>2
+  mIter mi = m11;
+  mIter mii = m11;
   for (int i=1;i<n;i++) {
     int ni = n - i;
     mIter mij = mi;
@@ -574,7 +573,7 @@ int HepMatrix::dfinv_matrix(int *ir) {
     }
     mi += n;
     mii += (n+1);
-  }
+  }	// for i
   int nxch = ir[n];
   if (nxch==0) return 0;
   for (int mm=1;mm<=nxch;mm++) {
@@ -582,18 +581,17 @@ int HepMatrix::dfinv_matrix(int *ir) {
     int ij = ir[k];
     int i = ij >> 12;
     int j = ij%4096;
-    mIter mki = m.begin() + i - 1;
-    mIter mkj = m.begin() + j - 1;
     for (k=1; k<=n;k++) {
+      // avoid setting the iterator beyond the end of the storage vector
+      mIter mki = m11 + (k-1)*n + i - 1;
+      mIter mkj = m11 + (k-1)*n + j - 1;
       // 2/24/05 David Sachs fix of improper swap bug that was present
       // for many years:
       double ti = *mki; // 2/24/05
       *mki = *mkj;
       *mkj = ti;	// 2/24/05
-      mki += n;
-      mkj += n;
     }
-  }
+  }	// for mm
   return 0;
 }
 
@@ -627,22 +625,14 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
     int k = j;
     p = (fabs(*mjj));
     if (j!=n) {
-      mIter mij = mj + n + j - 1; 
+      // replace mij with calculation of position
       for (int i=j+1;i<n;i++) {
-	q = (fabs(*(mij)));
+	q = (fabs(*(mj + n*(i-j) + j - 1)));
 	if (q > p) {
 	  k = i;
 	  p = q;
 	}
-	mij += n;
       }	// for i
-      // special case for i=n
-      q = (fabs(*(mij)));
-      if (q > p) {
-	k = n;
-	p = q;
-      }
-      // end special case
       if (k==j) {
 	if (p <= epsilon) {
 	  det = 0;
@@ -652,7 +642,7 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
 	}
 	det = -det; // in this case the sign of the determinant
 	            // must not change. So I change it twice. 
-      }
+      }	// k==j
       mIter mjl = mj;
       mIter mkl = m.begin() + (k-1)*n;
       for (int l=1;l<=n;l++) {
@@ -662,14 +652,14 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
       }
       nxch = nxch + 1;  // this makes the determinant change its sign
       ir[nxch] = (((j)<<12)+(k));
-    } else {
+    } else {	// j!=n
       if (p <= epsilon) {
 	det = 0.0;
 	ifail = imposs;
 	jfail = jrange;
 	return ifail;
       }
-    }
+    }	// j!=n
     det *= *mjj;
     *mjj = 1.0 / *mjj;
     t = (fabs(det));
@@ -680,11 +670,12 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
       det = 1.0;
       if (jfail==jrange) jfail = jover;
     }
+    // calculate mk and mkjp so we don't point off the end of the vector
     if (j!=n) {
-      mIter mk = mj + n;
-      mIter mkjp = mk + j;
       mIter mjk = mj + j;
-      for (k=j+1;k<n;k++) {
+      for (k=j+1;k<=n;k++) {
+	mIter mk = mj + n*(k-j);
+	mIter mkjp = mk + j;
 	s11 = - (*mjk);
 	s12 = - (*mkjp);
 	if (j!=1) {
@@ -697,32 +688,12 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
 	    s12 += (*mijp) * (*(mki++));
 	    mik += n;
 	    mijp += n;
-	  }	// for i
-	}	// j!=1
+	  }  // for i
+	} // j!=1
 	*(mjk++) = -s11 * (*mjj);
 	*(mkjp) = -(((*(mjj+1)))*((*(mkjp-1)))+(s12));
-	mk += n;
-	mkjp += n;
-      }	// for k
-      // special handling for k=n so we don't point off the end of the vector
-      s11 = - (*mjk);
-      s12 = - (*mkjp);
-      if (j!=1) {
-	mIter mik = m.begin() + k - 1;
-	mIter mijp = m.begin() + j;
-	mIter mki = mk;
-	mIter mji = mj;
-	for (int i=1;i<j;i++) {
-	  s11 += (*mik) * (*(mji++));
-	  s12 += (*mijp) * (*(mki++));
-	  mik += n;
-	  mijp += n;
-	}	// for i
-      }	// j!=1
-      *(mjk++) = -s11 * (*mjj);
-      *(mkjp) = -(((*(mjj+1)))*((*(mkjp-1)))+(s12));
-      // end special handling for k=n
-    }	// j!=n
+      } // for k
+    } // j!=n
     // avoid setting the iterator beyond the end of the vector
     if(j!=n) {
       mj += n;
