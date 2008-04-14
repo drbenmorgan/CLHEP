@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.2.8 2008/04/14 18:24:57 garren Exp $
+// $Id: Matrix.cc,v 1.4.2.9 2008/04/14 20:56:41 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -552,22 +552,24 @@ int HepMatrix::dfinv_matrix(int *ir) {
     int j;
     for (j=1; j<=i;j++) {
       s33 = *mij;
-      register mIter mikj = mi + n + j - 1;
+      // change initial definition of mikj to avoid pointing off the end of the storage array
+      register mIter mikj = mi + j - 1;
       register mIter miik = mii + 1;
       mIter min_end = mi + n;
       for (;miik<min_end;) {
-	s33 += (*mikj) * (*(miik++));
+        // iterate by n as we enter the loop to avoid pointing off the end of the storage array
 	mikj += n;
+	s33 += (*mikj) * (*(miik++));
       }
       *(mij++) = s33;
     }
     for (j=1;j<=ni;j++) {
       s34 = 0.0;
       mIter miik = mii + j;
-      mIter mikij = mii + j * n + j;
       for (int k=j;k<=ni;k++) {
+        // calculate mikij here to avoid pointing off the end of the storage array
+        mIter mikij = mii + k * n + j;
 	s34 += *mikij * (*(miik++));
-	mikij += n;
       }
       *(mii+j) = s34;
     }
