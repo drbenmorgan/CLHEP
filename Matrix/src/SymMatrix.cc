@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.11 2008/04/15 15:25:19 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.12 2008/04/16 14:18:42 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -1016,8 +1016,10 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
       mjj = m.begin() + j*(j-1)/2 + j-1;
       lambda = 0;           // compute lambda = max of A(j+1:n,j)
       pivrow = j+1;
-      ip = m.begin() + (j+1)*j/2 + j-1;
-      for (i=j+1; i <= nrow ; ip += i++) {
+      //ip = m.begin() + (j+1)*j/2 + j-1;
+      for (i=j+1; i <= nrow ; ++i) {
+          // calculate ip to avoid going off end of storage array
+	  ip = m.begin() + (i-1)*i/2 + j-1;
 	  if (fabs(*ip) > lambda) {
 	      lambda = fabs(*ip);
 	      pivrow = i;
@@ -1071,8 +1073,12 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		  }
 	      }	// for i
 	      // update L 
-	      ip = m.begin() + (j+1)*j/2 + j-1; 
-	      for (i=j+1; i <= nrow; ip += i++) *ip *= temp2;
+	      //ip = m.begin() + (j+1)*j/2 + j-1; 
+	      for (i=j+1; i <= nrow; ++i) {
+        	  // calculate ip to avoid going off end of storage array
+		  ip = m.begin() + (i-1)*i/2 + j-1;
+	          *ip *= temp2;
+	      }
 	  } else if (s==1) { // 1x1 pivot 
 	      piv[j-1] = pivrow;
 
@@ -1112,10 +1118,13 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		      ip++;
 		  }	// for k
 	      }	// for i
-	      // update L
-	      ip = m.begin() + (j+1)*j/2 + j-1;
-	      for (i=j+1; i<=nrow; ip += i++)
-		*ip *= temp2;
+	      // update L 
+	      //ip = m.begin() + (j+1)*j/2 + j-1; 
+	      for (i=j+1; i <= nrow; ++i) {
+        	  // calculate ip to avoid going off end of storage array
+		  ip = m.begin() + (i-1)*i/2 + j-1;
+	          *ip *= temp2;
+	      }
 	  } else { // s=2, ie use a 2x2 pivot
 	      piv[j-1] = -pivrow;
 	      piv[j] = 0; // that means this is the second row of a 2x2 pivot
@@ -1206,8 +1215,13 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
       if (piv[j-1] > 0) { // 1x1 pivot, compute column j of inverse
 	  s = 1; 
 	  if (j < nrow) {
-	      ip = m.begin() + (j+1)*j/2 + j-1;
-	      for (i=0; i < nrow-j; ip += 1+j+i++) x[i] = *ip;
+	      //ip = m.begin() + (j+1)*j/2 + j-1;
+	      //for (i=0; i < nrow-j; ip += 1+j+i++) x[i] = *ip;
+	      ip = m.begin() + (j+1)*j/2 - 1;
+	      for (i=0; i < nrow-j; ++i) {
+	          ip += i + j;
+	          x[i] = *ip;
+	      }
 	      for (i=j+1; i<=nrow ; i++) {
 		  temp2=0;
 		  ip = m.begin() + i*(i-1)/2 + j;
@@ -1218,9 +1232,14 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		  *(m.begin()+ i*(i-1)/2 + j-1) = -temp2;
 	      }	// for i
 	      temp2 = 0;
-	      ip = m.begin() + (j+1)*j/2 + j-1;
-	      for (k=0; k < nrow-j; ip += 1+j+k++)
+	      //ip = m.begin() + (j+1)*j/2 + j-1;
+	      //for (k=0; k < nrow-j; ip += 1+j+k++)
+		//temp2 += x[k] * *ip;
+	      ip = m.begin() + (j+1)*j/2 - 1;
+	      for (k=0; k < nrow-j; ++k) {
+	        ip += j+k;
 		temp2 += x[k] * *ip;
+	      }
 	      *mjj -= temp2;
 	  }	// j < nrow
       } else { //2x2 pivot, compute columns j and j-1 of the inverse
@@ -1228,8 +1247,13 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 	    std::cerr << "error in piv" << piv[j-1] << std::endl;
 	  s=2; 
 	  if (j < nrow) {
-	      ip = m.begin() + (j+1)*j/2 + j-1;
-	      for (i=0; i < nrow-j; ip += 1+j+i++) x[i] = *ip;
+	      //ip = m.begin() + (j+1)*j/2 + j-1;
+	      //for (i=0; i < nrow-j; ip += 1+j+i++) x[i] = *ip;
+	      ip = m.begin() + (j+1)*j/2 - 1;
+	      for (i=0; i < nrow-j; ++i) {
+	          ip += i + j;
+	          x[i] = *ip;
+	      }
 	      for (i=j+1; i<=nrow ; i++) {
 		  temp2 = 0;
 		  ip = m.begin() + i*(i-1)/2 + j;
@@ -1240,15 +1264,30 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		  *(m.begin()+ i*(i-1)/2 + j-1) = -temp2;
 	      }	// for i   
 	      temp2 = 0;
-	      ip = m.begin() + (j+1)*j/2 + j-1;
-	      for (k=0; k < nrow-j; ip += 1+j+k++) temp2 += x[k] * *ip;
+	      //ip = m.begin() + (j+1)*j/2 + j-1;
+	      //for (k=0; k < nrow-j; ip += 1+j+k++) temp2 += x[k] * *ip;
+	      ip = m.begin() + (j+1)*j/2 - 1;
+	      for (k=0; k < nrow-j; ++k) {
+	          ip += k + j;
+	          temp2 += x[k] * *ip;
+	      }
 	      *mjj -= temp2;
 	      temp2 = 0;
-	      ip = m.begin() + (j+1)*j/2 + j-2;
-	      for (i=j+1; i <= nrow; ip += i++) temp2 += *ip * *(ip+1);
+	      //ip = m.begin() + (j+1)*j/2 + j-2;
+	      //for (i=j+1; i <= nrow; ip += i++) temp2 += *ip * *(ip+1);
+	      ip = m.begin() + (j+1)*j/2 - 2;
+	      for (i=j+1; i <= nrow; ++i) {
+	          ip += i - 1;
+	          temp2 += *ip * *(ip+1);
+	      }
 	      *(mjj-1) -= temp2;
-	      ip = m.begin() + (j+1)*j/2 + j-2;
-	      for (i=0; i < nrow-j; ip += 1+j+i++) x[i] = *ip;
+	      //ip = m.begin() + (j+1)*j/2 + j-2;
+	      //for (i=0; i < nrow-j; ip += 1+j+i++) x[i] = *ip;
+	      ip = m.begin() + (j+1)*j/2 - 2;
+	      for (i=0; i < nrow-j; ++i) {
+	          ip += i + j;
+	          x[i] = *ip;
+	      }
 	      for (i=j+1; i <= nrow ; i++) {
 		  temp2 = 0;
 		  ip = m.begin() + i*(i-1)/2 + j;
@@ -1259,9 +1298,14 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		  *(m.begin()+ i*(i-1)/2 + j-2)= -temp2;
 	      }	// for i
 	      temp2 = 0;
-	      ip = m.begin() + (j+1)*j/2 + j-2;
-	      for (k=0; k < nrow-j; ip += 1+j+k++)
+	      //ip = m.begin() + (j+1)*j/2 + j-2;
+	      //for (k=0; k < nrow-j; ip += 1+j+k++)
+		//  temp2 += x[k] * *ip;
+	      ip = m.begin() + (j+1)*j/2 - 2;
+	      for (k=0; k < nrow-j; ++k) {
+	          ip += k + j;
 		  temp2 += x[k] * *ip;
+	      }
 	      *(mjj-j) -= temp2;
 	  }	// j < nrow
       }	// else  piv[j-1] > 0
@@ -1285,13 +1329,18 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 	  *( m.begin() + pivrow*(pivrow-1)/2 + j-2) = temp1;
       }	// s==2
 
+      // problem right here
+      if( pivrow < nrow ) {
       ip = m.begin() + (pivrow+1)*pivrow/2 + j-1;  // &A(i,j)
       iq = ip + pivrow-j;
-      for (i = pivrow+1; i <= nrow; ip += i, iq += i++) {
+      for (i = pivrow+1; i <= nrow; i++) {
 	  temp1 = *iq;
 	  *iq = *ip;
 	  *ip = temp1;
+	  ip += i;
+	  iq += i;
       }	// for i 
+      }
   } // end of loop over columns (in computing inverse from factorization)
 
   return; // inversion successful
