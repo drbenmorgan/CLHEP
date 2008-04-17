@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.12 2008/04/16 14:18:42 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.13 2008/04/17 15:30:11 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -1226,7 +1226,11 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 		  temp2=0;
 		  ip = m.begin() + i*(i-1)/2 + j;
 		  for (k=0; k <= i-j-1; k++) temp2 += *ip++ * x[k];
-		  for (ip += i-1; k < nrow-j; ip += 1+j+k++) {
+		  // avoid setting ip outside the bounds of the storage array
+		  ip -= 1;
+		  // using the value of k from the previous loop
+		  for ( ; k < nrow-j; ++k) {
+		      ip += j+k;
 		      temp2 += *ip * x[k];
 		  }
 		  *(m.begin()+ i*(i-1)/2 + j-1) = -temp2;
@@ -1331,16 +1335,19 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 
       // problem right here
       if( pivrow < nrow ) {
-      ip = m.begin() + (pivrow+1)*pivrow/2 + j-1;  // &A(i,j)
-      iq = ip + pivrow-j;
-      for (i = pivrow+1; i <= nrow; i++) {
-	  temp1 = *iq;
-	  *iq = *ip;
-	  *ip = temp1;
-	  ip += i;
-	  iq += i;
-      }	// for i 
-      }
+	  ip = m.begin() + (pivrow+1)*pivrow/2 + j-1;  // &A(i,j)
+	  // adding parenthesis for VC++
+	  iq = ip + (pivrow-j);
+	  for (i = pivrow+1; i <= nrow; i++) {
+	      temp1 = *iq;
+	      *iq = *ip;
+	      *ip = temp1;
+	      if( i < nrow ) {
+	      ip += i;
+	      iq += i;
+	      }
+	  }	// for i 
+      }	// pivrow < nrow
   } // end of loop over columns (in computing inverse from factorization)
 
   return; // inversion successful
