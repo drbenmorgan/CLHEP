@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.13 2008/04/17 15:30:11 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.14 2008/04/17 16:17:57 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -108,10 +108,10 @@ HepSymMatrix::HepSymMatrix(int p, int init)
       
    case 1:
       {
-	 HepMatrix::mIter a = m.begin();
-	 for(int i=1;i<=nrow;i++) {
+	 HepMatrix::mIter a; 
+	 for(int i=0;i<nrow;++i) {
+            a = m.begin() + (i+1)*i/2 + i;
 	    *a = 1.0;
-	    a += (i+1);
 	 }
 	 break;
       }
