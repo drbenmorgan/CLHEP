@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SystemOfUnits.h,v 1.3.4.2 2006/03/30 09:58:14 pfeiffer Exp $
+// $Id: SystemOfUnits.h,v 1.3.4.3 2008/04/29 20:44:36 garren Exp $
 // ----------------------------------------------------------------------
 // HEP coherent system of Units
 //
@@ -137,7 +137,7 @@ namespace CLHEP {
   // Electric charge [Q]
   //
   static const double eplus = 1. ;// positron charge
-  static const double e_SI  = 1.60217733e-19;// positron charge in coulomb
+  static const double e_SI  = 1.60217653e-19;// positron charge in coulomb
   static const double coulomb = eplus/e_SI;// coulomb = 6.24150 e+18 * eplus
 
   //

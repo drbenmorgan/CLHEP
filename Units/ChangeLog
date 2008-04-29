@@ -1,3 +1,9 @@
+2008-04-29  Lynn Garren <garren@fnal.gov>
+
+	* PhysicalConstants.h: update h_Planck, electron_mass_c2,
+	proton_mass_c2, neutron_mass_c2, and amu_c2 to PDG 2006 values
+	* SystemOfUnits.h: update e_SI to PDG 2006 value
+
 ==============================
 18.10.07 Release CLHEP-2.0.3.2
 ==============================

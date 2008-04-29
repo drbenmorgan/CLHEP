@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: PhysicalConstants.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: PhysicalConstants.h,v 1.3.4.1 2008/04/29 20:44:36 garren Exp $
 // ----------------------------------------------------------------------
 // HEP coherent Physical Constants
 //
@@ -67,7 +67,7 @@ static const double c_squared = c_light * c_light;
 // hbar  = 6.58212e-13 MeV*ns
 // hbarc = 197.32705e-12 MeV*mm
 //
-static const double h_Planck      = 6.6260755e-34 * joule*s;
+static const double h_Planck      = 6.6260693e-34 * joule*s;
 static const double hbar_Planck   = h_Planck/twopi;
 static const double hbarc         = hbar_Planck * c_light;
 static const double hbarc_squared = hbarc * hbarc;
@@ -82,10 +82,10 @@ static const double e_squared = eplus * eplus;
 // amu_c2 - atomic equivalent mass unit
 // amu    - atomic mass unit
 //
-static const double electron_mass_c2 = 0.51099906 * MeV;
-static const double   proton_mass_c2 = 938.27231 * MeV;
-static const double  neutron_mass_c2 = 939.56563 * MeV;
-static const double           amu_c2 = 931.49432 * MeV;
+static const double electron_mass_c2 = 0.510998918 * MeV;
+static const double   proton_mass_c2 = 938.272029 * MeV;
+static const double  neutron_mass_c2 = 939.56536 * MeV;
+static const double           amu_c2 = 931.494043 * MeV;
 static const double              amu = amu_c2/c_squared;
 
 //
