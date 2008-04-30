@@ -135,7 +135,7 @@ AH_BOTTOM([#endif  // REFCOUNT_DEFS_H])
 # ----------------------------------------------------------------------
 
 # Locate a C++ compiler:
-AC_PROG_CXX(cl g++ g++4 c++ icc aCC CC cxx cc++ FCC KCC RCC xlC_r xlC gpp)
+AC_PROG_CXX(cl g++ g++4 c++ icc aCC CC cxx cc++ FCC RCC xlC_r xlC gpp)
 
 # Use it hereinafter:
 AC_LANG(C++)
@@ -246,21 +246,21 @@ c++)
 icc)
    case "$target" in
    *-*-linux*)
-      AM_CXXFLAGS="-O -ansi -mp -no-gcc -w1"
+      AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
       AM_LDFLAGS="-lstdc++"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="xiar"; ARFLAGS="cru"
       ;;
    *)
-      AM_CXXFLAGS="-O -ansi -mp -no-gcc -w1"
+      AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
       AM_LDFLAGS="-lstdc++"
       MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
       MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="xiar"; ARFLAGS="cru"
    esac;;
 cl)  
-   AM_CXXFLAGS="-EHsc -nologo -GR -GX -MD"
+   AM_CXXFLAGS="-EHsc -nologo -GR -MD"
    AR="ar"; ARFLAGS="cru"
    MY_SHFLAGS=" "; MY_SHLINK="lib /NOLOGO"; SHEXT=lib
    MY_SHNAME="/OUT:"; MY_LD=" "

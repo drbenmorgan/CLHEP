@@ -1,3 +1,9 @@
+2008-04-30  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: VC++ compiler flag -GX is replaced by -EHsc
+	  icc compiler flag -mp is replaced by -fp-model precise
+	  remove KCC from list of C++ compilers
+
 ==============================
 18.10.07 Release CLHEP-2.0.3.2
 ==============================
