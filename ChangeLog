@@ -1,3 +1,6 @@
+==============================
+01.05.08 Release CLHEP-2.0.3.3
+==============================
 2008-05-01  Lynn Garren <garren@fnal.gov>
 
 	* */test/Makefile.am: use "/Fo$@" instead of "-o $@" for Visual C++
