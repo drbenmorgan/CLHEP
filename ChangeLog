@@ -1,8 +1,18 @@
+2008-05-01  Lynn Garren <garren@fnal.gov>
+
+	* */test/Makefile.am: use "/Fo$@" instead of "-o $@" for Visual C++
+
 2008-04-30  Lynn Garren <garren@fnal.gov>
 
 	* configure.in: VC++ compiler flag -GX is replaced by -EHsc
 	  icc compiler flag -mp is replaced by -fp-model precise
 	  remove KCC from list of C++ compilers
+
+2008-04-29  Lynn Garren <garren@fnal.gov>
+
+	* Units/PhysicalConstants.h: update h_Planck, electron_mass_c2,
+	proton_mass_c2, neutron_mass_c2, and amu_c2 to PDG 2006 values
+	* Units/SystemOfUnits.h: update e_SI to PDG 2006 value
 
 ==============================
 18.10.07 Release CLHEP-2.0.3.2

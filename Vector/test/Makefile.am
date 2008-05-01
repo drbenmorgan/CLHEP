@@ -55,7 +55,6 @@ EXTRA_DIST = \
 # Identify generated file(s) to be removed when 'make clean' is requested:
 CLEANFILES = testThreeVector.sh testLorentzVector.sh testRotation.sh testSubscripts.sh
 
-
 # supply our own suffix rule
 .cc.obj:
 if BUILD_VISUAL
