@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.14 2008/04/17 16:17:57 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.15 2008/07/11 20:44:20 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -464,8 +464,10 @@ HepMatrix operator*(const HepSymMatrix &m1,const HepSymMatrix &m2)
   HepMatrix::mcIter snp1,sp1,snp2,sp2;
   double temp;
   HepMatrix::mIter mr = mret.m.begin();
-  for(step1=1,snp1=m1.m.begin();step1<=m1.num_row();snp1+=step1++)
-    for(step2=1,snp2=m2.m.begin();step2<=m2.num_row();)
+  snp1=m1.m.begin();
+  for(step1=1;step1<=m1.num_row();++step1) {
+    snp2=m2.m.begin();
+    for(step2=1;step2<=m2.num_row();++step2)
       {
 	sp1=snp1;
 	sp2=snp2;
@@ -473,28 +475,50 @@ HepMatrix operator*(const HepSymMatrix &m1,const HepSymMatrix &m2)
 	temp=0;
 	if(step1<step2)
 	  {
-	    while(sp1<snp1+step1)
+	    while(sp1<snp1+step1) {
 	      temp+=(*(sp1++))*(*(sp2++));
+	      }
 	    sp1+=step1-1;
-	    for(stept1=step1+1;stept1!=step2+1;sp1+=stept1++)
+	    for(stept1=step1+1;stept1!=step2+1;++stept1) {
 	      temp+=(*sp1)*(*(sp2++));
-	    sp2+=step2-1;
-	   for(stept2=++step2;stept2<=m2.num_row();sp1+=stept1++,sp2+=stept2++)
-	     temp+=(*sp1)*(*sp2);
-	  }
+	      if(stept1<=step2) sp1+=stept1;
+	      }
+            if(step2<m2.num_row()) {	// only if we aren't on the last row
+	      sp2+=step2-1;
+	      for(stept2=step2+1;stept2<=m2.num_row();stept1++,stept2++) {
+		temp+=(*sp1)*(*sp2);
+		if(stept2<m2.num_row()) {
+	           sp1+=stept1;
+		   sp2+=stept2;
+		   }
+		}	// for(stept2
+	      }	// if(step2
+	  }	// step1<step2
 	else
 	  {
-	    while(sp2<snp2)
+	    while(sp2<snp2) {
 	      temp+=(*(sp1++))*(*(sp2++));
+	      }
 	    sp2+=step2-1;
-	    for(stept2=++step2;stept2!=step1+1;sp2+=stept2++)
+	    for(stept2=step2+1;stept2!=step1+1;stept2++) {
 	      temp+=(*(sp1++))*(*sp2);
-	    sp1+=step1-1;
-	   for(stept1=step1+1;stept1<=m1.num_row();sp1+=stept1++,sp2+=stept2++)
-	     temp+=(*sp1)*(*sp2);
-	  }
+	      if(stept2<=step1) sp2+=stept2;
+	      }
+	    if(step1<m1.num_row()) {	// only if we aren't on the last row
+	      sp1+=step1-1;
+	      for(stept1=step1+1;stept1<=m1.num_row();stept1++,stept2++) {
+		temp+=(*sp1)*(*sp2);
+		if(stept1<m1.num_row()) {
+	           sp1+=stept1;
+		   sp2+=stept2;
+		   }
+		}	// for(stept1
+	      }	// if(step1
+	  }	// else
 	*(mr++)=temp;
-      }
+      }	// for(step2
+    if(step1<m1.num_row()) snp1+=step1;
+    }	// for(step1
   return mret;
 }
 
