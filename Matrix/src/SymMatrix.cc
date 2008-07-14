@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.15 2008/07/11 20:44:20 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.16 2008/07/14 16:28:42 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -481,7 +481,7 @@ HepMatrix operator*(const HepSymMatrix &m1,const HepSymMatrix &m2)
 	    sp1+=step1-1;
 	    for(stept1=step1+1;stept1!=step2+1;++stept1) {
 	      temp+=(*sp1)*(*(sp2++));
-	      if(stept1<=step2) sp1+=stept1;
+	      if(stept1<m2.num_row()) sp1+=stept1;
 	      }
             if(step2<m2.num_row()) {	// only if we aren't on the last row
 	      sp2+=step2-1;
@@ -499,21 +499,23 @@ HepMatrix operator*(const HepSymMatrix &m1,const HepSymMatrix &m2)
 	    while(sp2<snp2) {
 	      temp+=(*(sp1++))*(*(sp2++));
 	      }
-	    sp2+=step2-1;
-	    for(stept2=step2+1;stept2!=step1+1;stept2++) {
-	      temp+=(*(sp1++))*(*sp2);
-	      if(stept2<=step1) sp2+=stept2;
-	      }
-	    if(step1<m1.num_row()) {	// only if we aren't on the last row
-	      sp1+=step1-1;
-	      for(stept1=step1+1;stept1<=m1.num_row();stept1++,stept2++) {
-		temp+=(*sp1)*(*sp2);
-		if(stept1<m1.num_row()) {
-	           sp1+=stept1;
-		   sp2+=stept2;
-		   }
-		}	// for(stept1
-	      }	// if(step1
+	    if(step2<m2.num_row()) {	// only if we aren't on the last row
+	      sp2+=step2-1;
+	      for(stept2=step2+1;stept2!=step1+1;stept2++) {
+		temp+=(*(sp1++))*(*sp2);
+		if(stept2<m1.num_row()) sp2+=stept2;
+		}
+	      if(step1<m1.num_row()) {	// only if we aren't on the last row
+		sp1+=step1-1;
+		for(stept1=step1+1;stept1<=m1.num_row();stept1++,stept2++) {
+		  temp+=(*sp1)*(*sp2);
+		  if(stept1<m1.num_row()) {
+	             sp1+=stept1;
+		     sp2+=stept2;
+		     }
+		  }	// for(stept1
+		}	// if(step1
+	      }	// if(step2
 	  }	// else
 	*(mr++)=temp;
       }	// for(step2
