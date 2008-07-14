@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.2.9 2008/04/14 20:56:41 garren Exp $
+// $Id: Matrix.cc,v 1.4.2.10 2008/07/14 21:28:23 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -113,8 +113,7 @@ HepMatrix::HepMatrix(int p,int q,int init)
 	 {
 	    if ( ncol == nrow ) {
  	       mIter a = m.begin();
- 	       mIter b = m.end();
-	       for( ; a<b; a+=(ncol+1)) *a = 1.0;
+	       for( int step=0; step < size; step+=(ncol+1) ) *(a+step) = 1.0;
 	    } else {
 	       error("Invalid dimension in HepMatrix(int,int,1).");
 	    }
@@ -235,7 +234,7 @@ void HepMatrix::sub(int row,int col,const HepMatrix &m1)
     for(int icol=1; icol<=m1.num_col(); icol++) {
       *(brc++) = *(a++);
     }
-    b1 += nc;
+    if(irow<m1.num_row()) b1 += nc;
   }
 }
 
@@ -465,14 +464,15 @@ return mret(ncol,nrow);
 {
    HepMatrix mret(ncol,nrow);
 #endif
-   register mcIter pl = m.end();
+   std::cerr << "begin HepMatrix::T()\n";
    register mcIter pme = m.begin();
    register mIter pt = mret.m.begin();
-   register mIter ptl = mret.m.end();
-   for (; pme < pl; pme++, pt+=nrow)
-   {
-      if (pt >= ptl) pt -= (size-1);
-      (*pt) = (*pme);
+   for( int nr=0; nr<nrow; ++nr) {
+       for( int nc=0; nc<ncol; ++nc) {
+          pt = mret.m.begin() + nr + nrow*nc;
+          (*pt) = (*pme);
+          ++pme;
+       }
    }
    return mret;
 }
