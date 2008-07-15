@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.17 2008/07/15 15:24:09 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.18 2008/07/15 17:39:28 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -397,9 +397,12 @@ HepMatrix operator*(const HepMatrix &m1,const HepSymMatrix &m2)
     HepMatrix::mcIter mit1, mit2, sp,snp; //mit2=0
     double temp;
     HepMatrix::mIter mir=mret.m.begin();
-    int step,stept;
-    for(mit1=m1.m.begin();mit1<m1.m.begin()+m1.num_row()*m1.num_col();mit1 = mit2)
-      for(step=1,snp=m2.m.begin();step<=m2.num_row();)
+    for(mit1=m1.m.begin();
+        mit1<m1.m.begin()+m1.num_row()*m1.num_col();
+	mit1 = mit2)
+    {
+      snp=m2.m.begin();
+      for(int step=1;step<=m2.num_row();++step)
 	{
 	  mit2=mit1;
 	  sp=snp;
@@ -407,14 +410,17 @@ HepMatrix operator*(const HepMatrix &m1,const HepSymMatrix &m2)
 	  temp=0;
 	  while(sp<snp)
 	    temp+=*(sp++)*(*(mit2++));
-	  sp+=step-1;
-	  for(stept=++step;stept<=m2.num_row();stept++)
-	    {
-	      temp+=*sp*(*(mit2++));
-	      sp+=stept;
-	    }
+          if( step<m2.num_row() ) {	// only if we aren't on the last row
+	    sp+=step-1;
+	    for(int stept=step+1;stept<=m2.num_row();stept++)
+	      {
+		temp+=*sp*(*(mit2++));
+		if(stept<m2.num_row()) sp+=stept;
+	      }
+	    }	// if(step
 	  *(mir++)=temp;
-	}
+	}	// for(step
+      }	// for(mit1
     return mret;
   }
 
@@ -446,8 +452,10 @@ HepMatrix operator*(const HepSymMatrix &m1,const HepMatrix &m2)
 	for(stept=step+1;stept<=m1.num_row();stept++)
 	  {
 	    temp+=*mit2*(*sp);
-	    mit2+=m2.num_col();
-	    sp+=stept;
+	    if(stept<m1.num_row()) {
+	      mit2+=m2.num_col();
+	      sp+=stept;
+	    }
 	  }
 	*(mir++)=temp;
       }
