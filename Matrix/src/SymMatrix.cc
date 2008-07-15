@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.20 2008/07/15 20:50:24 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.21 2008/07/15 21:05:38 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -762,7 +762,7 @@ void HepSymMatrix::assign (const HepMatrix &m1)
       for(int c=1;c<=r;c++) {
 	 *(b++) = *(d++);
       }
-      a += nrow;
+      if(r<nrow) a += nrow;
    }
 }
 

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DiagMatrix.cc,v 1.4.2.5 2008/07/15 20:50:24 garren Exp $
+// $Id: DiagMatrix.cc,v 1.4.2.6 2008/07/15 21:05:38 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -641,7 +641,7 @@ void HepDiagMatrix::assign (const HepMatrix &m1)
    HepMatrix::mIter b = m.begin();
    for(int r=1;r<=nrow;r++) {
       *(b++) = *a;
-      a += (nrow+1);
+      if(r<nrow) a += (nrow+1);
    }
 }
 
@@ -656,7 +656,7 @@ void HepDiagMatrix::assign(const HepSymMatrix &m1)
    HepMatrix::mIter b = m.begin();
    for(int r=1;r<=nrow;r++) {
       *(b++) = *a;
-      a += (r+1);
+      if(r<nrow) a += (r+1);
    }
 }
 
