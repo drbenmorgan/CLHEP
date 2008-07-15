@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.16 2008/07/14 16:28:42 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.17 2008/07/15 15:24:09 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -175,12 +175,13 @@ return mret(max_row-min_row+1);
     error("HepSymMatrix::sub: Index out of range");
   HepMatrix::mIter a = mret.m.begin();
   HepMatrix::mcIter b1 = m.begin() + (min_row+2)*(min_row-1)/2;
-  for(int irow=1; irow<=mret.num_row(); irow++) {
+  int rowsize=mret.num_row();
+  for(int irow=1; irow<=rowsize; irow++) {
     HepMatrix::mcIter b = b1;
-    for(int icol=1; icol<=irow; icol++) {
+    for(int icol=0; icol<irow; ++icol) {
       *(a++) = *(b++);
     }
-    b1 += irow+min_row-1;
+    if(irow<rowsize) b1 += irow+min_row-1;
   }
   return mret;
 }
@@ -192,12 +193,13 @@ HepSymMatrix HepSymMatrix::sub(int min_row, int max_row)
     error("HepSymMatrix::sub: Index out of range");
   HepMatrix::mIter a = mret.m.begin();
   HepMatrix::mIter b1 = m.begin() + (min_row+2)*(min_row-1)/2;
-  for(int irow=1; irow<=mret.num_row(); irow++) {
+  int rowsize=mret.num_row();
+  for(int irow=1; irow<=rowsize; irow++) {
     HepMatrix::mIter b = b1;
-    for(int icol=1; icol<=irow; icol++) {
+    for(int icol=0; icol<irow; ++icol) {
       *(a++) = *(b++);
     }
-    b1 += irow+min_row-1;
+    if(irow<rowsize) b1 += irow+min_row-1;
   }
   return mret;
 }
@@ -208,12 +210,13 @@ void HepSymMatrix::sub(int row,const HepSymMatrix &m1)
     error("HepSymMatrix::sub: Index out of range");
   HepMatrix::mcIter a = m1.m.begin();
   HepMatrix::mIter b1 = m.begin() + (row+2)*(row-1)/2;
-  for(int irow=1; irow<=m1.num_row(); irow++) {
+  int rowsize=m1.num_row();
+  for(int irow=1; irow<=rowsize; ++irow) {
     HepMatrix::mIter b = b1;
-    for(int icol=1; icol<=irow; icol++) {
+    for(int icol=0; icol<irow; ++icol) {
       *(b++) = *(a++);
     }
-    b1 += irow+row-1;
+    if(irow<rowsize) b1 += irow+row-1;
   }
 }
 

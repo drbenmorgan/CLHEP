@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.2.10 2008/07/14 21:28:23 garren Exp $
+// $Id: Matrix.cc,v 1.4.2.11 2008/07/15 15:24:09 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -209,13 +209,13 @@ return mret(max_row-min_row+1,max_col-min_col+1);
   mIter a = mret.m.begin();
   int nc = num_col();
   mcIter b1 = m.begin() + (min_row - 1) * nc + min_col - 1;
-  
-  for(int irow=1; irow<=mret.num_row(); irow++) {
+  int rowsize = mret.num_row();
+  for(int irow=1; irow<=rowsize; ++irow) {
     mcIter brc = b1;
-    for(int icol=1; icol<=mret.num_col(); icol++) {
+    for(int icol=0; icol<mret.num_col(); ++icol) {
       *(a++) = *(brc++);
     }
-    b1 += nc;
+    if(irow<rowsize) b1 += nc;
   }
   return mret;
 }
@@ -228,13 +228,13 @@ void HepMatrix::sub(int row,int col,const HepMatrix &m1)
   mcIter a = m1.m.begin();
   int nc = num_col();
   mIter b1 = m.begin() + (row - 1) * nc + col - 1;
-  
-  for(int irow=1; irow<=m1.num_row(); irow++) {
+  int rowsize = m1.num_row();
+  for(int irow=1; irow<=rowsize; ++irow) {
     mIter brc = b1;
-    for(int icol=1; icol<=m1.num_col(); icol++) {
+    for(int icol=0; icol<m1.num_col(); ++icol) {
       *(brc++) = *(a++);
     }
-    if(irow<m1.num_row()) b1 += nc;
+    if(irow<rowsize) b1 += nc;
   }
 }
 
@@ -464,7 +464,6 @@ return mret(ncol,nrow);
 {
    HepMatrix mret(ncol,nrow);
 #endif
-   std::cerr << "begin HepMatrix::T()\n";
    register mcIter pme = m.begin();
    register mIter pt = mret.m.begin();
    for( int nr=0; nr<nrow; ++nr) {
