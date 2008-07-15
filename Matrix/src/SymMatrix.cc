@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.18 2008/07/15 17:39:28 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.19 2008/07/15 19:49:11 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -446,19 +446,23 @@ HepMatrix operator*(const HepSymMatrix &m1,const HepMatrix &m2)
 	while(sp<snp+step)
 	  {
 	    temp+=*mit2*(*(sp++));
-	    mit2+=m2.num_col();
-	  }
-	sp+=step-1;
-	for(stept=step+1;stept<=m1.num_row();stept++)
-	  {
-	    temp+=*mit2*(*sp);
-	    if(stept<m1.num_row()) {
+	    if( m2.num_size()-(mit2-m2.m.begin())>m2.num_col() ){
 	      mit2+=m2.num_col();
-	      sp+=stept;
 	    }
 	  }
+        if(step<m1.num_row()) {	// only if we aren't on the last row
+	  sp+=step-1;
+	  for(stept=step+1;stept<=m1.num_row();stept++)
+	    {
+	      temp+=*mit2*(*sp);
+	      if(stept<m1.num_row()) {
+		mit2+=m2.num_col();
+		sp+=stept;
+	      }
+	    }
+          }	// if(step
 	*(mir++)=temp;
-      }
+      }	// for(mit1
   return mret;
 }
 
@@ -548,7 +552,7 @@ HepVector operator*(const HepSymMatrix &m1,const HepVector &m2)
   double temp;
   int step,stept;
   HepMatrix::mIter vrp=mret.m.begin();
-  for(step=1,snp=m1.m.begin();step<=m1.num_row();)
+  for(step=1,snp=m1.m.begin();step<=m1.num_row();++step)
     {
       sp=snp;
       vpt=m2.m.begin();
@@ -556,14 +560,14 @@ HepVector operator*(const HepSymMatrix &m1,const HepVector &m2)
       temp=0;
       while(sp<snp)
 	temp+=*(sp++)*(*(vpt++));
-      sp+=step-1;
-      for(stept=++step;stept<=m1.num_row();stept++)
+      if(step<m1.num_row()) sp+=step-1;
+      for(stept=step+1;stept<=m1.num_row();stept++)
 	{ 
 	  temp+=*sp*(*(vpt++));
-	  sp+=stept;
+	  if(stept<m1.num_row()) sp+=stept;
 	}
       *(vrp++)=temp;
-    }
+    }	// for(step
   return mret;
 }
 
@@ -818,7 +822,7 @@ HepSymMatrix HepSymMatrix::similarity(const HepSymMatrix &m1) const
       }
       for(i=c;i<=m1.num_col();i++) {
 	tmp+=(*(tempri++))*(*(m1ci));
-	m1ci += i;
+	if(i<m1.num_col()) m1ci += i;
       }
       *(mr++) = tmp;
       m1c1 += c;
@@ -857,12 +861,10 @@ HepSymMatrix HepSymMatrix::similarityT(const HepMatrix &m1) const
     HepMatrix::mcIter m11c = m1.m.begin();
     for(int c=1;c<=r;c++) {
       register double tmp = 0.0;
-      register HepMatrix::mIter tempir = temp1r;
-      register HepMatrix::mcIter m1ic = m11c;
       for(int i=1;i<=m1.num_row();i++) {
+	HepMatrix::mIter tempir = temp1r + n*(i-1);
+	HepMatrix::mcIter m1ic = m11c + n*(i-1);
 	tmp+=(*(tempir))*(*(m1ic));
-	tempir += n;
-	m1ic += n;
       }
       *(mrc++) = tmp;
       m11c++;
