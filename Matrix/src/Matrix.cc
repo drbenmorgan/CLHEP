@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.2.11 2008/07/15 15:24:09 garren Exp $
+// $Id: Matrix.cc,v 1.4.2.12 2008/07/15 20:50:24 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -172,11 +172,11 @@ HepMatrix::HepMatrix(const HepDiagMatrix &m1)
    size = nrow * ncol;
 
    int n = num_row();
-   mIter mrr = m.begin();
+   mIter mrr;
    mcIter mr = m1.m.begin();
-   for(int r=1;r<=n;r++) {
+   for(int r=0;r<n;r++) {
+      mrr = m.begin()+(n+1)*r;
       *mrr = *(mr++);
-      mrr += (n+1);
    }
 }
 

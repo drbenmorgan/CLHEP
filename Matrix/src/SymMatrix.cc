@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.2.19 2008/07/15 19:49:11 garren Exp $
+// $Id: SymMatrix.cc,v 1.3.2.20 2008/07/15 20:50:24 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -153,7 +153,7 @@ HepSymMatrix::HepSymMatrix(const HepDiagMatrix &m1)
    HepMatrix::mcIter mr = m1.m.begin();
    for(int r=1;r<=n;r++) {
       *mrr = *(mr++);
-      mrr += (r+1);
+      if(r<n) mrr += (r+1);
    }
 }
 
@@ -700,7 +700,7 @@ HepSymMatrix & HepSymMatrix::operator=(const HepDiagMatrix &m1)
    HepMatrix::mcIter mr = m1.m.begin();
    for(int r=1; r<=nrow; r++) {
       *mrr = *(mr++);
-      mrr += (r+1);
+      if(r<nrow) mrr += (r+1);
    }
    return (*this);
 }

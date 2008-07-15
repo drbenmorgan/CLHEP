@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DiagMatrix.cc,v 1.4.2.4 2005/02/01 20:21:24 garren Exp $
+// $Id: DiagMatrix.cc,v 1.4.2.5 2008/07/15 20:50:24 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -491,7 +491,7 @@ HepMatrix & HepMatrix::operator+=(const HepDiagMatrix &m2)
   HepMatrix::mcIter mr = m2.m.begin();
   for(int r=1;r<=n;r++) {
     *mrr += *(mr++);
-    mrr += (n+1);
+    if(r<n) mrr += (n+1);
   }
   return (*this);
 }
@@ -503,7 +503,7 @@ HepSymMatrix & HepSymMatrix::operator+=(const HepDiagMatrix &m2)
   register HepMatrix::mcIter b=m2.m.begin();
   for(int i=1;i<=num_row();i++) {
     *a += *(b++);
-    a += (i+1);
+    if(i<num_row()) a += (i+1);
   }
   return (*this);
 }
@@ -523,7 +523,7 @@ HepMatrix & HepMatrix::operator-=(const HepDiagMatrix &m2)
   HepMatrix::mcIter mr = m2.m.begin();
   for(int r=1;r<=n;r++) {
     *mrr -= *(mr++);
-    mrr += (n+1);
+    if(r<n) mrr += (n+1);
   }
   return (*this);
 }
@@ -535,7 +535,7 @@ HepSymMatrix & HepSymMatrix::operator-=(const HepDiagMatrix &m2)
   register HepMatrix::mcIter b=m2.m.begin();
   for(int i=1;i<=num_row();i++) {
     *a -= *(b++);
-    a += (i+1);
+    if(i<num_row()) a += (i+1);
   }
   return (*this);
 }
@@ -574,7 +574,7 @@ HepMatrix & HepMatrix::operator=(const HepDiagMatrix &m1)
    HepMatrix::mcIter mr = m1.m.begin();
    for(int r=1;r<=n;r++) {
       *mrr = *(mr++);
-      mrr += (n+1);
+      if(r<n) mrr += (n+1);
    }
    return (*this);
 }
