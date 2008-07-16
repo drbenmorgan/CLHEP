@@ -1,3 +1,7 @@
+2008-07-16  Lynn Garren <garren@fnal.gov>
+
+	* more fixes of iterators that were out of range
+
 2008-04-17  Lynn Garren <garren@fnal.gov>
 
 	* src/SymMatrix.cc, Matrix.cc: in several places, iterators were

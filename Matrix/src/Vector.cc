@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: Vector.cc,v 1.3.2.4 2005/02/01 20:21:24 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.

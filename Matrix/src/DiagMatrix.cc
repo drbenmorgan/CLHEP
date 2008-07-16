@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: DiagMatrix.cc,v 1.4.2.6 2008/07/15 21:05:38 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.

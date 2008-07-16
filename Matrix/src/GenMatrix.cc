@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: GenMatrix.cc,v 1.4.2.1 2004/08/25 18:37:41 pfeiffer Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
