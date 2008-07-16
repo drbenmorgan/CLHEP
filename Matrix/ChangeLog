@@ -1,3 +1,11 @@
+2008-07-16  Lynn Garren <garren@fnal.gov>
+
+	* src/SymMatrix.cc, Matrix.cc, DiagMatrix.cc, MatrixLinear.cc: 
+	Iterators were set to a nonexistent memory location in many places.
+	Even though the iterators were not used, this operation is not allowed 
+	and causes problems with the newer VC++ compilers.  
+	In some cases, a more efficient rewrite was possible.
+
 ==============================
 01.05.08 Release CLHEP-2.0.3.3
 ==============================
