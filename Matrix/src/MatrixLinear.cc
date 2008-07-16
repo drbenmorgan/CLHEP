@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: MatrixLinear.cc,v 1.2.2.5 2008/07/16 17:39:58 garren Exp $
+// $Id: MatrixLinear.cc,v 1.2.2.6 2008/07/16 18:13:55 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -103,8 +103,10 @@ void back_solve(const HepMatrix &R, HepVector *b)
 	 (*br)-=(*(Rrc++))*(*(bc++));
       }
       (*br)/=(*Rrr);
-      br--;
-      if(r>1) Rrr -= n+1;
+      if(r>1) {
+	 br--;
+	 Rrr -= n+1;
+      }
    }
 }
 
@@ -747,7 +749,7 @@ HepVector qr_solve(HepMatrix *A,const HepVector &b)
       HepMatrix::mIter Qcr = Qr;
       for (int c=1;c<=b.num_row();c++) {
 	 *b2r += (*Qcr) * (*(bc++));
-	 Qcr += n;
+	 if(c<b.num_row()) Qcr += n;
       }
       b2r++;
       Qr++;
@@ -779,11 +781,13 @@ HepMatrix qr_solve(HepMatrix *A,const HepMatrix &b)
 	 HepMatrix::mcIter bci = b1i;
 	 for (int c=1;c<=b.num_row();c++) {
 	    *b2ri += (*Qcr) * (*bci);
-	    Qcr += nq;
-	    bci += nb;
+	    if(c<b.num_row()) {
+	       Qcr += nq;
+	       bci += nb;
+	    }
 	 }
 	 Q1r++;
-	 b2ri += nb;
+	 if(r<b2.num_row()) b2ri += nb;
       }
       b1i++;
       b21i++;
