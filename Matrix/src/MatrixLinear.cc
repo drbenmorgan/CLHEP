@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: MatrixLinear.cc,v 1.2.2.3 2008/07/16 15:16:02 garren Exp $
+// $Id: MatrixLinear.cc,v 1.2.2.4 2008/07/16 17:27:04 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -428,7 +428,7 @@ void house_with_update(HepMatrix *a,int row,int col)
    int r;
    for (r=row;r<=a->num_row();r++) {
       (*(vp++))=(*arc);
-      arc += n;
+      if(r<a->num_row()) arc += n;
    }
    double normsq=v.normsq();
    double norm=sqrt(normsq);
@@ -436,12 +436,12 @@ void house_with_update(HepMatrix *a,int row,int col)
    v(1)+=sign((*a)(row,col))*norm;
    normsq+=v(1)*v(1);
    (*a)(row,col)=-sign((*a)(row,col))*norm;
-   arc = a->m.begin() + row * n + (col-1);
-   for (r=row+1;r<=a->num_row();r++) {
-      (*arc)=0;
-      arc += n;
-   }
    if (row<a->num_row()) {
+      arc = a->m.begin() + row * n + (col-1);
+      for (r=row+1;r<=a->num_row();r++) {
+	 (*arc)=0;
+	 if(r<a->num_row()) arc += n;
+      }
       row_house(a,v,normsq,row,col+1);
    }
 }
@@ -457,8 +457,10 @@ void house_with_update(HepMatrix *a,HepMatrix *v,int row,int col)
    for (r=row;r<=a->num_row();r++) {
       (*vrc)=(*arc);
       normsq+=(*vrc)*(*vrc);
-      vrc += nv;
-      arc += na;
+      if(r<a->num_row()) {
+	 vrc += nv;
+	 arc += na;
+      }
    }
    double norm=sqrt(normsq);
    vrc = v->m.begin() + (row-1) * nv + (col-1);
@@ -466,13 +468,14 @@ void house_with_update(HepMatrix *a,HepMatrix *v,int row,int col)
    (*vrc)+=sign((*a)(row,col))*norm;
    normsq+=(*vrc)*(*vrc);
    (*a)(row,col)=-sign((*a)(row,col))*norm;
-   arc = a->m.begin() + row * na + (col-1);
-   for (r=row+1;r<=a->num_row();r++) {
-      (*arc)=0;
-      arc += na;
-   }
-   if (row<a->num_row())
+   if (row<a->num_row()) {
+      arc = a->m.begin() + row * na + (col-1);
+      for (r=row+1;r<=a->num_row();r++) {
+	 (*arc)=0;
+	 if(r<a->num_row()) arc += na;
+      }
       row_house(a,*v,normsq,row,col+1,row,col);
+   }
 }
 /* -----------------------------------------------------------------------
    house_with_update2 Version: 1.00 Date Last Changed: 1/28/93
