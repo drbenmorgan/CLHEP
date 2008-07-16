@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: Matrix.cc,v 1.4.4.2 2005/03/18 22:26:47 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.

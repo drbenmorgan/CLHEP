@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: MatrixLinear.cc,v 1.2.4.1 2004/09/24 21:28:14 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.

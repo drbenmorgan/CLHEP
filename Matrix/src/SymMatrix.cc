@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.3.4.3 2005/04/08 17:49:38 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.

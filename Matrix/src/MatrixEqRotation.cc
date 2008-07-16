@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: MatrixEqRotation.cc,v 1.3.4.1 2004/09/24 21:28:14 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
