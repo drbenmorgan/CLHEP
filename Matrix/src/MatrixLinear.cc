@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: MatrixLinear.cc,v 1.2.2.6 2008/07/16 18:13:55 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -217,7 +216,7 @@ void col_house(HepMatrix *a,const HepMatrix &v,double vnormsq,
 	 vp += nv;
       }
       wptr++;
-      arcb += n;
+      if(r<a->num_row()) arcb += n;
    }
 }
 
@@ -239,7 +238,7 @@ double condition(const HepSymMatrix &m)
    for (int i=2; i<=n; i++) {
       if (max<fabs(*mii)) max=fabs(*mii);
       if (min>fabs(*mii)) min=fabs(*mii);
-      mii += i+1;
+      if(i<n) mii += i+1;
    } 
    return max/min;
 }
@@ -360,8 +359,8 @@ HepMatrix diagonalize(HepSymMatrix *s)
 	    (*sip1i)=0;
 	 }
 	 if(i<end-1) {
-	 sii += i+1;
-	 sip1i += i+2;
+	    sii += i+1;
+	    sip1i += i+2;
 	 }
       }
       while(begin<end && s->fast(begin+1,begin) ==0) begin++;
