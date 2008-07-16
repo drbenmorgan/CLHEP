@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: MatrixLinear.cc,v 1.2.2.2 2008/07/16 15:04:58 garren Exp $
+// $Id: MatrixLinear.cc,v 1.2.2.3 2008/07/16 15:16:02 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -833,11 +833,11 @@ void tridiagonal(HepSymMatrix *a,HepMatrix *hsm)
 	    int cptr;
 	    for (cptr=k+1;cptr<=rptr;cptr++) {
 	       (*pr)+=a->fast(rptr,cptr)*(*hsmcptrkp);
-	       if(cptr<=a->num_col()) hsmcptrkp += nh;
+	       if(cptr<a->num_col()) hsmcptrkp += nh;
 	    }
 	    for (;cptr<=a->num_col();cptr++) {
 	       (*pr)+=a->fast(cptr,rptr)*(*hsmcptrkp);
-	       if(cptr<=a->num_col()) hsmcptrkp += nh;
+	       if(cptr<a->num_col()) hsmcptrkp += nh;
 	    }
 	    (*pr)*=2/normsq;
 	    rptr++;
