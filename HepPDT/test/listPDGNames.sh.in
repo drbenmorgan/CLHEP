@@ -1,7 +1,0 @@
-#! /bin/sh
-# @configure_input@
-
-
-./listPDGNames@EXEEXT@ 
-@DIFF_Q@ listPDGNames.out @srcdir@/listPDGNames.output > /dev/null
-
