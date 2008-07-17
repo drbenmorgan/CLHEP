@@ -1,8 +1,28 @@
+2008-07-17  Lynn Garren <garren@fnal.gov>
+
+	* */test/Makefile.am: use "/Fo$@" instead of "-o $@" for Visual C++
+
+2008-07-16  Lynn Garren <garren@fnal.gov>
+
+	* src/SymMatrix.cc, Matrix.cc, DiagMatrix.cc, MatrixLinear.cc: 
+	Iterators were set to a nonexistent memory location in many places.
+	Even though the iterators were not used, this operation is not allowed 
+	and causes problems with the newer VC++ compilers.  
+	In some cases, a more efficient rewrite was possible.
+
+2008-04-09  Lynn Garren <garren@fnal.gov>
+
+	* various changes in Random to keep gcc 4.3 happy
+	
 2008-04-03  Lynn Garren <garren@fnal.gov>
 
 	* configure.in: VC++ compiler flag -GX is replaced by -EHsc
 	  icc compiler flag -mp is replaced by -fp-model precise
 	  remove KCC from list of C++ compilers
+
+	* PhysicalConstants.h: update h_Planck, electron_mass_c2,
+	  proton_mass_c2, neutron_mass_c2, and amu_c2 to PDG 2006 values
+	* SystemOfUnits.h: update e_SI to PDG 2006 value
 
 ==============================
 18.10.07 Release CLHEP-1.9.3.2
