@@ -1,3 +1,8 @@
+2008-07-16  Lynn Garren <garren@fnal.gov>
+
+	* src/Evaluator.cc: Fix non ISO C++ compliant cast from pointer to
+	function to void*, which is a pointer to an object.
+
 ==============================
 01.05.08 Release CLHEP-2.0.3.3
 ==============================

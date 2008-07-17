@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.4.4.4 2005/04/15 16:32:53 garren Exp $
+// $Id: RandEngine.cc,v 1.4.4.5 2008/07/17 19:00:45 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -123,30 +123,6 @@ RandEngine::RandEngine(std::istream& is)
 }
 
 RandEngine::~RandEngine() {}
-
-RandEngine::RandEngine(const RandEngine &p)
-: mantissa_bit_32( pow(0.5,32.) )
-{
-  // Assignment and copy of RandEngine objects may provoke
-  // undesired behavior in a single thread environment.
-  
-  std::cerr << "!!! WARNING !!! - Illegal operation." << std::endl;
-  std::cerr << "- Copy constructor and operator= are NOT allowed on "
-	    << "RandEngine objects -" << std::endl;
-  *this = p;
-}
-
-RandEngine & RandEngine::operator = (const RandEngine &p)
-{
-  // Assignment and copy of RandEngine objects may provoke
-  // undesired behavior in a single thread environment.
-
-  std::cerr << "!!! WARNING !!! - Illegal operation." << std::endl;
-  std::cerr << "- Copy constructor and operator= are NOT allowed on "
-	    << "RandEngine objects -" << std::endl;
-  *this = p;
-  return *this;
-}
 
 void RandEngine::setSeed(long seed, int)
 {
@@ -281,8 +257,11 @@ void RandEngine::showStatus() const
       iS = RAND_MAX + 1;                     
       iK = 1;                                
 //    int StoK = S;                          
-      int StoK = iS;                         
-      if ( (RAND_MAX >> 32) == 0) {          
+      int StoK = iS;          
+      // The two statements below are equivalent, but some compilers
+      // are getting too smart and complain about the first statement.               
+      //if ( (RAND_MAX >> 32) == 0) {  
+      if( (unsigned long) (RAND_MAX) <= (( (1uL) << 31 ) - 1 ) ) {
         iK = 2;                              
 //      StoK = S*S;                          
         StoK = iS*iS;                        

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.5.4.2 2005/04/15 16:32:53 garren Exp $
+// $Id: testRandDists.cc,v 1.5.4.3 2008/07/17 19:00:45 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -203,8 +203,9 @@ bool gaussianTest ( HepRandom & dist, double mu,
     ncounts[ciu] = 0;
   }
 
-  double x;
-  double u;
+  // hack so that gcc 4.3 puts x and u into memory instead of a register
+  volatile double x;
+  volatile double u;
   int ipr = nNumbers / 10 + 1;
   for (int ifire = 0; ifire < nNumbers; ifire++) {
     x = dist();		// We avoid fire() because that is not virtual 

@@ -360,7 +360,7 @@ int main() {
       stat |= 131072;
     }
   }
-  if (stat & 131072 == 0) {
+  if ((stat & 131072) == 0) {
     output << "All captured output agrees with earlier values\n";
   }
 #endif

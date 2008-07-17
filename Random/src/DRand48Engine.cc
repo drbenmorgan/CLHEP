@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DRand48Engine.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
+// $Id: DRand48Engine.cc,v 1.4.4.3 2008/07/17 19:00:45 garren Exp $
 // -----------------------------------------------------------------------
 //                             HEP Random
 //                        --- DRand48Engine ---
@@ -93,29 +93,6 @@ DRand48Engine::DRand48Engine(std::istream& is)
 }
 
 DRand48Engine::~DRand48Engine() {}
-
-DRand48Engine::DRand48Engine(const DRand48Engine &p)
-{
-  // Assignment and copy of DRand48Engine objects may provoke
-  // undesired behavior in a single thread environment.
-  
-  std::cerr << "!!! WARNING !!! - Illegal operation." << std::endl;
-  std::cerr << "- Copy constructor and operator= are NOT allowed on "
-	    << "DRand48Engine objects -" << std::endl;
-  *this = p;
-}
-
-DRand48Engine & DRand48Engine::operator = (const DRand48Engine &p)
-{
-  // Assignment and copy of DRand48Engine objects may provoke
-  // undesired behavior in a single thread environment.
-
-  std::cerr << "!!! WARNING !!! - Illegal operation." << std::endl;
-  std::cerr << "- Copy constructor and operator= are NOT allowed on "
-	    << "DRand48Engine objects -" << std::endl;
-  *this = p;
-  return *this;
-}
 
 void DRand48Engine::setSeed(long seed, int)
 {
