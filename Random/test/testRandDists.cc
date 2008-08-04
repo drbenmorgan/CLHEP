@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.5.2.4 2008/04/09 19:53:28 garren Exp $
+// $Id: testRandDists.cc,v 1.5.2.4.2.1 2008/08/04 22:17:27 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -47,6 +47,7 @@
 #include <iomanip>
 #include <cmath>		// double abs()
 #include <stdlib.h>		// int abs()
+#include <cstdlib>		// for exit()
 
 using std::cin;
 using std::cout;
