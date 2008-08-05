@@ -1,4 +1,4 @@
-// $Id: RanluxEngine.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
+// $Id: RanluxEngine.cc,v 1.4.4.2.2.1 2008/08/05 18:55:22 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -528,8 +528,8 @@ void RanluxEngine::flatArray(const int size, double* vect)
 } 
 
 RanluxEngine::operator unsigned int() {
-   return (unsigned int)(flat() * exponent_bit_32) & 0xffffffff |
-         ((unsigned int)(float_seed_table[i_lag]*exponent_bit_32)>>16) & 0xff;
+   return ((unsigned int)(flat() * exponent_bit_32) & 0xffffffff) |
+         (((unsigned int)(float_seed_table[i_lag]*exponent_bit_32)>>16) & 0xff);
    // needed because Ranlux doesn't fill all bits of the double
    // which therefore doesn't fill all bits of the integer.
 }

@@ -9,10 +9,10 @@
 //
 // ----------------------------------------------------------------------
 
-
-#include "CLHEP/Cast/itos.h"
-
 #include <sstream>
+
+#include "CLHEP/Cast/defs.h"
+#include "CLHEP/Cast/itos.h"
 
 
 std::string  itos( long i )  {
