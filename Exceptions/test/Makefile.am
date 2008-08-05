@@ -63,6 +63,17 @@ if USING_ICC
 # Exceptions is not supported for icc
 TESTS = 
 else
+if BUILD_VISUAL
+#avoid problems with vc8/9
+TESTS = \
+	testExceptions.sh 	\
+	testThrowFrom.sh	\
+	exctest1.sh 		\
+	exctest2.sh 		\
+	exctest3.sh 		\
+	exctest4.sh 		\
+ 	exctestNothrow.sh	
+else
 TESTS = \
 	testExceptions.sh 	\
 	testzmex.sh		\
@@ -72,6 +83,7 @@ TESTS = \
 	exctest3.sh 		\
 	exctest4.sh 		\
  	exctestNothrow.sh	
+endif
 endif
 
 # 	excDblThrow.sh
