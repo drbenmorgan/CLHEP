@@ -40,9 +40,9 @@ else
   MAKE_SHARED_CLHEP = $(LN_S) libCLHEP-@VERSION@.$(SHEXT) libCLHEP.$(SHEXT)
 endif
 
-CLEANFILES = clheplib library-list $(CLHEPLIB) $(lib_shared) 
+CLEANFILES = clheplib library-list $(CLHEPLIB) $(lib_shared) ClhepVersion.h
 
-all-local: $(CLHEPLIB) $(lib_shared)
+all-local: $(CLHEPLIB) $(lib_shared) versionheader
 
 $(CLHEPLIB): 
 	-rm -f $@
@@ -74,7 +74,10 @@ install-docs:
 clheplib: build-clheplib
 	./build-clheplib $(SUBDIRS)
 
-install-exec-local: install-CLHEPLIB
+versionheader: build-header
+	./build-header
+
+install-exec-local: install-CLHEPLIB install-versionheader
 
 install-CLHEPLIB: $(CLHEPLIB) $(lib_shared)
 	@$(NORMAL_INSTALL)
@@ -110,6 +113,15 @@ install-CLHEPLIB: $(CLHEPLIB) $(lib_shared)
 	    (cd $(DESTDIR)$(libdir) && $(MAKE_SHARED_CLHEP) ); \
 	  else :; fi; \
 	done
+
+install-versionheader: versionheader
+	@$(NORMAL_INSTALL)
+	test -z "$(includedir)" || $(mkdir_p) "$(DESTDIR)$(includedir)"
+	if test -f ClhepVersion.h; then \
+	  echo " $(INSTALL_DATA) 'ClhepVersion.h' '$(DESTDIR)$(includedir)/ClhepVersion.h'"; \
+	  $(INSTALL_DATA) "ClhepVersion.h" "$(DESTDIR)$(includedir)/ClhepVersion.h"; \
+	else :; fi
+	@$(POST_INSTALL)
 
 clean-local:
 	rm -f *-dep-list

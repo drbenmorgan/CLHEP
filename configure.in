@@ -85,6 +85,9 @@ AC_CONFIG_FILES([makeBinaryTar], [chmod +x makeBinaryTar])
 # build clheplib
 AC_CONFIG_FILES([build-clheplib], [chmod +x build-clheplib])
 
+# build ClhepVersion.h
+AC_CONFIG_FILES([build-header], [chmod +x build-header])
+
 # Configuration inquiry program/script:
 AC_CONFIG_FILES([clhep-config], [chmod +x clhep-config])
 

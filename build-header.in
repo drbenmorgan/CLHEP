@@ -1,0 +1,47 @@
+#! /bin/sh
+# @configure_input@
+#
+#  This script creates ClhepVersion.h
+#
+rm -f ClhepVersion.h
+
+VERSION="@VERSION@"
+
+# decode the version number
+
+v1=`echo $VERSION | awk -F\. '{ print $1 }'`
+v2=`echo $VERSION | awk -F\. '{ print $2 }'`
+v3=`echo $VERSION | awk -F\. '{ print $3 }'`
+v4=`echo $VERSION | awk -F\. '{ print $4 }'`
+
+
+rm -f ClhepVersion.h
+echo "#ifndef CLHEP_VERSION_H" >> ClhepVersion.h
+echo "#define CLHEP_VERSION_H 1" >> ClhepVersion.h
+echo "//" >> ClhepVersion.h
+echo "// ClhepVersion.h" >> ClhepVersion.h
+echo "//" >> ClhepVersion.h
+echo "// Sample Usage:" >> ClhepVersion.h
+echo "//   std::string version = CLHEP::Version::String()" >> ClhepVersion.h
+echo "//   int mjr = CLHEP::Version::Major();" >> ClhepVersion.h
+echo "//" >> ClhepVersion.h
+echo "" >> ClhepVersion.h
+echo "#include <string>" >> ClhepVersion.h
+echo "" >> ClhepVersion.h
+echo "namespace CLHEP {" >> ClhepVersion.h
+echo "" >> ClhepVersion.h
+echo "  struct Version {" >> ClhepVersion.h
+echo "" >> ClhepVersion.h
+echo "    static std::string String() { return \"$VERSION\"; }" >> ClhepVersion.h
+echo "    static int Major()          { return $v1; }" >> ClhepVersion.h
+echo "    static int SubMajor()       { return $v2; }" >> ClhepVersion.h
+echo "    static int Minor()          { return $v3; }" >> ClhepVersion.h
+echo "    static int SubMinor()       { return $v4; }" >> ClhepVersion.h
+echo "" >> ClhepVersion.h
+echo "  };" >> ClhepVersion.h
+echo "" >> ClhepVersion.h
+echo "} // namespace" >> ClhepVersion.h
+echo "" >> ClhepVersion.h
+echo "#endif	// CLHEP_VERSION_H" >> ClhepVersion.h
+
+exit 0
