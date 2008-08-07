@@ -1,3 +1,6 @@
+==============================
+07.08.08 Release CLHEP-2.0.4.0
+==============================
 2008-07-17  Lynn Garren <garren@fnal.gov>
 
 	* add explicit parentheses in various places to keep gcc 4.3 happy
