@@ -1,3 +1,6 @@
+==============================
+07.08.08 Release CLHEP-1.9.4.0
+==============================
 2008-04-03  Lynn Garren <garren@fnal.gov>
 
 	* PhysicalConstants.h: update h_Planck, electron_mass_c2,
