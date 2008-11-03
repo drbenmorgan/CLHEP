@@ -1,20 +1,20 @@
 // -*- C++ -*-
-// $Id: SystemOfUnits.h,v 1.3.2.3 2008/04/03 14:46:17 garren Exp $
+// $Id: SystemOfUnits.h,v 1.3.2.3.2.1 2008/11/03 18:14:43 garren Exp $
 // ----------------------------------------------------------------------
 // HEP coherent system of Units
 //
 // This file has been provided to CLHEP by Geant4 (simulation toolkit for HEP).
 //
 // The basic units are :
-//  millimeter              (millimeter)
+// millimeter              (millimeter)
 // nanosecond              (nanosecond)
 // Mega electron Volt      (MeV)
 // positron charge         (eplus)
 // degree Kelvin           (kelvin)
-//              the amount of substance (mole)
-//              luminous intensity      (candela)
+// the amount of substance (mole)
+// luminous intensity      (candela)
 // radian                  (radian)
-//              steradian               (steradian)
+// steradian               (steradian)
 //
 // Below is a non exhaustive list of derived and pratical units
 // (i.e. mostly the SI units).
@@ -38,6 +38,8 @@
 // 05.08.98   angstrom, picobarn, microsecond, picosecond, petaelectronvolt
 // 01.03.01   parsec    
 // 31.01.06   kilogray, milligray, microgray    
+// 29.04.08   use PDG 2006 value of e_SI
+// 03.11.08   use PDG 2008 value of e_SI
 
 #ifndef HEP_SYSTEM_OF_UNITS_H
 #define HEP_SYSTEM_OF_UNITS_H
@@ -137,7 +139,7 @@ namespace CLHEP {
   // Electric charge [Q]
   //
   static const double eplus = 1. ;// positron charge
-  static const double e_SI  = 1.60217653e-19;// positron charge in coulomb
+  static const double e_SI  = 1.602176487e-19;// positron charge in coulomb
   static const double coulomb = eplus/e_SI;// coulomb = 6.24150 e+18 * eplus
 
   //
