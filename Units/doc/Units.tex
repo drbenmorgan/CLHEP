@@ -1,7 +1,22 @@
-\documentstyle[html,a4wide]{article}
-\begin{document}
+% this is latex
+\documentclass{article}
+\usepackage{html}
+
+\setlength{\textheight}{230mm}
+\setlength{\topmargin}{0mm}
+
+%define page size:
+\setlength{\headheight}{0mm}
+\setlength{\headsep}{0mm}
+\setlength{\footskip}{12mm}
+\setlength{\textwidth}{160mm}
+\setlength{\oddsidemargin}{0mm}
+\setlength{\evensidemargin}{0mm}
+
 \newcommand{\lbar}
            {\makebox[0mm][l]{\hspace{.1em}\rule[.9ex]{.4em}{.4pt}}\lambda}
+
+\begin{document}
 
 \section*{CLHEP Units}
 
@@ -57,8 +72,10 @@ physical data with its units, e.g.
 
 Tables \ref{tab1} and \ref{tab2} represent physical units and
 physical constants defined in the {\it CLHEP Units} module.
-Most of the physical constants have been taken from
+Most of the physical constants were initially taken from
 the Particle Data Book: {\it "Phys. Rev. D volume 50 3-1 (1994) page 1233"}.
+As of release 1.9.4.1/2.0.4.1, the constants have been updated to reflect 
+the 2008 PDG values: {\it "Physics Letters B667 (2008) page 103"}.
 
 \begin{table}
 \centering
@@ -133,7 +150,7 @@ Absorbed Dose      &{\tt gray}          &              &$ Gy             $\\
 \hline
 \bf{Physical quantity}    &\bf{{\it CLHEP Units} name}&\bf{Symbol, equation}  \\
 \hline
-positon charge in coulomb &{\tt e\_{}SI}         &$ 1.60217733\times10^{-19}$\\
+positon charge in coulomb &{\tt e\_{}SI}         &$ 1.602176487\times10^{-19}$\\
 speed of light in vacuum  &{\tt c\_{}light}      &$ c                      $\\
                           &{\tt c\_{}squared}    &$ c^2                    $\\
 Plank constant            &{\tt h\_{}Planck}     &$ h                      $\\
@@ -142,7 +159,7 @@ Plank constant, reduced   &{\tt hbar\_{}Planck}  &$ \hbar                  $\\
                           &{\tt hbarc\_{}squared}&$ (\hbar\,c)^2           $\\
 electron charge           &{\tt electron\_{}charge}&$ -e                   $\\
                           &{\tt e\_{}squared}    &$ e^2                    $\\
-atomic equivalent mass unit&{\tt amu\_{}c2}      &$ 931.49432\,MeV         $\\
+atomic equivalent mass unit&{\tt amu\_{}c2}      &$ 931.494028\,MeV        $\\
 atomic mass unit          &{\tt amu}             &                          \\
 electron mass             &{\tt electron\_{}mass\_{}c2}&$ m_e\,c^2         $\\
 proton mass               &{\tt proton\_{}mass\_{}c2}  &$ m_p\,c^2         $\\
