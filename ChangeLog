@@ -1,4 +1,14 @@
 ==============================
+04.11.08 Release CLHEP-1.9.4.1
+==============================
+2008-11-03  Lynn Garren <garren@fnal.gov>
+
+	* Units/PhysicalConstants.h: update Avogadro, h_Planck, electron_mass_c2,
+	  proton_mass_c2, amu_c2, and k_Boltzmann to PDG 2008 values
+	* Units/SystemOfUnits.h: update e_SI to PDG 2008 value
+	* Units.tex: update for modern LaTeX
+
+==============================
 07.08.08 Release CLHEP-1.9.4.0
 ==============================
 2008-08-06  Lynn Garren <garren@fnal.gov>
