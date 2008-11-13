@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DRand48Engine.cc,v 1.4.2.5 2008/04/04 18:07:52 garren Exp $
+// $Id: DRand48Engine.cc,v 1.4.2.5.2.1 2008/11/13 18:35:53 garren Exp $
 // -----------------------------------------------------------------------
 //                             HEP Random
 //                        --- DRand48Engine ---
@@ -325,7 +325,7 @@ std::istream & DRand48Engine::getState ( std::istream& is )
 }
 
 bool DRand48Engine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<DRand48Engine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<DRand48Engine>()) {
     std::cerr << 
     	"\nDRand48Engine get:state vector has wrong ID word - state unchanged\n";
     return false;

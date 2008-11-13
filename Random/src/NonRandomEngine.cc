@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.cc,v 1.4.2.5 2005/04/13 20:49:19 fischler Exp $
+// $Id: NonRandomEngine.cc,v 1.4.2.5.6.1 2008/11/13 18:35:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -228,7 +228,7 @@ std::istream & NonRandomEngine::getState (std::istream & is) {
 }
 
 bool NonRandomEngine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<NonRandomEngine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<NonRandomEngine>()) {
     std::cerr << 
     	"\nNonRandomEngine get:state vector has wrong ID word - state unchanged\n";
     return false;

@@ -1,3 +1,9 @@
+2008-11-13  Mark Fischler <mf@fnal.gov>
+
+	* src/engineIDulong.cc: fix a problem for 64bit machines
+	* src/*Engine.cc: protection against the 64bit problem for states 
+	that may have been previously saved
+
 ==============================
 04.11.08 Release CLHEP-1.9.4.1
 ==============================

@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.4.2.10 2008/04/09 19:35:41 garren Exp $
+// $Id: JamesRandom.cc,v 1.4.2.10.2.1 2008/11/13 18:35:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -436,7 +436,7 @@ std::istream & HepJamesRandom::getState  ( std::istream& is) {
 }
 
 bool HepJamesRandom::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<HepJamesRandom>()) {
+  if ( (v[0] & 0xffffffffUL) != engineIDulong<HepJamesRandom>()) {
     std::cerr << 
     	"\nHepJamesRandom get:state vector has wrong ID word - state unchanged\n";
     return false;

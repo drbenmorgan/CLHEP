@@ -24,9 +24,9 @@ static std::vector<unsigned long> gen_crc_table() {
     unsigned long crc = i << 24;
     for ( int j = 0;  j < 8;  j++ ) {
       if ( crc & 0x80000000UL ) {
-        crc = ( crc << 1 ) ^ POLYNOMIAL;
+        crc = ( ( crc << 1 ) ^ POLYNOMIAL ) & 0xffffffffUL;
       } else {
-        crc = crc << 1; 
+        crc = ( crc << 1 ) & 0xffffffffUL; 
       }
     }
     crc_table.push_back(crc);
@@ -40,7 +40,7 @@ unsigned long crc32ul(const std::string & s) {
   int end = s.length();
   for (int j = 0; j != end; ++j) {
     int i = ( (int) ( crc >> 24) ^ s[j] ) & 0xff;
-    crc = ( crc << 8 ) ^ crc_table[i];
+    crc = ( ( crc << 8 ) ^ crc_table[i] ) & 0xffffffffUL;
   }
   return crc;
 }

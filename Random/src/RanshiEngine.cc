@@ -1,4 +1,4 @@
-// $Id: RanshiEngine.cc,v 1.4.2.4 2005/04/13 20:49:19 fischler Exp $
+// $Id: RanshiEngine.cc,v 1.4.2.4.6.1 2008/11/13 18:35:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -373,7 +373,7 @@ std::istream& RanshiEngine::getState (std::istream& is) {
 }
 
 bool RanshiEngine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<RanshiEngine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<RanshiEngine>()) {
     std::cerr << 
     	"\nRanshiEngine get:state vector has wrong ID word - state unchanged\n";
     return false;
