@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.4.4.5 2008/07/17 19:00:45 garren Exp $
+// $Id: RandEngine.cc,v 1.4.4.5.2.1 2008/11/13 21:35:23 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -455,7 +455,7 @@ std::istream & RandEngine::getState ( std::istream& is )
 }
 
 bool RandEngine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<RandEngine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<RandEngine>()) {
     std::cerr << 
     	"\nRandEngine get:state vector has wrong ID word - state unchanged\n";
     return false;

@@ -47,7 +47,7 @@ makeAnEngine (const std::string & tag,
 template<class E>
 static HepRandomEngine* 
 makeAnEngine (const std::vector<unsigned long> & v) {
-  if ( v[0] != engineIDulong<E>() ) return 0;
+  if ( (v[0] & 0xffffffffUL) != engineIDulong<E>() ) return 0;
   HepRandomEngine* eptr = new E;
   bool success = eptr->getState(v);
   if (!success) return 0;

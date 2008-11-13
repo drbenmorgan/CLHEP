@@ -1,4 +1,4 @@
-// $Id: Ranlux64Engine.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
+// $Id: Ranlux64Engine.cc,v 1.4.4.2.2.1 2008/11/13 21:35:23 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -629,7 +629,7 @@ std::istream & Ranlux64Engine::getState ( std::istream& is )
 }
 
 bool Ranlux64Engine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<Ranlux64Engine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<Ranlux64Engine>()) {
     std::cerr << 
     	"\nRanlux64Engine get:state vector has wrong ID word - state unchanged\n";
     return false;

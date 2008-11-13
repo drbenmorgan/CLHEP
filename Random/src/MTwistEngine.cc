@@ -1,4 +1,4 @@
-// $Id: MTwistEngine.cc,v 1.4.4.3 2006/11/15 17:23:01 garren Exp $
+// $Id: MTwistEngine.cc,v 1.4.4.3.2.1 2008/11/13 21:35:23 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -375,7 +375,7 @@ std::istream &  MTwistEngine::getState ( std::istream& is )
 }
 
 bool MTwistEngine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<MTwistEngine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<MTwistEngine>()) {
     std::cerr << 
     	"\nMTwistEngine get:state vector has wrong ID word - state unchanged\n";
     return false;

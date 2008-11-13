@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
+// $Id: RanecuEngine.cc,v 1.4.4.2.2.1 2008/11/13 21:35:23 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -400,7 +400,7 @@ std::istream & RanecuEngine::getState ( std::istream& is )
 }
 
 bool RanecuEngine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<RanecuEngine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<RanecuEngine>()) {
     std::cerr << 
     	"\nRanecuEngine get:state vector has wrong ID word - state unchanged\n";
     return false;

@@ -1,4 +1,4 @@
-// $Id: TripleRand.cc,v 1.4.4.2 2005/04/15 16:32:53 garren Exp $
+// $Id: TripleRand.cc,v 1.4.4.2.2.1 2008/11/13 21:35:23 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -331,7 +331,7 @@ std::istream & TripleRand::getState (std::istream & is) {
 }
 
 bool TripleRand::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<TripleRand>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<TripleRand>()) {
     std::cerr << 
     	"\nTripleRand get:state vector has wrong ID word - state unchanged\n";
     return false;
