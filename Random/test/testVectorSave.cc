@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testVectorSave.cc,v 1.1.4.1 2005/04/15 16:32:53 garren Exp $
+// $Id: testVectorSave.cc,v 1.1.4.1.2.1 2008/11/18 22:09:51 garren Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
@@ -49,6 +49,55 @@ std::vector<double> aSequence(int n) {
 
 
 // ----------- Vector restore of engines -----------
+
+// test the problem reported in bug #44156
+// Note that this test always works on a 32bit machine
+template <class E>
+int vectorTest64(int n) {
+  output << "Vector restore 64bit test for " << E::engineName() << "\n";
+
+  E e;				    
+  double x = 0;	
+  for (int i=0; i<n; i++) x += e.flat();	    
+  std::vector<unsigned long> v = e.put();
+  x = e.flat();
+  output << "x = " << x << std::endl;
+
+  E f;
+  v[0] &= 0xffffffffUL;
+  f.get(v);
+  double y = f.flat();
+  output << "y = " << y << std::endl;
+  if( x != y ) return n;
+
+  return 0;
+}
+// special case for NonRandomEngine
+template <>
+int vectorTest64<NonRandomEngine>(int n) {
+  output << "Vector restore 64bit test for " << NonRandomEngine::engineName() << "\n";
+
+  std::vector<double> nonRand = aSequence(500);
+  NonRandomEngine e; 
+  e.setRandomSequence(&nonRand[0], nonRand.size());
+
+  double x = 0;	
+  for (int i=0; i<n; i++) x += e.flat();	    
+  std::vector<unsigned long> v = e.put();
+  x = e.flat();
+  output << "x = " << x << std::endl;
+
+  NonRandomEngine f;
+  f.setRandomSequence(&nonRand[0], nonRand.size());
+
+  v[0] &= 0xffffffffUL;
+  f.get(v);
+  double y = f.flat();
+  output << "y = " << y << std::endl;
+  if( x != y ) return n;
+
+  return 0;
+}
 
 template <class E>
 std::vector<unsigned long> vectorRestore1(int n, std::vector<double> & v) {
@@ -141,8 +190,10 @@ int vectorRestore2(const std::vector<unsigned long> state,
 template <class E>
 int vectorRestore(int n) {
   std::vector<double> v;
+  int status1 = vectorTest64<E>(n);
   std::vector<unsigned long> state = vectorRestore1<E>(n,v);
-  return vectorRestore2<E>(state, v);  
+  int status2 = vectorRestore2<E>(state, v);  
+  return (status1 | status2);  
 }
 
 

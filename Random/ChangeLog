@@ -1,8 +1,13 @@
+2008-11-18  Lynn Garren <garren@fnal.gov>
+
+	* test/testVectorSave.cc: Add a test for bug #44156
+
 2008-11-13  Mark Fischler <mf@fnal.gov>
 
-	* src/engineIDulong.cc: fix a problem for 64bit machines
-	* src/*Engine.cc: protection against the 64bit problem for states 
-	that may have been previously saved
+	* src/engineIDulong.cc: Fix problem that caused check for proper
+	engine type to fail where an unsigned long is 64bits. (bug #44156)
+	* src/*Engine.cc: make sure that existing stored engine states 
+	don't break due to the change in engineIDulong.cc
 
 ==============================
 04.11.08 Release CLHEP-2.0.4.1
