@@ -14,7 +14,8 @@ Usage: Vector-config [OPTION]
 Known values for OPTION are:
 
   --prefix              show installation prefix
-  --cxx                 print compilation command
+  --cxx                 print C++ compilation command
+  --cpp                 print pre-processor commands
   --cppflags            print pre-processor flags
   --cxxflags            print C++ compiler flags
   --ldflags             print linker flags
@@ -60,10 +61,11 @@ while test $# -gt 0; do
 	;;
 
     --cxx)
-       	echo "CXX:    " @CXX@
-       	echo "CC:     " @CC@
-       	echo "CPP:    " @CPP@
-       	echo "CXXCPP: " @CXXCPP@
+       	echo @CXX@ @CPPFLAGS@ @AM_CXXFLAGS@ @CXXFLAGS@
+       	;;
+
+    --cpp)
+       	echo @CXXCPP@ @CPPFLAGS@ @Vector_CPPFLAGS@
        	;;
 
     --cppflags)
@@ -75,7 +77,7 @@ while test $# -gt 0; do
        	;;
 
     --ldflags)
-       	echo  @LDFLAGS@ @Vector_LDFLAGS@
+       	echo  @AM_LDFLAGS@ @LDFLAGS@ @Vector_LDFLAGS@
        	;;
 
     --libs)
