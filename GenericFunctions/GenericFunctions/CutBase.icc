@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: CutBase.icc,v 1.2 2003/09/06 14:04:13 boudreau Exp $
+// $Id: CutBase.icc,v 1.3 2008/11/19 16:11:44 boudreau Exp $
 //-------------------------------------------------------------------//
 //                                                                   //
 // Implementations for the Cut class                                 //
@@ -9,7 +9,7 @@ template <class Type>
 Cut<Type>::Cut() {}
 
 template <class Type>
-Cut<Type>::Cut(const Cut<Type> & right) {}
+Cut<Type>::Cut(const Cut<Type> & ) {}
 
 template <class Type>
 Cut<Type>::~Cut() {}
@@ -35,17 +35,17 @@ typename Cut<Type>::NOT Cut<Type>::operator ! () const {
 //-------------------------------------------------------------------//
 
 template <class Type>
-Cut<Type>::AND::AND(const AND & right):
-  _pA(right._pA->clone()),
-  _pB(right._pB->clone())
+Cut<Type>::AND::AND(const AND & right):Cut<Type>(),
+				       _pA(right._pA->clone()),
+				       _pB(right._pB->clone())
 {
 
 }
 
 template <class Type>
-Cut<Type>::AND::AND(const Cut<Type> & A, const Cut<Type> & B):
-  _pA(A.clone()),
-  _pB(B.clone())
+Cut<Type>::AND::AND(const Cut<Type> & A, const Cut<Type> & B):Cut<Type>(),
+							      _pA(A.clone()),
+							      _pB(B.clone())
 {
 }
 
@@ -75,17 +75,17 @@ bool Cut<Type>::AND::operator () (const Type & t) const {
 //-------------------------------------------------------------------//
 
 template <class Type>
-Cut<Type>::OR::OR(const OR & right):
-  _pA(right._pA->clone()),
-  _pB(right._pB->clone())
+Cut<Type>::OR::OR(const OR & right):Cut<Type>(),
+				    _pA(right._pA->clone()),
+				    _pB(right._pB->clone())
 {
 
 }
 
 template <class Type>
-Cut<Type>::OR::OR(const Cut<Type> & A, const Cut<Type> & B):
-  _pA(A.clone()),
-  _pB(B.clone())
+Cut<Type>::OR::OR(const Cut<Type> & A, const Cut<Type> & B):Cut<Type>(),
+							    _pA(A.clone()),
+							    _pB(B.clone())
 {
 }
 
@@ -116,15 +116,15 @@ bool Cut<Type>::OR::operator () (const Type & t) const {
 //-------------------------------------------------------------------//
 
 template <class Type>
-Cut<Type>::NOT::NOT(const NOT & right):
-  _pA(right._pA->clone())
+Cut<Type>::NOT::NOT(const NOT & right):Cut<Type>(),
+				       _pA(right._pA->clone())
 {
 
 }
 
 template <class Type>
-Cut<Type>::NOT::NOT(const Cut<Type> & A):
-  _pA(A.clone())
+Cut<Type>::NOT::NOT(const Cut<Type> & A):Cut<Type>(),
+					 _pA(A.clone())
 {
 }
 
