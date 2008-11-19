@@ -4,6 +4,8 @@
 2008-11-18  Lynn Garren <garren@fnal.gov>
 
 	* Random/test/testVectorSave.cc: Add a test for bug #44156
+	
+	* clhep-config.in, */*-config.in: get rid of undefined symbols
 
 2008-11-13  Mark Fischler <mf@fnal.gov>
 
