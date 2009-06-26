@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: AnalyticConvolution.cc,v 1.4 2007/01/23 21:09:24 boudreau Exp $
+// $Id: AnalyticConvolution.cc,v 1.5 2009/06/26 12:45:32 boudreau Exp $
 #include "CLHEP/GenericFunctions/AnalyticConvolution.hh"
 #include "CLHEP/GenericFunctions/Gaussian.hh"
 #include "CLHEP/GenericFunctions/Exponential.hh"
@@ -73,6 +73,9 @@ double AnalyticConvolution::operator() (double argument) const {
   if (_type==SMEARED_NEG_EXP) {
     expG = exp((sigma*sigma +2*tau*(/*offset*/x))/(2.0*tau*tau)) * 
       erfc((sigma*sigma+tau*(/*offset*/x))/(sqrtTwo*sigma*tau))/(2.0*tau);
+    if (!finite(expG)) {
+      expG=0.0;
+    }
     return expG;
   }
   else {
@@ -82,9 +85,12 @@ double AnalyticConvolution::operator() (double argument) const {
   
   // Both sign distribution=> return smeared exponential:
   if (_type==SMEARED_EXP) {
+    if (!finite(expG)) {
+      expG=0.0;
+    }
     return expG;
   }
-  
+   
   
   // Calcualtion of asymmetry:
 
