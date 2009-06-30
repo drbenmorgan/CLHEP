@@ -23,6 +23,9 @@ endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@
+  LDADD = ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.$(SHEXT) \
+	  ${top_builddir}/../Matrix/src/libCLHEP-Matrix-@VERSION@.$(SHEXT) \
+	  ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
 endif
 if BUILD_STATIC
   lib_LIBRARIES = libCLHEP-RandomObjects-@VERSION@.a
@@ -37,13 +40,13 @@ $(shareddir):
 
 if BUILD_VISUAL
 $(lib_shared): $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS)
-	$(SHLINK) $(SHNAME)$@ $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS)
+	$(SHLINK) $(SHNAME)$@ $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS) $(LDADD)
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) /c /Fo$@ $<
 else
 $(lib_shared): $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS)
-	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS) -o $@
+	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS) $(LDADD) -o $@
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<

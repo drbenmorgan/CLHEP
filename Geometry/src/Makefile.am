@@ -27,6 +27,7 @@ endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@
+  LDADD = ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
 endif
 if BUILD_STATIC
   lib_LIBRARIES = libCLHEP-Geometry-@VERSION@.a
@@ -41,13 +42,13 @@ $(shareddir):
 
 if BUILD_VISUAL
 $(lib_shared): $(libCLHEP_Geometry_@VERSION@_so_OBJECTS)
-	$(SHLINK) $(SHNAME)$@ $(libCLHEP_Geometry_@VERSION@_so_OBJECTS)
+	$(SHLINK) $(SHNAME)$@ $(libCLHEP_Geometry_@VERSION@_so_OBJECTS) $(LDADD)
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) /c /Fo$@ $<
 else
 $(lib_shared): $(libCLHEP_Geometry_@VERSION@_so_OBJECTS)
-	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_Geometry_@VERSION@_so_OBJECTS) -o $@
+	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_Geometry_@VERSION@_so_OBJECTS) $(LDADD) -o $@
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<

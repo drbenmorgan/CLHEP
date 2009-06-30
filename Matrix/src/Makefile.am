@@ -19,6 +19,7 @@ libCLHEP_Matrix_@VERSION@_a_SOURCES = \
 
 libCLHEP_Matrix_@VERSION@_so_OBJECTS = $(patsubst %.cc,$(shareddir)/%.$(OBJEXT),$(libCLHEP_Matrix_@VERSION@_a_SOURCES))
 
+
 # these if/else blocks will be parsed by automake and translated
 if BUILD_SHARED
   shareddir = shared
@@ -30,6 +31,8 @@ endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@
+  LDADD = ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.$(SHEXT) \
+          ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
 endif
 if BUILD_STATIC
   lib_LIBRARIES = libCLHEP-Matrix-@VERSION@.a
@@ -44,13 +47,13 @@ $(shareddir):
 
 if BUILD_VISUAL
 $(lib_shared): $(libCLHEP_Matrix_@VERSION@_so_OBJECTS)
-	$(SHLINK) $(SHNAME)$@ $(libCLHEP_Matrix_@VERSION@_so_OBJECTS)
+	$(SHLINK) $(SHNAME)$@ $(libCLHEP_Matrix_@VERSION@_so_OBJECTS) $(LDADD)
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) /c /Fo$@ $<
 else
 $(lib_shared): $(libCLHEP_Matrix_@VERSION@_so_OBJECTS)
-	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_Matrix_@VERSION@_so_OBJECTS) -o $@
+	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_Matrix_@VERSION@_so_OBJECTS) $(LDADD) -o $@
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<

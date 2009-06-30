@@ -195,8 +195,11 @@ g++)
    case "$target" in
    *-*-linux*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
-      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
-      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      MY_SHFLAGS="-fPIC -DPIC"
+      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHNAME="-Wl,-soname,"
+      MY_LD="-Wl,--rpath -Wl,"
+      SHEXT=so
       AR="ar"; ARFLAGS="cru"
       ;;
    *-*-darwin*) 
@@ -217,30 +220,42 @@ g++)
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
-      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
-      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      MY_SHFLAGS="-fPIC -DPIC"
+      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHNAME="-Wl,-soname,"
+      MY_LD="-Wl,--rpath -Wl,"
+      SHEXT=so
       AR="ar"; ARFLAGS="cru"
    esac;;
 g++4) 
    case "$target" in
    *-*-linux*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
-      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
-      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      MY_SHFLAGS="-fPIC -DPIC"
+      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHNAME="-Wl,-soname,"
+      MY_LD="-Wl,--rpath -Wl,"
+      SHEXT=so
       AR="ar"; ARFLAGS="cru"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
-      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
-      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      MY_SHFLAGS="-fPIC -DPIC"
+      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHNAME="-Wl,-soname,"
+      MY_LD="-Wl,--rpath -Wl,"
+      SHEXT=so
       AR="ar"; ARFLAGS="cru"
    esac;;
 c++) 
    case "$target" in
    *-*-linux*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
-      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
-      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      MY_SHFLAGS="-fPIC -DPIC"
+      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHNAME="-Wl,-soname,"
+      MY_LD="-Wl,--rpath -Wl,"
+      SHEXT=so
       AR="ar"; ARFLAGS="cru"
       ;;
    *-*-darwin*) 
@@ -261,8 +276,11 @@ c++)
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
-      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
-      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      MY_SHFLAGS="-fPIC -DPIC"
+      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHNAME="-Wl,-soname,"
+      MY_LD="-Wl,--rpath -Wl,"
+      SHEXT=so
       AR="ar"; ARFLAGS="cru"
    esac;;
 icc)
@@ -270,8 +288,11 @@ icc)
    *-*-linux*)
       AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
       AM_LDFLAGS="-lstdc++ -lcxa -lunwind"
-      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
-      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
+      MY_SHFLAGS="-fPIC -DPIC"
+      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHNAME="-Wl,-soname,"
+      MY_LD="-Wl,--rpath -Wl,"
+      SHEXT=so
       AR="xiar"; ARFLAGS="cru"
       ;;
    *)

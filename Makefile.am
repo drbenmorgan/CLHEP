@@ -7,7 +7,7 @@ endif
 includedir = $(prefix)/include/CLHEP
 
 SUBDIRS = config Units Vector Evaluator GenericFunctions Geometry \
-          Random Matrix RandomObjects RefCount Cast Exceptions
+          Random Matrix RandomObjects Cast RefCount Exceptions
 
 bin_SCRIPTS = clheplib clhep-config
 
