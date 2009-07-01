@@ -25,14 +25,16 @@ if BUILD_SHARED
   shareddir = shared
 if BUILD_VISUAL
   lib_shared = CLHEP-Matrix-@VERSION@.$(SHEXT)
+  LDADD = ${top_builddir}/../Random/src/CLHEP-Random-@VERSION@.$(SHEXT) \
+          ${top_builddir}/../Vector/src/CLHEP-Vector-@VERSION@.$(SHEXT)
 else
   lib_shared = libCLHEP-Matrix-@VERSION@.$(SHEXT)
+  LDADD = ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.$(SHEXT) \
+          ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
 endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@
-  LDADD = ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.$(SHEXT) \
-          ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
 endif
 if BUILD_STATIC
   lib_LIBRARIES = libCLHEP-Matrix-@VERSION@.a

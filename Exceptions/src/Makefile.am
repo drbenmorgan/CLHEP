@@ -22,14 +22,16 @@ if BUILD_SHARED
   shareddir = shared
 if BUILD_VISUAL
   lib_shared = CLHEP-Exceptions-@VERSION@.$(SHEXT)
+  LDADD = ${top_builddir}/../Cast/src/CLHEP-Cast-@VERSION@.$(SHEXT) \
+	  ${top_builddir}/../RefCount/src/CLHEP-RefCount-@VERSION@.$(SHEXT)
 else
   lib_shared = libCLHEP-Exceptions-@VERSION@.$(SHEXT)
+  LDADD = ${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.$(SHEXT) \
+	  ${top_builddir}/../RefCount/src/libCLHEP-RefCount-@VERSION@.$(SHEXT)
 endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@
-  LDADD = ${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.$(SHEXT) \
-	  ${top_builddir}/../RefCount/src/libCLHEP-RefCount-@VERSION@.$(SHEXT)
 endif
 if BUILD_STATIC
   lib_LIBRARIES = libCLHEP-Exceptions-@VERSION@.a

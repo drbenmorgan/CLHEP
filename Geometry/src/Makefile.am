@@ -21,13 +21,14 @@ if BUILD_SHARED
   shareddir = shared
 if BUILD_VISUAL
   lib_shared = CLHEP-Geometry-@VERSION@.$(SHEXT)
+  LDADD = ${top_builddir}/../Vector/src/CLHEP-Vector-@VERSION@.$(SHEXT)
 else
   lib_shared = libCLHEP-Geometry-@VERSION@.$(SHEXT)
+  LDADD = ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
 endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@
-  LDADD = ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
 endif
 if BUILD_STATIC
   lib_LIBRARIES = libCLHEP-Geometry-@VERSION@.a

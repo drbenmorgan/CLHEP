@@ -16,13 +16,14 @@ if BUILD_SHARED
   shareddir = shared
 if BUILD_VISUAL
   lib_shared = CLHEP-RefCount-@VERSION@.$(SHEXT)
+  LDADD = ${top_builddir}/../Cast/src/CLHEP-Cast-@VERSION@.$(SHEXT)
 else
   lib_shared = libCLHEP-RefCount-@VERSION@.$(SHEXT)
+  LDADD = ${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.$(SHEXT)
 endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@
-  LDADD = ${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.$(SHEXT)
 endif
 if BUILD_STATIC
   lib_LIBRARIES = libCLHEP-RefCount-@VERSION@.a
