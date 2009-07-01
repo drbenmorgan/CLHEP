@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.5.2.4.2.1 2008/08/04 22:17:27 garren Exp $
+// $Id: testRandDists.cc,v 1.5.2.4.2.2 2009/07/01 18:51:10 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -204,6 +204,8 @@ bool gaussianTest ( HepRandom & dist, double mu,
     ncounts[ciu] = 0;
   }
 
+  int oldprecision = cout.precision();
+  std::cout << std::setprecision(5);
   // hack so that gcc 4.3 puts x and u into memory instead of a register
   volatile double x;
   volatile double u;
@@ -328,6 +330,8 @@ bool gaussianTest ( HepRandom & dist, double mu,
 
   cout << "\n The worst deviation encountered (out of about 25) was "
 	<< worstSigma << " sigma \n\n";
+
+  std::cout << std::setprecision(oldprecision);
 
   return good;
 
