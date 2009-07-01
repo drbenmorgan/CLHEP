@@ -1,4 +1,4 @@
-// $Id: Ranlux64Engine.cc,v 1.4.2.4.6.1 2008/11/13 18:35:53 garren Exp $
+// $Id: Ranlux64Engine.cc,v 1.4.2.4.6.2 2009/07/01 14:33:52 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -430,8 +430,79 @@ void Ranlux64Engine::setSeed(long seed, int lux) {
 } // setSeed()
 
 void Ranlux64Engine::setSeeds(const long * seeds, int lux) {
-  setSeed( *seeds ? *seeds : 32767, lux );
-  theSeeds = seeds;
+// old code only uses the first long in seeds
+//  setSeed( *seeds ? *seeds : 32767, lux );
+//  theSeeds = seeds;
+
+// using code from Ranlux - even those are 32bit seeds, 
+// that is good enough to completely differentiate the sequences
+
+  twoToMinus_32 = ldexp (1.0, -32);
+  twoToMinus_48 = ldexp (1.0, -48);
+  twoToMinus_49 = ldexp (1.0, -49);
+
+   const int ecuyer_a = 53668;
+   const int ecuyer_b = 40014;
+   const int ecuyer_c = 12211;
+   const int ecuyer_d = 2147483563;
+
+   const int lux_levels[3] = {109, 202, 397};
+   const long *seedptr; 
+
+   theSeeds = seeds;
+   seedptr  = seeds;
+ 
+   if(seeds == 0){
+      setSeed(theSeed,lux);
+      theSeeds = &theSeed;
+      return;
+   }
+
+   theSeed = *seeds;
+
+// number of additional random numbers that need to be 'thrown away'
+// every 24 numbers is set using luxury level variable.
+
+  if( (lux > 2)||(lux < 0) ){
+     pDiscard = (lux >= 12) ? (lux-12) : lux_levels[1];
+  }else{
+     pDiscard = lux_levels[luxury];
+  }
+  pDozens  = pDiscard / 12;
+  endIters = pDiscard % 12;
+
+  long init_table[24];
+  long next_seed = *seeds;
+  long k_multiple;
+  int i;
+      
+  for( i = 0;(i != 24)&&(*seedptr != 0);i++){
+      init_table[i] =  *seedptr & 0xffffffff;
+      seedptr++;
+  }		       
+
+  if(i != 24){
+     next_seed = init_table[i-1];
+     for(;i != 24;i++){
+	k_multiple = next_seed / ecuyer_a;
+	next_seed = ecuyer_b * (next_seed - k_multiple * ecuyer_a)
+                                	  - k_multiple * ecuyer_c;
+	if(next_seed < 0) {
+	   next_seed += ecuyer_d;
+	}
+	init_table[i] = next_seed & 0xffffffff;
+     }    
+  }
+
+  for(i = 0;i < 12; i++){
+     randoms[i] = (init_table[2*i  ]      ) * 2.0 * twoToMinus_32 +
+                  (init_table[2*i+1] >> 15) * twoToMinus_48;
+  }
+
+  carry = 0.0;
+  if ( randoms[11] == 0. ) carry = twoToMinus_48;
+  index = 11;
+
 }
 
 void Ranlux64Engine::saveStatus( const char filename[] ) const
