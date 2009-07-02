@@ -289,7 +289,7 @@ icc)
       AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
       AM_LDFLAGS="-lstdc++ -lcxa -lunwind"
       MY_SHFLAGS="-fPIC -DPIC"
-      MY_SHLINK="-shared -Wl,--no-undefined"
+      MY_SHLINK="-shared"
       MY_SHNAME="-Wl,-soname,"
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
