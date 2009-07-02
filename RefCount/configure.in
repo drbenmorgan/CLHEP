@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP RefCount, 1.9.4.2, http://savannah.cern.ch/projects/clhep/, RefCount)
+AC_INIT(CLHEP RefCount, 1.9.4.3, http://savannah.cern.ch/projects/clhep/, RefCount)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/ZMuseCount.cc])
@@ -180,7 +180,7 @@ g++)
    *-*-linux*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
       MY_SHFLAGS="-fPIC -DPIC"
-      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHLINK="-shared -Wl,--no-undefined"
       MY_SHNAME="-Wl,-soname,"
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
@@ -205,7 +205,7 @@ g++)
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
       MY_SHFLAGS="-fPIC -DPIC"
-      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHLINK="-shared -Wl,--no-undefined"
       MY_SHNAME="-Wl,-soname,"
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
@@ -216,7 +216,7 @@ g++4)
    *-*-linux*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
       MY_SHFLAGS="-fPIC -DPIC"
-      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHLINK="-shared -Wl,--no-undefined"
       MY_SHNAME="-Wl,-soname,"
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
@@ -225,7 +225,7 @@ g++4)
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
       MY_SHFLAGS="-fPIC -DPIC"
-      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHLINK="-shared -Wl,--no-undefined"
       MY_SHNAME="-Wl,-soname,"
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
@@ -236,7 +236,7 @@ c++)
    *-*-linux*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
       MY_SHFLAGS="-fPIC -DPIC"
-      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHLINK="-shared -Wl,--no-undefined"
       MY_SHNAME="-Wl,-soname,"
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
@@ -261,7 +261,7 @@ c++)
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
       MY_SHFLAGS="-fPIC -DPIC"
-      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHLINK="-shared -Wl,--no-undefined"
       MY_SHNAME="-Wl,-soname,"
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
@@ -273,7 +273,7 @@ icc)
       AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
       AM_LDFLAGS="-lstdc++"
       MY_SHFLAGS="-fPIC -DPIC"
-      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHLINK="-shared -Wl,--no-undefined"
       MY_SHNAME="-Wl,-soname,"
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
@@ -283,7 +283,7 @@ icc)
       AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
       AM_LDFLAGS="-lstdc++"
       MY_SHFLAGS="-fPIC -DPIC"
-      MY_SHLINK="-shared -Wl,--as-needed -Wl,--no-undefined"
+      MY_SHLINK="-shared -Wl,--no-undefined"
       MY_SHNAME="-Wl,-soname,"
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
@@ -351,6 +351,13 @@ AC_SUBST(MY_LD)
 AC_SUBST(SHEXT)
 AC_SUBST(AR)
 AC_SUBST(ARFLAGS)
+
+# ----------------------------------------------------------------------
+# Check for supported link flags
+# ----------------------------------------------------------------------
+
+AC_CHECK_LIB([c -Wl,--as-needed],open,[MY_SHEXTRA="-Wl,--as-needed"])
+AC_SUBST(MY_SHEXTRA)
 
 # ----------------------------------------------------------------------
 # Set system-dependent options:
