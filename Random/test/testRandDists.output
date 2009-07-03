@@ -40,7 +40,7 @@ Between 0.5 sigma and 1 sigma (should be about 74941):
 Between 1 sigma and 1.5 sigma (should be about 45924):
           45803 negative and 45982 positive 
         These represent 0.5925 and 0.28401 sigma from expectations
-Between 1.5 sigma and 2 sigma (should be about 22028):
+Between 1.5 sigma and 2 sigma (should be about 22028.5):
           21851 negative and 22064 positive 
         These represent 1.2232 and 0.24464 sigma from expectations
 Between 2 sigma and 2.5 sigma (should be about 8270):
@@ -100,10 +100,10 @@ Sixth moment (should be close to 15): 15.047
         These represent 0.24951, 0.25834, 0.96299, 
                         0.26104, 0.73789, 0.46688
                          standard deviations from expectations
-Between 0 sigma and 0.5 sigma (should be about 1.9146e+05):
+Between 0 sigma and 0.5 sigma (should be about 191462):
           191300 negative and 191581 positive 
         These represent 0.41174 and 0.30245 sigma from expectations
-Between 0.5 sigma and 1 sigma (should be about 1.4988e+05):
+Between 0.5 sigma and 1 sigma (should be about 149882):
           150248 negative and 150025 positive 
         These represent 1.0253 and 0.40061 sigma from expectations
 Between 1 sigma and 1.5 sigma (should be about 91848):
@@ -169,10 +169,10 @@ Sixth moment (should be close to 2.3438e+05): 2.3322e+05
         These represent 1.4634, 0.15033, 1.1053, 
                         0.39904, 1.8248, 0.73091
                          standard deviations from expectations
-Between 0 sigma and 0.5 sigma (should be about 1.9146e+05):
+Between 0 sigma and 0.5 sigma (should be about 191462):
           191661 negative and 191168 positive 
         These represent 0.50578 and 0.74723 sigma from expectations
-Between 0.5 sigma and 1 sigma (should be about 1.4988e+05):
+Between 0.5 sigma and 1 sigma (should be about 149882):
           150041 negative and 150074 positive 
         These represent 0.44543 and 0.53788 sigma from expectations
 Between 1 sigma and 1.5 sigma (should be about 91848):
@@ -247,7 +247,7 @@ Between 0.5 sigma and 1 sigma (should be about 74941):
 Between 1 sigma and 1.5 sigma (should be about 45924):
           46032 negative and 45416 positive 
         These represent 0.52884 and 2.4875 sigma from expectations
-Between 1.5 sigma and 2 sigma (should be about 22028):
+Between 1.5 sigma and 2 sigma (should be about 22028.5):
           22020 negative and 21866 positive 
         These represent 0.058575 and 1.1198 sigma from expectations
 Between 2 sigma and 2.5 sigma (should be about 8270):
@@ -307,7 +307,7 @@ Between 0.5 sigma and 1 sigma (should be about 74941):
 Between 1 sigma and 1.5 sigma (should be about 45924):
           45820 negative and 45766 positive 
         These represent 0.50925 and 0.77367 sigma from expectations
-Between 1.5 sigma and 2 sigma (should be about 22028):
+Between 1.5 sigma and 2 sigma (should be about 22028.5):
           21895 negative and 22076 positive 
         These represent 0.91997 and 0.32733 sigma from expectations
 Between 2 sigma and 2.5 sigma (should be about 8270):

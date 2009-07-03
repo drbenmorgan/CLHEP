@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.5.2.4.2.2 2009/07/01 18:51:10 garren Exp $
+// $Id: testRandDists.cc,v 1.5.2.4.2.3 2009/07/03 14:18:03 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -54,6 +54,7 @@ using std::cout;
 using std::cerr;
 using std::endl;
 using std::abs;
+using std::setprecision;
 using namespace CLHEP;
 //#ifndef _WIN32
 //using std::exp;
@@ -205,7 +206,7 @@ bool gaussianTest ( HepRandom & dist, double mu,
   }
 
   int oldprecision = cout.precision();
-  std::cout << std::setprecision(5);
+  cout.precision(5);
   // hack so that gcc 4.3 puts x and u into memory instead of a register
   volatile double x;
   volatile double u;
@@ -312,10 +313,12 @@ bool gaussianTest ( HepRandom & dist, double mu,
   for (int m = 0; m < 11; m++) {
     double expect = table[m]*nNumbers;
     double sig = sqrt ( table[m] * (1.0-table[m]) * nNumbers );
-    cout << "Between " << m/2.0 << " sigma and " 
+   cout.precision(oldprecision);
+   cout << "Between " << m/2.0 << " sigma and " 
 	<< m/2.0+.5 << " sigma (should be about " << expect << "):\n " 
         << "         "
 	<< ncounts[m] << " negative and " << counts[m] << " positive " << "\n";
+   cout.precision(5);
     double negSigs = abs ( ncounts[m] - expect ) / sig;
     double posSigs = abs (  counts[m] - expect ) / sig;
     cout << "        These represent " << 
@@ -331,7 +334,7 @@ bool gaussianTest ( HepRandom & dist, double mu,
   cout << "\n The worst deviation encountered (out of about 25) was "
 	<< worstSigma << " sigma \n\n";
 
-  std::cout << std::setprecision(oldprecision);
+  cout.precision(oldprecision);
 
   return good;
 
