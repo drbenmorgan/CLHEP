@@ -1,3 +1,8 @@
+2009-06-30  Mark Fischler <mf@fnal.gov>
+
+	* src/Ranlux64Engine.cc: Fix bug #24689. setSeeds() now 
+	uses all seeds passed to it instead of only the first one.
+
 ==============================
 18.11.08 Release CLHEP-2.0.4.2
 ==============================
