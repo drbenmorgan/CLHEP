@@ -22,11 +22,15 @@ if BUILD_SHARED
   shareddir = shared
 if BUILD_VISUAL
   lib_shared = CLHEP-Exceptions-@VERSION@.$(SHEXT)
+  LDADD = ${top_builddir}/../Cast/src/CLHEP-Cast-@VERSION@.$(SHEXT) \
+	  ${top_builddir}/../RefCount/src/CLHEP-RefCount-@VERSION@.$(SHEXT)
 else
   lib_shared = libCLHEP-Exceptions-@VERSION@.$(SHEXT)
+  LDADD = ${top_builddir}/../Cast/src/libCLHEP-Cast-@VERSION@.$(SHEXT) \
+	  ${top_builddir}/../RefCount/src/libCLHEP-RefCount-@VERSION@.$(SHEXT)
 endif
   SHFLAGS = @MY_SHFLAGS@
-  SHLINK = @MY_SHLINK@
+  SHLINK = @MY_SHLINK@ @MY_SHEXTRA@
   SHNAME = @MY_SHNAME@
 endif
 if BUILD_STATIC
@@ -42,13 +46,13 @@ $(shareddir):
 
 if BUILD_VISUAL
 $(lib_shared): $(libCLHEP_Exceptions_@VERSION@_so_OBJECTS)
-	$(SHLINK) $(SHNAME)$@ $(libCLHEP_Exceptions_@VERSION@_so_OBJECTS)
+	$(SHLINK) $(SHNAME)$@ $(libCLHEP_Exceptions_@VERSION@_so_OBJECTS) $(LDADD)
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) /c /Fo$@ $<
 else
 $(lib_shared): $(libCLHEP_Exceptions_@VERSION@_so_OBJECTS)
-	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_Exceptions_@VERSION@_so_OBJECTS) -o $@
+	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_Exceptions_@VERSION@_so_OBJECTS) $(LDADD) -o $@
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<

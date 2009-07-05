@@ -90,7 +90,7 @@ else
   lib_shared = libCLHEP-GenericFunctions-@VERSION@.$(SHEXT)
 endif
   SHFLAGS = @MY_SHFLAGS@
-  SHLINK = @MY_SHLINK@
+  SHLINK = @MY_SHLINK@ @MY_SHEXTRA@
   SHNAME = @MY_SHNAME@
 endif
 if BUILD_STATIC
