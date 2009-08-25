@@ -285,7 +285,7 @@ icc)
    case "$target" in
    *-*-linux*)
       AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
-      AM_LDFLAGS="-lstdc++ -lcxa -lunwind"
+      AM_LDFLAGS="-lstdc++"
       MY_SHFLAGS="-fPIC -DPIC"
       MY_SHLINK="-shared"
       MY_SHNAME="-Wl,-soname,"
