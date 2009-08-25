@@ -1,3 +1,7 @@
+2009-08-25  Lynn Garren <garren@fnal.gov>
+
+	* configure.in, */configure.in: remove old -lcxa -lunwind icc flags
+
 ==============================
 04.07.09 Release CLHEP-2.0.4.3
 ==============================
