@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // CLASSDOC OFF
-// $Id: ThreeVector.h,v 1.2.4.1 2004/11/30 20:08:40 garren Exp $
+// $Id: ThreeVector.h,v 1.2.4.1.2.1 2009/11/03 21:35:19 garren Exp $
 // ---------------------------------------------------------------------------
 // CLASSDOC ON
 //
@@ -48,7 +48,10 @@ public:
   // Safe indexing of the coordinates when using with matrices, arrays, etc.
   // (BaBar)
 
-  inline Hep3Vector(double x = 0.0, double y = 0.0, double z = 0.0);
+  Hep3Vector();
+  explicit Hep3Vector(double x);
+  Hep3Vector(double x, double y);
+  Hep3Vector(double x, double y, double z);
   // The constructor.  
 
   inline Hep3Vector(const Hep3Vector &);
