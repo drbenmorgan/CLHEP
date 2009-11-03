@@ -19,17 +19,18 @@ libCLHEP_Matrix_@VERSION@_a_SOURCES = \
 
 libCLHEP_Matrix_@VERSION@_so_OBJECTS = $(patsubst %.cc,$(shareddir)/%.$(OBJEXT),$(libCLHEP_Matrix_@VERSION@_a_SOURCES))
 
+
 # these if/else blocks will be parsed by automake and translated
 if BUILD_SHARED
   shareddir = shared
 if BUILD_VISUAL
   lib_shared = CLHEP-Matrix-@VERSION@.$(SHEXT)
-  LDADD = ${top_builddir}/../Random/src/CLHEP-Random-@VERSION@.$(SHEXT) \
-          ${top_builddir}/../Vector/src/CLHEP-Vector-@VERSION@.$(SHEXT)
+  LDADD = -L${top_builddir}/../Random/src -lCLHEP-Random-@VERSION@ \
+          -L${top_builddir}/../Vector/src -lCLHEP-Vector-@VERSION@
 else
   lib_shared = libCLHEP-Matrix-@VERSION@.$(SHEXT)
-  LDADD = ${top_builddir}/../Random/src/libCLHEP-Random-@VERSION@.$(SHEXT) \
-          ${top_builddir}/../Vector/src/libCLHEP-Vector-@VERSION@.$(SHEXT)
+  LDADD = -L${top_builddir}/../Random/src -lCLHEP-Random-@VERSION@ \
+          -L${top_builddir}/../Vector/src -lCLHEP-Vector-@VERSION@
 endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@ @MY_SHEXTRA@
