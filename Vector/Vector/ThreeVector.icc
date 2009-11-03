@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ThreeVector.icc,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: ThreeVector.icc,v 1.1.1.1.10.1 2009/11/03 19:58:34 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -86,6 +86,12 @@ inline void Hep3Vector::setRhoPhiZ
 // Constructors
 // ------------
 
+inline Hep3Vector::Hep3Vector()
+  : dx(0.), dy(0.), dz(0.) {}
+inline Hep3Vector::Hep3Vector(double x)
+  : dx(x), dy(0.), dz(0.) {}
+inline Hep3Vector::Hep3Vector(double x, double y)
+  : dx(x), dy(y), dz(0.) {}
 inline Hep3Vector::Hep3Vector(double x, double y, double z)
   : dx(x), dy(y), dz(z) {}
 
