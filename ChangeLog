@@ -1,3 +1,6 @@
+==============================
+03.11.09 Release CLHEP-2.0.4.4.b01
+==============================
 2009-11-03  Lynn Garren <garren@fnal.gov>
 
 	* */src/Makefile.am: use -L<path> -l<library> for dependencies 
