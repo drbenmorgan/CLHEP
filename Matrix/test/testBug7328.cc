@@ -12,6 +12,7 @@
 //
 
 #include <iostream>
+//#include <iomanip>
 #include <math.h>
 #include <stdlib.h>
 
@@ -84,9 +85,11 @@ void heapAddresses ( double * &hNew,
 		     double * &hNew10000, 
 		     double * &hMalloc80000 ) {
   hNew = new double;
-  hMalloc =  (double*) malloc(8);		    
+  hMalloc =  (double*) malloc(sizeof(double));		    
   hNew10000 = new double[10000];
-  hMalloc80000 =  (double*) malloc(80000);
+  hMalloc80000 =  (double*) malloc(10000*sizeof(double));
+//  std::cout << std::hex << hNew << " " << hMalloc<< " " 
+//            << hNew10000 << " " << hMalloc80000 << std::endl;
   free (hMalloc80000);
   delete[] hNew10000;
   free (hMalloc);
@@ -102,22 +105,22 @@ int checkHeap (	double * &hNew,
 		double * &xhNew10000, 
   		double * &xhMalloc80000 ) {
   int ret = 0;
-  if (hNew + 2000 < xhNew) {
+  if (hNew != xhNew) {
     std::cout<< "Leak:\n"
     << "xhNew - hNew = " <<  xhNew - hNew << "\n";
     ret |= 1;
   }
-  if (hMalloc + 2000 < xhMalloc) {
+  if (hMalloc != xhMalloc) {
     std::cout<< "Leak:\n"
     << "xhMalloc - hMalloc = " <<  xhMalloc - hMalloc << "\n";
     ret |= 2;
   }
-  if (hNew10000 + 2000 < xhNew10000) {
+  if (hNew10000 != xhNew10000) {
     std::cout<< "Leak:\n"
     << "xhNew10000 - hNew10000 = " <<  xhNew10000 - hNew10000 << "\n";
     ret |= 4;
   }
-  if (hMalloc80000 + 2000 < xhMalloc80000) {
+  if (hMalloc80000 != xhMalloc80000) {
     std::cout<< "Leak:\n"
     << "xhMalloc80000 - hMalloc80000 = " <<  xhMalloc80000 -hMalloc80000 
     << "\n";
@@ -136,37 +139,39 @@ int main(int, char **) {
   }
   double *hNew, *hMalloc, *hNew10000, *hMalloc80000;
   double *xhNew, *xhMalloc, *xhNew10000, *xhMalloc80000;
-
-  int n1 = 400;
-  int n2 = 25;
-  heapAddresses ( hNew, hMalloc, hNew10000, hMalloc80000 );
-  for (i=0; i<n1; i++) {
-    for (j=1; j <= n2; j++) {
-      ret = test_inversion(j);
-      if (ret) return ret;
-    }
-  }
-  heapAddresses ( xhNew, xhMalloc, xhNew10000, xhMalloc80000 );
-
-  rhp =  checkHeap ( hNew,  hMalloc,  hNew10000,  hMalloc80000,
-                    xhNew, xhMalloc, xhNew10000, xhMalloc80000 );
-  if (rhp) std::cout << "Above Leak is after " << n1*n2 << " test inversions\n";
-  ret |= rhp;
   
-  heapAddresses ( hNew, hMalloc, hNew10000, hMalloc80000 );
-  for (i=0; i<2; i++) {
-    for (j=1; j < 20; j++) {
-      rhp = test_inversion(25+2*j);
-      if (rhp) return rhp;
-    }
-  }
-  heapAddresses ( xhNew, xhMalloc, xhNew10000, xhMalloc80000 );
+  for (int count=0; count < 2; ++count) {
 
-  rhp =  checkHeap ( hNew,  hMalloc,  hNew10000,  hMalloc80000,
-                    xhNew, xhMalloc, xhNew10000, xhMalloc80000 );
-  if (rhp) std::cout << "Leak after big inversions\n";
-  ret |= rhp;
-  
+    int n1 = 400;
+    int n2 = 25;
+    heapAddresses ( hNew, hMalloc, hNew10000, hMalloc80000 );
+    for (i=0; i<n1; i++) {
+      for (j=1; j <= n2; j++) {
+	ret = test_inversion(j);
+	if (ret) return ret;
+      }
+    }
+    heapAddresses ( xhNew, xhMalloc, xhNew10000, xhMalloc80000 );
+    rhp = 0;
+    if(count != 0) rhp =  checkHeap ( hNew,  hMalloc,  hNew10000,  hMalloc80000,
+                      xhNew, xhMalloc, xhNew10000, xhMalloc80000 );
+    if (rhp) std::cout << "Above Leak is after " << n1*n2 << " test inversions\n";
+    ret |= rhp;
+
+    heapAddresses ( hNew, hMalloc, hNew10000, hMalloc80000 );
+    for (i=0; i<2; i++) {
+      for (j=1; j < 20; j++) {
+	rhp = test_inversion(25+2*j);
+	if (rhp) return rhp;
+      }
+    }
+    heapAddresses ( xhNew, xhMalloc, xhNew10000, xhMalloc80000 );
+    rhp = 0;
+    if(count != 0) rhp =  checkHeap ( hNew,  hMalloc,  hNew10000,  hMalloc80000,
+                      xhNew, xhMalloc, xhNew10000, xhMalloc80000 );
+    if (rhp) std::cout << "Leak after big inversions\n";
+    ret |= rhp;
+  } 
   return ret;
 }
 
