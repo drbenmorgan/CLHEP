@@ -1,5 +1,6 @@
 // Test program to check out environment's exception-handling
 
+
 #include <iostream>
 using std::cerr;
 using std::endl;
@@ -7,13 +8,13 @@ using std::endl;
 
 class Exception  {
 public:
-  Exception( char [] )  {}
+  Exception( const char [] )  {}
 };
 
 
 class Oops : public Exception  {
 public:
-  Oops( char s[] ) : Exception( s )  {}
+  Oops( const char s[] ) : Exception( s )  {}
 };
 
 
