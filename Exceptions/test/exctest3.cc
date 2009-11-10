@@ -8,6 +8,7 @@ using std::endl;
 class Exception  {
 public:
   Exception( const char [] )  {}
+  virtual ~Exception() {}
   virtual void f() const { cerr << "Exception::f()" << endl; }
 };
 
@@ -15,6 +16,7 @@ public:
 class Oops : public Exception  {
 public:
   Oops( const char s[] ) : Exception( s )  {}
+  virtual ~Oops() {}
   virtual void f() const { cerr << "Oops::f()" << endl; }
 };
 
