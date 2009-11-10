@@ -1,4 +1,9 @@
 
+2009-11-10  Lynn Garren <garren@fnal.gov>
+
+	* src/Gaussian.cc, BivariateGaussian.cc, PtRelFcn.cc, 
+          TrivariateGaussian.cc: protect against M_PI in cmath
+
 2009-11-04  Lynn Garren <garren@fnal.gov>
 
 	* GenericFunctions/Bessel.icc, EllipticIntegral.icc: 

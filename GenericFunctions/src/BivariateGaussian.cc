@@ -1,12 +1,14 @@
 // -*- C++ -*-
-// $Id: BivariateGaussian.cc,v 1.5.4.1 2004/04/29 00:20:36 garren Exp $
+// $Id: BivariateGaussian.cc,v 1.5.4.1.2.1 2009/11/10 20:43:12 garren Exp $
 #include "CLHEP/GenericFunctions/defs.h"
 #include "CLHEP/GenericFunctions/BivariateGaussian.hh"
 #include <assert.h>
 #include <cmath>      // for exp()
 
 #if (defined __STRICT_ANSI__) || (defined _WIN32)
+#ifndef M_PI
 #define M_PI            3.14159265358979323846
+#endif // M_PI
 #endif // __STRICT_ANSI__
 
 namespace Genfun {
