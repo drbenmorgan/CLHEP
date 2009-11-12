@@ -1,10 +1,3 @@
-
-2009-08-25  Lynn Garren <garren@fnal.gov>
-
-	* Vector/ThreeVector.h, Vector/ThreeVector.icc: Each constructor
-	  possibility is now a separate instance to avoid confusion
-	  if Hep3Vector is in the constructor of another function. 
-
 ==============================
 02.07.09 Release CLHEP-1.9.4.3
 ==============================
