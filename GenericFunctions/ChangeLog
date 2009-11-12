@@ -1,3 +1,12 @@
+
+2009-11-11  Lynn Garren <garren@fnal.gov>
+
+	* src/Gaussian.cc, BivariateGaussian.cc, PtRelFcn.cc, 
+          TrivariateGaussian.cc: protect against M_PI in cmath
+
+	* GenericFunctions/Bessel.icc, EllipticIntegral.icc: 
+	  replace math.h with cmath
+
 ==============================
 02.07.09 Release CLHEP-1.9.4.3
 ==============================
