@@ -1,3 +1,7 @@
+2009-11-11  Lynn Garren <garren@fnal.gov>
+
+	* test/exctest2.cc, exctest3.cc: improve ansi compliance
+
 ==============================
 02.07.09 Release CLHEP-1.9.4.3
 ==============================
