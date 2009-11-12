@@ -192,12 +192,14 @@ g++)
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
       AR="ar"; ARFLAGS="cru"
+      LEAKTEST="testBug7328"
       ;;
    *-*-darwin*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
       MY_SHFLAGS=""; MY_SHLINK="-dynamiclib -single_module -undefined dynamic_lookup"; SHEXT=dylib
       MY_SHNAME="-Wl,-install_name,"; MY_LD="-bind_at_load -Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
+      LEAKTEST=""
       ;;
    *-*-cygwin*)
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
@@ -208,6 +210,7 @@ g++)
       AR="ar"; ARFLAGS="cru"
       build_static="yes"
       build_shared="no"
+      LEAKTEST="testBug7328"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
@@ -217,6 +220,7 @@ g++)
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
       AR="ar"; ARFLAGS="cru"
+      LEAKTEST="testBug7328"
    esac;;
 g++4) 
    case "$target" in
@@ -228,6 +232,7 @@ g++4)
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
       AR="ar"; ARFLAGS="cru"
+      LEAKTEST="testBug7328"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
@@ -237,6 +242,7 @@ g++4)
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
       AR="ar"; ARFLAGS="cru"
+      LEAKTEST=""
    esac;;
 c++) 
    case "$target" in
@@ -248,12 +254,14 @@ c++)
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
       AR="ar"; ARFLAGS="cru"
+      LEAKTEST="testBug7328"
       ;;
    *-*-darwin*) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
       MY_SHFLAGS=""; MY_SHLINK="-dynamiclib -single_module -undefined dynamic_lookup"; SHEXT=dylib
       MY_SHNAME="-Wl,-install_name,"; MY_LD="-bind_at_load -Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
+      LEAKTEST=""
       ;;
    *-*-cygwin*)
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
@@ -264,6 +272,7 @@ c++)
       AR="ar"; ARFLAGS="cru"
       build_static="yes"
       build_shared="no"
+      LEAKTEST="testBug7328"
       ;;
    *) 
       AM_CXXFLAGS="-O -ansi -pedantic -Wall"
@@ -273,6 +282,7 @@ c++)
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
       AR="ar"; ARFLAGS="cru"
+      LEAKTEST="testBug7328"
    esac;;
 icc)
    case "$target" in
@@ -285,6 +295,7 @@ icc)
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
       AR="xiar"; ARFLAGS="cru"
+      LEAKTEST="testBug7328"
       ;;
    *)
       AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
@@ -295,6 +306,7 @@ icc)
       MY_LD="-Wl,--rpath -Wl,"
       SHEXT=so
       AR="xiar"; ARFLAGS="cru"
+      LEAKTEST="testBug7328"
    esac;;
 cl)  
    AM_CXXFLAGS="-EHsc -nologo -GR -MD"
@@ -306,6 +318,7 @@ cl)
    build_visual="yes"
    CXXFLAGS=" "
    AC_SUBST(CXXFLAGS)
+   LEAKTEST="testBug7328"
    ;;
 CC)  
    case "$target" in
@@ -316,14 +329,17 @@ CC)
       AM_LDFLAGS="-lsunmath"
       AR="CC"; ARFLAGS="-xar -o"
       build_shared="no"
+      LEAKTEST=""
       ;;
    *-*-hpux*) AM_CXXFLAGS="+O3 +DAportable +a1 -z -pta +Onolimit"
               AR="ar"; ARFLAGS="cru"
               build_shared="no"
+              LEAKTEST=""
 	      ;;
    *-*-irix*) AM_CXXFLAGS="-O -OPT:Olimit=0 -pta"
               AR="ar"; ARFLAGS="cru"
               build_shared="no"
+              LEAKTEST=""
 	      ;;
    *)   echo UNEXPECTED CHOICE OF OPERATING SYSTEM FOR $CXX: $target
    esac;;
@@ -331,16 +347,19 @@ aCC)
    AM_CXXFLAGS="-O -Aa +DAportable +Onolimit"
    AR="ar"; ARFLAGS="cru"
    build_shared="no"
+   LEAKTEST=""
    ;;
 cxx) 
    AM_CXXFLAGS="-O -std strict_ansi -timplicit_local"
    AR="ar"; ARFLAGS="cru"
    build_shared="no"
+   LEAKTEST=""
    ;;
 xlC) 
    AM_CXXFLAGS="-O3 -qtwolink -+"
    AR="ar"; ARFLAGS="cru"
    build_shared="no"
+   LEAKTEST=""
    ;;
 *)   echo UNEXPECTED CHOICE OF C++ COMPILER: $CXX
 esac
@@ -358,6 +377,7 @@ AC_SUBST(MY_LD)
 AC_SUBST(SHEXT)
 AC_SUBST(AR)
 AC_SUBST(ARFLAGS)
+AC_SUBST(LEAKTEST)
 
 # ----------------------------------------------------------------------
 # Check for supported link flags
