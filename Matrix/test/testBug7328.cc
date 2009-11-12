@@ -13,7 +13,7 @@
 
 #include <iostream>
 //#include <iomanip>
-#include <math.h>
+#include <cmath>
 #include <stdlib.h>
 
 #include "CLHEP/Matrix/Matrix.h"

@@ -1,6 +1,5 @@
 // Test program to check out environment's exception-handling
 
-
 #include <iostream>
 using std::cerr;
 using std::endl;
