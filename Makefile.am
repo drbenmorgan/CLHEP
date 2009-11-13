@@ -1,5 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
+## Special note:  Run buildDoxy.sh here to generate the html reference documentation.
+## Then copy or move the html directory to the appropriate place.
+
 if USE_GMAKE
   MAKE = gmake
 endif
