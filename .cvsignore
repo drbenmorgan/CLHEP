@@ -7,3 +7,5 @@ missing
 mkinstalldirs
 config.guess
 config.sub
+html
+doxygen.warnings
