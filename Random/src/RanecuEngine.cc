@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.cc,v 1.4.4.2.2.1 2008/11/13 21:35:23 garren Exp $
+// $Id: RanecuEngine.cc,v 1.4.4.2.2.2 2009/12/01 19:01:44 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -55,7 +55,7 @@ RanecuEngine::RanecuEngine()
 : ecuyer_a(40014),ecuyer_b(53668),ecuyer_c(12211),
   ecuyer_d(40692),ecuyer_e(52774),ecuyer_f(3791),
   shift1(2147483563),shift2(2147483399),
-  prec(4.6566128E-10 ),maxSeq(215)
+  prec(4.6566128E-10 )
 {
   int cycle = abs(int(numEngines/maxSeq));
   seq = abs(int(numEngines%maxSeq));
@@ -75,7 +75,7 @@ RanecuEngine::RanecuEngine(int index)
 : ecuyer_a(40014),ecuyer_b(53668),ecuyer_c(12211),
   ecuyer_d(40692),ecuyer_e(52774),ecuyer_f(3791),
   shift1(2147483563),shift2(2147483399),
-  prec(4.6566128E-10 ),maxSeq(215)
+  prec(4.6566128E-10 )
 {
   int cycle = abs(int(index/maxSeq));
   seq = abs(int(index%maxSeq));
@@ -93,7 +93,7 @@ RanecuEngine::RanecuEngine(std::istream& is)
 : ecuyer_a(40014),ecuyer_b(53668),ecuyer_c(12211),
   ecuyer_d(40692),ecuyer_e(52774),ecuyer_f(3791),
   shift1(2147483563),shift2(2147483399),
-  prec(4.6566128E-10 ),maxSeq(215)
+  prec(4.6566128E-10 )
 {
    is >> *this;
 }
@@ -104,7 +104,7 @@ RanecuEngine::RanecuEngine(const RanecuEngine &p)
 : ecuyer_a(40014),ecuyer_b(53668),ecuyer_c(12211),
   ecuyer_d(40692),ecuyer_e(52774),ecuyer_f(3791),
   shift1(2147483563),shift2(2147483399),
-  prec(4.6566128E-10 ),maxSeq(215)
+  prec(4.6566128E-10 )
 {
   if ((this != &p) && (&p)) {
     theSeed = p.getSeed();

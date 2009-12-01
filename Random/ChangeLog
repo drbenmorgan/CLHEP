@@ -1,3 +1,8 @@
+2009-12-01  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/RanecuEngine.h, src/RanecuEngine.cc: define maxSeq 
+	as a static const int since it contains the size of an array
+
 ==============================
 12.11.09 Release CLHEP-2.0.4.4
 ==============================
