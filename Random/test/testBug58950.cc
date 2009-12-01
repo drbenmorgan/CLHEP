@@ -69,7 +69,10 @@ int main() {
 	for (int i=0; i < nNumbers; ++i) { 
 		double r = g->flat(); 
 		std::cout << i << " " << r << std::endl; 
-		if (r < 0 || r > 1.0 ) std::cout << "Error: bad random number " << r << std::endl; 
+		if (r < 0 || r > 1.0 ) {
+                    std::cout << "Error: bad random number " << r << std::endl; 
+		    ++badcount;
+                }
 	}
 	const long *pseeds=g->getTheSeeds();
 	std::cout << "Final seeds[0] = " << pseeds[0] << "\n" 
@@ -90,7 +93,10 @@ int main() {
 	for (int i=0; i < nNumbers; ++i) { 
 		double r = g->flat(); 
 		std::cout << i << " " << r << std::endl; 
-		if (r < 0 || r > 1.0 ) std::cout << "Error: bad random number " << r << std::endl; 
+		if (r < 0 || r > 1.0 ) {
+                    std::cout << "Error: bad random number " << r << std::endl; 
+		    ++badcount;
+                }
 	}
 	pseeds=g->getTheSeeds();
 	std::cout << "Final seeds[0] = " << pseeds[0] << "\n" 
@@ -113,7 +119,10 @@ int main() {
 	for (int i=0; i < nNumbers; ++i) { 
 		double r = g->flat(); 
 		std::cout << i << " " << r << std::endl; 
-		if (r < 0 || r > 1.0 ) std::cout << "Error: bad random number " << r << std::endl; 
+		if (r < 0 || r > 1.0 ) {
+                    std::cout << "Error: bad random number " << r << std::endl; 
+		    ++badcount;
+                }
 	} 
 	pseeds=g->getTheSeeds();
 	std::cout << "Final seeds[0] = " << pseeds[0] << "\n" 
@@ -156,11 +165,15 @@ int main() {
 	for (int i=0; i < nNumbers; ++i) { 
 		double r = g->flat(); 
 		std::cout << i << " " << r << std::endl; 
-		if (r < 0 || r > 1.0 ) std::cout << "Error: bad random number " << r << std::endl; 
+		if (r < 0 || r > 1.0 ) {
+                    std::cout << "Error: bad random number " << r << std::endl; 
+		    ++badcount;
+                }
 	}
 	pseeds=g->getTheSeeds();
 	std::cout << "seeds[0] = " << pseeds[0] << "\n" 
 				<< "seeds[1] = " << pseeds[1] << std::endl << std::endl;
 
+        if( badcount > 0 ) std::cout << "Found " << badcount << " bad seeds" << std::endl;
 	return badcount; 
 } 
