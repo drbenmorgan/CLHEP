@@ -37,11 +37,19 @@ check_SCRIPTS = \
 	testRandom.sh testRandDists.sh
 
 # Identify test(s) to run when 'make check' is requested:
+# Note that testBug58950 uses a feature not available in cygwin
+if BUILD_VISUAL
+TESTS = \
+	testRandom.sh testRandDists.sh \
+	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
+	testStaticStreamSave testAnonymousEngineRestore testVectorSave
+else
 TESTS = \
 	testRandom.sh testRandDists.sh \
 	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
 	testStaticStreamSave testAnonymousEngineRestore testVectorSave \
 	testBug58950
+endif
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
