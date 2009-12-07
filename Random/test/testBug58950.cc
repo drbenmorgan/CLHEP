@@ -63,9 +63,9 @@ int main() {
     long seeds[3];
     const long *pseeds;
     //***********************************************************************
-    // Seeds are supposed to be positive.  Therefore, if either seed
-    // is negative then the generator sets initial conditions and generates
-    // the same sequence of numbers no matter what the seeds are.  
+    // Seeds are expected to be positive.  Therefore, if either seed is 
+    // negative then prior to 2.0.4.5 the generator set initial conditions
+    // and generated the same sequence of numbers no matter what the seeds were.  
     seeds[0]=rvals[0];
     seeds[1]=rvals[1];
     seeds[2]=0;
@@ -102,7 +102,7 @@ int main() {
 			    << "Final seeds[1] = " << pseeds[1] << std::endl << std::endl;
 
     //***********************************************************************
-    // Forcing these seeds to positive values reliably crashes the generator.
+    // Prior to the 2.0.4.5 bug fix, 64bit seeds resulted in incorrect randoms
     seeds[0]=std::abs(rvals[0]);
     seeds[1]=std::abs(rvals[1]);
     seeds[2]=0;
@@ -122,8 +122,7 @@ int main() {
 			    << "Final seeds[1] = " << pseeds[1] << std::endl << std::endl;
 
     //***********************************************************************
-    // 4-byte positive integers generate valid sequences, which appear to remain
-    // within bounds.
+    // 4-byte positive integers generate valid sequences, which remain within bounds.
     seeds[0]= std::abs(static_cast<int>(rvals[0]));
     seeds[1]= std::abs(static_cast<int>(rvals[1]));
     seeds[2]=0;
@@ -144,17 +143,16 @@ int main() {
 			    << "Final seeds[1] = " << pseeds[1] << std::endl << std::endl;
 
     //***********************************************************************
-    // This tests the conjecture that eventually a bad sequence will rectify
-    // itself. This starts with the seeds that always fail and loops until both
-    // seeds are in the range of positive 32-bit integers. It appears from
-    // my early tests that my conjecture of a stable correct region that
-    // the generator falls into may be correct.
+    // Before the fix, a bad 64bit sequence would eventually rectify itself.
+    // This starts with seeds that would have failed before the 64bit corrections
+    // were applied and loops until both seeds are positive 32-bit integers.
+    // This looping should no longer occur.
     seeds[0]=std::abs(rvals[0]);
     seeds[1]=std::abs(rvals[1]);
     seeds[2]=0;
 
     output << std::endl << "********************" << std::endl;
-    output << "This case loops until it valid short seeds occur." << std::endl;
+    output << "This case loops until valid short seeds occur." << std::endl;
     output << "seeds[0] = " << seeds[0] << "\n" 
 			    << "seeds[1] = " << seeds[1] << std::endl << std::endl;
 
@@ -167,6 +165,7 @@ int main() {
     output << "low = " << low << "  mask = " << mask << std::endl;
     do {r = g->flat(); pseeds = g->getTheSeeds(); ++skipcount;} 
 	    while((pseeds[0]&mask) || (pseeds[1]&mask));
+    if ( skipcount > 1 ) ++badcount;
 
     output << std::endl << "Loop terminates on two short seeds." << std::endl;
     output << "Skipcount = " << skipcount << std::endl;
@@ -184,6 +183,6 @@ int main() {
     output << "seeds[0] = " << pseeds[0] << "\n" 
 			    << "seeds[1] = " << pseeds[1] << std::endl << std::endl;
 
-    if( badcount > 0 ) std::cout << "Found " << badcount << " bad seeds" << std::endl;
+    if( badcount > 0 ) std::cout << "Error count is  " << badcount << std::endl;
     return badcount; 
 } 
