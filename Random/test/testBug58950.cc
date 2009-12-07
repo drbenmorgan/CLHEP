@@ -9,7 +9,6 @@
 #include <iostream> 
 #include <stdexcept>
 #include <cmath>
-#include <stdint.h>
 #include "CLHEP/Random/RanecuEngine.h"
 #include "CLHEP/Random/Random.h"
 
