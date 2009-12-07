@@ -1,7 +1,14 @@
 2009-12-01  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
 
+	* src/RanecuEngine.cc: Negative seeds are not allowed.  In the past,
+	  negative seeds were ignored, resulting in a reproducable sequence.
+	  Instead, we now use the absolute value of any negative seeds.
+
+2009-12-01  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
 	* Random/RanecuEngine.h, src/RanecuEngine.cc: define maxSeq 
-	as a static const int since it contains the size of an array
+	  as a static const int since it contains the size of an array
+	* src/RanecuEngine.cc: ensure that all seeds are in the expected 32bit range.
 
 ==============================
 12.11.09 Release CLHEP-2.0.4.4
