@@ -1,3 +1,6 @@
+==============================
+08.12.09 Release CLHEP-2.0.4.5
+==============================
 2009-12-07  Lynn Garren <garren@fnal.gov>
 
 	* test/testBug58950.cc: test for the 64bit bug
