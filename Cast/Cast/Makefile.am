@@ -9,7 +9,7 @@ tempincludedir = $(TEMPDIR)/CLHEP/@PACKAGE@
 COPY_P = @COPY_P@
 
 pkginclude_HEADERS = \
-	itos.h		\
+	itos.h			\
 	defs.h
 
 # Identify generated file(s) to be removed when 'make clean' is requested:

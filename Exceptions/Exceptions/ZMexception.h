@@ -90,7 +90,7 @@
 //			the look of the output when this path is taken, and
 //			when logging to an ErrorLog allows statistics to work.
 //	031105	LG	Get rid of all ZMutility references
-//	051117	LG	Always use <sstream>
+//      051117  LG      Always use <sstream>
 //
 // ----------------------------------------------------------------------
 

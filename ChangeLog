@@ -1,6 +1,38 @@
 ==============================
+08.12.09 Release CLHEP-1.9.4.5
+==============================
+
+2009-12-08  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/test/testBug58950.cc: test for the 64bit bug
+
+	* Random/src/RanecuEngine.cc: Negative seeds are not allowed.  In the past,
+	  negative seeds were ignored, resulting in a reproducable sequence.
+	  Instead, we now use the absolute value of any negative seeds.
+
+	* Random/Random/RanecuEngine.h, Random/src/RanecuEngine.cc: define 
+	  maxSeq as a static const int since it contains the size of an array
+	* Random/src/RanecuEngine.cc: ensure that all seeds are in the expected 32bit range.
+
+==============================
 13.11.09 Release CLHEP-1.9.4.4
 ==============================
+
+2009-11-10  Lynn Garren <garren@fnal.gov>
+
+	* GenericFunctions/src/Gaussian.cc, BivariateGaussian.cc, PtRelFcn.cc, 
+          TrivariateGaussian.cc: protect against M_PI in cmath
+
+        * Matrix/test/testBug7328.cc:  allow for heap collection before testing
+	* Matrix/configure.in, Matrix/test/Makefile.am: finer control over testBug7328 
+
+	* Exceptions/test/exctest2.cc, exctest3.cc: improve ansi compliance
+
+2009-11-04  Lynn Garren <garren@fnal.gov>
+
+	* GenericFunctions/GenericFunctions/Bessel.icc, EllipticIntegral.icc: 
+	  replace math.h with cmath
+
 2009-11-03  Lynn Garren <garren@fnal.gov>
 
 	* */src/Makefile.am: use -L<path> -l<library> for dependencies 
