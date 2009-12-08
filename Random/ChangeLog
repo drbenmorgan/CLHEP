@@ -1,3 +1,15 @@
+2009-12-08   Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* test/testBug58950.cc: test for the 64bit bug
+
+	* src/RanecuEngine.cc: Negative seeds are not allowed.  In the past,
+	  negative seeds were ignored, resulting in a reproducable sequence.
+	  Instead, we now use the absolute value of any negative seeds.
+
+	* Random/RanecuEngine.h, src/RanecuEngine.cc: define maxSeq 
+	  as a static const int since it contains the size of an array
+	* src/RanecuEngine.cc: ensure that all seeds are in the expected 32bit range.
+
 ==============================
 13.11.09 Release CLHEP-1.9.4.4
 ==============================

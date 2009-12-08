@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.5.2.4.2.3 2009/07/03 14:18:03 garren Exp $
+// $Id: testRandDists.cc,v 1.5.2.4.2.4 2009/12/08 17:19:40 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -313,12 +313,12 @@ bool gaussianTest ( HepRandom & dist, double mu,
   for (int m = 0; m < 11; m++) {
     double expect = table[m]*nNumbers;
     double sig = sqrt ( table[m] * (1.0-table[m]) * nNumbers );
-   cout.precision(oldprecision);
-   cout << "Between " << m/2.0 << " sigma and " 
+    cout.precision(oldprecision);
+    cout << "Between " << m/2.0 << " sigma and " 
 	<< m/2.0+.5 << " sigma (should be about " << expect << "):\n " 
         << "         "
 	<< ncounts[m] << " negative and " << counts[m] << " positive " << "\n";
-   cout.precision(5);
+    cout.precision(5);
     double negSigs = abs ( ncounts[m] - expect ) / sig;
     double posSigs = abs (  counts[m] - expect ) / sig;
     cout << "        These represent " << 

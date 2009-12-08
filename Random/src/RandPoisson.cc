@@ -1,4 +1,4 @@
-// $Id: RandPoisson.cc,v 1.5.2.4 2006/01/17 19:26:53 fischler Exp $
+// $Id: RandPoisson.cc,v 1.5.2.4.2.1 2009/12/08 17:19:40 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -22,7 +22,7 @@
 //			+ storing doubles avoid problems with precision 
 //			4/14/05
 // Mark Fischler  - Repaired BUG - when mean > 2 billion, was returning
-//                  mean instead of the proper value.  1/13/06
+//                  mean instead of the proper value.  01/13/06
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"

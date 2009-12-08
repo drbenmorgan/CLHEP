@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.h,v 1.3.2.6 2005/04/13 20:49:19 fischler Exp $
+// $Id: RanecuEngine.h,v 1.3.2.6.6.1 2009/12/08 17:19:40 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -120,7 +120,7 @@ private:
 
   // Members defining the current state of the generator.
 
-  const int maxSeq;
+  static const int maxSeq = 215;
   long table[215][2];
   int seq;
   static int numEngines;

@@ -30,16 +30,26 @@ CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 check_PROGRAMS = \
 	testRandom testRandDists gaussSpeed gaussSmall \
 	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
-	testStaticStreamSave testAnonymousEngineRestore testVectorSave
+	testStaticStreamSave testAnonymousEngineRestore testVectorSave \
+	testBug58950
 
 check_SCRIPTS = \
 	testRandom.sh testRandDists.sh
 
 # Identify test(s) to run when 'make check' is requested:
+# Note that testBug58950 uses a feature not available in cygwin
+if BUILD_VISUAL
 TESTS = \
 	testRandom.sh testRandDists.sh \
 	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
 	testStaticStreamSave testAnonymousEngineRestore testVectorSave
+else
+TESTS = \
+	testRandom.sh testRandDists.sh \
+	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
+	testStaticStreamSave testAnonymousEngineRestore testVectorSave \
+	testBug58950
+endif
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
@@ -53,6 +63,7 @@ testSaveSharedEngines_SOURCES = testSaveSharedEngines.cc
 testStaticStreamSave_SOURCES = testStaticStreamSave.cc
 testAnonymousEngineRestore_SOURCES = testAnonymousEngineRestore.cc
 testVectorSave_SOURCES = testVectorSave.cc
+testBug58950_SOURCES = testBug58950.cc
 gaussSpeed_SOURCES = gaussSpeed.cc
 gaussSmall_SOURCES = gaussSmall.cc
 
