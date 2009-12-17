@@ -9,6 +9,7 @@
 #include <iostream> 
 #include <stdexcept>
 #include <cmath>
+#include <stdlib.h>
 #include "CLHEP/Random/RanecuEngine.h"
 #include "CLHEP/Random/Random.h"
 
@@ -102,8 +103,8 @@ int main() {
 
     //***********************************************************************
     // Prior to the 2.0.4.5 bug fix, 64bit seeds resulted in incorrect randoms
-    seeds[0]=std::abs(rvals[0]);
-    seeds[1]=std::abs(rvals[1]);
+    seeds[0]=labs(rvals[0]);
+    seeds[1]=labs(rvals[1]);
     seeds[2]=0;
 
     output << std::endl << "********************" << std::endl;
@@ -122,8 +123,8 @@ int main() {
 
     //***********************************************************************
     // 4-byte positive integers generate valid sequences, which remain within bounds.
-    seeds[0]= std::abs(static_cast<int>(rvals[0]));
-    seeds[1]= std::abs(static_cast<int>(rvals[1]));
+    seeds[0]= labs(static_cast<int>(rvals[0]));
+    seeds[1]= labs(static_cast<int>(rvals[1]));
     seeds[2]=0;
 
     output << std::endl << "********************" << std::endl;
@@ -146,8 +147,8 @@ int main() {
     // This starts with seeds that would have failed before the 64bit corrections
     // were applied and loops until both seeds are positive 32-bit integers.
     // This looping should no longer occur.
-    seeds[0]=std::abs(rvals[0]);
-    seeds[1]=std::abs(rvals[1]);
+    seeds[0]=labs(rvals[0]);
+    seeds[1]=labs(rvals[1]);
     seeds[2]=0;
 
     output << std::endl << "********************" << std::endl;
