@@ -28,8 +28,6 @@ int main() {
   RandGauss dist (eng);
 
   double r;
-  RandEngine re;
-  double x = re.flat();
   while (true) {
     cout << "r -- ";
     cin  >> r;
