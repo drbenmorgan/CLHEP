@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.cc,v 1.4.4.2.2.5 2009/12/07 18:17:10 garren Exp $
+// $Id: RanecuEngine.cc,v 1.4.4.2.2.6 2010/03/08 23:47:09 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -144,8 +144,8 @@ void RanecuEngine::setSeeds(const long* seeds, int pos)
     theSeed = seq;
   }
   // only positive seeds are allowed
-  table[seq][0] = abs(seeds[0])%ecuyer_a;
-  table[seq][1] = abs(seeds[1])%ecuyer_d;
+  table[seq][0] = abs(seeds[0])%shift1;
+  table[seq][1] = abs(seeds[1])%shift2;
   theSeeds = &table[seq][0];
 }
 
