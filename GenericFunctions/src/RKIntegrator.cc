@@ -244,7 +244,7 @@ void RKIntegrator::RKFunction::rkstep(const RKIntegrator::RKData::Data & s, RKIn
       double emax = (*std::max_element(errors.begin(),errors.end()))/eps;
       if (emax > 1) {
 	h = std::max(SAFETY*h*pow(emax,PSHRNK),0.1*h);
-	if  (!((float) Tmp0.time+h - (float) Tmp0.time) > 0 ) {
+	if  (!(((float) Tmp0.time+h - (float) Tmp0.time) > 0) ) {
 	  std::cerr << "Warning, RK Integrator step underflow" << std::endl;
 	}
 	Tmp1.time = Tmp0.time+h;
