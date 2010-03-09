@@ -1,4 +1,23 @@
 ==============================
+09.03.10 Release CLHEP-2.0.4.6
+==============================
+
+2010-03-09  Lynn Garren <garren@fnal.gov>
+
+	* GenericFunctions/src/RKIntegrator.cc: 
+	  Add parentheses to fix a VC++ warning
+
+
+2010-03-08  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/src/RandEngine.cc: Cast RAND_MAX to unsigned long to avoid 
+	  gcc 4.4 warnings.
+
+	* Random/src/RanecuEngine.cc: Fix a bug introduced in 2.0.4.5/1.9.4.5 
+	  which resulted in the inability to rollback the random state.
+	* Random/test/testBug58950: test rolling back the random state
+
+==============================
 08.12.09 Release CLHEP-2.0.4.5
 ==============================
 
