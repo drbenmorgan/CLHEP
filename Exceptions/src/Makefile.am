@@ -22,8 +22,6 @@ if BUILD_SHARED
   shareddir = shared
 if BUILD_VISUAL
   lib_shared = CLHEP-Exceptions-@VERSION@.$(SHEXT)
-  LDADD = -L${top_builddir}/../Cast/src -lCLHEP-Cast-@VERSION@ \
-	  -L${top_builddir}/../RefCount/src -lCLHEP-RefCount-@VERSION@
 else
   lib_shared = libCLHEP-Exceptions-@VERSION@.$(SHEXT)
   LDADD = -L${top_builddir}/../Cast/src -lCLHEP-Cast-@VERSION@ \

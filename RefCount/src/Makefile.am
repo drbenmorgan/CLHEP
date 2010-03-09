@@ -16,7 +16,6 @@ if BUILD_SHARED
   shareddir = shared
 if BUILD_VISUAL
   lib_shared = CLHEP-RefCount-@VERSION@.$(SHEXT)
-  LDADD = -L${top_builddir}/../Cast/src -lCLHEP-Cast-@VERSION@
 else
   lib_shared = libCLHEP-RefCount-@VERSION@.$(SHEXT)
   LDADD = -L${top_builddir}/../Cast/src -lCLHEP-Cast-@VERSION@

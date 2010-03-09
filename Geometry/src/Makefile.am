@@ -21,7 +21,6 @@ if BUILD_SHARED
   shareddir = shared
 if BUILD_VISUAL
   lib_shared = CLHEP-Geometry-@VERSION@.$(SHEXT)
-  LDADD = -L${top_builddir}/../Vector/src -lCLHEP-Vector-@VERSION@
 else
   lib_shared = libCLHEP-Geometry-@VERSION@.$(SHEXT)
   LDADD = -L${top_builddir}/../Vector/src -lCLHEP-Vector-@VERSION@
