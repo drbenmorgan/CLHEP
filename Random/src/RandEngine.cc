@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.4.2.8.2.1 2008/11/13 18:35:53 garren Exp $
+// $Id: RandEngine.cc,v 1.4.2.8.2.2 2010/03/10 22:07:49 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -254,7 +254,7 @@ void RandEngine::showStatus() const
   {                                                         
     // Here, we know that integer arithmetic is 64 bits.    
     if ( !prepared ) {                                      
-      iS = RAND_MAX + 1;                     
+      iS = (unsigned long)RAND_MAX + 1;                     
       iK = 1;                                
 //    int StoK = S;                          
       int StoK = iS;          
@@ -290,7 +290,7 @@ void RandEngine::showStatus() const
     // of precision, but we have no idea how many randoms we will need to 
     // generate 32 bits.                                                  
     if ( !prepared ) {                                                    
-      fS = RAND_MAX + 1;                                                  
+      fS = (unsigned long)RAND_MAX + 1;                                                  
       double twoTo32 = ldexp(1.0,32);                                     
       double StoK = fS;                                                   
       for ( iK = 1; StoK < twoTo32; StoK *= fS, iK++ ) { }                
@@ -317,7 +317,7 @@ void RandEngine::showStatus() const
     // Here, we know that 16 random bits are available from each of       
     // two random numbers.                                                
     if ( !prepared ) {                                                    
-      iS = RAND_MAX + 1;                                                  
+      iS = (unsigned long)RAND_MAX + 1;                                                  
       int SshiftN = iS;                                                   
       for (iN = 0; SshiftN > 1; SshiftN >>= 1, iN++) { }                  
       iN -= 17;                                                           

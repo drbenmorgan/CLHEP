@@ -1,3 +1,13 @@
+
+2010-03-08  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* src/RandEngine.cc: Cast RAND_MAX to unsigned long to avoid 
+	  gcc 4.4 warnings.
+
+	* src/RanecuEngine.cc: Fix a bug introduced in 2.0.4.5/1.9.4.5 
+	  which resulted in the inability to rollback the random state.
+	* test/testBug58950: test rolling back the random state
+
 ==============================
 08.12.09 Release CLHEP-1.9.4.5
 ==============================

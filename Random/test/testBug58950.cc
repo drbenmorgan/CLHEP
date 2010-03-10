@@ -122,6 +122,43 @@ int main() {
 			    << "Final seeds[1] = " << pseeds[1] << std::endl << std::endl;
 
     //***********************************************************************
+    // recover and reuse seeds  
+    seeds[0]=labs(rvals[0]);
+    seeds[1]=labs(rvals[1]);
+    seeds[2]=0;
+
+    output << std::endl << "********************" << std::endl;
+    output << "Check rolling back a random number seed." << std::endl;
+    output << "seeds[0] = " << seeds[0] << "\n"
+                            << "seeds[1] = " << seeds[1] << std::endl << std::endl;
+    std::vector<double> v;
+    g->setTheSeeds(seeds);
+			    
+    for (int i=0; i < nNumbers; ++i) {
+        double r = g->flat();
+        if( ! printCheck(i,r,output) ) ++badcount;
+    }
+    pseeds=g->getTheSeeds();
+    seeds[0] = pseeds[0];
+    seeds[1] = pseeds[1];
+    output << " pseeds[0] = " << pseeds[0] << "\n"
+                            << "pseeds[1] = " << pseeds[1] << std::endl;
+    for (int i=0; i < nNumbers; ++i) {
+        double r = g->flat();
+        v.push_back(r);
+    }
+    g->setTheSeeds(seeds);
+    for (int i=0; i < nNumbers; ++i) {
+        double r = g->flat();
+        if(v[i] != r ) {
+           ++badcount;
+           std::cerr << " rollback fails: i, v[i], r "
+                     << i << "  " << v[i] << " " << r << std::endl;
+        }
+    }
+    output << std::endl;
+
+    //***********************************************************************
     // 4-byte positive integers generate valid sequences, which remain within bounds.
     seeds[0]= labs(static_cast<int>(rvals[0]));
     seeds[1]= labs(static_cast<int>(rvals[1]));

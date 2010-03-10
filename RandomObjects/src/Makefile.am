@@ -17,9 +17,6 @@ if BUILD_SHARED
   shareddir = shared
 if BUILD_VISUAL
   lib_shared = CLHEP-RandomObjects-@VERSION@.$(SHEXT)
-  LDADD = -L${top_builddir}/../Random/src -lCLHEP-Random-@VERSION@ \
-	  -L${top_builddir}/../Matrix/src -lCLHEP-Matrix-@VERSION@ \
-	  -L${top_builddir}/../Vector/src -lCLHEP-Vector-@VERSION@
 else
   lib_shared = libCLHEP-RandomObjects-@VERSION@.$(SHEXT)
   LDADD = -L${top_builddir}/../Random/src -lCLHEP-Random-@VERSION@ \

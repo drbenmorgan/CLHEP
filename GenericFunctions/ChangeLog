@@ -1,3 +1,8 @@
+
+2010-03-09  Lynn Garren <garren@fnal.gov>
+
+	* src/RKIntegrator.cc: add parentheses to fix a VC++ warning
+
 ==============================
 08.12.09 Release CLHEP-1.9.4.5
 ==============================
