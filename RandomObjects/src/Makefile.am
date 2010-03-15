@@ -46,7 +46,7 @@ $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) /c /Fo$@ $<
 else
 $(lib_shared): $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS)
-	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS) $(LDADD) -o $@
+	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS) $(LDADD)
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<
