@@ -272,14 +272,14 @@ public:
    virtual ~HepMatrix();
    // Destructor.
 
-   inline virtual int num_row() const;
+   virtual int num_row() const;
    // Returns the number of rows.
 
-   inline virtual int num_col() const;
+   virtual int num_col() const;
    // Returns the number of columns.
 
-   inline virtual const double & operator()(int row, int col) const;
-   inline virtual double & operator()(int row, int col);
+   virtual const double & operator()(int row, int col) const;
+   virtual double & operator()(int row, int col);
    // Read or write a matrix element. 
    // ** Note that the indexing starts from (1,1). **
 
@@ -368,7 +368,7 @@ public:
    // ** Note that the indexing starts from [0][0]. **
 
 protected:
-   virtual inline int num_size() const;
+   virtual  int num_size() const;
    virtual void invertHaywood4(int& ierr);
    virtual void invertHaywood5(int& ierr);
    virtual void invertHaywood6(int& ierr);

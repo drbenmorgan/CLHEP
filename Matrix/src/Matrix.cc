@@ -146,6 +146,35 @@ HepMatrix::HepMatrix(const HepMatrix &m1)
 
 }
 
+// trivial
+
+int HepMatrix::num_row() const { return nrow;}
+
+int HepMatrix::num_col() const  { return ncol;}
+
+int HepMatrix::num_size() const { return size;}
+
+// operator()
+
+double & HepMatrix::operator()(int row, int col)
+{
+#ifdef MATRIX_BOUND_CHECK
+  if(row<1 || row>num_row() || col<1 || col>num_col())
+    error("Range error in HepMatrix::operator()");
+#endif
+  return *(m.begin()+(row-1)*ncol+col-1);
+}
+
+const double & HepMatrix::operator()(int row, int col) const 
+{
+#ifdef MATRIX_BOUND_CHECK
+  if(row<1 || row>num_row() || col<1 || col>num_col())
+    error("Range error in HepMatrix::operator()");
+#endif
+  return *(m.begin()+(row-1)*ncol+col-1);
+}
+
+
 HepMatrix::HepMatrix(const HepSymMatrix &m1)
    : m(m1.nrow*m1.nrow), nrow(m1.nrow), ncol(m1.nrow)
 {

@@ -145,6 +145,40 @@ HepVector::HepVector(const HepMatrix &m1)
    m = m1.m;
 }
 
+// trivial methods
+
+inline int HepVector::num_row() const {return nrow;} 
+inline int HepVector::num_size() const {return nrow;} 
+inline int HepVector::num_col() const { return 1; }
+
+// operator()
+
+#ifdef MATRIX_BOUND_CHECK
+inline double & HepVector::operator()(int row, int col)
+{
+  if( col!=1 || row<1 || row>nrow)
+     error("Range error in HepVector::operator(i,j)");
+#else
+inline double & HepVector::operator()(int row, int)
+{
+#endif
+
+  return *(m.begin()+(row-1));
+}
+
+#ifdef MATRIX_BOUND_CHECK
+inline const double & HepVector::operator()(int row, int col) const 
+{
+  if( col!=1 || row<1 || row>nrow)
+     error("Range error in HepVector::operator(i,j)");
+#else
+inline const double & HepVector::operator()(int row, int) const 
+{
+#endif
+
+  return *(m.begin()+(row-1));
+}
+
 // Sub matrix
 
 HepVector HepVector::sub(int min_row, int max_row) const
