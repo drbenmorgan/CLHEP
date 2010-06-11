@@ -43,30 +43,6 @@ namespace CLHEP {
 inline HepMatrix::HepMatrix()
   : m(0), nrow(0), ncol(0), size(0) {}
 
-inline int HepMatrix::num_row() const { return nrow;}
-
-inline int HepMatrix::num_col() const  { return ncol;}
-
-inline int HepMatrix::num_size() const { return size;}
-
-inline double & HepMatrix::operator()(int row, int col)
-{
-#ifdef MATRIX_BOUND_CHECK
-  if(row<1 || row>num_row() || col<1 || col>num_col())
-    error("Range error in HepMatrix::operator()");
-#endif
-  return *(m.begin()+(row-1)*ncol+col-1);
-}
-
-inline const double & HepMatrix::operator()(int row, int col) const 
-{
-#ifdef MATRIX_BOUND_CHECK
-  if(row<1 || row>num_row() || col<1 || col>num_col())
-    error("Range error in HepMatrix::operator()");
-#endif
-  return *(m.begin()+(row-1)*ncol+col-1);
-}
-
 inline HepMatrix::HepMatrix_row HepMatrix::operator[] (int r)
 #ifdef HEP_GNU_OPTIMIZED_RETURN
   return b(*this,r);

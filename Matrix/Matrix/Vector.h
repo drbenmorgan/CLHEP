@@ -97,8 +97,8 @@ public:
    // Read and write an element of a Vector.
    // ** Note that the indexing starts from [0]. **
 
-   inline virtual const double & operator()(int row, int col) const;
-   inline virtual double & operator()(int row, int col);
+   virtual const double & operator()(int row, int col) const;
+   virtual double & operator()(int row, int col);
    // Read or write a matrix element. 
    // ** Note that the indexing starts from (1,1). **
    // Allows accessing Vector using GenMatrix
@@ -143,10 +143,10 @@ public:
    inline double norm() const;
    // Returns norm.
 
-   inline virtual int num_row() const;
+   virtual int num_row() const;
    // Returns number of rows.
 
-   inline virtual int num_col() const;
+   virtual int num_col() const;
    // Number of columns. Always returns 1. Provided for compatibility with
    // GenMatrix. 
 
@@ -158,7 +158,7 @@ public:
    // Swaps two vectors.
 
 protected:
-   virtual inline int num_size() const;
+   virtual int num_size() const;
 
 private:
    virtual void invert(int&);

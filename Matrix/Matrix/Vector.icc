@@ -52,9 +52,6 @@ inline HepVector::HepVector()
 
 inline double HepVector::normsq() const {return dot((*this),(*this));}
 inline double HepVector::norm() const {return sqrt(normsq());}
-inline int HepVector::num_row() const {return nrow;} 
-inline int HepVector::num_size() const {return nrow;} 
-inline int HepVector::num_col() const { return 1; }
 
 inline double & HepVector::operator()(int row)
 {
@@ -91,32 +88,6 @@ inline const double & HepVector::operator[](int row) const
 #endif
 
   return *(m.begin()+row);
-}
-
-#ifdef MATRIX_BOUND_CHECK
-inline double & HepVector::operator()(int row, int col)
-{
-  if( col!=1 || row<1 || row>nrow)
-     error("Range error in HepVector::operator(i,j)");
-#else
-inline double & HepVector::operator()(int row, int)
-{
-#endif
-
-  return *(m.begin()+(row-1));
-}
-
-#ifdef MATRIX_BOUND_CHECK
-inline const double & HepVector::operator()(int row, int col) const 
-{
-  if( col!=1 || row<1 || row>nrow)
-     error("Range error in HepVector::operator(i,j)");
-#else
-inline const double & HepVector::operator()(int row, int) const 
-{
-#endif
-
-  return *(m.begin()+(row-1));
 }
 
 }  // namespace CLHEP

@@ -1,3 +1,9 @@
+
+2010-06-11  Lynn Garren <garren@fnal.gov>
+
+	* Matrix/Matrix.h: inline virtual functions are now only virtual and not inline
+	* Matrix/Vertex.h: inline virtual functions are now only virtual and not inline
+
 ==============================
 09.03.10 Release CLHEP-2.0.4.6
 ==============================
