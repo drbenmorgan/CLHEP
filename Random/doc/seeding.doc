@@ -1,0 +1,147 @@
+		Approaches to Seeding in CLHEP Random
+		-------------------------------------
+
+"Seeding" is going from a number or numbers (or other information) supplied
+by a user who wishes to create or otherwise initialize an engine,  to 
+the internal state of the engine.  There are several possible approaches to 
+seeding.  A good approach minimizes the opportunities for idnetical states
+based on different seeds.  Some approaches used in some cases in CLHEP rely
+on a pre-packaged table of 215 pairs of 32-bit integers.  This table was
+initially provided to avoid a serious problem with some seeds for an early
+engine being "bad" seeds (yielding short sequences).  More precisely, this
+mechanism was a legacy from the pre-CLHEP Fortran/Geant3 days.  Depending on 
+how an engine might use this table, the seeding approach may be excellent
+or very poor.  The approaches found in engines in CLHEP are as follows:
+
+A) Direct use of all the supplied numbers (or if a pointer is supplied, 
+   multiple numbers from the sequence, possibly followed by some scrambling 
+   algorithm to fill the seed and/or some arbitrary choice of an improved seed 
+   if the supplied number is "special" (e.g. 0 on an engine that performs 
+   poorly on this special seed).  If this is the default ctor, direct use
+   in a suitably scrabled fashion of the engine count.  Assuming the scrambling 
+   is done sensibly, this is as good as it can get.
+
+B) Direct use of the first supplied number, and if a pointer is supplied, only 
+   thefirst number from the sequence.  This is possibly followed by some 
+   scrambling algorithm to fill the seed and/or some arbitrary choice of an 
+   improved seed if the supplied number is "special."  For the non-pointer
+   case this does not exploit the second supplied number.  For the pointer case,
+   it does not exploit elements after the first.  This behavior is excellent
+   except that it could be misleading in that apparently distinct seedings 
+   which match on the first number will lead to identical sequences.  This 
+   is not considered a serious problem in our HEP context.
+
+C) Use of almost the entire supplied number, via taking N mod 215
+   to obtiain a table entry, but adding back the effect of N/215 by 
+   masking the selected table entry with the shifted bits of N/215.
+      int cycle = abs(int(numEngines/maxSeq));
+      seq = abs(int(numEngines%maxSeq));
+      numEngines += 1;
+      theSeed = seq;
+      long mask = ((cycle & 0x007fffff) << 8);
+      for (int i=0; i<2; ++i) {
+	for (int j=0; j<maxSeq; ++j) {
+	  HepRandom::getTheTableSeeds(table[j],j);
+	  table[j][i] ^= mask;
+	}
+      }
+   This approach will give 2^23 times 215 distinct possibilities, almost
+   2 billion, and is excellent (modulo the fact that only the first supplied
+   number is used, as in case (B)).  However, it is mostly used for default 
+   ctors (note that unlike the policy of std::random, the second default 
+   constructed engine of a given type will deliver a different sequence than 
+   the first). 
+
+D) Direct use of the seed, but in a way which gives distinct sequences
+   for only about a billion cases, and may give bad results for negative seeds.
+   JamesRandom's ctor from a long, for example, gives distinct sequences for
+   only seed < 900000000 (.9 billion) and may do very badly with negative seeds.
+   Except for the negative seed issue, if present, this approach is okay 
+   (though not as good as having 4 billion distinct states opossible). 
+
+E) Use of the seed as an index into either the first or second column
+   of the 215-element table, modified by using a mask involving the last
+   11 bits of N/215.  A snippet of code from the two argument
+   ctor (int rowIndex, int colIndex) of JamesRandom looks like:
+      int cycle = abs(int(rowIndex/maxIndex));
+      int row = abs(int(rowIndex%maxIndex));
+      int col = abs(int(colIndex%2));
+      long mask = ((cycle & 0x000007ff) << 20);
+      HepRandom::getTheTableSeeds( seeds, row );
+      seed = (seeds[col])^mask;
+      setSeed(seed,0);
+   (where setSeed uses all the bits in the seed it is given, but the seed it
+   is given has become restricted by the above algorithm).
+   This is a poor approach; only 430*8K = 3.4 million distinct sequences occur. 
+   Also, the fact that only the last bit of the second number is used could
+   be misleading (although the name "colIndex" would be a clue to a user
+   who knows about the seet table structure).  Programs or collections of
+   jobs involving a few thousand aggregate engine instances, using this
+   seeding approach, are likely to have collisions yielding identical sequences.
+     
+F) Use of the seed as an index into the 215-element table, with or without
+   use of a second argument to select the first or second column of the table.
+   A snippet of code from setSeed (int index, int) in RaneceEngine looks like:   
+      seq = abs(int(index%maxSeq));
+      theSeed = seq;
+      HepRandom::getTheTableSeeds(table[seq],seq);
+      theSeeds = &table[seq][0];
+   This is a **terrible** approach; only 215 or 430 distinct sequences occur.  
+   Within a single program that takes the Fortran-like philosophy of having a 
+   single engine, this may at first sight seem tolerable.  But even there, 
+   collections of jobs involving tens of runs of such a program are likely to 
+   have collisions yielding identical sequences.
+
+The engines have a variety of ctors and of seed-setting functions:
+
+0: default ctor()
+1: ctor(long seed)
+2: ctor(int rowIndex, int colIndex)
+3: setSeed(int seed, int)
+4: setSeeds (long *seeds, int)
+
+In most cases, these each boil down to doing some operations on the supplied
+seed, followed by a common call to setSeed.
+
+The following table describes the approach used by each engine for each 
+form of ctor or seeding function (as of v2.0.5.0, June 15, 2010):
+
+		    default   ctor     row,	    
+		      ctor  long seed  col   setSeed  setSeeds	
+Engine class		0	1	2	3	4	Comment
+------------		-	-	-	-	-	-------
+
+DRand48Engine		C	A	E	B	B	weakish engine
+DualRand		A	A	A	B	B	very strong
+Hurd160Engine		C	A	E	B	B
+Hurd288Engine		C	A	E	B	B
+JamesRandom		C	D	E	D	D
+MTwistEngine		C	A	E	A	A	very strong
+RanecuEngine		C	F	F	F	F	bad seeding
+Ranlux64Engine		C	A	E	A	A	ctor adds lux
+RanluxEngine		C	A	E	A	A	ctor adds lux
+RanshiEngine		A	A	A	B	A	very strong
+TripleRand		A	A	A	B	B	very strong
+
+The suggested modifications we should make are as follows:
+
+* Leave all A, B, and C alone, but add prominent comment warnings in headers
+  if an argument (or all bits but one of an argument) will have no affect on
+  seeding.
+  
+* Leave D (in JamesRandom) alone for positive seeds, but fix up negative 
+  seeds so that they give good quality.  (We may already have done this;
+  in that case, fix up the comment in the .cc file that says they don't).
+
+* Approach E only happens when the user supplies explicitly the row and 
+  column.  I don't know what to do in this case, but I would argue for 
+  making the modification to strengthen this to at least C.  My reasoning
+  is that this modification will not affect any case where the row is
+  less than 215 (that is, where the user really meant USE THE TABLE DATA)
+  and will avoid serious risk of replication in cases where the user does
+  supply a wide range of input.  For example, the user who noted the bad
+  behavior of Ranecu would have noted the same bad behavior for all the E
+  constructors or all the engines, as long as he tried a few thousand seed
+  values.
+
+* We must fix up case F, which fortunately is restricted to RanecuEngine.
