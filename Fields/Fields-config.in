@@ -1,0 +1,95 @@
+#! /bin/sh
+# @configure_input@
+
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+includedir=@includedir@
+
+usage()
+{
+    cat  <<EOF
+Usage: Fields-config [OPTION]
+
+Known values for OPTION are:
+
+  --prefix              show installation prefix
+  --cxx                 print C++ compilation command
+  --cpp                 print pre-processor commands
+  --cppflags            print pre-processor flags
+  --cxxflags            print C++ compiler flags
+  --ldflags             print linker flags
+  --libs                print libraries to link against
+  --help                display this help and exit
+  --version             output version information
+
+EOF
+
+    exit $1
+}
+
+if test $# -eq 0; then
+    usage 1
+fi
+
+while test $# -gt 0; do
+    case "$1" in
+    -*=*)
+        optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'`
+	;;
+    *) 
+        optarg=
+	;;
+    esac
+
+    case "$1" in
+    --prefix=*)
+	prefix="$optarg"
+	;;
+
+    --prefix)
+	echo "$prefix"
+	;;
+
+    --version)
+	echo @PACKAGE@ @VERSION@
+	exit 0
+	;;
+
+    --help)
+	usage 0
+	;;
+
+    --cxx)
+       	echo @CXX@ @CPPFLAGS@ @AM_CXXFLAGS@ @CXXFLAGS@
+       	;;
+
+    --cpp)
+       	echo @CXXCPP@ @CPPFLAGS@ @Fields_CPPFLAGS@
+       	;;
+
+    --cppflags)
+       	echo @CPPFLAGS@ @Fields_CPPFLAGS@
+       	;;
+
+    --cxxflags)
+       	echo @AM_CXXFLAGS@ @CXXFLAGS@
+       	;;
+
+    --ldflags)
+       	echo  @AM_LDFLAGS@ @LDFLAGS@ @Fields_LDFLAGS@
+       	;;
+
+    --libs)
+       	echo @LIBS@ @Fields_LIBS@ -lm
+       	;;
+
+    *)
+	usage
+	exit 1
+	;;
+    esac
+    shift
+done
+
+exit 0
