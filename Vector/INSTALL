@@ -11,6 +11,10 @@ If you build CLHEP with gcc 2.95.2, you must configure --disable-shared.
 
 To build for Solaris CC, configure with CXX=CC CC=cc and use gmake.
 
+On MacOSX, you need to define MACOSX_DEPLOYMENT_TARGET appropriately.  
+For instance, set MACOSX_DEPLOYMENT_TARGET to "10.4" if you 
+have MacOS 10.4 installed on your system. 
+
 #-------------------------------------------------------------
 #  installing from a source code tar ball
 #-------------------------------------------------------------
@@ -24,11 +28,6 @@ cd <build_directory>
 <source_code_direcotry>/configure --prefix=<install_dir>
    (Note that files will be installed under /usr/local if you do not 
     specify a prefix.)
-    To use Visual C++:
-    <source_code_direcotry>/configure --prefix=<install_dir> CXX=cl CC=cl
-        (You must specify both CXX and CL or configure will attempt to use 
-         gcc/g++ for the unspecified variable.  Also, do not use 
-         environmental varialbles.)
 make
    (Build temporary copies of libraries and executables.)
 make check

@@ -14,9 +14,14 @@ libCLHEP_RefCount_@VERSION@_so_OBJECTS = $(patsubst %.cc,$(shareddir)/%.$(OBJEXT
 # these if/else blocks will be parsed by automake and translated
 if BUILD_SHARED
   shareddir = shared
+if BUILD_VISUAL
+  lib_shared = CLHEP-RefCount-@VERSION@.$(SHEXT)
+else
   lib_shared = libCLHEP-RefCount-@VERSION@.$(SHEXT)
+  LDADD = -L${top_builddir}/../Cast/src -lCLHEP-Cast-@VERSION@
+endif
   SHFLAGS = @MY_SHFLAGS@
-  SHLINK = @MY_SHLINK@
+  SHLINK = @MY_SHLINK@ @MY_SHEXTRA@
   SHNAME = @MY_SHNAME@
 endif
 if BUILD_STATIC
@@ -30,11 +35,19 @@ all-local: $(shareddir) $(lib_shared)
 $(shareddir):
 	test -d $(shareddir) || mkdir $(shareddir)
 
+if BUILD_VISUAL
 $(lib_shared): $(libCLHEP_RefCount_@VERSION@_so_OBJECTS)
-	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_RefCount_@VERSION@_so_OBJECTS) -o $@
+	$(SHLINK) $(SHNAME)$@ $(libCLHEP_RefCount_@VERSION@_so_OBJECTS) $(LDADD)
+
+$(shareddir)/%.$(OBJEXT): %.cc
+	$(CXXCOMPILE) $(SHFLAGS) /c /Fo$@ $<
+else
+$(lib_shared): $(libCLHEP_RefCount_@VERSION@_so_OBJECTS)
+	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_RefCount_@VERSION@_so_OBJECTS) $(LDADD)
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<
+endif
 
 install-exec-local: $(lib_shared)
 	@$(NORMAL_INSTALL)

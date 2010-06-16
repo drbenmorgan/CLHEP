@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: LorentzVectorC.cc,v 1.3 2005/04/27 21:14:10 garren Exp $
+// $Id: LorentzVectorC.cc,v 1.4 2010/06/16 17:15:57 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.

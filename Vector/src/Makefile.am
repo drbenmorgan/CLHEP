@@ -49,9 +49,13 @@ libCLHEP_Vector_@VERSION@_so_OBJECTS = $(patsubst %.cc,$(shareddir)/%.$(OBJEXT),
 # these if/else blocks will be parsed by automake and translated
 if BUILD_SHARED
   shareddir = shared
+if BUILD_VISUAL
+  lib_shared = CLHEP-Vector-@VERSION@.$(SHEXT)
+else
   lib_shared = libCLHEP-Vector-@VERSION@.$(SHEXT)
+endif
   SHFLAGS = @MY_SHFLAGS@
-  SHLINK = @MY_SHLINK@
+  SHLINK = @MY_SHLINK@ @MY_SHEXTRA@
   SHNAME = @MY_SHNAME@
 endif
 if BUILD_STATIC
@@ -65,11 +69,19 @@ all-local: $(shareddir) $(lib_shared)
 $(shareddir):
 	test -d $(shareddir) || mkdir $(shareddir)
 
+if BUILD_VISUAL
 $(lib_shared): $(libCLHEP_Vector_@VERSION@_so_OBJECTS)
-	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_Vector_@VERSION@_so_OBJECTS) -o $@
+	$(SHLINK) $(SHNAME)$@ $(libCLHEP_Vector_@VERSION@_so_OBJECTS)
+
+$(shareddir)/%.$(OBJEXT): %.cc
+	$(CXXCOMPILE) $(SHFLAGS) /c /Fo$@ $<
+else
+$(lib_shared): $(libCLHEP_Vector_@VERSION@_so_OBJECTS)
+	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_Vector_@VERSION@_so_OBJECTS)
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<
+endif
 
 install-exec-local: $(lib_shared)
 	@$(NORMAL_INSTALL)

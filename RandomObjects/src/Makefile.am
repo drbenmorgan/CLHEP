@@ -15,9 +15,16 @@ libCLHEP_RandomObjects_@VERSION@_so_OBJECTS = $(patsubst %.cc,$(shareddir)/%.$(O
 # these if/else blocks will be parsed by automake and translated
 if BUILD_SHARED
   shareddir = shared
+if BUILD_VISUAL
+  lib_shared = CLHEP-RandomObjects-@VERSION@.$(SHEXT)
+else
   lib_shared = libCLHEP-RandomObjects-@VERSION@.$(SHEXT)
+  LDADD = -L${top_builddir}/../Random/src -lCLHEP-Random-@VERSION@ \
+	  -L${top_builddir}/../Matrix/src -lCLHEP-Matrix-@VERSION@ \
+	  -L${top_builddir}/../Vector/src -lCLHEP-Vector-@VERSION@
+endif
   SHFLAGS = @MY_SHFLAGS@
-  SHLINK = @MY_SHLINK@
+  SHLINK = @MY_SHLINK@ @MY_SHEXTRA@
   SHNAME = @MY_SHNAME@
 endif
 if BUILD_STATIC
@@ -31,11 +38,19 @@ all-local: $(shareddir) $(lib_shared)
 $(shareddir):
 	test -d $(shareddir) || mkdir $(shareddir)
 
+if BUILD_VISUAL
 $(lib_shared): $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS)
-	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS) -o $@
+	$(SHLINK) $(SHNAME)$@ $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS) $(LDADD)
+
+$(shareddir)/%.$(OBJEXT): %.cc
+	$(CXXCOMPILE) $(SHFLAGS) /c /Fo$@ $<
+else
+$(lib_shared): $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS)
+	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $(libCLHEP_RandomObjects_@VERSION@_so_OBJECTS) $(LDADD)
 
 $(shareddir)/%.$(OBJEXT): %.cc
 	$(CXXCOMPILE) $(SHFLAGS) -c -o $@ $<
+endif
 
 install-exec-local: $(lib_shared)
 	@$(NORMAL_INSTALL)

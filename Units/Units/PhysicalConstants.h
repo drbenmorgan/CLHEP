@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: PhysicalConstants.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: PhysicalConstants.h,v 1.4 2010/06/16 17:12:28 garren Exp $
 // ----------------------------------------------------------------------
 // HEP coherent Physical Constants
 //
@@ -33,6 +33,8 @@
 // 23.02.96 Created
 // 26.03.96 Added constants for standard conditions of temperature
 //          and pressure; also added Gas threshold.
+// 29.04.08   use PDG 2006 values
+// 03.11.08   use PDG 2008 values
 
 #ifndef HEP_PHYSICAL_CONSTANTS_H
 #define HEP_PHYSICAL_CONSTANTS_H
@@ -53,7 +55,7 @@ static const double     pi2 = pi*pi;
 //
 // 
 //
-static const double Avogadro = 6.0221367e+23/mole;
+static const double Avogadro = 6.02214179e+23/mole;
 
 //
 // c   = 299.792458 mm/ns
@@ -67,7 +69,7 @@ static const double c_squared = c_light * c_light;
 // hbar  = 6.58212e-13 MeV*ns
 // hbarc = 197.32705e-12 MeV*mm
 //
-static const double h_Planck      = 6.6260755e-34 * joule*s;
+static const double h_Planck      = 6.62606896e-34 * joule*s;
 static const double hbar_Planck   = h_Planck/twopi;
 static const double hbarc         = hbar_Planck * c_light;
 static const double hbarc_squared = hbarc * hbarc;
@@ -80,12 +82,13 @@ static const double e_squared = eplus * eplus;
 
 //
 // amu_c2 - atomic equivalent mass unit
+//        - AKA, unified atomic mass unit (u)
 // amu    - atomic mass unit
 //
-static const double electron_mass_c2 = 0.51099906 * MeV;
-static const double   proton_mass_c2 = 938.27231 * MeV;
-static const double  neutron_mass_c2 = 939.56563 * MeV;
-static const double           amu_c2 = 931.49432 * MeV;
+static const double electron_mass_c2 = 0.510998910 * MeV;
+static const double   proton_mass_c2 = 938.272013 * MeV;
+static const double  neutron_mass_c2 = 939.56536 * MeV;
+static const double           amu_c2 = 931.494028 * MeV;
 static const double              amu = amu_c2/c_squared;
 
 //
@@ -114,7 +117,7 @@ static const double twopi_mc2_rcl2 = twopi*electron_mass_c2
 //
 //
 //
-static const double k_Boltzmann = 8.617385e-11 * MeV/kelvin;
+static const double k_Boltzmann = 8.617343e-11 * MeV/kelvin;
 
 //
 //
