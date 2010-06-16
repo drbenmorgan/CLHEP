@@ -1,3 +1,70 @@
+==============================
+11.06.10 Release CLHEP-2.0.5.0.b01
+==============================
+==============================
+09.03.10 Release CLHEP-2.0.4.6
+==============================
+==============================
+08.12.09 Release CLHEP-2.0.4.5
+==============================
+==============================
+12.11.09 Release CLHEP-2.0.4.4
+==============================
+==============================
+03.11.09 Release CLHEP-2.0.4.4.b01
+==============================
+==============================
+04.07.09 Release CLHEP-2.0.4.3
+==============================
+==============================
+18.11.08 Release CLHEP-2.0.4.2
+==============================
+==============================
+04.11.08 Release CLHEP-2.0.4.1
+==============================
+==============================
+07.08.08 Release CLHEP-2.0.4.0
+==============================
+==============================
+01.05.08 Release CLHEP-2.0.3.3
+==============================
+==============================
+18.10.07 Release CLHEP-2.0.3.2
+==============================
+==============================
+15.11.06 Release CLHEP-2.0.3.1
+==============================
+==============================
+18.10.06 Release CLHEP-2.0.3.0
+==============================
+==============================
+20.06.06 Release CLHEP-2.0.2.3
+==============================
+==============================
+21.11.05 Release CLHEP-2.0.2.2
+==============================
+2005-11-21  Lynn Garren <garren@fnal.gov>
+
+	* src/Makefile.am, test/Makefile.am: Build libraries for 
+	Windows Visual C++ without lib prefix.
+
+==============================
+22.06.05 Release CLHEP-2.0.2.1
+==============================
+Wed Jun 22 2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
+
+	* configure.in: changed soname to install_name for darwin targets,
+	dylibs still don't build properly on 10.3/10.4, static libs ok.
+
+2005-06-19  Lynn Garren <garren@fnal.gov>
+
+	* configure.in, Makefile.am: 
+	Use lib when building Visual C++ libraries.
+	Disable shared library build for Solaris CC.
+
+==============================
+22.04.05 Release CLHEP-2.0.2.0
+==============================
 2005-04-07  Lynn Garren <garren@fnal.gov>
 
 	* configure.in: set AR and ARFLAGS
@@ -49,17 +116,15 @@ Tue Nov 30   2004 Andreas Pfeiffer <andreas.pfeiffer@cern.ch>
 27.10.04 Release CLHEP-2.0.1.1
 ==============================
 
-Fri Oct 08          2004 Andreas Pfeiffer <andreas.pfeiffer@cern.ch>
+Wed Oct 27          2004 Andreas Pfeiffer <andreas.pfeiffer@cern.ch>
 
-	* Geometry/BasicVector3D.h: made dtor virtual as this is a base class
-	* Geometry/Transform3D.h: added virtual dtor for persistency. This may go away in later releases.
+      * Geometry/BasicVector3D.h: made dtor virtual as this is a base class
+      * Geometry/Transform3D.h: added virtual dtor for persistency. This may go away in later releases.
+
 
 Fri Sep 24          2004 Lynn Garren <garren@fnal.gov>
 
 	* use AM_CXXFLAGS
-
-Tue Sep 14          2004 Lynn Garren <garren@fnal.gov>
-
 	* require autoconf 2.59, automake 1.9.1, and libtool 1.9b
 
 Tue Aug 31         2004 Lynn Garren <garren@fnal.gov>
@@ -68,13 +133,17 @@ Tue Aug 31         2004 Lynn Garren <garren@fnal.gov>
 	* libtools 1.9b or later is required for Solaris CC
 
 ==============================
+23.07.04 Release CLHEP-2.0.1.0
+==============================
+
+==============================
 11.05.04 Release CLHEP-2.0.0.2
 ==============================
 
 ==============================
 11.05.04 Release CLHEP-1.9.0.2
 ==============================
-    
+        
 ==============================
 21.04.04 Release CLHEP-2.0.0.1
 ==============================

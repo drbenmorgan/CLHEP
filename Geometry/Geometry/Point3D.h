@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Point3D.h,v 1.4 2005/04/27 15:40:17 garren Exp $
+// $Id: Point3D.h,v 1.5 2010/06/16 16:21:27 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
