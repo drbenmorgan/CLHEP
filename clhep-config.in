@@ -15,7 +15,6 @@ Known values for OPTION are:
 
   --prefix              show installation prefix
   --cxx                 print C++ compilation command
-  --cc                  print C compilation command
   --cpp                 print pre-processor commands
   --include             print include path
   --ldflags             print linker flags
@@ -57,16 +56,11 @@ while test $# -gt 0; do
 	;;
 
     --cxx)
-       	echo @CXX@ @AM_CXXFLAGS@ @CXXFLAGS@
-       	;;
-
-    --cc)
-       	echo @CC@ @CFLAGS@
+       	echo @CXX@ @CPPFLAGS@ @AM_CXXFLAGS@ @CXXFLAGS@
        	;;
 
     --cpp)
-       	echo "CPP:    " @CPP@ @CPPFLAGS@
-       	echo "CXXCPP: " @CXXCPP@ @CPPFLAGS@
+       	echo @CXXCPP@ @CPPFLAGS@
        	;;
 
     --include)
@@ -74,7 +68,7 @@ while test $# -gt 0; do
        	;;
 
     --ldflags)
-       	echo  @LDFLAGS@ 
+       	echo  @AM_LDFLAGS@ @LDFLAGS@ 
        	;;
 
     --libs)

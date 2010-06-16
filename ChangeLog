@@ -1,3 +1,276 @@
+==============================
+11.06.10 Release CLHEP-2.0.5.0.b01
+==============================
+
+2010-06-11  Lynn Garren <garren@fnal.gov>
+
+	* CLHEP now uses the LGPL license.
+
+	* Matrix: inline virtual functions are now only virtual and not inline
+
+2010-04-29  Lynn Garren <garren@fnal.gov>
+
+	* Random now depends on Utility
+
+2010-03-19  W. E. Brown  <wb@fnal.gov>
+
+	- New package Utility, inspired by useful bits of C++0X and Boost
+
+2009-08-25  Lynn Garren <garren@fnal.gov>
+
+	* Vector/ThreeVector: Each constructor possibility is now a separate
+	  instance to avoid confusion if Hep3Vector is in the constructor of 
+	  another function. 
+
+==============================
+09.03.10 Release CLHEP-2.0.4.6
+==============================
+
+2010-03-09  Lynn Garren <garren@fnal.gov>
+
+	* GenericFunctions/src/RKIntegrator.cc: 
+	  Add parentheses to fix a VC++ warning
+
+
+2010-03-08  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/src/RandEngine.cc: Cast RAND_MAX to unsigned long to avoid 
+	  gcc 4.4 warnings.
+
+	* Random/src/RanecuEngine.cc: Fix a bug introduced in 2.0.4.5/1.9.4.5 
+	  which resulted in the inability to rollback the random state.
+	* Random/test/testBug58950: test rolling back the random state
+
+==============================
+08.12.09 Release CLHEP-2.0.4.5
+==============================
+
+2009-12-07  Lynn Garren <garren@fnal.gov>
+
+	* Random/test/testBug58950.cc: test for the 64bit bug
+
+2009-12-01  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/src/RanecuEngine.cc: Negative seeds are not allowed.  In the past,
+	  negative seeds were ignored, resulting in a reproducable sequence.
+	  Instead, we now use the absolute value of any negative seeds.
+
+2009-12-01  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/Random/RanecuEngine.h, Random/src/RanecuEngine.cc: define 
+	  maxSeq as a static const int since it contains the size of an array
+	* Random/src/RanecuEngine.cc: ensure that all seeds are in the expected 32bit range.
+
+==============================
+12.11.09 Release CLHEP-2.0.4.4
+==============================
+
+2009-11-10  Lynn Garren <garren@fnal.gov>
+
+	* GenericFunctions/src/Gaussian.cc, BivariateGaussian.cc, PtRelFcn.cc, 
+          TrivariateGaussian.cc: protect against M_PI in cmath
+
+        * Matrix/test/testBug7328.cc:  allow for heap collection before testing
+	* Matrix/configure.in, Matrix/test/Makefile.am: finer control over testBug7328 
+
+	* Exceptions/test/exctest2.cc, exctest3.cc: improve ansi compliance
+
+2009-11-04  Lynn Garren <garren@fnal.gov>
+
+	* GenericFunctions/GenericFunctions/Bessel.icc, EllipticIntegral.icc: 
+	  replace math.h with cmath
+
+==============================
+03.11.09 Release CLHEP-2.0.4.4.b01
+==============================
+2009-11-03  Lynn Garren <garren@fnal.gov>
+
+	* */src/Makefile.am: use -L<path> -l<library> for dependencies 
+
+2009-08-25  Lynn Garren <garren@fnal.gov>
+
+	* configure.in, */configure.in: remove old -lcxa -lunwind icc flags
+
+==============================
+04.07.09 Release CLHEP-2.0.4.3
+==============================
+2009-06-30  Lynn Garren <garren@fnal.gov>
+
+	* configure.in, */configure.in, */src/Makefile.am: Make sure that
+	the shared library build picks up package dependencies. 
+
+==============================
+18.11.08 Release CLHEP-2.0.4.2
+==============================
+2008-11-18  Lynn Garren <garren@fnal.gov>
+
+	* Random/test/testVectorSave.cc: Add a test for bug #44156
+	
+	* clhep-config.in, */*-config.in: get rid of undefined symbols
+
+2008-11-13  Mark Fischler <mf@fnal.gov>
+
+	* Random/src/engineIDulong.cc: Fix problem that caused check for proper
+	engine type to fail where an unsigned long is 64bits. (bug #44156)
+	* Random/src/*Engine.cc: make sure that existing stored engine states 
+	don't break due to the change in engineIDulong.cc
+
+==============================
+04.11.08 Release CLHEP-2.0.4.1
+==============================
+2008-11-04  Lynn Garren <garren@fnal.gov>
+
+	* Units/PhysicalConstants.h: update Avogadro, h_Planck, electron_mass_c2,
+	  proton_mass_c2, amu_c2, and k_Boltzmann to PDG 2008 values
+	* Units/SystemOfUnits.h: update e_SI to PDG 2008 value
+	* Units.tex: update for modern LaTeX
+
+==============================
+07.08.08 Release CLHEP-2.0.4.0
+==============================
+2008-08-06  Lynn Garren <garren@fnal.gov>
+
+	* configure.in, Makefile.am, build-header.in: automatically
+	create ClhepVersion.h during the build proceedure
+	Version information is available as integers and the full string.
+
+2008-07-17  Lynn Garren <garren@fnal.gov>
+
+	* various changes in Random to keep gcc 4.3 happy
+	
+2008-07-16  Lynn Garren <garren@fnal.gov>
+
+	* Matrix/src/SymMatrix.cc, Matrix.cc, DiagMatrix.cc, MatrixLinear.cc: 
+	Iterators were set to a nonexistent memory location in many places.
+	Even though the iterators were not used, this operation is not allowed 
+	and causes problems with the newer VC++ compilers.  
+	In some cases, a more efficient rewrite was possible.
+
+==============================
+01.05.08 Release CLHEP-2.0.3.3
+==============================
+2008-05-01  Lynn Garren <garren@fnal.gov>
+
+	* */test/Makefile.am: use "/Fo$@" instead of "-o $@" for Visual C++
+
+2008-04-30  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: VC++ compiler flag -GX is replaced by -EHsc
+	  icc compiler flag -mp is replaced by -fp-model precise
+	  remove KCC from list of C++ compilers
+
+2008-04-29  Lynn Garren <garren@fnal.gov>
+
+	* Units/PhysicalConstants.h: update h_Planck, electron_mass_c2,
+	proton_mass_c2, neutron_mass_c2, and amu_c2 to PDG 2006 values
+	* Units/SystemOfUnits.h: update e_SI to PDG 2006 value
+
+==============================
+18.10.07 Release CLHEP-2.0.3.2
+==============================
+2007-10-18  Mark Fischler <mf@fnal.gov>
+
+	* RandPoissonQ.cc:  Change fire(mena) to call 
+	  		    shoot(theLocalEngine(),mean) instead of
+			    shoot(mean), which had caused "cross-talk" between
+			    modules that should not have affected eah other.
+
+==============================
+15.11.06 Release CLHEP-2.0.3.1
+==============================
+2006-11-15  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: change ordering of possible C++ compilers so that
+	                g++ remains the default compiler if icc is in the path
+
+==============================
+18.10.06 Release CLHEP-2.0.3.0
+==============================
+2006-10-13  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: build only static libraries when using gcc with cygwin
+
+2006-10-05  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: add flags for the Intel compiler (icc)
+
+2006-09-29  Lynn Garren <garren@fnal.gov>
+
+	* configure.in. Makefile.am: stop building HepMC, HepPDT, and StdHep
+
+==============================
+20.06.06 Release CLHEP-2.0.2.3
+==============================
+2006-05-17  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: add support for g++4
+
+2006-05-14  Andreas Pfeiffer <andreas.pfeiffer@cern.ch>
+
+	* configure.in: add changes from Gabriele Cosmo for MacOSX
+
+==============================
+21.11.05 Release CLHEP-2.0.2.2
+==============================
+2005-11-21  Lynn Garren <garren@fnal.gov>
+
+	* Makefile.am: Library for Windows Visual C++ is named CLHEP.lib.
+
+2005-11-17  Lynn Garren <garren@fnal.gov>
+
+	* configure.in: Remove check for sstream so Windows will not generate
+	spurious complaint.  
+	Remove HepPDT/StringStream.h.  Remove Cast/StringStream.h.
+
+2005-11-14  Lynn Garren <garren@fnal.gov>
+
+	* Vector/RotationInterfaces.h: Instantiate private destructors so that 
+	dictionary builders will not complain.
+
+2005-11-04  Lynn Garren <garren@fnal.gov>
+
+	* HepPDT/addEvtGenParticles.cc: Bug fix
+
+2005-11-03  Lynn Garren <garren@fnal.gov>
+
+	* Vector/configure.in, LorentzVector.icc
+	Provide a flag to enable code differences when compiling with 
+	Visual C++.
+
+2005-10-20  Lynn Garren <garren@fnal.gov>
+
+	* HepPDT/CommonParticleData.icc: Bug fix - low and high cutoffs 
+	for the width were not being saved.
+	* Also write out cutoffs.
+
+2005-07-27  Lynn Garren <garren@fnal.gov>
+
+	* HepPDT/convertTemporaryMap.icc: Fill DecayData properly.
+	Also get proper particle names when parsing PDG table.
+
+==============================
+22.06.05 Release CLHEP-2.0.2.1
+==============================
+Wed Jun 22 2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
+
+	* configure.in: changed soname to install_name for darwin targets,
+	dylibs still don't build properly on 10.3/10.4, static libs ok.
+
+2005-06-19  Lynn Garren <garren@fnal.gov>
+
+	* configure.in, Makefile.am: 
+	Use lib when building Visual C++ libraries.
+	Disable shared library build for Solaris CC.
+
+==============================
+22.04.05 Release CLHEP-2.0.2.0
+==============================
+Fri Apr 22 2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
+
+	* configure.in: changed flags for building dynamic libs on Mac OS X
+	still problems building them for OS X 10.3, to be checked on 10.4
+	prepared for tagging release 1.9.2.0
+
 Thu Apr  7 2005 Lynn Garren <garren@fnal.gov>
 
 	* configure.in: set AR and ARFLAGS
@@ -227,18 +500,10 @@ Wed May 19         2004 Lynn Garren <garren@fnal.gov>
 11.05.04 Release CLHEP-2.0.0.2
 ==============================
 
-==============================
-11.05.04 Release CLHEP-1.9.0.2
-==============================
-
-
 Tue May 11          2004 Lynn Garren <garren@fnal.gov>
 
-	* tagged for CLHEP 1.9.0.2 (CLHEP_1_9_0_2)
 	* tagged for CLHEP 2.0.0.2 (CLHEP_2_0_0_2)
-
-	* library version changed to 2.1.0.0
-	* build Fields 
+	* library version changed to 2.0.0.2
        
 Tue May 11          2004 Lynn Garren <garren@fnal.gov>
        
@@ -276,10 +541,6 @@ Wed Apr 28          2004 Lynn Garren <garren@fnal.gov>
 
 	*  make CLHEP work with Visual C++
 
-==============================
-21.04.04 Release CLHEP-2.0.0.1
-==============================
-
 Wed Apr 21          2004 Lynn Garren <garren@fnal.gov>
 
 	* change version to CLHEP 2.0.0.1
@@ -292,19 +553,11 @@ Thu Nov 06          2003 Lynn Garren <garren@fnal.gov>
 	*  adding ZOOM Exceptions package for FNAL
 	*  adding supporting RefCount and Cast packages
 
-==============================
-24.10.03 Release CLHEP-2.0.0.0
-==============================
-
 Fri Oct 24          2003 Lynn Garren <garren@fnal.gov>
 
 	* tagged for CLHEP 2.0.0.0
 	
 	* backwards compatibility code disabled
-
-==============================
-23.10.03 Release CLHEP-1.9.0.0
-==============================
 
 Thu Oct 23          2003 Lynn Garren <garren@fnal.gov>
 

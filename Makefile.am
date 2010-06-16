@@ -1,14 +1,16 @@
 ## Process this file with automake to produce Makefile.in
 
+## Special note:  Run buildDoxy.sh here to generate the html reference documentation.
+## Then copy or move the html directory to the appropriate place.
+
 if USE_GMAKE
   MAKE = gmake
 endif
 
 includedir = $(prefix)/include/CLHEP
 
-SUBDIRS = Units Vector Evaluator GenericFunctions Geometry \
-          Random Matrix RandomObjects Fields HepPDT HepMC StdHep \
-          RefCount Cast Exceptions
+SUBDIRS = Units Utility Vector Evaluator GenericFunctions Geometry \
+          Random Matrix RandomObjects Fields Cast RefCount Exceptions
 
 bin_SCRIPTS = clheplib clhep-config
 
@@ -21,7 +23,11 @@ CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 # these if/else blocks will be parsed by automake and translated
 if BUILD_SHARED
   shareddir = shared
+if BUILD_VISUAL
+  lib_shared = CLHEP-@VERSION@.$(SHEXT)
+else
   lib_shared = libCLHEP-@VERSION@.$(SHEXT)
+endif
   SHFLAGS = @MY_SHFLAGS@
   SHLINK = @MY_SHLINK@
   SHNAME = @MY_SHNAME@
@@ -29,20 +35,34 @@ endif
 if BUILD_STATIC
   CLHEPLIB = libCLHEP-@VERSION@.a
 endif
+if BUILD_VISUAL
+  MAKE_STATIC_CLHEP = $(COPY_P) libCLHEP-@VERSION@.a libCLHEP.a
+  MAKE_SHARED_CLHEP = $(COPY_P) CLHEP-@VERSION@.$(SHEXT) CLHEP.$(SHEXT)
+else
+  MAKE_STATIC_CLHEP = $(LN_S) libCLHEP-@VERSION@.a libCLHEP.a
+  MAKE_SHARED_CLHEP = $(LN_S) libCLHEP-@VERSION@.$(SHEXT) libCLHEP.$(SHEXT)
+endif
 
-CLEANFILES = clheplib library-list $(CLHEPLIB) $(lib_shared) 
+CLEANFILES = clheplib library-list $(CLHEPLIB) $(lib_shared) ClhepVersion.h
 
-all-local: $(CLHEPLIB) $(lib_shared)
+all-local: $(CLHEPLIB) $(lib_shared) versionheader
 
 $(CLHEPLIB): 
 	-rm -f $@
 	liblist=`$(top_builddir)/getObjectList -static $(SUBDIRS)`; \
 	$(AR) $(ARFLAGS) $@ $$liblist; $(RANLIB) $@
 
+if BUILD_VISUAL
+$(lib_shared): 
+	-rm -f $@
+	liblist=`$(top_builddir)/getObjectList -shared $(SUBDIRS)`; \
+	$(SHLINK) $(SHNAME)$@ $$liblist
+else
 $(lib_shared): 
 	-rm -f $@
 	liblist=`$(top_builddir)/getObjectList -shared $(SUBDIRS)`; \
 	$(CXXLINK) $(SHLINK) $(SHNAME)$@ $$liblist -o $@
+endif
 
 docs:
 	list='$(SUBDIRS)'; for subdir in $$list; do \
@@ -57,7 +77,10 @@ install-docs:
 clheplib: build-clheplib
 	./build-clheplib $(SUBDIRS)
 
-install-exec-local: install-CLHEPLIB
+versionheader: build-header
+	./build-header
+
+install-exec-local: install-CLHEPLIB install-versionheader
 
 install-CLHEPLIB: $(CLHEPLIB) $(lib_shared)
 	@$(NORMAL_INSTALL)
@@ -75,7 +98,7 @@ install-CLHEPLIB: $(CLHEPLIB) $(lib_shared)
 	    $(RANLIB) "$(DESTDIR)$(libdir)/$$p"; \
 	    if test -f $(DESTDIR)$(libdir)/libCLHEP.a; then \
 	    (rm -f $(DESTDIR)$(libdir)/libCLHEP.a); fi; \
-	    (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.a libCLHEP.a ); \
+	    (cd $(DESTDIR)$(libdir) && $(MAKE_STATIC_CLHEP) ); \
 	  else :; fi; \
 	done
 	@$(NORMAL_INSTALL)
@@ -90,9 +113,18 @@ install-CLHEPLIB: $(CLHEPLIB) $(lib_shared)
 	  if test -f $$p; then \
 	    if test -f $(DESTDIR)$(libdir)/libCLHEP.a; then \
 	    (rm -f $(DESTDIR)$(libdir)/libCLHEP.$(SHEXT)); fi; \
-	    (cd $(DESTDIR)$(libdir) && $(LN_S) libCLHEP-@VERSION@.$(SHEXT) libCLHEP.$(SHEXT) ); \
+	    (cd $(DESTDIR)$(libdir) && $(MAKE_SHARED_CLHEP) ); \
 	  else :; fi; \
 	done
+
+install-versionheader: versionheader
+	@$(NORMAL_INSTALL)
+	test -z "$(includedir)" || $(mkdir_p) "$(DESTDIR)$(includedir)"
+	if test -f ClhepVersion.h; then \
+	  echo " $(INSTALL_DATA) 'ClhepVersion.h' '$(DESTDIR)$(includedir)/ClhepVersion.h'"; \
+	  $(INSTALL_DATA) "ClhepVersion.h" "$(DESTDIR)$(includedir)/ClhepVersion.h"; \
+	else :; fi
+	@$(POST_INSTALL)
 
 clean-local:
 	rm -f *-dep-list
