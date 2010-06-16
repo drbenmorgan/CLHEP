@@ -9,8 +9,9 @@
 //
 // ----------------------------------------------------------------------
 
-
 #include <sstream>
+
+#include "CLHEP/Cast/defs.h"
 #include "CLHEP/Cast/itos.h"
 
 
