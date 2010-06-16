@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: SymMatrix.cc,v 1.4 2005/04/27 19:31:55 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -108,10 +107,10 @@ HepSymMatrix::HepSymMatrix(int p, int init)
       
    case 1:
       {
-	 HepMatrix::mIter a = m.begin();
-	 for(int i=1;i<=nrow;i++) {
+	 HepMatrix::mIter a; 
+	 for(int i=0;i<nrow;++i) {
+            a = m.begin() + (i+1)*i/2 + i;
 	    *a = 1.0;
-	    a += (i+1);
 	 }
 	 break;
       }
@@ -153,7 +152,7 @@ HepSymMatrix::HepSymMatrix(const HepDiagMatrix &m1)
    HepMatrix::mcIter mr = m1.m.begin();
    for(int r=1;r<=n;r++) {
       *mrr = *(mr++);
-      mrr += (r+1);
+      if(r<n) mrr += (r+1);
    }
 }
 
@@ -175,12 +174,13 @@ return mret(max_row-min_row+1);
     error("HepSymMatrix::sub: Index out of range");
   HepMatrix::mIter a = mret.m.begin();
   HepMatrix::mcIter b1 = m.begin() + (min_row+2)*(min_row-1)/2;
-  for(int irow=1; irow<=mret.num_row(); irow++) {
+  int rowsize=mret.num_row();
+  for(int irow=1; irow<=rowsize; irow++) {
     HepMatrix::mcIter b = b1;
-    for(int icol=1; icol<=irow; icol++) {
+    for(int icol=0; icol<irow; ++icol) {
       *(a++) = *(b++);
     }
-    b1 += irow+min_row-1;
+    if(irow<rowsize) b1 += irow+min_row-1;
   }
   return mret;
 }
@@ -192,12 +192,13 @@ HepSymMatrix HepSymMatrix::sub(int min_row, int max_row)
     error("HepSymMatrix::sub: Index out of range");
   HepMatrix::mIter a = mret.m.begin();
   HepMatrix::mIter b1 = m.begin() + (min_row+2)*(min_row-1)/2;
-  for(int irow=1; irow<=mret.num_row(); irow++) {
+  int rowsize=mret.num_row();
+  for(int irow=1; irow<=rowsize; irow++) {
     HepMatrix::mIter b = b1;
-    for(int icol=1; icol<=irow; icol++) {
+    for(int icol=0; icol<irow; ++icol) {
       *(a++) = *(b++);
     }
-    b1 += irow+min_row-1;
+    if(irow<rowsize) b1 += irow+min_row-1;
   }
   return mret;
 }
@@ -208,12 +209,13 @@ void HepSymMatrix::sub(int row,const HepSymMatrix &m1)
     error("HepSymMatrix::sub: Index out of range");
   HepMatrix::mcIter a = m1.m.begin();
   HepMatrix::mIter b1 = m.begin() + (row+2)*(row-1)/2;
-  for(int irow=1; irow<=m1.num_row(); irow++) {
+  int rowsize=m1.num_row();
+  for(int irow=1; irow<=rowsize; ++irow) {
     HepMatrix::mIter b = b1;
-    for(int icol=1; icol<=irow; icol++) {
+    for(int icol=0; icol<irow; ++icol) {
       *(b++) = *(a++);
     }
-    b1 += irow+row-1;
+    if(irow<rowsize) b1 += irow+row-1;
   }
 }
 
@@ -394,9 +396,12 @@ HepMatrix operator*(const HepMatrix &m1,const HepSymMatrix &m2)
     HepMatrix::mcIter mit1, mit2, sp,snp; //mit2=0
     double temp;
     HepMatrix::mIter mir=mret.m.begin();
-    int step,stept;
-    for(mit1=m1.m.begin();mit1<m1.m.begin()+m1.num_row()*m1.num_col();mit1 = mit2)
-      for(step=1,snp=m2.m.begin();step<=m2.num_row();)
+    for(mit1=m1.m.begin();
+        mit1<m1.m.begin()+m1.num_row()*m1.num_col();
+	mit1 = mit2)
+    {
+      snp=m2.m.begin();
+      for(int step=1;step<=m2.num_row();++step)
 	{
 	  mit2=mit1;
 	  sp=snp;
@@ -404,14 +409,17 @@ HepMatrix operator*(const HepMatrix &m1,const HepSymMatrix &m2)
 	  temp=0;
 	  while(sp<snp)
 	    temp+=*(sp++)*(*(mit2++));
-	  sp+=step-1;
-	  for(stept=++step;stept<=m2.num_row();stept++)
-	    {
-	      temp+=*sp*(*(mit2++));
-	      sp+=stept;
-	    }
+          if( step<m2.num_row() ) {	// only if we aren't on the last row
+	    sp+=step-1;
+	    for(int stept=step+1;stept<=m2.num_row();stept++)
+	      {
+		temp+=*sp*(*(mit2++));
+		if(stept<m2.num_row()) sp+=stept;
+	      }
+	    }	// if(step
 	  *(mir++)=temp;
-	}
+	}	// for(step
+      }	// for(mit1
     return mret;
   }
 
@@ -437,17 +445,23 @@ HepMatrix operator*(const HepSymMatrix &m1,const HepMatrix &m2)
 	while(sp<snp+step)
 	  {
 	    temp+=*mit2*(*(sp++));
-	    mit2+=m2.num_col();
+	    if( m2.num_size()-(mit2-m2.m.begin())>m2.num_col() ){
+	      mit2+=m2.num_col();
+	    }
 	  }
-	sp+=step-1;
-	for(stept=step+1;stept<=m1.num_row();stept++)
-	  {
-	    temp+=*mit2*(*sp);
-	    mit2+=m2.num_col();
-	    sp+=stept;
-	  }
+        if(step<m1.num_row()) {	// only if we aren't on the last row
+	  sp+=step-1;
+	  for(stept=step+1;stept<=m1.num_row();stept++)
+	    {
+	      temp+=*mit2*(*sp);
+	      if(stept<m1.num_row()) {
+		mit2+=m2.num_col();
+		sp+=stept;
+	      }
+	    }
+          }	// if(step
 	*(mir++)=temp;
-      }
+      }	// for(mit1
   return mret;
 }
 
@@ -464,8 +478,10 @@ HepMatrix operator*(const HepSymMatrix &m1,const HepSymMatrix &m2)
   HepMatrix::mcIter snp1,sp1,snp2,sp2;
   double temp;
   HepMatrix::mIter mr = mret.m.begin();
-  for(step1=1,snp1=m1.m.begin();step1<=m1.num_row();snp1+=step1++)
-    for(step2=1,snp2=m2.m.begin();step2<=m2.num_row();)
+  snp1=m1.m.begin();
+  for(step1=1;step1<=m1.num_row();++step1) {
+    snp2=m2.m.begin();
+    for(step2=1;step2<=m2.num_row();++step2)
       {
 	sp1=snp1;
 	sp2=snp2;
@@ -473,28 +489,52 @@ HepMatrix operator*(const HepSymMatrix &m1,const HepSymMatrix &m2)
 	temp=0;
 	if(step1<step2)
 	  {
-	    while(sp1<snp1+step1)
+	    while(sp1<snp1+step1) {
 	      temp+=(*(sp1++))*(*(sp2++));
+	      }
 	    sp1+=step1-1;
-	    for(stept1=step1+1;stept1!=step2+1;sp1+=stept1++)
+	    for(stept1=step1+1;stept1!=step2+1;++stept1) {
 	      temp+=(*sp1)*(*(sp2++));
-	    sp2+=step2-1;
-	   for(stept2=++step2;stept2<=m2.num_row();sp1+=stept1++,sp2+=stept2++)
-	     temp+=(*sp1)*(*sp2);
-	  }
+	      if(stept1<m2.num_row()) sp1+=stept1;
+	      }
+            if(step2<m2.num_row()) {	// only if we aren't on the last row
+	      sp2+=step2-1;
+	      for(stept2=step2+1;stept2<=m2.num_row();stept1++,stept2++) {
+		temp+=(*sp1)*(*sp2);
+		if(stept2<m2.num_row()) {
+	           sp1+=stept1;
+		   sp2+=stept2;
+		   }
+		}	// for(stept2
+	      }	// if(step2
+	  }	// step1<step2
 	else
 	  {
-	    while(sp2<snp2)
+	    while(sp2<snp2) {
 	      temp+=(*(sp1++))*(*(sp2++));
-	    sp2+=step2-1;
-	    for(stept2=++step2;stept2!=step1+1;sp2+=stept2++)
-	      temp+=(*(sp1++))*(*sp2);
-	    sp1+=step1-1;
-	   for(stept1=step1+1;stept1<=m1.num_row();sp1+=stept1++,sp2+=stept2++)
-	     temp+=(*sp1)*(*sp2);
-	  }
+	      }
+	    if(step2<m2.num_row()) {	// only if we aren't on the last row
+	      sp2+=step2-1;
+	      for(stept2=step2+1;stept2!=step1+1;stept2++) {
+		temp+=(*(sp1++))*(*sp2);
+		if(stept2<m1.num_row()) sp2+=stept2;
+		}
+	      if(step1<m1.num_row()) {	// only if we aren't on the last row
+		sp1+=step1-1;
+		for(stept1=step1+1;stept1<=m1.num_row();stept1++,stept2++) {
+		  temp+=(*sp1)*(*sp2);
+		  if(stept1<m1.num_row()) {
+	             sp1+=stept1;
+		     sp2+=stept2;
+		     }
+		  }	// for(stept1
+		}	// if(step1
+	      }	// if(step2
+	  }	// else
 	*(mr++)=temp;
-      }
+      }	// for(step2
+    if(step1<m1.num_row()) snp1+=step1;
+    }	// for(step1
   return mret;
 }
 
@@ -511,7 +551,7 @@ HepVector operator*(const HepSymMatrix &m1,const HepVector &m2)
   double temp;
   int step,stept;
   HepMatrix::mIter vrp=mret.m.begin();
-  for(step=1,snp=m1.m.begin();step<=m1.num_row();)
+  for(step=1,snp=m1.m.begin();step<=m1.num_row();++step)
     {
       sp=snp;
       vpt=m2.m.begin();
@@ -519,14 +559,14 @@ HepVector operator*(const HepSymMatrix &m1,const HepVector &m2)
       temp=0;
       while(sp<snp)
 	temp+=*(sp++)*(*(vpt++));
-      sp+=step-1;
-      for(stept=++step;stept<=m1.num_row();stept++)
+      if(step<m1.num_row()) sp+=step-1;
+      for(stept=step+1;stept<=m1.num_row();stept++)
 	{ 
 	  temp+=*sp*(*(vpt++));
-	  sp+=stept;
+	  if(stept<m1.num_row()) sp+=stept;
 	}
       *(vrp++)=temp;
-    }
+    }	// for(step
   return mret;
 }
 
@@ -553,23 +593,16 @@ HepSymMatrix vT_times_v(const HepVector &v)
 HepMatrix & HepMatrix::operator+=(const HepSymMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),+=);
-  int n = num_col();
   HepMatrix::mcIter sjk = m2.m.begin();
-  mIter m1j = m.begin();
-  mIter mj = m.begin();
   // j >= k
-  for(int j=1;j<=num_row();j++) {
-    mIter mjk = mj;
-    mIter mkj = m1j;
-    for(int k=1;k<=j;k++) {
-      *(mjk++) += *sjk;
-      if(j!=k) *mkj += *sjk;
-      sjk++;
-      mkj += n;
-    }
-    mj += n;
-    m1j++;
-  }
+  for(int j=0; j!=nrow; ++j) {
+     for(int k=0; k<=j; ++k) {
+	m[j*ncol+k] += *sjk;
+	// make sure this is not a diagonal element
+	if(k!=j) m[k*nrow+j] += *sjk;
+        ++sjk;
+     } 
+  }   
   return (*this);
 }
 
@@ -583,23 +616,16 @@ HepSymMatrix & HepSymMatrix::operator+=(const HepSymMatrix &m2)
 HepMatrix & HepMatrix::operator-=(const HepSymMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),-=);
-  int n = num_col();
   HepMatrix::mcIter sjk = m2.m.begin();
-  mIter m1j = m.begin();
-  mIter mj = m.begin();
   // j >= k
-  for(int j=1;j<=num_row();j++) {
-    mIter mjk = mj;
-    mIter mkj = m1j;
-    for(int k=1;k<=j;k++) {
-      *(mjk++) -= *sjk;
-      if(j!=k) *mkj -= *sjk;
-      sjk++;
-      mkj += n;
-    }
-    mj += n;
-    m1j++;
-  }
+  for(int j=0; j!=nrow; ++j) {
+     for(int k=0; k<=j; ++k) {
+	m[j*ncol+k] -= *sjk;
+	// make sure this is not a diagonal element
+	if(k!=j) m[k*nrow+j] -= *sjk;
+        ++sjk;
+     } 
+  }   
   return (*this);
 }
 
@@ -624,30 +650,26 @@ HepSymMatrix & HepSymMatrix::operator*=(double t)
 
 HepMatrix & HepMatrix::operator=(const HepSymMatrix &m1)
 {
-   if(m1.nrow*m1.nrow != size)
+   // define size, rows, and columns of *this
+   nrow = ncol = m1.nrow;
+   if(nrow*ncol != size)
    {
-      size = m1.nrow * m1.nrow;
+      size = nrow*ncol;
       m.resize(size);
    }
-   nrow = m1.nrow;
-   ncol = m1.nrow;
-   int n = ncol;
+   // begin copy
    mcIter sjk = m1.m.begin();
-   mIter m1j = m.begin();
-   mIter mj = m.begin();
    // j >= k
-   for(int j=1;j<=num_row();j++) {
-      mIter mjk = mj;
-      mIter mkj = m1j;
-      for(int k=1;k<=j;k++) {
-	 *(mjk++) = *sjk;
-	 if(j!=k) *mkj = *sjk;
-	 sjk++;
-	 mkj += n;
-      }
-      mj += n;
-      m1j++;
-   }
+   for(int j=0; j!=nrow; ++j) {
+      for(int k=0; k<=j; ++k) {
+	 m[j*ncol+k] = *sjk;
+	 // we could copy the diagonal element twice or check 
+	 // doing the check may be a tiny bit faster,
+	 // so we choose that option for now
+	 if(k!=j) m[k*nrow+j] = *sjk;
+         ++sjk;
+      } 
+   }   
    return (*this);
 }
 
@@ -677,7 +699,7 @@ HepSymMatrix & HepSymMatrix::operator=(const HepDiagMatrix &m1)
    HepMatrix::mcIter mr = m1.m.begin();
    for(int r=1; r<=nrow; r++) {
       *mrr = *(mr++);
-      mrr += (r+1);
+      if(r<nrow) mrr += (r+1);
    }
    return (*this);
 }
@@ -739,7 +761,7 @@ void HepSymMatrix::assign (const HepMatrix &m1)
       for(int c=1;c<=r;c++) {
 	 *(b++) = *(d++);
       }
-      a += nrow;
+      if(r<nrow) a += nrow;
    }
 }
 
@@ -799,7 +821,7 @@ HepSymMatrix HepSymMatrix::similarity(const HepSymMatrix &m1) const
       }
       for(i=c;i<=m1.num_col();i++) {
 	tmp+=(*(tempri++))*(*(m1ci));
-	m1ci += i;
+	if(i<m1.num_col()) m1ci += i;
       }
       *(mr++) = tmp;
       m1c1 += c;
@@ -838,12 +860,10 @@ HepSymMatrix HepSymMatrix::similarityT(const HepMatrix &m1) const
     HepMatrix::mcIter m11c = m1.m.begin();
     for(int c=1;c<=r;c++) {
       register double tmp = 0.0;
-      register HepMatrix::mIter tempir = temp1r;
-      register HepMatrix::mcIter m1ic = m11c;
       for(int i=1;i<=m1.num_row();i++) {
+	HepMatrix::mIter tempir = temp1r + n*(i-1);
+	HepMatrix::mcIter m1ic = m11c + n*(i-1);
 	tmp+=(*(tempir))*(*(m1ic));
-	tempir += n;
-	m1ic += n;
       }
       *(mrc++) = tmp;
       m11c++;
@@ -1021,8 +1041,7 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
   // this constant could be set to zero but then the algorithm
   // doesn't neccessarily detect that a matrix is singular
   
-  for (i = 0; i < nrow; i++)
-	piv[i] = i+1;
+  for (i = 0; i < nrow; ++i) piv[i] = i+1;
       
   ifail = 0;
       
@@ -1032,340 +1051,341 @@ void HepSymMatrix::invertBunchKaufman(int &ifail) {
 	
   for (j=1; j < nrow; j+=s)  // main loop over columns
   {
-	  mjj = m.begin() + j*(j-1)/2 + j-1;
-	  lambda = 0;           // compute lambda = max of A(j+1:n,j)
-	  pivrow = j+1;
-	  ip = m.begin() + (j+1)*j/2 + j-1;
-	  for (i=j+1; i <= nrow ; ip += i++)
-	    if (fabs(*ip) > lambda)
-	      {
-		lambda = fabs(*ip);
-		pivrow = i;
+      mjj = m.begin() + j*(j-1)/2 + j-1;
+      lambda = 0;           // compute lambda = max of A(j+1:n,j)
+      pivrow = j+1;
+      //ip = m.begin() + (j+1)*j/2 + j-1;
+      for (i=j+1; i <= nrow ; ++i) {
+          // calculate ip to avoid going off end of storage array
+	  ip = m.begin() + (i-1)*i/2 + j-1;
+	  if (fabs(*ip) > lambda) {
+	      lambda = fabs(*ip);
+	      pivrow = i;
+	  }
+      }	// for i
+      if (lambda == 0 ) {
+	  if (*mjj == 0) {
+	      ifail = 1;
+	      return;
+	  }
+	  s=1;
+	  *mjj = 1./ *mjj;
+      } else {	// lambda == 0
+	  if (fabs(*mjj) >= lambda*alpha) {
+	      s=1;
+	      pivrow=j;
+	  } else {	// fabs(*mjj) >= lambda*alpha
+	      sigma = 0;  // compute sigma = max A(pivrow, j:pivrow-1)
+	      ip = m.begin() + pivrow*(pivrow-1)/2+j-1;
+	      for (k=j; k < pivrow; k++) {
+		  if (fabs(*ip) > sigma) sigma = fabs(*ip);
+		  ip++;
+	      }	// for k
+	      if (sigma * fabs(*mjj) >= alpha * lambda * lambda) {
+		  s=1;
+		  pivrow = j;
+	      } else if (fabs(*(m.begin()+pivrow*(pivrow-1)/2+pivrow-1)) 
+			    >= alpha * sigma) {
+		s=1;
+	      } else {
+		s=2;
+	      }	// if sigma...
+	  }	// fabs(*mjj) >= lambda*alpha
+	  if (pivrow == j) { // no permutation neccessary
+	      piv[j-1] = pivrow;
+	      if (*mjj == 0) {
+		  ifail=1;
+		  return;
 	      }
-	  
-	  if (lambda == 0 )
-	    {
-	      if (*mjj == 0)
-		{
+	      temp2 = *mjj = 1./ *mjj; // invert D(j,j)
+
+	      // update A(j+1:n, j+1,n)
+	      for (i=j+1; i <= nrow; i++) {
+		  temp1 = *(m.begin() + i*(i-1)/2 + j-1) * temp2;
+		  ip = m.begin()+i*(i-1)/2+j;
+		  for (k=j+1; k<=i; k++) {
+		      *ip -= temp1 * *(m.begin() + k*(k-1)/2 + j-1);
+		      if (fabs(*ip) <= epsilon)
+			*ip=0;
+		      ip++;
+		  }
+	      }	// for i
+	      // update L 
+	      //ip = m.begin() + (j+1)*j/2 + j-1; 
+	      for (i=j+1; i <= nrow; ++i) {
+        	  // calculate ip to avoid going off end of storage array
+		  ip = m.begin() + (i-1)*i/2 + j-1;
+	          *ip *= temp2;
+	      }
+	  } else if (s==1) { // 1x1 pivot 
+	      piv[j-1] = pivrow;
+
+	      // interchange rows and columns j and pivrow in
+	      // submatrix (j:n,j:n)
+	      ip = m.begin() + pivrow*(pivrow-1)/2 + j;
+	      for (i=j+1; i < pivrow; i++, ip++) {
+		  temp1 = *(m.begin() + i*(i-1)/2 + j-1);
+		  *(m.begin() + i*(i-1)/2 + j-1)= *ip;
+		  *ip = temp1;
+	      }	// for i
+	      temp1 = *mjj;
+	      *mjj = *(m.begin()+pivrow*(pivrow-1)/2+pivrow-1);
+	      *(m.begin()+pivrow*(pivrow-1)/2+pivrow-1) = temp1;
+	      ip = m.begin() + (pivrow+1)*pivrow/2 + j-1;
+	      iq = ip + pivrow-j;
+	      for (i = pivrow+1; i <= nrow; ip += i, iq += i++) {
+		  temp1 = *iq;
+		  *iq = *ip;
+		  *ip = temp1;
+	      }	// for i
+
+	      if (*mjj == 0) {
 		  ifail = 1;
 		  return;
-		}
-	      s=1;
-	      *mjj = 1./ *mjj;
-	    }
-	  else
-	    {
-	      if (fabs(*mjj) >= lambda*alpha)
-		{
-		  s=1;
-		  pivrow=j;
-		}
-	      else
-		{
-		  sigma = 0;  // compute sigma = max A(pivrow, j:pivrow-1)
-		  ip = m.begin() + pivrow*(pivrow-1)/2+j-1;
-		  for (k=j; k < pivrow; k++)
-		    {
-		      if (fabs(*ip) > sigma)
-			sigma = fabs(*ip);
+	      }	// *mjj == 0
+	      temp2 = *mjj = 1./ *mjj; // invert D(j,j)
+
+	      // update A(j+1:n, j+1:n)
+	      for (i = j+1; i <= nrow; i++) {
+		  temp1 = *(m.begin() + i*(i-1)/2 + j-1) * temp2;
+		  ip = m.begin()+i*(i-1)/2+j;
+		  for (k=j+1; k<=i; k++) {
+		      *ip -= temp1 * *(m.begin() + k*(k-1)/2 + j-1);
+		      if (fabs(*ip) <= epsilon)
+			*ip=0;
 		      ip++;
-		    }
-		  if (sigma * fabs(*mjj) >= alpha * lambda * lambda)
-		    {
-		      s=1;
-		      pivrow = j;
-		    }
-		  else if (fabs(*(m.begin()+pivrow*(pivrow-1)/2+pivrow-1)) 
-				>= alpha * sigma)
-		    s=1;
-		  else
-		    s=2;
-		}
-	      if (pivrow == j)  // no permutation neccessary
-		{
-		  piv[j-1] = pivrow;
-		  if (*mjj == 0)
-		    {
-		      ifail=1;
-		      return;
-		    }
-		  temp2 = *mjj = 1./ *mjj; // invert D(j,j)
-		  
-		  // update A(j+1:n, j+1,n)
-		  for (i=j+1; i <= nrow; i++)
-		    {
-		      temp1 = *(m.begin() + i*(i-1)/2 + j-1) * temp2;
-		      ip = m.begin()+i*(i-1)/2+j;
-		      for (k=j+1; k<=i; k++)
-			{
-			  *ip -= temp1 * *(m.begin() + k*(k-1)/2 + j-1);
-			  if (fabs(*ip) <= epsilon)
-			    *ip=0;
-			  ip++;
-			}
-		    }
-		  // update L 
-		  ip = m.begin() + (j+1)*j/2 + j-1; 
-		  for (i=j+1; i <= nrow; ip += i++)
-		    *ip *= temp2;
-		}
-	      else if (s==1) // 1x1 pivot 
-		{
-		  piv[j-1] = pivrow;
-		  
-		  // interchange rows and columns j and pivrow in
-		  // submatrix (j:n,j:n)
-		  ip = m.begin() + pivrow*(pivrow-1)/2 + j;
-		  for (i=j+1; i < pivrow; i++, ip++)
-		    {
-		      temp1 = *(m.begin() + i*(i-1)/2 + j-1);
-		      *(m.begin() + i*(i-1)/2 + j-1)= *ip;
+		  }	// for k
+	      }	// for i
+	      // update L 
+	      //ip = m.begin() + (j+1)*j/2 + j-1; 
+	      for (i=j+1; i <= nrow; ++i) {
+        	  // calculate ip to avoid going off end of storage array
+		  ip = m.begin() + (i-1)*i/2 + j-1;
+	          *ip *= temp2;
+	      }
+	  } else { // s=2, ie use a 2x2 pivot
+	      piv[j-1] = -pivrow;
+	      piv[j] = 0; // that means this is the second row of a 2x2 pivot
+
+	      if (j+1 != pivrow) {
+		  // interchange rows and columns j+1 and pivrow in
+		  // submatrix (j:n,j:n) 
+		  ip = m.begin() + pivrow*(pivrow-1)/2 + j+1;
+		  for (i=j+2; i < pivrow; i++, ip++) {
+		      temp1 = *(m.begin() + i*(i-1)/2 + j);
+		      *(m.begin() + i*(i-1)/2 + j) = *ip;
 		      *ip = temp1;
-		    }
-		  temp1 = *mjj;
-		  *mjj = *(m.begin()+pivrow*(pivrow-1)/2+pivrow-1);
-		  *(m.begin()+pivrow*(pivrow-1)/2+pivrow-1) = temp1;
-		  ip = m.begin() + (pivrow+1)*pivrow/2 + j-1;
-		  iq = ip + pivrow-j;
-		  for (i = pivrow+1; i <= nrow; ip += i, iq += i++)
-		    {
+		  }	// for i
+		  temp1 = *(mjj + j + 1);
+		  *(mjj + j + 1) = 
+		    *(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1);
+		  *(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1) = temp1;
+		  temp1 = *(mjj + j);
+		  *(mjj + j) = *(m.begin() + pivrow*(pivrow-1)/2 + j-1);
+		  *(m.begin() + pivrow*(pivrow-1)/2 + j-1) = temp1;
+		  ip = m.begin() + (pivrow+1)*pivrow/2 + j;
+		  iq = ip + pivrow-(j+1);
+		  for (i = pivrow+1; i <= nrow; ip += i, iq += i++) {
 		      temp1 = *iq;
 		      *iq = *ip;
 		      *ip = temp1;
-		    }
-		  
-		  if (*mjj == 0)
-		    {
-		      ifail = 1;
-		      return;
-		    }
-		  temp2 = *mjj = 1./ *mjj; // invert D(j,j)
-		  
-		  // update A(j+1:n, j+1:n)
-		  for (i = j+1; i <= nrow; i++)
-		    {
-		      temp1 = *(m.begin() + i*(i-1)/2 + j-1) * temp2;
-		      ip = m.begin()+i*(i-1)/2+j;
-		      for (k=j+1; k<=i; k++)
-			{
-			  *ip -= temp1 * *(m.begin() + k*(k-1)/2 + j-1);
+		  }	// for i
+	      }	//  j+1 != pivrow
+	      // invert D(j:j+1,j:j+1)
+	      temp2 = *mjj * *(mjj + j + 1) - *(mjj + j) * *(mjj + j); 
+	      if (temp2 == 0) {
+		std::cerr
+		  << "SymMatrix::bunch_invert: error in pivot choice" 
+		  << std::endl;
+              }
+	      temp2 = 1. / temp2;
+	      // this quotient is guaranteed to exist by the choice 
+	      // of the pivot
+	      temp1 = *mjj;
+	      *mjj = *(mjj + j + 1) * temp2;
+	      *(mjj + j + 1) = temp1 * temp2;
+	      *(mjj + j) = - *(mjj + j) * temp2;
+
+	      if (j < nrow-1) { // otherwise do nothing
+		  // update A(j+2:n, j+2:n)
+		  for (i=j+2; i <= nrow ; i++) {
+		      ip = m.begin() + i*(i-1)/2 + j-1;
+		      temp1 = *ip * *mjj + *(ip + 1) * *(mjj + j);
+		      if (fabs(temp1 ) <= epsilon) temp1 = 0;
+		      temp2 = *ip * *(mjj + j) + *(ip + 1) * *(mjj + j + 1);
+		      if (fabs(temp2 ) <= epsilon) temp2 = 0;
+		      for (k = j+2; k <= i ; k++) {
+			  ip = m.begin() + i*(i-1)/2 + k-1;
+			  iq = m.begin() + k*(k-1)/2 + j-1;
+			  *ip -= temp1 * *iq + temp2 * *(iq+1);
 			  if (fabs(*ip) <= epsilon)
-			    *ip=0;
-			  ip++;
-			}
-		    }
+			    *ip = 0;
+		      }	// for k
+		  }	// for i
 		  // update L
-		  ip = m.begin() + (j+1)*j/2 + j-1;
-		  for (i=j+1; i<=nrow; ip += i++)
-		    *ip *= temp2;
-		}
-	      else // s=2, ie use a 2x2 pivot
-		{
-		  piv[j-1] = -pivrow;
-		  piv[j] = 0; // that means this is the second row of a 2x2 pivot
-		  
-		  if (j+1 != pivrow) 
-		    {
-		      // interchange rows and columns j+1 and pivrow in
-		      // submatrix (j:n,j:n) 
-		      ip = m.begin() + pivrow*(pivrow-1)/2 + j+1;
-		      for (i=j+2; i < pivrow; i++, ip++)
-			{
-			  temp1 = *(m.begin() + i*(i-1)/2 + j);
-			  *(m.begin() + i*(i-1)/2 + j) = *ip;
-			  *ip = temp1;
-			}
-		      temp1 = *(mjj + j + 1);
-		      *(mjj + j + 1) = 
-			*(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1);
-		      *(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1) = temp1;
-		      temp1 = *(mjj + j);
-		      *(mjj + j) = *(m.begin() + pivrow*(pivrow-1)/2 + j-1);
-		      *(m.begin() + pivrow*(pivrow-1)/2 + j-1) = temp1;
-		      ip = m.begin() + (pivrow+1)*pivrow/2 + j;
-		      iq = ip + pivrow-(j+1);
-		      for (i = pivrow+1; i <= nrow; ip += i, iq += i++)
-			{
-			  temp1 = *iq;
-			  *iq = *ip;
-			  *ip = temp1;
-			}
-		    } 
-		  // invert D(j:j+1,j:j+1)
-		  temp2 = *mjj * *(mjj + j + 1) - *(mjj + j) * *(mjj + j); 
-		  if (temp2 == 0)
-		    std::cerr
-		      << "SymMatrix::bunch_invert: error in pivot choice" 
-		      << std::endl;
-		  temp2 = 1. / temp2;
-		  // this quotient is guaranteed to exist by the choice 
-		  // of the pivot
-		  temp1 = *mjj;
-		  *mjj = *(mjj + j + 1) * temp2;
-		  *(mjj + j + 1) = temp1 * temp2;
-		  *(mjj + j) = - *(mjj + j) * temp2;
-		  
-		  if (j < nrow-1) // otherwise do nothing
-		    {
-		      // update A(j+2:n, j+2:n)
-		      for (i=j+2; i <= nrow ; i++)
-			{
-			  ip = m.begin() + i*(i-1)/2 + j-1;
-			  temp1 = *ip * *mjj + *(ip + 1) * *(mjj + j);
-			  if (fabs(temp1 ) <= epsilon)
-			    temp1 = 0;
-			  temp2 = *ip * *(mjj + j) + *(ip + 1) * *(mjj + j + 1);
-			  if (fabs(temp2 ) <= epsilon)
-			    temp2 = 0;
-			  for (k = j+2; k <= i ; k++)
-			    {
-			      ip = m.begin() + i*(i-1)/2 + k-1;
-			      iq = m.begin() + k*(k-1)/2 + j-1;
-			      *ip -= temp1 * *iq + temp2 * *(iq+1);
-			      if (fabs(*ip) <= epsilon)
-				*ip = 0;
-			    }
-			}
-		      // update L
-		      for (i=j+2; i <= nrow ; i++)
-			{
-			  ip = m.begin() + i*(i-1)/2 + j-1;
-			  temp1 = *ip * *mjj + *(ip+1) * *(mjj + j);
-			  if (fabs(temp1) <= epsilon)
-			    temp1 = 0;
-			  *(ip+1) = *ip * *(mjj + j) 
-			    + *(ip+1) * *(mjj + j + 1);
-			  if (fabs(*(ip+1)) <= epsilon)
-			    *(ip+1) = 0;
-			  *ip = temp1;
-			}
-		    }
-		}
-	    }
+		  for (i=j+2; i <= nrow ; i++) {
+		      ip = m.begin() + i*(i-1)/2 + j-1;
+		      temp1 = *ip * *mjj + *(ip+1) * *(mjj + j);
+		      if (fabs(temp1) <= epsilon) temp1 = 0;
+		      *(ip+1) = *ip * *(mjj + j) 
+			        + *(ip+1) * *(mjj + j + 1);
+		      if (fabs(*(ip+1)) <= epsilon) *(ip+1) = 0;
+		      *ip = temp1;
+		  }	// for k
+	      }	// j < nrow-1
+	  }
+      }
   } // end of main loop over columns
 
-  if (j == nrow) // the the last pivot is 1x1
-  {
-	  mjj = m.begin() + j*(j-1)/2 + j-1;
-	  if (*mjj == 0)
-	    {
-	      ifail = 1;
-	      return;
-	    }
-	  else
-	    *mjj = 1. / *mjj;
+  if (j == nrow) { // the the last pivot is 1x1
+      mjj = m.begin() + j*(j-1)/2 + j-1;
+      if (*mjj == 0) {
+	  ifail = 1;
+	  return;
+      } else { *mjj = 1. / *mjj; }
   } // end of last pivot code
 
   // computing the inverse from the factorization
 	 
   for (j = nrow ; j >= 1 ; j -= s) // loop over columns
   {
-	  mjj = m.begin() + j*(j-1)/2 + j-1;
-	  if (piv[j-1] > 0) // 1x1 pivot, compute column j of inverse
-	    {
-	      s = 1; 
-	      if (j < nrow)
-		{
-		  ip = m.begin() + (j+1)*j/2 + j-1;
-		  for (i=0; i < nrow-j; ip += 1+j+i++)
-		    x[i] = *ip;
-		  for (i=j+1; i<=nrow ; i++)
-		    {
-		      temp2=0;
-		      ip = m.begin() + i*(i-1)/2 + j;
-		      for (k=0; k <= i-j-1; k++)
-			temp2 += *ip++ * x[k];
-		      for (ip += i-1; k < nrow-j; ip += 1+j+k++) 
-			temp2 += *ip * x[k];
-		      *(m.begin()+ i*(i-1)/2 + j-1) = -temp2;
-		    }
+      mjj = m.begin() + j*(j-1)/2 + j-1;
+      if (piv[j-1] > 0) { // 1x1 pivot, compute column j of inverse
+	  s = 1; 
+	  if (j < nrow) {
+	      //ip = m.begin() + (j+1)*j/2 + j-1;
+	      //for (i=0; i < nrow-j; ip += 1+j+i++) x[i] = *ip;
+	      ip = m.begin() + (j+1)*j/2 - 1;
+	      for (i=0; i < nrow-j; ++i) {
+	          ip += i + j;
+	          x[i] = *ip;
+	      }
+	      for (i=j+1; i<=nrow ; i++) {
+		  temp2=0;
+		  ip = m.begin() + i*(i-1)/2 + j;
+		  for (k=0; k <= i-j-1; k++) temp2 += *ip++ * x[k];
+		  // avoid setting ip outside the bounds of the storage array
+		  ip -= 1;
+		  // using the value of k from the previous loop
+		  for ( ; k < nrow-j; ++k) {
+		      ip += j+k;
+		      temp2 += *ip * x[k];
+		  }
+		  *(m.begin()+ i*(i-1)/2 + j-1) = -temp2;
+	      }	// for i
+	      temp2 = 0;
+	      //ip = m.begin() + (j+1)*j/2 + j-1;
+	      //for (k=0; k < nrow-j; ip += 1+j+k++)
+		//temp2 += x[k] * *ip;
+	      ip = m.begin() + (j+1)*j/2 - 1;
+	      for (k=0; k < nrow-j; ++k) {
+	        ip += j+k;
+		temp2 += x[k] * *ip;
+	      }
+	      *mjj -= temp2;
+	  }	// j < nrow
+      } else { //2x2 pivot, compute columns j and j-1 of the inverse
+	  if (piv[j-1] != 0)
+	    std::cerr << "error in piv" << piv[j-1] << std::endl;
+	  s=2; 
+	  if (j < nrow) {
+	      //ip = m.begin() + (j+1)*j/2 + j-1;
+	      //for (i=0; i < nrow-j; ip += 1+j+i++) x[i] = *ip;
+	      ip = m.begin() + (j+1)*j/2 - 1;
+	      for (i=0; i < nrow-j; ++i) {
+	          ip += i + j;
+	          x[i] = *ip;
+	      }
+	      for (i=j+1; i<=nrow ; i++) {
 		  temp2 = 0;
-		  ip = m.begin() + (j+1)*j/2 + j-1;
-		  for (k=0; k < nrow-j; ip += 1+j+k++)
-		    temp2 += x[k] * *ip;
-		  *mjj -= temp2;
-		}
-	    }
-	  else //2x2 pivot, compute columns j and j-1 of the inverse
-	    {
-	      if (piv[j-1] != 0)
-		std::cerr << "error in piv" << piv[j-1] << std::endl;
-	      s=2; 
-	      if (j < nrow)
-		{
-		  ip = m.begin() + (j+1)*j/2 + j-1;
-		  for (i=0; i < nrow-j; ip += 1+j+i++)
-		    x[i] = *ip;
-		  for (i=j+1; i<=nrow ; i++)
-		    {
-		      temp2 = 0;
-		      ip = m.begin() + i*(i-1)/2 + j;
-		      for (k=0; k <= i-j-1; k++)
-			temp2 += *ip++ * x[k];
-		      for (ip += i-1; k < nrow-j; ip += 1+j+k++)
-			temp2 += *ip * x[k];
-		      *(m.begin()+ i*(i-1)/2 + j-1) = -temp2;
-		    }    
+		  ip = m.begin() + i*(i-1)/2 + j;
+		  for (k=0; k <= i-j-1; k++)
+		    temp2 += *ip++ * x[k];
+		  for (ip += i-1; k < nrow-j; ip += 1+j+k++)
+		    temp2 += *ip * x[k];
+		  *(m.begin()+ i*(i-1)/2 + j-1) = -temp2;
+	      }	// for i   
+	      temp2 = 0;
+	      //ip = m.begin() + (j+1)*j/2 + j-1;
+	      //for (k=0; k < nrow-j; ip += 1+j+k++) temp2 += x[k] * *ip;
+	      ip = m.begin() + (j+1)*j/2 - 1;
+	      for (k=0; k < nrow-j; ++k) {
+	          ip += k + j;
+	          temp2 += x[k] * *ip;
+	      }
+	      *mjj -= temp2;
+	      temp2 = 0;
+	      //ip = m.begin() + (j+1)*j/2 + j-2;
+	      //for (i=j+1; i <= nrow; ip += i++) temp2 += *ip * *(ip+1);
+	      ip = m.begin() + (j+1)*j/2 - 2;
+	      for (i=j+1; i <= nrow; ++i) {
+	          ip += i - 1;
+	          temp2 += *ip * *(ip+1);
+	      }
+	      *(mjj-1) -= temp2;
+	      //ip = m.begin() + (j+1)*j/2 + j-2;
+	      //for (i=0; i < nrow-j; ip += 1+j+i++) x[i] = *ip;
+	      ip = m.begin() + (j+1)*j/2 - 2;
+	      for (i=0; i < nrow-j; ++i) {
+	          ip += i + j;
+	          x[i] = *ip;
+	      }
+	      for (i=j+1; i <= nrow ; i++) {
 		  temp2 = 0;
-		  ip = m.begin() + (j+1)*j/2 + j-1;
-		  for (k=0; k < nrow-j; ip += 1+j+k++)
-		    temp2 += x[k] * *ip;
-		  *mjj -= temp2;
-		  temp2 = 0;
-		  ip = m.begin() + (j+1)*j/2 + j-2;
-		  for (i=j+1; i <= nrow; ip += i++)
-		    temp2 += *ip * *(ip+1);
-		  *(mjj-1) -= temp2;
-		  ip = m.begin() + (j+1)*j/2 + j-2;
-		  for (i=0; i < nrow-j; ip += 1+j+i++)
-		    x[i] = *ip;
-		  for (i=j+1; i <= nrow ; i++)
-		    {
-		      temp2 = 0;
-		      ip = m.begin() + i*(i-1)/2 + j;
-		      for (k=0; k <= i-j-1; k++)
-			temp2 += *ip++ * x[k];
-		      for (ip += i-1; k < nrow-j; ip += 1+j+k++)
-			temp2 += *ip * x[k];
-		      *(m.begin()+ i*(i-1)/2 + j-2)= -temp2;
-		    }
-		  temp2 = 0;
-		  ip = m.begin() + (j+1)*j/2 + j-2;
-		  for (k=0; k < nrow-j; ip += 1+j+k++)
-		    temp2 += x[k] * *ip;
-		  *(mjj-j) -= temp2;
-		}
-	    }  
-	  
-	  // interchange rows and columns j and piv[j-1] 
-	  // or rows and columns j and -piv[j-2]
-	  
-	  pivrow = (piv[j-1]==0)? -piv[j-2] : piv[j-1];
-	  ip = m.begin() + pivrow*(pivrow-1)/2 + j;
-	  for (i=j+1;i < pivrow; i++, ip++)
-	    {
-	      temp1 = *(m.begin() + i*(i-1)/2 + j-1);
-	      *(m.begin() + i*(i-1)/2 + j-1) = *ip;
-	      *ip = temp1;
-	    }
-	  temp1 = *mjj;
-	  *mjj = *(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1);
-	  *(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1) = temp1;
-	  if (s==2)
-	    {
-	      temp1 = *(mjj-1);
-	      *(mjj-1) = *( m.begin() + pivrow*(pivrow-1)/2 + j-2);
-	      *( m.begin() + pivrow*(pivrow-1)/2 + j-2) = temp1;
-	    }
-	  
+		  ip = m.begin() + i*(i-1)/2 + j;
+		  for (k=0; k <= i-j-1; k++)
+		      temp2 += *ip++ * x[k];
+		  for (ip += i-1; k < nrow-j; ip += 1+j+k++)
+		      temp2 += *ip * x[k];
+		  *(m.begin()+ i*(i-1)/2 + j-2)= -temp2;
+	      }	// for i
+	      temp2 = 0;
+	      //ip = m.begin() + (j+1)*j/2 + j-2;
+	      //for (k=0; k < nrow-j; ip += 1+j+k++)
+		//  temp2 += x[k] * *ip;
+	      ip = m.begin() + (j+1)*j/2 - 2;
+	      for (k=0; k < nrow-j; ++k) {
+	          ip += k + j;
+		  temp2 += x[k] * *ip;
+	      }
+	      *(mjj-j) -= temp2;
+	  }	// j < nrow
+      }	// else  piv[j-1] > 0
+
+      // interchange rows and columns j and piv[j-1] 
+      // or rows and columns j and -piv[j-2]
+
+      pivrow = (piv[j-1]==0)? -piv[j-2] : piv[j-1];
+      ip = m.begin() + pivrow*(pivrow-1)/2 + j;
+      for (i=j+1;i < pivrow; i++, ip++) {
+	  temp1 = *(m.begin() + i*(i-1)/2 + j-1);
+	  *(m.begin() + i*(i-1)/2 + j-1) = *ip;
+	  *ip = temp1;
+      }	// for i
+      temp1 = *mjj;
+      *mjj = *(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1);
+      *(m.begin() + pivrow*(pivrow-1)/2 + pivrow-1) = temp1;
+      if (s==2) {
+	  temp1 = *(mjj-1);
+	  *(mjj-1) = *( m.begin() + pivrow*(pivrow-1)/2 + j-2);
+	  *( m.begin() + pivrow*(pivrow-1)/2 + j-2) = temp1;
+      }	// s==2
+
+      // problem right here
+      if( pivrow < nrow ) {
 	  ip = m.begin() + (pivrow+1)*pivrow/2 + j-1;  // &A(i,j)
-	  iq = ip + pivrow-j;
-	  for (i = pivrow+1; i <= nrow; ip += i, iq += i++)
-	    {
+	  // adding parenthesis for VC++
+	  iq = ip + (pivrow-j);
+	  for (i = pivrow+1; i <= nrow; i++) {
 	      temp1 = *iq;
 	      *iq = *ip;
 	      *ip = temp1;
-	    } 
+	      if( i < nrow ) {
+	      ip += i;
+	      iq += i;
+	      }
+	  }	// for i 
+      }	// pivrow < nrow
   } // end of loop over columns (in computing inverse from factorization)
 
   return; // inversion successful

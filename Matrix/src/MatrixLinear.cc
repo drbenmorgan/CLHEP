@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: MatrixLinear.cc,v 1.3 2005/04/27 19:31:55 garren Exp $
 // ---------------------------------------------------------------------------
 //
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
@@ -103,8 +102,10 @@ void back_solve(const HepMatrix &R, HepVector *b)
 	 (*br)-=(*(Rrc++))*(*(bc++));
       }
       (*br)/=(*Rrr);
-      br--;
-      Rrr -= n+1;
+      if(r>1) {
+	 br--;
+	 Rrr -= n+1;
+      }
    }
 }
 
@@ -129,11 +130,13 @@ void back_solve(const HepMatrix &R, HepMatrix *b)
 	 HepMatrix::mcIter Rrc = Rrr+1;
 	 for (int c=r+1;c<=b->num_row();c++) {
 	    (*bri)-= (*(Rrc++)) * (*bci);
-	    bci += nc;
+	    if(c<b->num_row()) bci += nc;
 	 }
 	 (*bri)/= (*Rrr);
-	 Rrr -= (n+1);
-	 bri -= nc;
+	 if(r>1) {
+	    Rrr -= (n+1);
+	    bri -= nc;
+	 }
       }
       bbi++;
    }
@@ -155,8 +158,10 @@ void col_givens(HepMatrix *A, double c,double s,
    for (int j=row_min;j<=row_max;j++) {
       double tau1=(*Ajk1); double tau2=(*Ajk2);
       (*Ajk1)=c*tau1-s*tau2;(*Ajk2)=s*tau1+c*tau2;
-      Ajk1 += n;
-      Ajk2 += n;
+      if(j<row_max) {
+	 Ajk1 += n;
+	 Ajk2 += n;
+      }
    }
 }
 
@@ -195,7 +200,7 @@ void col_house(HepMatrix *a,const HepMatrix &v,double vnormsq,
 	 vp += nv;
       }
       wptr++;
-      acrb += n;
+      if(c<a->num_col()) acrb += n;
    }
    w*=beta;
   
@@ -211,7 +216,7 @@ void col_house(HepMatrix *a,const HepMatrix &v,double vnormsq,
 	 vp += nv;
       }
       wptr++;
-      arcb += n;
+      if(r<a->num_row()) arcb += n;
    }
 }
 
@@ -233,7 +238,7 @@ double condition(const HepSymMatrix &m)
    for (int i=2; i<=n; i++) {
       if (max<fabs(*mii)) max=fabs(*mii);
       if (min>fabs(*mii)) min=fabs(*mii);
-      mii += i+1;
+      if(i<n) mii += i+1;
    } 
    return max/min;
 }
@@ -283,10 +288,10 @@ void diag_step(HepSymMatrix *t,int begin,int end)
 	 (*(tkp2k+1))=bq*c;
 	 x=(*tkp1k);
 	 z=(*tkp2k);
+	 tkk += k+1;
+	 tkp1k += k+2;
       }
-      tkk += k+1;
-      tkp1k += k+2;
-      tkp2k += k+3;
+      if(k<end-2) tkp2k += k+3;
    }
 }
 
@@ -325,10 +330,10 @@ void diag_step(HepSymMatrix *t,HepMatrix *u,int begin,int end)
 	 (*(tkp2k+1))=bq*c;
 	 x=(*tkp1k);
 	 z=(*(tkp2k));
+	 tkk += k+1;
+	 tkp1k += k+2;
       }
-      tkk += k+1;
-      tkp1k += k+2;
-      tkp2k += k+3;
+      if(k<end-2) tkp2k += k+3;
    }
 }
 
@@ -353,8 +358,10 @@ HepMatrix diagonalize(HepSymMatrix *s)
 	    tolerance*(fabs(*sii)+fabs(*(sip1i+1)))) {
 	    (*sip1i)=0;
 	 }
-	 sii += i+1;
-	 sip1i += i+2;
+	 if(i<end-1) {
+	    sii += i+1;
+	    sip1i += i+2;
+	 }
       }
       while(begin<end && s->fast(begin+1,begin) ==0) begin++;
       while(end>begin && s->fast(end,end-1) ==0) end--;
@@ -424,7 +431,7 @@ void house_with_update(HepMatrix *a,int row,int col)
    int r;
    for (r=row;r<=a->num_row();r++) {
       (*(vp++))=(*arc);
-      arc += n;
+      if(r<a->num_row()) arc += n;
    }
    double normsq=v.normsq();
    double norm=sqrt(normsq);
@@ -432,12 +439,12 @@ void house_with_update(HepMatrix *a,int row,int col)
    v(1)+=sign((*a)(row,col))*norm;
    normsq+=v(1)*v(1);
    (*a)(row,col)=-sign((*a)(row,col))*norm;
-   arc = a->m.begin() + row * n + (col-1);
-   for (r=row+1;r<=a->num_row();r++) {
-      (*arc)=0;
-      arc += n;
-   }
    if (row<a->num_row()) {
+      arc = a->m.begin() + row * n + (col-1);
+      for (r=row+1;r<=a->num_row();r++) {
+	 (*arc)=0;
+	 if(r<a->num_row()) arc += n;
+      }
       row_house(a,v,normsq,row,col+1);
    }
 }
@@ -453,8 +460,10 @@ void house_with_update(HepMatrix *a,HepMatrix *v,int row,int col)
    for (r=row;r<=a->num_row();r++) {
       (*vrc)=(*arc);
       normsq+=(*vrc)*(*vrc);
-      vrc += nv;
-      arc += na;
+      if(r<a->num_row()) {
+	 vrc += nv;
+	 arc += na;
+      }
    }
    double norm=sqrt(normsq);
    vrc = v->m.begin() + (row-1) * nv + (col-1);
@@ -462,13 +471,14 @@ void house_with_update(HepMatrix *a,HepMatrix *v,int row,int col)
    (*vrc)+=sign((*a)(row,col))*norm;
    normsq+=(*vrc)*(*vrc);
    (*a)(row,col)=-sign((*a)(row,col))*norm;
-   arc = a->m.begin() + row * na + (col-1);
-   for (r=row+1;r<=a->num_row();r++) {
-      (*arc)=0;
-      arc += na;
-   }
-   if (row<a->num_row())
+   if (row<a->num_row()) {
+      arc = a->m.begin() + row * na + (col-1);
+      for (r=row+1;r<=a->num_row();r++) {
+	 (*arc)=0;
+	 if(r<a->num_row()) arc += na;
+      }
       row_house(a,*v,normsq,row,col+1,row,col);
+   }
 }
 /* -----------------------------------------------------------------------
    house_with_update2 Version: 1.00 Date Last Changed: 1/28/93
@@ -488,8 +498,10 @@ void house_with_update2(HepSymMatrix *a,HepMatrix *v,int row,int col)
    {
       (*vrc)=(*arc);
       normsq+=(*vrc)*(*vrc);
-      arc += r;
-      vrc += nv;
+      if(r<a->num_row()) {
+	 arc += r;
+	 vrc += nv;
+      }
    }
    double norm=sqrt(normsq);
    vrc = v->m.begin() + (row-1) * nv + (col-1);
@@ -499,7 +511,7 @@ void house_with_update2(HepSymMatrix *a,HepMatrix *v,int row,int col)
    arc += row;
    for (r=row+1;r<=a->num_row();r++) {
       (*arc)=0;
-      arc += r;
+      if(r<a->num_row()) arc += r;
    }
 }
 
@@ -643,7 +655,7 @@ void row_house(HepMatrix *a,const HepVector &v,double vnormsq,
       HepMatrix::mIter arc = arcb;
       for (int r=row;r<=a->num_row();r++) {
 	 (*wptr)+=(*arc)*(*(vp++));
-	 arc += na;
+	 if(r<a->num_row()) arc += na;
       }
       wptr++;
       arcb++;
@@ -661,7 +673,7 @@ void row_house(HepMatrix *a,const HepVector &v,double vnormsq,
 	 (*(arc++))+=(*vp)*(*(wptr++));
       }
       vp++;
-      arcb += na;
+      if(r<a->num_row()) arcb += na;
    }
 }
 
@@ -682,8 +694,10 @@ void row_house(HepMatrix *a,const HepMatrix &v,double vnormsq,
       HepMatrix::mcIter vpc = vpcb;
       for (int r=row;r<=a->num_row();r++) {
 	 (*wptr)+=(*arc)*(*vpc);
-	 arc += na;
-	 vpc += nv;
+         if(r<a->num_row()) {
+	   arc += na;
+	   vpc += nv;
+	 }
       }
       wptr++;
       arcb++;
@@ -698,8 +712,10 @@ void row_house(HepMatrix *a,const HepMatrix &v,double vnormsq,
       for (c=col;c<=a->num_col();c++) {
 	 (*(arc++))+=(*vpc)*(*(wptr++));
       }
-      arcb += na;
-      vpc += nv;
+      if(r<a->num_row()) {
+	arcb += na;
+	vpc += nv;
+      }
    }
 }
 
@@ -732,7 +748,7 @@ HepVector qr_solve(HepMatrix *A,const HepVector &b)
       HepMatrix::mIter Qcr = Qr;
       for (int c=1;c<=b.num_row();c++) {
 	 *b2r += (*Qcr) * (*(bc++));
-	 Qcr += n;
+	 if(c<b.num_row()) Qcr += n;
       }
       b2r++;
       Qr++;
@@ -764,11 +780,13 @@ HepMatrix qr_solve(HepMatrix *A,const HepMatrix &b)
 	 HepMatrix::mcIter bci = b1i;
 	 for (int c=1;c<=b.num_row();c++) {
 	    *b2ri += (*Qcr) * (*bci);
-	    Qcr += nq;
-	    bci += nb;
+	    if(c<b.num_row()) {
+	       Qcr += nq;
+	       bci += nb;
+	    }
 	 }
 	 Q1r++;
-	 b2ri += nb;
+	 if(r<b2.num_row()) b2ri += nb;
       }
       b1i++;
       b21i++;
@@ -797,13 +815,13 @@ void tridiagonal(HepSymMatrix *a,HepMatrix *hsm)
       int j;
       for (j=k+2;j<=a->num_row();j++) {
 	 scale+=fabs(*ajk);
-	 ajk += j;
+	 if(j<a->num_row()) ajk += j;
       }
       if (scale ==0) {
 	 HepMatrix::mIter hsmjkp = hsm->m.begin() + k * (nh+1) - 1;
 	 for (j=k+1;j<=hsm->num_row();j++) {
 	    *hsmjkp = 0;
-	    hsmjkp += nh;
+	    if(j<hsm->num_row()) hsmjkp += nh;
 	 }
       } else {
 	 house_with_update2(a,hsm,k+1,k);
@@ -812,7 +830,7 @@ void tridiagonal(HepSymMatrix *a,HepMatrix *hsm)
 	 int rptr;
 	 for (rptr=k+1;rptr<=hsm->num_row();rptr++) {
 	    normsq+=(*hsmrptrkp)*(*hsmrptrkp);
-	    hsmrptrkp += nh;
+	    if(rptr<hsm->num_row()) hsmrptrkp += nh;
 	 }
 	 HepVector p(a->num_row()-k,0);
 	 rptr=k+1;
@@ -823,11 +841,11 @@ void tridiagonal(HepSymMatrix *a,HepMatrix *hsm)
 	    int cptr;
 	    for (cptr=k+1;cptr<=rptr;cptr++) {
 	       (*pr)+=a->fast(rptr,cptr)*(*hsmcptrkp);
-	       hsmcptrkp += nh;
+	       if(cptr<a->num_col()) hsmcptrkp += nh;
 	    }
 	    for (;cptr<=a->num_col();cptr++) {
 	       (*pr)+=a->fast(cptr,rptr)*(*hsmcptrkp);
-	       hsmcptrkp += nh;
+	       if(cptr<a->num_col()) hsmcptrkp += nh;
 	    }
 	    (*pr)*=2/normsq;
 	    rptr++;
@@ -838,13 +856,13 @@ void tridiagonal(HepSymMatrix *a,HepMatrix *hsm)
 	 hsmrptrkp = hsm->m.begin() + k * (nh+1) - 1;
 	 for (r=1;r<=p.num_row();r++) {
 	    pdotv+=(*(pr++))*(*hsmrptrkp);
-	    hsmrptrkp += nh;
+	    if(r<p.num_row()) hsmrptrkp += nh;
 	 }
 	 pr = p.m.begin();
 	 hsmrptrkp = hsm->m.begin() + k * (nh+1) - 1;
 	 for (r=1;r<=p.num_row();r++) {
 	    (*(pr++))-=pdotv*(*hsmrptrkp)/normsq;
-	    hsmrptrkp += nh;
+	    if(r<p.num_row()) hsmrptrkp += nh;
 	 }
 	 rptr=k+1;
 	 pr = p.m.begin();
@@ -856,11 +874,11 @@ void tridiagonal(HepSymMatrix *a,HepMatrix *hsm)
 	    for (int c=1;c<=r;c++) {
 	       a->fast(rptr,cptr)-= (*hsmrptrkp)*(*(pc++))+(*pr)*(*hsmcptrkp);
 	       cptr++;
-	       hsmcptrkp += nh;
+	       if(c<r) hsmcptrkp += nh;
 	    }
 	    pr++;
 	    rptr++;
-	    hsmrptrkp += nh;
+	    if(r<p.num_row()) hsmrptrkp += nh;
 	 }
       }
    }
