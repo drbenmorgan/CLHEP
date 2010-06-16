@@ -1,4 +1,4 @@
-// $Id: RandBit.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RandBit.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -23,9 +23,6 @@ namespace CLHEP {
 std::string RandBit::name() const {return "RandBit";}
 
 RandBit::~RandBit() {
-}
-
-RandBit::RandBit(const RandBit& right) : RandFlat(right) {
 }
 
 std::ostream & RandBit::put ( std::ostream & os ) const {

@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: NonRandomEngine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -22,7 +22,7 @@
 #include "CLHEP/Random/NonRandomEngine.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include "CLHEP/Random/DoubConv.hh"
-#include <stdlib.h>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <cassert>
@@ -228,7 +228,7 @@ std::istream & NonRandomEngine::getState (std::istream & is) {
 }
 
 bool NonRandomEngine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<NonRandomEngine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<NonRandomEngine>()) {
     std::cerr << 
     	"\nNonRandomEngine get:state vector has wrong ID word - state unchanged\n";
     return false;

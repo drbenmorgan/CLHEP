@@ -12,5 +12,7 @@ install-docs:
 	$(mkinstalldirs) $(DESTDIR)$(doc_installdir)
 	$(INSTALL_DATA) $(doc_srcdir)/Random.html $(DESTDIR)$(doc_installdir)/Random.html
 	$(INSTALL_DATA) $(doc_srcdir)/validation.doc $(DESTDIR)$(doc_installdir)/validation.doc
+	$(INSTALL_DATA) $(doc_srcdir)/JamesRandomSeeding.txt $(DESTDIR)$(doc_installdir)/JamesRandomSeeding.txt
 	$(INSTALL_DATA) $(doc_srcdir)/html/CLHEP-random.html $(DESTDIR)$(doc_installdir)/CLHEP-random.html
+	$(INSTALL_DATA) $(doc_srcdir)/html/onSavingRandomStates.html $(DESTDIR)$(doc_installdir)/onSavingRandomStates.html
 

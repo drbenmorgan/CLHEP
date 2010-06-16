@@ -1,4 +1,4 @@
-// $Id: Random.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: Random.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -22,6 +22,7 @@
 #include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/StaticRandomStates.h"
+#include "CLHEP/Utility/memory.h"
 
 // -----------------------------
 // Static members initialisation
@@ -31,52 +32,76 @@
 
 namespace CLHEP {
 
-HepRandomEngine* HepRandom::theEngine = 0;
-HepRandom* HepRandom::theGenerator = 0;
-int HepRandom::isActive = HepRandom::createInstance();
+
+namespace {
+
+struct defaults {
+  defaults( HepRandom & g, HepJamesRandom & e )
+    : theGenerator( &g, do_nothing_deleter() )
+    , theEngine   ( &e, do_nothing_deleter() )
+  { }
+
+  void  resetEngine( HepRandomEngine * newEngine ) {
+    theEngine.reset( newEngine );
+  }
+
+  void  resetEngine( HepRandomEngine & newEngine ) {
+    theEngine.reset( &newEngine, do_nothing_deleter() );
+  }
+
+  bool  ensureInitialized()  {
+    assert( theGenerator.get() != 0  && theEngine.get() != 0 );
+    return true;
+  }
+
+  ~defaults()
+  { }
+
+  shared_ptr<HepRandom      >  theGenerator;
+  shared_ptr<HepRandomEngine>  theEngine;
+};  // defaults
+
+  inline
+  defaults &  theDefaults()  {
+    static  HepRandom       theDefaultGenerator;
+    static  HepJamesRandom  theDefaultEngine;
+    static  defaults theDefaults(theDefaultGenerator, theDefaultEngine);
+    return theDefaults;
+  }
+
+}  // namespace
 
 //---------------------------- HepRandom ---------------------------------
 
 HepRandom::HepRandom()
-: deleteEngine(false)
-{
-  createInstance();
-}
+{ }
 
 HepRandom::HepRandom(long seed)
-: deleteEngine(false)
 {
-  createInstance();
   setTheSeed(seed);
 }
 
 HepRandom::HepRandom(HepRandomEngine & algorithm)
-: deleteEngine(false)
 {
-  theGenerator = this;
-  theEngine = &algorithm;
-  isActive = 1;
+  theDefaults().resetEngine( algorithm );
 }
 
 HepRandom::HepRandom(HepRandomEngine * algorithm)
-: deleteEngine(true)
 {
-  createInstance();
-  theEngine = algorithm;
+  theDefaults().resetEngine( algorithm );
 }
 
-HepRandom::~HepRandom() {
-  if ( deleteEngine ) delete theEngine;
-}
+HepRandom::~HepRandom() 
+{ }
 
 double HepRandom::flat()
 {
-  return theEngine->flat();
+  return theDefaults().theEngine->flat();
 }
 
 void HepRandom::flatArray(const int size, double* vect)
 {
-  theEngine->flatArray(size,vect);
+  theDefaults().theEngine->flatArray(size,vect);
 }
 
 double HepRandom::operator()() {
@@ -86,7 +111,7 @@ double HepRandom::operator()() {
 std::string HepRandom::name() const {return "HepRandom";}
 HepRandomEngine & HepRandom::engine() {
   std::cerr << "HepRandom::engine() called -- there is no assigned engine!\n";
-  return *theEngine;
+  return *theDefaults().theEngine.get();
 } 
 
 std::ostream & operator<< (std::ostream & os, const HepRandom & dist) {
@@ -106,22 +131,22 @@ std::istream & HepRandom::get(std::istream & is) {return is;}
 
 void HepRandom::setTheSeed(long seed, int lux)
 {
-  theEngine->setSeed(seed,lux);
+  theDefaults().theEngine->setSeed(seed,lux);
 }
 
 long HepRandom::getTheSeed()
 {
-  return theEngine->getSeed();
+  return theDefaults().theEngine->getSeed();
 }
 
 void HepRandom::setTheSeeds(const long* seeds, int aux)
 {
-  theEngine->setSeeds(seeds,aux);
+  theDefaults().theEngine->setSeeds(seeds,aux);
 }
 
 const long* HepRandom::getTheSeeds ()
 {
-  return theEngine->getSeeds();
+  return theDefaults().theEngine->getSeeds();
 }
 
 void HepRandom::getTheTableSeeds(long* seeds, int index)
@@ -135,27 +160,27 @@ void HepRandom::getTheTableSeeds(long* seeds, int index)
 
 HepRandom * HepRandom::getTheGenerator()
 {
-  return theGenerator;
+  return theDefaults().theGenerator.get();
 }
 
 HepRandomEngine * HepRandom::getTheEngine()
 {
-  return theEngine;
+  return theDefaults().theEngine.get();
 }
 
 void HepRandom::setTheEngine (HepRandomEngine* theNewEngine)
 {
-  theEngine = theNewEngine;
+  theDefaults().theEngine.reset( theNewEngine, do_nothing_deleter() );
 }
 
 void HepRandom::saveEngineStatus( const char filename[] )
 {
-  theEngine->saveStatus( filename );
+  theDefaults().theEngine->saveStatus( filename );
 }  
 
 void HepRandom::restoreEngineStatus( const char filename[] )
 {
-  theEngine->restoreStatus( filename );
+  theDefaults().theEngine->restoreStatus( filename );
 }  
 
 std::ostream& HepRandom::saveFullState ( std::ostream & os ) {
@@ -178,17 +203,12 @@ std::istream& HepRandom::restoreStaticRandomStates ( std::istream & is ) {
 
 void HepRandom::showEngineStatus()
 {
-  theEngine->showStatus();
+  theDefaults().theEngine->showStatus();
 }  
 
 int HepRandom::createInstance()
 {
-  static HepJamesRandom mainEngine;
-  static HepRandom randGen(mainEngine);
-
-  if (theGenerator) return 1;  // should always be true
-
-  return 0;
+  return static_cast<int>( theDefaults().ensureInitialized() );
 }
 
 }  // namespace CLHEP

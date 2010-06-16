@@ -1,4 +1,4 @@
-// $Id: RanluxEngine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RanluxEngine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -41,9 +41,8 @@
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/RanluxEngine.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include <string.h>
-#include <cmath>
-#include <stdlib.h>	// for abs(int)
+#include <string.h>	// for strcmp
+#include <cstdlib>	// for abs(int)
 
 #ifdef TRACE_IO
   #include "CLHEP/Random/DoubConv.hh"
@@ -66,9 +65,7 @@ int RanluxEngine::numEngines = 0;
 int RanluxEngine::maxIndex = 215;
 
 RanluxEngine::RanluxEngine(long seed, int lux)
-: int_modulus(0x1000000),
-  mantissa_bit_24( pow(0.5,24.) ),
-  mantissa_bit_12( pow(0.5,12.) )
+: HepRandomEngine()
 {
    long seedlist[2]={0,0};
 
@@ -82,9 +79,7 @@ RanluxEngine::RanluxEngine(long seed, int lux)
 }
 
 RanluxEngine::RanluxEngine()
-: int_modulus(0x1000000),
-  mantissa_bit_24( pow(0.5,24.) ),
-  mantissa_bit_12( pow(0.5,12.) )
+: HepRandomEngine()
 {
    long seed;
    long seedlist[2]={0,0};
@@ -105,9 +100,7 @@ RanluxEngine::RanluxEngine()
 }
 
 RanluxEngine::RanluxEngine(int rowIndex, int colIndex, int lux)
-: int_modulus(0x1000000),
-  mantissa_bit_24( pow(0.5,24.) ),
-  mantissa_bit_12( pow(0.5,12.) )
+: HepRandomEngine()
 {
    long seed;
    long seedlist[2]={0,0};
@@ -128,60 +121,12 @@ RanluxEngine::RanluxEngine(int rowIndex, int colIndex, int lux)
 }
 
 RanluxEngine::RanluxEngine( std::istream& is )
-: int_modulus(0x1000000),
-  mantissa_bit_24( pow(0.5,24.) ),
-  mantissa_bit_12( pow(0.5,12.) )
+: HepRandomEngine()
 {
   is >> *this;
 }
 
 RanluxEngine::~RanluxEngine() {}
-
-RanluxEngine::RanluxEngine(const RanluxEngine &p)
-: int_modulus(0x1000000),
-  mantissa_bit_24( pow(0.5,24.) ),
-  mantissa_bit_12( pow(0.5,12.) )
-{
-  long seedlist[2]={0,0};
-
-  if ((this != &p) && (&p)) {
-    theSeed = p.getSeed();
-    
-    // setSeeds() wants a zero terminated array!
-    seedlist[0]=theSeed;
-    setSeeds(seedlist, p.luxury);
-    
-    for (int i=0; i<24; ++i)
-      float_seed_table[i] = p.float_seed_table[i];
-    nskip = p.nskip;
-    luxury = p.luxury;
-    i_lag = p.i_lag;  j_lag = p.j_lag;
-    carry = p.carry;
-    count24 = p.count24;
-  }
-}
-
-RanluxEngine & RanluxEngine::operator = (const RanluxEngine &p)
-{
-  long seedlist[2]={0,0};
-
-  if ((this != &p) && (&p)) {
-    theSeed = p.getSeed();
-    
-    // setSeeds() wants a zero terminated array!
-    seedlist[0]=theSeed;
-    setSeeds(seedlist, p.luxury);
-    
-    for (int i=0; i<24; ++i)
-      float_seed_table[i] = p.float_seed_table[i];
-    nskip = p.nskip;
-    luxury = p.luxury;
-    i_lag = p.i_lag;  j_lag = p.j_lag;
-    carry = p.carry;
-    count24 = p.count24;
-  }
-  return *this;
-}
 
 void RanluxEngine::setSeed(long seed, int lux) {
 
@@ -228,13 +173,13 @@ void RanluxEngine::setSeed(long seed, int lux) {
   }     
 
   for(i = 0;i != 24;i++)
-    float_seed_table[i] = int_seed_table[i] * mantissa_bit_24;
+    float_seed_table[i] = int_seed_table[i] * mantissa_bit_24();
 
   i_lag = 23;
   j_lag = 9;
   carry = 0. ;
 
-  if( float_seed_table[23] == 0. ) carry = mantissa_bit_24;
+  if( float_seed_table[23] == 0. ) carry = mantissa_bit_24();
   
   count24 = 0;
 }
@@ -294,13 +239,13 @@ void RanluxEngine::setSeeds(const long *seeds, int lux) {
   }
 
   for(i = 0;i != 24;i++)
-    float_seed_table[i] = int_seed_table[i] * mantissa_bit_24;
+    float_seed_table[i] = int_seed_table[i] * mantissa_bit_24();
 
   i_lag = 23;
   j_lag = 9;
   carry = 0. ;
 
-  if( float_seed_table[23] == 0. ) carry = mantissa_bit_24;
+  if( float_seed_table[23] == 0. ) carry = mantissa_bit_24();
   
   count24 = 0;
 }
@@ -415,7 +360,7 @@ double RanluxEngine::flat() {
 	#endif
   if(uni < 0. ){
      uni += 1.0;
-     carry = mantissa_bit_24;
+     carry = mantissa_bit_24();
   }else{
      carry = 0.;
   }
@@ -426,9 +371,9 @@ double RanluxEngine::flat() {
   if(i_lag < 0) i_lag = 23;
   if(j_lag < 0) j_lag = 23;
 
-  if( uni < mantissa_bit_12 ){
-     uni += mantissa_bit_24 * float_seed_table[j_lag];
-     if( uni == 0) uni = mantissa_bit_24 * mantissa_bit_24;
+  if( uni < mantissa_bit_12() ){
+     uni += mantissa_bit_24() * float_seed_table[j_lag];
+     if( uni == 0) uni = mantissa_bit_24() * mantissa_bit_24();
   }
   next_random = uni;
   count24 ++;
@@ -447,7 +392,7 @@ double RanluxEngine::flat() {
          uni = float_seed_table[j_lag] - float_seed_table[i_lag] - carry;
          if(uni < 0. ){
             uni += 1.0;
-            carry = mantissa_bit_24;
+            carry = mantissa_bit_24();
          }else{
             carry = 0.;
          }
@@ -485,7 +430,7 @@ void RanluxEngine::flatArray(const int size, double* vect)
     uni = float_seed_table[j_lag] - float_seed_table[i_lag] - carry;
     if(uni < 0. ){
        uni += 1.0;
-       carry = mantissa_bit_24;
+       carry = mantissa_bit_24();
     }else{
        carry = 0.;
     }
@@ -496,9 +441,9 @@ void RanluxEngine::flatArray(const int size, double* vect)
     if(i_lag < 0) i_lag = 23;
     if(j_lag < 0) j_lag = 23;
 
-    if( uni < mantissa_bit_12 ){
-       uni += mantissa_bit_24 * float_seed_table[j_lag];
-       if( uni == 0) uni = mantissa_bit_24 * mantissa_bit_24;
+    if( uni < mantissa_bit_12() ){
+       uni += mantissa_bit_24() * float_seed_table[j_lag];
+       if( uni == 0) uni = mantissa_bit_24() * mantissa_bit_24();
     }
     next_random = uni;
     vect[index] = (double)next_random;
@@ -513,7 +458,7 @@ void RanluxEngine::flatArray(const int size, double* vect)
            uni = float_seed_table[j_lag] - float_seed_table[i_lag] - carry;
            if(uni < 0. ){
               uni += 1.0;
-              carry = mantissa_bit_24;
+              carry = mantissa_bit_24();
            }else{
               carry = 0.;
            }
@@ -528,8 +473,8 @@ void RanluxEngine::flatArray(const int size, double* vect)
 } 
 
 RanluxEngine::operator unsigned int() {
-   return (unsigned int)(flat() * exponent_bit_32) & 0xffffffff |
-         ((unsigned int)(float_seed_table[i_lag]*exponent_bit_32)>>16) & 0xff;
+   return ((unsigned int)(flat() * exponent_bit_32()) & 0xffffffff) |
+         (((unsigned int)(float_seed_table[i_lag]*exponent_bit_32())>>16) & 0xff);
    // needed because Ranlux doesn't fill all bits of the double
    // which therefore doesn't fill all bits of the integer.
 }
@@ -568,7 +513,7 @@ std::vector<unsigned long> RanluxEngine::put () const {
 	#endif
   for (int i=0; i<24; ++i) {
     v.push_back
-    	(static_cast<unsigned long>(float_seed_table[i]/mantissa_bit_24));
+    	(static_cast<unsigned long>(float_seed_table[i]/mantissa_bit_24()));
 	#ifdef TRACE_IO
 	std::cout << "v[" << i+1 << "] = " << v[i+1] << 
 	" float_seed_table[" << i << "] = " << float_seed_table[i] << "\n";
@@ -576,7 +521,7 @@ std::vector<unsigned long> RanluxEngine::put () const {
   }
   v.push_back(static_cast<unsigned long>(i_lag));
   v.push_back(static_cast<unsigned long>(j_lag));
-  v.push_back(static_cast<unsigned long>(carry/mantissa_bit_24));
+  v.push_back(static_cast<unsigned long>(carry/mantissa_bit_24()));
   v.push_back(static_cast<unsigned long>(count24));
   v.push_back(static_cast<unsigned long>(luxury));
   v.push_back(static_cast<unsigned long>(nskip));
@@ -660,7 +605,7 @@ std::istream & RanluxEngine::getState ( std::istream& is )
 }
 
 bool RanluxEngine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<RanluxEngine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<RanluxEngine>()) {
     std::cerr << 
     	"\nRanluxEngine get:state vector has wrong ID word - state unchanged\n";
     return false;
@@ -675,7 +620,7 @@ bool RanluxEngine::getState (const std::vector<unsigned long> & v) {
     return false;
   }
   for (int i=0; i<24; ++i) {
-    float_seed_table[i] = v[i+1]*mantissa_bit_24;
+    float_seed_table[i] = v[i+1]*mantissa_bit_24();
 	#ifdef TRACE_IO
 	std::cout <<
 	"float_seed_table[" << i << "] = " << float_seed_table[i] << "\n";
@@ -683,7 +628,7 @@ bool RanluxEngine::getState (const std::vector<unsigned long> & v) {
   }
   i_lag    = v[25];
   j_lag    = v[26];
-  carry    = v[27]*mantissa_bit_24;
+  carry    = v[27]*mantissa_bit_24();
   count24  = v[28];
   luxury   = v[29];
   nskip    = v[30];

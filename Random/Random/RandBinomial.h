@@ -1,4 +1,4 @@
-// $Id: RandBinomial.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: RandBinomial.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -26,6 +26,7 @@
 #define RandBinomial_h 1
 
 #include "CLHEP/Random/Random.h"
+#include "CLHEP/Utility/memory.h"
 
 namespace CLHEP {
 
@@ -100,13 +101,9 @@ public:
 
 private:
 
-  // Private copy constructor. Defining it here disallows use.
-  RandBinomial(const RandBinomial& d);
-
   static double genBinomial( HepRandomEngine *anEngine, long n, double p );
 
-  HepRandomEngine* localEngine;
-  bool deleteEngine;
+  shared_ptr<HepRandomEngine> localEngine;
   long defaultN;
   double defaultP;
  

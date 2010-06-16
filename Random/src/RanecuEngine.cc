@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RanecuEngine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -38,13 +38,15 @@
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/RanecuEngine.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include <string.h>
+#include <string.h>	// for strcmp
 #include <cmath>
-#include <stdlib.h>
+#include <cstdlib>
 
 namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
+
+static const double prec = 4.6566128E-10;
 
 std::string RanecuEngine::name() const {return "RanecuEngine";}
 
@@ -52,10 +54,7 @@ std::string RanecuEngine::name() const {return "RanecuEngine";}
 int RanecuEngine::numEngines = 0;
 
 RanecuEngine::RanecuEngine()
-: ecuyer_a(40014),ecuyer_b(53668),ecuyer_c(12211),
-  ecuyer_d(40692),ecuyer_e(52774),ecuyer_f(3791),
-  shift1(2147483563),shift2(2147483399),
-  prec(4.6566128E-10 ),maxSeq(215)
+: HepRandomEngine()
 {
   int cycle = abs(int(numEngines/maxSeq));
   seq = abs(int(numEngines%maxSeq));
@@ -72,10 +71,7 @@ RanecuEngine::RanecuEngine()
 }
 
 RanecuEngine::RanecuEngine(int index)
-: ecuyer_a(40014),ecuyer_b(53668),ecuyer_c(12211),
-  ecuyer_d(40692),ecuyer_e(52774),ecuyer_f(3791),
-  shift1(2147483563),shift2(2147483399),
-  prec(4.6566128E-10 ),maxSeq(215)
+: HepRandomEngine()
 {
   int cycle = abs(int(index/maxSeq));
   seq = abs(int(index%maxSeq));
@@ -90,44 +86,12 @@ RanecuEngine::RanecuEngine(int index)
 }
 
 RanecuEngine::RanecuEngine(std::istream& is)
-: ecuyer_a(40014),ecuyer_b(53668),ecuyer_c(12211),
-  ecuyer_d(40692),ecuyer_e(52774),ecuyer_f(3791),
-  shift1(2147483563),shift2(2147483399),
-  prec(4.6566128E-10 ),maxSeq(215)
+: HepRandomEngine()
 {
    is >> *this;
 }
 
 RanecuEngine::~RanecuEngine() {}
-
-RanecuEngine::RanecuEngine(const RanecuEngine &p)
-: ecuyer_a(40014),ecuyer_b(53668),ecuyer_c(12211),
-  ecuyer_d(40692),ecuyer_e(52774),ecuyer_f(3791),
-  shift1(2147483563),shift2(2147483399),
-  prec(4.6566128E-10 ),maxSeq(215)
-{
-  if ((this != &p) && (&p)) {
-    theSeed = p.getSeed();
-    seq = p.seq;
-    for (int i=0; i<2; ++i)
-      for (int j=0; j<maxSeq; ++j)
-        table[j][i] = p.table[j][i];
-    theSeeds = &table[seq][0];
-  }
-}
-
-RanecuEngine & RanecuEngine::operator = (const RanecuEngine &p)
-{
-  if ((this != &p) && (&p)) {
-    theSeed = p.getSeed();
-    seq = p.seq;
-    for (int i=0; i<2; ++i)
-      for (int j=0; j<maxSeq; ++j)
-        table[j][i] = p.table[j][i];
-    theSeeds = &table[seq][0];
-  }
-  return *this;
-}
 
 void RanecuEngine::setSeed(long index, int)
 {
@@ -143,10 +107,9 @@ void RanecuEngine::setSeeds(const long* seeds, int pos)
     seq = abs(int(pos%maxSeq));
     theSeed = seq;
   }
-  if ((seeds[0] > 0) && (seeds[1] > 0)) {
-    table[seq][0] = seeds[0];
-    table[seq][1] = seeds[1];
-  }
+  // only positive seeds are allowed
+  table[seq][0] = abs(seeds[0])%shift1;
+  table[seq][1] = abs(seeds[1])%shift2;
   theSeeds = &table[seq][0];
 }
 
@@ -400,7 +363,7 @@ std::istream & RanecuEngine::getState ( std::istream& is )
 }
 
 bool RanecuEngine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<RanecuEngine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<RanecuEngine>()) {
     std::cerr << 
     	"\nRanecuEngine get:state vector has wrong ID word - state unchanged\n";
     return false;

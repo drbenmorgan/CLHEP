@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: RandomFunc.h,v 1.5 2004/04/29 02:47:31 garren Exp $
+// $Id: RandomFunc.h,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -----------------------------------------------------------------------
 //                             HEP RandomFunc
 //                      get proper system headers for drand, etc.

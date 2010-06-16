@@ -1,4 +1,4 @@
-// $Id: RandPoissonT.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: RandPoissonT.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -95,9 +95,6 @@ public:
 
 
 private:
-
-  // Private copy constructor. Defining it here disallows use.
-  RandPoissonT(const RandPoissonT& d);
 
 };
 

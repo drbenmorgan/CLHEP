@@ -1,4 +1,4 @@
-// $Id: RandEngine.cc,v 1.7 2005/04/27 20:12:50 garren Exp $
+// $Id: RandEngine.cc,v 1.8 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -42,9 +42,8 @@
 #include "CLHEP/Random/RandEngine.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include <string.h>
-#include <cmath>	// for pow()
-#include <stdlib.h>	// for int()
+#include <string.h>	// for strcmp
+#include <cstdlib>	// for int()
 
 namespace CLHEP {
 
@@ -74,7 +73,7 @@ int RandEngine::maxIndex = 215;
 std::string RandEngine::name() const {return "RandEngine";}
 
 RandEngine::RandEngine(long seed) 
-: mantissa_bit_32( pow(0.5,32.) )
+: HepRandomEngine()
 {
    setSeed(seed,0);
    setSeeds(&theSeed,0);
@@ -82,7 +81,7 @@ RandEngine::RandEngine(long seed)
 }
 
 RandEngine::RandEngine(int rowIndex, int colIndex)
-: mantissa_bit_32( pow(0.5,32.) )
+: HepRandomEngine()
 {
    long seeds[2];
    long seed;
@@ -99,7 +98,7 @@ RandEngine::RandEngine(int rowIndex, int colIndex)
 }
 
 RandEngine::RandEngine()
-: mantissa_bit_32( pow(0.5,32.) )
+: HepRandomEngine()
 {
    long seeds[2];
    long seed;
@@ -117,36 +116,12 @@ RandEngine::RandEngine()
 }
 
 RandEngine::RandEngine(std::istream& is)
-: mantissa_bit_32( pow(0.5,32.) )
+: HepRandomEngine()
 {
    is >> *this;
 }
 
 RandEngine::~RandEngine() {}
-
-RandEngine::RandEngine(const RandEngine &p)
-: mantissa_bit_32( pow(0.5,32.) )
-{
-  // Assignment and copy of RandEngine objects may provoke
-  // undesired behavior in a single thread environment.
-  
-  std::cerr << "!!! WARNING !!! - Illegal operation." << std::endl;
-  std::cerr << "- Copy constructor and operator= are NOT allowed on "
-	    << "RandEngine objects -" << std::endl;
-  *this = p;
-}
-
-RandEngine & RandEngine::operator = (const RandEngine &p)
-{
-  // Assignment and copy of RandEngine objects may provoke
-  // undesired behavior in a single thread environment.
-
-  std::cerr << "!!! WARNING !!! - Illegal operation." << std::endl;
-  std::cerr << "- Copy constructor and operator= are NOT allowed on "
-	    << "RandEngine objects -" << std::endl;
-  *this = p;
-  return *this;
-}
 
 void RandEngine::setSeed(long seed, int)
 {
@@ -278,11 +253,14 @@ void RandEngine::showStatus() const
   {                                                         
     // Here, we know that integer arithmetic is 64 bits.    
     if ( !prepared ) {                                      
-      iS = RAND_MAX + 1;                     
+      iS = (unsigned long)RAND_MAX + 1;                     
       iK = 1;                                
 //    int StoK = S;                          
-      int StoK = iS;                         
-      if ( (RAND_MAX >> 32) == 0) {          
+      int StoK = iS;          
+      // The two statements below are equivalent, but some compilers
+      // are getting too smart and complain about the first statement.               
+      //if ( (RAND_MAX >> 32) == 0) {  
+      if( (unsigned long) (RAND_MAX) <= (( (1uL) << 31 ) - 1 ) ) {
         iK = 2;                              
 //      StoK = S*S;                          
         StoK = iS*iS;                        
@@ -311,7 +289,7 @@ void RandEngine::showStatus() const
     // of precision, but we have no idea how many randoms we will need to 
     // generate 32 bits.                                                  
     if ( !prepared ) {                                                    
-      fS = RAND_MAX + 1;                                                  
+      fS = (unsigned long)RAND_MAX + 1;                                                  
       double twoTo32 = ldexp(1.0,32);                                     
       double StoK = fS;                                                   
       for ( iK = 1; StoK < twoTo32; StoK *= fS, iK++ ) { }                
@@ -338,7 +316,7 @@ void RandEngine::showStatus() const
     // Here, we know that 16 random bits are available from each of       
     // two random numbers.                                                
     if ( !prepared ) {                                                    
-      iS = RAND_MAX + 1;                                                  
+      iS = (unsigned long)RAND_MAX + 1;                                                  
       int SshiftN = iS;                                                   
       for (iN = 0; SshiftN > 1; SshiftN >>= 1, iN++) { }                  
       iN -= 17;                                                           
@@ -476,7 +454,7 @@ std::istream & RandEngine::getState ( std::istream& is )
 }
 
 bool RandEngine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<RandEngine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<RandEngine>()) {
     std::cerr << 
     	"\nRandEngine get:state vector has wrong ID word - state unchanged\n";
     return false;

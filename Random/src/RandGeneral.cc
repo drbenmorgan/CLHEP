@@ -1,4 +1,4 @@
-// $Id: RandGeneral.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RandGeneral.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -50,7 +50,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandGeneral.h"
 #include "CLHEP/Random/DoubConv.hh"
-#include <assert.h>
+#include <cassert>
 
 namespace CLHEP {
 
@@ -65,11 +65,11 @@ HepRandomEngine & RandGeneral::engine() {return *localEngine;}
 RandGeneral::RandGeneral( const double* aProbFunc, 
 			  int theProbSize, 
 			  int IntType  )
-  : deleteEngine(false), 
+  : HepRandom(),
+    localEngine(HepRandom::getTheEngine(), do_nothing_deleter()),
     nBins(theProbSize), 
     InterpolationType(IntType)
 {
-  localEngine = HepRandom::getTheEngine();
   prepareTable(aProbFunc);
 }
 
@@ -77,8 +77,8 @@ RandGeneral::RandGeneral(HepRandomEngine& anEngine,
                          const double* aProbFunc, 
 			 int theProbSize, 
 			 int IntType  )
-: localEngine(&anEngine), 
-  deleteEngine(false), 
+: HepRandom(),
+  localEngine(&anEngine, do_nothing_deleter()), 
   nBins(theProbSize),
   InterpolationType(IntType)
 {
@@ -89,8 +89,8 @@ RandGeneral::RandGeneral(HepRandomEngine* anEngine,
                          const double* aProbFunc, 
 			 int theProbSize, 
 			 int IntType )
-: localEngine(anEngine), 
-  deleteEngine(true), 
+: HepRandom(),
+  localEngine(anEngine), 
   nBins(theProbSize),
   InterpolationType(IntType)
 {
@@ -171,7 +171,6 @@ void RandGeneral::useFlatDistribution() {
 //////////////////
 
 RandGeneral::~RandGeneral() {
-  if ( deleteEngine ) delete localEngine;
 }
 
 

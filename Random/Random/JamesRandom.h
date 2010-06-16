@@ -1,4 +1,4 @@
-// $Id: JamesRandom.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: JamesRandom.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -52,12 +52,6 @@ public:
   HepJamesRandom(int rowIndex, int colIndex);
   virtual ~HepJamesRandom();
   // Constructor and destructor.
-
-  HepJamesRandom(const HepJamesRandom &p);
-  // Copy constructor
-
-  HepJamesRandom & operator = (const HepJamesRandom &p);
-  // Overloaded assignment operator, to retrieve the engine status.
 
   double flat();
   // Returns a pseudo random number between 0 and 1 

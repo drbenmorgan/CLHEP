@@ -1,4 +1,4 @@
-// $Id: RandBinomial.cc,v 1.4 2005/04/27 20:12:50 garren Exp $
+// $Id: RandBinomial.cc,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -30,12 +30,7 @@ std::string RandBinomial::name() const {return "RandBinomial";}
 HepRandomEngine & RandBinomial::engine() {return *localEngine;}
 
 RandBinomial::~RandBinomial() {
-  if ( deleteEngine ) delete localEngine;
 }
-
-RandBinomial::RandBinomial(const RandBinomial& right)
- : defaultN(right.defaultN), defaultP(right.defaultP)
-{;}
 
 double RandBinomial::shoot( HepRandomEngine *anEngine, long n,
                                                           double p ) {
@@ -48,43 +43,35 @@ double RandBinomial::shoot( long n, double p ) {
 }
 
 double RandBinomial::fire( long n, double p ) {
-  return genBinomial( localEngine, n, p );
+  return genBinomial( localEngine.get(), n, p );
 }
 
 void RandBinomial::shootArray( const int size, double* vect,
                             long n, double p )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(n,p);
+  for( double* v = vect; v != vect+size; ++v )
+    *v = shoot(n,p);
 }
 
 void RandBinomial::shootArray( HepRandomEngine* anEngine,
                             const int size, double* vect,
                             long n, double p )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(anEngine,n,p);
+  for( double* v = vect; v != vect+size; ++v )
+    *v = shoot(anEngine,n,p);
 }
 
 void RandBinomial::fireArray( const int size, double* vect)
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire(defaultN,defaultP);
+  for( double* v = vect; v != vect+size; ++v )
+    *v = fire(defaultN,defaultP);
 }
 
 void RandBinomial::fireArray( const int size, double* vect,
                            long n, double p )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire(n,p);
+  for( double* v = vect; v != vect+size; ++v )
+    *v = fire(n,p);
 }
 
 /*************************************************************************

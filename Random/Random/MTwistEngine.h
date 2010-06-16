@@ -1,4 +1,4 @@
-// $Id: MTwistEngine.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: MTwistEngine.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -44,10 +44,6 @@ public:
   virtual ~MTwistEngine();
   // Constructors and destructor.
 
-  MTwistEngine( const MTwistEngine & p );
-  MTwistEngine & operator=( const MTwistEngine & p );
-  // Copy constructor and operator=.
-
   double flat();
   // Returns a pseudo random number between 0 and 1 (excluding the end points).
 
@@ -91,11 +87,6 @@ private:
 
   unsigned int mt[624];
   int count624;
-
-  static double twoToMinus_32;
-  static double twoToMinus_53;
-  static double nearlyTwoToMinus_54;
-  void powersOfTwo();
 
   enum{ NminusM = 227, M = 397, N = 624};
   static int numEngines;

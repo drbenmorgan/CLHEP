@@ -125,6 +125,7 @@ int checkEngineInstanceSave(E & e) {
 
 template <class E, class D>
 int checkSaveDistribution(D & d, int nth) {
+  // verify that engine is the expected type
   dynamic_cast<E &>(d.engine());
   int stat = 0;
   output << "checkSaveDistribution with " << d.engine().name() 

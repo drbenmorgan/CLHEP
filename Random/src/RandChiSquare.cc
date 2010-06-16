@@ -1,4 +1,4 @@
-// $Id: RandChiSquare.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RandChiSquare.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -26,12 +26,7 @@ std::string RandChiSquare::name() const {return "RandChiSquare";}
 HepRandomEngine & RandChiSquare::engine() {return *localEngine;}
 
 RandChiSquare::~RandChiSquare() {
-  if ( deleteEngine ) delete localEngine;
 }
-
-RandChiSquare::RandChiSquare(const RandChiSquare& right)
- : defaultA(right.defaultA)
-{;}
 
 double RandChiSquare::shoot( HepRandomEngine *anEngine,  double a ) {
   return genChiSquare( anEngine, a );
@@ -43,40 +38,32 @@ double RandChiSquare::shoot( double a ) {
 }
 
 double RandChiSquare::fire( double a ) {
-  return genChiSquare( localEngine, a );
+  return genChiSquare( localEngine.get(), a );
 }
 
 void RandChiSquare::shootArray( const int size, double* vect,
                             double a ) {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(a);
+  for( double* v = vect; v != vect+size; ++v )
+    *v = shoot(a);
 }
 
 void RandChiSquare::shootArray( HepRandomEngine* anEngine,
                             const int size, double* vect,
                             double a )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(anEngine,a);
+  for( double* v = vect; v != vect+size; ++v )
+    *v = shoot(anEngine,a);
 }
 
 void RandChiSquare::fireArray( const int size, double* vect) {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire(defaultA);
+  for( double* v = vect; v != vect+size; ++v )
+    *v = fire(defaultA);
 }
 
 void RandChiSquare::fireArray( const int size, double* vect,
                            double a ) {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire(a);
+  for( double* v = vect; v != vect+size; ++v )
+    *v = fire(a);
 }
 
 double RandChiSquare::genChiSquare( HepRandomEngine *anEngine,

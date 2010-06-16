@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testVectorSave.cc,v 1.3 2010/06/16 17:24:53 garren Exp $
+// $Id: testEngineCopy.cc,v 1.2 2010/06/16 17:24:53 garren Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
@@ -10,7 +10,7 @@
 
 #define CLEAN_OUTPUT
 #ifdef CLEAN_OUTPUT
-  std::ofstream output("testVectorSave.cout");  
+  std::ofstream output("testEngineCopy.cout");  
 #else
   std::ostream & output = std::cout;
 #endif
@@ -20,7 +20,7 @@
 #ifdef TURNOFF
 #endif
 
-#define TEST_VECTOR_ENGINE_RESTORE
+#define TEST_ENGINE_COPY
 
 #define VERBOSER
 #define VERBOSER2
@@ -48,34 +48,39 @@ std::vector<double> aSequence(int n) {
 }
 
 
-// ----------- Vector restore of engines -----------
+// ----------- Copy of engines -----------
 
-// test the problem reported in bug #44156
-// Note that this test always works on a 32bit machine
 template <class E>
 int vectorTest64(int n) {
-  output << "Vector restore 64bit test for " << E::engineName() << "\n";
+  output << "Copy 64bit test for " << E::engineName() << "\n";
 
   E e;				    
   double x = 0;	
   for (int i=0; i<n; i++) x += e.flat();	    
-  std::vector<unsigned long> v = e.put();
+  E f( e );
   x = e.flat();
   output << "x = " << x << std::endl;
 
-  E f;
-  v[0] &= 0xffffffffUL;
-  f.get(v);
   double y = f.flat();
   output << "y = " << y << std::endl;
   if( x != y ) return n;
+  
+  for( int i=0; i<1000; ++i ) {
+      x = e.flat();
+      y = f.flat();
+      if( !equals(x,y) ) {
+          output << "i = " << i << " x, y " << x << " " << y
+	         << " vectorTest64 problem: e != f \n";
+	  return n+i;
+      }
+  }
 
   return 0;
 }
 // special case for NonRandomEngine
 template <>
 int vectorTest64<NonRandomEngine>(int n) {
-  output << "Vector restore 64bit test for " << NonRandomEngine::engineName() << "\n";
+  output << "Copy 64bit test for " << NonRandomEngine::engineName() << "\n";
 
   std::vector<double> nonRand = aSequence(500);
   NonRandomEngine e; 
@@ -84,99 +89,74 @@ int vectorTest64<NonRandomEngine>(int n) {
   double x = 0;	
   for (int i=0; i<n; i++) x += e.flat();	    
   std::vector<unsigned long> v = e.put();
+  NonRandomEngine f(e);
   x = e.flat();
   output << "x = " << x << std::endl;
 
-  NonRandomEngine f;
-  f.setRandomSequence(&nonRand[0], nonRand.size());
-
-  v[0] &= 0xffffffffUL;
-  f.get(v);
   double y = f.flat();
   output << "y = " << y << std::endl;
   if( x != y ) return n;
+  
+  for( int i=0; i<300; ++i ) {
+      if( e.flat() != f.flat() ) {
+          output << "i = " << i << " vectorTest64 for NonRandomEngine problem: e != f \n";
+	  return n+i;
+      }
+  }
 
   return 0;
 }
 
 template <class E>
-std::vector<unsigned long> vectorRestore1(int n, std::vector<double> & v) {
-  output << "Vector restore for " << E::engineName() << "\n";
+E vectorRestore1(int n, std::vector<double> & v) {
+  output << "Copy for " << E::engineName() << "\n";
   E e(97538466);				    
   double r=0;					    
   for (int i=0; i<n; i++) r += e.flat();	    
-  std::vector<unsigned long> state = e.put();	    
+  E f(e);    
   for (int j=0; j<25; j++) v.push_back(e.flat());   
 #ifdef VERBOSER2
   output << "First four of v are: " 
     	<< v[0] << ",  " << v[1] << ",  " << v[2] << ",  " << v[3] << "\n";
 #endif
-  return state;
+  return f;
 }
 
 template <>
-std::vector<unsigned long>
+NonRandomEngine
 vectorRestore1<NonRandomEngine> (int n, std::vector<double> & v) {
 #ifdef VERBOSER2
-  output << "Vector restore for " << NonRandomEngine::engineName() << "\n";
+  output << "Copy for " << NonRandomEngine::engineName() << "\n";
 #endif
   std::vector<double> nonRand = aSequence(500);
   NonRandomEngine e; 
   e.setRandomSequence(&nonRand[0], nonRand.size());
   double r=0;
   for (int i=0; i<n; i++) r += e.flat();
-  std::vector<unsigned long> state = e.put();	    
+  NonRandomEngine f(e);
   for (int j=0; j<25; j++) v.push_back(e.flat()); 
 #ifdef VERBOSER2
   output << "First four of v are: " 
     	<< v[0] << ",  " << v[1] << ",  " << v[2] << ",  " << v[3] << "\n";
 #endif
-  return state;
+  return f;
 }
 
 template <class E>
-int vectorRestore2(const std::vector<unsigned long> state,
-		   const std::vector<double> & v) {
+int vectorRestore2(E & f, const std::vector<double> & v) {
   int stat = 0;
   std::vector<double> k;
-  HepRandomEngine * a;
-  a = HepRandomEngine::newEngine(state);
-  if (!a) {
-      std::cout << "???? could not restore engine state from vector for " 
-    		<< E::engineName() << "\n"; 
-      #ifdef CLEAN_OUTPUT
-      output << "???? could not restore engine state from vector for " 
-             << E::engineName() << "\n"; 
-      #endif
-      stat |= 1048576;
-      return stat;
-  }
-  if (a->name() != E::engineName()) {
-      #ifdef CLEAN_OUTPUT
-      std::cout << "???? restored engine state from vector for " 
-    		<< E::engineName() << "to different type of engine: "
-		<< a->name() << "\n"
-	<< "There is probably a clash in CRC hashes for these two names!\n"; 
-      output << "???? restored engine state from vector for " 
-    		<< E::engineName() << "to different type of engine: "
-		<< a->name() << "\n"
-	<< "There is probably a clash in CRC hashes for these two names!\n"; 
-      #endif
-      stat |= 1048576;
-      return stat;
-  }
-  for (int j=0; j<25; j++) k.push_back(a->flat());
-  delete a;
+  for (int j=0; j<25; j++) k.push_back(f.flat());
 #ifdef VERBOSER2
   output << "First four of k are: " 
     	<< k[0] << ",  " << k[1] << ",  " << k[2] << ",  " << k[3] << "\n";
 #endif
   for (int m=0; m<25; m++) {
     if ( v[m] != k[m] ) {
-      std::cout << "???? Incorrect vector restored value for anonymous engine: " 
+      std::cout << "???? Incorrect copy restored value for engine: " 
     		<< E::engineName() << "\n"; 
       #ifdef CLEAN_OUTPUT
-      output << "???? Incorrect vector restored value for anonymous engine: " 
+      output << "???? Incorrect copy restored value for engine: " 
     		<< E::engineName() << "\n"; 
       #endif
       stat |= 1048576;
@@ -191,8 +171,8 @@ template <class E>
 int vectorRestore(int n) {
   std::vector<double> v;
   int status1 = vectorTest64<E>(n);
-  std::vector<unsigned long> state = vectorRestore1<E>(n,v);
-  int status2 = vectorRestore2<E>(state, v);  
+  E f = vectorRestore1<E>(n,v);
+  int status2 = vectorRestore2<E>(f, v);  
   return (status1 | status2);  
 }
 
@@ -206,14 +186,15 @@ int vectorRestore(int n) {
 int main() {
   int stat = 0;
 
-#ifdef TEST_VECTOR_ENGINE_RESTORE
+#ifdef TEST_ENGINE_COPY
   output << "\n=================================\n";
   output << "         Part IX \n";
-  output << "Save/restore of engines to vectors\n";
+  output << "    Copy test of engines\n";
   output << "=================================\n\n";
 
   stat |= vectorRestore<DualRand>(113);
-  stat |= vectorRestore<DRand48Engine>(114);
+  // copies of DRand48Engine are not allowed
+  //stat |= vectorRestore<DRand48Engine>(114);
   stat |= vectorRestore<Hurd160Engine>(115);
   stat |= vectorRestore<Hurd288Engine>(116);
   stat |= vectorRestore<HepJamesRandom>(117);
@@ -224,7 +205,8 @@ int main() {
   stat |= vectorRestore<RanshiEngine>(121);
   stat |= vectorRestore<TripleRand>(122);
   stat |= vectorRestore<NonRandomEngine>(123);
-  stat |= vectorRestore<RandEngine>(129);
+  // anonymous engines are not copyable
+  //stat |= vectorRestore<RandEngine>(129);
 #endif
 
   output << "\n=============================================\n\n";

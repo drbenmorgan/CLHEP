@@ -1,4 +1,4 @@
-// $Id: DRand48Engine.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: DRand48Engine.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -45,6 +45,7 @@
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandomEngine.h"
+#include "CLHEP/Utility/noncopyable.h"
 
 namespace CLHEP {
 
@@ -52,7 +53,7 @@ namespace CLHEP {
  * @author <Gabriele.Cosmo@cern.ch>
  * @ingroup random
  */
-class DRand48Engine : public HepRandomEngine {
+class DRand48Engine : public HepRandomEngine, public noncopyable {
 
 public:
 
@@ -106,10 +107,6 @@ private:
 
   static int  numEngines;
   static int  maxIndex;
-
-  DRand48Engine(const DRand48Engine &p);
-  DRand48Engine & operator = (const DRand48Engine &p);
-  // Private copy constructor and assignment operator.
 
 };
 

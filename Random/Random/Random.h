@@ -1,4 +1,4 @@
-// $Id: Random.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: Random.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -64,6 +64,8 @@ public:
   
   virtual ~HepRandom();
   // Destructor
+  
+  // implicitly allow compiler-generated copy functions 
 
   double flat();
   // Returns the flat value ( interval ]0...1[ ).
@@ -90,7 +92,7 @@ public:
   virtual std::istream & get ( std::istream & is );
   // Save and restore to/from streams
 
- // --------------------------------------------------
+  // --------------------------------------------------
   // Static member functions using the static generator
   // --------------------------------------------------
 
@@ -146,7 +148,7 @@ public:
   // Dumps the current engine status on screen.
 
   static int createInstance();
-  // used to initialise HepRandom::isActive and instantiate singleton
+  // used to initialise the default engine
 
   static std::string distributionName() {return "HepRandomEngine";}  
   // Provides the name of this distribution class
@@ -155,20 +157,6 @@ protected:     // -------- Data members ---------
 
   static const long seedTable[215][2];
   // Table of seeds
-
-private:       // -------- Data members ---------
-
-  static HepRandomEngine * theEngine;
-  // The corresponding algorithm.
-
-  static HepRandom * theGenerator;
-  // The common shared static generator
-  
-  static int isActive;
-  // Flag notifying singleton instance
-  
-  bool deleteEngine;
-  // True if the engine should be deleted on destruction.
 
 };
 

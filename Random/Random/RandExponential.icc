@@ -1,4 +1,4 @@
-// $Id: RandExponential.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandExponential.icc,v 1.3 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -18,11 +18,11 @@ namespace CLHEP {
 
 inline RandExponential::RandExponential(HepRandomEngine & anEngine,
                                         double mean )
-: localEngine(&anEngine), deleteEngine(false), defaultMean(mean) {}
+: HepRandom(), localEngine(&anEngine, do_nothing_deleter()), defaultMean(mean) {}
 
 inline RandExponential::RandExponential(HepRandomEngine * anEngine,
                                         double mean )
-: localEngine(anEngine), deleteEngine(true), defaultMean(mean) {}
+: HepRandom(), localEngine(anEngine), defaultMean(mean) {}
 
 //-------------
 

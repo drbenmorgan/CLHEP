@@ -1,4 +1,4 @@
-// $Id: TripleRand.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: TripleRand.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -59,10 +59,6 @@ public:
   TripleRand( int rowIndex, int colIndex );
   virtual ~TripleRand();
   // Constructors and destructor
-
-  TripleRand( const TripleRand & p );
-  TripleRand & operator=( const TripleRand & p );
-  // Copy constructor and operator=
 
   double flat();
   // Returns a pseudo random number between 0 and 1 
@@ -152,11 +148,6 @@ private:
   
   unsigned int state, multiplier, addend;
 }; // IntegerCong
-
-  static double twoToMinus_32;
-  static double twoToMinus_53;
-  static double nearlyTwoToMinus_54;
-  void powersOfTwo();
 
   Hurd288Engine & Hurd();  // retrieve the constituent engine for input
 

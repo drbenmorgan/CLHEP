@@ -1,4 +1,4 @@
-// $Id: TripleRand.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: TripleRand.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -40,8 +40,7 @@
 #include "CLHEP/Random/TripleRand.h"
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include <string.h>
-#include <cmath>	// for ldexp()
+#include <string.h>	// for strcmp
 
 using namespace std;
 
@@ -56,74 +55,51 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 // Number of instances with automatic seed selection
 int TripleRand::numEngines = 0;
 
-double TripleRand::twoToMinus_32;
-double TripleRand::twoToMinus_53;
-double TripleRand::nearlyTwoToMinus_54;
-
 std::string TripleRand::name() const {return "TripleRand";}
 
-void TripleRand::powersOfTwo() {
-  twoToMinus_32 = ldexp (1.0, -32);
-  twoToMinus_53 = ldexp (1.0, -53);
-  nearlyTwoToMinus_54 = ldexp (1.0, -54) - ldexp (1.0, -100);
-}
-
 TripleRand::TripleRand() 
-: tausworthe (1234567 + numEngines + 175321),
+: HepRandomEngine(),
+  tausworthe (1234567 + numEngines + 175321),
   integerCong(69607 * tausworthe + 54329, numEngines),
   hurd(19781127 + integerCong)
 {  
-  powersOfTwo();
   theSeed = 1234567;
   ++numEngines;
 }
 
 TripleRand::TripleRand(long seed)
-: tausworthe ((unsigned int)seed + 175321),
+: HepRandomEngine(),
+  tausworthe ((unsigned int)seed + 175321),
   integerCong(69607 * tausworthe + 54329, 1313),
   hurd(19781127 + integerCong)
 {
-  powersOfTwo();
   theSeed = seed;
 }
 
 TripleRand::TripleRand(std::istream & is) 
+: HepRandomEngine()
 {
   is >> *this;
 }
 
 TripleRand::TripleRand(int rowIndex, int colIndex)
-: tausworthe (rowIndex + numEngines * colIndex + 175321),
+: HepRandomEngine(),
+  tausworthe (rowIndex + numEngines * colIndex + 175321),
   integerCong(69607 * tausworthe + 54329, 19),
   hurd(19781127 + integerCong)
 {
-  powersOfTwo();
   theSeed = rowIndex;
 }
 
 TripleRand::~TripleRand() { }
 
-TripleRand::TripleRand( const TripleRand & p )
-{
-  *this = p;
-}
-
-TripleRand & TripleRand::operator=( const TripleRand & p ) {
-  if( this != &p ) {
-     tausworthe  = p.tausworthe;
-     integerCong = p.integerCong;
-     hurd        = p.hurd;
-  }
-  return *this;
-}
-
 double TripleRand::flat() {
   unsigned int ic ( integerCong );
   unsigned int t  ( tausworthe  );
   unsigned int h  ( hurd        );
-  return ( (t  ^ ic ^ h) * twoToMinus_32 +          // most significant part
-               (h >> 11) * twoToMinus_53 +          // fill in remaining bits
-                     nearlyTwoToMinus_54	    // make sure non-zero
+  return ( (t  ^ ic ^ h) * twoToMinus_32() +          // most significant part
+               (h >> 11) * twoToMinus_53() +          // fill in remaining bits
+                     nearlyTwoToMinus_54()	    // make sure non-zero
          );
 }
 
@@ -224,8 +200,8 @@ void TripleRand::showStatus() const {
 
 TripleRand::operator float() {
   return (float)
-    ( ( integerCong ^ tausworthe ^ hurd ) * twoToMinus_32 
-					+ nearlyTwoToMinus_54 );
+    ( ( integerCong ^ tausworthe ^ hurd ) * twoToMinus_32() 
+					+ nearlyTwoToMinus_54() );
 					// make sure non-zero!
 }
 
@@ -331,7 +307,7 @@ std::istream & TripleRand::getState (std::istream & is) {
 }
 
 bool TripleRand::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<TripleRand>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<TripleRand>()) {
     std::cerr << 
     	"\nTripleRand get:state vector has wrong ID word - state unchanged\n";
     return false;

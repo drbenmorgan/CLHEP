@@ -1,3 +1,174 @@
+==============================
+11.06.10 Release CLHEP-2.0.5.0.b01
+==============================
+2010-04-29  Walter Brown <wb@fnal.gov>
+
+        * DRand48Engine: use CLHEP/Utility/noncopyable.h
+	* RandBinomial, RandBreitWigner, RandChiSquare,
+	  RandExponential, RandFlat, RandGamma, RandGauss,
+	  RandGeneral, RandLandau, RandPoisson, RandStudentT:
+	  use shared pointer from CLHEP/Utility/memory.h
+	* Random.h: no longer need deleteEngine
+	* test/testDistCopy: test copy constructors 
+	  (note that all copy constructors are now compiler generated)	  
+
+2010-03-04  Walter Brown <wb@fnal.gov>
+
+        * DualRand, Hurd160Engine, Hurd288Engine, JamesRandom, 
+	  MTwistEngine, RandEngine, RanecuEngine, RanluxEngine, 
+	  Ranlux64Engine, RanshiEngine, TripleRand: 
+	  Let the compiler generate the copy constructors. Use the new
+	  static functions.   Also define static const int's as relevant.
+	  This produces code which is both more efficient and more compact.
+
+	* RandomEngine: move static variables here and make them 
+	  static functions.  This streamlines the code.
+	  Affected variables are exponent_bit_32, mantissa_bit_12, 
+	  mantissa_bit_24, mantissa_bit_32, twoToMinus_32, 
+	  twoToMinus_48, twoToMinus_49, twoToMinus_53, and
+	  nearlyTwoToMinus_54.
+
+2010-03-04  Mark Fischler <mf@fnal.gov>
+
+	* test/testEngineCopy.cc: test copy constructors and operator =
+
+==============================
+09.03.10 Release CLHEP-2.0.4.6
+==============================
+
+2010-03-08  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* src/RandEngine.cc: Cast RAND_MAX to unsigned long to avoid 
+	  gcc 4.4 warnings.
+
+	* src/RanecuEngine.cc: Fix a bug introduced in 2.0.4.5/1.9.4.5 
+	  which resulted in the inability to rollback the random state.
+	* test/testBug58950: test rolling back the random state
+
+==============================
+08.12.09 Release CLHEP-2.0.4.5
+==============================
+2009-12-07  Lynn Garren <garren@fnal.gov>
+
+	* test/testBug58950.cc: test for the 64bit bug
+
+2009-12-01  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* src/RanecuEngine.cc: Negative seeds are not allowed.  In the past,
+	  negative seeds were ignored, resulting in a reproducable sequence.
+	  Instead, we now use the absolute value of any negative seeds.
+
+2009-12-01  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/RanecuEngine.h, src/RanecuEngine.cc: define maxSeq 
+	  as a static const int since it contains the size of an array
+	* src/RanecuEngine.cc: ensure that all seeds are in the expected 32bit range.
+
+==============================
+12.11.09 Release CLHEP-2.0.4.4
+==============================
+==============================
+03.11.09 Release CLHEP-2.0.4.4.b01
+==============================
+==============================
+04.07.09 Release CLHEP-2.0.4.3
+==============================
+2009-06-30  Mark Fischler <mf@fnal.gov>
+
+	* src/Ranlux64Engine.cc: Fix bug #24689. setSeeds() now 
+	uses all seeds passed to it instead of only the first one.
+
+==============================
+18.11.08 Release CLHEP-2.0.4.2
+==============================
+2008-11-18  Lynn Garren <garren@fnal.gov>
+
+	* test/testVectorSave.cc: Add a test for bug #44156
+
+2008-11-13  Mark Fischler <mf@fnal.gov>
+
+	* src/engineIDulong.cc: Fix problem that caused check for proper
+	engine type to fail where an unsigned long is 64bits. (bug #44156)
+	* src/*Engine.cc: make sure that existing stored engine states 
+	don't break due to the change in engineIDulong.cc
+
+==============================
+04.11.08 Release CLHEP-2.0.4.1
+==============================
+==============================
+07.08.08 Release CLHEP-2.0.4.0
+==============================
+2008-07-17  Lynn Garren <garren@fnal.gov>
+
+	* add explicit parentheses in various places to keep gcc 4.3 happy
+	
+	* src/RandEngine.cc: change how the compiler decides how to implement flat()
+
+	* test/testRandDists.cc: force variables to be in memory so
+	testRandGeneral() behaves the same with both gcc 4.3 and 3.4.
+
+	* Random/src/DRand48Engine.cc,RandEngine.cc:
+	Remove (incorrect) implementation of private, unused, copy constructor 
+	and operator=.
+
+	* Random/src/drand48.src: 
+	The implementaton of the drand48_iterate method contained a problematic  
+	"if (sizeof (unsigned short int) == 2) { } else {}" structure.
+	Code contained in the else portion had unintended side effects.
+	We have retained only the code in the if portion, which should work
+	on all machines. 
+
+==============================
+01.05.08 Release CLHEP-2.0.3.3
+==============================
+==============================
+18.10.07 Release CLHEP-2.0.3.2
+==============================
+2007-10-18  Mark Fischler <mf@fnal.gov>
+
+	* RandPoissonQ.cc:  Change fire(mena) to call 
+	  		    shoot(theLocalEngine(),mean) instead of
+			    shoot(mean), which had caused "cross-talk" between
+			    modules that should not have affected eah other.
+
+==============================
+15.11.06 Release CLHEP-2.0.3.1
+==============================
+2006-11-15  Mark Fischler <mf@fnal.gov>
+
+	* Random/src/MTwistEngine.cc: improve seeding method
+
+==============================
+18.10.06 Release CLHEP-2.0.3.0
+==============================
+==============================
+20.06.06 Release CLHEP-2.0.2.3
+==============================
+==============================
+21.11.05 Release CLHEP-2.0.2.2
+==============================
+2005-11-21  Lynn Garren <garren@fnal.gov>
+
+	* src/Makefile.am, test/Makefile.am: Build libraries for 
+	Windows Visual C++ without lib prefix.
+
+==============================
+22.06.05 Release CLHEP-2.0.2.1
+==============================
+Wed Jun 22 2005  Andreas Pfeiffer  <andreas.pfeiffer@cern.ch>
+
+	* configure.in: changed soname to install_name for darwin targets,
+	dylibs still don't build properly on 10.3/10.4, static libs ok.
+
+2005-06-19  Lynn Garren <garren@fnal.gov>
+
+	* configure.in, Makefile.am: 
+	Use lib when building Visual C++ libraries.
+	Disable shared library build for Solaris CC.
+
+==============================
+22.04.05 Release CLHEP-2.0.2.0
+==============================
 2005-04-14  Mark Fischler <mf@fnal.gov>
 
 	* RandFlat.cc RandGauss.cc RandBinomial.cc ... all the distributions

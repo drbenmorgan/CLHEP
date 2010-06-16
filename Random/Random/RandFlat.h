@@ -1,4 +1,4 @@
-// $Id: RandFlat.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: RandFlat.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -31,6 +31,7 @@
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
+#include "CLHEP/Utility/memory.h"
 
 namespace CLHEP {
 
@@ -162,8 +163,10 @@ public:
 
 protected:
 
+#if 0
   // Protected copy constructor. Defining it here disallows use by users.
   RandFlat(const RandFlat& d);
+#endif  // 0
 
 private:
 
@@ -194,8 +197,7 @@ private:
   static unsigned long staticRandomInt;
   static unsigned long staticFirstUnusedBit;
   
-  HepRandomEngine* localEngine;
-  bool deleteEngine;
+  shared_ptr<HepRandomEngine> localEngine;
   double defaultWidth;
   double defaultA;
   double defaultB;

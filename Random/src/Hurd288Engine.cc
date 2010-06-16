@@ -1,4 +1,4 @@
-// $Id: Hurd288Engine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: Hurd288Engine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -38,9 +38,8 @@
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/Hurd288Engine.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include <string.h>
-#include <cmath>	// for ldexp()
-#include <stdlib.h>	// for abs(int)
+#include <string.h>	// for strcmp
+#include <cstdlib>	// for abs(int)
 
 using namespace std;
 
@@ -48,17 +47,7 @@ namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
-double Hurd288Engine::twoToMinus_32;
-double Hurd288Engine::twoToMinus_53;
-double Hurd288Engine::nearlyTwoToMinus_54;
-
 std::string Hurd288Engine::name() const {return "Hurd288Engine";}
-
-void Hurd288Engine::powersOfTwo() {
-  twoToMinus_32 = ldexp (1.0, -32);
-  twoToMinus_53 = ldexp (1.0, -53);
-  nearlyTwoToMinus_54 = ldexp (1.0, -54) - ldexp (1.0, -100);
-}
 
 // Number of instances with automatic seed selection
 int Hurd288Engine::numEngines = 0;
@@ -72,8 +61,9 @@ static inline unsigned int f288(unsigned int a, unsigned int b, unsigned int c)
          ( (c<<1)|(c>>31) );
 }
 
-Hurd288Engine::Hurd288Engine() {
-  powersOfTwo();
+Hurd288Engine::Hurd288Engine()
+: HepRandomEngine()
+{
   int cycle    = abs(int(numEngines/maxIndex));
   int curIndex = abs(int(numEngines%maxIndex));
   long mask = ((cycle & 0x007fffff) << 8);
@@ -89,12 +79,14 @@ Hurd288Engine::Hurd288Engine() {
 }
 
 Hurd288Engine::Hurd288Engine( std::istream& is )
+: HepRandomEngine()
 {
     is >> *this;
 }
 
-Hurd288Engine::Hurd288Engine( long seed ) {
-  powersOfTwo();
+Hurd288Engine::Hurd288Engine( long seed )
+: HepRandomEngine()
+{
   long seedlist[2]={seed,0};
   setSeeds(seedlist, 0);
   words[0] ^= 0xa5482134;        // To make unique vs default two unsigned
@@ -102,8 +94,9 @@ Hurd288Engine::Hurd288Engine( long seed ) {
   for( int i=0; i < 100; ++i ) flat();       // warm up just a bit
 }
 
-Hurd288Engine::Hurd288Engine( int rowIndex, int colIndex ) {
-  powersOfTwo();
+Hurd288Engine::Hurd288Engine( int rowIndex, int colIndex )
+: HepRandomEngine()
+{
   int cycle = abs(int(rowIndex/maxIndex));
   int   row = abs(int(rowIndex%maxIndex));
   int   col = colIndex & 0x1;
@@ -117,21 +110,6 @@ Hurd288Engine::Hurd288Engine( int rowIndex, int colIndex ) {
 }
 
 Hurd288Engine::~Hurd288Engine() { }
-
-Hurd288Engine::Hurd288Engine( const Hurd288Engine & p ) 
-{
-  *this = p;
-}
-
-Hurd288Engine & Hurd288Engine::operator=( const Hurd288Engine & p ) {
-  if( this != &p ) {
-    wordIndex = p.wordIndex;
-    for( int i=0; i < 9; ++i ) {
-      words[i] = p.words[i];
-    }
-  }
-  return *this;
-}
 
 void Hurd288Engine::advance() {
 
@@ -176,9 +154,9 @@ double Hurd288Engine::flat() {
     advance();
   }
 
-  return   words[--wordIndex] * twoToMinus_32 + // most significant part
-     (words[--wordIndex]>>11) * twoToMinus_53 + // fill in rest of bits
-                    nearlyTwoToMinus_54;        // make sure non-zero
+  return   words[--wordIndex] * twoToMinus_32() + // most significant part
+     (words[--wordIndex]>>11) * twoToMinus_53() + // fill in rest of bits
+                    nearlyTwoToMinus_54();        // make sure non-zero
 }
 
 void Hurd288Engine::flatArray( const int size, double* vect ) {
@@ -281,7 +259,7 @@ Hurd288Engine::operator float() {
   if( wordIndex <= 1 ) {	// MF 9/15/98:  skip word 0
     advance();
   }
-  return words[--wordIndex ] * twoToMinus_32;
+  return words[--wordIndex ] * twoToMinus_32();
 }
 
 Hurd288Engine::operator unsigned int() {
@@ -385,7 +363,7 @@ std::istream& Hurd288Engine::getState(std::istream& is) {
 }
 
 bool Hurd288Engine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<Hurd288Engine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<Hurd288Engine>()) {
     std::cerr << 
     	"\nHurd288Engine get:state vector has wrong ID word - state unchanged\n";
     std::cerr << "The correct ID would be " << engineIDulong<Hurd288Engine>()

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ranRestoreTest.cc,v 1.4 2005/04/27 20:12:50 garren Exp $
+// $Id: ranRestoreTest.cc,v 1.5 2010/06/16 17:24:53 garren Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"

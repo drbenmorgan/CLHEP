@@ -1,4 +1,4 @@
-// $Id: RanshiEngine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RanshiEngine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -35,8 +35,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RanshiEngine.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include <string.h>
-#include <cmath>	// for ldexp()
+#include <string.h>	// for strcmp
 
 using namespace std;
 
@@ -44,24 +43,15 @@ namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
-double RanshiEngine::twoToMinus_32;
-double RanshiEngine::twoToMinus_53;
-double RanshiEngine::nearlyTwoToMinus_54;
-
 std::string RanshiEngine::name() const {return "RanshiEngine";}
-
-void RanshiEngine::powersOfTwo() {
-  twoToMinus_32 = ldexp (1.0, -32);
-  twoToMinus_53 = ldexp (1.0, -53);
-  nearlyTwoToMinus_54 = ldexp (1.0, -54) - ldexp (1.0, -100);
-}
 
 // Number of instances with automatic seed selection
 int RanshiEngine::numEngines = 0;
 
-RanshiEngine::RanshiEngine() : halfBuff(0), numFlats(0) 
+RanshiEngine::RanshiEngine()
+: HepRandomEngine(),
+  halfBuff(0), numFlats(0) 
 {
-  powersOfTwo();
   int i = 0;
   while (i < numBuff) {    
     buffer[i] = (unsigned int)(numEngines+19780503L*(i+1));
@@ -73,14 +63,17 @@ RanshiEngine::RanshiEngine() : halfBuff(0), numFlats(0)
   for( i = 0; i < 10000; ++i) flat();  // Warm-up by running thorugh 10000 nums
 }
 
-RanshiEngine::RanshiEngine(std::istream& is) : halfBuff(0), numFlats(0) 
+RanshiEngine::RanshiEngine(std::istream& is)
+: HepRandomEngine(),
+  halfBuff(0), numFlats(0) 
 {
   is >> *this;
 }
 
-RanshiEngine::RanshiEngine(long seed) : halfBuff(0), numFlats(0) 
+RanshiEngine::RanshiEngine(long seed)
+: HepRandomEngine(),
+  halfBuff(0), numFlats(0) 
 {
-  powersOfTwo();
   for (int i = 0; i < numBuff; ++i) {
     buffer[i] = (unsigned int)seed&0xffffffff;
   }
@@ -93,9 +86,9 @@ RanshiEngine::RanshiEngine(long seed) : halfBuff(0), numFlats(0)
 }
 
 RanshiEngine::RanshiEngine(int rowIndex, int colIndex)
-: halfBuff(0), numFlats(0) 
+: HepRandomEngine(),
+  halfBuff(0), numFlats(0) 
 {
-  powersOfTwo();
   int i = 0;
   while( i < numBuff ) {
     buffer[i] = (unsigned int)((rowIndex + (i+1)*(colIndex+8))&0xffffffff);
@@ -108,24 +101,6 @@ RanshiEngine::RanshiEngine(int rowIndex, int colIndex)
 
 RanshiEngine::~RanshiEngine() { }
 
-RanshiEngine::RanshiEngine( const RanshiEngine & p ) 
-: halfBuff(0), numFlats(0) 
-{
-  *this = p;
-}
-
-RanshiEngine & RanshiEngine::operator=( const RanshiEngine & p ) {
-  if( this != &p ) {
-    halfBuff = p.halfBuff;
-    numFlats = p.numFlats;
-    redSpin  = p.redSpin;
-    for( int i =0; i < numBuff; ++i) {
-      buffer[i] = p.buffer[i];
-    }
-  }
-  return *this;
-}
-
 double RanshiEngine::flat() {
   unsigned int redAngle = (((numBuff/2) - 1) & redSpin) + halfBuff;
   unsigned int blkSpin     = buffer[redAngle] & 0xffffffff;
@@ -136,9 +111,9 @@ double RanshiEngine::flat() {
   redSpin  = (blkSpin + numFlats++) & 0xffffffff;
   halfBuff = numBuff/2 - halfBuff;
   
-  return ( blkSpin * twoToMinus_32 +            // most significant part
-	   (boostResult>>11) * twoToMinus_53 +  // fill in remaining bits
-	   nearlyTwoToMinus_54);  		// non-zero
+  return ( blkSpin * twoToMinus_32() +            // most significant part
+	   (boostResult>>11) * twoToMinus_53() +  // fill in remaining bits
+	   nearlyTwoToMinus_54());  		// non-zero
 }
 
 void RanshiEngine::flatArray(const int size, double* vect) {
@@ -261,7 +236,7 @@ RanshiEngine::operator float() {
   redSpin  = (blkSpin + numFlats++) & 0xffffffff;
   halfBuff = numBuff/2 - halfBuff;
   
-  return float(blkSpin * twoToMinus_32);
+  return float(blkSpin * twoToMinus_32());
 }
 
 RanshiEngine::operator unsigned int() {
@@ -373,7 +348,7 @@ std::istream& RanshiEngine::getState (std::istream& is) {
 }
 
 bool RanshiEngine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<RanshiEngine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<RanshiEngine>()) {
     std::cerr << 
     	"\nRanshiEngine get:state vector has wrong ID word - state unchanged\n";
     return false;

@@ -1,4 +1,4 @@
-// $Id: RandGaussT.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: RandGaussT.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -113,13 +113,7 @@ public:
   static std::string distributionName() {return "RandGaussT";}  
   // Provides the name of this distribution class
   
-
-protected:
-
 private:
-
-  // Private copy constructor. Defining it here disallows use.
-  RandGaussT(const RandGaussT& d);
 
   // All the engine info, and the default mean and sigma, are in the RandGauss
   // base class.

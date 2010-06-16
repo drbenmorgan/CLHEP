@@ -1,4 +1,4 @@
-// $Id: DualRand.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: DualRand.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -58,8 +58,9 @@ public:
   DualRand(int rowIndex, int colIndex);
   virtual ~DualRand();
 
-  DualRand(const DualRand & p);
-  DualRand & operator=(const DualRand & p);
+  // let the compiler generate the copy constructors
+  //DualRand(const DualRand & p);
+  //DualRand & operator=(const DualRand & p);
 
   double flat();
   // Returns a pseudo random number between 0 and 1 
@@ -104,11 +105,6 @@ public:
 private:
 
   static int numEngines;
-
-  static double twoToMinus_32;
-  static double twoToMinus_53;
-  static double nearlyTwoToMinus_54;
-  void powersOfTwo();
 
   // This generator is composed of two others combined:
 

@@ -1,4 +1,4 @@
-// $Id: RandGamma.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RandGamma.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -26,12 +26,7 @@ std::string RandGamma::name() const {return "RandGamma";}
 HepRandomEngine & RandGamma::engine() {return *localEngine;}
 
 RandGamma::~RandGamma() {
-  if ( deleteEngine ) delete localEngine;
 }
-
-RandGamma::RandGamma(const RandGamma& right)
- : defaultK(right.defaultK), defaultLambda(right.defaultLambda)
-{;}
 
 double RandGamma::shoot( HepRandomEngine *anEngine,  double k,
                                                         double lambda ) {
@@ -44,43 +39,35 @@ double RandGamma::shoot( double k, double lambda ) {
 }
 
 double RandGamma::fire( double k, double lambda ) {
-  return genGamma( localEngine, k, lambda );
+  return genGamma( localEngine.get(), k, lambda );
 }
 
 void RandGamma::shootArray( const int size, double* vect,
                             double k, double lambda )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(k,lambda);
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot(k,lambda);
 }
 
 void RandGamma::shootArray( HepRandomEngine* anEngine,
                             const int size, double* vect,
                             double k, double lambda )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(anEngine,k,lambda);
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot(anEngine,k,lambda);
 }
 
 void RandGamma::fireArray( const int size, double* vect)
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire(defaultK,defaultLambda);
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire(defaultK,defaultLambda);
 }
 
 void RandGamma::fireArray( const int size, double* vect,
                            double k, double lambda )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire(k,lambda);
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire(k,lambda);
 }
 
 double RandGamma::genGamma( HepRandomEngine *anEngine,

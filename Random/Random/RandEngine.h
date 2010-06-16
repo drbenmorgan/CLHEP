@@ -1,4 +1,4 @@
-// $Id: RandEngine.h,v 1.5 2005/04/27 20:12:49 garren Exp $
+// $Id: RandEngine.h,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -111,7 +111,6 @@ private:
 
 private:
 
-  const double mantissa_bit_32;
   long seq;
   static int numEngines;
   static int maxIndex;

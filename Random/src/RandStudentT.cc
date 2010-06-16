@@ -1,4 +1,4 @@
-// $Id: RandStudentT.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RandStudentT.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -28,13 +28,9 @@ namespace CLHEP {
 std::string RandStudentT::name() const {return "RandStudentT";}
 HepRandomEngine & RandStudentT::engine() {return *localEngine;}
 
-RandStudentT::~RandStudentT() {
-  if ( deleteEngine ) delete localEngine;
+RandStudentT::~RandStudentT()
+{
 }
-
-RandStudentT::RandStudentT(const RandStudentT& right)
- : defaultA(right.defaultA)
-{;}
 
 double RandStudentT::operator()() {
   return fire( defaultA );
@@ -88,20 +84,16 @@ double RandStudentT::shoot( double a ) {
 void RandStudentT::shootArray( const int size, double* vect,
                             double a )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(a);
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot(a);
 }
 
 void RandStudentT::shootArray( HepRandomEngine* anEngine,
                             const int size, double* vect,
                             double a )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(anEngine,a);
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot(anEngine,a);
 }
 
 double RandStudentT::fire( double a ) {
@@ -120,19 +112,15 @@ double RandStudentT::fire( double a ) {
 
 void RandStudentT::fireArray( const int size, double* vect)
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire(defaultA);
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire(defaultA);
 }
 
 void RandStudentT::fireArray( const int size, double* vect,
                            double a )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire(a);
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire(a);
 }
 
 double RandStudentT::shoot( HepRandomEngine *anEngine, double a ) {

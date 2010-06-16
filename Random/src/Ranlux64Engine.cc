@@ -1,4 +1,4 @@
-// $Id: Ranlux64Engine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: Ranlux64Engine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -58,9 +58,8 @@
 #include "CLHEP/Random/Ranlux64Engine.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include "CLHEP/Random/DoubConv.hh"
-#include <string.h>
-#include <cmath>	// for ldexp() and abs()
-#include <stdlib.h>	// for abs(int)
+#include <string.h>	// for strcmp
+#include <cstdlib>	// for abs(int)
 
 using namespace std;
 
@@ -75,13 +74,10 @@ int Ranlux64Engine::numEngines = 0;
 // Maximum index into the seed table
 int Ranlux64Engine::maxIndex = 215;
 
-double Ranlux64Engine::twoToMinus_32;
-double Ranlux64Engine::twoToMinus_48;
-double Ranlux64Engine::twoToMinus_49;
-
 std::string Ranlux64Engine::name() const {return "Ranlux64Engine";}
 
 Ranlux64Engine::Ranlux64Engine()
+: HepRandomEngine()
 {
    luxury = 1;
    int cycle    = abs(int(numEngines/maxIndex));
@@ -100,6 +96,7 @@ Ranlux64Engine::Ranlux64Engine()
 }
 
 Ranlux64Engine::Ranlux64Engine(long seed, int lux)
+: HepRandomEngine()
 {
    luxury = lux;
    long seedlist[2]={seed,0};
@@ -109,11 +106,11 @@ Ranlux64Engine::Ranlux64Engine(long seed, int lux)
 }
 
 Ranlux64Engine::Ranlux64Engine(int rowIndex, int colIndex, int lux)
+: HepRandomEngine()
 {
    luxury = lux;
    int cycle = abs(int(rowIndex/maxIndex));
    int   row = abs(int(rowIndex%maxIndex));
-   // int   col = abs(int(colIndex%2)); // But this is never used!
    long mask = (( cycle & 0x000007ff ) << 20 );
    long seedlist[2]; 
    HepRandom::getTheTableSeeds( seedlist, row );
@@ -123,34 +120,12 @@ Ranlux64Engine::Ranlux64Engine(int rowIndex, int colIndex, int lux)
 }
 
 Ranlux64Engine::Ranlux64Engine( std::istream& is )
+: HepRandomEngine()
 {
   is >> *this;
 }
 
 Ranlux64Engine::~Ranlux64Engine() {}
-
-Ranlux64Engine::Ranlux64Engine(const Ranlux64Engine &p)
-{
-  *this = p;
-}
-
-Ranlux64Engine & Ranlux64Engine::operator=( const Ranlux64Engine &p ) {
-  if (this != &p ) {
-    theSeed  = p.theSeed;
-    theSeeds = p.theSeeds;
-    for (int i=0; i<12; ++i) {
-      randoms[i] = p.randoms[i];
-    }
-    pDiscard = p.pDiscard; 
-    pDozens  = p.pDozens;
-    endIters = p.endIters;
-    luxury   = p.luxury;
-    index    = p.index;
-    carry    = p.carry;
-  }
-  return *this;
-}
-
 
 double Ranlux64Engine::flat() {
   // Luscher improves the speed by computing several numbers in a shot,
@@ -159,7 +134,7 @@ double Ranlux64Engine::flat() {
   // that zero, which the algorithm can produce, is never returned by flat().
 
   if (index <= 0) update();
-  return randoms[--index] + twoToMinus_49;
+  return randoms[--index] + twoToMinus_49();
 }
 
 void Ranlux64Engine::update() {
@@ -195,7 +170,7 @@ void Ranlux64Engine::update() {
     y1 = randoms[ 4] - randoms[11] - carry;
     if ( y1 < 0.0 ) {
       y1 += 1.0;			
-      carry = twoToMinus_48;
+      carry = twoToMinus_48();
     } else {
       carry = 0.0;
     }
@@ -219,7 +194,7 @@ void Ranlux64Engine::update() {
       y1 = randoms [ns] - randoms[nr] - carry;
       if ( y1 < 0.0 ) {
         y1 += 1.0;
-        carry = twoToMinus_48;
+        carry = twoToMinus_48();
       } else {
         carry = 0.0;
       }
@@ -255,7 +230,7 @@ void Ranlux64Engine::update() {
 void Ranlux64Engine::advance(int dozens) {
 
   register double  y1, y2, y3;
-  register double  cValue = twoToMinus_48;
+  register double  cValue = twoToMinus_48();
   register double  zero = 0.0;
   register double  one  = 1.0;
 
@@ -383,10 +358,6 @@ void Ranlux64Engine::setSeed(long seed, int lux) {
 // (Fred James) published in Computer Physics Communications 60 (1990)
 // pages 329-344
 
-  twoToMinus_32 = ldexp (1.0, -32);
-  twoToMinus_48 = ldexp (1.0, -48);
-  twoToMinus_49 = ldexp (1.0, -49);
-
   const int ecuyer_a(53668);
   const int ecuyer_b(40014);
   const int ecuyer_c(12211);
@@ -419,19 +390,86 @@ void Ranlux64Engine::setSeed(long seed, int lux) {
   }    
 
   for(i = 0;i < 12; i++){
-     randoms[i] = (init_table[2*i  ]      ) * 2.0 * twoToMinus_32 +
-                  (init_table[2*i+1] >> 15) * twoToMinus_48;
+     randoms[i] = (init_table[2*i  ]      ) * 2.0 * twoToMinus_32() +
+                  (init_table[2*i+1] >> 15) * twoToMinus_48();
   }
 
   carry = 0.0;
-  if ( randoms[11] == 0. ) carry = twoToMinus_48;
+  if ( randoms[11] == 0. ) carry = twoToMinus_48();
   index = 11;
 
 } // setSeed()
 
 void Ranlux64Engine::setSeeds(const long * seeds, int lux) {
-  setSeed( *seeds ? *seeds : 32767, lux );
-  theSeeds = seeds;
+// old code only uses the first long in seeds
+//  setSeed( *seeds ? *seeds : 32767, lux );
+//  theSeeds = seeds;
+
+// using code from Ranlux - even those are 32bit seeds, 
+// that is good enough to completely differentiate the sequences
+
+   const int ecuyer_a = 53668;
+   const int ecuyer_b = 40014;
+   const int ecuyer_c = 12211;
+   const int ecuyer_d = 2147483563;
+
+   const int lux_levels[3] = {109, 202, 397};
+   const long *seedptr; 
+
+   theSeeds = seeds;
+   seedptr  = seeds;
+ 
+   if(seeds == 0){
+      setSeed(theSeed,lux);
+      theSeeds = &theSeed;
+      return;
+   }
+
+   theSeed = *seeds;
+
+// number of additional random numbers that need to be 'thrown away'
+// every 24 numbers is set using luxury level variable.
+
+  if( (lux > 2)||(lux < 0) ){
+     pDiscard = (lux >= 12) ? (lux-12) : lux_levels[1];
+  }else{
+     pDiscard = lux_levels[luxury];
+  }
+  pDozens  = pDiscard / 12;
+  endIters = pDiscard % 12;
+
+  long init_table[24];
+  long next_seed = *seeds;
+  long k_multiple;
+  int i;
+      
+  for( i = 0;(i != 24)&&(*seedptr != 0);i++){
+      init_table[i] =  *seedptr & 0xffffffff;
+      seedptr++;
+  }		       
+
+  if(i != 24){
+     next_seed = init_table[i-1];
+     for(;i != 24;i++){
+	k_multiple = next_seed / ecuyer_a;
+	next_seed = ecuyer_b * (next_seed - k_multiple * ecuyer_a)
+                                	  - k_multiple * ecuyer_c;
+	if(next_seed < 0) {
+	   next_seed += ecuyer_d;
+	}
+	init_table[i] = next_seed & 0xffffffff;
+     }    
+  }
+
+  for(i = 0;i < 12; i++){
+     randoms[i] = (init_table[2*i  ]      ) * 2.0 * twoToMinus_32() +
+                  (init_table[2*i+1] >> 15) * twoToMinus_48();
+  }
+
+  carry = 0.0;
+  if ( randoms[11] == 0. ) carry = twoToMinus_48();
+  index = 11;
+
 }
 
 void Ranlux64Engine::saveStatus( const char filename[] ) const
@@ -629,7 +667,7 @@ std::istream & Ranlux64Engine::getState ( std::istream& is )
 }
 
 bool Ranlux64Engine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<Ranlux64Engine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<Ranlux64Engine>()) {
     std::cerr << 
     	"\nRanlux64Engine get:state vector has wrong ID word - state unchanged\n";
     return false;

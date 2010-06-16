@@ -1,4 +1,4 @@
-// $Id: RanluxEngine.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: RanluxEngine.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -53,12 +53,6 @@ public:
   RanluxEngine( int rowIndex, int colIndex, int lux );
   virtual ~RanluxEngine();
   // Constructors and destructor
-
-  RanluxEngine(const RanluxEngine &p);
-  // Copy constructor
-
-  RanluxEngine & operator = (const RanluxEngine &p);
-  // Overloaded assignment operator, to retrieve the engine status.
 
 // Luxury level is set in the same way as the original FORTRAN routine.
 //  level 0  (p=24): equivalent to the original RCARRY of Marsaglia
@@ -121,9 +115,7 @@ private:
   int i_lag,j_lag;  
   float carry;
   int count24;
-  const int int_modulus;
-  const double mantissa_bit_24;
-  const double mantissa_bit_12;
+  static const int int_modulus = 0x1000000;
   static int numEngines;
   static int maxIndex;
 };

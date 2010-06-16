@@ -1,4 +1,4 @@
-// $Id: Hurd160Engine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: Hurd160Engine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -32,9 +32,8 @@
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/Hurd160Engine.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include <string.h>
-#include <cmath>	// for ldexp()
-#include <stdlib.h>	// for abs(int)
+#include <string.h>	// for strcmp
+#include <cstdlib>	// for abs(int)
 
 using namespace std;
 
@@ -42,17 +41,7 @@ namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
-double Hurd160Engine::twoToMinus_32;
-double Hurd160Engine::twoToMinus_53;
-double Hurd160Engine::nearlyTwoToMinus_54;
-
 std::string Hurd160Engine::name() const {return "Hurd160Engine";}
-
-void Hurd160Engine::powersOfTwo() {
-  twoToMinus_32 = ldexp (1.0, -32);
-  twoToMinus_53 = ldexp (1.0, -53);
-  nearlyTwoToMinus_54 = ldexp (1.0, -54) - ldexp (1.0, -100);
-}
 
 // Number of instances with automatic seed selection
 int Hurd160Engine::numEngines = 0;
@@ -65,8 +54,9 @@ static inline unsigned int f160(unsigned int a, unsigned int b, unsigned int c)
   return ( ((b<<2) & 0x7c) | ((a<<2) & ~0x7c) | (a>>30) ) ^ ( (c<<1)|(c>>31) );
 }
 
-Hurd160Engine::Hurd160Engine() {
-  powersOfTwo();
+Hurd160Engine::Hurd160Engine()
+: HepRandomEngine()
+{
   int cycle    = abs(int(numEngines/maxIndex));
   int curIndex = abs(int(numEngines%maxIndex));
   long mask = ((cycle & 0x007fffff) << 8);
@@ -81,12 +71,15 @@ Hurd160Engine::Hurd160Engine() {
   for( int i=0; i < 100; ++i ) flat();            // warm-up just a bit
 }
 
-Hurd160Engine::Hurd160Engine( std::istream& is ) {
+Hurd160Engine::Hurd160Engine( std::istream& is )
+: HepRandomEngine()
+{
     is >> *this;
 }
 
-Hurd160Engine::Hurd160Engine( long seed ) {
-  powersOfTwo();
+Hurd160Engine::Hurd160Engine( long seed )
+: HepRandomEngine()
+{
   long seedlist[2]={seed,0};
   setSeeds(seedlist, 0);
   words[0] ^= 0xa5482134;	 // To make unique vs default two unsigned
@@ -94,8 +87,9 @@ Hurd160Engine::Hurd160Engine( long seed ) {
   for( int i=0; i < 100; ++i ) flat();            // warm-up just a bit
 }
 
-Hurd160Engine::Hurd160Engine( int rowIndex, int colIndex ) {
-  powersOfTwo();
+Hurd160Engine::Hurd160Engine( int rowIndex, int colIndex )
+: HepRandomEngine()
+{
   int cycle = abs(int(rowIndex/maxIndex));
   int   row = abs(int(rowIndex%maxIndex));
   int   col = colIndex & 0x1;
@@ -110,21 +104,6 @@ Hurd160Engine::Hurd160Engine( int rowIndex, int colIndex ) {
 }
 
 Hurd160Engine::~Hurd160Engine() { }
-
-Hurd160Engine::Hurd160Engine( const Hurd160Engine & p ) 
-{
-  *this = p;
-}
-
-Hurd160Engine & Hurd160Engine::operator=( const Hurd160Engine & p ) {
-  if( this != &p ) {
-    wordIndex = p.wordIndex;
-    for( int i=0; i < 5; ++i ) {
-      words[i] = p.words[i];
-    }
-  }
-  return *this;
-}
 
 void Hurd160Engine::advance() {
      register unsigned int W0, W1, W2, W3, W4;
@@ -155,9 +134,9 @@ double Hurd160Engine::flat() {
     advance();
   }
 
-  return   words[--wordIndex] * twoToMinus_32 + // most significant part
-     (words[--wordIndex]>>11) * twoToMinus_53 + // fill in rest of bits
-                    nearlyTwoToMinus_54;        // make sure non-zero
+  return   words[--wordIndex] * twoToMinus_32() + // most significant part
+     (words[--wordIndex]>>11) * twoToMinus_53() + // fill in rest of bits
+                    nearlyTwoToMinus_54();        // make sure non-zero
 }
 
 void Hurd160Engine::flatArray( const int size, double* vect ) {
@@ -262,7 +241,7 @@ Hurd160Engine::operator float() {
   if( wordIndex <= 1 ) {        // MF 9/15/98:  skip word 0
     advance();
   }
-  return words[--wordIndex ] * twoToMinus_32;
+  return words[--wordIndex ] * twoToMinus_32();
 }
 
 Hurd160Engine::operator unsigned int() {
@@ -367,7 +346,7 @@ std::istream& Hurd160Engine::getState(std::istream& is) {
 
 
 bool Hurd160Engine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<Hurd160Engine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<Hurd160Engine>()) {
     std::cerr << 
     	"\nHurd160Engine get:state vector has wrong ID word - state unchanged\n";
     return false;

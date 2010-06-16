@@ -1,4 +1,4 @@
-// $Id: RandGaussQ.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: RandGaussQ.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -111,9 +111,6 @@ protected:
   static double transformSmall (double r);
 
 private:
-
-  // Private copy constructor. Defining it here disallows use.
-  RandGaussQ(const RandGaussQ& d);
 
   // All the engine info, and the default mean and sigma, are in the RandGauss
   // base class.

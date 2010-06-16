@@ -1,4 +1,4 @@
-// $Id: RandomEngine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RandomEngine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // ------------------------------------------------------------------------
@@ -18,18 +18,15 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandomEngine.h"
 #include "CLHEP/Random/EngineFactory.h"
-#include <cmath>	// for pow()
 
 //------------------------- HepRandomEngine ------------------------------
 
 namespace CLHEP {
 
 HepRandomEngine::HepRandomEngine() 
-: theSeeds(&theSeed),
-  exponent_bit_32( pow(2.,32.) )
-{
-  theSeed = 19780503L;
-}
+: theSeed (19780503L)
+, theSeeds(&theSeed)
+{ }
 
 HepRandomEngine::~HepRandomEngine() {}
 
@@ -42,7 +39,7 @@ HepRandomEngine::operator float() {
 }
 
 HepRandomEngine::operator unsigned int() {
-  return (unsigned int)( flat() * exponent_bit_32 );
+  return (unsigned int)( flat() * exponent_bit_32() );
 }
 
 bool 

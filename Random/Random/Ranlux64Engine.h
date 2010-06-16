@@ -1,4 +1,4 @@
-// $Id: Ranlux64Engine.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: Ranlux64Engine.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -58,12 +58,6 @@ public:
   virtual ~Ranlux64Engine();
   // Constructors and destructor
 
-  Ranlux64Engine(const Ranlux64Engine &p);
-  // Copy constructor
-
-  Ranlux64Engine & operator = (const Ranlux64Engine &p);
-  // Overloaded assignment operator, to retrieve the engine status.
-
   double flat();
   // It returns a pseudo random number between 0 and 1,
   // excluding the end points.
@@ -120,10 +114,6 @@ private:
 
   static int numEngines;	
   static int maxIndex;
-
-  static double twoToMinus_32;
-  static double twoToMinus_48;
-  static double twoToMinus_49;
 
 }; // Ranlux64Engine
 

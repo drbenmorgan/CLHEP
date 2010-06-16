@@ -1,4 +1,4 @@
-// $Id: RandPoissonT.cc,v 1.6 2005/04/27 20:12:50 garren Exp $
+// $Id: RandPoissonT.cc,v 1.7 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -44,10 +44,6 @@ RandPoissonT::RandPoissonT(HepRandomEngine & anEngine, double m )
 
 RandPoissonT::RandPoissonT(HepRandomEngine * anEngine, double m )
 : RandPoisson(anEngine, m)
-{}
-
-RandPoissonT::RandPoissonT(const RandPoissonT& right)
-	: RandPoisson(right)
 {}
 
 RandPoissonT::~RandPoissonT() {

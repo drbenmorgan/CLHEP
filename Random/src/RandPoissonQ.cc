@@ -1,4 +1,4 @@
-// $Id: RandPoissonQ.cc,v 1.6 2005/04/27 20:12:50 garren Exp $
+// $Id: RandPoissonQ.cc,v 1.7 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -29,6 +29,11 @@
 // M Fischler	      - put/get to/from streams uses pairs of ulongs when
 //			+ storing doubles avoid problems with precision 
 //			4/14/05
+// M Fisculer	  - Modified use of shoot (mean) instead of 
+//		    shoot(getLocalEngine(), mean) when fire(mean) is called.  
+//		    This flaw was causing bad "cross-talk" between modules
+//		    in CMS, where one used its own engine, and the other 
+//		    used the static generator.  10/18/07
 //
 // =======================================================================
 
@@ -72,13 +77,6 @@ static const double poissonTables [ 51 * ( (95-10)/5 + 1 ) ] = {
 //
 // Constructors and destructors:
 //
-
-RandPoissonQ::RandPoissonQ(const RandPoissonQ& right) : RandPoisson(right) {
-  a0      = right.a0;
-  a1      = right.a1;
-  a2      = right.a2;
-  sigma   = right.sigma;
-}
 
 RandPoissonQ::~RandPoissonQ() {
 }
@@ -130,7 +128,7 @@ double RandPoissonQ::operator()( double mean ) {
 }
 
 long RandPoissonQ::fire(double mean) {
-  return shoot(mean);
+  return shoot(getLocalEngine(), mean);
 }
 
 long RandPoissonQ::fire() {
@@ -173,27 +171,21 @@ long RandPoissonQ::shoot(HepRandomEngine* anEngine, double mean) {
 } // shoot (anEngine, mean)
 
 void RandPoissonQ::shootArray(const int size, long* vect, double m) {
-   int i;
-   for (i=0; i<size; ++i) {
-     vect[i] = shoot(m);
+  for( long* v = vect; v != vect + size; ++v )
+    *v = shoot(m);
      // Note: We could test for m > 100, and if it is, precompute a0, a1, a2, 
      // and sigma and call the appropriate form of poissonDeviateQuick.  
      // But since those are cached anyway, not much time would be saved.
-   }
 }
 
 void RandPoissonQ::fireArray(const int size, long* vect, double m) {
-   int i;
-   for (i=0; i<size; ++i) {
-     vect[i] = fire( m );
-   }
+  for( long* v = vect; v != vect + size; ++v )
+    *v = fire( m );
 }
 
 void RandPoissonQ::fireArray(const int size, long* vect) {
-   int i;
-   for (i=0; i<size; ++i) {
-     vect[i] = fire( defaultMean );
-   }
+  for( long* v = vect; v != vect + size; ++v )
+    *v = fire( defaultMean );
 }
 
 

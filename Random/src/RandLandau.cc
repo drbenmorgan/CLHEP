@@ -1,4 +1,4 @@
-// $Id: RandLandau.cc,v 1.4 2005/04/27 20:12:50 garren Exp $
+// $Id: RandLandau.cc,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -29,39 +29,26 @@ std::string RandLandau::name() const {return "RandLandau";}
 HepRandomEngine & RandLandau::engine() {return *localEngine;}
 
 RandLandau::~RandLandau() {
-  if ( deleteEngine ) delete localEngine;
 }
-
-RandLandau::RandLandau(const RandLandau& right)
-{}
 
 void RandLandau::shootArray( const int size, double* vect )
                             
 {
-   int i;
-
-   for (i=0; i<size; ++i) {
-     vect[i] = shoot();
-   }
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot();
 }
 
 void RandLandau::shootArray( HepRandomEngine* anEngine,
                             const int size, double* vect )
 {
-   int i;
-
-   for (i=0; i<size; ++i) {
-     vect[i] = shoot(anEngine);
-   }
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot(anEngine);
 }
 
 void RandLandau::fireArray( const int size, double* vect)
 {
-   int i;
-
-   for (i=0; i<size; ++i) {
-     vect[i] = fire();
-   }
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire();
 }
 
 

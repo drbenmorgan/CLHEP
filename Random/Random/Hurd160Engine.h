@@ -1,4 +1,4 @@
-// $Id: Hurd160Engine.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: Hurd160Engine.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -49,10 +49,6 @@ public:
   virtual ~Hurd160Engine();
   // Constructors and destructor.
 
-  Hurd160Engine( const Hurd160Engine &p );
-  Hurd160Engine & operator = ( const Hurd160Engine &p );
-  // Copy constructor and operator=.
-
   double flat();
   // Returns a pseudo random number between 0 and 1
 
@@ -97,10 +93,6 @@ private:
   static int numEngines;
   static int maxIndex;
 
-  static double twoToMinus_32;
-  static double twoToMinus_53;
-  static double nearlyTwoToMinus_54;
-  void powersOfTwo();
   void advance();
 
   int wordIndex;

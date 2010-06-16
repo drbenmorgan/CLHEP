@@ -1,4 +1,4 @@
-// $Id: RandExponential.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RandExponential.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -29,12 +29,7 @@ std::string RandExponential::name() const {return "RandExponential";}
 HepRandomEngine & RandExponential::engine() {return *localEngine;}
 
 RandExponential::~RandExponential() {
-  if ( deleteEngine ) delete localEngine;
 }
-
-RandExponential::RandExponential(const RandExponential& right)
- : defaultMean(right.defaultMean)
-{;}
 
 double RandExponential::operator()() {
   return fire( defaultMean );
@@ -55,36 +50,28 @@ double RandExponential::shoot(double mean) {
 void RandExponential::shootArray( const int size, double* vect,
                                   double mean )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(mean);
+  for( double* v = vect; v != vect+size; ++v )
+    *v = shoot(mean);
 }
 
 void RandExponential::shootArray(HepRandomEngine* anEngine, const int size,
                                    double* vect, double mean )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(anEngine, mean);
+  for( double* v = vect; v != vect+size; ++v )
+    *v = shoot(anEngine, mean);
 }
 
 void RandExponential::fireArray( const int size, double* vect)
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire( defaultMean );
+  for( double* v = vect; v != vect+size; ++v )
+    *v = fire( defaultMean );
 }
 
 void RandExponential::fireArray( const int size, double* vect,
                                  double mean )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire( mean );
+  for( double* v = vect; v != vect+size; ++v )
+    *v = fire( mean );
 }
 
 std::ostream & RandExponential::put ( std::ostream & os ) const {

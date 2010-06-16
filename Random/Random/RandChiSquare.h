@@ -1,4 +1,4 @@
-// $Id: RandChiSquare.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: RandChiSquare.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -27,6 +27,7 @@
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
+#include "CLHEP/Utility/memory.h"
 
 namespace CLHEP {
 
@@ -98,13 +99,9 @@ public:
 
 private:
 
-  // Private copy constructor. Defining it here disallows use.
-  RandChiSquare(const RandChiSquare& d);
-
   static double genChiSquare( HepRandomEngine *anEngine, double a );
 
-  HepRandomEngine* localEngine;
-  bool deleteEngine;
+  shared_ptr<HepRandomEngine> localEngine;
   double defaultA;
 
 };

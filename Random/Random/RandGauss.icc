@@ -1,4 +1,4 @@
-// $Id: RandGauss.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandGauss.icc,v 1.3 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -16,13 +16,13 @@ namespace CLHEP {
 
 inline RandGauss::RandGauss(HepRandomEngine & anEngine, double mean,
                                                         double stdDev )
-: defaultMean(mean), defaultStdDev(stdDev),
-  localEngine(&anEngine), deleteEngine(false), set(false), nextGauss(0.0){}
+: HepRandom(), defaultMean(mean), defaultStdDev(stdDev),
+  localEngine(&anEngine, do_nothing_deleter()), set(false), nextGauss(0.0){}
 
 inline RandGauss::RandGauss(HepRandomEngine * anEngine, double mean,
                                                         double stdDev )
-: defaultMean(mean), defaultStdDev(stdDev),
-  localEngine(anEngine), deleteEngine(true), set(false), nextGauss(0.0) {}
+: HepRandom(), defaultMean(mean), defaultStdDev(stdDev),
+  localEngine(anEngine), set(false), nextGauss(0.0) {}
 
 inline double RandGauss::shoot(double mean, double stdDev) {
   return shoot()*stdDev + mean;

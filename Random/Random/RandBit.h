@@ -1,4 +1,4 @@
-// $Id: RandBit.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: RandBit.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -99,9 +99,6 @@ public:
 
 
 private:
-
-  // Private copy constructor. Defining it here disallows use.
-  RandBit(const RandBit& d);
 
   // All the engine info, and the default A and B, are in the RandFlat
   // base class.

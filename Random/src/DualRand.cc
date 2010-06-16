@@ -1,4 +1,4 @@
-// $Id: DualRand.cc,v 1.4 2005/04/27 20:12:50 garren Exp $
+// $Id: DualRand.cc,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -54,8 +54,7 @@
 #include "CLHEP/Random/DualRand.h"
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include <string.h>
-#include <cmath>	// for ldexp()
+#include <string.h>	// for strcmp
 
 using namespace std;
 
@@ -63,17 +62,7 @@ namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
-double DualRand::twoToMinus_32;
-double DualRand::twoToMinus_53;
-double DualRand::nearlyTwoToMinus_54;
-
 std::string DualRand::name() const {return "DualRand";}
-
-void DualRand::powersOfTwo() {
-  twoToMinus_32 = ldexp (1.0, -32);
-  twoToMinus_53 = ldexp (1.0, -53);
-  nearlyTwoToMinus_54 = ldexp (1.0, -54) - ldexp (1.0, -100); 
-}
 
 // Number of instances with automatic seed selection
 int DualRand::numEngines = 0;
@@ -85,55 +74,44 @@ int DualRand::numEngines = 0;
 // absolutely independent streams.
 
 DualRand::DualRand() 
-: tausworthe (1234567 + numEngines + 175321),
+: HepRandomEngine(),
+  tausworthe (1234567 + numEngines + 175321),
   integerCong(69607 * tausworthe + 54329, numEngines)
 {
-  powersOfTwo();
   theSeed = 1234567;
   ++numEngines;
 }
 
 DualRand::DualRand(long seed)
-: tausworthe ((unsigned int)seed + 175321),
+: HepRandomEngine(),
+  tausworthe ((unsigned int)seed + 175321),
   integerCong(69607 * tausworthe + 54329, 8043) // MF - not numEngines
 {
-  powersOfTwo();
   theSeed = seed;
 }
 
 DualRand::DualRand(std::istream & is) 
+: HepRandomEngine()
 {
   is >> *this;
 }
 
 DualRand::DualRand(int rowIndex, int colIndex)
-: tausworthe (rowIndex + 1000 * colIndex + 85329),
+: HepRandomEngine(),
+  tausworthe (rowIndex + 1000 * colIndex + 85329),
   integerCong(69607 * tausworthe + 54329, 1123) // MF - not numengines
 {
-  powersOfTwo();
   theSeed = rowIndex;
 }
 
 DualRand::~DualRand() { }
 
-DualRand::DualRand( const DualRand & p ) {
-  *this = p;
-}
-
-DualRand & DualRand::operator=( const DualRand & p ) {
-  if( this != &p ) {
-     tausworthe  = p.tausworthe;
-     integerCong = p.integerCong;
-  }
-  return *this;
-}
-
 double DualRand::flat() {
   unsigned int ic ( integerCong );
   unsigned int t  ( tausworthe  );
-  return ( (t  ^ ic) * twoToMinus_32 +              // most significant part
-           (t >> 11) * twoToMinus_53 +              // fill in remaining bits
-           nearlyTwoToMinus_54			    // make sure non-zero
+  return ( (t  ^ ic) * twoToMinus_32() +              // most significant part
+           (t >> 11) * twoToMinus_53() +              // fill in remaining bits
+           nearlyTwoToMinus_54()			    // make sure non-zero
          );
 }
 
@@ -234,8 +212,8 @@ void DualRand::showStatus() const {
 }
 
 DualRand::operator float() {
-  return (float) ( (integerCong ^ tausworthe) * twoToMinus_32 
-		      			+ nearlyTwoToMinus_54    ); 
+  return (float) ( (integerCong ^ tausworthe) * twoToMinus_32() 
+		      			+ nearlyTwoToMinus_54()    ); 
 					// add this so that zero never happens
 }
 
@@ -330,7 +308,7 @@ std::istream & DualRand::getState ( std::istream & is ) {
 }
 
 bool DualRand::get(const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<DualRand>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<DualRand>()) {
     std::cerr << 
     	"\nDualRand get:state vector has wrong ID word - state unchanged\n";
     return false;

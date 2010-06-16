@@ -1,4 +1,4 @@
-// $Id: RandBreitWigner.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RandBreitWigner.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -34,12 +34,7 @@ std::string RandBreitWigner::name() const {return "RandBreitWigner";}
 HepRandomEngine & RandBreitWigner::engine() {return *localEngine;}
 
 RandBreitWigner::~RandBreitWigner() {
-  if ( deleteEngine ) delete localEngine;
 }
-
-RandBreitWigner::RandBreitWigner(const RandBreitWigner& right)
- : defaultA(right.defaultA), defaultB(right.defaultB)
-{;}
 
 double RandBreitWigner::operator()() {
    return fire( defaultA, defaultB );
@@ -104,29 +99,23 @@ double RandBreitWigner::shootM2(double mean, double gamma, double cut )
 
 void RandBreitWigner::shootArray ( const int size, double* vect )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot( 1.0, 0.2 );
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot( 1.0, 0.2 );
 }
 
 void RandBreitWigner::shootArray ( const int size, double* vect,
                                    double a, double b )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot( a, b );
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot( a, b );
 }
 
 void RandBreitWigner::shootArray ( const int size, double* vect,
                                    double a, double b,
                                    double c )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot( a, b, c );
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot( a, b, c );
 }
 
 //----------------
@@ -187,30 +176,24 @@ double RandBreitWigner::shootM2(HepRandomEngine* anEngine,
 void RandBreitWigner::shootArray ( HepRandomEngine* anEngine,
                                    const int size, double* vect )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot( anEngine, 1.0, 0.2 );
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot( anEngine, 1.0, 0.2 );
 }
 
 void RandBreitWigner::shootArray ( HepRandomEngine* anEngine,
                                    const int size, double* vect,
                                    double a, double b )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot( anEngine, a, b );
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot( anEngine, a, b );
 }
 
 void RandBreitWigner::shootArray ( HepRandomEngine* anEngine,
                                    const int size, double* vect,
                                    double a, double b, double c )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot( anEngine, a, b, c );
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot( anEngine, a, b, c );
 }
 
 //----------------
@@ -253,7 +236,7 @@ double RandBreitWigner::fireM2(double mean, double gamma )
 
    if ( gamma == 0.0 ) return mean;
    val = atan(-mean/gamma);
-   rval = RandFlat::shoot(localEngine,val, CLHEP::halfpi);
+   rval = RandFlat::shoot(localEngine.get(),val, CLHEP::halfpi);
    displ = gamma*tan(rval);
 
    return sqrt(mean*mean + mean*displ);
@@ -268,7 +251,7 @@ double RandBreitWigner::fireM2(double mean, double gamma, double cut )
    tmp = max(0.0,(mean-cut));
    lower = atan( (tmp*tmp-mean*mean)/(mean*gamma) );
    upper = atan( ((mean+cut)*(mean+cut)-mean*mean)/(mean*gamma) );
-   rval = RandFlat::shoot(localEngine,lower, upper);
+   rval = RandFlat::shoot(localEngine.get(),lower, upper);
    displ = gamma*tan(rval);
 
    return sqrt(max(0.0, mean*mean + mean*displ));
@@ -276,28 +259,22 @@ double RandBreitWigner::fireM2(double mean, double gamma, double cut )
 
 void RandBreitWigner::fireArray ( const int size, double* vect)
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire(defaultA, defaultB );
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire(defaultA, defaultB );
 }
 
 void RandBreitWigner::fireArray ( const int size, double* vect,
                                   double a, double b )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire( a, b );
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire( a, b );
 }
 
 void RandBreitWigner::fireArray ( const int size, double* vect,
                                   double a, double b, double c )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire( a, b, c );
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire( a, b, c );
 }
 
 

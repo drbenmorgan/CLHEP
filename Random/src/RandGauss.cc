@@ -1,4 +1,4 @@
-// $Id: RandGauss.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RandGauss.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -35,7 +35,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandGauss.h"
 #include "CLHEP/Random/DoubConv.hh"
-#include <string.h>
+#include <string.h>	// for strcmp
 #include <cmath>	// for log()
 
 namespace CLHEP {
@@ -48,13 +48,7 @@ bool RandGauss::set_st = false;
 double RandGauss::nextGauss_st = 0.0;
 
 RandGauss::~RandGauss() {
-  if ( deleteEngine ) delete localEngine;
 }
-
-RandGauss::RandGauss(const RandGauss& right)
- : HepRandom(right.getTheEngine()), 
-   defaultMean(right.defaultMean), defaultStdDev(right.defaultStdDev)
-{;}
 
 double RandGauss::operator()() {
   return fire( defaultMean, defaultStdDev );
@@ -96,10 +90,8 @@ double RandGauss::shoot()
 void RandGauss::shootArray( const int size, double* vect,
                             double mean, double stdDev )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(mean,stdDev);
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot(mean,stdDev);
 }
 
 double RandGauss::shoot( HepRandomEngine* anEngine )
@@ -132,10 +124,8 @@ void RandGauss::shootArray( HepRandomEngine* anEngine,
                             const int size, double* vect,
                             double mean, double stdDev )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(anEngine,mean,stdDev);
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot(anEngine,mean,stdDev);
 }
 
 double RandGauss::normal()
@@ -166,19 +156,15 @@ double RandGauss::normal()
 
 void RandGauss::fireArray( const int size, double* vect)
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire( defaultMean, defaultStdDev );
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire( defaultMean, defaultStdDev );
 }
 
 void RandGauss::fireArray( const int size, double* vect,
                            double mean, double stdDev )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire( mean, stdDev );
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire( mean, stdDev );
 }
 
 void RandGauss::saveEngineStatus ( const char filename[] ) {

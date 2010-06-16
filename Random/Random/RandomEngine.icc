@@ -1,4 +1,4 @@
-// $Id: RandomEngine.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandomEngine.icc,v 1.3 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -14,14 +14,57 @@
 //                - Moved seeds table to HepRandom: 19th March 1998
 // =======================================================================
 
+#include <cmath>
+
 namespace CLHEP {
 
 inline bool HepRandomEngine::operator==(const HepRandomEngine& engine) {
-  return (this==&engine) ? true : false;
+  return (this==&engine);
 }
 
 inline bool HepRandomEngine::operator!=(const HepRandomEngine& engine) {
-  return (this!=&engine) ? true : false;
+  return (this!=&engine);
+}
+
+inline double const HepRandomEngine::exponent_bit_32()  {
+  static double const exponent_bit_32 = std::pow(2.0, 32.0);
+  return exponent_bit_32;
+}
+
+inline double const HepRandomEngine::mantissa_bit_12()  {
+  static double const mantissa_bit_12 = std::pow(0.5, 12.0);
+  return mantissa_bit_12;
+}
+
+inline double const HepRandomEngine::mantissa_bit_24()  {
+  static double const mantissa_bit_24 = std::pow(0.5, 24.0);
+  return mantissa_bit_24;
+}
+
+inline double const HepRandomEngine::twoToMinus_32()  {
+  static double const twoToMinus_32 = std::ldexp(1.0, -32);
+  return twoToMinus_32;
+}
+
+inline double const HepRandomEngine::twoToMinus_48()  {
+  static double const twoToMinus_48 = std::ldexp(1.0, -48);
+  return twoToMinus_48;
+}
+
+inline double const HepRandomEngine::twoToMinus_49()  {
+  static double const twoToMinus_49 = std::ldexp(1.0, -49);
+  return twoToMinus_49;
+}
+
+inline double const HepRandomEngine::twoToMinus_53()  {
+  static double const twoToMinus_53 = std::ldexp(1.0, -53);
+  return twoToMinus_53;
+}
+
+inline double const HepRandomEngine::nearlyTwoToMinus_54()  {
+  static double const nearlyTwoToMinus_54 = std::ldexp(1.0,  -54)
+                                          - std::ldexp(1.0, -100);
+  return nearlyTwoToMinus_54;
 }
 
 }  // namespace CLHEP

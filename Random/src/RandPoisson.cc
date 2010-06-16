@@ -1,4 +1,4 @@
-// $Id: RandPoisson.cc,v 1.6 2005/04/27 20:12:50 garren Exp $
+// $Id: RandPoisson.cc,v 1.7 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,6 +21,8 @@
 // M Fischler	      - put/get to/from streams uses pairs of ulongs when
 //			+ storing doubles avoid problems with precision 
 //			4/14/05
+// Mark Fischler  - Repaired BUG - when mean > 2 billion, was returning
+//                  mean instead of the proper value.  01/13/06
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
@@ -40,12 +42,7 @@ double RandPoisson::oldm_st = -1.0;
 const double RandPoisson::meanMax_st = 2.0E9;
 
 RandPoisson::~RandPoisson() {
-  if ( deleteEngine ) delete localEngine;
 }
-
-RandPoisson::RandPoisson(const RandPoisson& right)
- : meanMax(right.meanMax), defaultMean(right.defaultMean)
-{;}
 
 double RandPoisson::operator()() {
   return double(fire( defaultMean ));
@@ -75,6 +72,21 @@ double gammln(double xx) {
     ser += cof[j]/x;
   }
   return -tmp + log(2.5066282746310005*ser);
+}
+
+static
+double normal (HepRandomEngine* eptr) 		// mf 1/13/06
+{
+  double r;
+  double v1,v2,fac;
+  do {
+    v1 = 2.0 * eptr->flat() - 1.0;
+    v2 = 2.0 * eptr->flat() - 1.0;
+    r = v1*v1 + v2*v2;
+  } while ( r > 1.0 );
+
+  fac = sqrt(-2.0*log(r)/r);
+  return v2*fac;
 }
 
 long RandPoisson::shoot(double xm) {
@@ -124,13 +136,9 @@ long RandPoisson::shoot(double xm) {
     } while( anEngine->flat() > t );
   }
   else {
-    if ( xm != om ) {
-      setOldMean(xm);
-      sq = sqrt(2.0*xm);
-      alxm = log(xm);
-      g = xm*alxm - gammln(xm + 1.0);
-    }
-    em = xm;
+    em = xm + sqrt(xm) * normal (anEngine);	// mf 1/13/06
+    if ( static_cast<long>(em) < 0 ) 
+      em = static_cast<long>(xm) >= 0 ? xm : getMaxMean();
   }    
   setPStatus(sq,alxm,g);
   return long(em);
@@ -138,10 +146,8 @@ long RandPoisson::shoot(double xm) {
 
 void RandPoisson::shootArray(const int size, long* vect, double m)
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(m);
+  for( long* v = vect; v != vect + size; ++v )
+    *v = shoot(m);
 }
 
 long RandPoisson::shoot(HepRandomEngine* anEngine, double xm) {
@@ -190,13 +196,9 @@ long RandPoisson::shoot(HepRandomEngine* anEngine, double xm) {
     } while( anEngine->flat() > t );
   }
   else {
-    if ( xm != om ) {
-      setOldMean(xm);
-      sq = sqrt(2.0*xm);
-      alxm = log(xm);
-      g = xm*alxm - gammln(xm + 1.0);
-    }
-    em = xm;
+    em = xm + sqrt(xm) * normal (anEngine);	// mf 1/13/06
+    if ( static_cast<long>(em) < 0 ) 
+      em = static_cast<long>(xm) >= 0 ? xm : getMaxMean();
   }    
   setPStatus(sq,alxm,g);
   return long(em);
@@ -205,10 +207,8 @@ long RandPoisson::shoot(HepRandomEngine* anEngine, double xm) {
 void RandPoisson::shootArray(HepRandomEngine* anEngine, const int size,
                              long* vect, double m)
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = shoot(anEngine,m);
+  for( long* v = vect; v != vect + size; ++v )
+    *v = shoot(anEngine,m);
 }
 
 long RandPoisson::fire() {
@@ -259,13 +259,9 @@ long RandPoisson::fire(double xm) {
     } while( localEngine->flat() > t );
   }
   else {
-    if ( xm != oldm ) {
-      oldm = xm;
-      sq = sqrt(2.0*xm);
-      alxm = log(xm);
-      g = xm*alxm - gammln(xm + 1.0);
-    }
-    em = xm;
+    em = xm + sqrt(xm) * normal (localEngine.get());	// mf 1/13/06
+    if ( static_cast<long>(em) < 0 ) 
+      em = static_cast<long>(xm) >= 0 ? xm : getMaxMean();
   }    
   status[0] = sq; status[1] = alxm; status[2] = g;
   return long(em);
@@ -273,18 +269,14 @@ long RandPoisson::fire(double xm) {
 
 void RandPoisson::fireArray(const int size, long* vect )
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire( defaultMean );
+  for( long* v = vect; v != vect + size; ++v )
+    *v = fire( defaultMean );
 }
 
 void RandPoisson::fireArray(const int size, long* vect, double m)
 {
-   int i;
-
-   for (i=0; i<size; ++i)
-     vect[i] = fire( m );
+  for( long* v = vect; v != vect + size; ++v )
+    *v = fire( m );
 }
 
 std::ostream & RandPoisson::put ( std::ostream & os ) const {

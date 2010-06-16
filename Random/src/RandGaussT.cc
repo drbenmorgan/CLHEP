@@ -1,4 +1,4 @@
-// $Id: RandGaussT.cc,v 1.4 2005/04/27 20:12:50 garren Exp $
+// $Id: RandGaussT.cc,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -25,9 +25,6 @@ HepRandomEngine & RandGaussT::engine() {return RandGauss::engine();}
 RandGaussT::~RandGaussT() {
 }
 
-RandGaussT::RandGaussT(const RandGaussT& right) :  RandGauss(right) {
-}
-
 double RandGaussT::operator()() {
   return HepStat::flatToGaussian(localEngine->flat()) * defaultStdDev 
 								+ defaultMean;
@@ -40,41 +37,29 @@ double RandGaussT::operator()( double mean, double stdDev ) {
 void RandGaussT::shootArray( const int size, double* vect,
                             double mean, double stdDev )
 {
-   int i;
-
-   for (i=0; i<size; ++i) {
-     vect[i] = shoot(mean,stdDev);
-   }
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot(mean,stdDev);
 }
 
 void RandGaussT::shootArray( HepRandomEngine* anEngine,
                             const int size, double* vect,
                             double mean, double stdDev )
 {
-   int i;
-
-   for (i=0; i<size; ++i) {
-     vect[i] = shoot(anEngine,mean,stdDev);
-   }
+  for( double* v = vect; v != vect + size; ++v )
+    *v = shoot(anEngine,mean,stdDev);
 }
 
 void RandGaussT::fireArray( const int size, double* vect)
 {
-   int i;
-
-   for (i=0; i<size; ++i) {
-     vect[i] = fire( defaultMean, defaultStdDev );
-   }
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire( defaultMean, defaultStdDev );
 }
 
 void RandGaussT::fireArray( const int size, double* vect,
                            double mean, double stdDev )
 {
-   int i;
-
-   for (i=0; i<size; ++i) {
-     vect[i] = fire( mean, stdDev );
-   }
+  for( double* v = vect; v != vect + size; ++v )
+    *v = fire( mean, stdDev );
 }
 
 std::ostream & RandGaussT::put ( std::ostream & os ) const {

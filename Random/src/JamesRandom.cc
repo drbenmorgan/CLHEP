@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: JamesRandom.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -41,9 +41,9 @@
 #include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include "CLHEP/Random/DoubConv.hh"
-#include <string.h>
+#include <string.h>	// for strcmp
 #include <cmath>
-#include <stdlib.h>
+#include <cstdlib>
 
 //#define TRACE_IO
 
@@ -60,20 +60,21 @@ int HepJamesRandom::numEngines = 0;
 int HepJamesRandom::maxIndex = 215;
 
 HepJamesRandom::HepJamesRandom(long seed)
+: HepRandomEngine()
 {
   setSeed(seed,0);
   setSeeds(&theSeed,0);
 }
 
 HepJamesRandom::HepJamesRandom()     	// 15 Feb. 1998  JMM
+: HepRandomEngine()
 {
   long seeds[2];
   long seed;
-  int cycle,curIndex;
 
-  cycle = abs(int(numEngines/maxIndex));
-  curIndex = abs(int(numEngines%maxIndex));
-  numEngines += 1;
+  int cycle = abs(int(numEngines/maxIndex));
+  int curIndex = abs(int(numEngines%maxIndex));
+  ++numEngines;
   long mask = ((cycle & 0x007fffff) << 8);
   HepRandom::getTheTableSeeds( seeds, curIndex );
   seed = seeds[0]^mask;
@@ -82,6 +83,7 @@ HepJamesRandom::HepJamesRandom()     	// 15 Feb. 1998  JMM
 }
 
 HepJamesRandom::HepJamesRandom(int rowIndex, int colIndex) // 15 Feb. 1998  JMM
+: HepRandomEngine()
 {
   long seed;
    long seeds[2];
@@ -97,42 +99,12 @@ HepJamesRandom::HepJamesRandom(int rowIndex, int colIndex) // 15 Feb. 1998  JMM
 }
 
 HepJamesRandom::HepJamesRandom(std::istream& is)
+: HepRandomEngine()
 {
   is >> *this;
 }
 
 HepJamesRandom::~HepJamesRandom() {}
-
-HepJamesRandom::HepJamesRandom(const HepJamesRandom &p)
-{
-  int ipos, jpos;
-  if ((this != &p) && (&p)) {
-    theSeed = p.getSeed();
-    setSeeds(&theSeed,0);
-    for (int i=0; i<97; ++i)
-      u[i] = p.u[i];
-    c = p.c; cd = p.cd; cm = p.cm;
-    jpos = p.j97;
-    ipos = (64+jpos)%97;
-    i97 = ipos; j97 = jpos;
-  }
-}
-
-HepJamesRandom & HepJamesRandom::operator = (const HepJamesRandom &p)
-{
-  int ipos, jpos;
-  if ((this != &p) && (&p)) {
-    theSeed = p.getSeed();
-    setSeeds(&theSeed,0);
-    for (int i=0; i<97; ++i)
-      u[i] = p.u[i];
-    c = p.c; cd = p.cd; cm = p.cm;
-    jpos = p.j97;
-    ipos = (64+jpos)%97;
-    i97 = ipos; j97 = jpos;
-  }
-  return *this;
-}
 
 void HepJamesRandom::saveStatus( const char filename[] ) const
 {
@@ -320,8 +292,8 @@ void HepJamesRandom::flatArray(const int size, double* vect)
 }
 
 HepJamesRandom::operator unsigned int() {
-   return (unsigned int)(flat() * exponent_bit_32) & 0xffffffff   |
-         ((unsigned int)( u[i97] * exponent_bit_32)>>16)  & 0xff;
+   return ((unsigned int)(flat() * exponent_bit_32()) & 0xffffffff )  |
+         (((unsigned int)( u[i97] * exponent_bit_32())>>16)  & 0xff);
 }
 
 std::ostream & HepJamesRandom::put ( std::ostream& os ) const {
@@ -436,7 +408,7 @@ std::istream & HepJamesRandom::getState  ( std::istream& is) {
 }
 
 bool HepJamesRandom::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<HepJamesRandom>()) {
+  if ( (v[0] & 0xffffffffUL) != engineIDulong<HepJamesRandom>()) {
     std::cerr << 
     	"\nHepJamesRandom get:state vector has wrong ID word - state unchanged\n";
     return false;

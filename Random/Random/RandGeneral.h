@@ -1,4 +1,4 @@
-// $Id: RandGeneral.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: RandGeneral.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -28,6 +28,7 @@
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
+#include "CLHEP/Utility/memory.h"
 #include <vector>
 
 namespace CLHEP {
@@ -53,7 +54,7 @@ public:
 		int IntType=0 );
   // These constructors should be used to instantiate a RandGeneral
   // distribution object defining a local engine for it.
-  // The static generator will be skiped by using the non-static methods
+  // The static generator will be skipped by using the non-static methods
   // defined below. In case no engine is specified in the constructor, the
   // default engine used by the static generator is applied.
   // If the engine is passed by pointer the corresponding engine object
@@ -128,11 +129,7 @@ public:
 
 private:
 
-  // Private copy constructor. Declaring it here disallows use.
-  RandGeneral(const RandGeneral&);
-
-  HepRandomEngine* localEngine;
-  bool deleteEngine;
+  shared_ptr<HepRandomEngine> localEngine;
   std::vector<double> theIntegralPdf;
   int nBins;
   double oneOverNbins;

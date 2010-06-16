@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DRand48Engine.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: DRand48Engine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -----------------------------------------------------------------------
 //                             HEP Random
 //                        --- DRand48Engine ---
@@ -35,7 +35,7 @@
 #include "CLHEP/Random/DRand48Engine.h"
 #include "CLHEP/Random/RandomFunc.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include <string.h>
+#include <string.h>	// for strcmp
 
 //#define TRACE_IO
 
@@ -51,20 +51,21 @@ std::string DRand48Engine::name() const {return "DRand48Engine";}
 int DRand48Engine::maxIndex = 215;
 
 DRand48Engine::DRand48Engine(long seed)
+: HepRandomEngine()
 {
    setSeed(seed,0);
    setSeeds(&theSeed,0);
 }
 
 DRand48Engine::DRand48Engine()
+: HepRandomEngine()
 {
    long seeds[2];
    long seed;
-   int cycle,curIndex;
 
-   cycle = abs(int(numEngines/maxIndex));
-   curIndex = abs(int(numEngines%maxIndex));
-   numEngines += 1;
+   int cycle = abs(int(numEngines/maxIndex));
+   int curIndex = abs(int(numEngines%maxIndex));
+   ++numEngines;
    long mask = ((cycle & 0x007fffff) << 8);
    HepRandom::getTheTableSeeds( seeds, curIndex );
    seed = seeds[0]^mask;
@@ -73,6 +74,7 @@ DRand48Engine::DRand48Engine()
 }
 
 DRand48Engine::DRand48Engine(int rowIndex, int colIndex)
+: HepRandomEngine()
 {
    long seed;
    long seeds[2];
@@ -88,34 +90,12 @@ DRand48Engine::DRand48Engine(int rowIndex, int colIndex)
 }
 
 DRand48Engine::DRand48Engine(std::istream& is)
+: HepRandomEngine()
 {
    is >> *this;
 }
 
 DRand48Engine::~DRand48Engine() {}
-
-DRand48Engine::DRand48Engine(const DRand48Engine &p)
-{
-  // Assignment and copy of DRand48Engine objects may provoke
-  // undesired behavior in a single thread environment.
-  
-  std::cerr << "!!! WARNING !!! - Illegal operation." << std::endl;
-  std::cerr << "- Copy constructor and operator= are NOT allowed on "
-	    << "DRand48Engine objects -" << std::endl;
-  *this = p;
-}
-
-DRand48Engine & DRand48Engine::operator = (const DRand48Engine &p)
-{
-  // Assignment and copy of DRand48Engine objects may provoke
-  // undesired behavior in a single thread environment.
-
-  std::cerr << "!!! WARNING !!! - Illegal operation." << std::endl;
-  std::cerr << "- Copy constructor and operator= are NOT allowed on "
-	    << "DRand48Engine objects -" << std::endl;
-  *this = p;
-  return *this;
-}
 
 void DRand48Engine::setSeed(long seed, int)
 {
@@ -348,7 +328,7 @@ std::istream & DRand48Engine::getState ( std::istream& is )
 }
 
 bool DRand48Engine::get (const std::vector<unsigned long> & v) {
-  if (v[0] != engineIDulong<DRand48Engine>()) {
+  if ((v[0] & 0xffffffffUL) != engineIDulong<DRand48Engine>()) {
     std::cerr << 
     	"\nDRand48Engine get:state vector has wrong ID word - state unchanged\n";
     return false;

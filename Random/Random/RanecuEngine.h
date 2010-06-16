@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: RanecuEngine.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -55,12 +55,6 @@ public:
   virtual ~RanecuEngine();
   // Constructors and destructor.
 
-  RanecuEngine(const RanecuEngine &p);
-  // Copy constructor
-
-  RanecuEngine & operator = (const RanecuEngine &p);
-  // Overloaded assignment operator, to retrieve the engine status.
-
   double flat();
   // Returns a pseudo random number between 0 and 1 
   // (excluding the end points)
@@ -110,9 +104,14 @@ protected:
 
   // Suggested L'ecuyer coefficients for portable 32 bits generators.
   
-  const int ecuyer_a, ecuyer_b, ecuyer_c, ecuyer_d, ecuyer_e, ecuyer_f;
-  const int shift1, shift2;
-  const double prec;
+  static const int ecuyer_a = 40014;
+  static const int ecuyer_b = 53668;
+  static const int ecuyer_c = 12211;
+  static const int ecuyer_d = 40692;
+  static const int ecuyer_e = 52774;
+  static const int ecuyer_f = 3791;
+  static const int shift1   = 2147483563;
+  static const int shift2   = 2147483399;
 
   static const unsigned int VECTOR_STATE_SIZE = 4;
   
@@ -120,7 +119,7 @@ private:
 
   // Members defining the current state of the generator.
 
-  const int maxSeq;
+  static const int maxSeq = 215;
   long table[215][2];
   int seq;
   static int numEngines;

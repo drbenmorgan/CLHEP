@@ -1,4 +1,4 @@
-// $Id: RanshiEngine.h,v 1.4 2005/04/27 20:12:49 garren Exp $
+// $Id: RanshiEngine.h,v 1.5 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -61,10 +61,6 @@ public:
     virtual ~RanshiEngine();
     // Constructors and destructor
 
-    RanshiEngine(const RanshiEngine &p);
-    RanshiEngine & operator = (const RanshiEngine &p);
-    // Copy constructor and operator=
-
     double flat();
     // Returns a pseudo random number between 0 and 1
 
@@ -104,11 +100,6 @@ public:
   bool getState (const std::vector<unsigned long> & v);
   
 private:
-    static double twoToMinus_32;
-    static double twoToMinus_53;
-    static double nearlyTwoToMinus_54;
-    void powersOfTwo();
-
     static int numEngines;
     enum {numBuff = 512};
 

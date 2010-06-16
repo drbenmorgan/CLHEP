@@ -1,4 +1,4 @@
-// $Id: RandFlat.cc,v 1.5 2005/04/27 20:12:50 garren Exp $
+// $Id: RandFlat.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandFlat.h"
 #include "CLHEP/Random/DoubConv.hh"
-#include <string.h>
+#include <string.h>	// for strcmp
 
 namespace CLHEP {
 
@@ -43,14 +43,7 @@ std::string RandFlat::name() const {return "RandFlat";}
 HepRandomEngine & RandFlat::engine() {return *localEngine;}
 
 RandFlat::~RandFlat() {
-  if ( deleteEngine ) delete localEngine;
 }
-
-RandFlat::RandFlat(const RandFlat& right)
- : HepRandom(right.getTheEngine()),
-   defaultWidth(right.defaultWidth), defaultA(right.defaultA),
-   defaultB(right.defaultB)
-{;}
 
 double RandFlat::operator()() {
   return fire( defaultA, defaultB );

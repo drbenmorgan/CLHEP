@@ -1,4 +1,4 @@
-// $Id: RandFlat.icc,v 1.2 2003/07/17 19:20:02 garren Exp $
+// $Id: RandFlat.icc,v 1.3 2010/06/16 17:24:53 garren Exp $
 // -*- C++ -*-
 // 
 // -----------------------------------------------------------------------
@@ -22,29 +22,29 @@
 namespace CLHEP {
 
 inline RandFlat::RandFlat(HepRandomEngine & anEngine)
-: firstUnusedBit(0), localEngine(&anEngine), deleteEngine(false), 
+: HepRandom(), firstUnusedBit(0), localEngine(&anEngine, do_nothing_deleter()),
   defaultWidth(1.0), defaultA(0.0), defaultB(1.0) {}
 
 inline RandFlat::RandFlat(HepRandomEngine & anEngine, double width )
-: firstUnusedBit(0), localEngine(&anEngine), deleteEngine(false), 
+: HepRandom(), firstUnusedBit(0), localEngine(&anEngine, do_nothing_deleter()),
   defaultWidth(width), defaultA(0.0), defaultB(width) {}
 
 inline RandFlat::RandFlat(HepRandomEngine & anEngine, double a,
                                                       double b )
-: firstUnusedBit(0), localEngine(&anEngine), deleteEngine(false), 
+: HepRandom(), firstUnusedBit(0), localEngine(&anEngine, do_nothing_deleter()),
   defaultWidth(b-a), defaultA(a), defaultB(b) {}
 
 inline RandFlat::RandFlat(HepRandomEngine * anEngine)
-: firstUnusedBit(0), localEngine(anEngine), deleteEngine(true), 
+: HepRandom(), firstUnusedBit(0), localEngine(anEngine),
   defaultWidth(1.0), defaultA(0.0), defaultB(1.0) {}
 
 inline RandFlat::RandFlat(HepRandomEngine * anEngine, double width )
-: firstUnusedBit(0), localEngine(anEngine), deleteEngine(true), 
+: HepRandom(), firstUnusedBit(0), localEngine(anEngine),
   defaultWidth(width), defaultA(0.0), defaultB(width) {}
 
 inline RandFlat::RandFlat(HepRandomEngine * anEngine, double a,
                                                       double b )
-: firstUnusedBit(0), localEngine(anEngine), deleteEngine(true), 
+: HepRandom(), firstUnusedBit(0), localEngine(anEngine),
   defaultWidth(b-a), defaultA(a), defaultB(b) {}
 
 inline double RandFlat::shoot(double a, double b) {
