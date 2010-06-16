@@ -1,3 +1,28 @@
+
+2009/06/26  boudreau
+
+	*  GenericFunctions/src/AnalyticConvolution.cc: 
+	   add protection to gauss and exp
+
+2008/11/19  boudreau
+
+	*  GenericFunctions/GenericFunctions/CutBase.icc: fix compiler warnings
+
+2007-01-23  boudreau
+
+	*  GenericFunctions/src/AnalyticConvolution.cc: patch for sigma=0
+
+2007/01/21  boudreau
+
+	*  GenericFunctions/GenericFunctions/AbsFunction.hh: 
+	   use new ParameterComposition
+	*  GenericFunctions/GenericFunctions/Bessel.icc: 
+	   bug fix (remove extra "inline")
+
+	*  GenericFunctions: added Airy.hh Gamma.hh GammaDistribution.hh 
+	   KroneckerDelta.hh Legendre.hh ParameterComposition.hh 
+	   SymToArgAdaptor.hh
+
 ==============================
 11.06.10 Release CLHEP-2.0.5.0.b01
 ==============================
