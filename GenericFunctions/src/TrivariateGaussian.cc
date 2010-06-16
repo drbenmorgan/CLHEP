@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: TrivariateGaussian.cc,v 1.7 2004/04/20 15:03:52 pfeiffer Exp $
+// $Id: TrivariateGaussian.cc,v 1.8 2010/06/16 18:22:01 garren Exp $
 // ---------------------------------------------------------------------------
 
 #include "CLHEP/GenericFunctions/defs.h"
@@ -8,7 +8,9 @@
 #include <cmath>      // for exp()
 
 #if (defined __STRICT_ANSI__) || (defined _WIN32)
+#ifndef M_PI
 #define M_PI            3.14159265358979323846
+#endif // M_PI
 #endif // __STRICT_ANSI__
 
 namespace Genfun {

@@ -1,7 +1,7 @@
 // -*- C++ -*-
 // $Id: 
 #include "gsl/gsl_sf_ellint.h"
-#include <math.h>
+#include <cmath>
 #include <signal.h>
 #include <assert.h>
 

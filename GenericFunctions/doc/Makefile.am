@@ -9,17 +9,21 @@ doc_srcdir = $(top_srcdir)/doc
 doc_builddir = $(top_builddir)/doc
 doc_installdir = $(prefix)/doc/@PACKAGE@
 
-DOC_POSTSCRIPT = genericFunctions.ps
+DOC_POSTSCRIPT = genericFunctions.ps genericFunctions.pdf
 DOC_INCLUDES = example.ps \
                hydrogen.ps \
 	       PartiallyClosed.ps \
 	       TotallyClosed.ps \
-	       WideOpen.ps
+	       WideOpen.ps \
+	       psfig.sty
 
-SUFFIXES = .ps .dvi .tex
+SUFFIXES = .ps .pdf .dvi .tex
 
 .dvi.ps:
 	dvips -o $@ $(@:.ps=.dvi)
+
+.dvi.pdf:
+	dvipdf $(@:.pdf=.dvi)
 
 all: docs
 
@@ -33,6 +37,7 @@ get-includes:
 install-docs:
 	$(mkinstalldirs) $(DESTDIR)$(doc_installdir)
 	$(INSTALL_DATA) $(doc_builddir)/genericFunctions.ps $(DESTDIR)$(doc_installdir)/genericFunctions.ps
+	$(INSTALL_DATA) $(doc_builddir)/genericFunctions.pdf $(DESTDIR)$(doc_installdir)/genericFunctions.pdf
 
 
 # Identify generated file(s) to be removed when 'make clean' is requested:

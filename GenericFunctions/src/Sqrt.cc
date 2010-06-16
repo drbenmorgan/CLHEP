@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Sqrt.cc,v 1.6 2004/04/29 02:47:30 garren Exp $
+// $Id: Sqrt.cc,v 1.7 2010/06/16 18:22:01 garren Exp $
 #include "CLHEP/GenericFunctions/Sqrt.hh"
 #include <assert.h>
 #include <cmath>	// for sqrt

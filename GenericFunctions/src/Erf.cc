@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Erf.cc,v 1.5 2003/11/20 20:08:15 pfeiffer Exp $
+// $Id: Erf.cc,v 1.6 2010/06/16 18:22:01 garren Exp $
 
 #include <cmath>
 

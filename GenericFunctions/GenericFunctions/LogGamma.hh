@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: LogGamma.hh,v 1.2 2003/09/06 14:04:13 boudreau Exp $
+// $Id: LogGamma.hh,v 1.3 2010/06/16 18:22:01 garren Exp $
 //---------------------Logarithm of Gamma Function--------------------------//
 //                                                                          //
 // Class LogGamma                                                           //
@@ -34,9 +34,6 @@ namespace Genfun {
     // Retreive function value
     virtual double operator ()(double argument) const;
     virtual double operator ()(const Argument & a) const {return operator() (a[0]);}
-    
-    // Get the sigma
-    Parameter & sigma(); 
     
   private:
     
