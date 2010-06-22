@@ -1,0 +1,171 @@
+	RanecuEngine -- Theory behind it and practical consequences
+	------------------------------------------------------------
+
+The RanecuEngine engine in CLHEP combines (by difference mod 2147483563)
+the outputs of two linear congruential algorithms.  These are chosen
+for periods of roughly 2 billion each, and assumedly the difference 
+has a period which is roughly the product of those periods.  Fundamentally,
+the state of the engine, kept in two long (32-bits used) words, is almost
+62 bits long.  
+
+There may be a paper by L'Ecuyer expounding the theory in more detail; 
+if so it may be among the CERNLIB documentation.
+
+The two linear congurential algorithms share the same form:
+
+$X_{n+1} = (a * x_n) \mod m$
+
+The two generators have values of a as 40014 and 40692, respectively.
+The latter is quoted in Knuth as "a good multiplier, due to P. L'Ecuyer
+[CACM 31 (1988) 742-749, 774], and appears as line 21 of table 1 in 
+section 3.3.4 of Knuth.  The period of the former is 2^{331}-85; of the
+latter 2^{331}-249.  
+
+These are implemented in 32-bit arithmetic via the usual tricks:
+numbers b and c are pre-computed, such that both are smaller 
+than 2^{16} (to avoid multiplicative overflow issues) and the modulus 
+m = a*b + c.  Then (with [p/q] defined as the greatest integer <= p/q):
+
+$a*x =  a*x - a*b*[x/b] - c*[x/b] + m*[x/b] = a*(x-b*[x/b]) - c*[x/b] * m*[x/b]$
+
+so $a*x \mod m = ( a*(x-b*[x/b]) - c*[x/b] ) \mod m$
+
+In the code, a, b, c and m for the first algorithm are labeled as
+ecuyer_a(40014),ecuyer_b(53668),ecuyer_c(12211), and shift1(2147483563)
+and a, b, c, and m for the second algorithm are labeled as 
+ecuyer_d(40692),ecuyer_e(52774),ecuyer_f(3791), and shift2(2147483399).
+One can verify that a*b + c = m for each of these cases.
+
+We now have two variates, the first between 1 and shift1-1 (inclusive); 
+the value zero cannot occur.  The second is between 1 and shift2-1.  
+Finally, a number between 1 and shift1-1 is formed by taking the difference
+between the two variates, and adding shift1-1 if negative.  This number is 
+normalized to deliver a double.  The intent is clearly to use 1.0/shift1 as 
+the normalization.  The number used, prec(4.6566128E-10) is off by a bit.
+
+Notice how seed1 and seed2 (the x values in the above algorithms) are kept - 
+as entries in a 215 by 2 array of doubles.  Fortunately, this array is a 
+private class variable, thus the data for two instances will not collide.
+However, a consequence is that the size of the generator is 430 longs,
+rather than two 32-bit integers.  The variable seq is never changed after
+initial seeding, so nothing at all is gained by this increased size!
+
+(Actually, there is some effect of having the table:  A public method setIndex
+allows one to pop over to a differnent pair of seeds.  This goes back to the
+old Fortran way of thinking, where since there was only one instance, there 
+ought to be some way to get multiple independent streams out of that one
+instance.)
+
+The seeing is based on supplied 215x2 tables, but the latest version 
+incorporates all the info in the index so that the chance of accidental
+collisions is minimized.
+
+Key Code Fragments:
+-------------------
+
+Various parameters are set in initializer lists; these 
+don't vary among the ctors so one example should suffice:
+
+RanecuEngine::RanecuEngine(int index)
+: ecuyer_a(40014),ecuyer_b(53668),ecuyer_c(12211),
+  ecuyer_d(40692),ecuyer_e(52774),ecuyer_f(3791),
+  shift1(2147483563),shift2(2147483399),
+  prec(4.6566128E-10 )
+
+The code for flat() is as follows:
+	
+double RanecuEngine::flat()
+{
+   const int index = seq;
+   long seed1 = table[index][0];
+   long seed2 = table[index][1];
+
+   int k1 = (int)(seed1/ecuyer_b);
+   int k2 = (int)(seed2/ecuyer_e);
+
+   seed1 = ecuyer_a*(seed1-k1*ecuyer_b)-k1*ecuyer_c;
+   if (seed1 < 0) seed1 += shift1;
+   seed2 = ecuyer_d*(seed2-k2*ecuyer_e)-k2*ecuyer_f;
+   if (seed2 < 0) seed2 += shift2;
+
+   table[index][0] = seed1;
+   table[index][1] = seed2;
+
+   long diff = seed1-seed2;
+
+   if (diff <= 0) diff += (shift1-1);
+   return (double)(diff*prec);
+}
+
+The following F77 code was found on
+http://www-numi.fnal.gov/offline_software/
+srt_public_context/WebDocs/random_numbers.html#grndm1
+
+        K = ISEED1/53668
+        ISEED1 = 40014*(ISEED1 - K*53668) - K*12211
+        IF (ISEED1 .LT. 0) ISEED1=ISEED1+2147483563
+
+        K = ISEED2/52774
+        ISEED2 = 40692*(ISEED2 - K*52774) - K* 3791
+        IF (ISEED2 .LT. 0) ISEED2=ISEED2+2147483399
+
+        IZ = ISEED1 - ISEED2
+        IF (IZ .LE. 0)  IZ = IZ + 2147483562
+
+Although this refers to a routine GRNDM it is clearly the routine
+being implemented in Ranecu.  Note that the algorithm is identical,
+and neither does any addition of 1.  
+
+
+
+
+
+Properties of RanecuEngine:
+---------------------------
+
+Size:
+
+  430 longs, 9 ints and a double per instance.  This could easily be improved 
+  to 2 32-bit ints per instance.
+
+Speed:
+
+  Dominated by 4 table accesses, 2 integer divides, and 3 ifs per variate.
+  This is assumedly very fast.
+  
+Initialization Cost:
+
+  430 simple operations to initialize all the table entries; could without
+  pain be reduced by a factor of a hundred or so if we went to just keeping
+  the 2-word state.  
+
+Discard Cost:
+
+  In principle, the cost of advancing by many variates can be sped up 
+  considerably by pre-computing linear congruential coefficients for
+  a^k mod m, corresponding to application of a sequence of every k 
+  elements of each of the component linear congruences.  This, however,
+  has not been done in the CLHEP implementation. 
+
+Quality:
+
+  Because the scaling factor used to deliver a double from the int is a 
+  tad too small, the mean, which should be exactly .5, will be off by about
+  5 553 parts in 10^{-10}.  So, while the correlation behavior is excellent,
+  a serious test of mean would eventually fail.  However, this would require
+  10^16 samples to detect, so it should be OK.
+
+Addressible Issues:	
+	
+  * An earlier issue with seeding has been rectified.
+  
+  * Fixing up the mean would be an easy, and in principle proper, step.
+  
+  * If we are willing to live without the setIndex functionallity, we could
+    improve both the size and the startup cost by factors of a hundred or
+    more. 
+    
+  * If we were to improve the size, then we should also turn the various int
+    and long data members expressing l'Ecuyer coefficients and moduli, into
+    static const ints so they don't beef up the size of each instance. 
+  

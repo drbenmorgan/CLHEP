@@ -117,11 +117,12 @@ Hurd160Engine		C	A	E	B	B
 Hurd288Engine		C	A	E	B	B
 JamesRandom		C	D	E	D	D
 MTwistEngine		C	A	E	A	A	very strong
-RanecuEngine		C	F	F	F	F	bad seeding
+RanecuEngine		C	F	F	F	A	bad seeding
 Ranlux64Engine		C	A	E	A	A	ctor adds lux
 RanluxEngine		C	A	E	A	A	ctor adds lux
 RanshiEngine		A	A	A	B	A	very strong
 TripleRand		A	A	A	B	B	very strong
+RanecuEngine (revised)	C	A	A	A	F	common seeding OK
 
 The suggested modifications we should make are as follows:
 
