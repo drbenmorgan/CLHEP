@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.cc,v 1.4.4.2.2.6 2010/03/08 23:47:09 garren Exp $
+// $Id: RanecuEngine.cc,v 1.4.4.2.2.7 2010/06/22 23:09:29 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -48,6 +48,12 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 
 std::string RanecuEngine::name() const {return "RanecuEngine";}
 
+static void further_randomize (long & tableEntry, int index, int modulus)
+{
+  tableEntry -= ((index&&0x3FFFFFFF)>>2);
+  while (tableEntry <= 0) tableEntry += (modulus-1);
+}  // mf 6/22/10
+
 // Number of instances with automatic seed selection
 int RanecuEngine::numEngines = 0;
 
@@ -87,6 +93,7 @@ RanecuEngine::RanecuEngine(int index)
     table[j][1] ^= mask;
   }
   theSeeds = &table[seq][0];
+  further_randomize (table[seq][0], index, shift1);     // mf 6/22/10
 }
 
 RanecuEngine::RanecuEngine(std::istream& is)
@@ -129,12 +136,14 @@ RanecuEngine & RanecuEngine::operator = (const RanecuEngine &p)
   return *this;
 }
 
-void RanecuEngine::setSeed(long index, int)
+void RanecuEngine::setSeed(long index, int dum)
 {
   seq = abs(int(index%maxSeq));
   theSeed = seq;
   HepRandom::getTheTableSeeds(table[seq],seq);
   theSeeds = &table[seq][0];
+  further_randomize (table[seq][0], index, shift1);     // mf 6/22/10
+  further_randomize (table[seq][1], dum,   shift2);     // mf 6/22/10
 }
 
 void RanecuEngine::setSeeds(const long* seeds, int pos)
