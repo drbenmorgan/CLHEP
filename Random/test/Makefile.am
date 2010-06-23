@@ -31,7 +31,7 @@ check_PROGRAMS = \
 	testRandom testRandDists gaussSpeed gaussSmall \
 	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
 	testStaticStreamSave testAnonymousEngineRestore testVectorSave \
-	testBug58950
+	testBug58950 testEngineCopy testRanecuSequence
 
 check_SCRIPTS = \
 	testRandom.sh testRandDists.sh
@@ -48,7 +48,7 @@ TESTS = \
 	testRandom.sh testRandDists.sh \
 	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
 	testStaticStreamSave testAnonymousEngineRestore testVectorSave \
-	testBug58950
+	testBug58950 testEngineCopy testRanecuSequence
 endif
 
 # Identify the test(s) for which failure is the intended outcome:
@@ -64,6 +64,8 @@ testStaticStreamSave_SOURCES = testStaticStreamSave.cc
 testAnonymousEngineRestore_SOURCES = testAnonymousEngineRestore.cc
 testVectorSave_SOURCES = testVectorSave.cc
 testBug58950_SOURCES = testBug58950.cc
+testEngineCopy_SOURCES = testEngineCopy.cc
+testRanecuSequence_SOURCES = testRanecuSequence.cc
 gaussSpeed_SOURCES = gaussSpeed.cc
 gaussSmall_SOURCES = gaussSmall.cc
 
@@ -79,7 +81,7 @@ CLEANFILES = testRandom.sh testRandDists.sh  \
 	testSaveEngineStatus.cout testInstanceRestore.cout \
 	testSaveSharedEngines.cout testStaticStreamSave.cout \
 	testAnonymousEngineRestore.cout testVectorSave.cout \
-	anonymous.save
+	anonymous.save testRanecuSequence.output
 
 # supply our own suffix rule
 .cc.obj:

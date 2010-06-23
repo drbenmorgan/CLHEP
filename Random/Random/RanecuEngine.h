@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.h,v 1.3.4.2.2.1 2009/12/01 19:01:44 garren Exp $
+// $Id: RanecuEngine.h,v 1.3.4.2.2.2 2010/06/23 20:49:50 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -117,6 +117,9 @@ protected:
   static const unsigned int VECTOR_STATE_SIZE = 4;
   
 private:
+
+  // private method used to mitigate the effects of using a lookup table
+  void further_randomize (int seq, int col, int index, int modulus);
 
   // Members defining the current state of the generator.
 

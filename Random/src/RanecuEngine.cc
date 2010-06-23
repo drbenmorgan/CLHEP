@@ -1,4 +1,4 @@
-// $Id: RanecuEngine.cc,v 1.4.4.2.2.7 2010/06/22 23:09:29 garren Exp $
+// $Id: RanecuEngine.cc,v 1.4.4.2.2.8 2010/06/23 20:49:50 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -31,6 +31,9 @@
 //                  getState() for anonymous restores           12/27/04    
 // M. Fischler    - put/get for vectors of ulongs		3/14/05
 // M. Fischler    - State-saving using only ints, for portability 4/12/05
+// M. Fischler    - Modify ctor and setSeed to utilize all info provided
+//                  and avoid coincidence of same state from different
+//                  seeds                                       6/22/10
 //		    
 // =======================================================================
 
@@ -48,10 +51,10 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 
 std::string RanecuEngine::name() const {return "RanecuEngine";}
 
-static void further_randomize (long & tableEntry, int index, int modulus)
+void RanecuEngine::further_randomize (int seq, int col, int index, int modulus)
 {
-  tableEntry -= ((index&&0x3FFFFFFF)>>2);
-  while (tableEntry <= 0) tableEntry += (modulus-1);
+  table[seq][col] -= (index&0x3FFFFFFF);
+  while (table[seq][col] <= 0) table[seq][col] += (modulus-1);
 }  // mf 6/22/10
 
 // Number of instances with automatic seed selection
@@ -93,7 +96,7 @@ RanecuEngine::RanecuEngine(int index)
     table[j][1] ^= mask;
   }
   theSeeds = &table[seq][0];
-  further_randomize (table[seq][0], index, shift1);     // mf 6/22/10
+  further_randomize (seq, 0, index, shift1);     // mf 6/22/10
 }
 
 RanecuEngine::RanecuEngine(std::istream& is)
@@ -142,8 +145,8 @@ void RanecuEngine::setSeed(long index, int dum)
   theSeed = seq;
   HepRandom::getTheTableSeeds(table[seq],seq);
   theSeeds = &table[seq][0];
-  further_randomize (table[seq][0], index, shift1);     // mf 6/22/10
-  further_randomize (table[seq][1], dum,   shift2);     // mf 6/22/10
+  further_randomize (seq, 0, index, shift1);     // mf 6/22/10
+  further_randomize (seq, 1, dum,   shift2);     // mf 6/22/10
 }
 
 void RanecuEngine::setSeeds(const long* seeds, int pos)
