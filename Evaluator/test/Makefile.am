@@ -27,40 +27,36 @@ CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
-	testEvaluator
+	testEvaluator testBug66214
 
 check_SCRIPTS = \
 	testEvaluator.sh
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
-	testEvaluator.sh
+	testEvaluator.sh testBug66214
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
 
 # Identify the dependencies on a per-test basis:
 testEvaluator_SOURCES = testEvaluator.cc
+testBug66214_SOURCES = testBug66214.cc
 
 # Identify input data file(s) and prototype output file(s):
 EXTRA_DIST = \
 	testEvaluator.input	testEvaluator.output
 
 # Identify generated file(s) to be removed when 'make clean' is requested:
-CLEANFILES =
+CLEANFILES = testEvaluator.sh testBug66214.cout
 
 # supply our own suffix rule
 .cc.obj:
 if BUILD_VISUAL
-#	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c $(OUTFLAG) `$(CYGPATH_W) '$<'`
-#	mv -f $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
 	source='$<' object='$@' libtool=no \
 	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 	$(CXXCOMPILE) -c $(OUTFLAG) `$(CYGPATH_W) '$<'`
 else
 	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c $(OUTFLAG) `$(CYGPATH_W) '$<'`; \
 	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
-#	source='$<' object='$@' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 endif
