@@ -34,15 +34,22 @@ int main()
     eval(" +1",numbad,os);
     eval(" -1",numbad,os);
     eval("1 + 1",numbad,os);
-    eval("1 + -1",numbad,os);
+    eval("1 + -1",numbad,os);	// syntax error in 2.0.4.6
     eval("1 + (-1)",numbad,os);
-    eval("1 + +1",numbad,os);
+    eval("1 + +1",numbad,os);	// syntax error in 2.0.4.6
     eval("1 + (+1)",numbad,os);
-    eval("1 * -1",numbad,os);
+    eval("1 * -1",numbad,os);	// syntax error in 2.0.4.6
     eval("1 * (-1)",numbad,os);
     eval("-1 * 1",numbad,os);
-    eval("10^-1",numbad,os);
+    eval("10^-1",numbad,os);	// syntax error in 2.0.4.6
     eval("10^(-1)",numbad,os);
+    eval("9*4",numbad,os);
+    eval("9 * -4",numbad,os);	// syntax error in 2.0.4.6
+    eval("9 * (-4)",numbad,os);
+    eval("4*---2",numbad,os);	// syntax error in 2.0.4.6
+    eval("4*(---2)",numbad,os);	// syntax error in 2.0.4.6
+    eval("4*(-(--2))",numbad,os);	// syntax error in 2.0.4.6
+    eval("4*(-(-(-2)))",numbad,os);
 
     return numbad;
 }
