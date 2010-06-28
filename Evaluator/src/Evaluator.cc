@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Evaluator.cc,v 1.2.4.1 2008/07/17 19:00:45 garren Exp $
+// $Id: Evaluator.cc,v 1.2.4.1.2.1 2010/06/28 15:34:31 garren Exp $
 // ---------------------------------------------------------------------------
 
 #include "CLHEP/Evaluator/defs.h"
@@ -462,7 +462,7 @@ static int engine(pchar begin, pchar end, double & result,
     iWhat = SyntaxTable[iPrev][iCur];
     iPrev = iCur;
     switch (iWhat) {
-    case 0:                             // systax error
+    case 0:                             // syntax error
       EVAL_EXIT( EVAL::ERROR_SYNTAX_ERROR, pointer );
     case 1:                             // operand: number, variable, function
       EVAL_STATUS = operand(pointer, end, value, pointer, dictionary);
@@ -618,7 +618,7 @@ void Evaluator::print_error() const {
     std::cerr << prefix << "invalid name"         << std::endl;
     return;
   case ERROR_SYNTAX_ERROR:
-    std::cerr << prefix << "systax error"         << std::endl;
+    std::cerr << prefix << "syntax error"         << std::endl;
     return;
   case ERROR_UNPAIRED_PARENTHESIS:
     std::cerr << prefix << "unpaired parenthesis" << std::endl;
@@ -642,6 +642,43 @@ void Evaluator::print_error() const {
   default:
     return;
   }
+}
+
+//---------------------------------------------------------------------------
+std::string Evaluator::error_name() const
+{
+  char prefix[] = "Evaluator : ";
+  std::ostringstream errn;
+  Struct * s = (Struct *) p;
+  switch (s->theStatus) {
+  case ERROR_NOT_A_NAME:
+    errn << prefix << "invalid name";
+    break;
+  case ERROR_SYNTAX_ERROR:
+    errn << prefix << "syntax error";
+    break;
+  case ERROR_UNPAIRED_PARENTHESIS:
+    errn << prefix << "unpaired parenthesis";
+    break;
+  case ERROR_UNEXPECTED_SYMBOL:
+    errn << prefix << "unexpected symbol";
+    break;
+  case ERROR_UNKNOWN_VARIABLE:
+    errn << prefix << "unknown variable";
+    break;
+  case ERROR_UNKNOWN_FUNCTION:
+    errn << prefix << "unknown function";
+    break;
+  case ERROR_EMPTY_PARAMETER: 
+    errn << prefix << "empty parameter in function call";
+    break;
+  case ERROR_CALCULATION_ERROR:
+    errn << prefix << "calculation error";
+    break;
+  default:
+    errn << " ";
+  }
+  return errn.str();
 }
 
 //---------------------------------------------------------------------------

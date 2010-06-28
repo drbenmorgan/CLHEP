@@ -1,3 +1,9 @@
+2010-06-28  Lynn Garren <garren@fnal.gov>
+
+	* Evaluator: Add error_name() method to return the error as a string
+
+	* test/testBug66214.cc: Test unary operator bug (report #66214)
+
 ==============================
 09.03.10 Release CLHEP-2.0.4.6
 ==============================
