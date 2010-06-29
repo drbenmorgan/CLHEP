@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: Evaluator.cc,v 1.2.4.1.2.3 2010/06/29 15:27:09 garren Exp $
+// $Id: Evaluator.cc,v 1.2.4.1.2.4 2010/06/29 19:53:57 garren Exp $
 // ---------------------------------------------------------------------------
 
 #include "CLHEP/Evaluator/defs.h"
@@ -640,7 +640,6 @@ int Evaluator::error_position() const {
 
 //---------------------------------------------------------------------------
 void Evaluator::print_error() const {
-  char prefix[] = "Evaluator : ";
   Struct * s = (Struct *) p;
   if(s->theStatus != OK) {
       std::cerr << error_name() << std::endl;
