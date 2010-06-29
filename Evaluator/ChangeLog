@@ -1,3 +1,8 @@
+2010-06-29  Mark Fischler <mf@fnal.gov>
+
+	* src/Evaluator.cc: Improve the logic so that unary plus and minus 
+	  work as expected.  See bug report #66214.
+
 2010-06-28  Lynn Garren <garren@fnal.gov>
 
 	* Evaluator: Add error_name() method to return the error as a string
