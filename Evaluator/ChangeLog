@@ -1,3 +1,7 @@
+==============================
+29.06.10 Release CLHEP-2.0.4.7
+==============================
+
 2010-06-29  Mark Fischler <mf@fnal.gov>
 
 	* src/Evaluator.cc: Improve the logic so that unary plus and minus 
@@ -5,7 +9,8 @@
 
 2010-06-28  Lynn Garren <garren@fnal.gov>
 
-	* Evaluator: Add error_name() method to return the error as a string
+	* Evaluator/Evaluator.h: Add error_name() method to return 
+	  the error as a string
 
 	* test/testBug66214.cc: Test unary operator bug (report #66214)
 

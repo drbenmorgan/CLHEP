@@ -1,4 +1,32 @@
 ==============================
+29.06.10 Release CLHEP-2.0.4.7
+==============================
+
+2010-06-29  Mark Fischler <mf@fnal.gov>
+
+	* Evaluator/src/Evaluator.cc: Improve the logic so that unary plus 
+	  and minus work as expected.  See bug report #66214.
+
+2010-06-28  Lynn Garren <garren@fnal.gov>
+
+	* Evaluator/Evaluator/Evaluator.h: Add error_name() method to 
+	  return the error as a string
+
+	* Evaluator/test/testBug66214.cc: Test unary operator bug (report #66214)
+
+2010-06-23  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/Random/RanecuEngine.h: add a private method (see below)
+	* Random/src/RanecuEngine.cc: Modify constructor and setSeed to utilize all 
+	  info provided and avoid coincidence of same state from different seeds                        
+	* Random/test/testRanecuSequence.cc: test for repeating sequences
+
+2010-06-11  Lynn Garren <garren@fnal.gov>
+
+	* Matrix/Matrix.h: inline virtual functions are now only virtual and not inline
+	* Matrix/Vertex.h: inline virtual functions are now only virtual and not inline
+
+==============================
 09.03.10 Release CLHEP-2.0.4.6
 ==============================
 
