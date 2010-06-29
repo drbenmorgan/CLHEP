@@ -54,10 +54,12 @@ int main() {
 	        ++numbad;
 	        output << "ERROR: Seed " << ranList[it].seed 
 		       << " and Seed " << ranList[jt].seed 
-		       << " result in identical sequences" << std::endl;
+		       << " are " << (ranList[jt].seed - ranList[it].seed )
+		       << " apart and result in identical sequences" << std::endl;
 	        std::cerr << "Seed " << ranList[it].seed 
 		          << " and Seed " << ranList[jt].seed 
-			  << " result in identical sequences" << std::endl;
+			  << " are " << (ranList[jt].seed - ranList[it].seed )
+			  << " apart and result in identical sequences" << std::endl;
 	    }
 	}
     }
