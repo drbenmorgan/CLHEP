@@ -8,14 +8,14 @@
 #include <fstream>
 #include <CLHEP/Evaluator/Evaluator.h>
 
-double eval(const char *expr, int& numbad, std::ofstream& os)
+double eval( std::string expr, int& numbad, std::ofstream& os)
 {
     static HepTool::Evaluator *ev=0;
     if(ev == 0) ev = new HepTool::Evaluator();
     ev->setStdMath();                 // set standard constants and functions
     ev->setSystemOfUnits();           // set SI units
 
-    double v = ev->evaluate(expr);
+    double v = ev->evaluate(expr.data());
 
     os << "CALC> " << expr << ": ";
     if(ev->status() != HepTool::Evaluator::OK) {
@@ -33,7 +33,7 @@ int main()
     int numbad = 0;
     double result;
     // many of these expressions fail in releases prior to 2.0.4.7
-    char* exp[38] = {   " +1",     " -1",     "1 + 1",  "1 + -1","1 + (-1)",
+    std::string exp[38] = {   " +1",     " -1",     "1 + 1",  "1 + -1","1 + (-1)",
                      "1 + +1","1 + (+1)",    "1 * -1","1 * (-1)",  "-1 * 1",
 		      "10^-1", "10^(-1)",       "9*4",  "9 * -4","9 * (-4)",
 		     "4*---2","4*(---2)","4*(-(--2))","4*(--(-2))","4*(-(-(-2)))",
@@ -49,6 +49,7 @@ int main()
 		         -21.,        -11.,       -7.,      -11.,
 		           4.,        4.,          4.,       66.,        6., 
 		          -6.,       -6.,       -6.,         -6. };
+    std::string exp2[3] = { "sin(45*deg)", "sin(45*pi/-180)", "232/22" };
 
     std::ofstream os("testBug66214.cout");  
 
@@ -63,9 +64,9 @@ int main()
 
     // inspect these by hand
     // return values: 0.707107, -0.707107, 10.5455
-    eval("sin(45*deg)",numbad,os);
-    eval("sin(45*pi/-180)",numbad,os);	// syntax error prior to 2.0.4.7
-    eval("232/22",numbad,os);
+    for(int i=0; i<3; ++i ) {
+        eval(exp2[i],numbad,os);
+    }
 
     return numbad;
 }
