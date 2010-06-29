@@ -8,10 +8,12 @@
 #include <fstream>
 #include <CLHEP/Evaluator/Evaluator.h>
 
-void eval(const char *expr, int& numbad, std::ofstream& os)
+double eval(const char *expr, int& numbad, std::ofstream& os)
 {
     static HepTool::Evaluator *ev=0;
     if(ev == 0) ev = new HepTool::Evaluator();
+    ev->setStdMath();                 // set standard constants and functions
+    ev->setSystemOfUnits();           // set SI units
 
     double v = ev->evaluate(expr);
 
@@ -22,34 +24,48 @@ void eval(const char *expr, int& numbad, std::ofstream& os)
     } else {
 	os << v << std::endl;
     }
+    return v;
 }
 
 int main()
 {
 
+    int numbad = 0;
+    double result;
+    // many of these expressions fail in releases prior to 2.0.4.7
+    char* exp[38] = {   " +1",     " -1",     "1 + 1",  "1 + -1","1 + (-1)",
+                     "1 + +1","1 + (+1)",    "1 * -1","1 * (-1)",  "-1 * 1",
+		      "10^-1", "10^(-1)",       "9*4",  "9 * -4","9 * (-4)",
+		     "4*---2","4*(---2)","4*(-(--2))","4*(--(-2))","4*(-(-(-2)))",
+		      "4*--2", "4*(--2)", "4*(-(-2))",    "-5^2",   "9*4+2",
+		     "231/-11","231/-11+10","231/-11/3","(231/-11)+10",
+		     "100/5^2","100/+5^2","100/-5^2",   "9*4+30", "9*4+-30",
+		     "-9*4+30","9*-4+30","9*(-4)+30","(9*-4)+30" };
+    double res[38] = {     1.,       -1.,          2.,        0.,        0., 
+                           2.,        2.,         -1.,       -1.,       -1.,
+			  0.1,       0.1,         36.,      -36.,      -36.,
+			  -8.,       -8.,         -8.,       -8.,       -8.,
+			   8.,        8.,          8.,       25.,       38.,
+		         -21.,        -11.,       -7.,      -11.,
+		           4.,        4.,          4.,       66.,        6., 
+		          -6.,       -6.,       -6.,         -6. };
+
     std::ofstream os("testBug66214.cout");  
 
-    int numbad = 0;
+    for(int i=0; i<38; ++i ) {
+        result=eval(exp[i],numbad,os);
+	if( result != res[i] ) {
+	    ++numbad;
+	    os << "ERROR:  expected " << res[i] << " got " << result << std::endl;
+	    os << std::endl;
+	}
+    }
 
-    eval(" +1",numbad,os);
-    eval(" -1",numbad,os);
-    eval("1 + 1",numbad,os);
-    eval("1 + -1",numbad,os);	// syntax error in 2.0.4.6
-    eval("1 + (-1)",numbad,os);
-    eval("1 + +1",numbad,os);	// syntax error in 2.0.4.6
-    eval("1 + (+1)",numbad,os);
-    eval("1 * -1",numbad,os);	// syntax error in 2.0.4.6
-    eval("1 * (-1)",numbad,os);
-    eval("-1 * 1",numbad,os);
-    eval("10^-1",numbad,os);	// syntax error in 2.0.4.6
-    eval("10^(-1)",numbad,os);
-    eval("9*4",numbad,os);
-    eval("9 * -4",numbad,os);	// syntax error in 2.0.4.6
-    eval("9 * (-4)",numbad,os);
-    eval("4*---2",numbad,os);	// syntax error in 2.0.4.6
-    eval("4*(---2)",numbad,os);	// syntax error in 2.0.4.6
-    eval("4*(-(--2))",numbad,os);	// syntax error in 2.0.4.6
-    eval("4*(-(-(-2)))",numbad,os);
+    // inspect these by hand
+    // return values: 0.707107, -0.707107, 10.5455
+    eval("sin(45*deg)",numbad,os);
+    eval("sin(45*pi/-180)",numbad,os);	// syntax error prior to 2.0.4.7
+    eval("232/22",numbad,os);
 
     return numbad;
 }
