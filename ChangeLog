@@ -1,6 +1,11 @@
 ==============================
-29.06.10 Release CLHEP-2.0.4.7
+30.06.10 Release CLHEP-2.0.4.7
 ==============================
+
+2010-06-30  Lynn Garren <garren@fnal.gov>
+
+	* Random/src/Hurd160Engine.cc, Hurd288Engine.cc: deal with an 
+	  undefined order of execution warning reported by gcc 4.5
 
 2010-06-29  Mark Fischler <mf@fnal.gov>
 
