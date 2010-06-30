@@ -275,21 +275,15 @@ icc)
    *-*-linux*)
       AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
       AM_LDFLAGS="-lstdc++"
-      MY_SHFLAGS="-fPIC -DPIC"
-      MY_SHLINK="-shared"
-      MY_SHNAME="-Wl,-soname,"
-      MY_LD="-Wl,--rpath -Wl,"
-      SHEXT=so
+      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
+      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="xiar"; ARFLAGS="cru"
       ;;
    *)
       AM_CXXFLAGS="-O -ansi -fp-model precise -no-gcc -w1"
       AM_LDFLAGS="-lstdc++"
-      MY_SHFLAGS="-fPIC -DPIC"
-      MY_SHLINK="-shared"
-      MY_SHNAME="-Wl,-soname,"
-      MY_LD="-Wl,--rpath -Wl,"
-      SHEXT=so
+      MY_SHFLAGS="-fPIC -DPIC"; MY_SHLINK="-shared"; SHEXT=so
+      MY_SHNAME="-Wl,-soname,"; MY_LD="-Wl,--rpath -Wl,"
       AR="xiar"; ARFLAGS="cru"
    esac;;
 cl)  

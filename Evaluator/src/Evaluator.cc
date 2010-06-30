@@ -1,11 +1,12 @@
 // -*- C++ -*-
-// $Id: Evaluator.cc,v 1.2.2.1 2008/04/09 23:24:02 garren Exp $
+// $Id: Evaluator.cc,v 1.2.2.1.2.1 2010/06/30 22:05:52 garren Exp $
 // ---------------------------------------------------------------------------
 
 #include "CLHEP/Evaluator/defs.h"
 #include "CLHEP/Evaluator/Evaluator.h"
 
 #include <iostream>
+#include <sstream>
 #include <cmath>	// for pow()
 #include "stack.src"
 #include "string.src"
@@ -64,7 +65,7 @@ for(;;pointer++) {                       \
 static const char sss[MAX_N_PAR+2] = "012345";
 
 enum { ENDL, LBRA, OR, AND, EQ, NE, GE, GT, LE, LT,
-       PLUS, MINUS, MULT, DIV, POW, RBRA, VALUE };
+       PLUS, MINUS, UNARY_PLUS, UNARY_MINUS, MULT, DIV, POW, RBRA, VALUE };
 
 static int engine(pchar, pchar, double &, pchar &, const dic_type &);
 
@@ -328,6 +329,12 @@ static int maker(int op, stack<double> & val)
     errno = 0;
     val.top() = pow(val1,val2);
     if (errno == 0) return EVAL::OK;
+  case UNARY_PLUS:                              // unary operator '+'
+    val.top() = val1 + val2;			// val1 is zero
+    return EVAL::OK;
+  case UNARY_MINUS:                             // unary operator '-'
+    val.top() = val1 - val2;			// val1 is zero
+    return EVAL::OK;
   default:
     return EVAL::ERROR_CALCULATION_ERROR;
   }
@@ -352,43 +359,61 @@ static int maker(int op, stack<double> & val)
 static int engine(pchar begin, pchar end, double & result,
 		  pchar & endp, const dic_type & dictionary)
 {
-  static const int SyntaxTable[17][17] = {
-    //E  (  || && == != >= >  <= <  +  -  *  /  ^  )  V - current token
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 1 },   // E - previous
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 1 },   // (   token
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // ||
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // &&
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // ==
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // !=
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // >=
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // >
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // <=
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // <
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // +
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // -
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // *
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // /
-    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },   // ^
-    { 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0 },   // )
-    { 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0 }    // V = {.,N,C}
+  enum SyntaxTableEntry {
+    SyntaxError = 0,
+    NumberVariableOrFunction = 1,
+    UnaryPlusOrMinus = 2,
+    AnyOperator = 3
   };
-  static const int ActionTable[15][16] = {
-    //E  (  || && == != >= >  <= <  +  -  *  /  ^  ) - current operator
-    { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,-1 }, // E - top operator
-    {-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 }, // (   in stack
-    { 4, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4 }, // ||
-    { 4, 1, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4 }, // &&
-    { 4, 1, 4, 4, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4 }, // ==
-    { 4, 1, 4, 4, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4 }, // !=
-    { 4, 1, 4, 4, 4, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 4 }, // >=
-    { 4, 1, 4, 4, 4, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 4 }, // >
-    { 4, 1, 4, 4, 4, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 4 }, // <=
-    { 4, 1, 4, 4, 4, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 4 }, // <
-    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 1, 1, 1, 4 }, // +
-    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 1, 1, 1, 4 }, // -
-    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 1, 4 }, // *
-    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 1, 4 }, // /
-    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 }  // ^
+  static const int SyntaxTable[19][19] = {
+    //E  (  || && == != >= >  <= <  +  -  u+ u- *  /  ^  )  V - current token
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // E - previous
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // (   token
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // ||
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // &&
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // ==
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // !=
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // >=
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // >
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // <=
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // <
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // +
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // -
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // unary +
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // unary -
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // *
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // /
+    { 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },   // ^
+    { 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0 },   // )
+    { 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0 }    // V = {.,N,C}
+  };
+  enum ActionTableEntry {
+    UnbalancedParentheses = -1,
+    ExpressionCompleted = 0,
+    HigherPrecedenceOperator = 1,
+    SamePrecedenceOperator = 2,
+    CloseProcessedParenthesesOrExpression = 3,
+    LowerPrecedenceOperator = 4
+  };
+  static const int ActionTable[17][18] = {
+    //E  (  || && == != >= >  <= <  +  -  u+ u- *  /  ^  ) - current operator
+    { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,-1 }, // E - top operator
+    {-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 }, // (   in stack
+    { 4, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4 }, // ||
+    { 4, 1, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4 }, // &&
+    { 4, 1, 4, 4, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4 }, // ==
+    { 4, 1, 4, 4, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4 }, // !=
+    { 4, 1, 4, 4, 4, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 4 }, // >=
+    { 4, 1, 4, 4, 4, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 4 }, // >
+    { 4, 1, 4, 4, 4, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 4 }, // <=
+    { 4, 1, 4, 4, 4, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 4 }, // <
+    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 1, 1, 1, 1, 1, 4 }, // +
+    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 1, 1, 1, 1, 1, 4 }, // -
+    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4 }, // unary +
+    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4 }, // unary -
+    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 2, 2, 1, 4 }, // *
+    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 2, 2, 1, 4 }, // /
+    { 4, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4 }  // ^
   };
 
   stack<int>    op;                      // operator stack
@@ -462,7 +487,7 @@ static int engine(pchar begin, pchar end, double & result,
     iWhat = SyntaxTable[iPrev][iCur];
     iPrev = iCur;
     switch (iWhat) {
-    case 0:                             // systax error
+    case 0:                             // syntax error
       EVAL_EXIT( EVAL::ERROR_SYNTAX_ERROR, pointer );
     case 1:                             // operand: number, variable, function
       EVAL_STATUS = operand(pointer, end, value, pointer, dictionary);
@@ -471,6 +496,10 @@ static int engine(pchar begin, pchar end, double & result,
       continue;
     case 2:                             // unary + or unary -
       val.push(0.0);
+      if (iCur == PLUS)  iCur = UNARY_PLUS;
+      if (iCur == MINUS) iCur = UNARY_MINUS;
+      // Note that for syntax purposes, ordinary + or - are fine.
+      // Thus iPrev need not change when we encounter a unary minus or plus.
     case 3: default:                    // next operator
       break;
     }
@@ -611,37 +640,48 @@ int Evaluator::error_position() const {
 
 //---------------------------------------------------------------------------
 void Evaluator::print_error() const {
+  Struct * s = (Struct *) p;
+  if(s->theStatus != OK) {
+      std::cerr << error_name() << std::endl;
+  }
+  return;
+}
+
+//---------------------------------------------------------------------------
+std::string Evaluator::error_name() const
+{
   char prefix[] = "Evaluator : ";
+  std::ostringstream errn;
   Struct * s = (Struct *) p;
   switch (s->theStatus) {
   case ERROR_NOT_A_NAME:
-    std::cerr << prefix << "invalid name"         << std::endl;
-    return;
+    errn << prefix << "invalid name";
+    break;
   case ERROR_SYNTAX_ERROR:
-    std::cerr << prefix << "systax error"         << std::endl;
-    return;
+    errn << prefix << "syntax error";
+    break;
   case ERROR_UNPAIRED_PARENTHESIS:
-    std::cerr << prefix << "unpaired parenthesis" << std::endl;
-    return;
+    errn << prefix << "unpaired parenthesis";
+    break;
   case ERROR_UNEXPECTED_SYMBOL:
-    std::cerr << prefix << "unexpected symbol"    << std::endl;
-    return;
+    errn << prefix << "unexpected symbol";
+    break;
   case ERROR_UNKNOWN_VARIABLE:
-    std::cerr << prefix << "unknown variable"     << std::endl;
-    return;
+    errn << prefix << "unknown variable";
+    break;
   case ERROR_UNKNOWN_FUNCTION:
-    std::cerr << prefix << "unknown function"     << std::endl;
-    return;
+    errn << prefix << "unknown function";
+    break;
   case ERROR_EMPTY_PARAMETER: 
-    std::cerr << prefix << "empty parameter in function call"
-		 << std::endl;
-    return;
+    errn << prefix << "empty parameter in function call";
+    break;
   case ERROR_CALCULATION_ERROR:
-    std::cerr << prefix << "calculation error"    << std::endl;
-    return;
+    errn << prefix << "calculation error";
+    break;
   default:
-    return;
+    errn << " ";
   }
+  return errn.str();
 }
 
 //---------------------------------------------------------------------------

@@ -1,9 +1,11 @@
 // -*- C++ -*-
-// $Id: Evaluator.h,v 1.1.1.1 2003/07/15 20:15:05 garren Exp $
+// $Id: Evaluator.h,v 1.1.1.1.10.1 2010/06/30 22:05:52 garren Exp $
 // ---------------------------------------------------------------------------
 
 #ifndef HEP_EVALUATOR_H
 #define HEP_EVALUATOR_H
+
+#include <string>
 
 namespace HepTool {
 
@@ -87,6 +89,10 @@ class Evaluator {
    * Prints error message if status() is an ERROR.
    */
   void print_error() const;
+  /**
+   * get a string defining the error name
+   */
+  std::string error_name() const;
 
   /**
    * Adds to the dictionary a variable with given value. 

@@ -1,4 +1,4 @@
-// $Id: Hurd160Engine.cc,v 1.4.2.4.6.1 2008/11/13 18:35:53 garren Exp $
+// $Id: Hurd160Engine.cc,v 1.4.2.4.6.2 2010/06/30 22:05:53 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -155,9 +155,12 @@ double Hurd160Engine::flat() {
     advance();
   }
 
-  return   words[--wordIndex] * twoToMinus_32 + // most significant part
-     (words[--wordIndex]>>11) * twoToMinus_53 + // fill in rest of bits
-                    nearlyTwoToMinus_54;        // make sure non-zero
+  // LG 6/30/2010
+  // define the order of execution for --wordIndex
+  double x = words[--wordIndex] * twoToMinus_32 ; // most significant part
+  double y = (words[--wordIndex]>>11) * twoToMinus_53 + // fill in rest of bits
+             nearlyTwoToMinus_54;        // make sure non-zero
+  return  x + y ;
 }
 
 void Hurd160Engine::flatArray( const int size, double* vect ) {
