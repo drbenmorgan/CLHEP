@@ -1,3 +1,33 @@
+
+2010-06-30  Lynn Garren <garren@fnal.gov>
+
+	* Random/src/Hurd160Engine.cc, Hurd288Engine.cc: deal with an 
+	  undefined order of execution warning reported by gcc 4.5
+
+2010-06-29  Mark Fischler <mf@fnal.gov>
+
+	* Evaluator/src/Evaluator.cc: Improve the logic so that unary plus 
+	  and minus work as expected.  See bug report #66214.
+
+2010-06-28  Lynn Garren <garren@fnal.gov>
+
+	* Evaluator/Evaluator/Evaluator.h: Add error_name() method to 
+	  return the error as a string
+
+	* Evaluator/test/testBug66214.cc: Test unary operator bug (report #66214)
+
+2010-06-23  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/Random/RanecuEngine.h: add a private method (see below)
+	* Random/src/RanecuEngine.cc: Modify constructor and setSeed to utilize all 
+	  info provided and avoid coincidence of same state from different seeds                        
+	* Random/test/testRanecuSequence.cc: test for repeating sequences
+
+2010-03-09  Lynn Garren <garren@fnal.gov>
+
+	* GenericFunctions/src/RKIntegrator.cc: 
+	  Add parentheses to fix a VC++ warning
+
 ==============================
 16.06.10 Release CLHEP-2.1.0.0.b01
 ==============================
