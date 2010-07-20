@@ -1,3 +1,16 @@
+
+2010-06-30  Lynn Garren <garren@fnal.gov>
+
+	* src/Hurd160Engine.cc, Hurd288Engine.cc: deal with an undefined 
+	  order of execution warning reported by gcc 4.5
+
+2010-06-23  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/RanecuEngine.h: add a private method (see below)
+	* src/RanecuEngine.cc: Modify constructor and setSeed to utilize all 
+	  info provided and avoid coincidence of same state from different seeds                        
+	* test/testRanecuSequence.cc: test for repeating sequences
+
 ==============================
 16.06.10 Release CLHEP-2.1.0.0.b01
 ==============================
