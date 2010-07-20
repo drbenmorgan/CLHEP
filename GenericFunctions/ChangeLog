@@ -1,4 +1,8 @@
 
+2010-07-20  Lynn Garren <garren@fnal.gov>
+
+	* src/AnalyticConvolution.cc: replace finite with std::isfinite
+
 2010-03-09  Lynn Garren <garren@fnal.gov>
 
 	* GenericFunctions/src/RKIntegrator.cc: 

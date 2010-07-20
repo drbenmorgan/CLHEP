@@ -1,8 +1,9 @@
 // -*- C++ -*-
-// $Id: AnalyticConvolution.cc,v 1.5 2009/06/26 12:45:32 boudreau Exp $
+// $Id: AnalyticConvolution.cc,v 1.6 2010/07/20 21:43:47 garren Exp $
 #include "CLHEP/GenericFunctions/AnalyticConvolution.hh"
 #include "CLHEP/GenericFunctions/Gaussian.hh"
 #include "CLHEP/GenericFunctions/Exponential.hh"
+#include <cmath>	// for isfinite
 namespace Genfun {
 FUNCTION_OBJECT_IMP(AnalyticConvolution)
 
@@ -73,7 +74,7 @@ double AnalyticConvolution::operator() (double argument) const {
   if (_type==SMEARED_NEG_EXP) {
     expG = exp((sigma*sigma +2*tau*(/*offset*/x))/(2.0*tau*tau)) * 
       erfc((sigma*sigma+tau*(/*offset*/x))/(sqrtTwo*sigma*tau))/(2.0*tau);
-    if (!finite(expG)) {
+    if (!std::isfinite(expG)) {
       expG=0.0;
     }
     return expG;
@@ -85,7 +86,7 @@ double AnalyticConvolution::operator() (double argument) const {
   
   // Both sign distribution=> return smeared exponential:
   if (_type==SMEARED_EXP) {
-    if (!finite(expG)) {
+    if (!std::isfinite(expG)) {
       expG=0.0;
     }
     return expG;
