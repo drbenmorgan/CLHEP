@@ -1,4 +1,9 @@
 
+2010-07-20  Lynn Garren <garren@fnal.gov>
+
+	* GenericFunctions/src/AnalyticConvolution.cc: 
+	  replace finite with std::isfinite (for MacOSX)
+
 2010-06-30  Lynn Garren <garren@fnal.gov>
 
 	* Random/src/Hurd160Engine.cc, Hurd288Engine.cc: deal with an 
