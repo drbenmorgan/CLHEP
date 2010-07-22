@@ -1,9 +1,12 @@
 // -*- C++ -*-
-// $Id: AnalyticConvolution.cc,v 1.6 2010/07/20 21:43:47 garren Exp $
+// $Id: AnalyticConvolution.cc,v 1.7 2010/07/22 21:50:53 garren Exp $
 #include "CLHEP/GenericFunctions/AnalyticConvolution.hh"
 #include "CLHEP/GenericFunctions/Gaussian.hh"
 #include "CLHEP/GenericFunctions/Exponential.hh"
 #include <cmath>	// for isfinite
+#if (defined __STRICT_ANSI__) || (defined _WIN32)
+#include <float.h> //  Visual C++ _finite
+#endif
 namespace Genfun {
 FUNCTION_OBJECT_IMP(AnalyticConvolution)
 
@@ -74,9 +77,15 @@ double AnalyticConvolution::operator() (double argument) const {
   if (_type==SMEARED_NEG_EXP) {
     expG = exp((sigma*sigma +2*tau*(/*offset*/x))/(2.0*tau*tau)) * 
       erfc((sigma*sigma+tau*(/*offset*/x))/(sqrtTwo*sigma*tau))/(2.0*tau);
+#if (defined __STRICT_ANSI__) || (defined _WIN32)
+    if (!_finite(expG)) {
+      expG=0.0;
+    }
+#else
     if (!std::isfinite(expG)) {
       expG=0.0;
     }
+#endif
     return expG;
   }
   else {
@@ -86,9 +95,15 @@ double AnalyticConvolution::operator() (double argument) const {
   
   // Both sign distribution=> return smeared exponential:
   if (_type==SMEARED_EXP) {
+#if (defined __STRICT_ANSI__) || (defined _WIN32)
+    if (!_finite(expG)) {
+      expG=0.0;
+    }
+#else
     if (!std::isfinite(expG)) {
       expG=0.0;
     }
+#endif
     return expG;
   }
    

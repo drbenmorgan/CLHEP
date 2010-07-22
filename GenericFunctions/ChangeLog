@@ -1,4 +1,8 @@
 
+2010-07-22  Lynn Garren <garren@fnal.gov>
+
+	* src/AnalyticConvolution.cc: use _finite from float.h if _WIN32
+
 2010-07-20  Lynn Garren <garren@fnal.gov>
 
 	* src/AnalyticConvolution.cc: replace finite with std::isfinite
