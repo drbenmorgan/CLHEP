@@ -17,7 +17,7 @@ autoconf
 #run autotool commands in each subdirectory
 for pkg in `ls`
 do
-  if [ -e $pkg/configure.in ] 
+  if [ -e $pkg/configure.ac ] 
   then
      cd $pkg
      ./bootstrap
