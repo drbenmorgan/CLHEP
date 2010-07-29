@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: DRand48Engine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
+// $Id: DRand48Engine.cc,v 1.7 2010/07/29 16:50:34 garren Exp $
 // -----------------------------------------------------------------------
 //                             HEP Random
 //                        --- DRand48Engine ---
@@ -36,6 +36,7 @@
 #include "CLHEP/Random/RandomFunc.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include <string.h>	// for strcmp
+#include <stdlib.h>	// for abs(int)
 
 //#define TRACE_IO
 
