@@ -1,4 +1,4 @@
-// $Id: Ranlux64Engine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
+// $Id: Ranlux64Engine.cc,v 1.7 2010/10/21 21:32:02 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -378,6 +378,10 @@ void Ranlux64Engine::setSeed(long seed, int lux) {
   long next_seed = seed;
   long k_multiple;
   int i;
+  next_seed &= 0xffffffff;
+  while( next_seed >= ecuyer_d ) {
+     next_seed -= ecuyer_d;
+  }
   
   for(i = 0;i != 24;i++){
      k_multiple = next_seed / ecuyer_a;
@@ -386,12 +390,28 @@ void Ranlux64Engine::setSeed(long seed, int lux) {
      if(next_seed < 0) {
 	next_seed += ecuyer_d;
      }
-     init_table[i] = next_seed & 0xffffffff;
-  }    
+     next_seed &= 0xffffffff;
+     init_table[i] = next_seed;
+  } 
+  // are we on a 64bit machine?
+  if( sizeof(long) >= 8 ) {
+     long topbits1, topbits2;
+     topbits1 = ( seed >> 32) & 0xffff ;
+     topbits2 = ( seed >> 48) & 0xffff ;
+     init_table[0] ^= topbits1;
+     init_table[2] ^= topbits2;
+     //std::cout << " init_table[0] " << init_table[0] << " from " << topbits1 << std::endl;
+     //std::cout << " init_table[2] " << init_table[2] << " from " << topbits2 << std::endl;
+  }   
 
   for(i = 0;i < 12; i++){
      randoms[i] = (init_table[2*i  ]      ) * 2.0 * twoToMinus_32() +
                   (init_table[2*i+1] >> 15) * twoToMinus_48();
+     //if( randoms[i] < 0. || randoms[i]  > 1. ) {
+     //std::cout << "setSeed:  init_table " << init_table[2*i  ] << std::endl;
+     //std::cout << "setSeed:  init_table " << init_table[2*i+1] << std::endl;
+     //std::cout << "setSeed:  random " << i << " is " << randoms[i] << std::endl;
+     //}
   }
 
   carry = 0.0;
@@ -457,7 +477,8 @@ void Ranlux64Engine::setSeeds(const long * seeds, int lux) {
 	if(next_seed < 0) {
 	   next_seed += ecuyer_d;
 	}
-	init_table[i] = next_seed & 0xffffffff;
+	next_seed &= 0xffffffff;
+	init_table[i] = next_seed;
      }    
   }
 

@@ -31,7 +31,7 @@ check_PROGRAMS = \
 	testRandom testRandDists gaussSpeed gaussSmall \
 	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
 	testStaticStreamSave testAnonymousEngineRestore testVectorSave \
-	testBug58950 testEngineCopy testDistCopy testRanecuSequence
+	testBug58950 testBug73093 testEngineCopy testDistCopy testRanecuSequence
 
 check_SCRIPTS = \
 	testRandom.sh testRandDists.sh
@@ -43,13 +43,13 @@ TESTS = \
 	testRandom.sh testRandDists.sh \
 	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
 	testStaticStreamSave testAnonymousEngineRestore testVectorSave \
-	testEngineCopy testDistCopy
+	testBug73093 testEngineCopy testDistCopy
 else
 TESTS = \
 	testRandom.sh testRandDists.sh \
 	testSaveEngineStatus testInstanceRestore testSaveSharedEngines \
 	testStaticStreamSave testAnonymousEngineRestore testVectorSave \
-	testBug58950 testEngineCopy testDistCopy testRanecuSequence
+	testBug58950 testBug73093 testEngineCopy testDistCopy testRanecuSequence
 endif
 
 # Identify the test(s) for which failure is the intended outcome:
@@ -68,6 +68,7 @@ testEngineCopy_SOURCES = testEngineCopy.cc
 testDistCopy_SOURCES = testDistCopy.cc
 testRanecuSequence_SOURCES = testRanecuSequence.cc
 testBug58950_SOURCES = testBug58950.cc
+testBug73093_SOURCES = testBug73093.cc
 gaussSpeed_SOURCES = gaussSpeed.cc
 gaussSmall_SOURCES = gaussSmall.cc
 

@@ -1,3 +1,10 @@
+
+2010-10-21  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* src/Ranlux64Engine.cc: fix problem with random numbers when seed is 
+	  greater than 32bits
+	* test/testBug73093.cc: test for the Ranlux64Engine problem
+
 ==============================
 23.07.10 Release CLHEP-2.1.0.0
 ==============================
