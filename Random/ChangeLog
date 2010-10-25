@@ -1,4 +1,10 @@
 
+2010-10-25  Lynn Garren <garren@fnal.gov>
+
+	* Random/NonRandomEngine.h, Random/RandomEngine.h, 
+	  Random/RandomEngine.icc, src/RandomEngine.cc: minor changes 
+	  to avoid compilation warnings when using the -W flag
+
 2010-10-21  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
 
 	* src/Ranlux64Engine.cc: fix problem with random numbers when seed is 

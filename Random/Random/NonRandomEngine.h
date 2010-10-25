@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.h,v 1.5 2010/06/16 17:24:53 garren Exp $
+// $Id: NonRandomEngine.h,v 1.6 2010/10/25 18:18:47 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -88,10 +88,10 @@ private:
   // The following are necessary to fill virtual methods but should never 
   // be used:
 
-  virtual void setSeed(long seed, int) {};
-  virtual void setSeeds(const long * seeds, int) {};
-  virtual void saveStatus( const char filename[] = "Config.conf") const {};
-  virtual void restoreStatus( const char filename[] = "Config.conf" ) {};
+  virtual void setSeed(long , int) {};
+  virtual void setSeeds(const long * , int) {};
+  virtual void saveStatus( const char filename[] ) const {};
+  virtual void restoreStatus( const char filename[] ) {};
   virtual void showStatus() const {};
 
  

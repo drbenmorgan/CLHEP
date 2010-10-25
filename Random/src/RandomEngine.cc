@@ -1,4 +1,4 @@
-// $Id: RandomEngine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
+// $Id: RandomEngine.cc,v 1.7 2010/10/25 18:18:47 garren Exp $
 // -*- C++ -*-
 //
 // ------------------------------------------------------------------------
@@ -78,11 +78,11 @@ std::vector<unsigned long> HepRandomEngine::put () const {
   std::vector<unsigned long> v;
   return v;
 }
-bool HepRandomEngine::get (const std::vector<unsigned long> & v) {
+bool HepRandomEngine::get (const std::vector<unsigned long> & ) {
   std::cerr << "HepRandomEngine::get(v) called -- no effect!\n";
   return false;
 }
-bool HepRandomEngine::getState (const std::vector<unsigned long> & v) {
+bool HepRandomEngine::getState (const std::vector<unsigned long> & ) {
   std::cerr << "HepRandomEngine::getState(v) called -- no effect!\n";
   return false;
 }

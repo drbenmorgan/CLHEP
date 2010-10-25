@@ -1,4 +1,4 @@
-// $Id: RandomEngine.h,v 1.5 2010/06/16 17:24:53 garren Exp $
+// $Id: RandomEngine.h,v 1.6 2010/10/25 18:18:47 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -144,15 +144,15 @@ protected:
   long theSeed;
   const long* theSeeds;
 
-  inline static double const exponent_bit_32();
-  inline static double const mantissa_bit_12();
-  inline static double const mantissa_bit_24();
-  inline static double const mantissa_bit_32();
-  inline static double const twoToMinus_32();
-  inline static double const twoToMinus_48();
-  inline static double const twoToMinus_49();
-  inline static double const twoToMinus_53();
-  inline static double const nearlyTwoToMinus_54();
+  static  inline double exponent_bit_32();
+  static  inline double mantissa_bit_12();
+  static  inline double mantissa_bit_24();
+  static  inline double mantissa_bit_32();
+  static  inline double twoToMinus_32();
+  static  inline double twoToMinus_48();
+  static  inline double twoToMinus_49();
+  static  inline double twoToMinus_53();
+  static  inline double nearlyTwoToMinus_54();
 
   static bool checkFile (std::istream & file, 
   		         const std::string & filename, 
