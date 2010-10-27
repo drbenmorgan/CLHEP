@@ -26,10 +26,11 @@ int valid_range( )
     for( int il=0; il<100; ++il ) {
 	if(  sizeof(long) > 4 ) {
             // using atol so 32bit compilers won't complain
-            seed = atol("9899876543210000");
-	    mult = mult + atol("120000000000");
+            seed =       atol("9899876543210000");
+	    mult = mult + atol("120034020050070");
 	} else {
-            seed = 987654321;
+            seed =       987654321;
+	    mult = mult + 12003400;
 	}
 	seed += il*mult;
 
@@ -40,7 +41,6 @@ int valid_range( )
 	output <<  endl;
 	output << "sizeof(long) = " << sizeof(long) << endl;
 	output << "Generating " << N << " random numbers with seed " << seed << endl;
-	output << "Seed has " << logb(seed)+1 << " bits" << endl;
 	output << "Using seed " << seed <<  endl;
 
 	double sum(0);
