@@ -56,6 +56,8 @@ pkginclude_HEADERS = \
 	RandPoissonQ.icc	\
 	RandPoissonT.h	\
 	RandPoissonT.icc	\
+	RandSkewNormal.h	\
+	RandSkewNormal.icc	\
 	RandStudentT.h	\
 	RandStudentT.icc	\
 	RanecuEngine.h	\

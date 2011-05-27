@@ -1,3 +1,10 @@
+
+2011-05-27  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/RandSkewNormal.h, Random/RandSkewNormal.icc, 
+	  src/RandSkewNormal.cc: An implementation of the Azzalini 
+	  skew-normal distribution, as requested in bug #75534
+
 ==============================
 11.11.10 Release CLHEP-2.1.0.1
 ==============================

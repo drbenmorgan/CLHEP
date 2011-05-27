@@ -38,6 +38,7 @@ libCLHEP_Random_@VERSION@_a_SOURCES = \
 	RandPoisson.cc	\
 	RandPoissonQ.cc	\
 	RandPoissonT.cc	\
+	RandSkewNormal.cc	\
 	RandStudentT.cc	\
 	RanecuEngine.cc	\
 	Ranlux64Engine.cc	\
