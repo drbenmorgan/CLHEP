@@ -1,4 +1,4 @@
-// $Id: Randomize.h,v 1.3 2003/10/23 21:29:51 garren Exp $
+// $Id: Randomize.h,v 1.4 2011/05/31 20:57:00 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -55,6 +55,7 @@
 #include "CLHEP/Random/RandLandau.h"
 #include "CLHEP/Random/RandPoissonQ.h"
 #include "CLHEP/Random/RandPoissonT.h"
+#include "CLHEP/Random/RandSkewNormal.h"
 #include "CLHEP/Random/RandStudentT.h"
 
 namespace CLHEP {

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testDistCopy.cc,v 1.2 2010/06/16 17:24:53 garren Exp $
+// $Id: testDistCopy.cc,v 1.3 2011/05/31 20:57:01 garren Exp $
 // ----------------------------------------------------------------------
 
 // ======================================================================
@@ -29,6 +29,7 @@
 #include "CLHEP/Random/RandLandau.h"          // CLHEP::RandLandau
 #include "CLHEP/Random/RandPoissonQ.h"        // CLHEP::RandPoissonQ
 #include "CLHEP/Random/RandPoissonT.h"        // CLHEP::RandPoissonT
+#include "CLHEP/Random/RandSkewNormal.h"      // CLHEP::RandSkewNormal
 #include "CLHEP/Random/RandStudentT.h"        // CLHEP::RandStudentT
 
 // ----------------------------------------------------------------------
@@ -116,6 +117,7 @@ static  uint const  Poisson_failure      =  1u << 12;
 static  uint const  PoissonQ_failure     =  1u << 13;
 static  uint const  PoissonT_failure     =  1u << 14;
 static  uint const  StudentT_failure     =  1u << 15;
+static  uint const  SkewNormal_failure   =  1u << 16;
 
 
 // ----------------------------------------------------------------------
@@ -359,6 +361,23 @@ uint  testRandPoissonT()
 
 
 // ----------------------------------------------------------------------
+// RandSkewNormal
+
+uint  testRandSkewNormal()
+{
+  MTwistEngine     r1( 97531L );
+  RandSkewNormal  d1( r1 );
+  if( ! copy_constructor_is_okay(d1) )  return SkewNormal_failure;
+
+  DualRand         r2( 13579L );
+  RandSkewNormal  d2( r2 );
+  if( ! copy_assignment_is_okay(d1,d2) )  return SkewNormal_failure;
+
+  return 0u;
+}  // testRandSkewNormal
+
+
+// ----------------------------------------------------------------------
 // RandStudentT
 
 uint  testRandStudentT()
@@ -395,6 +414,7 @@ int  main()
              | testRandPoisson    ()
              | testRandPoissonQ   ()
              | testRandPoissonT   ()
+             | testRandSkewNormal ()
              | testRandStudentT   ()
              ;
 

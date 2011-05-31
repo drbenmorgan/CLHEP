@@ -69,6 +69,7 @@ void randomizeStatics(int n) {
     RandExponential::shoot();
     RandGamma::shoot();
     RandLandau::shoot();
+    RandSkewNormal::shoot();
     RandStudentT::shoot();
   }
 }
@@ -93,6 +94,7 @@ std::vector<double> captureStatics() {
   c.push_back( RandExponential::shoot() );  
   c.push_back( RandGamma::shoot() );	     
   c.push_back( RandLandau::shoot() );       
+  c.push_back( RandSkewNormal::shoot() );  
   c.push_back( RandStudentT::shoot() );
   return c;     
 }

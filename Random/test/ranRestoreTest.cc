@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: ranRestoreTest.cc,v 1.5 2010/06/16 17:24:53 garren Exp $
+// $Id: ranRestoreTest.cc,v 1.6 2011/05/31 20:57:01 garren Exp $
 // ----------------------------------------------------------------------
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
@@ -287,6 +287,7 @@ int fileNotThereEngine() {
   stat |= fileNotThere <E, RandPoisson>();
   stat |= fileNotThere <E, RandPoissonQ>();
   stat |= fileNotThere <E, RandPoissonT>();
+  stat |= fileNotThere <E, RandSkewNormal>();
   stat |= fileNotThere <E, RandStudentT>();
   return stat;
 }
@@ -561,6 +562,8 @@ int checkDistributions() {
    stat |= checkSaveDistribution<E,RandGamma> (d,33); 			}
   {RandLandau d(new E(125714));
    stat |= checkSaveDistribution<E,RandLandau> (d,33); 			}
+  {RandSkewNormal d(new E(125713),8.00);
+   stat |= checkSaveDistribution<E,RandSkewNormal> (d,33); 		}
   {RandStudentT d(new E(125715),5);
    stat |= checkSaveDistribution<E,RandStudentT> (d,33); 		}
 
@@ -934,6 +937,7 @@ void randomizeStatics(int n) {
     RandExponential::shoot();
     RandGamma::shoot();
     RandLandau::shoot();
+    RandSkewNormal::shoot();
     RandStudentT::shoot();
   }
 }
@@ -958,6 +962,7 @@ std::vector<double> captureStatics() {
   c.push_back( RandExponential::shoot() );  
   c.push_back( RandGamma::shoot() );	     
   c.push_back( RandLandau::shoot() );       
+  c.push_back( RandSkewNormal::shoot() );  
   c.push_back( RandStudentT::shoot() );
   return c;     
 }
@@ -1405,6 +1410,7 @@ int main() {
   stat |= staticSave <RandPoisson>(7);
   stat |= staticSave <RandPoissonQ>(7);
   stat |= staticSave <RandPoissonT>(7);
+  stat |= staticSave <RandSkewNormal>(7);
   stat |= staticSave <RandStudentT>(7);
 #endif
 

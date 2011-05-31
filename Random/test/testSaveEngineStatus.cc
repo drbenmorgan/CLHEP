@@ -297,6 +297,7 @@ int fileNotThereEngine() {
   stat |= fileNotThere <E, RandPoisson>();
   stat |= fileNotThere <E, RandPoissonQ>();
   stat |= fileNotThere <E, RandPoissonT>();
+  stat |= fileNotThere <E, RandSkewNormal>();
   stat |= fileNotThere <E, RandStudentT>();
   return stat;
 }
