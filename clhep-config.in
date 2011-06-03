@@ -6,6 +6,17 @@ prefix=@prefix@
 exec_prefix=@exec_prefix@
 includedir=@includedir@
 
+configpath=`dirname ${0}`
+firstc=`expr ${configpath} : / >/dev/null`
+if [ ! ${firstc} ]
+then
+   prefix=${configpath}
+else
+   cd ${calldir}/${configpath}; newpath=`pwd`
+   prefix=${newpath}
+fi
+echo "prefix is ${configpath}"
+
 usage()
 {
     cat  <<EOF
