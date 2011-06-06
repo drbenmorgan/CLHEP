@@ -1,3 +1,17 @@
+
+2011-06-06 Lynn Garren <garren@fnal.gov>
+
+	* clhep-config: Since the clhep installation may have been relocated,
+	  use the full path to clhep-config to get the install prefix.
+	  Note that this presumes that bin, lib, and include are all under 
+	  the same $prefix.
+
+2011-05-27  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* Random/Random/RandSkewNormal.h, Random/Random/RandSkewNormal.icc, 
+	  Random/src/RandSkewNormal.cc: An implementation of the Azzalini 
+	  skew-normal distribution, as requested in bug #75534
+
 ==============================
 11.11.10 Release CLHEP-2.1.0.1
 ==============================
