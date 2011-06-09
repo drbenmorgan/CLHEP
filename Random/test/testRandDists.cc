@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.8 2011/06/09 18:53:34 garren Exp $
+// $Id: testRandDists.cc,v 1.9 2011/06/09 19:07:55 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -379,10 +379,10 @@ bool skewNormalTest ( HepRandom & dist, double k, int nNumbers ) {
   // calculate mean and sigma
   double delta = k / sqrt( 1 + k*k );
   double mu = delta/sqrt(CLHEP::halfpi);
-  double variance = 1 - ((delta*delta)/CLHEP::halfpi);
-  double sigma = sqrt(variance);
-  double skewmom = (2-CLHEP::halfpi)*mu*mu*mu;
-  double excess = (3+(CLHEP::twopi-6)*(mu*mu*mu*mu)/(variance*variance))*variance*variance;
+  double mom2 = 1 - ((delta*delta)/CLHEP::halfpi);
+  double sigma = sqrt(mom2);
+  double mom3 = (2-CLHEP::halfpi)*mu*mu*mu;
+  double mom4 = (3+(CLHEP::twopi-6)*(mu*mu*mu*mu)/(mom2*mom2))*mom2*mom2;
 
   int ipr = nNumbers / 10 + 1;
   for (int ifire = 0; ifire < nNumbers; ifire++) {
@@ -417,19 +417,19 @@ bool skewNormalTest ( HepRandom & dist, double k, int nNumbers ) {
 		+ 6*sumx2*mean*mean/nNumbers - 3*mean*mean*mean*mean;
 
   cout << "Mean (should be close to " << mu << "): " << mean << endl;
-  cout << "Second moment (should be close to " << variance << "): " << u2 << endl;
-  cout << "Third  moment (should be close to " << skewmom << "): " << u3 << endl;
-  cout << "Fourth moment (should be close to " << excess << "): " << u4 << endl;
+  cout << "Second moment (should be close to " << mom2 << "): " << u2 << endl;
+  cout << "Third  moment (should be close to " << mom3 << "): " << u3 << endl;
+  cout << "Fourth moment (should be close to " << mom4 << "): " << u4 << endl;
 
   // For large N, the variance squared in the scaled 2nd, 3rd, and 4th
   // moments are roughly 2/N, 6/N, and 96/N respectively.  
   // Based on this, we can judge how many sigma a result represents:
   // THIS IS A HACK - we are using gaussian expectations
   double del1 = sqrt ( (double) nNumbers ) * abs(mean - mu) / sigma;
-  double del2 = sqrt ( nNumbers/2.0 ) * abs(u2 - variance) / (sigma*sigma);
-  double del3 = sqrt ( nNumbers/6.0 ) * abs(u3 - skewmom ) / (sigma*sigma*sigma);
+  double del2 = sqrt ( nNumbers/2.0 ) * abs(u2 - mom2) / (sigma*sigma);
+  double del3 = sqrt ( nNumbers/6.0 ) * abs(u3 - mom3 ) / (sigma*sigma*sigma);
   double sigma4 = sigma*sigma*sigma*sigma;
-  double del4 = sqrt ( nNumbers/96.0 ) * abs(u4 - excess) / sigma4;
+  double del4 = sqrt ( nNumbers/96.0 ) * abs(u4 - mom4) / sigma4;
 
   cout << "        These represent " << 
 	del1 << ", " << del2 << ", " << del3 << ", \n" 
