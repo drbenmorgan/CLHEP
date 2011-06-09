@@ -1,4 +1,8 @@
 
+2011-06-09  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
+
+	* adding RandSkewNormal to the tests
+
 2011-05-27  Mark Fischler <mf@fnal.gov> and Lynn Garren <garren@fnal.gov>
 
 	* Random/RandSkewNormal.h, Random/RandSkewNormal.icc, 

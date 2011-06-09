@@ -1,7 +1,6 @@
 #! /bin/sh
 # @configure_input@
 
-
 ./testRandDists@EXEEXT@ < @srcdir@/testRandDists.input \
   | sed 's/e-00\([0-9]\)/e-0\1/g' \
   | sed 's/e+00\([0-9]\)/e+0\1/g' \

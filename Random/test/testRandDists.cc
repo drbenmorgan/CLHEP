@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.7 2010/06/16 17:24:53 garren Exp $
+// $Id: testRandDists.cc,v 1.8 2011/06/09 18:53:34 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -41,6 +41,7 @@
 #include "CLHEP/Random/RandGaussT.h"
 #include "CLHEP/Random/RandPoissonQ.h"
 #include "CLHEP/Random/RandPoissonT.h"
+#include "CLHEP/Random/RandSkewNormal.h"
 #include "CLHEP/Units/PhysicalConstants.h"
 #include "CLHEP/Random/defs.h"
 #include <iostream>
@@ -71,6 +72,7 @@ static const int GaussQBAD   = 1 << 3;
 static const int GaussTBAD   = 1 << 4;
 static const int PoissonQBAD = 1 << 5;
 static const int PoissonTBAD = 1 << 6;
+static const int SkewNormalBAD = 1 << 7;
 
 
 // **********************
@@ -339,6 +341,118 @@ bool gaussianTest ( HepRandom & dist, double mu,
   return good;
 
 } // gaussianTest()
+
+
+
+// ------------
+// skewNormalTest
+// ------------
+
+bool skewNormalTest ( HepRandom & dist, double k, int nNumbers ) {
+
+  bool good = true;
+  double worstSigma = 0;
+
+// We will accumulate mean and moments up to the sixth,
+// The second moment should be sigma**2, the fourth 3 sigma**4.
+// The expected variance in these is 
+// (for the m-th moment with m even) (2m-1)!! (m-1)!!**2 / n
+// (for the m-th moment with m odd)  (2m-1)!!  m!!**2    / n
+
+  double sumx = 0;
+  double sumx2 = 0;
+  double sumx3 = 0;
+  double sumx4 = 0;
+  int counts[11];
+  int ncounts[11];
+  int ciu;
+  for (ciu = 0; ciu < 11; ciu++) {
+    counts[ciu] = 0;
+    ncounts[ciu] = 0;
+  }
+
+  int oldprecision = cout.precision();
+  cout.precision(5);
+  // hack so that gcc 4.3 puts x and u into memory instead of a register
+  volatile double x;
+  volatile double u;
+  // calculate mean and sigma
+  double delta = k / sqrt( 1 + k*k );
+  double mu = delta/sqrt(CLHEP::halfpi);
+  double variance = 1 - ((delta*delta)/CLHEP::halfpi);
+  double sigma = sqrt(variance);
+  double skewmom = (2-CLHEP::halfpi)*mu*mu*mu;
+  double excess = (3+(CLHEP::twopi-6)*(mu*mu*mu*mu)/(variance*variance))*variance*variance;
+
+  int ipr = nNumbers / 10 + 1;
+  for (int ifire = 0; ifire < nNumbers; ifire++) {
+    x = dist();		// We avoid fire() because that is not virtual 
+			// in HepRandom.
+    if( x < mu - 12.0*sigma ) {
+        cout << "x  = " << x << "\n";
+    }
+    if ( (ifire % ipr) == 0 ) {
+      cout << ifire << endl;
+    }
+    sumx  += x;
+    sumx2 += x*x;
+    sumx3 += x*x*x;
+    sumx4 += x*x*x*x;
+    u = (x - mu) / sigma;
+    if ( u >= 0 ) {
+      ciu = (int)(2*u);
+      if (ciu>10) ciu = 10;
+      counts[ciu]++;
+    } else {
+      ciu = (int)(2*(-u));
+      if (ciu>10) ciu = 10;
+      ncounts[ciu]++;
+    }
+  }
+
+  double mean = sumx / nNumbers;
+  double u2 = sumx2/nNumbers - mean*mean;
+  double u3 = sumx3/nNumbers - 3*sumx2*mean/nNumbers + 2*mean*mean*mean;
+  double u4 = sumx4/nNumbers - 4*sumx3*mean/nNumbers 
+		+ 6*sumx2*mean*mean/nNumbers - 3*mean*mean*mean*mean;
+
+  cout << "Mean (should be close to " << mu << "): " << mean << endl;
+  cout << "Second moment (should be close to " << variance << "): " << u2 << endl;
+  cout << "Third  moment (should be close to " << skewmom << "): " << u3 << endl;
+  cout << "Fourth moment (should be close to " << excess << "): " << u4 << endl;
+
+  // For large N, the variance squared in the scaled 2nd, 3rd, and 4th
+  // moments are roughly 2/N, 6/N, and 96/N respectively.  
+  // Based on this, we can judge how many sigma a result represents:
+  // THIS IS A HACK - we are using gaussian expectations
+  double del1 = sqrt ( (double) nNumbers ) * abs(mean - mu) / sigma;
+  double del2 = sqrt ( nNumbers/2.0 ) * abs(u2 - variance) / (sigma*sigma);
+  double del3 = sqrt ( nNumbers/6.0 ) * abs(u3 - skewmom ) / (sigma*sigma*sigma);
+  double sigma4 = sigma*sigma*sigma*sigma;
+  double del4 = sqrt ( nNumbers/96.0 ) * abs(u4 - excess) / sigma4;
+
+  cout << "        These represent " << 
+	del1 << ", " << del2 << ", " << del3 << ", \n" 
+	<<"                        " << del4 
+        <<"\n                         standard deviations from expectations\n";
+  if ( del1 > worstSigma ) worstSigma = del1;
+  if ( del2 > worstSigma ) worstSigma = del2;
+  if ( del3 > worstSigma ) worstSigma = del3;
+  if ( del4 > worstSigma ) worstSigma = del4;
+ 
+  if ( del1 > REJECT || del2 > REJECT || del3 > REJECT || del4 > REJECT  ) {
+      cout << "REJECT hypothesis that this distribution is correct!!\n";
+      good = false;
+  }
+
+  cout << "\n The worst deviation encountered (out of about 25) was "
+	<< worstSigma << " sigma \n\n";
+
+  cout.precision(oldprecision);
+
+  return good;
+
+} // skewNormalTest()
 
 
 // ------------
@@ -624,6 +738,55 @@ int testRandGauss() {
   }
 
 } // testRandGauss()
+
+
+
+// ---------
+// SkewNormal
+// ---------
+
+int testSkewNormal() {
+
+  cout << "\n--------------------------------------------\n";
+  cout << "Test of SkewNormal distribution \n\n";
+
+  long seed;
+  cout << "Please enter an integer seed:        ";
+  cin >> seed;	cout << seed << "\n";
+  if (seed == 0) {
+    cout << "Moving on to next test...\n";
+    return 0; 
+  }
+
+  int nNumbers;
+  cout << "How many numbers should we generate: ";
+  cin >> nNumbers; cout << nNumbers << "\n";
+
+  double k;
+  cout << "Enter k: ";
+  cin >> k; cout << k << "\n";
+
+  cout << "\nInstantiating distribution utilizing TripleRand engine...\n";
+  TripleRand eng (seed);
+  RandSkewNormal dist (eng, k);
+ 
+  cout << "\n Sample  fire(): \n";
+  double x;
+  
+  x = dist.fire();
+  cout << x;
+
+  cout << "\n Testing operator() ... \n";
+
+  bool good = skewNormalTest ( dist, k, nNumbers );
+
+  if (good) { 
+    return 0;
+  } else {
+    return SkewNormalBAD;
+  }
+
+} // testSkewNormal()
 
 
 
@@ -1054,6 +1217,11 @@ int main() {
   mask |= testRandPoisson();
   mask |= testRandPoissonQ();
   mask |= testRandPoissonT();
+
+  mask |= testSkewNormal();  // k = 0 (gaussian)
+  mask |= testSkewNormal();  // k = -2
+  mask |= testSkewNormal();  // k = 1
+  mask |= testSkewNormal();  // k = 5
 
   return mask > 0 ? -mask : mask;
 }
