@@ -58,6 +58,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	LogGamma.cc       \
 	LogisticFunction.cc       \
 	Mod.cc       \
+	NonrelativisticBW.cc   \
 	Parameter.cc       \
 	ParameterComposition.cc       \
 	ParameterDifference.cc       \
@@ -72,6 +73,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	PuncturedSmearedExp.cc \
 	RCBase.cc       \
 	Rectangular.cc       \
+	RelativisticBW.cc   \
 	ReverseExponential.cc       \
 	RKIntegrator.cc       \
 	Sigma.cc	\
@@ -81,6 +83,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	Tan.cc       \
 	TrivariateGaussian.cc       \
 	Variable.cc       \
+	VoigtProfile.cc      \
 	X.cc
 
 libCLHEP_GenericFunctions_@VERSION@_so_OBJECTS = $(patsubst %.cc,$(shareddir)/%.$(OBJEXT),$(libCLHEP_GenericFunctions_@VERSION@_a_SOURCES))

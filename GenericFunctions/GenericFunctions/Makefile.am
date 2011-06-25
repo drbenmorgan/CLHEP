@@ -75,6 +75,7 @@ pkginclude_HEADERS = \
 	LogGamma.hh         \
 	LogisticFunction.hh         \
 	Mod.hh         \
+	NonrelativisticBW.hh          \
 	ParameterComposition.hh         \
 	ParameterDifference.hh         \
 	Parameter.hh         \
@@ -91,6 +92,7 @@ pkginclude_HEADERS = \
 	PuncturedSmearedExp.hh \
 	RCBase.hh        \
 	Rectangular.hh         \
+	RelativisticBW.hh          \
 	ReverseExponential.hh         \
 	RKIntegrator.hh         \
 	Sigma.hh         \
@@ -106,6 +108,7 @@ pkginclude_HEADERS = \
 	Tan.hh         \
 	TrivariateGaussian.hh         \
 	Variable.hh         \
+	VoigtProfile.hh          \
 	X.hh	\
 	defs.h
 
