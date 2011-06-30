@@ -11,7 +11,6 @@
 
 
 #include "CLHEP/Utility/defs.h"
-#include "CLHEP/Utility/keywords.h"
 
 
 namespace CLHEP {
@@ -19,8 +18,8 @@ namespace CLHEP {
 class noncopyable
 {
 protected:
-  noncopyable () noexcept { }
-  ~noncopyable() noexcept { }
+  noncopyable () throw () { }
+  ~noncopyable() throw () { }
 
 private:
   noncopyable              ( noncopyable const & );  // = delete;

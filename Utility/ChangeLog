@@ -1,3 +1,9 @@
+2011-06-30  W. E. Brown  <wb@fnal.gov>
+
+	- removing C++0X-like keywords constexpr, noexcept, and nullptr
+	  to avoid collision with similar symbols in other packages
+	- Utility/keywords.h is now empty
+
 ==============================
 11.11.10 Release CLHEP-2.1.0.1
 ==============================

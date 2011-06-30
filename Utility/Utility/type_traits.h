@@ -11,7 +11,6 @@
 
 
 #include "CLHEP/Utility/defs.h"
-#include "CLHEP/Utility/keywords.h"
 
 #include <memory>  // for auto_ptr
 

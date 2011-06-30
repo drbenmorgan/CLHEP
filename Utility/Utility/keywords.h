@@ -14,9 +14,9 @@
 
 
 // C++0X-like keywords: remove once C++0X is here to stay
-#define constexpr const
-#define noexcept throw()
-#define nullptr 0
+//#define constexpr const
+//#define noexcept throw()
+//#define nullptr 0
 
 
 #endif  // CLHEP_KEYWORDS_H
