@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.h,v 1.6 2010/10/25 18:18:47 garren Exp $
+// $Id: NonRandomEngine.h,v 1.7 2011/07/01 15:20:30 garren Exp $
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -90,8 +90,8 @@ private:
 
   virtual void setSeed(long , int) {};
   virtual void setSeeds(const long * , int) {};
-  virtual void saveStatus( const char filename[] ) const {};
-  virtual void restoreStatus( const char filename[] ) {};
+  virtual void saveStatus( const char [] ) const {};
+  virtual void restoreStatus( const char [] ) {};
   virtual void showStatus() const {};
 
  
