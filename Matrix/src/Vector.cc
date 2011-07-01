@@ -488,10 +488,10 @@ HepVector & HepVector::operator*=(double t)
 
 HepMatrix & HepMatrix::operator=(const HepVector &m1)
 {
-   if(m1.nrow != size)
+   if(m1.nrow != size_)
    {
-      size = m1.nrow;
-      m.resize(size);
+      size_ = m1.nrow;
+      m.resize(size_);
    }
    nrow = m1.nrow;
    ncol = 1;

@@ -303,7 +303,7 @@ private:
    std::vector<double,Alloc<double,25> > m;
 #endif
    int nrow;
-   int size;				     // total number of elements
+   int size_;				     // total number of elements
 
    static double posDefFraction5x5;
    static double adjustment5x5;

@@ -90,16 +90,16 @@ namespace CLHEP {
 HepSymMatrix::HepSymMatrix(int p)
    : m(p*(p+1)/2), nrow(p)
 {
-   size = nrow * (nrow+1) / 2;
-   m.assign(size,0);
+   size_ = nrow * (nrow+1) / 2;
+   m.assign(size_,0);
 }
 
 HepSymMatrix::HepSymMatrix(int p, int init)
    : m(p*(p+1)/2), nrow(p)
 {
-   size = nrow * (nrow+1) / 2;
+   size_ = nrow * (nrow+1) / 2;
 
-   m.assign(size,0);
+   m.assign(size_,0);
    switch(init)
    {
    case 0:
@@ -122,9 +122,9 @@ HepSymMatrix::HepSymMatrix(int p, int init)
 HepSymMatrix::HepSymMatrix(int p, HepRandom &r)
    : m(p*(p+1)/2), nrow(p)
 {
-   size = nrow * (nrow+1) / 2;
+   size_ = nrow * (nrow+1) / 2;
    HepMatrix::mIter a = m.begin();
-   HepMatrix::mIter b = m.begin() + size;
+   HepMatrix::mIter b = m.begin() + size_;
    for(;a<b;a++) *a = r();
 }
 
@@ -135,7 +135,7 @@ HepSymMatrix::~HepSymMatrix() {
 }
 
 HepSymMatrix::HepSymMatrix(const HepSymMatrix &m1)
-   : m(m1.size), nrow(m1.nrow), size(m1.size)
+   : m(m1.size_), nrow(m1.nrow), size_(m1.size_)
 {
    m = m1.m;
 }
@@ -143,10 +143,10 @@ HepSymMatrix::HepSymMatrix(const HepSymMatrix &m1)
 HepSymMatrix::HepSymMatrix(const HepDiagMatrix &m1)
    : m(m1.nrow*(m1.nrow+1)/2), nrow(m1.nrow)
 {
-   size = nrow * (nrow+1) / 2;
+   size_ = nrow * (nrow+1) / 2;
 
    int n = num_row();
-   m.assign(size,0);
+   m.assign(size_,0);
 
    HepMatrix::mIter mrr = m.begin();
    HepMatrix::mcIter mr = m1.m.begin();
@@ -652,10 +652,10 @@ HepMatrix & HepMatrix::operator=(const HepSymMatrix &m1)
 {
    // define size, rows, and columns of *this
    nrow = ncol = m1.nrow;
-   if(nrow*ncol != size)
+   if(nrow*ncol != size_)
    {
-      size = nrow*ncol;
-      m.resize(size);
+      size_ = nrow*ncol;
+      m.resize(size_);
    }
    // begin copy
    mcIter sjk = m1.m.begin();
@@ -678,8 +678,8 @@ HepSymMatrix & HepSymMatrix::operator=(const HepSymMatrix &m1)
    if(m1.nrow != nrow)
    {
       nrow = m1.nrow;
-      size = m1.size;
-      m.resize(size);
+      size_ = m1.size_;
+      m.resize(size_);
    }
    m = m1.m;
    return (*this);
@@ -690,11 +690,11 @@ HepSymMatrix & HepSymMatrix::operator=(const HepDiagMatrix &m1)
    if(m1.nrow != nrow)
    {
       nrow = m1.nrow;
-      size = nrow * (nrow+1) / 2;
-      m.resize(size);
+      size_ = nrow * (nrow+1) / 2;
+      m.resize(size_);
    }
 
-   m.assign(size,0);
+   m.assign(size_,0);
    HepMatrix::mIter mrr = m.begin();
    HepMatrix::mcIter mr = m1.m.begin();
    for(int r=1; r<=nrow; r++) {
@@ -751,8 +751,8 @@ void HepSymMatrix::assign (const HepMatrix &m1)
    if(m1.nrow != nrow)
    {
       nrow = m1.nrow;
-      size = nrow * (nrow+1) / 2;
-      m.resize(size);
+      size_ = nrow * (nrow+1) / 2;
+      m.resize(size_);
    }
    HepMatrix::mcIter a = m1.m.begin();
    HepMatrix::mIter b = m.begin();

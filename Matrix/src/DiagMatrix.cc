@@ -560,15 +560,15 @@ HepDiagMatrix & HepDiagMatrix::operator*=(double t)
 
 HepMatrix & HepMatrix::operator=(const HepDiagMatrix &m1)
 {
-   if(m1.nrow*m1.nrow != size)
+   if(m1.nrow*m1.nrow != size_)
    {
-      size = m1.nrow * m1.nrow;
-      m.resize(size);
+      size_ = m1.nrow * m1.nrow;
+      m.resize(size_);
    }
    nrow = m1.nrow;
    ncol = m1.nrow;
    int n = nrow;
-   m.assign(size,0); 
+   m.assign(size_,0); 
    mIter mrr = m.begin();
    HepMatrix::mcIter mr = m1.m.begin();
    for(int r=1;r<=n;r++) {

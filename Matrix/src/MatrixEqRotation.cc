@@ -46,10 +46,10 @@
 namespace CLHEP {
 
 HepMatrix & HepMatrix::operator=(const HepRotation &m2) {
-  if(9!=size) {
+  if(9!=size_) {
     //delete &m;
-    size = 9;
-    m.resize(size);
+    size_ = 9;
+    m.resize(size_);
   }
   nrow = ncol = 3;
   mIter mm;

@@ -433,7 +433,7 @@ private:
    std::vector<double,Alloc<double,25> > m;
 #endif
    int nrow, ncol;
-   int size;
+   int size_;
 };
 
 // Operations other than member functions for Matrix

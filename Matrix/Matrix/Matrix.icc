@@ -41,7 +41,7 @@
 namespace CLHEP {
 
 inline HepMatrix::HepMatrix()
-  : m(0), nrow(0), ncol(0), size(0) {}
+  : m(0), nrow(0), ncol(0), size_(0) {}
 
 inline HepMatrix::HepMatrix_row HepMatrix::operator[] (int r)
 #ifdef HEP_GNU_OPTIMIZED_RETURN
@@ -100,7 +100,7 @@ inline void swap(HepMatrix &m1,HepMatrix &m2) {
 /*** commented
   HepGenMatrix::swap(m1.nrow,m2.nrow);
   HepGenMatrix::swap(m1.ncol,m2.ncol);
-  HepGenMatrix::swap(m1.size,m2.size);
+  HepGenMatrix::swap(m1.size_,m2.size_);
 */
 }
 

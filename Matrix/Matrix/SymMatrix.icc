@@ -41,12 +41,12 @@
 namespace CLHEP {
 
 inline HepSymMatrix::HepSymMatrix() 
-  : m(0), nrow(0), size(0)
+  : m(0), nrow(0), size_(0)
 {}
 
 inline int HepSymMatrix::num_row() const { return nrow;}
 inline int HepSymMatrix::num_col() const  { return nrow;}
-inline int HepSymMatrix::num_size() const  { return size;}
+inline int HepSymMatrix::num_size() const  { return size_;}
 
 inline double & HepSymMatrix::fast(int row,int col)
 {

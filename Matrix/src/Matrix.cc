@@ -94,15 +94,15 @@ namespace CLHEP {
 HepMatrix::HepMatrix(int p,int q)
    : m(p*q), nrow(p), ncol(q)
 {
-  size = nrow * ncol;
+  size_ = nrow * ncol;
 }
 
 HepMatrix::HepMatrix(int p,int q,int init)
    : m(p*q), nrow(p), ncol(q)
 {
-   size = nrow * ncol;
+   size_ = nrow * ncol;
 
-   if (size > 0) {
+   if (size_ > 0) {
       switch(init)
       {
       case 0:
@@ -112,7 +112,7 @@ HepMatrix::HepMatrix(int p,int q,int init)
 	 {
 	    if ( ncol == nrow ) {
  	       mIter a = m.begin();
-	       for( int step=0; step < size; step+=(ncol+1) ) *(a+step) = 1.0;
+	       for( int step=0; step < size_; step+=(ncol+1) ) *(a+step) = 1.0;
 	    } else {
 	       error("Invalid dimension in HepMatrix(int,int,1).");
 	    }
@@ -127,7 +127,7 @@ HepMatrix::HepMatrix(int p,int q,int init)
 HepMatrix::HepMatrix(int p,int q, HepRandom &r)
    : m(p*q), nrow(p), ncol(q)
 {
-   size = nrow * ncol;
+   size_ = nrow * ncol;
 
    mIter a = m.begin();
    mIter b = m.end();
@@ -140,7 +140,7 @@ HepMatrix::~HepMatrix() {
 }
 
 HepMatrix::HepMatrix(const HepMatrix &m1)
-   : m(m1.size), nrow(m1.nrow), ncol(m1.ncol), size(m1.size)
+   : m(m1.size_), nrow(m1.nrow), ncol(m1.ncol), size_(m1.size_)
 {
    m = m1.m;
 
@@ -152,7 +152,7 @@ int HepMatrix::num_row() const { return nrow;}
 
 int HepMatrix::num_col() const  { return ncol;}
 
-int HepMatrix::num_size() const { return size;}
+int HepMatrix::num_size() const { return size_;}
 
 // operator()
 
@@ -178,7 +178,7 @@ const double & HepMatrix::operator()(int row, int col) const
 HepMatrix::HepMatrix(const HepSymMatrix &m1)
    : m(m1.nrow*m1.nrow), nrow(m1.nrow), ncol(m1.nrow)
 {
-   size = nrow * ncol;
+   size_ = nrow * ncol;
 
    mcIter sjk = m1.m.begin();
    // j >= k
@@ -197,7 +197,7 @@ HepMatrix::HepMatrix(const HepSymMatrix &m1)
 HepMatrix::HepMatrix(const HepDiagMatrix &m1)
    : m(m1.nrow*m1.nrow), nrow(m1.nrow), ncol(m1.nrow)
 {
-   size = nrow * ncol;
+   size_ = nrow * ncol;
 
    int n = num_row();
    mIter mrr;
@@ -212,7 +212,7 @@ HepMatrix::HepMatrix(const HepVector &m1)
    : m(m1.nrow), nrow(m1.nrow), ncol(1)
 {
 
-   size = nrow;
+   size_ = nrow;
    m = m1.m;
 }
 
@@ -447,10 +447,10 @@ HepMatrix & HepMatrix::operator*=(double t)
 
 HepMatrix & HepMatrix::operator=(const HepMatrix &m1)
 {
-   if(m1.nrow*m1.ncol != size) //??fixme?? m1.size != size
+   if(m1.nrow*m1.ncol != size_) //??fixme?? m1.size != size
    {
-      size = m1.nrow * m1.ncol;
-      m.resize(size); //??fixme?? if (size < m1.size) m.resize(m1.size);
+      size_ = m1.nrow * m1.ncol;
+      m.resize(size_); //??fixme?? if (size < m1.size) m.resize(m1.size);
    }
    nrow = m1.nrow;
    ncol = m1.ncol;
