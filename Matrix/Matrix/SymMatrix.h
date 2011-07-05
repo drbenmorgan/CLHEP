@@ -7,35 +7,7 @@
 // 
 // This is the definition of the HepSymMatrix class.
 // 
-// Copyright Cornell University 1993, 1996, All Rights Reserved.
-// 
 // This software written by Nobu Katayama and Mike Smyth, Cornell University.
-// 
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions
-// are met:
-// 1. Redistributions of source code must retain the above copyright
-//    notice and author attribution, this list of conditions and the
-//    following disclaimer. 
-// 2. Redistributions in binary form must reproduce the above copyright
-//    notice and author attribution, this list of conditions and the
-//    following disclaimer in the documentation and/or other materials
-//    provided with the distribution.
-// 3. Neither the name of the University nor the names of its contributors
-//    may be used to endorse or promote products derived from this software
-//    without specific prior written permission.
-// 
-// Creation of derivative forms of this software for commercial
-// utilization may be subject to restriction; written permission may be
-// obtained from Cornell University.
-// 
-// CORNELL MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED.  By way
-// of example, but not limitation, CORNELL MAKES NO REPRESENTATIONS OR
-// WARRANTIES OF MERCANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT
-// THE USE OF THIS SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY PATENTS,
-// COPYRIGHTS, TRADEMARKS, OR OTHER RIGHTS.  Cornell University shall not be
-// held liable for any liability with respect to any claim by the user or any
-// other party arising from use of the program.
 //
 // .SS Usage
 //
@@ -85,17 +57,6 @@
 // ./"This code has been written by Mike Smyth, and the algorithms used are
 // ./"described in the thesis "A Tracking Library for a Silicon Vertex Detector"
 // ./"(Mike Smyth, Cornell University, June 1993).
-// ./"Copyright (C) Cornell University 1993. Permission is granted to copy and 
-// ./"distribute this code, provided this copyright is not changed or deleted.
-// ./"You may modify your copy, providing that you cause the modified file to
-// ./"carry prominent notices stating that you changed the files, and the date
-// ./"of any change. This code may not be sold, nor may it be contained in
-// ./"programs that are to be sold without the written permission of the author.
-// ./"You may, however, charge a fee for the physical act of transferring a
-// ./"copy of this code. The code is offered "as is" without warranty of any 
-// ./"kind, either expressed or implied.  By copying, distributing, or 
-// ./"modifying this code you indicate your acceptance of this license to
-// ./"do so, and all its terms and conditions.
 // ./"This is file contains C++ stuff for doing things with Matrixes.
 // ./"To turn on bound checking, define MATRIX_BOUND_CHECK before including
 // ./"this file.
