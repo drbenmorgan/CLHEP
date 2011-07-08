@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.9 2011/06/09 19:07:55 garren Exp $
+// $Id: testRandDists.cc,v 1.10 2011/07/08 15:54:47 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -363,19 +363,13 @@ bool skewNormalTest ( HepRandom & dist, double k, int nNumbers ) {
   double sumx2 = 0;
   double sumx3 = 0;
   double sumx4 = 0;
-  int counts[11];
-  int ncounts[11];
-  int ciu;
-  for (ciu = 0; ciu < 11; ciu++) {
-    counts[ciu] = 0;
-    ncounts[ciu] = 0;
-  }
+  double sumx5 = 0;
+  double sumx6 = 0;
 
   int oldprecision = cout.precision();
   cout.precision(5);
-  // hack so that gcc 4.3 puts x and u into memory instead of a register
+  // hack so that gcc 4.3 puts x into memory instead of a register
   volatile double x;
-  volatile double u;
   // calculate mean and sigma
   double delta = k / sqrt( 1 + k*k );
   double mu = delta/sqrt(CLHEP::halfpi);
@@ -398,16 +392,8 @@ bool skewNormalTest ( HepRandom & dist, double k, int nNumbers ) {
     sumx2 += x*x;
     sumx3 += x*x*x;
     sumx4 += x*x*x*x;
-    u = (x - mu) / sigma;
-    if ( u >= 0 ) {
-      ciu = (int)(2*u);
-      if (ciu>10) ciu = 10;
-      counts[ciu]++;
-    } else {
-      ciu = (int)(2*(-u));
-      if (ciu>10) ciu = 10;
-      ncounts[ciu]++;
-    }
+    sumx5 += x*x*x*x*x;
+    sumx6 += x*x*x*x*x*x;
   }
 
   double mean = sumx / nNumbers;
