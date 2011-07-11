@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: testRandDists.cc,v 1.10 2011/07/08 15:54:47 garren Exp $
+// $Id: testRandDists.cc,v 1.11 2011/07/11 15:55:45 garren Exp $
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -373,16 +373,17 @@ bool skewNormalTest ( HepRandom & dist, double k, int nNumbers ) {
   // calculate mean and sigma
   double delta = k / sqrt( 1 + k*k );
   double mu = delta/sqrt(CLHEP::halfpi);
-  double mom2 = 1 - ((delta*delta)/CLHEP::halfpi);
-  double sigma = sqrt(mom2);
-  double mom3 = (2-CLHEP::halfpi)*mu*mu*mu;
-  double mom4 = (3+(CLHEP::twopi-6)*(mu*mu*mu*mu)/(mom2*mom2))*mom2*mom2;
+  double mom2 = 1.;
+  double mom3 = 3*delta*(1-(delta*delta)/3.)/sqrt(CLHEP::halfpi);
+  double mom4 = 3.;
+  double mom5 = 15*delta*(1-2.*(delta*delta)/3.+(delta*delta*delta*delta)/5.)/sqrt(CLHEP::halfpi);
+  double mom6 = 15.;
 
   int ipr = nNumbers / 10 + 1;
   for (int ifire = 0; ifire < nNumbers; ifire++) {
     x = dist();		// We avoid fire() because that is not virtual 
 			// in HepRandom.
-    if( x < mu - 12.0*sigma ) {
+    if( x < mu - 12.0 ) {
         cout << "x  = " << x << "\n";
     }
     if ( (ifire % ipr) == 0 ) {
@@ -397,36 +398,39 @@ bool skewNormalTest ( HepRandom & dist, double k, int nNumbers ) {
   }
 
   double mean = sumx / nNumbers;
-  double u2 = sumx2/nNumbers - mean*mean;
-  double u3 = sumx3/nNumbers - 3*sumx2*mean/nNumbers + 2*mean*mean*mean;
-  double u4 = sumx4/nNumbers - 4*sumx3*mean/nNumbers 
-		+ 6*sumx2*mean*mean/nNumbers - 3*mean*mean*mean*mean;
+  double u2 = sumx2/nNumbers;
+  double u3 = sumx3/nNumbers;
+  double u4 = sumx4/nNumbers;
+  double u5 = sumx5/nNumbers;
+  double u6 = sumx6/nNumbers;
 
   cout << "Mean (should be close to " << mu << "): " << mean << endl;
   cout << "Second moment (should be close to " << mom2 << "): " << u2 << endl;
   cout << "Third  moment (should be close to " << mom3 << "): " << u3 << endl;
   cout << "Fourth moment (should be close to " << mom4 << "): " << u4 << endl;
+  cout << "Fifth moment (should be close to " << mom5 << "): " << u5 << endl;
+  cout << "Sixth moment (should be close to " << mom6 << "): " << u6 << endl;
 
-  // For large N, the variance squared in the scaled 2nd, 3rd, and 4th
-  // moments are roughly 2/N, 6/N, and 96/N respectively.  
-  // Based on this, we can judge how many sigma a result represents:
-  // THIS IS A HACK - we are using gaussian expectations
-  double del1 = sqrt ( (double) nNumbers ) * abs(mean - mu) / sigma;
-  double del2 = sqrt ( nNumbers/2.0 ) * abs(u2 - mom2) / (sigma*sigma);
-  double del3 = sqrt ( nNumbers/6.0 ) * abs(u3 - mom3 ) / (sigma*sigma*sigma);
-  double sigma4 = sigma*sigma*sigma*sigma;
-  double del4 = sqrt ( nNumbers/96.0 ) * abs(u4 - mom4) / sigma4;
+  double del1 = sqrt ( (double) nNumbers ) * abs(mean - mu);
+  double del2 = sqrt ( nNumbers/2.0 ) * abs(u2 - mom2);
+  double del3 = sqrt ( nNumbers/(15.-mom3*mom3) ) * abs(u3 - mom3 );
+  double del4 = sqrt ( nNumbers/96.0 ) * abs(u4 - mom4);
+  double del5 = sqrt ( nNumbers/(945.-mom5*mom5) ) * abs(u5 - mom5 );
+  double del6 = sqrt ( nNumbers/10170.0 ) * abs(u6 - mom6);
 
   cout << "        These represent " << 
 	del1 << ", " << del2 << ", " << del3 << ", \n" 
-	<<"                        " << del4 
+	<<"                        " << del4 << ", " << del5 << ", " << del6
         <<"\n                         standard deviations from expectations\n";
   if ( del1 > worstSigma ) worstSigma = del1;
   if ( del2 > worstSigma ) worstSigma = del2;
   if ( del3 > worstSigma ) worstSigma = del3;
   if ( del4 > worstSigma ) worstSigma = del4;
+  if ( del5 > worstSigma ) worstSigma = del5;
+  if ( del6 > worstSigma ) worstSigma = del6;
  
-  if ( del1 > REJECT || del2 > REJECT || del3 > REJECT || del4 > REJECT  ) {
+  if ( del1 > REJECT || del2 > REJECT || del3 > REJECT ||
+       del4 > REJECT || del5 > REJECT || del6 > REJECT  ) {
       cout << "REJECT hypothesis that this distribution is correct!!\n";
       good = false;
   }

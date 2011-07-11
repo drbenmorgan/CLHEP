@@ -1292,13 +1292,15 @@ Instantiating distribution utilizing TripleRand engine...
 450009
 Mean (should be close to 0): 0.00061911
 Second moment (should be close to 1): 1.003
-Third  moment (should be close to 0): 0.00084757
+Third  moment (should be close to 0): 0.0027104
 Fourth moment (should be close to 3): 3.0107
-        These represent 0.43778, 1.4882, 0.24467, 
-                        0.775
+Fifth moment (should be close to 0): 0.032555
+Sixth moment (should be close to 15): 15.04
+        These represent 0.43778, 1.4884, 0.49486, 
+                        0.77532, 0.74883, 0.28291
                          standard deviations from expectations
 
- The worst deviation encountered (out of about 25) was 1.4882 sigma 
+ The worst deviation encountered (out of about 25) was 1.4884 sigma 
 
 
 --------------------------------------------
@@ -1324,14 +1326,16 @@ Instantiating distribution utilizing TripleRand engine...
 400008
 450009
 Mean (should be close to -0.71365): -0.71456
-Second moment (should be close to 0.4907): 0.49284
-Third  moment (should be close to -0.156): -0.15595
-Fourth moment (should be close to 0.79583): 0.79911
-        These represent 0.91795, 2.1804, 0.038602, 
-                        0.98335
+Second moment (should be close to 1): 1.0034
+Third  moment (should be close to -1.57): -1.5773
+Fourth moment (should be close to 3): 3.0154
+Fifth moment (should be close to -6.3658): -6.3971
+Sixth moment (should be close to 15): 15.062
+        These represent 0.64302, 1.7193, 1.4522, 
+                        1.1129, 0.73617, 0.43656
                          standard deviations from expectations
 
- The worst deviation encountered (out of about 25) was 2.1804 sigma 
+ The worst deviation encountered (out of about 25) was 1.7193 sigma 
 
 
 --------------------------------------------
@@ -1357,14 +1361,16 @@ Instantiating distribution utilizing TripleRand engine...
 400008
 450009
 Mean (should be close to 0.56419): 0.56557
-Second moment (should be close to 0.68169): 0.68438
-Third  moment (should be close to 0.077079): 0.078882
-Fourth moment (should be close to 1.4228): 1.4331
-        These represent 1.1781, 1.9717, 0.92456, 
-                        1.5962
+Second moment (should be close to 1): 1.0042
+Third  moment (should be close to 1.4105): 1.421
+Fourth moment (should be close to 3): 3.0273
+Fifth moment (should be close to 6.065): 6.1391
+Sixth moment (should be close to 15): 15.212
+        These represent 0.97269, 2.1211, 2.0571, 
+                        1.9693, 1.7377, 1.4849
                          standard deviations from expectations
 
- The worst deviation encountered (out of about 25) was 1.9717 sigma 
+ The worst deviation encountered (out of about 25) was 2.1211 sigma 
 
 
 --------------------------------------------
@@ -1390,12 +1396,14 @@ Instantiating distribution utilizing TripleRand engine...
 400008
 450009
 Mean (should be close to 0.78239): 0.78381
-Second moment (should be close to 0.38787): 0.39005
-Third  moment (should be close to 0.20556): 0.20774
-Fourth moment (should be close to 0.55743): 0.56361
-        These represent 1.6144, 2.8122, 2.6139, 
-                        2.9633
+Second moment (should be close to 1): 1.0044
+Third  moment (should be close to 1.5949): 1.6065
+Fourth moment (should be close to 3): 3.0302
+Fifth moment (should be close to 6.383): 6.4649
+Sixth moment (should be close to 15): 15.234
+        These represent 1.0055, 2.2043, 2.3215, 
+                        2.1766, 1.9257, 1.644
                          standard deviations from expectations
 
- The worst deviation encountered (out of about 25) was 2.9633 sigma 
+ The worst deviation encountered (out of about 25) was 2.3215 sigma 
 
