@@ -50,6 +50,7 @@ clhep_build_library( GenericFunctions Abs.cc
 				      LogGamma.cc 
 				      LogisticFunction.cc 
 				      Mod.cc 
+				      NonrelativisticBW.cc
 				      Parameter.cc 
 				      ParameterComposition.cc 
 				      ParameterDifference.cc 
@@ -64,6 +65,7 @@ clhep_build_library( GenericFunctions Abs.cc
 				      PuncturedSmearedExp.cc
 				      RCBase.cc 
 				      Rectangular.cc 
+				      RelativisticBW.cc
 				      ReverseExponential.cc 
 				      RKIntegrator.cc 
 				      Sigma.cc
@@ -73,4 +75,5 @@ clhep_build_library( GenericFunctions Abs.cc
 				      Tan.cc 
 				      TrivariateGaussian.cc 
 				      Variable.cc 
+				      VoigtProfile.cc
 				      X.cc )

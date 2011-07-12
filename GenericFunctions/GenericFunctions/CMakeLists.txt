@@ -65,6 +65,7 @@ set( pkginclude_HEADERS AbsFunctional.hh
 			LogGamma.hh  
 			LogisticFunction.hh  
 			Mod.hh  
+			NonrelativisticBW.hh
 			ParameterComposition.hh  
 			ParameterDifference.hh  
 			Parameter.hh  
@@ -81,6 +82,7 @@ set( pkginclude_HEADERS AbsFunctional.hh
 			PuncturedSmearedExp.hh
 			RCBase.hh 
 			Rectangular.hh  
+			RelativisticBW.hh
 			ReverseExponential.hh  
 			RKIntegrator.hh  
 			Sigma.hh  
@@ -96,6 +98,7 @@ set( pkginclude_HEADERS AbsFunctional.hh
 			Tan.hh  
 			TrivariateGaussian.hh  
 			Variable.hh  
+			VoigtProfile.hh
 			X.hh )
 
 # notice that defs.h is not referenced here

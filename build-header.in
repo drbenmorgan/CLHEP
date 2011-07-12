@@ -42,6 +42,6 @@ echo "  };" >> ClhepVersion.h
 echo "" >> ClhepVersion.h
 echo "} // namespace" >> ClhepVersion.h
 echo "" >> ClhepVersion.h
-echo "#endif	// CLHEP_VERSION_H" >> ClhepVersion.h
+echo "#endif  // CLHEP_VERSION_H" >> ClhepVersion.h
 
 exit 0

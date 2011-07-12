@@ -32,6 +32,7 @@ include(CopyHeaders)
 include(BuildTest)
 include(BuildLibrary)
 include(ClhepVariables)
+include(CheckFunctionExists)
 
 # make sure we are not building in source
 clhep_ensure_out_of_source_build()
@@ -55,9 +56,11 @@ clhep_set_compiler_flags()
 # get automake/autoconf variables
 clhep_autoconf_variables()
 
-
-clhep_copy_headers( Units Utility Vector Evaluator GenericFunctions Geometry
+# check for required functions
+CHECK_FUNCTION_EXISTS(drand48 found_drand48)
+set( CLHEP_subdirs Units Utility Vector Evaluator GenericFunctions Geometry
                     Random Matrix RandomObjects Cast RefCount Exceptions )
+clhep_copy_headers( ${CLHEP_subdirs} )
 
 subdirs(Units)
 subdirs(Utility) 
