@@ -1,0 +1,27 @@
+#ifndef CLHEP_VERSION_H
+#define CLHEP_VERSION_H 1
+//
+// ClhepVersion.h
+//
+// Sample Usage:
+//   std::string version = CLHEP::Version::String()
+//   int mjr = CLHEP::Version::Major();
+//
+
+#include <string>
+
+namespace CLHEP {
+
+  struct Version {
+
+    static std::string String() { return "@VERSION@"; }
+    static int Major()          { return @CLHEP_Major@; }
+    static int SubMajor()       { return @CLHEP_SubMajor@; }
+    static int Minor()          { return @CLHEP_Minor@; }
+    static int SubMinor()       { return @CLHEP_SubMinor@; }
+
+  };
+
+} // namespace
+
+#endif	// CLHEP_VERSION_H
