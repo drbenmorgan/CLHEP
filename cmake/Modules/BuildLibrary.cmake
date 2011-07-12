@@ -9,17 +9,17 @@ macro (clhep_build_library package )
   set ( package_library_list )
   if( ${PACKAGE}_DEPS )
      foreach ( dep ${${PACKAGE}_DEPS} )
-        message( STATUS "clhep_build_library ${package} will use ${dep}")
+        ##message( STATUS "clhep_build_library ${package} will use ${dep}")
 	list(APPEND package_library_list ${dep} )
      endforeach()
   endif()
   ADD_LIBRARY (${package}  SHARED ${libCLHEP_${package}_SOURCES})
   ADD_LIBRARY (${package}S STATIC ${libCLHEP_${package}_SOURCES})
   SET_TARGET_PROPERTIES (${package}
-      PROPERTIES OUTPUT_NAME CLHEP_${package}-${VERSION}
+      PROPERTIES OUTPUT_NAME CLHEP-${package}-${VERSION}
       )
   SET_TARGET_PROPERTIES (${package}S
-      PROPERTIES OUTPUT_NAME CLHEP_${package}-${VERSION}
+      PROPERTIES OUTPUT_NAME CLHEP-${package}-${VERSION}
       )
   SET_TARGET_PROPERTIES(${package}  PROPERTIES CLEAN_DIRECT_OUTPUT 1)
   SET_TARGET_PROPERTIES(${package}S PROPERTIES CLEAN_DIRECT_OUTPUT 1)
