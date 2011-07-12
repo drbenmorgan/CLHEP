@@ -1,6 +1,6 @@
 #! /bin/sh
 # @configure_input@
 
-
-./testInversion@EXEEXT@  \
-  | @DIFF_Q@ - @srcdir@/testInversion.output > /dev/null
+rm -f testInversion.cout
+@builddir@/testInversion@EXEEXT@ > testInversion.cout
+@DIFF_Q@ testInversion.cout @srcdir@/testInversion.output

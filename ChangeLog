@@ -1,4 +1,9 @@
 
+2011-07-11 Lynn Garren <garren@fnal.gov>
+
+	* CMakeLists.txt: adding the ability to build with cmake
+	* cmake/Modules: utility macros for cmake
+
 2011-06-06 Lynn Garren <garren@fnal.gov>
 
 	* clhep-config: Since the clhep installation may have been relocated,

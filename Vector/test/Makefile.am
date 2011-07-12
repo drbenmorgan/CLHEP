@@ -31,11 +31,11 @@ check_PROGRAMS = \
 	testThreeVector testLorentzVector testRotation testSubscripts
 
 check_SCRIPTS = \
-	testThreeVector.sh testLorentzVector.sh testRotation.sh testSubscripts.sh
+	testThreeVector.sh testLorentzVector.sh
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
-	testThreeVector.sh testLorentzVector.sh testRotation.sh testSubscripts.sh
+	testThreeVector.sh testLorentzVector.sh testRotation testSubscripts
 
 
 # Identify the test(s) for which failure is the intended outcome:

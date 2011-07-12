@@ -1,6 +1,4 @@
 #! /bin/sh
-# @configure_input@
-
 
 # we include the paths of the original install directories for reference
 orig_prefix=@prefix@

@@ -1,0 +1,76 @@
+#-------------------------------------------------------------
+#  building CLHEP with cmake
+#-------------------------------------------------------------
+
+At this time, the cmake build system only supports building 
+CLHEP as a complete package, starting from the top level directory.
+
+#-------------------------------------------------------------
+#  platform specific issues
+#-------------------------------------------------------------
+
+This package requires cmake 2.6 or later.
+
+#-------------------------------------------------------------
+# about linking
+#-------------------------------------------------------------
+
+CLHEP builds libraries for each package in addition to a single CLHEP library.
+This alllows you to link with only the necessary parts of CLHEP.
+We provide a "clheplib" script which gives the list of libraries to link, 
+in the correct order.  The script can be embedded in a makefile.
+
+   clheplib           - provides link list of ALL CLHEP libraries
+   clheplib <package> - provides link list of ONLY those libraries 
+                        needed to use <package>
+
+#-------------------------------------------------------------
+#  installing from a source code tar ball
+#-------------------------------------------------------------
+
+Unwind the source code tar ball in some relevant directory.
+Determine where the files will be installed.
+Create a build directory that is NOT in the source code directory tree.
+Make sure cmake is in your path.
+
+cd <build_directory>
+
+cmake -DCMAKE_INSTALL_PREFIX=<install_dir> <source_code_dir>
+   (Note that files will be installed under /usr/local if you do not 
+    specify a prefix.)
+make
+   (Build temporary copies of libraries and executables.)
+make test
+   (Run the tests.)
+make install
+   (Copy libraries, headers, executables, etc. to relevant 
+    subdirectories under <install_dir>.)
+
+#-------------------------------------------------------------
+#  cmake options
+#-------------------------------------------------------------
+
+
+-DCMAKE_INSTALL_PREFIX=/install/path
+-DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel
+-Dbuild_docs 
+ 
+#-------------------------------------------------------------
+# building documents
+#-------------------------------------------------------------
+
+Documents are not built or installed automatically.  
+If you wish to build and install the documents, add -Dbuild_docs
+to your cmake command.   Documents will then be built during the 
+make step and installed during the install step.
+You will need to have latex in your path.
+
+#-------------------------------------------------------------
+# building from cvs
+#-------------------------------------------------------------
+
+cvs co CLHEP
+
+Now continue with directions as if you unpacked a source code tarball.
+
+#-------------------------------------------------------------

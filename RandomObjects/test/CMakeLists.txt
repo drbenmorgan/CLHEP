@@ -1,0 +1,2 @@
+
+clhep_test( testVectorDists )

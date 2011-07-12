@@ -5,6 +5,9 @@
 You may build CLHEP as a complete package, starting from this 
 top level directory, or you may build any package separately.
 
+These instructions are for the autoconf/automake build system.
+If you wish to use cmake, look at cmake/INSTALL.
+
 #-------------------------------------------------------------
 #  platform specific issues
 #-------------------------------------------------------------

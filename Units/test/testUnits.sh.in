@@ -2,5 +2,5 @@
 # @configure_input@
 
 
-./testUnits@EXEEXT@  \
+@builddir@/testUnits@EXEEXT@  \
   | @DIFF_Q@ - @srcdir@/testUnits.output > /dev/null
