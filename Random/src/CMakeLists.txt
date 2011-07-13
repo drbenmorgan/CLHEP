@@ -1,5 +1,6 @@
+# This include has been moved to the top CMakeLists.txt 
 # add CLHEP/Random to search path so we find gaussTables.cdat
-include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/..")
+#include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/..")
 
 clhep_build_library( Random DoubConv.cc
 			    DRand48Engine.cc

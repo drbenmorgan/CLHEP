@@ -45,6 +45,8 @@ ENABLE_TESTING()
 
 # include search path
 include_directories ("${PROJECT_BINARY_DIR}")
+# add CLHEP/Random to search path so we find gaussTables.cdat
+include_directories ("${CMAKE_SOURCE_DIR}/Random")
 
 #build all libraries in a single directory to facilitate testing
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
@@ -62,15 +64,18 @@ set( CLHEP_subdirs Units Utility Vector Evaluator GenericFunctions Geometry
                     Random Matrix RandomObjects Cast RefCount Exceptions )
 clhep_copy_headers( ${CLHEP_subdirs} )
 
-subdirs(Units)
-subdirs(Utility) 
-subdirs(Vector) 
-subdirs(Evaluator) 
-subdirs(GenericFunctions) 
-subdirs(Geometry) 
-subdirs(Random) 
-subdirs(Matrix) 
-subdirs(RandomObjects) 
-subdirs(Cast) 
-subdirs(RefCount) 
-subdirs(Exceptions)
+add_subdirectory(Units)
+add_subdirectory(Utility) 
+add_subdirectory(Vector) 
+add_subdirectory(Evaluator) 
+add_subdirectory(GenericFunctions) 
+add_subdirectory(Geometry) 
+add_subdirectory(Random) 
+add_subdirectory(Matrix) 
+add_subdirectory(RandomObjects) 
+add_subdirectory(Cast) 
+add_subdirectory(RefCount) 
+add_subdirectory(Exceptions)
+
+# we build libclhep from code already compiled
+clhep_build_libclhep( ${CLHEP_subdirs} )
