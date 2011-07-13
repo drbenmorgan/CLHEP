@@ -5,5 +5,5 @@ set( PACKAGE Cast )
 
 clhep_package_config()
 
-subdirs(Cast)
-subdirs(src)
+add_subdirectory(Cast)
+add_subdirectory(src)

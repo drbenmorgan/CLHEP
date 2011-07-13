@@ -5,5 +5,5 @@ set( PACKAGE RefCount )
 
 clhep_package_config()
 
-subdirs(RefCount)
-subdirs(src)
+add_subdirectory(RefCount)
+add_subdirectory(src)

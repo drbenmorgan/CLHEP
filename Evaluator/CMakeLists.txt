@@ -5,6 +5,6 @@ set( PACKAGE Evaluator )
 
 clhep_package_config()
 
-subdirs(Evaluator)
-subdirs(src)
-subdirs(test)
+add_subdirectory(Evaluator)
+add_subdirectory(src)
+add_subdirectory(test)

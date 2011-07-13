@@ -77,5 +77,4 @@ add_subdirectory(Cast)
 add_subdirectory(RefCount) 
 add_subdirectory(Exceptions)
 
-# we build libclhep from code already compiled
 clhep_build_libclhep( ${CLHEP_subdirs} )

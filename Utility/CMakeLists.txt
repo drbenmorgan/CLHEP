@@ -15,5 +15,5 @@ configure_file ( ${CLHEP_SOURCE_DIR}/Utility/Utility-deps.in
 install ( FILES ${CLHEP_BINARY_DIR}/Utility/Utility-config
           DESTINATION bin )
 
-subdirs(Utility)
-subdirs(test)
+add_subdirectory(Utility)
+add_subdirectory(test)
