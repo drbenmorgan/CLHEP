@@ -2,7 +2,7 @@
 # Top Level CMakeLists.txt for CLHEP
 #  cmake [-DCMAKE_INSTALL_PREFIX=/install/path] 
 #        [-DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel]
-#        [-Dbuild_docs] 
+#        [-Dbuild_docs:BOOL=ON] 
 #        /path/to/source
 #  make
 #  make test
@@ -21,16 +21,18 @@ set( VERSION 2.1.0.1 )
 set(CMAKE_MODULE_PATH "${CMAKE_ROOT}/Modules")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
 message(STATUS "module path is ${CMAKE_MODULE_PATH}" )
+
+# build_docs is OFF (false) by default
 if ( build_docs )
    message(STATUS "documents WILL be built and installed" )
 else()
    message(STATUS "documents WILL NOT be installed" )
 endif()
 # various handy macros
-include(EnsureOutOfSourceBuild)
-include(CopyHeaders)
-include(BuildTest)
-include(BuildLibrary)
+include(ClhepOutOfSourceBuild)
+include(ClhepCopyHeaders)
+include(ClhepBuildTest)
+include(ClhepBuildLibrary)
 include(ClhepVariables)
 include(CheckFunctionExists)
 

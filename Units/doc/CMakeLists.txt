@@ -1,5 +1,5 @@
 # build Units documentation
 
-include(BuildTex)
+include(ClhepBuildTex)
 
 clhep_latex( Units Units html.sty )

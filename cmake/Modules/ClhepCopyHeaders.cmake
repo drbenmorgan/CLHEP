@@ -4,7 +4,7 @@
 # Recommended use:
 # clhep_copy_headers( <package_list> )
 
-include(ParseVersion)
+include(ClhepParseVersion)
 
 macro (clhep_copy_headers )
   foreach( package ${ARGN} )

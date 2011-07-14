@@ -1,4 +1,8 @@
 
+2011-07-12 Lynn Garren <garren@fnal.gov>
+
+	* cmake/Templates/ClhepVersion.h.in: template for ClhepVersion.h
+
 2011-07-11 Lynn Garren <garren@fnal.gov>
 
 	* CMakeLists.txt: adding the ability to build with cmake

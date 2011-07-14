@@ -1,6 +1,6 @@
 # build Vector documentation
 
-include(BuildTex)
+include(ClhepBuildTex)
 
 clhep_latex( Vector eulerAngleComputation )
 clhep_latex( Vector VectorDefs )

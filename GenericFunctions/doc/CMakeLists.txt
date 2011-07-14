@@ -1,6 +1,6 @@
 # build GenericFunctions documentation
 
-include(BuildTex)
+include(ClhepBuildTex)
 
 clhep_latex( GenericFunctions genericFunctions example.ps
         				       hydrogen.ps
