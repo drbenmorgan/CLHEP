@@ -1,5 +1,5 @@
 
-clhep_build_library ( Vector AxisAngle.cc
+set ( Vector_source_list    AxisAngle.cc
 			     Boost.cc
 			     BoostX.cc
 			     BoostY.cc
@@ -23,7 +23,6 @@ clhep_build_library ( Vector AxisAngle.cc
 			     RotationL.cc
 			     RotationP.cc
 			     RotationX.cc
-			     RotationXYZ.cc
 			     RotationY.cc
 			     RotationZ.cc
 			     SpaceVector.cc
@@ -35,3 +34,11 @@ clhep_build_library ( Vector AxisAngle.cc
 			     TwoVector.cc
 			     ZMinput.cc
 			     ZMxpv.cc )
+# RotationXYZ is empty 
+# Skip it on MacOSX so ranlib won't complain
+if( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
+else()
+  set ( Vector_source_list ${Vector_source_list} RotationXYZ.cc )
+endif()
+
+clhep_build_library ( Vector ${Vector_source_list} )
