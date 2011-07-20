@@ -21,12 +21,11 @@ CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 check_PROGRAMS = \
 	testUnits
 
-check_SCRIPTS = \
-	testUnits.sh
+check_SCRIPTS = 
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
-	testUnits.sh
+	testUnits
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
@@ -35,8 +34,7 @@ XFAIL_TESTS =
 testUnits_SOURCES = testUnits.cc
 
 # Identify input data file(s) and prototype output file(s):
-EXTRA_DIST = \
-	testUnits.input	testUnits.output
+EXTRA_DIST = 
 
 # Identify generated file(s) to be removed when 'make clean' is requested:
 CLEANFILES =

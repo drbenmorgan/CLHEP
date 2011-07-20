@@ -1,6 +1,0 @@
-#! /bin/sh
-# @configure_input@
-
-
-@builddir@/testUnits@EXEEXT@  \
-  | @DIFF_Q@ - @srcdir@/testUnits.output > /dev/null

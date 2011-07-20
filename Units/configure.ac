@@ -74,9 +74,6 @@ AC_CONFIG_FILES([Units/copy-header.pl], [chmod +x Units/copy-header.pl])
 # Configuration inquiry program/script:
 AC_CONFIG_FILES([Units-config], [chmod +x Units-config])
 
-# Test driver program/script:
-AC_CONFIG_FILES([test/testUnits.sh], [chmod +x test/testUnits.sh])
-
 # ----------------------------------------------------------------------
 # Capture post-install information:
 # ----------------------------------------------------------------------

@@ -1,2 +1,2 @@
 
-clhep_test( testUnits NOLIB )
+clhep_test( testUnits SIMPLE NOLIB )
