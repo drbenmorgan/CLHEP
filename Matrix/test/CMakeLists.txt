@@ -6,8 +6,10 @@ set( Matrix_tests testMatrix
                   testInversion
 	          testBug6176 )
 
-# leak test (bug 7328) does not work on MacOSX
+# leak test (bug 7328) does not work on MacOSX or DOS
 if( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
+  set( Matrix_simple_tests testBug6181 )
+elseif( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
   set( Matrix_simple_tests testBug6181 )
 else()
   set( Matrix_simple_tests testBug6181
