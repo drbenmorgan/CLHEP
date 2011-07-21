@@ -64,7 +64,7 @@ while test $# -gt 0; do
 	;;
 
     --version)
-	echo @PACKAGE_NAME@ @VERSION@
+	echo CLHEP @VERSION@
 	exit 0
 	;;
 

@@ -33,7 +33,7 @@ macro( clhep_test testname )
     endif()
   else()
     if( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
-      message( STATUS "skipping ${testname}.sh on Windows")
+      message( STATUS "skipping ${testname}.sh on ${CMAKE_SYSTEM_NAME}")
     else()
       configure_file( ${testname}.sh.in 
                       ${CMAKE_CURRENT_BINARY_DIR}/${testname}.sh  @ONLY )

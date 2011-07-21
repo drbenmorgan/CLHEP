@@ -57,8 +57,8 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 set( CMAKE_INCLUDE_PATH  ${CLHEP_BINARY_DIR} )
 # set our preferred compiler flags
 clhep_set_compiler_flags()
-# get automake/autoconf variables
-clhep_autoconf_variables()
+# the main CLHEP config script
+clhep_config()
 
 # check for required functions
 CHECK_FUNCTION_EXISTS(drand48 found_drand48)

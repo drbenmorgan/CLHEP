@@ -1,5 +1,7 @@
 #
-# clhep_set_compiler_flags() sets the default compiler flags
+# clhep_set_compiler_flags() 
+#    sets the default compiler flags
+#    calls clhep_autoconf_variables
 #
 # clhep_autoconf_variables() defines global variables
 #
@@ -7,31 +9,9 @@
 #    defines ${PACKAGE}_LIBS
 #    processes ${PACKAGE}-config.in
 #    processes ${PACKAGE}-deps.in
-
-macro( clhep_set_compiler_flags )
-  ##message(STATUS "incoming cmake build type is ${CMAKE_BUILD_TYPE}")
-  if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "" FORCE)
-  endif()
-  message(STATUS "cmake build type is ${CMAKE_BUILD_TYPE}")
-  if( CMAKE_COMPILER_IS_GNUCC )
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O -ansi -pedantic -Wall -D_GNU_SOURCE")
-  endif(CMAKE_COMPILER_IS_GNUCC)
-  if(CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O -ansi -pedantic -Wall -D_GNU_SOURCE")
-  endif(CMAKE_COMPILER_IS_GNUCXX)
-  if( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
-    ##message( STATUS "system is Windows" )
-    ##message( STATUS "CMAKE_BASE_NAME is ${CMAKE_BASE_NAME}" )
-    if( ${CMAKE_BASE_NAME} MATCHES "cl" )
-      ##message( STATUS "compiler is MSVC" )
-      ##message( STATUS "incoming basic compiler flags are ${CMAKE_CXX_FLAGS}")
-      set(CMAKE_C_FLAGS "/EHsc /nologo /GR /MD")
-      set(CMAKE_CXX_FLAGS "/EHsc /nologo /GR /MD")
-    endif()
-  endif()
-  message( STATUS "compiling with ${CMAKE_BASE_NAME} ${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}}")
-endmacro( clhep_set_compiler_flags )
+#
+# clhep_config():
+#    processes clhep-config.in
 
 macro( clhep_autoconf_variables )
 
@@ -99,6 +79,32 @@ macro( clhep_autoconf_variables )
 
 endmacro( clhep_autoconf_variables )
 
+macro( clhep_set_compiler_flags )
+  ##message(STATUS "incoming cmake build type is ${CMAKE_BUILD_TYPE}")
+  if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "" FORCE)
+  endif()
+  message(STATUS "cmake build type is ${CMAKE_BUILD_TYPE}")
+  if( CMAKE_COMPILER_IS_GNUCC )
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O -ansi -pedantic -Wall -D_GNU_SOURCE")
+  endif(CMAKE_COMPILER_IS_GNUCC)
+  if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O -ansi -pedantic -Wall -D_GNU_SOURCE")
+  endif(CMAKE_COMPILER_IS_GNUCXX)
+  if( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
+    ##message( STATUS "system is Windows" )
+    ##message( STATUS "CMAKE_BASE_NAME is ${CMAKE_BASE_NAME}" )
+    if( ${CMAKE_BASE_NAME} MATCHES "cl" )
+      ##message( STATUS "compiler is MSVC" )
+      ##message( STATUS "incoming basic compiler flags are ${CMAKE_CXX_FLAGS}")
+      set(CMAKE_C_FLAGS "/EHsc /nologo /GR /MD")
+      set(CMAKE_CXX_FLAGS "/EHsc /nologo /GR /MD")
+    endif()
+  endif()
+  clhep_autoconf_variables()
+  message( STATUS "compiling with ${CMAKE_BASE_NAME} ${CMAKE_CXX_FLAGS} ${CXXFLAGS}")
+endmacro( clhep_set_compiler_flags )
+
 macro( clhep_package_config )
   set( ${PACKAGE}_CPPFLAGS "-I${includedir}" )
   set( ${PACKAGE}_LDFLAGS  "-L\${exec_prefix}/lib" )
@@ -113,7 +119,19 @@ macro( clhep_package_config )
                    ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-config @ONLY )
   configure_file ( ${CLHEP_SOURCE_DIR}/${PACKAGE}/${PACKAGE}-deps.in
                    ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-deps @ONLY )
-  install ( FILES ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-config
-            DESTINATION bin )
+  ## don't install <package>-config on Windows
+  if( NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
+    install ( FILES ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-config
+              DESTINATION bin )
+  endif()
 endmacro( clhep_package_config )
 
+macro( clhep_config )
+  configure_file ( ${CLHEP_SOURCE_DIR}/clhep-config.in
+                   ${CLHEP_BINARY_DIR}/clhep-config @ONLY )
+  ## don't install clhep-config on Windows
+  if( NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
+    install ( FILES ${CLHEP_BINARY_DIR}/clhep-config
+              DESTINATION bin )
+  endif()
+endmacro( clhep_config )
