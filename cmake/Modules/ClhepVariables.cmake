@@ -78,9 +78,9 @@ macro( clhep_autoconf_variables )
   set( DIFF_Q       "diff -q -b" )
 
   ### useful if you need to check a variable
-  message( STATUS "CMAKE_SYSTEM_NAME is ${CMAKE_SYSTEM_NAME}" )
-  message( STATUS "CMAKE_BASE_NAME is ${CMAKE_BASE_NAME}" )
-  message( STATUS "CMAKE_CXX_COMPILER_ID is ${CMAKE_CXX_COMPILER_ID}" )
+  ##message( STATUS "CMAKE_SYSTEM_NAME is ${CMAKE_SYSTEM_NAME}" )
+  ##message( STATUS "CMAKE_BASE_NAME is ${CMAKE_BASE_NAME}" )
+  ##message( STATUS "CMAKE_CXX_COMPILER_ID is ${CMAKE_CXX_COMPILER_ID}" )
   ##message( STATUS "CMAKE_COMPILER_IS_GNUCXX is ${CMAKE_COMPILER_IS_GNUCXX}" )
   ##message( STATUS "CMAKE_COMPILER_IS_MINGW is ${CMAKE_COMPILER_IS_MINGW}" )
   ##message( STATUS "CMAKE_COMPILER_IS_CYGWIN is ${CMAKE_COMPILER_IS_CYGWIN}" )
