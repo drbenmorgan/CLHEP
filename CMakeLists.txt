@@ -62,7 +62,11 @@ clhep_config()
 
 # check for required functions
 CHECK_FUNCTION_EXISTS(drand48 found_drand48)
+# all the packages
 set( CLHEP_subdirs Units Utility Vector Evaluator GenericFunctions Geometry
+                    Random Matrix RandomObjects Cast RefCount Exceptions )
+# The Units and Utility packages are just headers.
+set( CLHEP_libraries Vector Evaluator GenericFunctions Geometry
                     Random Matrix RandomObjects Cast RefCount Exceptions )
 clhep_copy_headers( ${CLHEP_subdirs} )
 
@@ -79,4 +83,4 @@ add_subdirectory(Cast)
 add_subdirectory(RefCount) 
 add_subdirectory(Exceptions)
 
-clhep_build_libclhep( ${CLHEP_subdirs} )
+clhep_build_libclhep( ${CLHEP_libraries} )
