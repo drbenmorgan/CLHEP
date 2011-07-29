@@ -16,21 +16,21 @@ IF(LATEX_COMPILER)
    ADD_CUSTOM_COMMAND( 
     OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.aux
     COMMAND   ${LATEX_COMPILER}
-    ARGS      -interaction=batchmode ${CMAKE_CURRENT_SOURCE_DIR}/${main_tex_file}
+              -interaction=batchmode ${CMAKE_CURRENT_SOURCE_DIR}/${main_tex_file}
     DEPENDS   ${CMAKE_CURRENT_SOURCE_DIR}/${main_tex_file}.tex ${depend_list}
     COMMENT   "Latex - first pass"
   )
    ADD_CUSTOM_COMMAND( 
     OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.dvi
     COMMAND   ${LATEX_COMPILER}
-    ARGS      -interaction=batchmode ${CMAKE_CURRENT_SOURCE_DIR}/${main_tex_file}
+              -interaction=batchmode ${CMAKE_CURRENT_SOURCE_DIR}/${main_tex_file}
     DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.aux
     COMMENT   "Latex - second pass"
   )
    ADD_CUSTOM_COMMAND( 
     OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.log
     COMMAND   ${LATEX_COMPILER}
-    ARGS      -interaction=batchmode ${CMAKE_CURRENT_SOURCE_DIR}/${main_tex_file}
+              -interaction=batchmode ${CMAKE_CURRENT_SOURCE_DIR}/${main_tex_file}
     DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.dvi
     COMMENT   "Latex - third pass"
   )
@@ -42,7 +42,7 @@ IF(DVIPS_CONVERTER)
     ADD_CUSTOM_COMMAND( 
       OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.ps
       COMMAND   ${DVIPS_CONVERTER}
-      ARGS      ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.dvi
+                ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.dvi
                 -o ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.ps
       DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.dvi
       COMMENT   "dvi2ps"
@@ -52,7 +52,7 @@ IF(DVIPS_CONVERTER)
     ADD_CUSTOM_COMMAND( 
       OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.pdf
       COMMAND   ${PS2PDF_CONVERTER}
-      ARGS      ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.ps
+                ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.ps
       DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.ps
       COMMENT   "ps2pdf"
     )
