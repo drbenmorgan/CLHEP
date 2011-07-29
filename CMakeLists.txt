@@ -16,7 +16,7 @@
 cmake_minimum_required (VERSION 2.6)
 # project name
 project(CLHEP)
-set( VERSION 2.1.0.1 )
+set( VERSION 2.1.1.0 )
 
 set(CMAKE_MODULE_PATH "${CMAKE_ROOT}/Modules")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
