@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP Evaluator, 2.1.0.1, http://savannah.cern.ch/projects/clhep/, Evaluator)
+AC_INIT(CLHEP Evaluator, 2.1.1.0, http://savannah.cern.ch/projects/clhep/, Evaluator)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/Evaluator.cc])

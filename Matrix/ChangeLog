@@ -1,3 +1,6 @@
+==============================
+29.07.11 Release CLHEP-2.1.1.0
+==============================
 2011-06-30  W. E. Brown  <wb@fnal.gov>
 
 	* rename internal size variable as size_ to avoid symbol conflicts

@@ -1,7 +1,10 @@
+==============================
+29.07.11 Release CLHEP-2.1.1.0
+==============================
 
 2011-07-12 Lynn Garren <garren@fnal.gov>
 
-	* cmake/Templates/ClhepVersion.h.in: template for ClhepVersion.h
+	* cmake/Templates/ClhepVersion.h.in: cmake template for ClhepVersion.h
 
 2011-07-11 Lynn Garren <garren@fnal.gov>
 
