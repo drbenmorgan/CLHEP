@@ -13,8 +13,11 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <cmath>
 
 int main() {
+
+  int nbad=0;
 
   // Check that local m does not interfere with global m
 
@@ -26,13 +29,22 @@ int main() {
   //	    << CLHEP::c_light << std::endl;
   //output: Speed of light is  299.79246
 
-  std::ostringstream os1, os2;
+  std::ostringstream os1, os2, os3, os4;
   os1 << std::setprecision(8) << CLHEP::c_light;
   os2 << "299.79246";
-  if( os1.str() == os2.str() ) {
-    return 0;
-  } else {
+  if( os1.str() != os2.str() ) {
     std::cout << "compare --" << os1.str() << "-- to --" << os2.str() << "--" << std::endl;
-    return 1;
+    nbad++;
   }
+  os3 << std::setprecision(16) << CLHEP::pi ;
+  os4 << "3.141592653589793";
+  if( os3.str() != os4.str() ) {
+    nbad++;
+    std::cout << "compare --" << os3.str() << "--" << std::endl;
+    std::cout << "     to --" << os4.str() << "--" << std::endl;
+    std::cout << "M_PI    --" << std::setprecision(16) << M_PI << "--" << std::endl;
+  }
+  
+  return nbad;
+  
 }
