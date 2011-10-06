@@ -37,8 +37,16 @@ unsigned int Variable::index() const {
 
 Derivative Variable::partial(unsigned int index) const {
   int kroneckerDelta = index==_selectionIndex ? 1 : 0;
-  const AbsFunction & fPrime = FixedConstant(kroneckerDelta);
-  return Derivative(&fPrime);
+
+  const AbsFunction * f= new FixedConstant(kroneckerDelta);
+  for (unsigned int i=1;i<_dimensionality;i++) {
+    const AbsFunction & g = (*f)%FixedConstant(kroneckerDelta);
+    delete f;
+    f=g.clone();
+  }
+  Derivative retVal(f);
+  delete f;
+  return retVal;
 }
 
 unsigned int Variable::dimensionality() const {
