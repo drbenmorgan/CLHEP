@@ -19,6 +19,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	AssociatedLegendre.cc       \
 	ATan.cc       \
 	BivariateGaussian.cc       \
+	ClassicalSolver.cc         \
 	ConstMinusFunction.cc       \
 	ConstMinusParameter.cc       \
 	ConstOverFunction.cc       \
@@ -51,6 +52,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	GammaDistribution.cc       \
 	Gamma.cc       \
 	IncompleteGamma.cc       \
+	InterpolatingPolynomial.cc \
 	KroneckerDelta.cc    \
 	Landau.cc       \
 	LikelihoodFunctional.cc       \
@@ -67,6 +69,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	ParameterQuotient.cc       \
 	ParameterSum.cc       \
 	PeriodicRectangular.cc       \
+	PhaseSpace.cc \
 	Power.cc       \
 	Psi2Hydrogen.cc       \
 	PtRelFcn.cc       \
@@ -76,11 +79,13 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	RelativisticBW.cc   \
 	ReverseExponential.cc       \
 	RKIntegrator.cc       \
+	RungeKuttaClassicalSolver.cc \
 	Sigma.cc	\
 	Sin.cc       \
 	Sqrt.cc       \
 	Square.cc       \
 	Tan.cc       \
+	Theta.cc       \
 	TrivariateGaussian.cc       \
 	Variable.cc       \
 	VoigtProfile.cc      \

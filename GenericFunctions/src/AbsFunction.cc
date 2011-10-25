@@ -26,11 +26,6 @@ AbsFunction::AbsFunction() {
 AbsFunction::~AbsFunction() {
 }
 
-AbsFunction *AbsFunction::clone() const {
-  return _clone();
-}
-  
-
 FunctionComposition AbsFunction::operator () (const AbsFunction &function) const {
   return FunctionComposition(this, &function);
 }

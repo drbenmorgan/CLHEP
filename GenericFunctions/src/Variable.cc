@@ -2,7 +2,7 @@
 // $Id: Variable.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include "CLHEP/GenericFunctions/FixedConstant.hh"
-#include <assert.h>
+#include <stdexcept>
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Variable)
 
@@ -21,12 +21,12 @@ Variable::~Variable() {
 }
 
 double Variable::operator() (double x) const {
-  assert (_selectionIndex==0);
+  if (_selectionIndex!=0) throw std::runtime_error("Genfun::Variable: selection index !=0") ;
   return x;
 }
 
 double Variable::operator () (const Argument & a) const {
-  assert (_selectionIndex<a.dimension());
+  if  (!(_selectionIndex<a.dimension())) throw std::runtime_error("Genfun::Varaible selection index out of bounds");
   return a[_selectionIndex];
 }
 

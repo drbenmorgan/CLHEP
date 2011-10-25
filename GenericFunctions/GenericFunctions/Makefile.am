@@ -27,6 +27,7 @@ pkginclude_HEADERS = \
 	Bessel.hh         \
 	Bessel.icc	\
 	BivariateGaussian.hh         \
+	ClassicalSolver.hh \
 	ConstMinusFunction.hh         \
 	ConstMinusParameter.hh         \
 	ConstOverFunction.hh         \
@@ -66,6 +67,7 @@ pkginclude_HEADERS = \
 	GammaDistribution.hh         \
 	GenericFunctions.hh         \
 	IncompleteGamma.hh         \
+	InterpolatingPolynomial.hh         \
 	Landau.hh         \
 	KroneckerDelta.hh \
 	Legendre.hh         \
@@ -86,6 +88,7 @@ pkginclude_HEADERS = \
 	ParamToArgAdaptor.hh         \
 	ParamToArgAdaptor.icc	\
 	PeriodicRectangular.hh         \
+	PhaseSpace.hh       \
 	Power.hh         \
 	Psi2Hydrogen.hh         \
 	PtRelFcn.hh        \
@@ -95,6 +98,7 @@ pkginclude_HEADERS = \
 	RelativisticBW.hh          \
 	ReverseExponential.hh         \
 	RKIntegrator.hh         \
+	RungeKuttaClassicalSolver.hh \
 	Sigma.hh         \
 	Sin.hh         \
 	SphericalBessel.hh         \
@@ -106,6 +110,7 @@ pkginclude_HEADERS = \
 	SymToArgAdaptor.hh \
 	SymToArgAdaptor.icc \
 	Tan.hh         \
+	Theta.hh         \
 	TrivariateGaussian.hh         \
 	Variable.hh         \
 	VoigtProfile.hh          \

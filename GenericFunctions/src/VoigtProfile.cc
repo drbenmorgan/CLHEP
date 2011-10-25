@@ -1,6 +1,5 @@
 #include "CLHEP/GenericFunctions/VoigtProfile.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
-#include <assert.h>
 #include <cmath>
 #include <complex>
 

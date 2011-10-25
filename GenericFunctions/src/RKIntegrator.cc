@@ -2,10 +2,9 @@
 // $Id: 
 #include "CLHEP/GenericFunctions/RKIntegrator.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
-#include <assert.h>
 #include <climits>
 #include <cmath>      // for pow()
-
+#include <stdexcept>
 namespace Genfun {
 FUNCTION_OBJECT_IMP(RKIntegrator::RKFunction)
 
@@ -63,7 +62,7 @@ double RKIntegrator::RKFunction::operator() (double t) const {
   else {
 
     // Back up:
-    assert (s!=_data->_fx.begin());
+    if (!(s!=_data->_fx.begin())) throw std::runtime_error("Runtime error in RKIntegrator");
     s--;
 
     //std::vector<double> errors;
@@ -136,7 +135,7 @@ void RKIntegrator::RKData::lock() {
   if (!_locked) {
     unsigned int size = _diffEqn.size();
     for (size_t i=0;i<size;i++) {
-      assert (_diffEqn[i]->dimensionality()==size);
+      if (!(_diffEqn[i]->dimensionality()==size)) throw std::runtime_error("Runtime error in RKIntegrator");
     }
     _locked=true;
   }
@@ -173,40 +172,6 @@ void RKIntegrator::RKData::recache() {
   
 }
 
-
-
-void RKIntegrator::RKFunction::rk4(const RKIntegrator::RKData::Data & s, RKIntegrator::RKData::Data & d)  const {
-
-  double h = d.time - s.time;
-  double h2 = h/2.0;
-  double h6 = h/6.0;
-  unsigned int nv = s.variable.size();
-  Argument y(nv), yt(nv), dydx(nv), dt(nv), dm(nv);
-  for (size_t v=0;v<nv;v++) { y[v]=s.variable[v];}
-  
-  if (!s.dcalc) {
-    for (size_t v=0;v<nv;v++) {dydx[v]=(*_data->_diffEqn[v])(y);}
-    for (size_t v=0;v<nv;v++) {s.firstDerivative[v]=dydx[v];}
-    s.dcalc=true;
-  }
-  else {
-    for (size_t v=0;v<nv;v++) { dydx[v] = s.firstDerivative[v];}
-  }    
-
-
-  for (size_t v=0;v<nv;v++) { yt[v] = y[v] + h2*dt[v];}                   // First step.
-  for (size_t v=0;v<nv;v++) { dt[v] = (*_data->_diffEqn[v])(yt);}         // Second step.
-  for (size_t v=0;v<nv;v++) { yt[v] = y[v] + h2*dt[v];}
-  for (size_t v=0;v<nv;v++) { dm[v] = (*_data->_diffEqn[v])(yt);}         // Third step
-  for (size_t v=0;v<nv;v++) { 
-    yt[v] = y[v]+h*dm[v];
-    dm[v] += dt[v];
-  }
-  for (size_t v=0;v<nv;v++) { dt[v] = (*_data->_diffEqn[v])(yt);}         // Fourth step
-  for (size_t v=0;v<nv;v++) { d.variable[v]=y[v]+h6*(dydx[v]+dt[v]+2.0*dm[v]);}
-  return;
-
-}
 
 
 void RKIntegrator::RKFunction::rkstep(const RKIntegrator::RKData::Data & s, RKIntegrator::RKData::Data & d)  const {
@@ -322,7 +287,7 @@ void RKIntegrator::RKFunction::rkck(const RKIntegrator::RKData::Data & s, RKInte
 
   // First step:
   double h = d.time - s.time;
-  assert (h>0);
+  if (h<=0) throw std::runtime_error ("Runtime error in RKIntegrator (zero or negative stepsize)");
   unsigned int nv = s.variable.size();
   Argument arg(nv), arg0(nv), d1(nv),d2(nv), d3(nv), d4(nv), d5(nv), d6(nv);
   

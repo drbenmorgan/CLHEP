@@ -164,8 +164,6 @@ namespace Genfun {
     RKData              *_data;
     const  unsigned int  _index;
 
-    void rk4 (const RKData::Data & sdata, RKData::Data & ddata) const;
-  
     void rkstep (const RKData::Data & sdata, RKData::Data & ddata) const;
     void rkck   (const RKData::Data & sdata, RKData::Data & ddata, std::vector<double> & errors) const;
 };

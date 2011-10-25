@@ -66,7 +66,7 @@ namespace Genfun {
     virtual double operator() (const Argument &argument) const=0; 
 
     // Every function must override this:
-    AbsFunction * clone() const;
+    virtual AbsFunction * clone() const=0;
   
     // Function composition.  Do not attempt to override:
     virtual FunctionComposition operator () (const AbsFunction &f) const;
@@ -87,8 +87,6 @@ namespace Genfun {
     virtual Derivative partial(unsigned int) const;
   
   private:
-
-    virtual AbsFunction *_clone() const=0;
 
     // It is illegal to assign a function.
     const AbsFunction & operator=(const AbsFunction &right);
@@ -141,17 +139,14 @@ typedef const AbsFunction & GENFUNCTION;
 //      
 //      directive but unfortunately this is compiler-dependent!
 //
-// 2)  It defines the clone methods, using a poor-man's covariant return type.
-//     again this is for compiler independence.
-//
+
 
 #define FUNCTION_OBJECT_DEF(classname) \
 public:                                \
   virtual FunctionComposition  operator()(const AbsFunction  &function) const; \
   virtual ParameterComposition operator()(const AbsParameter &p) const; \
-  classname *clone() const;            \
-private:                               \
-  virtual AbsFunction *_clone() const;
+  virtual classname *clone() const;            \
+private:                               
 
 //----------------------------------------------------------------------------
 //
@@ -167,12 +162,11 @@ ParameterComposition classname::operator()(const AbsParameter & p) const\
 {                                            \
   return AbsFunction::operator() (p);        \
 }                                            \
-classname *classname::clone () const {       \
-  return (classname *) _clone();             \
-}                                            \
-AbsFunction *classname::_clone () const {    \
-  return new classname(*this);                       \
+classname *classname::clone() const          \
+{                                            \
+  return new classname(*this);               \
 }
+
 
 //----------------------------------------------------------------------------
 

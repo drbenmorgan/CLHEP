@@ -30,6 +30,8 @@ namespace Genfun {
     // Take the definite integral of a function between the bounds:
     virtual double operator [] (const AbsFunction & function) const;
 
+    // Retrieve the number of function calls for the last operation:
+    unsigned int numFunctionCalls() const;
 
   private:
 
@@ -47,7 +49,7 @@ namespace Genfun {
   
     // buffered value for _trapzd calculation:
     mutable double _sTrap;
-
+    mutable unsigned int _nFunctionCalls;
   };
 } // namespace Genfun
 #endif

@@ -20,7 +20,7 @@ DefiniteIntegral::~DefiniteIntegral() {
 
 #define FANCY
 double DefiniteIntegral::operator [] (const AbsFunction & function) const {
-
+  _nFunctionCalls=0;
   const int MAXITERATIONS=40;    // Maximum number of iterations
   const double EPS=1.0E-6;       // Precision
 #ifdef FANCY
@@ -55,6 +55,7 @@ double DefiniteIntegral::_trapzd(const AbsFunction & function, double a, double 
   int it, j;
   if (n==1) {
     _sTrap = 0.5*(b-a)*(function(a)+function(b));
+    _nFunctionCalls+=2;
   }
   else { 
     for (it=1,j=1;j<n-1;j++)  it <<=1;
@@ -62,7 +63,10 @@ double DefiniteIntegral::_trapzd(const AbsFunction & function, double a, double 
     double del = (b-a)/tnm;
     double x=a+0.5*del;
     double sum;
-    for (sum=0.0,j=1;j<=it;j++,x+=del) sum +=function(x);
+    for (sum=0.0,j=1;j<=it;j++,x+=del) {
+      sum +=function(x);
+      _nFunctionCalls++;
+    }
     _sTrap = 0.5*(_sTrap+(b-a)*sum/tnm);
   }
   return _sTrap;
@@ -101,4 +105,8 @@ void DefiniteIntegral::_polint(double *xArray, double *yArray, double x, double 
     y += deltay;
   }
 }
+
+  unsigned int DefiniteIntegral::numFunctionCalls() const {
+    return _nFunctionCalls;
+  }
 } // namespace Genfun
