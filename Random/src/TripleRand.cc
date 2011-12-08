@@ -200,13 +200,13 @@ void TripleRand::showStatus() const {
 
 TripleRand::operator float() {
   return (float)
-    ( ( integerCong ^ tausworthe ^ hurd ) * twoToMinus_32() 
+    ( ( integerCong ^ tausworthe ^ (unsigned int)hurd ) * twoToMinus_32() 
 					+ nearlyTwoToMinus_54() );
 					// make sure non-zero!
 }
 
 TripleRand::operator unsigned int() {
-  return integerCong ^ tausworthe ^ hurd;
+  return integerCong ^ tausworthe ^ (unsigned int)hurd;
 }
 
 Hurd288Engine & TripleRand::Hurd() 	       { return hurd; }
