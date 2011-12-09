@@ -1,3 +1,12 @@
+
+2011-12-09  Mark Fischler <mf@fnal.gov>
+
+	* test/testInstanceRestore.cc: use assert so clang does not complain
+
+2011-12-08  Lynn Garren <garren@fnal.gov>
+
+        * src/TripleRand.cc: use explicit cast to fix problem found by clang++
+
 ==============================
 29.07.11 Release CLHEP-2.1.1.0
 ==============================

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <cassert>
 
 #define CLEAN_OUTPUT
 #ifdef CLEAN_OUTPUT
@@ -126,7 +127,7 @@ int checkEngineInstanceSave(E & e) {
 template <class E, class D>
 int checkSaveDistribution(D & d, int nth) {
   // verify that engine is the expected type
-  dynamic_cast<E &>(d.engine());
+  assert( &dynamic_cast<E &>(d.engine()) );
   int stat = 0;
   output << "checkSaveDistribution with " << d.engine().name() 
   	    << ", " << d.name() << "\n";
@@ -182,7 +183,7 @@ int checkSaveDistribution(D & d, int nth) {
 
 template <class E>
 int checkRandGeneralDistribution(RandGeneral & d, int nth) {
-  dynamic_cast<E &>(d.engine());
+  assert( &dynamic_cast<E &>(d.engine()) );
   int stat = 0;
   output << "checkSaveDistribution with " << d.engine().name() 
   	    << ", " << d.name() << "\n";
