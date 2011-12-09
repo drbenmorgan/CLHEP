@@ -11,7 +11,7 @@ FUNCTION_OBJECT_IMP(GammaDistribution)
 
 
 GammaDistribution::GammaDistribution():
-  _alpha("a",    1.0, 1.0, 100),
+  _alpha("a",    2.0, 1.0, 100),
   _beta ("beta", 0.0, 0,   100)
 {}
 
@@ -25,9 +25,9 @@ GammaDistribution::~GammaDistribution() {
 }
 
 double GammaDistribution::operator() (double x) const {
-  return pow(x,_alpha.getValue())*
-    exp(-x/_beta.getValue())/pow(_beta.getValue(),(_alpha.getValue()+1))/
-    exp(_logGamma(_alpha.getValue()+1));
+  return pow(x,_alpha.getValue()-1)*
+    exp(-x/_beta.getValue())/pow(_beta.getValue(),(_alpha.getValue()))/
+    exp(_logGamma(_alpha.getValue()));
 
 }
 

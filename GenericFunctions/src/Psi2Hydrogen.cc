@@ -74,7 +74,7 @@ unsigned int Psi2Hydrogen::m() const {
 void Psi2Hydrogen::create() {
   FixedConstant I(1.0);
   Variable r;
-  double asq = pow(2.0/_n, 3.0)*factorial(_n-_l-1)/(2.0*_n*factorial(_n+1));
+  double asq = pow(2.0/_n, 3.0)*factorial(_n-_l-1)/(2.0*_n*factorial(_n+_l));
   GENFUNCTION ar = (2.0/_n)*r;
   AssociatedLegendre P(_l, _m);
   AssociatedLaguerre L(_n-_l-1, 2*_l+1);

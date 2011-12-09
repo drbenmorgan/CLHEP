@@ -11,6 +11,7 @@
 #include "CLHEP/GenericFunctions/AbsFunction.hh"
 #include "CLHEP/GenericFunctions/Parameter.hh"
 #include "CLHEP/GenericFunctions/LogGamma.hh"
+#define _GAMMADISTRIBUTION_REVISED_ 1
 namespace Genfun {
 
   /**

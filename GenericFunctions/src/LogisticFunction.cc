@@ -23,7 +23,7 @@ _a(right._a)
 }
 
 double LogisticFunction::operator() (double x) const {
-  unsigned int i  = (unsigned int) (x+0.5), &back = i, end=back+1;
+  int i  = (int) (x+0.5), &back = i, end=back+1;
 
   if (i<0 || i>MAXRANGE) {
     return 0;

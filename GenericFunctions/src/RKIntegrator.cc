@@ -53,14 +53,14 @@ double RKIntegrator::RKFunction::operator() (double t) const {
 
   RKData::Data dt(nvar);
   dt.time=t;
-  std::set<RKData::Data>::iterator s=_data->_fx.lower_bound(dt);
-  if (dt==(*s)) {
+  std::set<RKData::Data>::iterator s=_data->_fx.find(dt);
+  if (s!=_data->_fx.end()) {
     // Then, there is nothing to do.  Don't touch the
     // list.  Just get the variable:
     return (*s).variable[_index];
   }
   else {
-
+    s=_data->_fx.lower_bound(dt);
     // Back up:
     if (!(s!=_data->_fx.begin())) throw std::runtime_error("Runtime error in RKIntegrator");
     s--;
