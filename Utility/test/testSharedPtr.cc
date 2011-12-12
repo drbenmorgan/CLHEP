@@ -2773,7 +2773,7 @@ public:
 
 protected:
 
-  ~X() {}
+  virtual ~X() {}
 };
 
 shared_ptr<X> createX();
@@ -3357,7 +3357,7 @@ public:
     ++X_instances;
   }
 
-  ~X_impl()
+  virtual ~X_impl()
   {
     --X_instances;
   }
