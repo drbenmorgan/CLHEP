@@ -1,4 +1,8 @@
 
+2011-12-12  Lynn Garren <garren@fnal.gov>
+
+	* test/pretend.h, test/testBug58950.cc: pretend to use variable
+
 2011-12-09  Mark Fischler <mf@fnal.gov>
 
 	* test/testInstanceRestore.cc: use assert so clang does not complain

@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include "CLHEP/Random/RanecuEngine.h"
 #include "CLHEP/Random/Random.h"
+#include "pretend.h"
 
 bool printCheck( int & i, double & r, std::ofstream & os )
 {
@@ -200,8 +201,12 @@ int main() {
     unsigned long mask = (~0) << 31;
     unsigned long skipcount = 0;
     output << "low = " << low << "  mask = " << mask << std::endl;
-    do {r = g->flat(); pseeds = g->getTheSeeds(); ++skipcount;} 
-	    while((pseeds[0]&mask) || (pseeds[1]&mask));
+    do {
+      r = g->flat(); 
+      pretend_to_use( r );
+      pseeds = g->getTheSeeds(); 
+      ++skipcount;
+    } while((pseeds[0]&mask) || (pseeds[1]&mask));
     if ( skipcount > 1 ) ++badcount;
 
     output << std::endl << "Loop terminates on two short seeds." << std::endl;
