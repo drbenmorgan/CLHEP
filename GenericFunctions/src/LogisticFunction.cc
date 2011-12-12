@@ -44,7 +44,7 @@ double LogisticFunction::operator() (double x) const {
 
     if (fx.empty()) fx.push_back(__x0);
 
-    while (fx.size()<end) {
+    while (fx.size()<size_t(end)) {
       double v = fx.back();
       fx.push_back(__a*v*(1.0-v));
     }
