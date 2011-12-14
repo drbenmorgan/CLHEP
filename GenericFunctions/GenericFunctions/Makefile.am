@@ -26,6 +26,7 @@ pkginclude_HEADERS = \
 	ATan.hh         \
 	Bessel.hh         \
 	Bessel.icc	\
+	BetaDistribution.hh \
 	BivariateGaussian.hh         \
 	ClassicalSolver.hh \
 	ConstMinusFunction.hh         \

@@ -18,6 +18,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	AssociatedLaguerre.cc       \
 	AssociatedLegendre.cc       \
 	ATan.cc       \
+	BetaDistribution.cc        \
 	BivariateGaussian.cc       \
 	ClassicalSolver.cc         \
 	ConstMinusFunction.cc       \
