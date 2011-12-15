@@ -50,10 +50,9 @@ make install
 #  cmake options
 #-------------------------------------------------------------
 
-
 -DCMAKE_INSTALL_PREFIX=/install/path
 -DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel
--Dbuild_docs:BOOL=ON
+-DCLHEP_BUILD_DOCS=ON
  
 #-------------------------------------------------------------
 # building documents
@@ -61,7 +60,7 @@ make install
 
 Documents are not built or installed automatically.  
 If you wish to build and install the documents, 
-add -Dbuild_docs:BOOL=ON to your cmake command.   
+add -DCLHEP_BUILD_DOCS=ON to your cmake command.   
 Documents will then be built during the normal build.
 You will need to have latex in your path.
 

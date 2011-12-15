@@ -15,7 +15,7 @@ install ( FILES ${CLHEP_BINARY_DIR}/Units/Units-config
 
 add_subdirectory(Units)
 add_subdirectory(test)
-if ( build_docs )
+if ( CLHEP_BUILD_DOCS )
   message(STATUS "building documents for ${PACKAGE}" )
   add_subdirectory(doc)
 endif()
