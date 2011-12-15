@@ -10,6 +10,7 @@ clhep_build_library( GenericFunctions Abs.cc
 				      AssociatedLaguerre.cc 
 				      AssociatedLegendre.cc 
 				      ATan.cc 
+				      BetaDistribution.cc
 				      BivariateGaussian.cc 
 				      ConstMinusFunction.cc 
 				      ConstMinusParameter.cc 

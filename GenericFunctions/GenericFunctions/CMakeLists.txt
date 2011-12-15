@@ -14,6 +14,7 @@ set( pkginclude_HEADERS AbsFunctional.hh
 			AssociatedLaguerre.hh  
 			AssociatedLegendre.hh  
 			ATan.hh  
+			BetaDistribution.hh
 			Bessel.hh  
 			Bessel.icc
 			BivariateGaussian.hh  
