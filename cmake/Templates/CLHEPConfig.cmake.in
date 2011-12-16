@@ -1,0 +1,113 @@
+# - Config file for the CLHEP package
+# It defines the following variables
+#  CLHEP_INCLUDE_DIRS - include directories for CLHEP
+#  CLHEP_DEFINITIONS  - compile definitions needed to use CLHEP
+#  CLHEP_LIBRARIES    - libraries to link against
+#
+# CLHEP is built concurrently as a single library and as a set of component
+# libraries. At present, this config file is only designed to configure
+# the single main library in static or shared mode.
+#
+# The following per-component variables are set:
+#
+#  CLHEP_${COMPONENT}_FOUND    True if CLHEP library mode "component"
+#                              was found
+#
+#  CLHEP_${COMPONENT}_LIBRARY  Contains the library for specified mode
+#                              "component"
+#
+# CLHEP current only supports two components: static and shared, which
+# represent the two possible library modes that the main CLHEP library
+# is built in.
+#
+# You can call find_package with 'static' or 'shared' as component arguments 
+# to pick a particular library mode of CLHEP. For example
+#
+#  find_package(CLHEP REQUIRED static)
+#
+# will set CLHEP_LIBRARIES to the CLHEP static library.
+#
+# If you do not specify a shared or static component argument, shared
+# libraries will be selected by default.
+#
+# ===========================================================================
+# Variables used by this module which can change the default behaviour of
+# this module. They need to be set prior to the call to find_package
+#
+# CLHEP_CONFIG_DEBUG - If set, this will enable some output from this module
+#                      to help in debugging it behaviour
+#
+#----------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Print out values of the variables that we expect find_package to have passed
+# to us. This is useful for developers of CLHEPConfig!
+#
+if(CLHEP_CONFIG_DEBUG)
+  message(STATUS "CLHEPDebug : CLHEP_VERSION         = ${CLHEP_VERSION}")
+  message(STATUS "CLHEPDebug : CLHEP_FIND_VERSION    = ${CLHEP_FIND_VERSION}")
+  message(STATUS "CLHEPDebug : CLHEP_FIND_REQUIRED   = ${CLHEP_FIND_REQUIRED}")
+  message(STATUS "CLHEPDebug : CLHEP_FIND_QUIETLY    = ${CLHEP_FIND_QUIETLY}")
+
+  message(STATUS "CLHEPDebug : CLHEP_FIND_COMPONENTS = ${CLHEP_FIND_COMPONENTS}")
+
+  foreach(_cpt ${CLHEP_FIND_COMPONENTS})
+      message(STATUS "CLHEPDebug : CLHEP_FIND_REQUIRED_${_cpt} = ${CLHEP_FIND_REQUIRED_${_cpt}}")
+  endforeach()
+endif() # end of debugging
+
+#----------------------------------------------------------------------------
+# Locate ourselves, since all our config files should have been installed
+# alongside us...
+#
+get_filename_component(_thisdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+
+#----------------------------------------------------------------------------
+# Configure the path to the CLHEP headers, using a relative path if possible.
+# This is only known at CMake time, so expand a CMake supplied variable
+# CLHEP has a nice simple header structure.
+set(CLHEP_INCLUDE_DIR @CLHEP_INCLUDE_DIR@)
+
+#----------------------------------------------------------------------------
+# Construct the overall include path for using CLHEP
+#
+set(CLHEP_INCLUDE_DIRS ${CLHEP_INCLUDE_DIR})
+
+#----------------------------------------------------------------------------
+# Set the compile definitions required to use CLHEP
+# We don't really need this for now.
+set(CLHEP_DEFINITIONS @CLHEP_DEFINITIONS@)
+
+
+#----------------------------------------------------------------------------
+# Include the file listing all the imported targets.
+# This is installed in the same location as us...
+#
+include("${_thisdir}/CLHEPLibraryDepends.cmake")
+
+
+#----------------------------------------------------------------------------
+# Whilst the export file lists usable CMake targets, we also create
+# standard style _LIBRAR{Y|IES} so usage is transparent. This is also
+# useful later if we want to introduce component libraries.
+#
+set(CLHEP_shared_LIBRARY CLHEP)
+set(CLHEP_shared_FOUND 1)
+
+set(CLHEP_static_LIBRARY CLHEPS)
+set(CLHEP_static_FOUND 1)
+
+
+# - Handle shared vs static - default to shared if user didn't specify
+#   This is actually very simple because we always build both!
+if(CLHEP_FIND_REQUIRED_shared)
+  set(CLHEP_LIBRARIES CLHEP)
+elseif(CLHEP_FIND_REQUIRED_static)
+  set(CLHEP_LIBRARIES CLHEPS)
+else()
+  set(CLHEP_LIBRARIES CLHEP)
+endif()  
+
+
+# And we should be good to go...

@@ -1,3 +1,15 @@
+
+2011-12-15 Lynn Garren <garren@fnal.gov>
+
+	* cmake is now the preferred build option
+	* building with autotools and configure is deprecated
+	* you MUST use cmake when building with clang and other exotic compilers
+
+	* various improvements to the cmake build from Ben Morgan (Warwick)
+	* to build documents, call cmake with -DCLHEP_BUILD_DOCS=ON
+	* lib/CLHEP-<version> contains cmake files for use by find_package 
+	* lib/pkgconfig contains clhep.pc 	
+
 ==============================
 29.07.11 Release CLHEP-2.1.1.0
 ==============================

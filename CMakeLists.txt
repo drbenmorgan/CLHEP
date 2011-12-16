@@ -12,15 +12,21 @@
 # which matches the default CLHEP autoconf flags
 #------------------------------------------------------------------------------
 
+# Ensure out of source build before anything else
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/ClhepOutOfSourceBuild.cmake)
+clhep_ensure_out_of_source_build()
+
 # use cmake 2.6 or later
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required(VERSION 2.6)
+
 # project name
 project(CLHEP)
 set( VERSION 2.1.1.0 )
 
-set(CMAKE_MODULE_PATH "${CMAKE_ROOT}/Modules")
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
-message(STATUS "module path is ${CMAKE_MODULE_PATH}" )
+set(CMAKE_MODULE_PATH 
+      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules 
+      ${CMAKE_MODULE_PATH}
+      )
 
 # CLHEP_BUILD_DOCS is OFF (false) by default
 option(CLHEP_BUILD_DOCS "Build and install CLHEP documentation" OFF)
@@ -30,20 +36,20 @@ if(CLHEP_BUILD_DOCS)
   message(STATUS "Enabled build and install of documents")
 endif()
 
-# various handy macros
-include(ClhepOutOfSourceBuild)
+# CLHEP custom modules
 include(ClhepCopyHeaders)
 include(ClhepBuildTest)
 include(ClhepBuildLibrary)
 include(ClhepVariables)
 include(CheckFunctionExists)
+include(ClhepToolchain)
 
-# make sure we are not building in source
-clhep_ensure_out_of_source_build()
+# Custom Packaging
+include(ClhepPackaging)
 
 # because we want to move these libraries about,
 # do not embed full path in shared libraries or executables
-set (CMAKE_SKIP_RPATH)
+set(CMAKE_SKIP_RPATH)
 
 ENABLE_TESTING()
 
@@ -52,24 +58,52 @@ include_directories ("${PROJECT_BINARY_DIR}")
 # add CLHEP/Random to search path so we find gaussTables.cdat
 include_directories ("${CMAKE_SOURCE_DIR}/Random")
 
-#build all libraries in a single directory to facilitate testing
-SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+# Put all library build products in standard locations under build tree
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 # define common flags
 set( CMAKE_INCLUDE_PATH  ${CLHEP_BINARY_DIR} )
+
 # set our preferred compiler flags
 clhep_set_compiler_flags()
+
 # the main CLHEP config script
 clhep_config()
 
 # check for required functions
 CHECK_FUNCTION_EXISTS(drand48 found_drand48)
+
 # all the packages
-set( CLHEP_subdirs Units Utility Vector Evaluator GenericFunctions Geometry
-                    Random Matrix RandomObjects Cast RefCount Exceptions )
+set( CLHEP_subdirs
+        Units
+	Utility
+	Vector
+	Evaluator
+	GenericFunctions
+	Geometry
+        Random
+	Matrix
+	RandomObjects
+	Cast
+	RefCount
+	Exceptions
+	)
+
 # The Units and Utility packages are just headers.
-set( CLHEP_libraries Vector Evaluator GenericFunctions Geometry
-                    Random Matrix RandomObjects Cast RefCount Exceptions )
+set( CLHEP_libraries
+       Vector
+       Evaluator
+       GenericFunctions
+       Geometry
+       Random
+       Matrix
+       RandomObjects
+       Cast
+       RefCount
+       Exceptions
+       )
+
 clhep_copy_headers( ${CLHEP_subdirs} )
 
 add_subdirectory(Units)
@@ -85,4 +119,8 @@ add_subdirectory(Cast)
 add_subdirectory(RefCount) 
 add_subdirectory(Exceptions)
 
+# libCLHEP.a and libCLHEP.so
 clhep_build_libclhep( ${CLHEP_libraries} )
+
+# provide tools for other packages to include CLHEP easily
+clhep_toolchain()
