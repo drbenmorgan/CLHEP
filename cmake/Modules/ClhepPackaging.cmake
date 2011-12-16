@@ -72,6 +72,8 @@ if(NOT DEFINED CPACK_SYSTEM_NAME)
         string(TOLOWER ${LSB_VENDOR} LSB_VENDOR)
 	if("${LSB_VENDOR}" MATCHES "scientificslf")
 	   set(LSB_VENDOR "slf")
+	elseif("${LSB_VENDOR}" MATCHES "scientificfermilts")
+	   set(LSB_VENDOR "slf")
 	elseif("${LSB_VENDOR}" MATCHES "scientificfermi")
 	   set(LSB_VENDOR "slf")
 	elseif("${LSB_VENDOR}" MATCHES "scientificcernslc")
@@ -107,15 +109,23 @@ if(NOT DEFINED CPACK_SYSTEM_NAME)
       # CMAKE_SYSTEM_PROCESSOR may *not* be 100% reliable.
       list(LENGTH CMAKE_OSX_ARCHITECTURES _number_of_arches)
 
+      # CERN uses mac106 for Snow Leopard
+      string(REGEX REPLACE "([0-9])\\.([0-9])?" "\\1\\2" LSB_RELEASE ${CMAKE_SYSTEM_VERSION})
+      if("${LSB_RELEASE}" MATCHES "108")
+         set(BASE_SYSTEM_NAME mac106)
+      else()
+         set(BASE_SYSTEM_NAME mac${LSB_RELEASE})
+      endif()
+
       if(NOT _number_of_arches)
         # - Default
-        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}${CPack_COMPILER_STRING})
+        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_PROCESSOR}-${BASE_SYSTEM_NAME}${CPack_COMPILER_STRING})
       elseif(_number_of_arches GREATER 1)
         # - Universal
-        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}-Universal)
+        set(CPACK_SYSTEM_NAME ${BASE_SYSTEM_NAME}-Universal)
       else()
         # - Use what the user specified
-        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}-${CMAKE_OSX_ARCHITECTURES}${CPack_COMPILER_STRING})
+        set(CPACK_SYSTEM_NAME ${CMAKE_OSX_ARCHITECTURES}-${BASE_SYSTEM_NAME}${CPack_COMPILER_STRING})
       endif()
     endif()
   endif()

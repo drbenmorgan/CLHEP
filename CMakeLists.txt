@@ -8,6 +8,9 @@
 #  make test
 #  make install
 #
+# mac i386:   -DCMAKE_CXX_FLAGS="-m32" -DCMAKE_OSX_ARCHITECTURES="i386"
+# mac x86_64: -DCMAKE_CXX_FLAGS="-m64" -DCMAKE_OSX_ARCHITECTURES="x86_64"
+#
 # The default CLHEP build type is CMAKE_BUILD_TYPE=RelWithDebInfo,
 # which matches the default CLHEP autoconf flags
 #------------------------------------------------------------------------------
