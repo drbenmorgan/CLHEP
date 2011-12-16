@@ -26,7 +26,7 @@ ENDFUNCTION()
 #-------------------------------------------------------------------------------
 
 
-macro( find_compiler )
+macro( clhep_package_compiler )
   if (My_COMPILER)
       SET (CPack_COMPILER_STRING ${My_COMPILER})
       message(STATUS "[ ${CMAKE_CURRENT_LIST_FILE}:${CMAKE_CURRENT_LIST_LINE} ] "
@@ -69,16 +69,16 @@ macro( find_compiler )
 	  endif()
       endif (CMAKE_COMPILER_IS_GNUCXX)
     endif()
-    #message(STATUS "Using compiler ${CPack_COMPILER_STRING}")
+    #message(STATUS "Package compiler ${CPack_COMPILER_STRING}")
   endif(My_COMPILER)
-endmacro( find_compiler )
+endmacro( clhep_package_compiler )
 
 
-macro( compiler_status )
-    find_compiler()
+macro( clhep_package_compiler_status )
+    clhep_package_compiler()
     message(STATUS " ")
     message(STATUS "C++ compiler: ${CMAKE_CXX_COMPILER}")
     message(STATUS "Compiler version: ${COMPILER_VERSION}")
     message(STATUS "Compiler string for cpack: ${CPack_COMPILER_STRING}")
     message(STATUS " ")
-endmacro( compiler_status )
+endmacro( clhep_package_compiler_status )

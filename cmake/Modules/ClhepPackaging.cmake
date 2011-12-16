@@ -24,7 +24,7 @@
 # Scientific Linux CERN 6.x: ScientificFermi
 # no lsb_release on lx64slc6.cern.ch machines?
 
-include(FindCompilerVersion)
+include(ClhepPackageCompiler)
 
 #----------------------------------------------------------------------------
 # Package up needed system libraries - seems to only be needed on Windows
@@ -41,11 +41,12 @@ set(CPACK_PACKAGE_VERSION ${VERSION})
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Class Library for High Energy Physics")
 set(CPACK_PACKAGE_VENDOR "CLHEP Project")
 
+# add a top level directory with the same name as the package tarball
 set( CPACK_INCLUDE_TOPLEVEL_DIRECTORY 1 )
 set( CPACK_GENERATOR TGZ )
 set( CPACK_PACKAGE_NAME clhep )
 
-find_compiler()
+clhep_package_compiler()
 
 #----------------------------------------------------------------------------
 # Set name of CPACK_SYSTEM_NAME based on platform and architecture where 
@@ -138,12 +139,14 @@ else()
       set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-debug )
    elseif( ${CMAKE_BUILD_TYPE_TOLOWER} MATCHES "relwithdebinfo")
       set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-opt )
+   else()
+      set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-${CMAKE_BUILD_TYPE_TOLOWER} )
    endif()   
 endif()
 
-message(STATUS "CPACK_PACKAGE_NAME:    ${CPACK_PACKAGE_NAME} " )
-message(STATUS "CPACK_PACKAGE_VERSION: ${CPACK_PACKAGE_VERSION} " )
-message(STATUS "CPACK_SYSTEM_NAME:     ${CPACK_SYSTEM_NAME}" )
+message(STATUS "clhep CPACK_PACKAGE_NAME:    ${CPACK_PACKAGE_NAME} " )
+message(STATUS "clhep CPACK_PACKAGE_VERSION: ${CPACK_PACKAGE_VERSION} " )
+message(STATUS "clhep CPACK_SYSTEM_NAME:     ${CPACK_SYSTEM_NAME}" )
 
 #----------------------------------------------------------------------------
 # Finally, include the base CPack configuration
