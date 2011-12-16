@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP Geometry, 2.1.1.0, http://savannah.cern.ch/projects/clhep/, Geometry)
+AC_INIT(CLHEP Geometry, 2.1.2.0, http://savannah.cern.ch/projects/clhep/, Geometry)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/Plane3D.cc])
