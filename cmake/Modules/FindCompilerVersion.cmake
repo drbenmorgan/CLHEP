@@ -63,7 +63,7 @@ macro( find_compiler )
           _My_COMPILER_DUMPVERSION(CPack_COMPILER_STRING_VERSION)
           # Determine which version of GCC we have.
 	  if(APPLE)
-              SET (CPack_COMPILER_STRING "-xgcc${CPack_COMPILER_STRING_VERSION}")
+              SET (CPack_COMPILER_STRING "-gcc${CPack_COMPILER_STRING_VERSION}")
 	  else()
               SET (CPack_COMPILER_STRING "-gcc${CPack_COMPILER_STRING_VERSION}")
 	  endif()

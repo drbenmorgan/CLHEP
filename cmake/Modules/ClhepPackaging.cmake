@@ -98,7 +98,7 @@ if(NOT DEFINED CPACK_SYSTEM_NAME)
         mark_as_advanced(LSB_RELEASE_PROGRAM LSB_VENDOR_TAG)
       else()
         # Fallback to using NAME-ARCH on other UNICES other than Apple
-        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_SYSTEM_NAME})
+        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_SYSTEM_NAME}${CPack_COMPILER_STRING})
       endif()
     else()
       # On Mac, we use NAME-ARCH, but ARCH is 'Universal' if more than
@@ -108,13 +108,13 @@ if(NOT DEFINED CPACK_SYSTEM_NAME)
 
       if(NOT _number_of_arches)
         # - Default
-        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR})
+        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}${CPack_COMPILER_STRING})
       elseif(_number_of_arches GREATER 1)
         # - Universal
         set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}-Universal)
       else()
         # - Use what the user specified
-        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}-${CMAKE_OSX_ARCHITECTURES})
+        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}-${CMAKE_OSX_ARCHITECTURES}${CPack_COMPILER_STRING})
       endif()
     endif()
   endif()
