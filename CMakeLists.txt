@@ -44,9 +44,6 @@ include(ClhepVariables)
 include(CheckFunctionExists)
 include(ClhepToolchain)
 
-# Custom Packaging
-include(ClhepPackaging)
-
 # because we want to move these libraries about,
 # do not embed full path in shared libraries or executables
 set(CMAKE_SKIP_RPATH)
@@ -124,3 +121,6 @@ clhep_build_libclhep( ${CLHEP_libraries} )
 
 # provide tools for other packages to include CLHEP easily
 clhep_toolchain()
+
+# Custom Packaging
+include(ClhepPackaging)

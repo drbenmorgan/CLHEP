@@ -4,54 +4,48 @@
 #
 
 # original code supplied by Ben Morgan Ben.Morgan@warwick.ac.uk
+# modifications by Lynn Garren garren@fnal.gov
+
+# the binary tarball should, e.g., have this format:
+# x86_64-slc5-gcc46-opt/include
+#                      /bin
+#                      /lib
+#                      /doc (optional)
+# basically, the tarball should mirror the install directory, 
+# but with the appropriate top level directory
+# tarball names: clhep-2.1.1.0-x86_64-slc5-gcc46-opt.tgz
+#                clhep-2.1.1.0-x86_64-slc5-gcc41-opt.tgz
+#                clhep-2.1.1.0-x86_64-mac106-gcc42-opt.tgz
+
+# result of lsb_release -s -i on various platforms
+# Scientific Linux Fermi 5.x: ScientificSLF
+# Scientific Linux Fermi 6.x: ScientificFermi
+# Scientific Linux CERN 5.x: ScientificCERNSLC
+# Scientific Linux CERN 6.x: ScientificFermi
+# no lsb_release on lx64slc6.cern.ch machines?
+
+include(FindCompilerVersion)
 
 #----------------------------------------------------------------------------
 # Package up needed system libraries - seems to only be needed on Windows
 #
-include(InstallRequiredSystemLibraries)
+if("${CPACK_SYSTEM_NAME}" MATCHES Windows)
+  include(InstallRequiredSystemLibraries)
+endif()
 
 #----------------------------------------------------------------------------
 # General packaging setup - variables relevant to all package formats
-# CLHEP use of version variables isn't optimal.
+# CLHEP use of version variables is non-standard
 set(CPACK_PACKAGE_VERSION ${VERSION})
-#set(CPACK_PACKAGE_VERSION_MAJOR ${${PROJECT_NAME}_VERSION_MAJOR})
-#set(CPACK_PACKAGE_VERSION_MINOR ${${PROJECT_NAME}_VERSION_MINOR})
-#set(CPACK_PACKAGE_VERSION_PATCH ${${PROJECT_NAME}_VERSION_PATCH})
 
-# We can't completely set the resource files yet - they need to be .txt,
-# and the default GPL text isn't always handled correctly by self extracting
-# sh files...
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Class Library for High Energy Physics")
-#set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_SOURCE_DIR}/README.txt")
 set(CPACK_PACKAGE_VENDOR "CLHEP Project")
-#set(CPACK_RESOURCE_FILE_README "${PROJECT_SOURCE_DIR}/README.txt")
 
-# We don't put the license in yet because the GPL text has quotes which make
-# sh barf. We need to fix that, but at present I don't want to edit the GPL!
-#set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE.txt")
+set( CPACK_INCLUDE_TOPLEVEL_DIRECTORY 0 )
+set( CPACK_GENERATOR TGZ )
+set( CPACK_PACKAGE_NAME clhep )
 
-#----------------------------------------------------------------------------
-# Source package settings
-# Exclude VCS and standard temporary files from the source package.
-# This is not perfected yet!
-set(CPACK_SOURCE_IGNORE_FILES 
-    ${CMAKE_BINARY_DIR}
-    "~$"
-    "/CVS/"
-    "/.svn/"
-    "/\\\\\\\\.svn/"
-    "/.git/"
-    "/\\\\\\\\.git/"
-    "\\\\\\\\.swp$"
-    "\\\\\\\\.swp$"
-    "\\\\.swp"
-    "\\\\\\\\.#"
-    "/#"
-)
-
-# - Limit source packages to the three main types
-set(CPACK_SOURCE_GENERATOR "TGZ;TBZ2;ZIP")
-
+find_compiler()
 
 #----------------------------------------------------------------------------
 # Set name of CPACK_SYSTEM_NAME based on platform and architecture where 
@@ -62,7 +56,7 @@ set(CPACK_SOURCE_GENERATOR "TGZ;TBZ2;ZIP")
 #
 if(NOT DEFINED CPACK_SYSTEM_NAME)
   # Cygwin is always Cygwin...
-  if("${CMAKE_SYSTEM_NAME}" STREQUAL "CYGWIN")
+  if("${CMAKE_SYSTEM_NAME}" MATCHES "CYGWIN")
     set(CPACK_SYSTEM_NAME Cygwin)
   else()
     if(UNIX AND NOT APPLE)
@@ -75,21 +69,36 @@ if(NOT DEFINED CPACK_SYSTEM_NAME)
         exec_program(${LSB_RELEASE_PROGRAM} ARGS -s -i OUTPUT_VARIABLE LSB_VENDOR)
         string(REGEX REPLACE " " "-" LSB_VENDOR ${LSB_VENDOR})
         string(TOLOWER ${LSB_VENDOR} LSB_VENDOR)
+	if("${LSB_VENDOR}" MATCHES "scientificslf")
+	   set(LSB_VENDOR "slf")
+	elseif("${LSB_VENDOR}" MATCHES "scientificfermi")
+	   set(LSB_VENDOR "slf")
+	elseif("${LSB_VENDOR}" MATCHES "scientificcernslc")
+	   set(LSB_VENDOR "slc")
+	else()
+	   set(LSB_VENDOR ${LSB_VENDOR})
+	endif()
 
         # - Distributor release
         exec_program(${LSB_RELEASE_PROGRAM} ARGS -s -r OUTPUT_VARIABLE LSB_RELEASE)
         string(TOLOWER ${LSB_RELEASE} LSB_RELEASE)
+	string(REGEX REPLACE "([0-9])\\.([0-9])?" "\\1" LSB_RELEASE ${LSB_RELEASE})
 
         # Cache the vendor tag, because users might want to edit it
-        set(LSB_VENDOR_TAG ${LSB_VENDOR}-${LSB_RELEASE} 
+        set(LSB_VENDOR_TAG ${LSB_VENDOR}${LSB_RELEASE} 
           CACHE STRING "LSB vendor tag for use in packaging")
 
-        set(CPACK_SYSTEM_NAME
-          ${CMAKE_SYSTEM_NAME}-${LSB_VENDOR_TAG}-${CMAKE_SYSTEM_PROCESSOR})
+	if( NOT CPack_COMPILER_STRING )
+          set(CPACK_SYSTEM_NAME
+            ${CMAKE_SYSTEM_PROCESSOR}-${LSB_VENDOR_TAG})
+	else()
+          set(CPACK_SYSTEM_NAME
+            ${CMAKE_SYSTEM_PROCESSOR}-${LSB_VENDOR_TAG}${CPack_COMPILER_STRING})
+	endif()
         mark_as_advanced(LSB_RELEASE_PROGRAM LSB_VENDOR_TAG)
       else()
         # Fallback to using NAME-ARCH on other UNICES other than Apple
-        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR})
+        set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_SYSTEM_NAME})
       endif()
     else()
       # On Mac, we use NAME-ARCH, but ARCH is 'Universal' if more than
@@ -119,6 +128,22 @@ if("${CPACK_SYSTEM_NAME}" MATCHES Windows)
     set(CPACK_SYSTEM_NAME win32-x86)
   endif()
 endif()
+
+# check for extra qualifiers
+if( NOT  CMAKE_BUILD_TYPE )
+   SET( CMAKE_BUILD_TYPE_TOLOWER default )
+else()
+   STRING(TOLOWER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_TOLOWER)
+   if( ${CMAKE_BUILD_TYPE_TOLOWER} MATCHES "debug")
+      set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-debug )
+   elseif( ${CMAKE_BUILD_TYPE_TOLOWER} MATCHES "relwithdebinfo")
+      set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-opt )
+   endif()   
+endif()
+
+message(STATUS "CPACK_PACKAGE_NAME:    ${CPACK_PACKAGE_NAME} " )
+message(STATUS "CPACK_PACKAGE_VERSION: ${CPACK_PACKAGE_VERSION} " )
+message(STATUS "CPACK_SYSTEM_NAME:     ${CPACK_SYSTEM_NAME}" )
 
 #----------------------------------------------------------------------------
 # Finally, include the base CPack configuration
