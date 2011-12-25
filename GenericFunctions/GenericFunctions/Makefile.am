@@ -44,6 +44,7 @@ pkginclude_HEADERS = \
 	DefiniteIntegral.hh         \
 	DoubleParamToArgAdaptor.hh         \
 	DoubleParamToArgAdaptor.icc	\
+	EfficiencyFunctional.hh \
 	EllipticIntegral.hh         \
 	EllipticIntegral.icc	\
 	Erf.hh         \
@@ -51,6 +52,8 @@ pkginclude_HEADERS = \
 	Exponential.hh         \
 	FixedConstant.hh         \
 	FloatingConstant.hh         \
+	FourierFit.hh \
+	FourierFit.icc \
 	FunctionComposition.hh         \
 	FunctionConvolution.hh         \
 	FunctionDifference.hh         \
@@ -70,6 +73,8 @@ pkginclude_HEADERS = \
 	IncompleteGamma.hh         \
 	InterpolatingPolynomial.hh         \
 	Landau.hh         \
+	LegendreFit.hh \
+	LegendreFit.icc \
 	KroneckerDelta.hh \
 	Legendre.hh         \
 	Legendre.icc         \
@@ -106,6 +111,8 @@ pkginclude_HEADERS = \
 	SphericalBessel.icc	\
 	SphericalNeumann.hh         \
 	SphericalNeumann.icc	\
+	SphericalHarmonicFit.hh \
+	SphericalHarmonicFit.icc \
 	Sqrt.hh         \
 	Square.hh         \
 	SymToArgAdaptor.hh \

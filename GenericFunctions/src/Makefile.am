@@ -32,6 +32,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	Cos.cc       \
 	CumulativeChiSquare.cc       \
 	DefiniteIntegral.cc       \
+	EfficiencyFunctional.cc \
 	Erf.cc       \
 	Exp.cc       \
 	Exponential.cc       \

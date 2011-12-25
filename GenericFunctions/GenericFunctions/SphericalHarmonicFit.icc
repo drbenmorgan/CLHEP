@@ -1,0 +1,141 @@
+// -*- C++ -*-
+// $Id: 
+#include <sstream>
+#include <cmath>
+#include <gsl/gsl_sf_legendre.h>
+#include <complex>
+#include <cstdlib>
+#include <stdexcept>
+namespace Genfun {
+
+FUNCTION_OBJECT_IMP(SphericalHarmonicFit)
+
+
+
+inline
+SphericalHarmonicFit::SphericalHarmonicFit(unsigned int LMAX):
+   LMAX(LMAX)
+{
+  // SKIP L=1.  We take the phase of this to be zero and the fraction
+  // to be whatever is left over after the other fraction take.
+  for (int l=1;l<=LMAX;l++) {
+    for (int m=-l;m<=l;m++) {
+      std::ostringstream stream;
+      stream << "Fraction l=" << l << " ;m=" << m << std::endl;
+      fraction.push_back(new Parameter(stream.str(), 0.5, 0.0, 1.0));
+    }
+  }
+  for (int l=1;l<=LMAX;l++) {
+    for (int m=-l;m<=l;m++) {
+      std::ostringstream stream;
+      stream << "Phase l=" << l << " ;m=" << m << std::endl;
+      phase.push_back(new Parameter(stream.str(),  M_PI, 0.0, 2.0*M_PI));
+    }
+  }
+}
+
+inline
+SphericalHarmonicFit::~SphericalHarmonicFit() {
+  for (unsigned int i=0;i<numComponents();i++) {
+    delete fraction[i];
+    delete phase[i];
+  }
+}
+
+inline
+SphericalHarmonicFit::SphericalHarmonicFit(const SphericalHarmonicFit & right):
+  LMAX(right.LMAX)
+{
+  for (int i=0;i<right.numComponents();i++) {
+    fraction.push_back(new Parameter(*right.fraction[i]));
+    phase.push_back(new Parameter(*right.phase[i]));
+  }
+}
+
+inline
+double SphericalHarmonicFit::operator() (double ) const {
+  throw std::runtime_error("Dimensionality error in SphericalHarmonicFit");
+  return 0;
+}
+
+inline
+double SphericalHarmonicFit::operator() (const Argument & a ) const {
+  double x = a[0];
+  double phi=a[1];
+  // Note, the calling sequence of the GSL Special Function forces us to 
+  // transpose Plm from its "natural" order.. It is addressed as P[m][l].
+  double Plm[LMAX+1][LMAX+1];  
+  for (int m=0;m<=LMAX;m++) {
+    gsl_sf_legendre_sphPlm_array (LMAX, m, x, Plm[m]);
+  }
+  unsigned int n=(LMAX+1)*(LMAX+1)-1;
+  int l=LMAX;
+  int m=LMAX;
+
+  std::complex<double> P=0.0;
+  std::complex<double> I(0,1.0);
+  double f=1.0;
+  double sumSq=0;
+  while (1) {
+    int LP=l-abs(m);
+    if (l==0) {
+      double fn=1.0;
+      double Pn=Plm[abs(m)][LP];
+      if (!finite(Pn)) {
+	throw std::runtime_error("Non-finite Pn l=0");
+      }
+
+      P+=(sqrt(std::max(0.0,f*fn))*Pn);
+      sumSq+= f*fn;
+
+      break;
+    }
+    else {
+      double fn=getFraction(n-1)->getValue();
+      double px=getPhase(n-1)->getValue();
+      int    S= (m<0 && abs(m)%2) ? -1:1; 
+      double Pn= S*Plm[abs(m)][LP];
+      if (!finite(Pn)) {
+	throw std::runtime_error("Non-finite Pn l!=0");
+      }
+
+      P+=(exp(I*(px+m*phi))*sqrt(std::max(0.0,f*fn))*Pn);
+      sumSq+= f*fn;
+
+      f*=(1-fn);
+      n--;
+      if (m>-l) {
+	m--;
+      }
+      else {
+	l--;
+	m=l;
+      }
+    }
+  }
+  double retVal=std::norm(P);
+  if (!finite(retVal)) {
+    throw std::runtime_error("Non-finite return value in SphericalHarmonicFit");
+  }
+  return retVal;
+}
+
+inline
+Parameter *SphericalHarmonicFit::getFraction(unsigned int i) {
+  return fraction[i];
+}
+inline 
+const Parameter *SphericalHarmonicFit::getFraction(unsigned int i) const{
+  return fraction[i];
+}
+inline
+Parameter *SphericalHarmonicFit::getPhase(unsigned int i) {
+  return phase[i];
+}
+inline 
+const Parameter *SphericalHarmonicFit::getPhase(unsigned int i) const{
+  return phase[i];
+}
+
+
+} // end namespace Genfun 

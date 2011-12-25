@@ -154,15 +154,15 @@ private:
 //
   
 #define FUNCTION_OBJECT_IMP(classname)       \
-FunctionComposition classname::operator()(const AbsFunction & function) const\
+inline FunctionComposition classname::operator()(const AbsFunction & function) const\
 {                                            \
   return AbsFunction::operator() (function); \
 }                                            \
-ParameterComposition classname::operator()(const AbsParameter & p) const\
+inline ParameterComposition classname::operator()(const AbsParameter & p) const\
 {                                            \
   return AbsFunction::operator() (p);        \
 }                                            \
-classname *classname::clone() const          \
+inline classname *classname::clone() const          \
 {                                            \
   return new classname(*this);               \
 }

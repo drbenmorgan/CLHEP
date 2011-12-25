@@ -1,0 +1,92 @@
+// -*- C++ -*-
+// $Id: 
+#include <sstream>
+#include <cmath>
+#include <complex>
+namespace Genfun {
+
+FUNCTION_OBJECT_IMP(FourierFit)
+
+inline
+FourierFit::FourierFit(unsigned int N):
+   N(N)
+{
+  for (unsigned int i=0;i<N;i++) {
+    std::ostringstream stream;
+    stream << "Fraction " << i;
+    fraction.push_back(new Parameter(stream.str(), 0.5, 0.0, 1.0));
+  }
+  for (unsigned int i=0;i<N;i++) {
+    std::ostringstream stream;
+    stream << "Phase " << i;
+    phase.push_back(new Parameter(stream.str(), M_PI, 0.0, 2.0*M_PI));
+  }
+}
+
+inline
+FourierFit::~FourierFit() {
+  for (unsigned int i=0;i<N;i++) {
+    delete fraction[i];
+    delete phase[i];
+  }
+}
+
+inline
+FourierFit::FourierFit(const FourierFit & right):
+  N(right.N)
+{
+  for (int i=0;i<N;i++) {
+    fraction.push_back(new Parameter(*right.fraction[i]));
+    phase.push_back(new Parameter(*right.phase[i]));
+  }
+}
+
+inline
+double FourierFit::operator() (double x) const {
+
+    unsigned int n=N;
+    std::complex<double> P=0.0;
+    std::complex<double> I(0,1.0);
+    double f=1.0;
+    while (1) {
+      if (n==0) {
+	double fn=1.0;
+	double Pn=sqrt(1/2.0/M_PI);
+       
+	P+=(sqrt(f*fn)*Pn);
+	break;
+      }
+      else {
+	double fn=getFraction(n-1)->getValue();
+	double px=getPhase(n-1)->getValue();
+	double Pn=sqrt(1/M_PI)*sin(n*x/2.0);
+	P+=exp(I*px)*sqrt(f*fn)*Pn;
+	f*=(1-fn);
+	n--;
+      }
+    }
+    return std::norm(P);
+}
+inline 
+unsigned int FourierFit::order() const{
+  return N;
+} 
+inline
+Parameter *FourierFit::getFraction(unsigned int i) {
+  return fraction[i];
+}
+inline 
+const Parameter *FourierFit::getFraction(unsigned int i) const{
+  return fraction[i];
+}
+inline
+Parameter *FourierFit::getPhase(unsigned int i) {
+  return phase[i];
+}
+inline 
+const Parameter *FourierFit::getPhase(unsigned int i) const{
+  return phase[i];
+}
+
+
+} // end namespace Genfun 
