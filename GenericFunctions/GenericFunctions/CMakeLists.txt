@@ -1,108 +1,121 @@
 
-set( pkginclude_HEADERS AbsFunctional.hh  
-			AbsFunction.hh  
-			Abs.hh  
-			AbsParameter.hh  
-			ACos.hh  
-			Airy.hh  
-			Airy.icc 
-			AnalyticConvolution.hh  
-			Argument.hh  
-			ArgumentList.hh  
+set( pkginclude_HEADERS
+			AbsFunctional.hh
+			AbsFunction.hh
+			Abs.hh
+			AbsParameter.hh
+			ACos.hh
+			Airy.hh
+			Airy.icc
+			AnalyticConvolution.hh
+			Argument.hh
+			ArgumentList.hh
 			ArrayFunction.hh
-			ASin.hh  
-			AssociatedLaguerre.hh  
-			AssociatedLegendre.hh  
-			ATan.hh  
-			BetaDistribution.hh
-			Bessel.hh  
+			ASin.hh
+			AssociatedLaguerre.hh
+			AssociatedLegendre.hh
+			ATan.hh
+			Bessel.hh
 			Bessel.icc
-			BivariateGaussian.hh  
-			ConstMinusFunction.hh  
-			ConstMinusParameter.hh  
-			ConstOverFunction.hh  
-			ConstOverParameter.hh  
-			ConstPlusFunction.hh  
-			ConstPlusParameter.hh  
-			ConstTimesFunction.hh  
-			ConstTimesParameter.hh  
-			Cos.hh  
-			CumulativeChiSquare.hh  
-			CutBase.hh  
+			BetaDistribution.hh
+			BivariateGaussian.hh
+			ClassicalSolver.hh
+			ConstMinusFunction.hh
+			ConstMinusParameter.hh
+			ConstOverFunction.hh
+			ConstOverParameter.hh
+			ConstPlusFunction.hh
+			ConstPlusParameter.hh
+			ConstTimesFunction.hh
+			ConstTimesParameter.hh
+			Cos.hh
+			CumulativeChiSquare.hh
+			CutBase.hh
 			CutBase.icc
-			DefiniteIntegral.hh  
-			DoubleParamToArgAdaptor.hh  
+			DefiniteIntegral.hh
+			DoubleParamToArgAdaptor.hh
 			DoubleParamToArgAdaptor.icc
-			EllipticIntegral.hh  
+			EfficiencyFunctional.hh
+			EllipticIntegral.hh
 			EllipticIntegral.icc
-			Erf.hh  
-			Exp.hh  
-			Exponential.hh  
-			FixedConstant.hh  
-			FloatingConstant.hh  
-			FunctionComposition.hh  
-			FunctionConvolution.hh  
-			FunctionDifference.hh  
-			FunctionDirectProduct.hh  
-			FunctionNegation.hh  
-			FunctionNoop.hh  
-			FunctionNumDeriv.hh  
-			FunctionPlusParameter.hh  
-			FunctionProduct.hh  
-			FunctionQuotient.hh  
-			FunctionSum.hh  
-			FunctionTimesParameter.hh  
-			Gaussian.hh  
-			Gamma.hh  
-			GammaDistribution.hh  
-			GenericFunctions.hh  
-			IncompleteGamma.hh  
-			Landau.hh  
+			Erf.hh
+			Exp.hh
+			Exponential.hh
+			FixedConstant.hh
+			FloatingConstant.hh
+			FourierFit.hh
+			FourierFit.icc
+			FunctionComposition.hh
+			FunctionConvolution.hh
+			FunctionDifference.hh
+			FunctionDirectProduct.hh
+			FunctionNegation.hh
+			FunctionNoop.hh
+			FunctionNumDeriv.hh
+			FunctionPlusParameter.hh
+			FunctionProduct.hh
+			FunctionQuotient.hh
+			FunctionSum.hh
+			FunctionTimesParameter.hh
+			GammaDistribution.hh
+			Gamma.hh
+			Gaussian.hh
+			GenericFunctions.hh
+			IncompleteGamma.hh
+			InterpolatingPolynomial.hh
 			KroneckerDelta.hh
-			Legendre.hh  
-			Legendre.icc  
-			LikelihoodFunctional.hh  
-			Ln.hh  
-			LogGamma.hh  
-			LogisticFunction.hh  
-			Mod.hh  
+			Landau.hh
+			LegendreFit.hh
+			LegendreFit.icc
+			Legendre.hh
+			Legendre.icc
+			LikelihoodFunctional.hh
+			Ln.hh
+			LogGamma.hh
+			LogisticFunction.hh
+			Mod.hh
 			NonrelativisticBW.hh
-			ParameterComposition.hh  
-			ParameterDifference.hh  
-			Parameter.hh  
-			ParameterNegation.hh  
-			ParameterProduct.hh  
-			ParameterQuotient.hh  
-			ParameterSum.hh  
-			ParamToArgAdaptor.hh  
+			ParameterComposition.hh
+			ParameterDifference.hh
+			Parameter.hh
+			ParameterNegation.hh
+			ParameterProduct.hh
+			ParameterQuotient.hh
+			ParameterSum.hh
+			ParamToArgAdaptor.hh
 			ParamToArgAdaptor.icc
-			PeriodicRectangular.hh  
-			Power.hh  
-			Psi2Hydrogen.hh  
-			PtRelFcn.hh 
+			PeriodicRectangular.hh
+			PhaseSpace.hh
+			Power.hh
+			Psi2Hydrogen.hh
+			PtRelFcn.hh
 			PuncturedSmearedExp.hh
-			RCBase.hh 
-			Rectangular.hh  
+			RCBase.hh
+			Rectangular.hh
 			RelativisticBW.hh
-			ReverseExponential.hh  
-			RKIntegrator.hh  
-			Sigma.hh  
-			Sin.hh  
-			SphericalBessel.hh  
+			ReverseExponential.hh
+			RKIntegrator.hh
+			RungeKuttaClassicalSolver.hh
+			Sigma.hh
+			Sin.hh
+			SphericalBessel.hh
 			SphericalBessel.icc
-			SphericalNeumann.hh  
+			SphericalHarmonicFit.hh
+			SphericalHarmonicFit.icc
+			SphericalNeumann.hh
 			SphericalNeumann.icc
-			Sqrt.hh  
-			Square.hh  
+			Sqrt.hh
+			Square.hh
 			SymToArgAdaptor.hh
 			SymToArgAdaptor.icc
-			Tan.hh  
-			TrivariateGaussian.hh  
-			Variable.hh  
+			Tan.hh
+			Theta.hh
+			TrivariateGaussian.hh
+			Variable.hh
 			VoigtProfile.hh
-			X.hh )
+			X.hh
+			)
 
 # notice that defs.h is not referenced here
 INSTALL (FILES ${pkginclude_HEADERS}  
          DESTINATION include/CLHEP/GenericFunctions )
-
