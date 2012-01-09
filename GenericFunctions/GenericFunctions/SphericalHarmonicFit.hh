@@ -40,29 +40,56 @@ namespace Genfun {
     virtual double operator ()(double argument) const;    // Gives an error.
     virtual double operator ()(const Argument & a) const; // Must use this one
 
-    unsigned int numComponents() const {
-      return (LMAX+1)*(LMAX+1)-1;
-    }
+    // Total number of parameters
+    unsigned int numComponents() const;
     
-     Parameter *getFraction(unsigned int i);
-    const Parameter *getFraction(unsigned int i) const;
+    // Max L ("angular momentum")
+    unsigned int lMax() const;
+    
+    // MINUIT-SAFE PARAMETERIZATION: Fractions vary on the range 0,1, 
+    // Phases need not be bounded:
 
-    Parameter *getPhase(unsigned int i);
-    const Parameter *getPhase(unsigned int i) const;
+    // The fraction of amplitude sq which is L OR HIGHER:
+    Parameter *getFractionLOrHigher(unsigned int L);
+    const Parameter *getFractionLOrHigher(unsigned int L) const;
+
+    // The phase of coefficient L, M=0;
+    Parameter *getPhaseLM0(unsigned int L);
+    const Parameter *getPhaseLM0(unsigned int L) const;
+
+    // The fraction of amplitude sq which is L which is +- M OR HIGHER
+    Parameter *getFractionAbsMOrHigher(unsigned int L, unsigned int M);
+    const Parameter *getFractionAbsMOrHigher(unsigned int L, unsigned int M) const;
+
+    // The fraction of amplitude sq which is +- M, which is positive
+    Parameter *getFractionMPositive(unsigned int L, unsigned int M);
+    const Parameter *getFractionMPositive(unsigned int L, unsigned int M) const;
+
+    // The phase of the positive M coefficient
+    Parameter *getPhaseMPlus(unsigned int L, unsigned int M);
+    const Parameter *getPhaseMPlus(unsigned int L, unsigned int M) const;
+
+    // The phase of the negative M coefficient
+    Parameter *getPhaseMMinus(unsigned int L, unsigned int M);
+    const Parameter *getPhaseMMinus(unsigned int L, unsigned int M) const;
+
+    
+    
 
 
   private:
 
     // It is illegal to assign an adjustable constant
     const SphericalHarmonicFit & operator=(const SphericalHarmonicFit &right);
-
-    // 
-    const unsigned   int              LMAX;
-    std::vector <Genfun::Parameter *> fraction;
-    std::vector <Genfun::Parameter *> phase;
-
+    
+    
+    class Clockwork;
+    Clockwork *c;
 
   };
 } // namespace Genfun
+
+
+
 #include "CLHEP/GenericFunctions/SphericalHarmonicFit.icc"
 #endif

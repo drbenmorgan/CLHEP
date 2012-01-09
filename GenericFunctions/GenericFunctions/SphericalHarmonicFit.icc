@@ -10,45 +10,114 @@ namespace Genfun {
 
 FUNCTION_OBJECT_IMP(SphericalHarmonicFit)
 
+class SphericalHarmonicFit::Clockwork {
+  
+public:
+  
+  Clockwork(unsigned int LMAX):LMAX(LMAX){}
+
+  struct MStruct {
+    unsigned int M;
+    Genfun::Parameter *fractionAbsMOrHigher;
+    Genfun::Parameter *fractionMPositive;
+    Genfun::Parameter *phaseMPlus;
+    Genfun::Parameter *phaseMMinus;
+  };
+  
+  struct LStruct {
+    unsigned  int      L;
+    Genfun::Parameter *fractionLOrHigher;
+    Genfun::Parameter *phaseLM0;
+    std::vector<MStruct> mstruct;
+  };
+
+  std::vector<LStruct>   lstruct;
+  const unsigned   int   LMAX;
+};
 
 
 inline
 SphericalHarmonicFit::SphericalHarmonicFit(unsigned int LMAX):
-   LMAX(LMAX)
+  c(new Clockwork(LMAX))
 {
-  // SKIP L=1.  We take the phase of this to be zero and the fraction
-  // to be whatever is left over after the other fraction take.
-  for (int l=1;l<=LMAX;l++) {
-    for (int m=-l;m<=l;m++) {
-      std::ostringstream stream;
-      stream << "Fraction l=" << l << " ;m=" << m << std::endl;
-      fraction.push_back(new Parameter(stream.str(), 0.5, 0.0, 1.0));
+  for (unsigned int l=1;l<=LMAX;l++) {
+    Clockwork::LStruct lstruct;
+    lstruct.L=l;
+    {
+      std::ostringstream stream; 
+      stream << "Fraction L>=" << l;
+      lstruct.fractionLOrHigher= new Genfun::Parameter(stream.str(), 0.5, 0, 1);
     }
-  }
-  for (int l=1;l<=LMAX;l++) {
-    for (int m=-l;m<=l;m++) {
-      std::ostringstream stream;
-      stream << "Phase l=" << l << " ;m=" << m << std::endl;
-      phase.push_back(new Parameter(stream.str(),  M_PI, 0.0, 2.0*M_PI));
+    {
+      std::ostringstream stream; 
+      stream << "Phase L=" << l << "; M=0";
+      lstruct.phaseLM0= new Genfun::Parameter(stream.str(), M_PI, -2*M_PI, 2*M_PI);
     }
+    for (unsigned int m=1;m<=l;m++) {
+      Clockwork::MStruct mstruct;
+      mstruct.M=m;
+      {
+	std::ostringstream stream; 
+	stream << "Fraction L= " << l << "; |M| >=" << m;
+	mstruct.fractionAbsMOrHigher= new Genfun::Parameter(stream.str(), 0.5, 0, 1);
+      }
+      {
+	std::ostringstream stream; 
+	stream << "Fraction L=" << l << "; M=+" << m ;
+	mstruct.fractionMPositive= new Genfun::Parameter(stream.str(), 0.5, 0, 1);
+      }
+      {
+	std::ostringstream stream; 
+	stream << "Phase L=" << l << "; M=+" << m ;
+	mstruct.phaseMPlus= new Genfun::Parameter(stream.str(), M_PI, -2*M_PI, 2*M_PI);
+      }
+      {
+	std::ostringstream stream; 
+	stream << "Phase L=" << l << "; M=-" << m ;
+	mstruct.phaseMMinus= new Genfun::Parameter(stream.str(), M_PI, -2*M_PI, 2*M_PI);
+      }
+      
+      lstruct.mstruct.push_back(mstruct);
+    }
+    c->lstruct.push_back(lstruct);
   }
 }
 
+
 inline
 SphericalHarmonicFit::~SphericalHarmonicFit() {
-  for (unsigned int i=0;i<numComponents();i++) {
-    delete fraction[i];
-    delete phase[i];
+  for (int i=0;i<c->lstruct.size();i++) {
+    delete c->lstruct[i].fractionLOrHigher;
+    delete c->lstruct[i].phaseLM0;
+    for (int j=0;j<c->lstruct[i].mstruct.size();j++) {
+      delete c->lstruct[i].mstruct[j].fractionAbsMOrHigher;
+      delete c->lstruct[i].mstruct[j].fractionMPositive;
+      delete c->lstruct[i].mstruct[j].phaseMPlus;
+      delete c->lstruct[i].mstruct[j].phaseMMinus;
+    }
   }
+  delete c;
 }
 
 inline
 SphericalHarmonicFit::SphericalHarmonicFit(const SphericalHarmonicFit & right):
-  LMAX(right.LMAX)
+  c(new Clockwork(right.c->LMAX))
 {
-  for (int i=0;i<right.numComponents();i++) {
-    fraction.push_back(new Parameter(*right.fraction[i]));
-    phase.push_back(new Parameter(*right.phase[i]));
+  for (int i=0;i<right.c->lstruct.size();i++) {
+    Clockwork::LStruct lstruct;
+    lstruct.L= right.c->lstruct[i].L;
+    lstruct.fractionLOrHigher = new Parameter(*right.c->lstruct[i].fractionLOrHigher);
+    lstruct.phaseLM0          = new Parameter(*right.c->lstruct[i].phaseLM0);
+    for (int j=0;j<right.c->lstruct[i].mstruct.size();j++) {
+      Clockwork::MStruct mstruct;
+      mstruct.M=right.c->lstruct[i].mstruct[j].M;
+      mstruct.fractionAbsMOrHigher=new Parameter(*right.c->lstruct[i].mstruct[j].fractionAbsMOrHigher);
+      mstruct.fractionMPositive   =new Parameter(*right.c->lstruct[i].mstruct[j].fractionMPositive);
+      mstruct.phaseMPlus          =new Parameter(*right.c->lstruct[i].mstruct[j].phaseMPlus);
+      mstruct.phaseMMinus         =new Parameter(*right.c->lstruct[i].mstruct[j].phaseMMinus);
+      lstruct.mstruct.push_back(mstruct);
+    }
+    c->lstruct.push_back(lstruct);
   }
 }
 
@@ -60,6 +129,7 @@ double SphericalHarmonicFit::operator() (double ) const {
 
 inline
 double SphericalHarmonicFit::operator() (const Argument & a ) const {
+  int LMAX=c->LMAX;
   double x = a[0];
   double phi=a[1];
   // Note, the calling sequence of the GSL Special Function forces us to 
@@ -72,47 +142,96 @@ double SphericalHarmonicFit::operator() (const Argument & a ) const {
   int l=LMAX;
   int m=LMAX;
 
+  //  double ampSq=0.0;
+
   std::complex<double> P=0.0;
   std::complex<double> I(0,1.0);
   double f=1.0;
-  double sumSq=0;
-  while (1) {
-    int LP=l-abs(m);
-    if (l==0) {
-      double fn=1.0;
-      double Pn=Plm[abs(m)][LP];
+  double fThisSum=0.0;
+  for (unsigned int l=0;l<=LMAX;l++) {
+   
+    // lStructThis is zero if l==0;
+    // lStructNext is zero if l==LMAX;
+    const Clockwork::LStruct *lStructThis= (l==0    ? NULL: & c->lstruct[l-1]);
+    const Clockwork::LStruct *lStructNext= (l==LMAX ? NULL: & c->lstruct[l]);
+    double fHigher = lStructNext ? lStructNext->fractionLOrHigher->getValue() : NULL;
+    double fThis   = f*(1-fHigher);
+    fThisSum+=fThis;
+    
+    double g=1.0;
+    double gThisSum=0.0;
+    for (int m=0;m<=l;m++) {
+
+      // mStructThis is zero if m==0;
+      // mStructNext is zero if m==l;
+      const Clockwork::MStruct *mStructThis= ((m==0 || !lStructThis) ? NULL: & lStructThis->mstruct[m-1]);
+      const Clockwork::MStruct *mStructNext= (m==l ? NULL: & lStructThis->mstruct[m]);
+      double gHigher = mStructNext ? mStructNext->fractionAbsMOrHigher->getValue() : NULL;
+      double gThis   = g*(1-gHigher);
+      gThisSum+=gThis;
+
+      if (fThis<0) {
+	std::cout << "L-fraction correction" << fThis << "-->0" << std::endl;
+	fThis=0.0;
+      }
+      if (gThis<0) {
+	std::cout << "M-fraction correction" << gThis << "-->0" << std::endl;
+	gThis=0.0;
+      }
+      
+      int LP=l-abs(m);
+      double px=0.0; // phase
+      double Pn= Plm[abs(m)][LP];
       if (!finite(Pn)) {
-	throw std::runtime_error("Non-finite Pn l=0");
+	throw std::runtime_error("Non-finite Pn");
       }
-
-      P+=(sqrt(std::max(0.0,f*fn))*Pn);
-      sumSq+= f*fn;
-
-      break;
-    }
-    else {
-      double fn=getFraction(n-1)->getValue();
-      double px=getPhase(n-1)->getValue();
-      int    S= (m<0 && abs(m)%2) ? -1:1; 
-      double Pn= S*Plm[abs(m)][LP];
-      if (!finite(Pn)) {
-	throw std::runtime_error("Non-finite Pn l!=0");
+      
+      
+      
+      if (m==0) {
+	if (lStructThis) {
+	  double amplitude = sqrt(fThis*gThis);
+	  px = lStructThis->phaseLM0->getValue();;
+	  P+=(exp(I*(px+m*phi))*amplitude*Pn);
+	  //	  std::cout << l << " " << m << " " << amplitude*amplitude << std::endl;
+	  //      ampSq += (amplitude*amplitude);
+	}
+	// L=0 occurs here:
+	else {
+	  double amplitude = sqrt(fThis*gThis);
+	  P+=(exp(I*(px+m*phi))*amplitude*Pn);
+	  //std::cout << l << " " << m << " " << amplitude*amplitude << std::endl;
+	  //ampSq += (amplitude*amplitude);
+	}
       }
-
-      P+=(exp(I*(px+m*phi))*sqrt(std::max(0.0,f*fn))*Pn);
-      sumSq+= f*fn;
-
-      f*=(1-fn);
-      n--;
-      if (m>-l) {
-	m--;
-      }
+      // Split it between positive and negative:
       else {
-	l--;
-	m=l;
+	{
+	  double amplitude = sqrt(fThis*gThis*mStructThis->fractionMPositive->getValue());
+	  px = mStructThis->phaseMPlus->getValue();;
+	  P+=(exp(I*(px+m*phi))*amplitude*Pn);
+	  //std::cout << l << " " << m << " " << amplitude*amplitude << std::endl;
+	  //ampSq += (amplitude*amplitude);
+	}
+	{
+	  int    S= m%2 ? -1:1; 
+	  double amplitude = sqrt(fThis*gThis*(1-mStructThis->fractionMPositive->getValue()));
+	  px = mStructThis->phaseMMinus->getValue();;
+	  P+=(exp(I*(px-m*phi))*amplitude*Pn);
+	  //std::cout << l << " " << m << " " << amplitude*amplitude << std::endl;
+	  //ampSq += (amplitude*amplitude);
+	}
       }
+      
+      g*=gHigher;
     }
+
+    f*=fHigher;
+    
   }
+  
+  //  std::cout << 1-ampSq << std::endl;
+  //  std::cout << "+++++++++++++++++" << std::endl;
   double retVal=std::norm(P);
   if (!finite(retVal)) {
     throw std::runtime_error("Non-finite return value in SphericalHarmonicFit");
@@ -121,21 +240,85 @@ double SphericalHarmonicFit::operator() (const Argument & a ) const {
 }
 
 inline
-Parameter *SphericalHarmonicFit::getFraction(unsigned int i) {
-  return fraction[i];
+unsigned int SphericalHarmonicFit::lMax() const {
+  return c->LMAX;
 }
-inline 
-const Parameter *SphericalHarmonicFit::getFraction(unsigned int i) const{
-  return fraction[i];
-}
+
 inline
-Parameter *SphericalHarmonicFit::getPhase(unsigned int i) {
-  return phase[i];
+unsigned int SphericalHarmonicFit::numComponents() const {
+  return (c->LMAX+1)*(c->LMAX+1)-1;
 }
-inline 
-const Parameter *SphericalHarmonicFit::getPhase(unsigned int i) const{
-  return phase[i];
+  
+// The fraction of Amplitude sq which is L or higher
+inline
+Parameter *SphericalHarmonicFit::getFractionLOrHigher(unsigned int L){
+  return c->lstruct[L-1].fractionLOrHigher;
 }
+
+inline
+const Parameter *SphericalHarmonicFit::getFractionLOrHigher(unsigned int L) const {
+  return c->lstruct[L-1].fractionLOrHigher;
+}
+
+// The phase of coefficient L, M=0;
+inline
+Parameter *SphericalHarmonicFit::getPhaseLM0(unsigned int L){
+  return c->lstruct[L-1].phaseLM0;
+}
+
+inline
+const Parameter *SphericalHarmonicFit::getPhaseLM0(unsigned int L) const{
+  return c->lstruct[L-1].phaseLM0;
+}
+
+// The fraction of amplitude sq which is L which is +- M OR HIGHER
+inline
+Parameter *SphericalHarmonicFit::getFractionAbsMOrHigher(unsigned int L, unsigned int M){
+  return c->lstruct[L-1].mstruct[M-1].fractionAbsMOrHigher;
+}
+
+inline
+const Parameter *SphericalHarmonicFit::getFractionAbsMOrHigher(unsigned int L, unsigned int M) const{
+  return c->lstruct[L-1].mstruct[M-1].fractionAbsMOrHigher;
+}
+
+
+// The fraction of amplitude sq which is +- M, which is positive
+inline
+Parameter *SphericalHarmonicFit::getFractionMPositive(unsigned int L, unsigned int M){
+  return c->lstruct[L-1].mstruct[M-1].fractionMPositive;
+}
+
+inline
+const Parameter *SphericalHarmonicFit::getFractionMPositive(unsigned int L, unsigned int M) const{
+  return c->lstruct[L-1].mstruct[M-1].fractionMPositive;
+}
+
+
+// The phase of the positive M coefficient
+inline
+Parameter *SphericalHarmonicFit::getPhaseMPlus(unsigned int L, unsigned int M){
+  return c->lstruct[L-1].mstruct[M-1].phaseMPlus;
+}
+
+inline
+const Parameter *SphericalHarmonicFit::getPhaseMPlus(unsigned int L, unsigned int M) const{
+  return c->lstruct[L-1].mstruct[M-1].phaseMPlus;
+}
+
+
+// The phase of the negative M coefficient
+inline
+Parameter *SphericalHarmonicFit::getPhaseMMinus(unsigned int L, unsigned int M){
+  return c->lstruct[L-1].mstruct[M-1].phaseMMinus;
+}
+
+inline
+const Parameter *SphericalHarmonicFit::getPhaseMMinus(unsigned int L, unsigned int M) const{
+  return c->lstruct[L-1].mstruct[M-1].phaseMMinus;
+}
+
+
 
 
 } // end namespace Genfun 
