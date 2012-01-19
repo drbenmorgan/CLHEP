@@ -42,7 +42,9 @@ int main() {
     nbad++;
     std::cout << "compare --" << os3.str() << "--" << std::endl;
     std::cout << "     to --" << os4.str() << "--" << std::endl;
+#ifndef USING_VISUAL
     std::cout << "M_PI    --" << std::setprecision(16) << M_PI << "--" << std::endl;
+#endif
   }
   
   return nbad;
