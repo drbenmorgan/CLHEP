@@ -197,13 +197,13 @@ std::string ZMexception::logMessage( const std::string optText ) const {
 ZMexception::ZMexception(
   const std::ostringstream &  msg
 , const ZMexSeverity howBad
-, int                count
+, int                icount
 )  :
   message_(msg.str())
 , line_( 0 )
 , sourceFileName_( "not ZMthrow'n as of yet" )
 , mySeverity_( howBad == ZMexSEVERITYenumLAST ? _classInfo.severity() : howBad )
-, myCount_( count )
+, myCount_( icount )
 , wasThrown_( false )
 { }
 

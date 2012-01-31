@@ -64,8 +64,8 @@ class ZMexHandlerBehavior {
 
 public:
   ZMexHandlerBehavior(
-    const std::string name = "ZMexHandlerBehavior"
-  ) : name_( name ) { }
+    const std::string aname = "ZMexHandlerBehavior"
+  ) : name_( aname ) { }
 
   virtual ~ZMexHandlerBehavior() { }
 

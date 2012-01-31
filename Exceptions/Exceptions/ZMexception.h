@@ -203,14 +203,14 @@ public:
   ZMexception(
     const std::string &      mesg
   , const ZMexSeverity howBad = ZMexSEVERITYenumLAST
-  , int                count  = ZMexception::_classInfo.nextCount()
+  , int                icount  = ZMexception::_classInfo.nextCount()
   );
 
   explicit
   ZMexception(
     const std::ostringstream & msg
   , const ZMexSeverity howBad = ZMexSEVERITYenumLAST
-  , int                count  = ZMexception::_classInfo.nextCount()
+  , int                icount  = ZMexception::_classInfo.nextCount()
   );
 
   virtual ~ZMexception() {}
@@ -455,8 +455,8 @@ public:
   }
 
   virtual bool isDerivedFrom(
-    const std::string name
-  , const std::string facility
+    const std::string aname
+  , const std::string afacility
   ) const {
     return  false;
   }
@@ -485,13 +485,13 @@ public:									\
     const std::string  & mesg						\
   , const zmex::ZMexSeverity howBad = 			\
 			zmex::ZMexSEVERITYenumLAST		\
-  , int                      count = _classInfo.nextCount()		\
+  , int                      icount = _classInfo.nextCount()		\
   )  :									\
     Parent(								\
       mesg								\
     , (howBad == zmex::ZMexSEVERITYenumLAST ? 		\
 			_classInfo.severity() : howBad)			\
-    , count								\
+    , icount								\
     )									\
   { }									\
 									\
@@ -499,13 +499,13 @@ public:									\
     const std::ostringstream&  msg					\
   , const zmex::ZMexSeverity howBad = 			\
 			zmex::ZMexSEVERITYenumLAST		\
-  , int                      count = _classInfo.nextCount()		\
+  , int                      icount = _classInfo.nextCount()		\
   )  :									\
     Parent(								\
       msg								\
     , (howBad == zmex::ZMexSEVERITYenumLAST ? 		\
 			_classInfo.severity() : howBad)			\
-    , count								\
+    , icount								\
     )									\
   { }									\
 									\

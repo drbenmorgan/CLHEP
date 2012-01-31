@@ -46,13 +46,13 @@ namespace zmex  {
 inline ZMexception::ZMexception(
   const std::string  & mesg
 , const ZMexSeverity howBad
-, int                count
+, int                icount
 )  :
   message_(mesg)
 , line_( 0 )
 , sourceFileName_( "not ZMthrow'n as of yet" )
 , mySeverity_( howBad == ZMexSEVERITYenumLAST ? _classInfo.severity() : howBad )
-, myCount_( count )
+, myCount_( icount )
 , wasThrown_( false )
 { }
 
@@ -131,13 +131,13 @@ inline ZMexSeverity ZMexception::severity() const {
 // line()
 //-------------------------
 
-inline void ZMexception::location( int line, const std::string filename ) const  {
+inline void ZMexception::location( int iline, const std::string filename ) const  {
 #ifdef DEFECT_NO_MUTABLE
   ZMexception * localThis = const_cast<ZMexception * const>(this);
-  localThis->line_ = line;
+  localThis->line_ = iline;
   localThis->sourceFileName_ = filename;
 #else
-  line_ = line;
+  line_ = iline;
   sourceFileName_ = filename;
 #endif
 }
