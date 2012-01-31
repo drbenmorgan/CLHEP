@@ -1,3 +1,9 @@
+
+2012-01-31 Lynn Garren <garren@fnal.gov> and Mark Fischler <mf@fnal.gov>
+
+	* src/Evaluator.cc: fix a problem with unary +/- and exponentials
+	* test/testBug90848.cc: new test for bug #90848
+
 ==============================
 16.12.11 Release CLHEP-2.1.2.0
 ==============================
@@ -11,8 +17,7 @@
 23.07.10 Release CLHEP-2.1.0.0
 ==============================
 
-2010-06-29  Mark Fischler <mf@fnal.gov>
-
+2010-06-29  
 	* src/Evaluator.cc: Improve the logic so that unary plus and minus 
 	  work as expected.  See bug report #66214.
 

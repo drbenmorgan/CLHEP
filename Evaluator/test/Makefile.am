@@ -27,14 +27,14 @@ CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 
 # Identify executables needed during testing:
 check_PROGRAMS = \
-	testEvaluator testBug66214
+	testEvaluator testBug66214 testBug90848
 
 check_SCRIPTS = \
 	testEvaluator.sh
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
-	testEvaluator.sh testBug66214
+	testEvaluator.sh testBug66214 testBug90848
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
@@ -42,6 +42,7 @@ XFAIL_TESTS =
 # Identify the dependencies on a per-test basis:
 testEvaluator_SOURCES = testEvaluator.cc
 testBug66214_SOURCES = testBug66214.cc
+testBug90848_SOURCES = testBug90848.cc
 
 # Identify input data file(s) and prototype output file(s):
 EXTRA_DIST = \
