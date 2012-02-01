@@ -35,83 +35,83 @@ namespace CLHEP  {
 //-*****************************
 
 void Hep3Vector::setSpherical (
-		double r,
-                double theta,
-                double phi) {
-  if ( r < 0 ) {
+		double r1,
+                double theta1,
+                double phi1) {
+  if ( r1 < 0 ) {
     ZMthrowC (ZMxpvNegativeR(
       "Spherical coordinates set with negative   R"));
     // No special return needed if warning is ignored.
   }
-  if ( (theta < 0) || (theta > CLHEP::pi) ) {
+  if ( (theta1 < 0) || (theta1 > CLHEP::pi) ) {
     ZMthrowC (ZMxpvUnusualTheta(
       "Spherical coordinates set with theta not in [0, PI]"));
 	// No special return needed if warning is ignored.
   }
-  dz = r * cos(theta);
-  double rho ( r*sin(theta));
-  dy = rho * sin (phi);
-  dx = rho * cos (phi);
+  dz = r1 * cos(theta1);
+  double rho1 ( r1*sin(theta1));
+  dy = rho1 * sin (phi1);
+  dx = rho1 * cos (phi1);
   return;
-} /* setSpherical (r, theta, phi) */
+} /* setSpherical (r, theta1, phi) */
 
 void Hep3Vector::setCylindrical (
- 		double rho,
-                double phi,
-                double z) {
-  if ( rho < 0 ) {
+ 		double rho1,
+                double phi1,
+                double z1) {
+  if ( rho1 < 0 ) {
     ZMthrowC (ZMxpvNegativeR(
       "Cylindrical coordinates supplied with negative Rho"));
     // No special return needed if warning is ignored.
   }
-  dz = z;
-  dy = rho * sin (phi);
-  dx = rho * cos (phi);
+  dz = z1;
+  dy = rho1 * sin (phi1);
+  dx = rho1 * cos (phi1);
   return;
 } /* setCylindrical (r, phi, z) */
 
 void Hep3Vector::setRhoPhiTheta (
- 		double rho,
-                double phi,
-                double theta) {
-  if (rho == 0) {
+ 		double rho1,
+                double phi1,
+                double theta1) {
+  if (rho1 == 0) {
     ZMthrowC (ZMxpvZeroVector(
       "Attempt set vector components rho, phi, theta with zero rho -- "
       "zero vector is returned, ignoring theta and phi"));
     dx = 0; dy = 0; dz = 0;
     return;
   }
-  if ( (theta == 0) || (theta == CLHEP::pi) ) {
+  if ( (theta1 == 0) || (theta1 == CLHEP::pi) ) {
     ZMthrowA (ZMxpvInfiniteVector(
       "Attempt set cylindrical vector vector with finite rho and "
       "theta along the Z axis:  infinite Z would be computed"));
   }
-  if ( (theta < 0) || (theta > CLHEP::pi) ) {
+  if ( (theta1 < 0) || (theta1 > CLHEP::pi) ) {
     ZMthrowC (ZMxpvUnusualTheta(
       "Rho, phi, theta set with theta not in [0, PI]"));
 	// No special return needed if warning is ignored.
   }
-  dz = rho / tan (theta);
-  dy = rho * sin (phi);
-  dx = rho * cos (phi);
+  dz = rho1 / tan (theta1);
+  dy = rho1 * sin (phi1);
+  dx = rho1 * cos (phi1);
   return;
 } /* setCyl (rho, phi, theta) */
 
 void Hep3Vector::setRhoPhiEta (
- 		double rho,
-                double phi,
-                double eta ) {
-  if (rho == 0) {
+ 		double rho1,
+                double phi1,
+                double eta1 ) {
+  if (rho1 == 0) {
     ZMthrowC (ZMxpvZeroVector(
       "Attempt set vector components rho, phi, eta with zero rho -- "
       "zero vector is returned, ignoring eta and phi"));
     dx = 0; dy = 0; dz = 0;
     return;
   }
-  double theta (2 * atan ( exp (-eta) ));
-  dz = rho / tan (theta);
-  dy = rho * sin (phi);
-  dx = rho * cos (phi);
+  double theta1 (2 * atan ( exp (-eta1) ));
+  dz = rho1 / tan (theta1);
+  dy = rho1 * sin (phi1);
+  dx = rho1 * cos (phi1);
   return;
 } /* setCyl (rho, phi, eta) */
 

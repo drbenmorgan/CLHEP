@@ -90,11 +90,11 @@ Hep3Vector & Hep3Vector::rotateUz(const Hep3Vector& NewUzVector) {
 }
 
 double Hep3Vector::pseudoRapidity() const {
-  double m = mag();
-  if ( m==  0   ) return  0.0;   
-  if ( m==  z() ) return  1.0E72;
-  if ( m== -z() ) return -1.0E72;
-  return 0.5*log( (m+z())/(m-z()) );
+  double m1 = mag();
+  if ( m1==  0   ) return  0.0;   
+  if ( m1==  z() ) return  1.0E72;
+  if ( m1== -z() ) return -1.0E72;
+  return 0.5*log( (m1+z())/(m1-z()) );
 }
 
 std::ostream & operator<< (std::ostream & os, const Hep3Vector & v) {
@@ -121,9 +121,9 @@ const Hep3Vector HepZHat(0.0, 0.0, 1.0);
 //
 //-------------------
 
-Hep3Vector & Hep3Vector::rotateX (double phi) {
-  double sinphi = sin(phi);
-  double cosphi = cos(phi);
+Hep3Vector & Hep3Vector::rotateX (double phi1) {
+  double sinphi = sin(phi1);
+  double cosphi = cos(phi1);
   double ty;
   ty = dy * cosphi - dz * sinphi;
   dz = dz * cosphi + dy * sinphi;
@@ -131,9 +131,9 @@ Hep3Vector & Hep3Vector::rotateX (double phi) {
   return *this;
 } /* rotateX */
 
-Hep3Vector & Hep3Vector::rotateY (double phi) {
-  double sinphi = sin(phi);
-  double cosphi = cos(phi);
+Hep3Vector & Hep3Vector::rotateY (double phi1) {
+  double sinphi = sin(phi1);
+  double cosphi = cos(phi1);
   double tz;
   tz = dz * cosphi - dx * sinphi;
   dx = dx * cosphi + dz * sinphi;
@@ -141,9 +141,9 @@ Hep3Vector & Hep3Vector::rotateY (double phi) {
   return *this;
 } /* rotateY */
 
-Hep3Vector & Hep3Vector::rotateZ (double phi) {
-  double sinphi = sin(phi);
-  double cosphi = cos(phi);
+Hep3Vector & Hep3Vector::rotateZ (double phi1) {
+  double sinphi = sin(phi1);
+  double cosphi = cos(phi1);
   double tx;
   tx = dx * cosphi - dy * sinphi;
   dy = dy * cosphi + dx * sinphi;
@@ -214,9 +214,9 @@ double Hep3Vector::cos2Theta(const Hep3Vector & q) const {
  return arg;
 }
 
-void Hep3Vector::setEta (double eta) {
-  double phi = 0;
-  double r;
+void Hep3Vector::setEta (double eta1) {
+  double phi1 = 0;
+  double r1;
   if ( (dx == 0) && (dy == 0) ) {
     if (dz == 0) {
       ZMthrowC (ZMxpvZeroVector(
@@ -225,22 +225,22 @@ void Hep3Vector::setEta (double eta) {
     }
     ZMthrowC (ZMxpvZeroVector(
       "Attempt to set eta of vector along Z axis -- will use phi = 0"));
-    r = fabs(dz);
+    r1 = fabs(dz);
   } else {
-    r = getR();
-    phi = getPhi();
+    r1 = getR();
+    phi1 = getPhi();
   }
-  double tanHalfTheta = exp ( -eta );
-  double cosTheta =
+  double tanHalfTheta = exp ( -eta1 );
+  double cosTheta1 =
         (1 - tanHalfTheta*tanHalfTheta) / (1 + tanHalfTheta*tanHalfTheta);
-  dz = r * cosTheta;
-  double rho = r*sqrt(1 - cosTheta*cosTheta);
-  dy = rho * sin (phi);
-  dx = rho * cos (phi);
+  dz = r1 * cosTheta1;
+  double rho1 = r1*sqrt(1 - cosTheta1*cosTheta1);
+  dy = rho1 * sin (phi1);
+  dx = rho1 * cos (phi1);
   return;
 }
 
-void Hep3Vector::setCylTheta (double theta) {
+void Hep3Vector::setCylTheta (double theta1) {
 
   // In cylindrical coords, set theta while keeping rho and phi fixed
 
@@ -250,11 +250,11 @@ void Hep3Vector::setCylTheta (double theta) {
         "Attempt to set cylTheta of zero vector -- vector is unchanged"));
       return;
     }
-    if (theta == 0) {
+    if (theta1 == 0) {
       dz = fabs(dz);
       return;
     }
-    if (theta == CLHEP::pi) {
+    if (theta1 == CLHEP::pi) {
       dz = -fabs(dz);
       return;
     }
@@ -265,31 +265,31 @@ void Hep3Vector::setCylTheta (double theta) {
     dz = 0;
     return;
   }
-  if ( (theta < 0) || (theta > CLHEP::pi) ) {
+  if ( (theta1 < 0) || (theta1 > CLHEP::pi) ) {
     ZMthrowC (ZMxpvUnusualTheta(
       "Setting Cyl theta of a vector based on a value not in [0, PI]"));
         // No special return needed if warning is ignored.
   }
-  double phi (getPhi());
-  double rho = getRho();
-  if ( (theta == 0) || (theta == CLHEP::pi) ) {
+  double phi1 (getPhi());
+  double rho1 = getRho();
+  if ( (theta1 == 0) || (theta1 == CLHEP::pi) ) {
     ZMthrowC (ZMxpvInfiniteVector(
       "Attempt to set cylindrical theta to 0 or PI "
       "while keeping rho fixed -- infinite Z will be computed"));
-      dz = (theta==0) ? 1.0E72 : -1.0E72;
+      dz = (theta1==0) ? 1.0E72 : -1.0E72;
     return;
   }
-  dz = rho / tan (theta);
-  dy = rho * sin (phi);
-  dx = rho * cos (phi);
+  dz = rho1 / tan (theta1);
+  dy = rho1 * sin (phi1);
+  dx = rho1 * cos (phi1);
 
 } /* setCylTheta */
 
-void Hep3Vector::setCylEta (double eta) {
+void Hep3Vector::setCylEta (double eta1) {
 
   // In cylindrical coords, set eta while keeping rho and phi fixed
 
-  double theta = 2 * atan ( exp (-eta) );
+  double theta1 = 2 * atan ( exp (-eta1) );
 
         //-| The remaining code is similar to setCylTheta,  The reason for
         //-| using a copy is so as to be able to change the messages in the
@@ -302,11 +302,11 @@ void Hep3Vector::setCylEta (double eta) {
         "Attempt to set cylEta of zero vector -- vector is unchanged"));
       return;
     }
-    if (theta == 0) {
+    if (theta1 == 0) {
       dz = fabs(dz);
       return;
     }
-    if (theta == CLHEP::pi) {
+    if (theta1 == CLHEP::pi) {
       dz = -fabs(dz);
       return;
     }
@@ -317,11 +317,11 @@ void Hep3Vector::setCylEta (double eta) {
     dz = 0;
     return;
   }
-  double phi (getPhi());
-  double rho = getRho();
-  dz = rho / tan (theta);
-  dy = rho * sin (phi);
-  dx = rho * cos (phi);
+  double phi1 (getPhi());
+  double rho1 = getRho();
+  dz = rho1 / tan (theta1);
+  dy = rho1 * sin (phi1);
+  dx = rho1 * cos (phi1);
 
 } /* setCylEta */
 

@@ -31,12 +31,12 @@ static inline double safe_acos (double x) {
   return ( (x>0) ? 0 : CLHEP::pi );
 }
 
-HepRotationY::HepRotationY(double delta) : 
-		d(proper(delta)), s(sin(delta)), c(cos(delta))
+HepRotationY::HepRotationY(double ddelta) : 
+		d(proper(ddelta)), s(sin(ddelta)), c(cos(ddelta))
 {}
 
-HepRotationY & HepRotationY::set ( double delta ) {
-  d = proper(delta);
+HepRotationY & HepRotationY::set ( double ddelta ) {
+  d = proper(ddelta);
   s = sin(d);
   c = cos(d);
   return *this;
@@ -107,8 +107,8 @@ double HepRotationY::thetaZ() const {
 		// or ---- return d;
 }
 
-void HepRotationY::setDelta ( double delta ) {
-  set(delta);
+void HepRotationY::setDelta ( double ddelta ) {
+  set(ddelta);
 }
 
 void HepRotationY::decompose

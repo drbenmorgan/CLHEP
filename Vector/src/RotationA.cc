@@ -25,12 +25,12 @@ namespace CLHEP  {
 
 // axis and angle
 
-HepRotation & HepRotation::set( const Hep3Vector & axis, double delta ) {
+HepRotation & HepRotation::set( const Hep3Vector & aaxis, double ddelta ) {
 
-  register double sinDelta = sin(delta), cosDelta = cos(delta);
+  register double sinDelta = sin(ddelta), cosDelta = cos(ddelta);
   register double oneMinusCosDelta = 1.0 - cosDelta;
 
-  Hep3Vector u = axis.unit();
+  Hep3Vector u = aaxis.unit();
 
   register double uX = u.getX();
   register double uY = u.getY();
@@ -52,9 +52,9 @@ HepRotation & HepRotation::set( const Hep3Vector & axis, double delta ) {
 
 } // HepRotation::set(axis, delta)
 
-HepRotation::HepRotation ( const Hep3Vector & axis, double delta ) 
+HepRotation::HepRotation ( const Hep3Vector & aaxis, double ddelta ) 
 {
-  set( axis, delta );
+  set( aaxis, ddelta );
 }  
 HepRotation & HepRotation::set( const HepAxisAngle & ax ) {
   return  set ( ax.axis(), ax.delta() );
@@ -109,12 +109,12 @@ HepAxisAngle HepRotation::axisAngle() const {
 } // axisAngle() 
 
 
-void HepRotation::setAxis (const Hep3Vector & axis) {
-  set ( axis, delta() );
+void HepRotation::setAxis (const Hep3Vector & aaxis) {
+  set ( aaxis, delta() );
 }
 
-void HepRotation::setDelta (double delta) {
-  set ( axis(), delta );
+void HepRotation::setDelta (double ddelta) {
+  set ( axis(), ddelta );
 }
 
 }  // namespace CLHEP

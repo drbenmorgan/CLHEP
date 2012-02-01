@@ -39,17 +39,17 @@ double Hep3Vector::beta() const {
 }
 
 double Hep3Vector::gamma() const {
-  double beta = sqrt(mag2());
-  if (beta == 1) {
+  double bbeta = sqrt(mag2());
+  if (bbeta == 1) {
     ZMthrowA (ZMxpvTachyonic(
       "Gamma taken for Hep3Vector of unit magnitude -- infinite result"));
   }
-  if (beta > 1) {
+  if (bbeta > 1) {
     ZMthrowA (ZMxpvTachyonic(
       "Gamma taken for Hep3Vector of more than unit magnitude -- "
       "the sqrt function would return NAN" ));
   }
-  return 1/sqrt(1-beta*beta);
+  return 1/sqrt(1-bbeta*bbeta);
 }
 
 double Hep3Vector::rapidity() const {
@@ -104,14 +104,14 @@ double Hep3Vector::rapidity(const Hep3Vector & v2) const {
       "Rapidity taken with respect to zero vector" ));
     return 0;    
   }
-  double z = dot(v2)/vmag;
-  if (fabs(z) >= 1) {
+  double z1 = dot(v2)/vmag;
+  if (fabs(z1) >= 1) {
     ZMthrowA (ZMxpvTachyonic(
       "Rapidity taken for too large a Hep3Vector "
       "-- would return infinity or NAN"));
   }
-  // Want inverse tanh(z):
-  return (.5 * log((1+z)/(1-z)) );
+  // Want inverse tanh(z1):
+  return (.5 * log((1+z1)/(1-z1)) );
 }
 
 double Hep3Vector::eta(const Hep3Vector & v2) const {
@@ -120,14 +120,14 @@ double Hep3Vector::eta(const Hep3Vector & v2) const {
   // Quicker is to use cosTheta:
   // tan (theta/2) = sin(theta)/(1 + cos(theta))
 
-  double r   = getR();
+  double r1   = getR();
   double v2r = v2.mag();
-  if ( (r == 0) || (v2r == 0) ) {
+  if ( (r1 == 0) || (v2r == 0) ) {
     ZMthrowA (ZMxpvAmbiguousAngle(
       "Cannot find pseudorapidity of a zero vector relative to a vector"));
     return 0.;
   }
-  double c  = dot(v2)/(r*v2r);
+  double c  = dot(v2)/(r1*v2r);
   if ( c >= 1 ) {
     c = 1; 	//-| We don't want to return NAN because of roundoff
     ZMthrowC (ZMxpvInfinity(

@@ -122,17 +122,17 @@ double HepLorentzVector::gamma() const {
 //-***************
 
 double HepLorentzVector::rapidity() const {
-  register double z = pp.getZ();
-  if (fabs(ee) == fabs(z)) {
+  register double z1 = pp.getZ();
+  if (fabs(ee) == fabs(z1)) {
     ZMthrowA (ZMxpvInfinity(
       "rapidity for 4-vector with |E| = |Pz| -- infinite result"));
   }
-  if (fabs(ee) < fabs(z)) {
+  if (fabs(ee) < fabs(z1)) {
     ZMthrowA (ZMxpvSpacelike(
       "rapidity for spacelike 4-vector with |E| < |Pz| -- undefined"));
     return 0;
   }
-  double q = (ee + z) / (ee - z);
+  double q = (ee + z1) / (ee - z1);
         //-| This cannot be negative now, since both numerator
         //-| and denominator have the same sign as ee.
   return .5 * log(q);
@@ -160,17 +160,17 @@ double HepLorentzVector::rapidity(const Hep3Vector & ref) const {
 } /* rapidity(ref) */
 
 double HepLorentzVector::coLinearRapidity() const {
-  register double v = pp.mag();
-  if (fabs(ee) == fabs(v)) {
+  register double v1 = pp.mag();
+  if (fabs(ee) == fabs(v1)) {
     ZMthrowA (ZMxpvInfinity(
       "co-Linear rapidity for 4-vector with |E| = |P| -- infinite result"));
   }
-  if (fabs(ee) < fabs(v)) {
+  if (fabs(ee) < fabs(v1)) {
     ZMthrowA (ZMxpvSpacelike(
       "co-linear rapidity for spacelike 4-vector -- undefined"));
     return 0;
   }
-  double q = (ee + v) / (ee - v);
+  double q = (ee + v1) / (ee - v1);
   return .5 * log(q);
 } /* rapidity */
 
@@ -179,8 +179,8 @@ double HepLorentzVector::coLinearRapidity() const {
 //-*************
 
 double HepLorentzVector::invariantMass(const HepLorentzVector & w) const {
-  double m2 = invariantMass2(w);
-  if (m2 < 0) {
+  double m1 = invariantMass2(w);
+  if (m1 < 0) {
     // We should find out why:
     if ( ee * w.ee < 0 ) {
       ZMthrowA (ZMxpvNegativeMass(
@@ -201,7 +201,7 @@ double HepLorentzVector::invariantMass(const HepLorentzVector & w) const {
       return 0;
     }
   }
-  return (ee+w.ee >=0 ) ? sqrt(m2) : - sqrt(m2);
+  return (ee+w.ee >=0 ) ? sqrt(m1) : - sqrt(m1);
 } /* invariantMass */
 
 //-***************
@@ -213,24 +213,24 @@ Hep3Vector HepLorentzVector::findBoostToCM() const {
 } /* boostToCM() */
 
 Hep3Vector HepLorentzVector::findBoostToCM (const HepLorentzVector & w) const {
-  double t = ee + w.ee;
-  Hep3Vector v = pp + w.pp;
-  if (t == 0) {
-    if (v.mag2() == 0) {
+  double t1 = ee + w.ee;
+  Hep3Vector v1 = pp + w.pp;
+  if (t1 == 0) {
+    if (v1.mag2() == 0) {
       return Hep3Vector(0,0,0);
     } else {
     ZMthrowA (ZMxpvInfiniteVector(
     "boostToCM computed for two 4-vectors with combined t=0 -- "
         "infinite result"));
-    return Hep3Vector(v*(1./t)); // Yup, 1/0 -- that is how we return infinity
+    return Hep3Vector(v1*(1./t1)); // Yup, 1/0 -- that is how we return infinity
     }
   }
-  if (t*t - v.mag2() <= 0) {
+  if (t1*t1 - v1.mag2() <= 0) {
     ZMthrowC (ZMxpvTachyonic(
     "boostToCM  computed for pair of HepLorentzVectors with non-timelike sum"));
         // result will make analytic sense but is physically meaningless
   }
-  return Hep3Vector(v * (-1./t));
+  return Hep3Vector(v1 * (-1./t1));
 } /* boostToCM(w) */
 
 }  // namespace CLHEP
