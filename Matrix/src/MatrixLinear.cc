@@ -636,10 +636,10 @@ void row_house(HepMatrix *a,const HepVector &v,double vnormsq,
    arcb = a->m.begin() + (row-1) * na + (col-1);
    HepMatrix::mcIter vp = v.m.begin();
    for (int r=row; r<=a->num_row();r++) {
-      HepMatrix::mIter wptr = w.m.begin();
+      HepMatrix::mIter wptr2 = w.m.begin();
       HepMatrix::mIter arc = arcb;
       for (c=col;c<=a->num_col();c++) {
-	 (*(arc++))+=(*vp)*(*(wptr++));
+	 (*(arc++))+=(*vp)*(*(wptr2++));
       }
       vp++;
       if(r<a->num_row()) arcb += na;
@@ -677,9 +677,9 @@ void row_house(HepMatrix *a,const HepMatrix &v,double vnormsq,
    HepMatrix::mcIter vpc = v.m.begin() + (row_start-1) * nv + (col_start-1);
    for (int r=row; r<=a->num_row();r++) {
       HepMatrix::mIter arc = arcb;
-      HepMatrix::mIter wptr = w.m.begin();
+      HepMatrix::mIter wptr2 = w.m.begin();
       for (c=col;c<=a->num_col();c++) {
-	 (*(arc++))+=(*vpc)*(*(wptr++));
+	 (*(arc++))+=(*vpc)*(*(wptr2++));
       }
       if(r<a->num_row()) {
 	arcb += na;

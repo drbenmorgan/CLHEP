@@ -755,17 +755,17 @@ void HepMatrix::invert(int &ierr) {
       return;
     }
     {
-      double s = temp/det;
+      double s1 = temp/det;
       mIter mm = m.begin();
-      *(mm++) = s*c11;
-      *(mm++) = s*c21;
-      *(mm++) = s*c31;
-      *(mm++) = s*c12;
-      *(mm++) = s*c22;
-      *(mm++) = s*c32;
-      *(mm++) = s*c13;
-      *(mm++) = s*c23;
-      *(mm) = s*c33;
+      *(mm++) = s1*c11;
+      *(mm++) = s1*c21;
+      *(mm++) = s1*c31;
+      *(mm++) = s1*c12;
+      *(mm++) = s1*c22;
+      *(mm++) = s1*c32;
+      *(mm++) = s1*c13;
+      *(mm++) = s1*c23;
+      *(mm) = s1*c33;
     }
     break;
   case 2:

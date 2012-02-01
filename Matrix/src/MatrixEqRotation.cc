@@ -14,24 +14,24 @@
 
 namespace CLHEP {
 
-HepMatrix & HepMatrix::operator=(const HepRotation &m2) {
+HepMatrix & HepMatrix::operator=(const HepRotation &m1) {
   if(9!=size_) {
     //delete &m;
     size_ = 9;
     m.resize(size_);
   }
   nrow = ncol = 3;
-  mIter mm;
-  mm = m.begin();
-  *mm++ = m2.xx();
-  *mm++ = m2.xy();
-  *mm++ = m2.xz();
-  *mm++ = m2.yx();
-  *mm++ = m2.yy();
-  *mm++ = m2.yz();
-  *mm++ = m2.zx();
-  *mm++ = m2.zy();
-  *mm   = m2.zz();
+  mIter mm1;
+  mm1 = m.begin();
+  *mm1++ = m1.xx();
+  *mm1++ = m1.xy();
+  *mm1++ = m1.xz();
+  *mm1++ = m1.yx();
+  *mm1++ = m1.yy();
+  *mm1++ = m1.yz();
+  *mm1++ = m1.zx();
+  *mm1++ = m1.zy();
+  *mm1   = m1.zz();
   return (*this);
 }
 
