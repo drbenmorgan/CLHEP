@@ -26,10 +26,10 @@ namespace HepGeom {
     if (ma == 0) return;
     double tanHalfTheta  = exp(-a);
     double tanHalfTheta2 = tanHalfTheta * tanHalfTheta;
-    double cosTheta      = (1 - tanHalfTheta2) / (1 + tanHalfTheta2);
-    double rh            = ma * sqrt(1 - cosTheta*cosTheta);
+    double cosTheta1      = (1 - tanHalfTheta2) / (1 + tanHalfTheta2);
+    double rh            = ma * sqrt(1 - cosTheta1*cosTheta1);
     double ph            = phi();
-    set(rh*cos(ph), rh*sin(ph), ma*cosTheta);
+    set(rh*cos(ph), rh*sin(ph), ma*cosTheta1);
   }
 
   //--------------------------------------------------------------------------
@@ -182,10 +182,10 @@ namespace HepGeom {
     if (ma == 0) return;
     double tanHalfTheta  = exp(-a);
     double tanHalfTheta2 = tanHalfTheta * tanHalfTheta;
-    double cosTheta      = (1 - tanHalfTheta2) / (1 + tanHalfTheta2);
-    double rh            = ma * sqrt(1 - cosTheta*cosTheta);
+    double cosTheta1      = (1 - tanHalfTheta2) / (1 + tanHalfTheta2);
+    double rh            = ma * sqrt(1 - cosTheta1*cosTheta1);
     double ph            = phi();
-    set(rh*cos(ph), rh*sin(ph), ma*cosTheta);
+    set(rh*cos(ph), rh*sin(ph), ma*cosTheta1);
   }
 
   //--------------------------------------------------------------------------

@@ -77,7 +77,6 @@ AC_CONFIG_FILES([Geometry-config], [chmod +x Geometry-config])
 
 # Test driver program/script:
 AC_CONFIG_FILES([test/testBasicVector3D.sh], [chmod +x test/testBasicVector3D.sh])
-AC_CONFIG_FILES([test/testBug6740.sh], [chmod +x test/testBug6740.sh])
 
 # ----------------------------------------------------------------------
 # Capture post-install information:
