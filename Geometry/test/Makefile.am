@@ -34,13 +34,12 @@ check_PROGRAMS = \
 	testBug6740
 
 check_SCRIPTS = \
-	testBasicVector3D.sh \
-	testBug6740.sh
+	testBasicVector3D.sh
 
 # Identify test(s) to run when 'make check' is requested:
 TESTS = \
 	testBasicVector3D.sh \
-	testBug6740.sh
+	testBug6740
 
 # Identify the test(s) for which failure is the intended outcome:
 XFAIL_TESTS = 
@@ -51,12 +50,11 @@ testBug6740_SOURCES = testBug6740.cc
 
 # Identify input data file(s) and prototype output file(s):
 EXTRA_DIST = \
-	testBasicVector3D.input	testBasicVector3D.output \
-	testBug6740.sh
+	testBasicVector3D.input	testBasicVector3D.output
 
 # Identify generated file(s) to be removed when 'make clean' is requested:
 CLEANFILES = \
-	testBug6740.sh
+	testBasicVector3D.sh
 
 # supply our own suffix rule
 .cc.obj:
