@@ -218,8 +218,8 @@ int main() {
 
     output << "This should be a valid sequence." << std::endl;	
     for (int i=0; i < nNumbers; ++i) { 
-	double r = g->flat(); 
-	if( ! printCheck(i,r,output) ) ++badcount;
+	double r1 = g->flat(); 
+	if( ! printCheck(i,r1,output) ) ++badcount;
     }
     pseeds=g->getTheSeeds();
     output << "seeds[0] = " << pseeds[0] << "\n" 
