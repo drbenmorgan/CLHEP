@@ -33,7 +33,7 @@ namespace Classical {
     //
     // Destructor:
     //
-    ~Solver(){};
+    virtual ~Solver(){};
     //
     // Returns the time evolution for a variable (q_i or p_i)
     //

@@ -73,7 +73,7 @@ namespace Classical {
 
 
   void PhaseSpace::start (const Genfun::Variable & v, double value){
-    double index =v.index();
+    unsigned int index =v.index();
     if (index<DIM) {
       _q0[index] = value;
     }
@@ -85,7 +85,7 @@ namespace Classical {
 
 
   double PhaseSpace::startValue(const Genfun::Variable & v) const {
-    double index =v.index();
+    unsigned int index =v.index();
     if (index<DIM) {
       return _q0[index];
     }

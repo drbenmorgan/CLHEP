@@ -1,4 +1,11 @@
 
+2012-02-02  Lynn Garren <garren@fnal.gov>
+
+	* GenericFunctions/GenericFunctions/ClassicalSolver.hh: make destructor virtual
+	* GenericFunctions/src/PhaseSpace.cc: fix typo, 
+	  GenFun::Variable index() returns unsigned int, not double
+	* GenericFunctions/src/InterpolatingPolynomial.cc: deal with int comparison
+
 2012-02-02 Lynn Garren <garren@fnal.gov> 
 
 	* Vector, Geometry, Random, Matrix, Exceptions : 

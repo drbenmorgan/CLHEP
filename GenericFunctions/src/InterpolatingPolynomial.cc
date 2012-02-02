@@ -48,7 +48,7 @@ namespace Genfun {
 	d[i]=hp*den;
 	c[i]=ho*den;
       }
-      deltay = 2*(ns+1) < (_K-m-1) ? c[ns+1]: d[ns--];
+      deltay = 2*(ns+1) < (int)(_K-m-1) ? c[ns+1]: d[ns--];
       y += deltay;
     }
     return y;
