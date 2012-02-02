@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <limits>
 
 #include "CLHEP/Evaluator/Evaluator.h"
 class MyEvaluator : public HepTool::Evaluator {
