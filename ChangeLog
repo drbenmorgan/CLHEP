@@ -1,4 +1,9 @@
 
+2012-02-02 Lynn Garren <garren@fnal.gov> 
+
+	* Vector, Geometry, Random, Matrix, Exceptions : 
+	  change the names of internal variables so -Wshadow does not complain
+
 2012-01-31 Lynn Garren <garren@fnal.gov> and Mark Fischler <mf@fnal.gov>
 
 	* Evaluator/src/Evaluator.cc: fix a problem with unary +/- and exponentials

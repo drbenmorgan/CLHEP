@@ -24,14 +24,14 @@ namespace zmex  {
 //------------------
 
 ZMexClassInfo::ZMexClassInfo(
-  const std::string &  name
-, const std::string &  facility
+  const std::string &  nname
+, const std::string &  ffacility
 , const ZMexSeverity   s
 ) :
   count_    ( 0 )
 , filterMax_( -1 )
-, name_     ( name )
-, facility_ ( facility )
+, name_     ( nname )
+, facility_ ( ffacility )
 , severity_ ( s )
 , handler_  ( ZMexHandleViaParent() )
 , logger_   ( ZMexLogViaParent() )
@@ -39,15 +39,15 @@ ZMexClassInfo::ZMexClassInfo(
 }
 
 ZMexClassInfo::ZMexClassInfo(
-  const std::string &  name
-, const std::string &  facility
+  const std::string &  nname
+, const std::string &  ffacility
 , const ZMexSeverity   s
 , const ZMexHandler &  h
 ) :
   count_    ( 0 )
 , filterMax_( -1 )
-, name_     ( name )
-, facility_ ( facility )
+, name_     ( nname )
+, facility_ ( ffacility )
 , severity_ ( s )
 , handler_  ( h )
 , logger_   ( ZMexLogViaParent() )
@@ -55,16 +55,16 @@ ZMexClassInfo::ZMexClassInfo(
 }
 
 ZMexClassInfo::ZMexClassInfo(
-  const std::string &  name
-, const std::string &  facility
+  const std::string &  nname
+, const std::string &  ffacility
 , const ZMexSeverity   s
 , const ZMexHandler &  h
 , const ZMexLogger &   l
 ) :
   count_    ( 0 )
 , filterMax_( -1 )
-, name_     ( name )
-, facility_ ( facility )
+, name_     ( nname )
+, facility_ ( ffacility )
 , severity_ ( s )
 , handler_  ( h )
 , logger_   ( l )
