@@ -1125,7 +1125,7 @@ int testRandGeneral() {
  { // Open block for testing type 1 - step function pdf
 
   RandGeneral dist (eng, aProbFunc, nBins, 1);
-  delete aProbFunc;
+  delete[] aProbFunc;
 
   double* garbage = new double[nBins]; 
 				// We wish to verify that deleting the pdf
@@ -1143,7 +1143,7 @@ int testRandGeneral() {
 
   good = gaussianTest ( dist, mu, sigma, nNumbers );
 
-  delete garbage;
+  delete[] garbage;
 
  } // Close block for testing type 1 - step function pdf
    // dist goes out of scope but eng is supposed to stick around; 
