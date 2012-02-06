@@ -74,6 +74,7 @@ int Ranlux64Engine::numEngines = 0;
 // Maximum index into the seed table
 int Ranlux64Engine::maxIndex = 215;
 
+#ifndef USING_VISUAL
 namespace detail {
 
 template< std::size_t n,
@@ -95,6 +96,7 @@ template< std::size_t nbits >
 { return do_right_shift<nbits>()(value); }
 
 } // namespace detail
+#endif
 
 std::string Ranlux64Engine::name() const {return "Ranlux64Engine";}
 
@@ -418,10 +420,13 @@ void Ranlux64Engine::setSeed(long seed, int lux) {
   // are we on a 64bit machine?
   if( sizeof(long) >= 8 ) {
      long topbits1, topbits2;
-     //topbits1 = ( seed >> 32) & 0xffff ;
-     //topbits2 = ( seed >> 48) & 0xffff ;
+#ifdef USING_VISUAL
+     topbits1 = ( seed >> 32) & 0xffff ;
+     topbits2 = ( seed >> 48) & 0xffff ;
+#else
      topbits1 = detail::rshift<32>(seed) & 0xffff ;
      topbits2 = detail::rshift<48>(seed) & 0xffff ;
+#endif
      init_table[0] ^= topbits1;
      init_table[2] ^= topbits2;
      //std::cout << " init_table[0] " << init_table[0] << " from " << topbits1 << std::endl;
