@@ -60,6 +60,7 @@
 #include "CLHEP/Random/DoubConv.hh"
 #include <string.h>	// for strcmp
 #include <cstdlib>	// for abs(int)
+#include <limits>	// for numeric_limits
 
 using namespace std;
 
