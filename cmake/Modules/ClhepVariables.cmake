@@ -10,6 +10,9 @@
 #    processes ${PACKAGE}-config.in
 #    processes ${PACKAGE}-deps.in
 #
+# clhep_package_config_no_lib():
+#    processes ${PACKAGE}-config.in
+#
 # clhep_config():
 #    processes clhep-config.in
 
@@ -105,6 +108,23 @@ macro( clhep_set_compiler_flags )
   message( STATUS "compiling with ${CMAKE_BASE_NAME} ${CMAKE_CXX_FLAGS} ${CXXFLAGS}")
 endmacro( clhep_set_compiler_flags )
 
+macro( clhep_package_config_no_lib )
+  set( ${PACKAGE}_CPPFLAGS "-I${includedir}" )
+  set( ${PACKAGE}_LDFLAGS  " " )
+  set( ${PACKAGE}_LIBS     " " )
+  configure_file ( ${CLHEP_SOURCE_DIR}/${PACKAGE}/${PACKAGE}-config.in
+                   ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-config @ONLY )
+  ## don't install <package>-config on Windows
+  if( NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
+    install ( FILES ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-config
+              DESTINATION bin
+	      PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
+	                  GROUP_READ GROUP_EXECUTE 
+			  WORLD_READ WORLD_EXECUTE
+	    )
+  endif()
+endmacro( clhep_package_config_no_lib )
+
 macro( clhep_package_config )
   set( ${PACKAGE}_CPPFLAGS "-I${includedir}" )
   set( ${PACKAGE}_LDFLAGS  "-L\${exec_prefix}/lib" )
@@ -122,7 +142,11 @@ macro( clhep_package_config )
   ## don't install <package>-config on Windows
   if( NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
     install ( FILES ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-config
-              DESTINATION bin )
+              DESTINATION bin
+	      PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
+	                  GROUP_READ GROUP_EXECUTE 
+			  WORLD_READ WORLD_EXECUTE
+	    )
   endif()
 endmacro( clhep_package_config )
 
@@ -132,6 +156,10 @@ macro( clhep_config )
   ## don't install clhep-config on Windows
   if( NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
     install ( FILES ${CLHEP_BINARY_DIR}/clhep-config
-              DESTINATION bin )
+              DESTINATION bin
+	      PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
+	                  GROUP_READ GROUP_EXECUTE 
+			  WORLD_READ WORLD_EXECUTE
+	    )
   endif()
 endmacro( clhep_config )

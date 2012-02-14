@@ -3,15 +3,7 @@
 # automake/autoconf variables
 set( PACKAGE Units )
 
-set( Units_CPPFLAGS "-I${includedir}" )
-set( Units_LDFLAGS  " " )
-set( Units_LIBS     " " )
-
-configure_file ( ${CLHEP_SOURCE_DIR}/Units/Units-config.in
-                 ${CLHEP_BINARY_DIR}/Units/Units-config @ONLY )
-
-install ( FILES ${CLHEP_BINARY_DIR}/Units/Units-config
-          DESTINATION bin )
+clhep_package_config_no_lib()
 
 add_subdirectory(Units)
 add_subdirectory(test)
