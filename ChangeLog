@@ -1,4 +1,14 @@
 ==============================
+14.02.12 Release CLHEP-2.1.2.2
+==============================
+
+2012-02-14  L. Garren  <garren@fnal.gov>
+
+	* cmake/Modules/ClhepVariables.cmake: 
+	  make sure config files are executable
+	  add clhep_package_config_no_lib()
+
+==============================
 06.02.12 Release CLHEP-2.1.2.1
 ==============================
 2012-02-03  Lynn Garren <garren@fnal.gov>
