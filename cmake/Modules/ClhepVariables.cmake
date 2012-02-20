@@ -116,11 +116,8 @@ macro( clhep_package_config_no_lib )
                    ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-config @ONLY )
   ## don't install <package>-config on Windows
   if( NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
-    install ( FILES ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-config
+    install ( PROGRAMS ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-config
               DESTINATION bin
-	      PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
-	                  GROUP_READ GROUP_EXECUTE 
-			  WORLD_READ WORLD_EXECUTE
 	    )
   endif()
 endmacro( clhep_package_config_no_lib )
@@ -141,11 +138,8 @@ macro( clhep_package_config )
                    ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-deps @ONLY )
   ## don't install <package>-config on Windows
   if( NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
-    install ( FILES ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-config
+    install ( PROGRAMS ${CLHEP_BINARY_DIR}/${PACKAGE}/${PACKAGE}-config
               DESTINATION bin
-	      PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
-	                  GROUP_READ GROUP_EXECUTE 
-			  WORLD_READ WORLD_EXECUTE
 	    )
   endif()
 endmacro( clhep_package_config )
@@ -155,11 +149,8 @@ macro( clhep_config )
                    ${CLHEP_BINARY_DIR}/clhep-config @ONLY )
   ## don't install clhep-config on Windows
   if( NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
-    install ( FILES ${CLHEP_BINARY_DIR}/clhep-config
+    install ( PROGRAMS ${CLHEP_BINARY_DIR}/clhep-config
               DESTINATION bin
-	      PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
-	                  GROUP_READ GROUP_EXECUTE 
-			  WORLD_READ WORLD_EXECUTE
 	    )
   endif()
 endmacro( clhep_config )
