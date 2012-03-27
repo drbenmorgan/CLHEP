@@ -16,11 +16,11 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	ArrayFunction.cc       \
 	ASin.cc       \
 	AssociatedLaguerre.cc       \
-	AssociatedLegendre.cc       \
 	ATan.cc       \
 	BetaDistribution.cc        \
 	BivariateGaussian.cc       \
 	ClassicalSolver.cc         \
+	ClebschGordanCoefficientSet.cc \
 	ConstMinusFunction.cc       \
 	ConstMinusParameter.cc       \
 	ConstOverFunction.cc       \
@@ -73,7 +73,6 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	PeriodicRectangular.cc       \
 	PhaseSpace.cc \
 	Power.cc       \
-	Psi2Hydrogen.cc       \
 	PtRelFcn.cc       \
 	PuncturedSmearedExp.cc \
 	RCBase.cc       \

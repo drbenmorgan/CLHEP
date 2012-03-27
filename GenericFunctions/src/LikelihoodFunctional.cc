@@ -4,6 +4,8 @@
 #include "CLHEP/GenericFunctions/Argument.hh"
 #include "CLHEP/GenericFunctions/AbsFunction.hh"
 #include <iostream>
+#include <sstream>
+#include <stdexcept>
 #include <cmath>      // for log()
 
 namespace Genfun {
@@ -19,10 +21,11 @@ double LikelihoodFunctional::operator [] (const AbsFunction & function) const {
   for (unsigned int i=0; i<_aList.size();i++) {
     Argument a = _aList[i];
     double f = function(a);
-    if (f<0)
-      std::cerr
-	<< "Warning.. negative likelihood arg[" << i << "]=" << a 
-	<< std::endl;
+    if (f<=0.0) {
+      std::ostringstream stream;
+      stream <<  "Negative likelihood arg[" << i << "]=" << a;
+      throw std::runtime_error(stream.str());
+    }
     logLikelihood -= log(f);
   }
   return 2.0*logLikelihood;
