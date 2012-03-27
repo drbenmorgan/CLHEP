@@ -109,7 +109,7 @@ namespace Genfun {
 
 
 
-
+  inline
   std::complex<double> dot(const SphericalHarmonicCoefficientSet &a, 
 			   const SphericalHarmonicCoefficientSet &b) {
 
@@ -124,7 +124,7 @@ namespace Genfun {
     return result;
   }
   
-  SphericalHarmonicCoefficientSet squareExpansionCoefficients(const SphericalHarmonicCoefficientSet & coefficientsA) {
+  inline SphericalHarmonicCoefficientSet squareExpansionCoefficients(const SphericalHarmonicCoefficientSet & coefficientsA) {
     unsigned int LMAX=coefficientsA.getLMax();
     SphericalHarmonicCoefficientSet coefficientsASq(2*LMAX);
     static ClebschGordanCoefficientSet clebschGordan;
