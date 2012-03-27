@@ -1,0 +1,106 @@
+// -*- C++ -*-
+// $Id: 
+#include <sstream>
+#include <cmath>
+#include <gsl/gsl_sf_legendre.h>
+#include <complex>
+#include <cstdlib>
+#include <sstream>
+#include <stdexcept>
+namespace Genfun {
+  
+  FUNCTION_OBJECT_IMP(SphericalHarmonicExpansion)
+  
+  class SphericalHarmonicExpansion::Clockwork {
+    
+  public:
+    
+    Clockwork(SphericalHarmonicExpansion::Type type, const SphericalHarmonicCoefficientSet & coefficients):type(type),coefficients(coefficients){}
+
+    SphericalHarmonicExpansion::Type type;
+    SphericalHarmonicCoefficientSet coefficients;
+    
+  };
+  
+  
+  inline
+  SphericalHarmonicExpansion::SphericalHarmonicExpansion(Type type, const SphericalHarmonicCoefficientSet & coefficients):
+    c(new Clockwork(type,coefficients))
+  {
+    
+  }
+  
+  
+  inline
+  SphericalHarmonicExpansion::~SphericalHarmonicExpansion() {
+    delete c;
+  }
+  
+  inline
+  SphericalHarmonicExpansion::SphericalHarmonicExpansion(const SphericalHarmonicExpansion & right):
+    c(new Clockwork(right.c->type,right.c->coefficients))
+  {
+  }
+  
+  inline
+  double SphericalHarmonicExpansion::operator() (double ) const {
+    throw std::runtime_error("Dimensionality error in SphericalHarmonicExpansion");
+    return 0;
+  }
+  
+  inline
+  double SphericalHarmonicExpansion::operator() (const Argument & a ) const {
+    int LMAX=c->coefficients.getLMax();
+    double x = a[0];
+    double phi=a[1];
+
+    // Note, the calling sequence of the GSL Special Function forces us to 
+    // transpose Plm from its "natural" order.. It is addressed as P[m][l].
+
+    double Plm[LMAX+1][LMAX+1];  
+    for (int m=0;m<=LMAX;m++) {
+      gsl_sf_legendre_sphPlm_array (LMAX, m, x, Plm[m]);
+    }
+
+    std::complex<double> P=0.0;
+    std::complex<double> I(0,1.0);
+    for (unsigned int l=0;l<=LMAX;l++) {
+      for (int m=0;m<=int(l);m++) {
+	{
+	  int LP=l-abs(m);
+	  double Pn= Plm[abs(m)][LP];
+	
+	  if (!finite(Pn)) {
+	    std::ostringstream stream;
+	    stream << "Non-finite Pn(x=" << x << ")"; 
+	    throw std::runtime_error(stream.str());
+	  }
+	  // Once for positive m (in all cases):
+	  P+=(c->coefficients(l,m)*Pn*exp(I*(m*phi)));
+	  // Once for negative m (skip if m==0);
+	  if (m!=0) P+= ( (m%2 ?-1.0:1.0)*c->coefficients(l,-m)*Pn*exp(-I*(m*phi)));
+	}
+      }
+    }
+    double retVal=0;
+    if (c->type==MAGSQ) return norm(P);
+    if (c->type==MAG)   return abs(P);
+    if (c->type==REAL)  return real(P);
+    if (c->type==IMAG)  return imag(P);
+    if (!finite(retVal)) {
+      throw std::runtime_error("Non-finite return value in SphericalHarmonicExpansion");
+    }
+    return retVal;
+  }
+
+  inline
+  const SphericalHarmonicCoefficientSet & SphericalHarmonicExpansion::coefficientSet() const {
+    return c->coefficients;
+  }
+
+  inline
+  SphericalHarmonicCoefficientSet & SphericalHarmonicExpansion::coefficientSet() {
+    return c->coefficients;
+  }
+  
+} // end namespace Genfun 

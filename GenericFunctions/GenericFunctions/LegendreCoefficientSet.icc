@@ -1,0 +1,63 @@
+#include <vector>
+namespace Genfun {
+
+  class LegendreCoefficientSet::Clockwork {
+    
+  public:
+    
+    std::vector<std::complex<double> >  data;
+    
+  };
+  
+  inline
+  LegendreCoefficientSet::LegendreCoefficientSet(unsigned int LMAX):c(new Clockwork()){
+    for (unsigned int l=0;l<=LMAX;l++) {
+      c->data.push_back(0);
+    }
+  }
+  
+  inline
+  LegendreCoefficientSet::~LegendreCoefficientSet(){
+    delete c;
+  }
+  
+  inline
+  LegendreCoefficientSet::LegendreCoefficientSet(const LegendreCoefficientSet & right):
+    c(new Clockwork(*right.c))
+  {
+  }
+  
+  inline
+  unsigned int LegendreCoefficientSet::getLMax() const {
+    return c->data.size()-1;
+  }
+  
+  inline
+  const std::complex<double> &LegendreCoefficientSet:: operator () (unsigned int l) const {
+    return c->data[l];
+  }
+  
+  inline
+  std::complex<double> & LegendreCoefficientSet::operator () (unsigned int l) {
+    return c->data[l];
+  }
+  
+  inline
+  std::ostream & operator << ( std::ostream & o, const LegendreCoefficientSet & c)
+  {
+    for (unsigned int l=0;l<=c.getLMax();l++) {
+      o << l << " mag: " << c(l) << std::endl;
+    }
+    o << std::endl;
+    return o;
+  }
+
+  inline
+  LegendreCoefficientSet & LegendreCoefficientSet::operator= (const LegendreCoefficientSet & source ){
+    if (this!=&source) {
+      delete c;
+      c = new Clockwork(*source.c);
+    }
+    return *this;
+  }
+}

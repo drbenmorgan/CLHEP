@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
- 
+
 if USE_GMAKE
   MAKE = gmake
 endif
@@ -23,12 +23,14 @@ pkginclude_HEADERS = \
 	ASin.hh         \
 	AssociatedLaguerre.hh         \
 	AssociatedLegendre.hh         \
+	AssociatedLegendre.icc         \
 	ATan.hh         \
 	Bessel.hh         \
 	Bessel.icc	\
 	BetaDistribution.hh \
 	BivariateGaussian.hh         \
 	ClassicalSolver.hh \
+	ClebschGordanCoefficientSet.hh \
 	ConstMinusFunction.hh         \
 	ConstMinusParameter.hh         \
 	ConstOverFunction.hh         \
@@ -73,6 +75,10 @@ pkginclude_HEADERS = \
 	IncompleteGamma.hh         \
 	InterpolatingPolynomial.hh         \
 	Landau.hh         \
+	LegendreCoefficientSet.hh \
+	LegendreCoefficientSet.icc \
+	LegendreExpansion.hh \
+	LegendreExpansion.icc \
 	LegendreFit.hh \
 	LegendreFit.icc \
 	KroneckerDelta.hh \
@@ -97,6 +103,7 @@ pkginclude_HEADERS = \
 	PhaseSpace.hh       \
 	Power.hh         \
 	Psi2Hydrogen.hh         \
+	Psi2Hydrogen.icc         \
 	PtRelFcn.hh        \
 	PuncturedSmearedExp.hh \
 	RCBase.hh        \
@@ -113,6 +120,10 @@ pkginclude_HEADERS = \
 	SphericalNeumann.icc	\
 	SphericalHarmonicFit.hh \
 	SphericalHarmonicFit.icc \
+	SphericalHarmonicExpansion.hh \
+	SphericalHarmonicExpansion.icc \
+	SphericalHarmonicCoefficientSet.hh \
+	SphericalHarmonicCoefficientSet.icc \
 	Sqrt.hh         \
 	Square.hh         \
 	SymToArgAdaptor.hh \

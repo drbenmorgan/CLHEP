@@ -53,15 +53,11 @@ namespace Genfun {
     // Here is the sigma
     unsigned int _m;
 
-    // Here is the "work function"
-    const AbsFunction *_function;
-
-    // This function is needed in all constructors:
-    void create(); 
   };
 
 } // namespace Genfun
 
+#include "CLHEP/GenericFunctions/AssociatedLegendre.icc"
 
 
 #endif

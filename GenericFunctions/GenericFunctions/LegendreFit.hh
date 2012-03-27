@@ -5,13 +5,14 @@
 // Class LegendreFit.  This is a fitting function consisting of a super     //
 // position of N legendre polynomials.  Cascading fractions and phases are  //
 // the input parameters. Function is normalized to one (on [-1,1])          //
-// Joe Boudreau, Petar Maksimovic, January 2000                             //
 //                                                                          //
 //--------------------------------------------------------------------------//
 #ifndef LegendreFit_h
 #define LegendreFit_h 1
 #include "CLHEP/GenericFunctions/AbsFunction.hh"
 #include "CLHEP/GenericFunctions/Parameter.hh"
+#include "CLHEP/GenericFunctions/LegendreCoefficientSet.hh"
+#include "CLHEP/GenericFunctions/ClebschGordanCoefficientSet.hh"
 namespace Genfun {
 
   /**
@@ -45,6 +46,17 @@ namespace Genfun {
     Parameter *getPhase(unsigned int i);
     const Parameter *getPhase(unsigned int i) const;
 
+    // Gets the coefficients the coefficients of the function which is
+    // Squared to obtain a probability distribution (amplitude)
+    const LegendreCoefficientSet & coefficientsA() const;
+
+    // Gets the coefficients the coefficients of the function which is
+    // Squared to obtain a probability distribution: 
+    const LegendreCoefficientSet & coefficientsASq() const;
+
+    // Recompute coefficients from the parameters:
+    void recomputeCoefficients() const;
+
 
   private:
 
@@ -52,10 +64,12 @@ namespace Genfun {
     const LegendreFit & operator=(const LegendreFit &right);
 
     // 
-    const unsigned   int                    N;
-    std::vector <Genfun::Parameter *> fraction;
-    std::vector <Genfun::Parameter *> phase;
-
+    const unsigned   int                      N;
+    std::vector <Genfun::Parameter *>         fraction;
+    std::vector <Genfun::Parameter *>         phase;
+    mutable LegendreCoefficientSet            coefA;
+    mutable LegendreCoefficientSet            coefASq;
+    mutable ClebschGordanCoefficientSet       ClebschGordan;
 
   };
 } // namespace Genfun

@@ -1,0 +1,156 @@
+#include <vector>
+#include "CLHEP/GenericFunctions/ClebschGordanCoefficientSet.hh"
+#include <stdexcept>
+namespace Genfun {
+
+  class SphericalHarmonicCoefficientSet::Clockwork {
+    
+  public:
+    
+    std::vector<std::vector<std::complex<double> > > data;
+    
+  };
+  
+  inline
+  SphericalHarmonicCoefficientSet::SphericalHarmonicCoefficientSet(unsigned int LMAX):c(new Clockwork()){
+    for (unsigned int l=0;l<=LMAX;l++) {
+      std::vector<std::complex<double> > theMs;
+      for (int m=-l; m<=int(l);m++) {
+	theMs.push_back(std::complex<double> (0.0));
+      }
+      c->data.push_back(theMs);
+    }
+  }
+  
+  inline
+  SphericalHarmonicCoefficientSet::~SphericalHarmonicCoefficientSet(){
+    delete c;
+  }
+  
+  inline
+  SphericalHarmonicCoefficientSet::SphericalHarmonicCoefficientSet(const SphericalHarmonicCoefficientSet & right):
+    c(new Clockwork(*right.c))
+  {
+  }
+  
+  inline
+  unsigned int SphericalHarmonicCoefficientSet::getLMax() const {
+    return c->data.size()-1;
+  }
+  
+  inline
+  const std::complex<double> &SphericalHarmonicCoefficientSet:: operator () (unsigned int l, int m) const {
+    return c->data[l][m+l];
+  }
+  
+  inline
+  std::complex<double> & SphericalHarmonicCoefficientSet::operator () (unsigned int l, int m) {
+    return c->data[l][m+l];
+  }
+  
+  inline
+  std::ostream & operator << ( std::ostream & o, const SphericalHarmonicCoefficientSet & c)
+  {
+    for (unsigned int l=0;l<=c.getLMax();l++) {
+      for (int m=-l;m<=int(l);m++) {
+	o << "l=" << l << " m=" ;
+	if (m==0) o << " ";
+	if (m>0 ) o << "+";
+	o << m << " mag: " << c(l,m) << std::endl;
+      }
+      o << std::endl;
+    }
+    return o;
+  }
+
+  inline
+  SphericalHarmonicCoefficientSet & SphericalHarmonicCoefficientSet::operator= (const SphericalHarmonicCoefficientSet & source ){
+    if (this!=&source) {
+      delete c;
+      c = new Clockwork(*source.c);
+    }
+    return *this;
+  }
+
+
+
+
+  inline
+  SphericalHarmonicCoefficientSet & SphericalHarmonicCoefficientSet::operator*= (const std::complex<double> & s ){
+    unsigned int LMAX=getLMax();
+    for (unsigned int l=0;l<=LMAX;l++) {
+      for (int m=-l;m<=int(l);m++) {
+	operator()(l,m)*=s;
+      }
+    }
+  }
+
+
+  inline
+  SphericalHarmonicCoefficientSet & SphericalHarmonicCoefficientSet::operator+= (const SphericalHarmonicCoefficientSet & source ){
+    unsigned int LMAX=getLMax();
+    for (unsigned int l=0;l<=LMAX;l++) {
+      for (int m=-l;m<=int(l);m++) {
+	operator()(l,m)+=source(l,m);
+      }
+    }
+  }
+
+
+  inline
+  SphericalHarmonicCoefficientSet & SphericalHarmonicCoefficientSet::operator-= (const SphericalHarmonicCoefficientSet & source ){
+    unsigned int LMAX=getLMax();
+    for (unsigned int l=0;l<=LMAX;l++) {
+      for (int m=-l;m<=int(l);m++) {
+	operator()(l,m)-=source(l,m);
+      }
+    }
+  }
+
+
+
+
+  std::complex<double> dot(const SphericalHarmonicCoefficientSet &a, 
+			   const SphericalHarmonicCoefficientSet &b) {
+
+    std::complex<double> result=0.0;
+    if (a.getLMax()!=b.getLMax()) throw std::runtime_error ("function dot:  SphericalHarmonicCoefficientSets of different dimension");
+    
+    for (unsigned int l=0;l<=a.getLMax();l++) {
+      for (int m=-l;m<=int(l);m++) {
+	result += a(l,m)*conj(b(l,m));
+      }
+    }
+    return result;
+  }
+  
+  SphericalHarmonicCoefficientSet squareExpansionCoefficients(const SphericalHarmonicCoefficientSet & coefficientsA) {
+    unsigned int LMAX=coefficientsA.getLMax();
+    SphericalHarmonicCoefficientSet coefficientsASq(2*LMAX);
+    static ClebschGordanCoefficientSet clebschGordan;
+    for (int L=0;L<=2*LMAX;L++) {
+      for (int M=-L; M<=int(L); M++) {
+	coefficientsASq(L,M)=0.0;
+	for (int l1=0;l1<=LMAX;l1++) {
+	  for (int l2=0;l2<=LMAX;l2++) {
+	    for (int m1=-l1;m1<=int(l1);m1++) {
+	      for (int m2=-l2;m2<=int(l2);m2++) {
+		if (m1-m2==M) {
+		  if (((l1+l2) >= L) && abs(l1-l2) <=L)  {
+		    coefficientsASq(L,M) += (coefficientsA(l1,m1)*
+					     conj(coefficientsA(l2,m2))*
+					     (m2%2 ? -1.0:1.0) * 
+					     sqrt((2*l1+1)*(2*l2+1)/(4*M_PI*(2*L+1)))*
+					     clebschGordan(l1,l2,0,0,L,0)*clebschGordan(l1,l2,m1,-m2,L,M));
+		  }
+		}
+	      }
+	    }
+	  }
+	}
+      }
+    }
+    coefficientsASq;
+  } 
+
+}

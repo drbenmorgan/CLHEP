@@ -12,6 +12,7 @@
 #define SphericalHarmonicFit_h 
 #include "CLHEP/GenericFunctions/AbsFunction.hh"
 #include "CLHEP/GenericFunctions/Parameter.hh"
+#include "CLHEP/GenericFunctions/SphericalHarmonicCoefficientSet.hh"
 namespace Genfun {
 
   /**
@@ -24,7 +25,7 @@ namespace Genfun {
 
       public:
 
-    // Constructor.  Builds all the 
+     // Constructor.  Builds all the 
     SphericalHarmonicFit(unsigned int LMAX);
 
     // Copy constructor
@@ -73,9 +74,16 @@ namespace Genfun {
     Parameter *getPhaseMMinus(unsigned int L, unsigned int M);
     const Parameter *getPhaseMMinus(unsigned int L, unsigned int M) const;
 
-    
-    
+    // Gets the coefficients the coefficients of the function which is
+    // Squared to obtain a probability distribution (amplitude)
+    const SphericalHarmonicCoefficientSet & coefficientsA() const;
 
+    // Gets the coefficients the coefficients of the function which is
+    // Squared to obtain a probability distribution: 
+    const SphericalHarmonicCoefficientSet & coefficientsASq() const;
+
+    // Recompute coefficients from the parameters:
+    void recomputeCoefficients() const;
 
   private:
 

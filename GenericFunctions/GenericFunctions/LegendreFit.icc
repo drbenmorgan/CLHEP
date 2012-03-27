@@ -10,7 +10,7 @@ FUNCTION_OBJECT_IMP(LegendreFit)
 
 inline
 LegendreFit::LegendreFit(unsigned int N):
-   N(N)
+N(N),coefA(N),coefASq(2*N)
 {
   for (unsigned int i=0;i<N;i++) {
     std::ostringstream stream;
@@ -34,7 +34,7 @@ LegendreFit::~LegendreFit() {
 
 inline
 LegendreFit::LegendreFit(const LegendreFit & right):
-  N(right.N)
+  N(right.N),coefA(right.N), coefASq(2*right.N)
 {
   for (int i=0;i<N;i++) {
     fraction.push_back(new Parameter(*right.fraction[i]));
@@ -44,32 +44,28 @@ LegendreFit::LegendreFit(const LegendreFit & right):
 
 inline
 double LegendreFit::operator() (double x) const {
-
-    double Pk[N+1];
-    gsl_sf_legendre_Pl_array(N, x, Pk);
-    unsigned int n=N;
-    std::complex<double> P=0.0;
-    std::complex<double> I(0,1.0);
-    double f=1.0;
-    while (1) {
-      if (n==0) {
-	double fn=1.0;
-	double Pn=sqrt((2*n+1.0))*Pk[n];
-       
-	P+=(sqrt(f*fn)*Pn);
-	break;
-      }
-      else {
-	double fn=getFraction(n-1)->getValue();
-	double px=getPhase(n-1)->getValue();
-	double Pn=sqrt((2*n+1.0))*Pk[n];
-	P+=exp(I*px)*sqrt(f*fn)*Pn;
-	f*=(1-fn);
-	n--;
-      }
+  recomputeCoefficients();
+  double Pk[N+1];
+  gsl_sf_legendre_Pl_array(N, x, Pk);
+  unsigned int n=N;
+  std::complex<double> P=0.0;
+  std::complex<double> I(0,1.0);
+  while (1) {
+    if (n==0) {
+      double Pn=sqrt((2*n+1.0)/2.0)*Pk[n];
+      
+      P+=coefA(n)*Pn;
+      break;
     }
-    return std::norm(P);
+    else {
+      double Pn=sqrt((2*n+1.0)/2.0)*Pk[n];
+      P+=coefA(n)*Pn;
+      n--;
+    }
+  }
+  return std::norm(P);
 }
+
 inline 
 unsigned int LegendreFit::order() const{
   return N;
@@ -90,6 +86,53 @@ inline
 const Parameter *LegendreFit::getPhase(unsigned int i) const{
   return phase[i];
 }
+inline
+const LegendreCoefficientSet & LegendreFit::coefficientsA() const {
+  recomputeCoefficients();
+  return coefA;
+}
 
+inline
+const LegendreCoefficientSet & LegendreFit::coefficientsASq() const {
+  recomputeCoefficients();
+  unsigned int LMAX=coefA.getLMax();
+  for (int L=0;L<=2*LMAX;L++) {
+    coefASq(L)=0.0;
+    for (int l1=0;l1<=LMAX;l1++) {
+      for (int l2=0;l2<=LMAX;l2++) {
+	if (((l1+l2) >= L) && abs(l1-l2) <=L)  {
+	  coefASq(L) += (coefA(l1)*
+			 conj(coefA(l2))*
+			 sqrt((2*l1+1)*(2*l2+1)/4.0)*
+			 pow(ClebschGordan(l1,l2,0,0,L,0),2));
+	}
+      }
+    }
+  }
+  return coefASq;
+}
+
+inline 
+void LegendreFit::recomputeCoefficients() const {
+  unsigned int n=N;
+  std::complex<double> P=0.0;
+  std::complex<double> I(0,1.0);
+  double f=1.0;
+  while (1) {
+    if (n==0) {
+      double fn=1.0;
+      coefA(n)=sqrt(f*fn);
+      break;
+    }
+    else {
+      double fn=getFraction(n-1)->getValue();
+      double px=getPhase(n-1)->getValue();
+      coefA(n)=exp(I*px)*sqrt(f*fn);
+      f*=(1-fn);
+      n--;
+    }
+  }
+}
+  
 
 } // end namespace Genfun 

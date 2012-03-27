@@ -1,0 +1,80 @@
+// -*- C++ -*-
+// $Id: 
+#include <sstream>
+#include <cmath>
+#include <gsl/gsl_sf_legendre.h>
+#include <complex>
+#include <cstdlib>
+#include <stdexcept>
+namespace Genfun {
+  
+  FUNCTION_OBJECT_IMP(LegendreExpansion)
+  
+  class LegendreExpansion::Clockwork {
+    
+  public:
+    
+    Clockwork(LegendreExpansion::Type type, const LegendreCoefficientSet & coefficients):type(type),coefficients(coefficients){}
+
+    LegendreExpansion::Type type;
+    LegendreCoefficientSet coefficients;
+    
+  };
+  
+  
+  inline
+  LegendreExpansion::LegendreExpansion(Type type, const LegendreCoefficientSet & coefficients):
+    c(new Clockwork(type,coefficients))
+  {
+    
+  }
+  
+  
+  inline
+  LegendreExpansion::~LegendreExpansion() {
+    delete c;
+  }
+  
+  inline
+  LegendreExpansion::LegendreExpansion(const LegendreExpansion & right):
+    c(new Clockwork(right.c->type,right.c->coefficients))
+  {
+  }
+  
+  inline
+  double LegendreExpansion::operator() (double x) const {
+
+    int N=c->coefficients.getLMax();
+    double Pk[N+1];
+    gsl_sf_legendre_Pl_array(N, x, Pk);
+    unsigned int n=N;
+    std::complex<double> P=0.0;
+    std::complex<double> I(0,1.0);
+    while (1) {
+      if (n==0) {
+	P+=c->coefficients(n)*Pk[n];
+	break;
+      }
+      else {
+	P+=c->coefficients(n)*Pk[n];
+	n--;
+      }
+    }
+
+    double retVal=0;
+    if (c->type==MAGSQ) return norm(P);
+    if (c->type==MAG)   return abs(P);
+    if (c->type==REAL)  return real(P);
+    if (c->type==IMAG)  return imag(P);
+    if (!finite(retVal)) {
+      throw std::runtime_error("Non-finite return value in LegendreExpansion");
+    }
+    return retVal;
+  }
+  
+  inline
+  const LegendreCoefficientSet & LegendreExpansion::coefficientSet() const {
+    return c->coefficients;
+  }
+  
+} // end namespace Genfun 

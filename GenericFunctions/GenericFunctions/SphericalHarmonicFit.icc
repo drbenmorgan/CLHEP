@@ -6,6 +6,7 @@
 #include <complex>
 #include <cstdlib>
 #include <stdexcept>
+#include "CLHEP/GenericFunctions/ClebschGordanCoefficientSet.hh"
 namespace Genfun {
 
 FUNCTION_OBJECT_IMP(SphericalHarmonicFit)
@@ -14,7 +15,7 @@ class SphericalHarmonicFit::Clockwork {
   
 public:
   
-  Clockwork(unsigned int LMAX):LMAX(LMAX){}
+  Clockwork(unsigned int LMAX):LMAX(LMAX),coefficientsA(LMAX),coefficientsASq(2*LMAX) {}
 
   struct MStruct {
     unsigned int M;
@@ -33,6 +34,87 @@ public:
 
   std::vector<LStruct>   lstruct;
   const unsigned   int   LMAX;
+
+
+  SphericalHarmonicCoefficientSet coefficientsA;
+  SphericalHarmonicCoefficientSet coefficientsASq;
+  ClebschGordanCoefficientSet     ClebschGordan;
+
+  void recomputeCoefficients() {
+
+    // Note, the calling sequence of the GSL Special Function forces us to 
+    // transpose Plm from its "natural" order.. It is addressed as P[m][l].
+    unsigned int n=(LMAX+1)*(LMAX+1)-1;
+    int l=LMAX;
+    int m=LMAX;
+    
+    //  double ampSq=0.0;
+    
+    std::complex<double> I(0,1.0);
+    double f=1.0;
+    double fThisSum=0.0;
+    for (unsigned int l=0;l<=LMAX;l++) {
+      
+      // lStructThis is zero if l==0;
+      // lStructNext is zero if l==LMAX;
+      const LStruct *lStructThis= (l==0    ? NULL: & lstruct[l-1]);
+      const LStruct *lStructNext= (l==LMAX ? NULL: & lstruct[l]);
+      double fHigher = lStructNext ? lStructNext->fractionLOrHigher->getValue() : NULL;
+      double fThis   = f*(1-fHigher);
+      fThisSum+=fThis;
+      
+      double g=1.0;
+      double gThisSum=0.0;
+      for (int m=0;m<=l;m++) {
+	
+	// mStructThis is zero if m==0;
+	// mStructNext is zero if m==l;
+	const MStruct *mStructThis= ((m==0 || !lStructThis) ? NULL: & lStructThis->mstruct[m-1]);
+	const MStruct *mStructNext= (m==l ? NULL: & lStructThis->mstruct[m]);
+	double gHigher = mStructNext ? mStructNext->fractionAbsMOrHigher->getValue() : NULL;
+	double gThis   = g*(1-gHigher);
+	gThisSum+=gThis;
+	
+	if (fThis<0) {
+	  std::cout << "L-fraction correction" << fThis << "-->0" << std::endl;
+	  fThis=0.0;
+	}
+	if (gThis<0) {
+	  std::cout << "M-fraction correction" << gThis << "-->0" << std::endl;
+	  gThis=0.0;
+	}
+	int LP=l-abs(m);
+	double px=0.0; // phase
+	if (m==0) {
+	  if (lStructThis) {
+	    double amplitude = sqrt(fThis*gThis);
+	    px = lStructThis->phaseLM0->getValue();;
+	    coefficientsA(l,m)=exp(I*px)*amplitude;
+	  }
+	  // L=0 occurs here:
+	  else {
+	    double amplitude = sqrt(fThis*gThis);
+	    coefficientsA(l,m)=exp(I*px)*amplitude;
+	  }
+	}
+	// Split it between positive and negative:
+	else {
+	  {
+	    double amplitude = sqrt(fThis*gThis*mStructThis->fractionMPositive->getValue());
+	    px = mStructThis->phaseMPlus->getValue();;
+	    coefficientsA(l,m)=exp(I*px)*amplitude;
+	  }
+	  {
+	    double amplitude = sqrt(fThis*gThis*(1-mStructThis->fractionMPositive->getValue()));
+	    px = mStructThis->phaseMMinus->getValue();;
+	    coefficientsA(l,-m)=exp(I*px)*amplitude;
+	  }
+	}
+	g*=gHigher;
+      }
+      f*=fHigher;
+    }
+  }
 };
 
 
@@ -99,226 +181,191 @@ SphericalHarmonicFit::~SphericalHarmonicFit() {
   delete c;
 }
 
-inline
-SphericalHarmonicFit::SphericalHarmonicFit(const SphericalHarmonicFit & right):
-  c(new Clockwork(right.c->LMAX))
-{
-  for (int i=0;i<right.c->lstruct.size();i++) {
-    Clockwork::LStruct lstruct;
-    lstruct.L= right.c->lstruct[i].L;
-    lstruct.fractionLOrHigher = new Parameter(*right.c->lstruct[i].fractionLOrHigher);
-    lstruct.phaseLM0          = new Parameter(*right.c->lstruct[i].phaseLM0);
-    for (int j=0;j<right.c->lstruct[i].mstruct.size();j++) {
-      Clockwork::MStruct mstruct;
-      mstruct.M=right.c->lstruct[i].mstruct[j].M;
-      mstruct.fractionAbsMOrHigher=new Parameter(*right.c->lstruct[i].mstruct[j].fractionAbsMOrHigher);
-      mstruct.fractionMPositive   =new Parameter(*right.c->lstruct[i].mstruct[j].fractionMPositive);
-      mstruct.phaseMPlus          =new Parameter(*right.c->lstruct[i].mstruct[j].phaseMPlus);
-      mstruct.phaseMMinus         =new Parameter(*right.c->lstruct[i].mstruct[j].phaseMMinus);
-      lstruct.mstruct.push_back(mstruct);
+  inline
+  SphericalHarmonicFit::SphericalHarmonicFit(const SphericalHarmonicFit & right):
+    c(new Clockwork(right.c->LMAX))
+  {
+    for (int i=0;i<right.c->lstruct.size();i++) {
+      Clockwork::LStruct lstruct;
+      lstruct.L= right.c->lstruct[i].L;
+      lstruct.fractionLOrHigher = new Parameter(*right.c->lstruct[i].fractionLOrHigher);
+      lstruct.phaseLM0          = new Parameter(*right.c->lstruct[i].phaseLM0);
+      for (int j=0;j<right.c->lstruct[i].mstruct.size();j++) {
+	Clockwork::MStruct mstruct;
+	mstruct.M=right.c->lstruct[i].mstruct[j].M;
+	mstruct.fractionAbsMOrHigher=new Parameter(*right.c->lstruct[i].mstruct[j].fractionAbsMOrHigher);
+	mstruct.fractionMPositive   =new Parameter(*right.c->lstruct[i].mstruct[j].fractionMPositive);
+	mstruct.phaseMPlus          =new Parameter(*right.c->lstruct[i].mstruct[j].phaseMPlus);
+	mstruct.phaseMMinus         =new Parameter(*right.c->lstruct[i].mstruct[j].phaseMMinus);
+	lstruct.mstruct.push_back(mstruct);
+      }
+      c->lstruct.push_back(lstruct);
     }
-    c->lstruct.push_back(lstruct);
-  }
-}
-
-inline
-double SphericalHarmonicFit::operator() (double ) const {
-  throw std::runtime_error("Dimensionality error in SphericalHarmonicFit");
-  return 0;
-}
-
-inline
-double SphericalHarmonicFit::operator() (const Argument & a ) const {
-  int LMAX=c->LMAX;
-  double x = a[0];
-  double phi=a[1];
-  // Note, the calling sequence of the GSL Special Function forces us to 
-  // transpose Plm from its "natural" order.. It is addressed as P[m][l].
-  double Plm[LMAX+1][LMAX+1];  
-  for (int m=0;m<=LMAX;m++) {
-    gsl_sf_legendre_sphPlm_array (LMAX, m, x, Plm[m]);
-  }
-  unsigned int n=(LMAX+1)*(LMAX+1)-1;
-  int l=LMAX;
-  int m=LMAX;
-
-  //  double ampSq=0.0;
-
-  std::complex<double> P=0.0;
-  std::complex<double> I(0,1.0);
-  double f=1.0;
-  double fThisSum=0.0;
-  for (unsigned int l=0;l<=LMAX;l++) {
-   
-    // lStructThis is zero if l==0;
-    // lStructNext is zero if l==LMAX;
-    const Clockwork::LStruct *lStructThis= (l==0    ? NULL: & c->lstruct[l-1]);
-    const Clockwork::LStruct *lStructNext= (l==LMAX ? NULL: & c->lstruct[l]);
-    double fHigher = lStructNext ? lStructNext->fractionLOrHigher->getValue() : NULL;
-    double fThis   = f*(1-fHigher);
-    fThisSum+=fThis;
-    
-    double g=1.0;
-    double gThisSum=0.0;
-    for (int m=0;m<=l;m++) {
-
-      // mStructThis is zero if m==0;
-      // mStructNext is zero if m==l;
-      const Clockwork::MStruct *mStructThis= ((m==0 || !lStructThis) ? NULL: & lStructThis->mstruct[m-1]);
-      const Clockwork::MStruct *mStructNext= (m==l ? NULL: & lStructThis->mstruct[m]);
-      double gHigher = mStructNext ? mStructNext->fractionAbsMOrHigher->getValue() : NULL;
-      double gThis   = g*(1-gHigher);
-      gThisSum+=gThis;
-
-      if (fThis<0) {
-	std::cout << "L-fraction correction" << fThis << "-->0" << std::endl;
-	fThis=0.0;
-      }
-      if (gThis<0) {
-	std::cout << "M-fraction correction" << gThis << "-->0" << std::endl;
-	gThis=0.0;
-      }
-      
-      int LP=l-abs(m);
-      double px=0.0; // phase
-      double Pn= Plm[abs(m)][LP];
-      if (!finite(Pn)) {
-	throw std::runtime_error("Non-finite Pn");
-      }
-      
-      
-      
-      if (m==0) {
-	if (lStructThis) {
-	  double amplitude = sqrt(fThis*gThis);
-	  px = lStructThis->phaseLM0->getValue();;
-	  P+=(exp(I*(px+m*phi))*amplitude*Pn);
-	  //	  std::cout << l << " " << m << " " << amplitude*amplitude << std::endl;
-	  //      ampSq += (amplitude*amplitude);
-	}
-	// L=0 occurs here:
-	else {
-	  double amplitude = sqrt(fThis*gThis);
-	  P+=(exp(I*(px+m*phi))*amplitude*Pn);
-	  //std::cout << l << " " << m << " " << amplitude*amplitude << std::endl;
-	  //ampSq += (amplitude*amplitude);
-	}
-      }
-      // Split it between positive and negative:
-      else {
-	{
-	  double amplitude = sqrt(fThis*gThis*mStructThis->fractionMPositive->getValue());
-	  px = mStructThis->phaseMPlus->getValue();;
-	  P+=(exp(I*(px+m*phi))*amplitude*Pn);
-	  //std::cout << l << " " << m << " " << amplitude*amplitude << std::endl;
-	  //ampSq += (amplitude*amplitude);
-	}
-	{
-	  int    S= m%2 ? -1:1; 
-	  double amplitude = sqrt(fThis*gThis*(1-mStructThis->fractionMPositive->getValue()));
-	  px = mStructThis->phaseMMinus->getValue();;
-	  P+=(exp(I*(px-m*phi))*amplitude*Pn);
-	  //std::cout << l << " " << m << " " << amplitude*amplitude << std::endl;
-	  //ampSq += (amplitude*amplitude);
-	}
-      }
-      
-      g*=gHigher;
-    }
-
-    f*=fHigher;
-    
   }
   
-  //  std::cout << 1-ampSq << std::endl;
-  //  std::cout << "+++++++++++++++++" << std::endl;
-  double retVal=std::norm(P);
-  if (!finite(retVal)) {
-    throw std::runtime_error("Non-finite return value in SphericalHarmonicFit");
+  inline
+  double SphericalHarmonicFit::operator() (double ) const {
+    throw std::runtime_error("Dimensionality error in SphericalHarmonicFit");
+    return 0;
   }
-  return retVal;
-}
-
-inline
-unsigned int SphericalHarmonicFit::lMax() const {
-  return c->LMAX;
-}
-
-inline
-unsigned int SphericalHarmonicFit::numComponents() const {
-  return (c->LMAX+1)*(c->LMAX+1)-1;
-}
   
-// The fraction of Amplitude sq which is L or higher
-inline
-Parameter *SphericalHarmonicFit::getFractionLOrHigher(unsigned int L){
-  return c->lstruct[L-1].fractionLOrHigher;
-}
+  inline
+  double SphericalHarmonicFit::operator() (const Argument & a ) const {
+    int LMAX=c->LMAX;
+    double x = a[0];
+    double phi=a[1];
 
-inline
-const Parameter *SphericalHarmonicFit::getFractionLOrHigher(unsigned int L) const {
-  return c->lstruct[L-1].fractionLOrHigher;
-}
+    // Note, the calling sequence of the GSL Special Function forces us to 
+    // transpose Plm from its "natural" order.. It is addressed as P[m][l].
 
-// The phase of coefficient L, M=0;
-inline
-Parameter *SphericalHarmonicFit::getPhaseLM0(unsigned int L){
-  return c->lstruct[L-1].phaseLM0;
-}
+    double Plm[LMAX+1][LMAX+1];  
+    for (int m=0;m<=LMAX;m++) {
+      gsl_sf_legendre_sphPlm_array (LMAX, m, x, Plm[m]);
+    }
 
-inline
-const Parameter *SphericalHarmonicFit::getPhaseLM0(unsigned int L) const{
-  return c->lstruct[L-1].phaseLM0;
-}
+    c->recomputeCoefficients();
+    std::complex<double> P=0.0;
+    std::complex<double> I(0,1.0);
+    for (unsigned int l=0;l<=LMAX;l++) {
+      for (int m=0;m<=int(l);m++) {
+	{
+	  int LP=l-abs(m);
+	  double Pn= Plm[abs(m)][LP];
+	  
+	  if (!finite(Pn)) return 0.0;
 
-// The fraction of amplitude sq which is L which is +- M OR HIGHER
-inline
-Parameter *SphericalHarmonicFit::getFractionAbsMOrHigher(unsigned int L, unsigned int M){
-  return c->lstruct[L-1].mstruct[M-1].fractionAbsMOrHigher;
-}
+	  // Once for positive m (in all cases):
+	  P+=(c->coefficientsA(l,m)*Pn*exp(I*(m*phi)));
+	  // Once for negative m (skip if m==0);
+	  if (m!=0) P+= ( (m%2 ?-1.0:1.0)*c->coefficientsA(l,-m)*Pn*exp(-I*(m*phi)));
+	}
+      }
+    }
+    
+    double retVal=std::norm(P);
+    if (!finite(retVal)) {
+      return 0.0;
+    }
+    return retVal;
+  }
+  
+  inline
+  unsigned int SphericalHarmonicFit::lMax() const {
+    return c->LMAX;
+  }
+  
+  inline
+  unsigned int SphericalHarmonicFit::numComponents() const {
+    return (c->LMAX+1)*(c->LMAX+1)-1;
+  }
+  
+  // The fraction of Amplitude sq which is L or higher
+  inline
+  Parameter *SphericalHarmonicFit::getFractionLOrHigher(unsigned int L){
+    return c->lstruct[L-1].fractionLOrHigher;
+  }
+  
+  inline
+  const Parameter *SphericalHarmonicFit::getFractionLOrHigher(unsigned int L) const {
+    return c->lstruct[L-1].fractionLOrHigher;
+  }
 
-inline
-const Parameter *SphericalHarmonicFit::getFractionAbsMOrHigher(unsigned int L, unsigned int M) const{
-  return c->lstruct[L-1].mstruct[M-1].fractionAbsMOrHigher;
-}
+  // The phase of coefficient L, M=0;
+  inline
+  Parameter *SphericalHarmonicFit::getPhaseLM0(unsigned int L){
+    return c->lstruct[L-1].phaseLM0;
+  }
+  
+  inline
+  const Parameter *SphericalHarmonicFit::getPhaseLM0(unsigned int L) const{
+    return c->lstruct[L-1].phaseLM0;
+  }
+  
+  // The fraction of amplitude sq which is L which is +- M OR HIGHER
+  inline
+  Parameter *SphericalHarmonicFit::getFractionAbsMOrHigher(unsigned int L, unsigned int M){
+    return c->lstruct[L-1].mstruct[M-1].fractionAbsMOrHigher;
+  }
+  
+  inline
+  const Parameter *SphericalHarmonicFit::getFractionAbsMOrHigher(unsigned int L, unsigned int M) const{
+    return c->lstruct[L-1].mstruct[M-1].fractionAbsMOrHigher;
+  }
+  
+
+  // The fraction of amplitude sq which is +- M, which is positive
+  inline
+  Parameter *SphericalHarmonicFit::getFractionMPositive(unsigned int L, unsigned int M){
+    return c->lstruct[L-1].mstruct[M-1].fractionMPositive;
+  }
+
+  inline
+  const Parameter *SphericalHarmonicFit::getFractionMPositive(unsigned int L, unsigned int M) const{
+    return c->lstruct[L-1].mstruct[M-1].fractionMPositive;
+  }
 
 
-// The fraction of amplitude sq which is +- M, which is positive
-inline
-Parameter *SphericalHarmonicFit::getFractionMPositive(unsigned int L, unsigned int M){
-  return c->lstruct[L-1].mstruct[M-1].fractionMPositive;
-}
+  // The phase of the positive M coefficient
+  inline
+  Parameter *SphericalHarmonicFit::getPhaseMPlus(unsigned int L, unsigned int M){
+    return c->lstruct[L-1].mstruct[M-1].phaseMPlus;
+  }
+  
+  inline
+  const Parameter *SphericalHarmonicFit::getPhaseMPlus(unsigned int L, unsigned int M) const{
+    return c->lstruct[L-1].mstruct[M-1].phaseMPlus;
+  }
+  
+  
+  // The phase of the negative M coefficient
+  inline
+  Parameter *SphericalHarmonicFit::getPhaseMMinus(unsigned int L, unsigned int M){
+    return c->lstruct[L-1].mstruct[M-1].phaseMMinus;
+  }
+  
+  inline
+  const Parameter *SphericalHarmonicFit::getPhaseMMinus(unsigned int L, unsigned int M) const{
+    return c->lstruct[L-1].mstruct[M-1].phaseMMinus;
+  }
+  
+  inline
+  const SphericalHarmonicCoefficientSet & SphericalHarmonicFit::coefficientsA() const {
+    c->recomputeCoefficients();
+    return c->coefficientsA;
+  }
 
-inline
-const Parameter *SphericalHarmonicFit::getFractionMPositive(unsigned int L, unsigned int M) const{
-  return c->lstruct[L-1].mstruct[M-1].fractionMPositive;
-}
+  inline
+  const SphericalHarmonicCoefficientSet & SphericalHarmonicFit::coefficientsASq() const{
+    c->recomputeCoefficients();
+    unsigned int LMAX=c->coefficientsA.getLMax();
+    for (int L=0;L<=2*LMAX;L++) {
+      for (int M=-L; M<=int(L); M++) {
+	c->coefficientsASq(L,M)=0.0;
+	for (int l1=0;l1<=LMAX;l1++) {
+	  for (int l2=0;l2<=LMAX;l2++) {
+	    for (int m1=-l1;m1<=int(l1);m1++) {
+	      for (int m2=-l2;m2<=int(l2);m2++) {
+		  if (m1-m2==M) {
+		    if (((l1+l2) >= L) && abs(l1-l2) <=L)  {
+		    c->coefficientsASq(L,M) += (c->coefficientsA(l1,m1)*
+						conj(c->coefficientsA(l2,m2))*
+						(m2%2 ? -1.0:1.0) * 
+						sqrt((2*l1+1)*(2*l2+1)/(4*M_PI*(2*L+1)))*
+						c->ClebschGordan(l1,l2,0,0,L,0)*c->ClebschGordan(l1,l2,m1,-m2,L,M));
+		    }
+		  }
+	      }
+	    }
+	  }
+	}
+      }
+    }
+    return c->coefficientsASq;
+  }
 
-
-// The phase of the positive M coefficient
-inline
-Parameter *SphericalHarmonicFit::getPhaseMPlus(unsigned int L, unsigned int M){
-  return c->lstruct[L-1].mstruct[M-1].phaseMPlus;
-}
-
-inline
-const Parameter *SphericalHarmonicFit::getPhaseMPlus(unsigned int L, unsigned int M) const{
-  return c->lstruct[L-1].mstruct[M-1].phaseMPlus;
-}
-
-
-// The phase of the negative M coefficient
-inline
-Parameter *SphericalHarmonicFit::getPhaseMMinus(unsigned int L, unsigned int M){
-  return c->lstruct[L-1].mstruct[M-1].phaseMMinus;
-}
-
-inline
-const Parameter *SphericalHarmonicFit::getPhaseMMinus(unsigned int L, unsigned int M) const{
-  return c->lstruct[L-1].mstruct[M-1].phaseMMinus;
-}
-
-
-
+  inline
+  void SphericalHarmonicFit::recomputeCoefficients() const {
+    c->recomputeCoefficients();
+  }
 
 } // end namespace Genfun 
