@@ -38,6 +38,7 @@ namespace Genfun {
   
   inline
   SphericalHarmonicExpansion::SphericalHarmonicExpansion(const SphericalHarmonicExpansion & right):
+    AbsFunction(),
     c(new Clockwork(right.c->type,right.c->coefficients))
   {
   }
@@ -50,16 +51,19 @@ namespace Genfun {
   
   inline
   double SphericalHarmonicExpansion::operator() (const Argument & a ) const {
-    int LMAX=c->coefficients.getLMax();
+    const unsigned int LMAX=c->coefficients.getLMax();
     double x = a[0];
     double phi=a[1];
 
     // Note, the calling sequence of the GSL Special Function forces us to 
     // transpose Plm from its "natural" order.. It is addressed as P[m][l].
 
-    double Plm[LMAX+1][LMAX+1];  
-    for (int m=0;m<=LMAX;m++) {
-      gsl_sf_legendre_sphPlm_array (LMAX, m, x, Plm[m]);
+    //double Plm[LMAX+1][LMAX+1];
+    std::vector< std::vector<double> > Plm(LMAX+1);
+    for (int m=0;m<=int(LMAX);m++) {
+      Plm[m].resize(LMAX+1);
+      gsl_sf_legendre_sphPlm_array (LMAX, m, x, &*Plm[m].begin());
+      //gsl_sf_legendre_sphPlm_array (LMAX, m, x, Plm[m]);
     }
 
     std::complex<double> P=0.0;

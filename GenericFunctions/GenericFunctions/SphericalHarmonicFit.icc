@@ -44,9 +44,6 @@ public:
 
     // Note, the calling sequence of the GSL Special Function forces us to 
     // transpose Plm from its "natural" order.. It is addressed as P[m][l].
-    unsigned int n=(LMAX+1)*(LMAX+1)-1;
-    int l=LMAX;
-    int m=LMAX;
     
     //  double ampSq=0.0;
     
@@ -65,12 +62,12 @@ public:
       
       double g=1.0;
       double gThisSum=0.0;
-      for (int m=0;m<=l;m++) {
+      for (int m=0;m<=int(l);m++) {
 	
 	// mStructThis is zero if m==0;
 	// mStructNext is zero if m==l;
 	const MStruct *mStructThis= ((m==0 || !lStructThis) ? NULL: & lStructThis->mstruct[m-1]);
-	const MStruct *mStructNext= (m==l ? NULL: & lStructThis->mstruct[m]);
+	const MStruct *mStructNext= (m==int(l) ? NULL: & lStructThis->mstruct[m]);
 	double gHigher = mStructNext ? mStructNext->fractionAbsMOrHigher->getValue() : NULL;
 	double gThis   = g*(1-gHigher);
 	gThisSum+=gThis;
@@ -83,7 +80,6 @@ public:
 	  std::cout << "M-fraction correction" << gThis << "-->0" << std::endl;
 	  gThis=0.0;
 	}
-	int LP=l-abs(m);
 	double px=0.0; // phase
 	if (m==0) {
 	  if (lStructThis) {
@@ -168,10 +164,10 @@ SphericalHarmonicFit::SphericalHarmonicFit(unsigned int LMAX):
 
 inline
 SphericalHarmonicFit::~SphericalHarmonicFit() {
-  for (int i=0;i<c->lstruct.size();i++) {
+  for (unsigned int i=0;i<c->lstruct.size();i++) {
     delete c->lstruct[i].fractionLOrHigher;
     delete c->lstruct[i].phaseLM0;
-    for (int j=0;j<c->lstruct[i].mstruct.size();j++) {
+    for (unsigned int j=0;j<c->lstruct[i].mstruct.size();j++) {
       delete c->lstruct[i].mstruct[j].fractionAbsMOrHigher;
       delete c->lstruct[i].mstruct[j].fractionMPositive;
       delete c->lstruct[i].mstruct[j].phaseMPlus;
@@ -183,14 +179,15 @@ SphericalHarmonicFit::~SphericalHarmonicFit() {
 
   inline
   SphericalHarmonicFit::SphericalHarmonicFit(const SphericalHarmonicFit & right):
+    AbsFunction(),
     c(new Clockwork(right.c->LMAX))
   {
-    for (int i=0;i<right.c->lstruct.size();i++) {
+    for (unsigned int i=0;i<right.c->lstruct.size();i++) {
       Clockwork::LStruct lstruct;
       lstruct.L= right.c->lstruct[i].L;
       lstruct.fractionLOrHigher = new Parameter(*right.c->lstruct[i].fractionLOrHigher);
       lstruct.phaseLM0          = new Parameter(*right.c->lstruct[i].phaseLM0);
-      for (int j=0;j<right.c->lstruct[i].mstruct.size();j++) {
+      for (unsigned int j=0;j<right.c->lstruct[i].mstruct.size();j++) {
 	Clockwork::MStruct mstruct;
 	mstruct.M=right.c->lstruct[i].mstruct[j].M;
 	mstruct.fractionAbsMOrHigher=new Parameter(*right.c->lstruct[i].mstruct[j].fractionAbsMOrHigher);
@@ -211,16 +208,18 @@ SphericalHarmonicFit::~SphericalHarmonicFit() {
   
   inline
   double SphericalHarmonicFit::operator() (const Argument & a ) const {
-    int LMAX=c->LMAX;
+    unsigned int LMAX=c->LMAX;
     double x = a[0];
     double phi=a[1];
 
     // Note, the calling sequence of the GSL Special Function forces us to 
     // transpose Plm from its "natural" order.. It is addressed as P[m][l].
 
-    double Plm[LMAX+1][LMAX+1];  
-    for (int m=0;m<=LMAX;m++) {
-      gsl_sf_legendre_sphPlm_array (LMAX, m, x, Plm[m]);
+    //double Plm[LMAX+1][LMAX+1];  
+    std::vector< std::vector<double> > Plm(LMAX+1);
+    for (int m=0;m<=int(LMAX);m++) {
+      Plm[m].resize(LMAX+1);
+      gsl_sf_legendre_sphPlm_array (LMAX, m, x, &*Plm[m].begin());
     }
 
     c->recomputeCoefficients();
@@ -338,15 +337,15 @@ SphericalHarmonicFit::~SphericalHarmonicFit() {
   const SphericalHarmonicCoefficientSet & SphericalHarmonicFit::coefficientsASq() const{
     c->recomputeCoefficients();
     unsigned int LMAX=c->coefficientsA.getLMax();
-    for (int L=0;L<=2*LMAX;L++) {
+    for (unsigned int L=0;L<=2*LMAX;L++) {
       for (int M=-L; M<=int(L); M++) {
 	c->coefficientsASq(L,M)=0.0;
-	for (int l1=0;l1<=LMAX;l1++) {
-	  for (int l2=0;l2<=LMAX;l2++) {
+	for (unsigned int l1=0;l1<=LMAX;l1++) {
+	  for (unsigned int l2=0;l2<=LMAX;l2++) {
 	    for (int m1=-l1;m1<=int(l1);m1++) {
 	      for (int m2=-l2;m2<=int(l2);m2++) {
 		  if (m1-m2==M) {
-		    if (((l1+l2) >= L) && abs(l1-l2) <=L)  {
+		    if (((l1+l2) >= L) && abs(l1-l2) <=int(L))  {
 		    c->coefficientsASq(L,M) += (c->coefficientsA(l1,m1)*
 						conj(c->coefficientsA(l2,m2))*
 						(m2%2 ? -1.0:1.0) * 

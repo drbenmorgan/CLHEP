@@ -9,7 +9,7 @@
 //                                                                          //
 //--------------------------------------------------------------------------//
 #ifndef SphericalHarmonicExpansion_h
-#define SphericalHarmonicExpansion_h 
+#define SphericalHarmonicExpansion_h
 #include "CLHEP/GenericFunctions/AbsFunction.hh"
 #include "CLHEP/GenericFunctions/Parameter.hh"
 #include "CLHEP/GenericFunctions/SphericalHarmonicCoefficientSet.hh"

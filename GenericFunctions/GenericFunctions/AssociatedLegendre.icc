@@ -1,6 +1,5 @@
 // -*- C++ -*-
 // $Id: 
-#include "CLHEP/GenericFunctions/AssociatedLegendre.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include "CLHEP/GenericFunctions/Power.hh"
 #include <gsl/gsl_sf_legendre.h>
@@ -21,6 +20,7 @@ inline double dfactorial (int n) {
 //
 inline
 AssociatedLegendre::AssociatedLegendre(unsigned int l, unsigned int m):
+  AbsFunction(),
   _l(l),
   _m(m)
 {
@@ -33,6 +33,7 @@ AssociatedLegendre::~AssociatedLegendre() {
 
 inline
 AssociatedLegendre::AssociatedLegendre(const AssociatedLegendre & right):
+AbsFunction(),
 _l(right._l),
 _m(right._m)
 {

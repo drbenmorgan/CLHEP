@@ -37,6 +37,7 @@ namespace Genfun {
   
   inline
   LegendreExpansion::LegendreExpansion(const LegendreExpansion & right):
+    AbsFunction(),
     c(new Clockwork(right.c->type,right.c->coefficients))
   {
   }
@@ -45,8 +46,8 @@ namespace Genfun {
   double LegendreExpansion::operator() (double x) const {
 
     int N=c->coefficients.getLMax();
-    double Pk[N+1];
-    gsl_sf_legendre_Pl_array(N, x, Pk);
+    std::vector<double> Pk(N+1);
+    gsl_sf_legendre_Pl_array(N, x, &Pk[0]);
     unsigned int n=N;
     std::complex<double> P=0.0;
     std::complex<double> I(0,1.0);
