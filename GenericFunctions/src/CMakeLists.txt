@@ -8,11 +8,11 @@ set( GenericFunctions_source
 				      ArrayFunction.cc
 				      ASin.cc
 				      AssociatedLaguerre.cc
-				      AssociatedLegendre.cc
 				      ATan.cc
 				      BetaDistribution.cc
 				      BivariateGaussian.cc
 				      ClassicalSolver.cc
+				      ClebschGordanCoefficientSet.cc
 				      ConstMinusFunction.cc
 				      ConstMinusParameter.cc
 				      ConstOverFunction.cc
