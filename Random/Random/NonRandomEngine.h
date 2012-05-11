@@ -90,8 +90,8 @@ private:
 
   virtual void setSeed(long , int) {};
   virtual void setSeeds(const long * , int) {};
-  virtual void saveStatus( const char [] ) const {};
-  virtual void restoreStatus( const char [] ) {};
+  virtual void saveStatus( const char* ) const {};
+  virtual void restoreStatus( const char* ) {};
   virtual void showStatus() const {};
 
  
