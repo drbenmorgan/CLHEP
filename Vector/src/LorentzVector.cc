@@ -56,7 +56,7 @@ double & HepLorentzVector::operator () (int i) {
 HepLorentzVector & HepLorentzVector::boost
 				(double bx, double by, double bz){
   double b2 = bx*bx + by*by + bz*bz;
-  register double ggamma = 1.0 / sqrt(1.0 - b2);
+  register double ggamma = 1.0 / std::sqrt(1.0 - b2);
   register double bp = bx*x() + by*y() + bz*z();
   register double gamma2 = b2 > 0 ? (ggamma - 1.0)/b2 : 0.0;
 
@@ -195,7 +195,7 @@ HepLorentzVector & HepLorentzVector::boostX (double bbeta){
     ZMthrowA (ZMxpvTachyonic(
       "boost along X with beta >= 1 (speed of light) -- no boost done"));
   } else {
-    register double ggamma = sqrt(1./(1-b2));
+    register double ggamma = std::sqrt(1./(1-b2));
     register double tt = ee;
     ee = ggamma*(ee + bbeta*pp.getX());
     pp.setX(ggamma*(pp.getX() + bbeta*tt));
@@ -209,7 +209,7 @@ HepLorentzVector & HepLorentzVector::boostY (double bbeta){
     ZMthrowA (ZMxpvTachyonic(
       "boost along Y with beta >= 1 (speed of light) -- \nno boost done"));
   } else {
-    register double ggamma = sqrt(1./(1-b2));
+    register double ggamma = std::sqrt(1./(1-b2));
     register double tt = ee;
     ee = ggamma*(ee + bbeta*pp.getY());
     pp.setY(ggamma*(pp.getY() + bbeta*tt));
@@ -223,7 +223,7 @@ HepLorentzVector & HepLorentzVector::boostZ (double bbeta){
     ZMthrowA (ZMxpvTachyonic(
       "boost along Z with beta >= 1 (speed of light) -- \nno boost done"));
   } else {
-    register double ggamma = sqrt(1./(1-b2));
+    register double ggamma = std::sqrt(1./(1-b2));
     register double tt = ee;
     ee = ggamma*(ee + bbeta*pp.getZ());
     pp.setZ(ggamma*(pp.getZ() + bbeta*tt));

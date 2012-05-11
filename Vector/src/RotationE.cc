@@ -23,12 +23,10 @@
 #include <cmath>
 #include <stdlib.h>
 
-using std::abs;
-
 namespace CLHEP  {
 
 static inline double safe_acos (double x) {
-  if (abs(x) <= 1.0) return acos(x);
+  if (std::abs(x) <= 1.0) return std::acos(x);
   return ( (x>0) ? 0 : CLHEP::pi );
 }
 
@@ -38,9 +36,9 @@ static inline double safe_acos (double x) {
 
 HepRotation & HepRotation::set(double phi1, double theta1, double psi1) {
 
-  register double sinPhi   = sin( phi1   ), cosPhi   = cos( phi1   );
-  register double sinTheta = sin( theta1 ), cosTheta = cos( theta1 );
-  register double sinPsi   = sin( psi1   ), cosPsi   = cos( psi1   );
+  register double sinPhi   = std::sin( phi1   ), cosPhi   = std::cos( phi1   );
+  register double sinTheta = std::sin( theta1 ), cosTheta = std::cos( theta1 );
+  register double sinPsi   = std::sin( psi1   ), cosPsi   = std::cos( psi1   );
 
   rxx =   cosPsi * cosPhi - cosTheta * sinPhi * sinPsi;
   rxy =   cosPsi * sinPhi + cosTheta * cosPhi * sinPsi;
@@ -80,7 +78,7 @@ double HepRotation::phi  () const {
         "HepRotation::phi() finds | rzz | > 1 "));
     s2 = 0;
   }
-  const double sinTheta = sqrt( s2 );
+  const double sinTheta = std::sqrt( s2 );
 
   if (sinTheta < .01) { // For theta close to 0 or PI, use the more stable
   			// algorithm to get all three Euler angles
@@ -90,12 +88,12 @@ double HepRotation::phi  () const {
   
   const double cscTheta = 1/sinTheta;
   double cosabsphi =  - rzy * cscTheta;
-  if ( fabs(cosabsphi) > 1 ) {	// NaN-proofing
+  if ( std::fabs(cosabsphi) > 1 ) {	// NaN-proofing
     ZMthrowC ( ZMxpvImproperRotation (
       "HepRotation::phi() finds | cos phi | > 1 "));
     cosabsphi = 1;
   }
-  const double absPhi = acos ( cosabsphi );
+  const double absPhi = std::acos ( cosabsphi );
   if (rzx > 0) {
     return   absPhi;
   } else if (rzx < 0) {
@@ -115,12 +113,12 @@ double HepRotation::theta() const {
 double HepRotation::psi  () const {
 
   double sinTheta;
-  if ( fabs(rzz) > 1 ) {	// NaN-proofing
+  if ( std::fabs(rzz) > 1 ) {	// NaN-proofing
     ZMthrowC ( ZMxpvImproperRotation (
       "HepRotation::psi() finds | rzz | > 1"));
     sinTheta = 0;
   } else { 
-    sinTheta = sqrt( 1.0 - rzz*rzz );
+    sinTheta = std::sqrt( 1.0 - rzz*rzz );
   }
   
   if (sinTheta < .01) { // For theta close to 0 or PI, use the more stable
@@ -131,12 +129,12 @@ double HepRotation::psi  () const {
 
   const double cscTheta = 1/sinTheta;
   double cosabspsi =  ryz * cscTheta;
-  if ( fabs(cosabspsi) > 1 ) {	// NaN-proofing
+  if ( std::fabs(cosabspsi) > 1 ) {	// NaN-proofing
     ZMthrowC ( ZMxpvImproperRotation (
       "HepRotation::psi() finds | cos psi | > 1"));
     cosabspsi = 1;
   }
-  const double absPsi = acos ( cosabspsi );
+  const double absPsi = std::acos ( cosabspsi );
   if (rxz > 0) {
     return   absPsi;
   } else if (rxz < 0) {
@@ -174,11 +172,11 @@ void correctPsiPhi ( double rxz, double rzx, double ryz, double rzy,
   w[0] = rxz; w[1] = rzx; w[2] = ryz; w[3] = -rzy;
 
   // find biggest relevant term, which is the best one to use in correcting.
-  double maxw = abs(w[0]); 
+  double maxw = std::abs(w[0]); 
   int imax = 0;
   for (int i = 1; i < 4; ++i) {
-    if (abs(w[i]) > maxw) {
-      maxw = abs(w[i]);
+    if (std::abs(w[i]) > maxw) {
+      maxw = std::abs(w[i]);
       imax = i;
     }
   }
@@ -194,12 +192,12 @@ void correctPsiPhi ( double rxz, double rzx, double ryz, double rzy,
       if (w[1] < 0 && phi > 0)           correctByPi ( psi, phi );
       break;
     case 2:
-      if (w[2] > 0 && abs(psi) > CLHEP::halfpi) correctByPi ( psi, phi );    
-      if (w[2] < 0 && abs(psi) < CLHEP::halfpi) correctByPi ( psi, phi );    
+      if (w[2] > 0 && std::abs(psi) > CLHEP::halfpi) correctByPi ( psi, phi );    
+      if (w[2] < 0 && std::abs(psi) < CLHEP::halfpi) correctByPi ( psi, phi );    
       break;
     case 3:
-      if (w[3] > 0 && abs(phi) > CLHEP::halfpi) correctByPi ( psi, phi );    
-      if (w[3] < 0 && abs(phi) < CLHEP::halfpi) correctByPi ( psi, phi );    
+      if (w[3] > 0 && std::abs(phi) > CLHEP::halfpi) correctByPi ( psi, phi );    
+      if (w[3] < 0 && std::abs(phi) < CLHEP::halfpi) correctByPi ( psi, phi );    
       break;
   }          
 }
@@ -224,32 +222,32 @@ HepEulerAngles HepRotation::eulerAngles() const {
   if (cosTheta < -1) cosTheta = -1;
 
   if (cosTheta == 1) {
-    psiPlusPhi = atan2 ( rxy - ryx, rxx + ryy );
+    psiPlusPhi = std::atan2 ( rxy - ryx, rxx + ryy );
     psiMinusPhi = 0;     
 
   } else if (cosTheta >= 0) {
 
     // In this realm, the atan2 expression for psi + phi is numerically stable
-    psiPlusPhi = atan2 ( rxy - ryx, rxx + ryy );
+    psiPlusPhi = std::atan2 ( rxy - ryx, rxx + ryy );
 
     // psi - phi is potentially more subtle, but when unstable it is moot
-    double s1 = -rxy - ryx; // sin (psi-phi) * (1 - cos theta)
-    double c =  rxx - ryy; // cos (psi-phi) * (1 - cos theta)
-    psiMinusPhi = atan2 ( s1, c );
+    double s1 = -rxy - ryx; // std::sin (psi-phi) * (1 - cos theta)
+    double c =  rxx - ryy; // std::cos (psi-phi) * (1 - cos theta)
+    psiMinusPhi = std::atan2 ( s1, c );
         
   } else if (cosTheta > -1) {
 
     // In this realm, the atan2 expression for psi - phi is numerically stable
-    psiMinusPhi = atan2 ( -rxy - ryx, rxx - ryy );
+    psiMinusPhi = std::atan2 ( -rxy - ryx, rxx - ryy );
 
    // psi + phi is potentially more subtle, but when unstable it is moot
-    double s1 = rxy - ryx; // sin (psi+phi) * (1 + cos theta)
-    double c = rxx + ryy; // cos (psi+phi) * (1 + cos theta)
-    psiPlusPhi = atan2 ( s1, c );
+    double s1 = rxy - ryx; // std::sin (psi+phi) * (1 + cos theta)
+    double c = rxx + ryy; // std::cos (psi+phi) * (1 + cos theta)
+    psiPlusPhi = std::atan2 ( s1, c );
 
   } else { // cosTheta == -1
 
-    psiMinusPhi = atan2 ( -rxy - ryx, rxx - ryy );
+    psiMinusPhi = std::atan2 ( -rxy - ryx, rxx - ryy );
     psiPlusPhi = 0;
 
   }

@@ -41,7 +41,7 @@ double HepRotation::distance2( const HepRotation & r  ) const {
 }
 
 double HepRotation::howNear(   const HepRotation & r  ) const {
-  return  sqrt( distance2( r ) );
+  return  std::sqrt( distance2( r ) );
 }
 
 bool HepRotation::isNear(   const HepRotation & r,

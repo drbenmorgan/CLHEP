@@ -37,7 +37,7 @@ bool test (double phi, double theta, double psi) {
     cout << "       e.phi() = "  << e.phi() 
          << "    rp.phi() = " << rp.phi()  
 	 << " difference is " << (e.phi() - rp.phi())/del << " * del\n";    
-    if ( fabs (e.phi() - rp.phi()) > 200*del ) {
+    if ( std::fabs (e.phi() - rp.phi()) > 200*del ) {
       cout << "phi discrepancy in "  << rp << "\n";
       cout << "       e.phi() = "  << e.phi() 
            << "    rp.phi() = " << rp.phi()  
@@ -45,7 +45,7 @@ bool test (double phi, double theta, double psi) {
       if (del < 1.0e-4) cout << "??????????\n";
       retval = false;
     }
-    if ( fabs (e.theta() - rp.theta()) > 200*del ) {
+    if ( std::fabs (e.theta() - rp.theta()) > 200*del ) {
       cout << "theta discrepancy in "  << rp << "\n";
       cout << "       e.theta() = "  << e.theta() 
            << "    rp.theta() = " << rp.theta()
@@ -56,7 +56,7 @@ bool test (double phi, double theta, double psi) {
     cout << "       e.psi() = "  << e.psi() 
          << "    rp.psi() = " << rp.psi() 
 	 << " difference is " << (e.psi() - rp.psi())/del << " * del\n";
-     if ( fabs (e.psi() - rp.psi()) > 200*del ) {
+     if ( std::fabs (e.psi() - rp.psi()) > 200*del ) {
       cout << "psi discrepancy in "  << rp << "\n";
       cout << "       e.psi() = "  << e.psi() 
            << "    rp.psi() = " << rp.psi() 
@@ -154,11 +154,11 @@ bool compareR ( const HepRotation & r1, const HepRotation & r2, double tol ) {
   flaw = max (flaw, (m1.zx_ - m2.zx_));
   flaw = max (flaw, (m1.zy_ - m2.zy_));
   flaw = max (flaw, (m1.zz_ - m2.zz_));
-  if (flaw > 20*sqrt(tol)) {
+  if (flaw > 20*std::sqrt(tol)) {
     cout << "???????? comparison flaw at level of " <<  flaw  << "\n"
          << r1 << r2;
   }
-  cout << "flaw size is " << flaw << " (" << flaw/sqrt(tol) << ")\n\n";
+  cout << "flaw size is " << flaw << " (" << flaw/std::sqrt(tol) << ")\n\n";
   return (flaw <= tol);
 }
 

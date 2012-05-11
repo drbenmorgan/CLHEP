@@ -43,9 +43,9 @@ double HepEulerAngles::tolerance = Hep3Vector::ToleranceTicks * 1.0e-8;
 
 static void ZMpvEulerAnglesRep ( const HepEulerAngles & ex, double array[] ) {
 
-  register double sinPhi   = sin( ex.phi() )  , cosPhi   = cos( ex.phi() );
-  register double sinTheta = sin( ex.theta() ), cosTheta = cos( ex.theta() );
-  register double sinPsi   = sin( ex.psi() )  , cosPsi   = cos( ex.psi() );
+  register double sinPhi   = std::sin( ex.phi() )  , cosPhi   = std::cos( ex.phi() );
+  register double sinTheta = std::sin( ex.theta() ), cosTheta = std::cos( ex.theta() );
+  register double sinPsi   = std::sin( ex.psi() )  , cosPsi   = std::cos( ex.psi() );
 
   array[0] =   cosPsi * cosPhi   - sinPsi * cosTheta * sinPhi;
   array[1] =   cosPsi * sinPhi   + sinPsi * cosTheta * cosPhi;
@@ -76,7 +76,7 @@ double HepEulerAngles::distance( const EA & ex ) const  {
   }
 
   double d = 3.0 - sum;		// NaN-proofing: 
-  return  (d >= 0) ? d : 0;		// sqrt(distance) is used in howNear()
+  return  (d >= 0) ? d : 0;		// std::sqrt(distance) is used in howNear()
 
 }  // HepEulerAngles::distance()
 
@@ -90,7 +90,7 @@ bool HepEulerAngles::isNear( const EA & ex, double epsilon ) const  {
 
 double HepEulerAngles::howNear( const EA & ex ) const  {
 
-  return  sqrt( distance( ex ) );
+  return  std::sqrt( distance( ex ) );
 
 }  // HepEulerAngles::howNear()
 

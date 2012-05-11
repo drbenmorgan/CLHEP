@@ -28,7 +28,7 @@ bool HepRotation::setCols
       double u1u2,
       Hep3Vector & v1, Hep3Vector & v2, Hep3Vector & v3 ) const {
 
-  if ( (1-fabs(u1u2)) <= Hep4RotationInterface::tolerance ) {
+  if ( (1-std::fabs(u1u2)) <= Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvParallelCols(
       "All three cols supplied for a Rotation are parallel --"
         "\n    an arbitrary rotation will be returned"));
@@ -80,19 +80,19 @@ HepRotation & HepRotation::set( const Hep3Vector & ccolX,
   Hep3Vector ucolZ = ccolZ.unit();
 
   double u1u2 = ucolX.dot(ucolY);
-  double f12  = fabs(u1u2);
+  double f12  = std::fabs(u1u2);
   if ( f12 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotOrthogonal(
       "col's X and Y supplied for Rotation are not close to orthogonal"));
   }
   double u1u3 = ucolX.dot(ucolZ);
-  double f13  = fabs(u1u3);
+  double f13  = std::fabs(u1u3);
   if ( f13 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotOrthogonal(
       "col's X and Z supplied for Rotation are not close to orthogonal"));
   }
   double u2u3 = ucolY.dot(ucolZ);
-  double f23  = fabs(u2u3);
+  double f23  = std::fabs(u2u3);
   if ( f23 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotOrthogonal(
       "col's Y and Z supplied for Rotation are not close to orthogonal"));

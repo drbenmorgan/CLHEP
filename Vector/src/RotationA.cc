@@ -27,7 +27,7 @@ namespace CLHEP  {
 
 HepRotation & HepRotation::set( const Hep3Vector & aaxis, double ddelta ) {
 
-  register double sinDelta = sin(ddelta), cosDelta = cos(ddelta);
+  register double sinDelta = std::sin(ddelta), cosDelta = std::cos(ddelta);
   register double oneMinusCosDelta = 1.0 - cosDelta;
 
   Hep3Vector u = aaxis.unit();
@@ -74,14 +74,14 @@ double    HepRotation::delta() const {
   } else if (cosdelta < -1.0) {
     return CLHEP::pi;
   } else {
-    return  acos( cosdelta ); // Already safe due to the cosdelta > 1 check
+    return  std::acos( cosdelta ); // Already safe due to the cosdelta > 1 check
   }
 
 } // delta()
 
 Hep3Vector HepRotation::axis () const {
 
-  // Determine 2*sin(delta) times the u components (I call this uX, uY, Uz)
+  // Determine 2*std::sin(delta) times the u components (I call this uX, uY, Uz)
   // Normalization is not needed; it will be done when returning the 3-Vector
 
   double  Uz = ryx - rxy;

@@ -32,7 +32,7 @@ HepLorentzRotation & HepLorentzRotation::set
     ZMthrowA (ZMxpvTachyonic(
     "Boost Vector supplied to set HepLorentzRotation represents speed >= c."));
   }    
-  double gamma = 1.0 / sqrt(1.0 - bp2);
+  double gamma = 1.0 / std::sqrt(1.0 - bp2);
   double bgamma = gamma * gamma / (1.0 + gamma);
   mxx = 1.0 + bgamma * bx * bx;
   myy = 1.0 + bgamma * by * by;
@@ -149,8 +149,8 @@ HepLorentzRotation::matrixMultiplication(const HepRep4x4 & m1) const {
 }
 
 HepLorentzRotation & HepLorentzRotation::rotateX(double delta) {
-  double c1 = cos (delta);
-  double s1 = sin (delta);
+  double c1 = std::cos (delta);
+  double s1 = std::sin (delta);
   HepLorentzVector rowy = row2();
   HepLorentzVector rowz = row3();
   HepLorentzVector r2 = c1 * rowy - s1 * rowz;
@@ -161,8 +161,8 @@ HepLorentzRotation & HepLorentzRotation::rotateX(double delta) {
 }
 
 HepLorentzRotation & HepLorentzRotation::rotateY(double delta) {
-  double c1 = cos (delta);
-  double s1 = sin (delta);
+  double c1 = std::cos (delta);
+  double s1 = std::sin (delta);
   HepLorentzVector rowx = row1();
   HepLorentzVector rowz = row3();
   HepLorentzVector r1 =  c1 * rowx + s1 * rowz;
@@ -173,8 +173,8 @@ HepLorentzRotation & HepLorentzRotation::rotateY(double delta) {
 }
 
 HepLorentzRotation & HepLorentzRotation::rotateZ(double delta) {
-  double c1 = cos (delta);
-  double s1 = sin (delta);
+  double c1 = std::cos (delta);
+  double s1 = std::sin (delta);
   HepLorentzVector rowx = row1();
   HepLorentzVector rowy = row2();
   HepLorentzVector r1 = c1 * rowx - s1 * rowy;
@@ -190,7 +190,7 @@ HepLorentzRotation & HepLorentzRotation::boostX(double beta) {
     ZMthrowA (ZMxpvTachyonic(
     "Beta supplied to HepLorentzRotation::boostX represents speed >= c."));
   }    
-  double g1  = 1.0/sqrt(1.0-b2);
+  double g1  = 1.0/std::sqrt(1.0-b2);
   double bg = beta*g1;
   HepLorentzVector rowx = row1();
   HepLorentzVector rowt = row4();
@@ -207,7 +207,7 @@ HepLorentzRotation & HepLorentzRotation::boostY(double beta) {
     ZMthrowA (ZMxpvTachyonic(
     "Beta supplied to HepLorentzRotation::boostY represents speed >= c."));
   }    
-  double g1  = 1.0/sqrt(1.0-b2);
+  double g1  = 1.0/std::sqrt(1.0-b2);
   double bg = beta*g1;
   HepLorentzVector rowy = row2();
   HepLorentzVector rowt = row4();
@@ -224,7 +224,7 @@ HepLorentzRotation & HepLorentzRotation::boostZ(double beta) {
     ZMthrowA (ZMxpvTachyonic(
     "Beta supplied to HepLorentzRotation::boostZ represents speed >= c."));
   }    
-  double g1  = 1.0/sqrt(1.0-b2);
+  double g1  = 1.0/std::sqrt(1.0-b2);
   double bg = beta*g1;
   HepLorentzVector rowz = row3();
   HepLorentzVector rowt = row4();
@@ -236,8 +236,6 @@ HepLorentzRotation & HepLorentzRotation::boostZ(double beta) {
 }
 
 std::ostream & HepLorentzRotation::print( std::ostream & os ) const {
-//  using std::setw;
-//  using std::setprecision;
   os << "\n   [ ( " <<
         std::setw(11) << std::setprecision(6) << xx() << "   " <<
         std::setw(11) << std::setprecision(6) << xy() << "   " <<

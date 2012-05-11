@@ -22,23 +22,21 @@
 #include <stdlib.h>
 #include <iostream>
 
-using std::abs;
-
 namespace CLHEP  {
 
 static inline double safe_acos (double x) {
-  if (abs(x) <= 1.0) return acos(x);
+  if (std::abs(x) <= 1.0) return std::acos(x);
   return ( (x>0) ? 0 : CLHEP::pi );
 }
 
 HepRotationY::HepRotationY(double ddelta) : 
-		d(proper(ddelta)), s(sin(ddelta)), c(cos(ddelta))
+		d(proper(ddelta)), s(std::sin(ddelta)), c(std::cos(ddelta))
 {}
 
 HepRotationY & HepRotationY::set ( double ddelta ) {
   d = proper(ddelta);
-  s = sin(d);
-  c = cos(d);
+  s = std::sin(d);
+  c = std::cos(d);
   return *this;
 }
 
@@ -53,7 +51,7 @@ double  HepRotationY::phi() const {
 }  // HepRotationY::phi()
 
 double  HepRotationY::theta() const {
-  return  fabs( d );
+  return  std::fabs( d );
 }  // HepRotationY::theta()
 
 double  HepRotationY::psi() const {
@@ -79,17 +77,17 @@ HepEulerAngles HepRotationY::eulerAngles() const {
 // shown opportunities for significant speed improvement.
 
 double HepRotationY::phiX() const {
-  return (yx() == 0.0 && xx() == 0.0) ? 0.0 : atan2(yx(),xx());
+  return (yx() == 0.0 && xx() == 0.0) ? 0.0 : std::atan2(yx(),xx());
   		// or ---- return 0;
 }
 
 double HepRotationY::phiY() const {
-  return (yy() == 0.0 && xy() == 0.0) ? 0.0 : atan2(yy(),xy());
+  return (yy() == 0.0 && xy() == 0.0) ? 0.0 : std::atan2(yy(),xy());
 		// or ----  return CLHEP::halfpi;
 }
 
 double HepRotationY::phiZ() const {
-  return (yz() == 0.0 && xz() == 0.0) ? 0.0 : atan2(yz(),xz());
+  return (yz() == 0.0 && xz() == 0.0) ? 0.0 : std::atan2(yz(),xz());
 		// or ----  return 0;
 }
 
@@ -163,16 +161,16 @@ double HepRotationY::distance2( const HepBoost & lt ) const {
 }
 
 double HepRotationY::howNear( const HepRotationY & r ) const {
-  return sqrt(distance2(r));
+  return std::sqrt(distance2(r));
 }
 double HepRotationY::howNear( const HepRotation & r ) const {
-  return sqrt(distance2(r));
+  return std::sqrt(distance2(r));
 }
 double HepRotationY::howNear( const HepBoost & lt ) const {
-  return sqrt(distance2(lt));
+  return std::sqrt(distance2(lt));
 }
 double HepRotationY::howNear( const HepLorentzRotation & lt ) const {
-  return sqrt(distance2(lt));
+  return std::sqrt(distance2(lt));
 }
 bool HepRotationY::isNear(const HepRotationY & r,double epsilon)const{
   return (distance2(r) <= epsilon*epsilon);

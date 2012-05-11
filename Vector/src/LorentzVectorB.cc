@@ -66,7 +66,7 @@ HepLorentzVector & HepLorentzVector::boost
       "no boost done"));
   } else {
     Hep3Vector u = aaxis.unit();
-    register double ggamma = sqrt(1./(1.-b2));
+    register double ggamma = std::sqrt(1./(1.-b2));
     register double betaDotV = u.dot(pp)*bbeta;
     register double tt = ee;
 

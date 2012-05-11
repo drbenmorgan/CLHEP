@@ -14,8 +14,6 @@
 #include <cmath>
 #include <stdlib.h>
 
-using std::abs;
-
 using namespace CLHEP;
 
 typedef HepRotation Rotation;
@@ -26,9 +24,9 @@ typedef Hep3Vector  Vector;
 int main() {
   int i,k;  
   double angA=CLHEP::pi/3, angB=CLHEP::pi/4, angC=CLHEP::pi/6; 
-  double cosA=cos(angA), sinA=sin(angA);
-  double cosB=cos(angB), sinB=sin(angB);
-  double cosC=cos(angC), sinC=sin(angC);
+  double cosA=std::cos(angA), sinA=std::sin(angA);
+  double cosB=std::cos(angB), sinB=std::sin(angB);
+  double cosC=std::cos(angC), sinC=std::sin(angC);
 
   Rotation R;                   // default constructor
   assert ( R.xx() == 1 );
@@ -85,15 +83,15 @@ int main() {
   R.rotateZ(angA);
   Rotation RR(R);
 
-  assert ( abs(RR.xx() - cosA*cosB*cosC + sinA*sinC) < DEL );
-  assert ( abs(RR.xy() + cosA*cosB*sinC + sinA*cosC) < DEL );
-  assert ( abs(RR.xz() - cosA*sinB)                  < DEL );
-  assert ( abs(RR.yx() - sinA*cosB*cosC - cosA*sinC) < DEL );
-  assert ( abs(RR.yy() + sinA*cosB*sinC - cosA*cosC) < DEL );
-  assert ( abs(RR.yz() - sinA*sinB)                  < DEL );
-  assert ( abs(RR.zx() + sinB*cosC)                  < DEL );
-  assert ( abs(RR.zy() - sinB*sinC)                  < DEL );
-  assert ( abs(RR.zz() - cosB)                       < DEL );
+  assert ( std::abs(RR.xx() - cosA*cosB*cosC + sinA*sinC) < DEL );
+  assert ( std::abs(RR.xy() + cosA*cosB*sinC + sinA*cosC) < DEL );
+  assert ( std::abs(RR.xz() - cosA*sinB)                  < DEL );
+  assert ( std::abs(RR.yx() - sinA*cosB*cosC - cosA*sinC) < DEL );
+  assert ( std::abs(RR.yy() + sinA*cosB*sinC - cosA*cosC) < DEL );
+  assert ( std::abs(RR.yz() - sinA*sinB)                  < DEL );
+  assert ( std::abs(RR.zx() + sinB*cosC)                  < DEL );
+  assert ( std::abs(RR.zy() - sinB*sinC)                  < DEL );
+  assert ( std::abs(RR.zz() - cosB)                       < DEL );
 
   RR = Rotation();              // operator=, operator!=, operator==
   assert ( RR != R );
@@ -124,33 +122,33 @@ int main() {
 
   Vector V(1,2,3);                                 // operator* (Vector) 
   V = R * V;
-  assert ( abs(V.x()-R.xx()-2.*R.xy()-3.*R.xz()) < DEL );
-  assert ( abs(V.y()-R.yx()-2.*R.yy()-3.*R.yz()) < DEL );
-  assert ( abs(V.z()-R.zx()-2.*R.zy()-3.*R.zz()) < DEL );
+  assert ( std::abs(V.x()-R.xx()-2.*R.xy()-3.*R.xz()) < DEL );
+  assert ( std::abs(V.y()-R.yx()-2.*R.yy()-3.*R.yz()) < DEL );
+  assert ( std::abs(V.z()-R.zx()-2.*R.zy()-3.*R.zz()) < DEL );
 
   R = A * B * C;                                  // operator*(Matrix)
-  assert ( abs(RR.xx() - R.xx()) < DEL );
-  assert ( abs(RR.xy() - R.xy()) < DEL );
-  assert ( abs(RR.xz() - R.xz()) < DEL );
-  assert ( abs(RR.yx() - R.yx()) < DEL );
-  assert ( abs(RR.yy() - R.yy()) < DEL );
-  assert ( abs(RR.yz() - R.yz()) < DEL );
-  assert ( abs(RR.zx() - R.zx()) < DEL );
-  assert ( abs(RR.zy() - R.zy()) < DEL );
-  assert ( abs(RR.zz() - R.zz()) < DEL );
+  assert ( std::abs(RR.xx() - R.xx()) < DEL );
+  assert ( std::abs(RR.xy() - R.xy()) < DEL );
+  assert ( std::abs(RR.xz() - R.xz()) < DEL );
+  assert ( std::abs(RR.yx() - R.yx()) < DEL );
+  assert ( std::abs(RR.yy() - R.yy()) < DEL );
+  assert ( std::abs(RR.yz() - R.yz()) < DEL );
+  assert ( std::abs(RR.zx() - R.zx()) < DEL );
+  assert ( std::abs(RR.zy() - R.zy()) < DEL );
+  assert ( std::abs(RR.zz() - R.zz()) < DEL );
 
   R = C;                                           // transform()
   R.transform(B);
   R.transform(A); 
-  assert ( abs(RR.xx() - R.xx()) < DEL );
-  assert ( abs(RR.xy() - R.xy()) < DEL );
-  assert ( abs(RR.xz() - R.xz()) < DEL );
-  assert ( abs(RR.yx() - R.yx()) < DEL );
-  assert ( abs(RR.yy() - R.yy()) < DEL );
-  assert ( abs(RR.yz() - R.yz()) < DEL );
-  assert ( abs(RR.zx() - R.zx()) < DEL );
-  assert ( abs(RR.zy() - R.zy()) < DEL );
-  assert ( abs(RR.zz() - R.zz()) < DEL );
+  assert ( std::abs(RR.xx() - R.xx()) < DEL );
+  assert ( std::abs(RR.xy() - R.xy()) < DEL );
+  assert ( std::abs(RR.xz() - R.xz()) < DEL );
+  assert ( std::abs(RR.yx() - R.yx()) < DEL );
+  assert ( std::abs(RR.yy() - R.yy()) < DEL );
+  assert ( std::abs(RR.yz() - R.yz()) < DEL );
+  assert ( std::abs(RR.zx() - R.zx()) < DEL );
+  assert ( std::abs(RR.zy() - R.zy()) < DEL );
+  assert ( std::abs(RR.zz() - R.zz()) < DEL );
 
   R = RR.inverse();                                // inverse()
   for(i=0; i<3; i++) { 
@@ -179,30 +177,30 @@ int main() {
   RR.rotateY(V.theta());
   RR.rotateZ(V.phi());
 
-  assert ( abs(RR.xx() - R.xx()) < DEL );
-  assert ( abs(RR.xy() - R.xy()) < DEL );
-  assert ( abs(RR.xz() - R.xz()) < DEL );
-  assert ( abs(RR.yx() - R.yx()) < DEL );
-  assert ( abs(RR.yy() - R.yy()) < DEL );
-  assert ( abs(RR.yz() - R.yz()) < DEL );
-  assert ( abs(RR.zx() - R.zx()) < DEL );
-  assert ( abs(RR.zy() - R.zy()) < DEL );
-  assert ( abs(RR.zz() - R.zz()) < DEL );
+  assert ( std::abs(RR.xx() - R.xx()) < DEL );
+  assert ( std::abs(RR.xy() - R.xy()) < DEL );
+  assert ( std::abs(RR.xz() - R.xz()) < DEL );
+  assert ( std::abs(RR.yx() - R.yx()) < DEL );
+  assert ( std::abs(RR.yy() - R.yy()) < DEL );
+  assert ( std::abs(RR.yz() - R.yz()) < DEL );
+  assert ( std::abs(RR.zx() - R.zx()) < DEL );
+  assert ( std::abs(RR.zy() - R.zy()) < DEL );
+  assert ( std::abs(RR.zz() - R.zz()) < DEL );
 
   Vector Vu = V.unit();                           // getAngleAxis
   R.getAngleAxis(ang, V);
-  assert ( abs(ang   - CLHEP::twopi/9.) < DEL );
-  assert ( abs(V.x() - Vu.x())     < DEL );
-  assert ( abs(V.y() - Vu.y())     < DEL );
-  assert ( abs(V.z() - Vu.z())     < DEL );
+  assert ( std::abs(ang   - CLHEP::twopi/9.) < DEL );
+  assert ( std::abs(V.x() - Vu.x())     < DEL );
+  assert ( std::abs(V.y() - Vu.y())     < DEL );
+  assert ( std::abs(V.z() - Vu.z())     < DEL );
 
-  assert ( abs(RR.phiX()-atan2(RR.yx(),RR.xx())) < DEL ); // phiX()
-  assert ( abs(RR.phiY()-atan2(RR.yy(),RR.xy())) < DEL ); // phiY()
-  assert ( abs(RR.phiZ()-atan2(RR.yz(),RR.xz())) < DEL ); // phiZ()
+  assert ( std::abs(RR.phiX()-std::atan2(RR.yx(),RR.xx())) < DEL ); // phiX()
+  assert ( std::abs(RR.phiY()-std::atan2(RR.yy(),RR.xy())) < DEL ); // phiY()
+  assert ( std::abs(RR.phiZ()-std::atan2(RR.yz(),RR.xz())) < DEL ); // phiZ()
 
-  assert ( abs(RR.thetaX()-acos(RR.zx())) < DEL );        // thetaX()
-  assert ( abs(RR.thetaY()-acos(RR.zy())) < DEL );        // thetaY()
-  assert ( abs(RR.thetaZ()-acos(RR.zz())) < DEL );        // thetaZ()
+  assert ( std::abs(RR.thetaX()-std::acos(RR.zx())) < DEL );        // thetaX()
+  assert ( std::abs(RR.thetaY()-std::acos(RR.zy())) < DEL );        // thetaY()
+  assert ( std::abs(RR.thetaZ()-std::acos(RR.zz())) < DEL );        // thetaZ()
 
   return 0;
 }           

@@ -26,7 +26,7 @@ HepBoost & HepBoost::set (double bx, double by, double bz) {
     ZMthrowA (ZMxpvTachyonic(
     "Boost Vector supplied to set HepBoost represents speed >= c."));
   }    
-  double ggamma = 1.0 / sqrt(1.0 - bp2);
+  double ggamma = 1.0 / std::sqrt(1.0 - bp2);
   double bgamma = ggamma * ggamma / (1.0 + ggamma);
   rep_.xx_ = 1.0 + bgamma * bx * bx;
   rep_.yy_ = 1.0 + bgamma * by * by;
@@ -110,11 +110,11 @@ double HepBoost::distance2( const HepLorentzRotation & lt ) const {
 }
 
 double HepBoost::howNear ( const HepRotation & r  ) const {
-  return sqrt(distance2(r));
+  return std::sqrt(distance2(r));
 }
 
 double HepBoost::howNear ( const HepLorentzRotation & lt  ) const {
-  return sqrt(distance2(lt));
+  return std::sqrt(distance2(lt));
 }
 
 bool HepBoost::isNear (const HepRotation & r, double epsilon) const {

@@ -28,12 +28,12 @@ namespace CLHEP  {
 
 
 double Hep3Vector::polarAngle (const Hep3Vector & v2) const {
-  return fabs(v2.getTheta() - getTheta());
+  return std::fabs(v2.getTheta() - getTheta());
 } /* polarAngle */
 
 double Hep3Vector::polarAngle (const Hep3Vector & v2,
 				const Hep3Vector & ref) const {
-  return fabs( v2.angle(ref) - angle(ref) );
+  return std::fabs( v2.angle(ref) - angle(ref) );
 } /* polarAngle (v2, ref) */
 
 // double Hep3Vector::azimAngle (const Hep3Vector & v2) const 

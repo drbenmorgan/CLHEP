@@ -27,11 +27,11 @@ HepBoostZ & HepBoostZ::set (double bbeta) {
     ZMthrowA (ZMxpvTachyonic(
     "Beta supplied to set HepBoostZ represents speed >= c."));
     beta_  = 1.0 - 1.0E-8;              // NaN-proofing
-    gamma_ = 1.0 / sqrt(1.0 - b2);
+    gamma_ = 1.0 / std::sqrt(1.0 - b2);
     return *this;
   }    
   beta_  = bbeta;
-  gamma_ = 1.0 / sqrt(1.0 - b2);
+  gamma_ = 1.0 / std::sqrt(1.0 - b2);
   return *this;
 }
 
@@ -130,7 +130,7 @@ void HepBoostZ::rectify() {
     beta_ = 1.0 - 1.0e-8;			// NaN-proofing
     b2 = beta_*beta_;
   } 
-  gamma_ = 1.0 / sqrt(1.0 - b2);
+  gamma_ = 1.0 / std::sqrt(1.0 - b2);
 }
 
 // ---------- Application:

@@ -119,13 +119,13 @@ double HepLorentzRotation::distance2(
 }
 
 double HepLorentzRotation::howNear( const HepBoost & b ) const {
-  return sqrt( distance2( b ) );
+  return std::sqrt( distance2( b ) );
 }
 double HepLorentzRotation::howNear( const HepRotation & r ) const {
-  return sqrt( distance2( r ) );
+  return std::sqrt( distance2( r ) );
 }
 double HepLorentzRotation::howNear( const HepLorentzRotation & lt )const {
-  return sqrt( distance2( lt ) );
+  return std::sqrt( distance2( lt ) );
 }
 
 bool HepLorentzRotation::isNear(

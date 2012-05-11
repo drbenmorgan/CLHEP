@@ -30,7 +30,7 @@ namespace CLHEP  {
 //-********************************
 
 double Hep3Vector::beta() const {
-  double b = sqrt(mag2());
+  double b = std::sqrt(mag2());
   if (b >= 1) {
     ZMthrowA (ZMxpvTachyonic(
       "Beta taken for Hep3Vector of at least unit length"));
@@ -39,7 +39,7 @@ double Hep3Vector::beta() const {
 }
 
 double Hep3Vector::gamma() const {
-  double bbeta = sqrt(mag2());
+  double bbeta = std::sqrt(mag2());
   if (bbeta == 1) {
     ZMthrowA (ZMxpvTachyonic(
       "Gamma taken for Hep3Vector of unit magnitude -- infinite result"));
@@ -49,22 +49,22 @@ double Hep3Vector::gamma() const {
       "Gamma taken for Hep3Vector of more than unit magnitude -- "
       "the sqrt function would return NAN" ));
   }
-  return 1/sqrt(1-bbeta*bbeta);
+  return 1/std::sqrt(1-bbeta*bbeta);
 }
 
 double Hep3Vector::rapidity() const {
-  if (fabs(dz) == 1) {
+  if (std::fabs(dz) == 1) {
     ZMthrowC (ZMxpvTachyonic(
       "Rapidity in Z direction taken for Hep3Vector with |Z| = 1 -- \n"
       "the log should return infinity"));
   }
-  if (fabs(dz) > 1) {
+  if (std::fabs(dz) > 1) {
     ZMthrowA (ZMxpvTachyonic(
       "Rapidity in Z direction taken for Hep3Vector with |Z| > 1 -- \n"
       "the log would return a NAN" ));
   }
-  // Want inverse tanh(dz):
-  return (.5 * log((1+dz)/(1-dz)) );
+  // Want inverse std::tanh(dz):
+  return (.5 * std::log((1+dz)/(1-dz)) );
 }
 
 double Hep3Vector::coLinearRapidity() const {
@@ -79,8 +79,8 @@ double Hep3Vector::coLinearRapidity() const {
       "Co-linear Rapidity taken for Hep3Vector of more than unit length -- "
       "the log would return a NAN" ));
   }
-  // Want inverse tanh(b):
-  return (.5 * log((1+b)/(1-b)) );
+  // Want inverse std::tanh(b):
+  return (.5 * std::log((1+b)/(1-b)) );
 }
 
 //-***********************************************
@@ -105,20 +105,20 @@ double Hep3Vector::rapidity(const Hep3Vector & v2) const {
     return 0;    
   }
   double z1 = dot(v2)/vmag;
-  if (fabs(z1) >= 1) {
+  if (std::fabs(z1) >= 1) {
     ZMthrowA (ZMxpvTachyonic(
       "Rapidity taken for too large a Hep3Vector "
       "-- would return infinity or NAN"));
   }
-  // Want inverse tanh(z1):
-  return (.5 * log((1+z1)/(1-z1)) );
+  // Want inverse std::tanh(z1):
+  return (.5 * std::log((1+z1)/(1-z1)) );
 }
 
 double Hep3Vector::eta(const Hep3Vector & v2) const {
-  // Defined as    -log ( tan ( .5* theta(u) ) );
+  // Defined as    -std::log ( std::tan ( .5* theta(u) ) );
   //
   // Quicker is to use cosTheta:
-  // tan (theta/2) = sin(theta)/(1 + cos(theta))
+  // std::tan (theta/2) = std::sin(theta)/(1 + std::cos(theta))
 
   double r1   = getR();
   double v2r = v2.mag();
@@ -134,7 +134,7 @@ double Hep3Vector::eta(const Hep3Vector & v2) const {
       "Pseudorapidity of vector relative to parallel vector -- "
       "will give infinite result"));
    			    // We can just go on; tangent will be 0, so
-			    // log (tangent) will be -INFINITY, so result
+			    // std::log (tangent) will be -INFINITY, so result
 			    // will be +INFINITY.
   }
   if ( c <= -1 ) {
@@ -149,8 +149,8 @@ double Hep3Vector::eta(const Hep3Vector & v2) const {
 			    // -INFINITY.
   }
 
-  double tangent = sqrt (1-c*c) / ( 1 + c );
-  return (- log (tangent));
+  double tangent = std::sqrt (1-c*c) / ( 1 + c );
+  return (- std::log (tangent));
 
 } /* eta (u) */
 

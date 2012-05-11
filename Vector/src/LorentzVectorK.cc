@@ -87,7 +87,7 @@ double HepLorentzVector::beta() const {
       "beta computed for a non-timelike HepLorentzVector"));
         // result will make analytic sense but is physically meaningless
   }
-  return sqrt (pp.mag2() / (ee*ee)) ;
+  return std::sqrt (pp.mag2() / (ee*ee)) ;
 } /* beta */
 
 double HepLorentzVector::gamma() const {
@@ -111,7 +111,7 @@ double HepLorentzVector::gamma() const {
     ZMthrowA (ZMxpvInfinity(
       "gamma computed for a lightlike HepLorentzVector -- infinite result"));
   }
-  return 1./sqrt(1. - v2/t2 );
+  return 1./std::sqrt(1. - v2/t2 );
 } /* gamma */
 
 
@@ -123,11 +123,11 @@ double HepLorentzVector::gamma() const {
 
 double HepLorentzVector::rapidity() const {
   register double z1 = pp.getZ();
-  if (fabs(ee) == fabs(z1)) {
+  if (std::fabs(ee) == std::fabs(z1)) {
     ZMthrowA (ZMxpvInfinity(
       "rapidity for 4-vector with |E| = |Pz| -- infinite result"));
   }
-  if (fabs(ee) < fabs(z1)) {
+  if (std::fabs(ee) < std::fabs(z1)) {
     ZMthrowA (ZMxpvSpacelike(
       "rapidity for spacelike 4-vector with |E| < |Pz| -- undefined"));
     return 0;
@@ -135,7 +135,7 @@ double HepLorentzVector::rapidity() const {
   double q = (ee + z1) / (ee - z1);
         //-| This cannot be negative now, since both numerator
         //-| and denominator have the same sign as ee.
-  return .5 * log(q);
+  return .5 * std::log(q);
 } /* rapidity */
 
 double HepLorentzVector::rapidity(const Hep3Vector & ref) const {
@@ -145,33 +145,33 @@ double HepLorentzVector::rapidity(const Hep3Vector & ref) const {
       "A zero vector used as reference to LorentzVector rapidity"));
     return 0;
   }
-  register double vdotu = pp.dot(ref)/sqrt(r);
-  if (fabs(ee) == fabs(vdotu)) {
+  register double vdotu = pp.dot(ref)/std::sqrt(r);
+  if (std::fabs(ee) == std::fabs(vdotu)) {
     ZMthrowA (ZMxpvInfinity(
       "rapidity for 4-vector with |E| = |Pu| -- infinite result"));
   }
-  if (fabs(ee) < fabs(vdotu)) {
+  if (std::fabs(ee) < std::fabs(vdotu)) {
     ZMthrowA (ZMxpvSpacelike(
       "rapidity for spacelike 4-vector with |E| < |P*ref| -- undefined "));
     return 0;
   }
   double q = (ee + vdotu) / (ee - vdotu);
-  return .5 * log(q);
+  return .5 * std::log(q);
 } /* rapidity(ref) */
 
 double HepLorentzVector::coLinearRapidity() const {
   register double v1 = pp.mag();
-  if (fabs(ee) == fabs(v1)) {
+  if (std::fabs(ee) == std::fabs(v1)) {
     ZMthrowA (ZMxpvInfinity(
       "co-Linear rapidity for 4-vector with |E| = |P| -- infinite result"));
   }
-  if (fabs(ee) < fabs(v1)) {
+  if (std::fabs(ee) < std::fabs(v1)) {
     ZMthrowA (ZMxpvSpacelike(
       "co-linear rapidity for spacelike 4-vector -- undefined"));
     return 0;
   }
   double q = (ee + v1) / (ee - v1);
-  return .5 * log(q);
+  return .5 * std::log(q);
 } /* rapidity */
 
 //-*************
@@ -201,7 +201,7 @@ double HepLorentzVector::invariantMass(const HepLorentzVector & w) const {
       return 0;
     }
   }
-  return (ee+w.ee >=0 ) ? sqrt(m1) : - sqrt(m1);
+  return (ee+w.ee >=0 ) ? std::sqrt(m1) : - std::sqrt(m1);
 } /* invariantMass */
 
 //-***************

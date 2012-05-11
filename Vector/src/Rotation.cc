@@ -19,12 +19,10 @@
 #include <iostream>
 #include <cmath>
 
-using std::abs;
-
 namespace CLHEP  {
 
 static inline double safe_acos (double x) {
-  if (abs(x) <= 1.0) return acos(x);
+  if (std::abs(x) <= 1.0) return std::acos(x);
   return ( (x>0) ? 0 : CLHEP::pi );
 }
 
@@ -53,7 +51,7 @@ HepRotation & HepRotation::rotate(double a, const Hep3Vector& aaxis) {
     if (ll == 0.0) {
       ZMthrowC (ZMxpvZeroVector("HepRotation: zero axis"));
     }else{
-      double sa = sin(a), ca = cos(a);
+      double sa = std::sin(a), ca = std::cos(a);
       double dx = aaxis.x()/ll, dy = aaxis.y()/ll, dz = aaxis.z()/ll;   
       HepRotation m1(
 	ca+(1-ca)*dx*dx,          (1-ca)*dx*dy-sa*dz,    (1-ca)*dx*dz+sa*dy,
@@ -66,8 +64,8 @@ HepRotation & HepRotation::rotate(double a, const Hep3Vector& aaxis) {
 }
 
 HepRotation & HepRotation::rotateX(double a) {
-  double c1 = cos(a);
-  double s1 = sin(a);
+  double c1 = std::cos(a);
+  double s1 = std::sin(a);
   double x1 = ryx, y1 = ryy, z1 = ryz; 
   ryx = c1*x1 - s1*rzx;
   ryy = c1*y1 - s1*rzy;
@@ -79,8 +77,8 @@ HepRotation & HepRotation::rotateX(double a) {
 }
 
 HepRotation & HepRotation::rotateY(double a){
-  double c1 = cos(a);
-  double s1 = sin(a);
+  double c1 = std::cos(a);
+  double s1 = std::sin(a);
   double x1 = rzx, y1 = rzy, z1 = rzz; 
   rzx = c1*x1 - s1*rxx;
   rzy = c1*y1 - s1*rxy;
@@ -92,8 +90,8 @@ HepRotation & HepRotation::rotateY(double a){
 }
 
 HepRotation & HepRotation::rotateZ(double a) {
-  double c1 = cos(a);
-  double s1 = sin(a);
+  double c1 = std::cos(a);
+  double s1 = std::sin(a);
   double x1 = rxx, y1 = rxy, z1 = rxz; 
   rxx = c1*x1 - s1*ryx;
   rxy = c1*y1 - s1*ryy;
@@ -110,15 +108,15 @@ HepRotation & HepRotation::rotateAxes(const Hep3Vector &newX,
   double del = 0.001;
   Hep3Vector w = newX.cross(newY);
 
-  if (abs(newZ.x()-w.x()) > del ||
-      abs(newZ.y()-w.y()) > del ||
-      abs(newZ.z()-w.z()) > del ||
-      abs(newX.mag2()-1.) > del ||
-      abs(newY.mag2()-1.) > del || 
-      abs(newZ.mag2()-1.) > del ||
-      abs(newX.dot(newY)) > del ||
-      abs(newY.dot(newZ)) > del ||
-      abs(newZ.dot(newX)) > del) {
+  if (std::abs(newZ.x()-w.x()) > del ||
+      std::abs(newZ.y()-w.y()) > del ||
+      std::abs(newZ.z()-w.z()) > del ||
+      std::abs(newX.mag2()-1.) > del ||
+      std::abs(newY.mag2()-1.) > del || 
+      std::abs(newZ.mag2()-1.) > del ||
+      std::abs(newX.dot(newY)) > del ||
+      std::abs(newY.dot(newZ)) > del ||
+      std::abs(newZ.dot(newX)) > del) {
     std::cerr << "HepRotation::rotateAxes: bad axis vectors" << std::endl;
     return *this;
   }else{
@@ -160,13 +158,13 @@ void HepRotation::getAngleAxis(double &angle, Hep3Vector &aaxis) const {
     aaxis  = Hep3Vector(0,0,1);
   }else{
     double x=0, y=0, z=0;
-    if (xx() > cosa) x = sqrt((xx()-cosa)/cosa1);
-    if (yy() > cosa) y = sqrt((yy()-cosa)/cosa1);
-    if (zz() > cosa) z = sqrt((zz()-cosa)/cosa1);
+    if (xx() > cosa) x = std::sqrt((xx()-cosa)/cosa1);
+    if (yy() > cosa) y = std::sqrt((yy()-cosa)/cosa1);
+    if (zz() > cosa) z = std::sqrt((zz()-cosa)/cosa1);
     if (zy() < yz()) x = -x;
     if (xz() < zx()) y = -y;
     if (yx() < xy()) z = -z;
-    angle = (cosa < -1.) ? acos(-1.) : acos(cosa);
+    angle = (cosa < -1.) ? std::acos(-1.) : std::acos(cosa);
     aaxis  = Hep3Vector(x,y,z);
   }
 }

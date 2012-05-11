@@ -36,8 +36,8 @@ int main () {
   // enough to give reasonable results even without this step since
   // round off errors in floating point operations could also cause
   // such a loss of precision).
-  rot.setXX (rot.xx()/sqrt(corr));  rot.setXY (rot.xy()/sqrt(corr));
-  rot.setYX (rot.yx()/sqrt(corr));  rot.setYY (rot.yy()/sqrt(corr));
+  rot.setXX (rot.xx()/std::sqrt(corr));  rot.setXY (rot.xy()/std::sqrt(corr));
+  rot.setYX (rot.yx()/std::sqrt(corr));  rot.setYY (rot.yy()/std::sqrt(corr));
 
   cout.setf (std::ios::scientific, std::ios::floatfield);
   rot.print (cout); cout << "\n";

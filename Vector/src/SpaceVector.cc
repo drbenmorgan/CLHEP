@@ -48,10 +48,10 @@ void Hep3Vector::setSpherical (
       "Spherical coordinates set with theta not in [0, PI]"));
 	// No special return needed if warning is ignored.
   }
-  dz = r1 * cos(theta1);
-  double rho1 ( r1*sin(theta1));
-  dy = rho1 * sin (phi1);
-  dx = rho1 * cos (phi1);
+  dz = r1 * std::cos(theta1);
+  double rho1 ( r1*std::sin(theta1));
+  dy = rho1 * std::sin (phi1);
+  dx = rho1 * std::cos (phi1);
   return;
 } /* setSpherical (r, theta1, phi) */
 
@@ -65,8 +65,8 @@ void Hep3Vector::setCylindrical (
     // No special return needed if warning is ignored.
   }
   dz = z1;
-  dy = rho1 * sin (phi1);
-  dx = rho1 * cos (phi1);
+  dy = rho1 * std::sin (phi1);
+  dx = rho1 * std::cos (phi1);
   return;
 } /* setCylindrical (r, phi, z) */
 
@@ -91,9 +91,9 @@ void Hep3Vector::setRhoPhiTheta (
       "Rho, phi, theta set with theta not in [0, PI]"));
 	// No special return needed if warning is ignored.
   }
-  dz = rho1 / tan (theta1);
-  dy = rho1 * sin (phi1);
-  dx = rho1 * cos (phi1);
+  dz = rho1 / std::tan (theta1);
+  dy = rho1 * std::sin (phi1);
+  dx = rho1 * std::cos (phi1);
   return;
 } /* setCyl (rho, phi, theta) */
 
@@ -108,10 +108,10 @@ void Hep3Vector::setRhoPhiEta (
     dx = 0; dy = 0; dz = 0;
     return;
   }
-  double theta1 (2 * atan ( exp (-eta1) ));
-  dz = rho1 / tan (theta1);
-  dy = rho1 * sin (phi1);
-  dx = rho1 * cos (phi1);
+  double theta1 (2 * std::atan ( std::exp (-eta1) ));
+  dz = rho1 / std::tan (theta1);
+  dy = rho1 * std::sin (phi1);
+  dx = rho1 * std::cos (phi1);
   return;
 } /* setCyl (rho, phi, eta) */
 
@@ -171,7 +171,7 @@ bool Hep3Vector::operator<= (const Hep3Vector & v) const {
 
 double Hep3Vector::howParallel (const Hep3Vector & v) const {
   // | V1 x V2 | / | V1 dot V2 |
-  double v1v2 = fabs(dot(v));
+  double v1v2 = std::fabs(dot(v));
   if ( v1v2 == 0 ) {
     // Zero is parallel to no other vector except for zero.
     return ( (mag2() == 0) && (v.mag2() == 0) ) ? 0 : 1;
@@ -190,9 +190,9 @@ bool Hep3Vector::isParallel (const Hep3Vector & v,
   // | V1 x V2 | **2  <= epsilon **2 | V1 dot V2 | **2
   // V1 is *this, V2 is v
 
-  static const double TOOBIG = pow(2.0,507);
-  static const double SCALE  = pow(2.0,-507);
-  double v1v2 = fabs(dot(v));
+  static const double TOOBIG = std::pow(2.0,507);
+  static const double SCALE  = std::pow(2.0,-507);
+  double v1v2 = std::fabs(dot(v));
   if ( v1v2 == 0 ) {
     return ( (mag2() == 0) && (v.mag2() == 0) );
   }
@@ -209,9 +209,9 @@ bool Hep3Vector::isParallel (const Hep3Vector & v,
   // At this point we know v1v2 can be squared.
 
   Hep3Vector v1Xv2 ( cross(v) );
-  if (  (fabs (v1Xv2.dx) > TOOBIG) ||
-        (fabs (v1Xv2.dy) > TOOBIG) ||
-        (fabs (v1Xv2.dz) > TOOBIG) ) {
+  if (  (std::fabs (v1Xv2.dx) > TOOBIG) ||
+        (std::fabs (v1Xv2.dy) > TOOBIG) ||
+        (std::fabs (v1Xv2.dz) > TOOBIG) ) {
     return false;
   }
                     
@@ -223,7 +223,7 @@ bool Hep3Vector::isParallel (const Hep3Vector & v,
 double Hep3Vector::howOrthogonal (const Hep3Vector & v) const {
   // | V1 dot V2 | / | V1 x V2 | 
 
-  double v1v2 = fabs(dot(v));
+  double v1v2 = std::fabs(dot(v));
 	//-| Safe because both v1 and v2 can be squared
   if ( v1v2 == 0 ) {
     return 0;	// Even if one or both are 0, they are considered orthogonal
@@ -243,9 +243,9 @@ bool Hep3Vector::isOrthogonal (const Hep3Vector & v,
 // | V1 x V2 | **2  <= epsilon **2 | V1 dot V2 | **2
 // V1 is *this, V2 is v
 
-  static const double TOOBIG = pow(2.0,507);
-  static const double SCALE = pow(2.0,-507);
-  double v1v2 = fabs(dot(v));
+  static const double TOOBIG = std::pow(2.0,507);
+  static const double SCALE = std::pow(2.0,-507);
+  double v1v2 = std::fabs(dot(v));
         //-| Safe because both v1 and v2 can be squared
   if ( v1v2 >= TOOBIG ) {
     Hep3Vector sv1 ( *this * SCALE );
@@ -260,9 +260,9 @@ bool Hep3Vector::isOrthogonal (const Hep3Vector & v,
   // At this point we know v1v2 can be squared.
 
   Hep3Vector eps_v1Xv2 ( cross(epsilon*v) );
-  if (  (fabs (eps_v1Xv2.dx) > TOOBIG) ||
-        (fabs (eps_v1Xv2.dy) > TOOBIG) ||
-        (fabs (eps_v1Xv2.dz) > TOOBIG) ) {
+  if (  (std::fabs (eps_v1Xv2.dx) > TOOBIG) ||
+        (std::fabs (eps_v1Xv2.dy) > TOOBIG) ||
+        (std::fabs (eps_v1Xv2.dz) > TOOBIG) ) {
     return true;
   }
 

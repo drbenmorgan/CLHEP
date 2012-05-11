@@ -53,8 +53,8 @@ double & Hep2Vector::operator () (int i) {
 }
 
 void Hep2Vector::rotate(double angler) {
-  double s = sin(angler);
-  double c = cos(angler);
+  double s = std::sin(angler);
+  double c = std::cos(angler);
   double xx = dx;
   dx = c*xx - s*dy;
   dy = s*xx + c*dy;
@@ -123,7 +123,7 @@ double Hep2Vector::howNear(const Hep2Vector & p ) const {
   double d   = (*this - p).mag2();
   double pdp = dot(p);
   if ( (pdp > 0) && (d < pdp)  ) {
-    return sqrt (d/pdp);
+    return std::sqrt (d/pdp);
   } else if ( (pdp == 0) && (d == 0) ) {
     return 0;
   } else {
@@ -134,12 +134,12 @@ double Hep2Vector::howNear(const Hep2Vector & p ) const {
 double Hep2Vector::howParallel (const Hep2Vector & v) const {
   // | V1 x V2 | / | V1 dot V2 |
   // Of course, the "cross product" is fictitious but the math is valid
-  double v1v2 = fabs(dot(v));
+  double v1v2 = std::fabs(dot(v));
   if ( v1v2 == 0 ) {
     // Zero is parallel to no other vector except for zero.
     return ( (mag2() == 0) && (v.mag2() == 0) ) ? 0 : 1;
   }
-  double abscross = fabs ( dx * v.y() - dy - v.x() );
+  double abscross = std::fabs ( dx * v.y() - dy - v.x() );
   if ( abscross >= v1v2 ) {
     return 1;
   } else {
@@ -151,23 +151,23 @@ bool Hep2Vector::isParallel (const Hep2Vector & v,
 			     double epsilon) const {
   // | V1 x V2 | <= epsilon * | V1 dot V2 | 
   // Of course, the "cross product" is fictitious but the math is valid
-  double v1v2 = fabs(dot(v));
+  double v1v2 = std::fabs(dot(v));
   if ( v1v2 == 0 ) {
     // Zero is parallel to no other vector except for zero.
     return ( (mag2() == 0) && (v.mag2() == 0) );
   }
-  double abscross = fabs ( dx * v.y() - dy - v.x() );
+  double abscross = std::fabs ( dx * v.y() - dy - v.x() );
   return ( abscross <= epsilon * v1v2 );
 } /* isParallel() */
 
 double Hep2Vector::howOrthogonal (const Hep2Vector & v) const {
   // | V1 dot V2 | / | V1 x V2 | 
   // Of course, the "cross product" is fictitious but the math is valid
-  double v1v2 = fabs(dot(v));
+  double v1v2 = std::fabs(dot(v));
   if ( v1v2 == 0 ) {
     return 0;	// Even if one or both are 0, they are considered orthogonal
   }
-  double abscross = fabs ( dx * v.y() - dy - v.x() );
+  double abscross = std::fabs ( dx * v.y() - dy - v.x() );
   if ( v1v2 >= abscross ) {
     return 1;
   } else {
@@ -179,8 +179,8 @@ bool Hep2Vector::isOrthogonal (const Hep2Vector & v,
 			     double epsilon) const {
   // | V1 dot V2 | <= epsilon * | V1 x V2 | 
   // Of course, the "cross product" is fictitious but the math is valid
-  double v1v2 = fabs(dot(v));
-  double abscross = fabs ( dx * v.y() - dy - v.x() );
+  double v1v2 = std::fabs(dot(v));
+  double abscross = std::fabs ( dx * v.y() - dy - v.x() );
   return ( v1v2 <= epsilon * abscross );
 } /* isOrthogonal() */
 

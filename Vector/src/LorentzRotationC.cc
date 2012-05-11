@@ -39,63 +39,63 @@ HepLorentzRotation & HepLorentzRotation::set (const HepLorentzVector & ccol1,
   }
 
   double u1u1 = ccol1.dot(ccol1);
-  double f11  = fabs(u1u1 + 1.0);
+  double f11  = std::fabs(u1u1 + 1.0);
   if ( f11 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotSymplectic(
       "column 1 supplied for HepLorentzRotation has w*w != -1"));
   }
   double u2u2 = ccol2.dot(ccol2);
-  double f22  = fabs(u2u2 + 1.0);
+  double f22  = std::fabs(u2u2 + 1.0);
   if ( f22 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotSymplectic(
       "column 2 supplied for HepLorentzRotation has w*w != -1"));
   }
   double u3u3 = ccol3.dot(ccol3);
-  double f33  = fabs(u3u3 + 1.0);
+  double f33  = std::fabs(u3u3 + 1.0);
   if ( f33 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotSymplectic(
       "column 3 supplied for HepLorentzRotation has w*w != -1"));
   }
   double u4u4 = ccol4.dot(ccol4);
-  double f44  = fabs(u4u4 - 1.0);
+  double f44  = std::fabs(u4u4 - 1.0);
   if ( f44 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotSymplectic(
       "column 4 supplied for HepLorentzRotation has w*w != +1"));
   }
 
   double u1u2 = ccol1.dot(ccol2);
-  double f12  = fabs(u1u2);
+  double f12  = std::fabs(u1u2);
   if ( f12 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotOrthogonal(
    "columns 1 and 2 supplied for HepLorentzRotation have non-zero dot"));
   }
   double u1u3 = ccol1.dot(ccol3);
-  double f13  = fabs(u1u3);
+  double f13  = std::fabs(u1u3);
 
   if ( f13 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotOrthogonal(
    "columns 1 and 3 supplied for HepLorentzRotation have non-zero dot"));
   }
   double u1u4 = ccol1.dot(ccol4);
-  double f14  = fabs(u1u4);
+  double f14  = std::fabs(u1u4);
   if ( f14 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotOrthogonal(
    "columns 1 and 4 supplied for HepLorentzRotation have non-zero dot"));
   }
   double u2u3 = ccol2.dot(ccol3);
-  double f23  = fabs(u2u3);
+  double f23  = std::fabs(u2u3);
   if ( f23 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotOrthogonal(
    "columns 2 and 3 supplied for HepLorentzRotation have non-zero dot"));
   }
   double u2u4 = ccol2.dot(ccol4);
-  double f24  = fabs(u2u4);
+  double f24  = std::fabs(u2u4);
   if ( f24 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotOrthogonal(
    "columns 2 and 4 supplied for HepLorentzRotation have non-zero dot"));
   }
   double u3u4 = ccol3.dot(ccol4);
-  double f34  = fabs(u3u4);
+  double f34  = std::fabs(u3u4);
   if ( f34 > Hep4RotationInterface::tolerance ) {
     ZMthrowC (ZMxpvNotOrthogonal(
    "columns 3 and 4 supplied for HepLorentzRotation have non-zero dot"));

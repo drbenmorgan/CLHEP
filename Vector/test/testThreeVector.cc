@@ -16,7 +16,6 @@
 #include <iostream>
 #include <stdlib.h>	// for exit
 
-using namespace std;
 using namespace CLHEP;
 
 
@@ -24,7 +23,7 @@ using namespace CLHEP;
 #define FEPS 1.0e-6
 
 bool approx(double a, double b, double eps) {
-  return bool( abs(a-b) < eps );
+  return bool( std::abs(a-b) < eps );
 }
 
 bool
@@ -51,10 +50,10 @@ int main () {
 
 // test input/output from a stream
 
-  cin >> d0; if ( !test(d0, 1.1, 2.2, 3.3, DEPS) ) exit(1); 
-  cin >> f0; if ( !test(f0, 3.0, 2.0, 1.0, FEPS) ) exit(1); 
-  cout << d0 << endl;
-  cout << f0 << endl;
+  std::cin >> d0; if ( !test(d0, 1.1, 2.2, 3.3, DEPS) ) exit(1); 
+  std::cin >> f0; if ( !test(f0, 3.0, 2.0, 1.0, FEPS) ) exit(1); 
+  std::cout << d0 << std::endl;
+  std::cout << f0 << std::endl;
 
 // test assignment:
 
@@ -141,13 +140,13 @@ int main () {
   d4 = d1 + f2 + d3;
   f4 = d1 + f2 + d3;
   if ( !approx(d4.mag2(), 14.0, FEPS) ) exit(8);
-  if ( !approx(d4.mag(), sqrt(14.0), FEPS) ) exit(8);
+  if ( !approx(d4.mag(), std::sqrt(14.0), FEPS) ) exit(8);
   if ( !approx(d4.perp2(), 13.0, FEPS) ) exit(8);
-  if ( !approx(d4.perp(), sqrt(13.0), FEPS) ) exit(8);
+  if ( !approx(d4.perp(), std::sqrt(13.0), FEPS) ) exit(8);
   if ( !approx(f4.mag2(), 14.0, FEPS) ) exit(8);
-  if ( !approx(f4.mag(), sqrt(14.0), FEPS) ) exit(8);
+  if ( !approx(f4.mag(), std::sqrt(14.0), FEPS) ) exit(8);
   if ( !approx(f4.perp2(), 13.0, FEPS) ) exit(8);
-  if ( !approx(f4.perp(), sqrt(13.0), FEPS) ) exit(8);
+  if ( !approx(f4.perp(), std::sqrt(13.0), FEPS) ) exit(8);
 
 // testing angles:
 
@@ -173,14 +172,14 @@ int main () {
 
   d4 = d3 - d1; if ( !approx(d4.theta(), CLHEP::halfpi*0.5, DEPS) ) exit(9);
   if ( !approx((-d4).theta(), 3.0*CLHEP::halfpi*0.5, DEPS) ) exit(9);
-  if ( !approx((-d4).cosTheta(), -sqrt(0.5), DEPS) ) exit(9);
+  if ( !approx((-d4).cosTheta(), -std::sqrt(0.5), DEPS) ) exit(9);
   d4 = d3 - d2; if ( !approx(d4.theta(), 0.0, DEPS) ) exit(9);
   if ( !approx(d4.cosTheta(), 1.0, DEPS) ) exit(9);
   if ( !approx((-d4).theta(), CLHEP::pi, DEPS) ) exit(9);
   if ( !approx((-d4).cosTheta(), -1.0, DEPS) ) exit(9);
   f4 = d3 - d1; if ( !approx(f4.theta(), CLHEP::halfpi*0.5, FEPS) ) exit(9);
   if ( !approx((-f4).theta(), 3.0*CLHEP::halfpi*0.5, FEPS) ) exit(9);
-  if ( !approx((-f4).cosTheta(), -sqrt(0.5), FEPS) ) exit(9);
+  if ( !approx((-f4).cosTheta(), -std::sqrt(0.5), FEPS) ) exit(9);
   f4 = d3 - d2; if ( !approx(f4.theta(), 0.0, FEPS) ) exit(9);
   if ( !approx(f4.cosTheta(), 1.0, FEPS) ) exit(9);
   if ( !approx((-f4).theta(), CLHEP::pi, FEPS) ) exit(9);
@@ -198,7 +197,7 @@ int main () {
   d4.rotateY(CLHEP::halfpi); if ( !test(d4, 0.0, 0.0, 1.0, DEPS) ) exit(10);
   d4.rotateZ(2.6); if ( !test(d4, 0.0, 0.0, 1.0, DEPS) ) exit(10);
   d4.rotateY(CLHEP::pi*0.25);
-  if ( !test(d4, sqrt(0.5), 0.0, sqrt(0.5), DEPS) ) exit(10);
+  if ( !test(d4, std::sqrt(0.5), 0.0, std::sqrt(0.5), DEPS) ) exit(10);
   f4 = f1;
   f4.rotateZ(CLHEP::halfpi); if ( !test(f4, 0.0, 1.0, 0.0, FEPS) ) exit(10);
   f4.rotateY(25.3); if ( !test(f4, 0.0, 1.0, 0.0, FEPS) ) exit(10);
@@ -206,7 +205,7 @@ int main () {
   f4.rotateY(CLHEP::halfpi); if ( !test(f4, 0.0, 0.0, 1.0, FEPS) ) exit(10);
   f4.rotateZ(2.6); if ( !test(f4, 0.0, 0.0, 1.0, FEPS) ) exit(10);
   f4.rotateY(CLHEP::pi*0.25);
-  if ( !test(f4, sqrt(0.5), 0.0, sqrt(0.5), FEPS) ) exit(10);
+  if ( !test(f4, std::sqrt(0.5), 0.0, std::sqrt(0.5), FEPS) ) exit(10);
 
   d4 = d1;
   d4.rotate(d4.angle(d3), d4.cross(d3));

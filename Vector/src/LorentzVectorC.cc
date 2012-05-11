@@ -57,7 +57,7 @@ bool HepLorentzVector::operator<= (const HepLorentzVector & w) const {
 
 bool HepLorentzVector::isNear(const HepLorentzVector & w, 
 						double epsilon) const {
-  double limit = fabs(pp.dot(w.pp));
+  double limit = std::fabs(pp.dot(w.pp));
   limit += .25*((ee+w.ee)*(ee+w.ee));
   limit *= epsilon*epsilon;
   double delta = (pp - w.pp).mag2();
@@ -66,10 +66,10 @@ bool HepLorentzVector::isNear(const HepLorentzVector & w,
 } /* isNear() */
 
 double HepLorentzVector::howNear(const HepLorentzVector & w) const {
-  double wdw = fabs(pp.dot(w.pp)) + .25*((ee+w.ee)*(ee+w.ee));
+  double wdw = std::fabs(pp.dot(w.pp)) + .25*((ee+w.ee)*(ee+w.ee));
   double delta = (pp - w.pp).mag2() + (ee-w.ee)*(ee-w.ee);
   if ( (wdw > 0) && (delta < wdw)  ) {
-    return sqrt (delta/wdw);
+    return std::sqrt (delta/wdw);
   } else if ( (wdw == 0) && (delta == 0) ) {
     return 0;
   } else {
@@ -116,7 +116,7 @@ bool HepLorentzVector::isNearCM
 
   double b2 = vTotal2*tRecip*tRecip;
 
-  register double ggamma = sqrt(1./(1.-b2));
+  register double ggamma = std::sqrt(1./(1.-b2));
   register double boostDotV1 = bboost.dot(pp);
   register double gm1_b2 = (ggamma-1)/b2;
 
@@ -171,7 +171,7 @@ double HepLorentzVector::howNearCM(const HepLorentzVector & w) const {
     ZMthrowC ( ZMxpvTachyonic (
 	"boost vector in howNearCM appears to be tachyonic"));
   }
-  register double ggamma = sqrt(1./(1.-b2));
+  register double ggamma = std::sqrt(1./(1.-b2));
   register double boostDotV1 = bboost.dot(pp);
   register double gm1_b2 = (ggamma-1)/b2;
 
@@ -198,7 +198,7 @@ double HepLorentzVector::deltaR ( const HepLorentzVector & w ) const {
   double a = eta() - w.eta();
   double b = pp.deltaPhi(w.getV());
 
-  return sqrt ( a*a + b*b );
+  return std::sqrt ( a*a + b*b );
 
 } /* deltaR */
 
@@ -248,7 +248,7 @@ double HepLorentzVector::howParallel (const HepLorentzVector & w) const {
 } /* howParallel */
 
 double HepLorentzVector::howLightlike() const {
-  double m1 = fabs(restMass2());
+  double m1 = std::fabs(restMass2());
   double twoT2 = 2*ee*ee;
   if (m1 < twoT2) {
     return m1/twoT2;

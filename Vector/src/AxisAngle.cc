@@ -20,8 +20,8 @@ double HepAxisAngle::tolerance = Hep3Vector::ToleranceTicks * 1.0e-08;
 
 static void ZMpvAxisAngleRep( const HepAxisAngle & aa, double array[] ) {
 
-  register double sinDelta = sin( aa.delta() );
-  register double cosDelta = cos( aa.delta() );
+  register double sinDelta = std::sin( aa.delta() );
+  register double cosDelta = std::cos( aa.delta() );
   register double oneMinusCosDelta = 1.0 - cosDelta;
 
   register double uX = aa.getAxis().getX();
@@ -57,7 +57,7 @@ double HepAxisAngle::distance( const AA & aa ) const  {
   }
 
   double d = 3.0 - sum;		// NaN-proofing: 
-  return  (d >= 0) ? d : 0;             // sqrt(distance) is used in howNear()
+  return  (d >= 0) ? d : 0;             // std::sqrt(distance) is used in howNear()
 
 }  // HepAxisAngle::distance()
 
@@ -71,7 +71,7 @@ bool HepAxisAngle::isNear( const AA & aa, Scalar epsilon ) const  {
 
 double HepAxisAngle::howNear( const AA & aa ) const  {
 
-  return  sqrt( distance( aa ) );
+  return  std::sqrt( distance( aa ) );
 
 }  // HepAxisAngle::howNear()
 

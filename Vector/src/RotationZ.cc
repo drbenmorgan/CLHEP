@@ -22,23 +22,21 @@
 #include <stdlib.h>
 #include <iostream>
 
-using std::abs;
-
 namespace CLHEP  {
 
 static inline double safe_acos (double x) {
-  if (abs(x) <= 1.0) return acos(x);
+  if (std::abs(x) <= 1.0) return std::acos(x);
   return ( (x>0) ? 0 : CLHEP::pi );
 }
 
 HepRotationZ::HepRotationZ(double dddelta) : 
-		d(proper(dddelta)), s(sin(dddelta)), c(cos(dddelta))
+		d(proper(dddelta)), s(std::sin(dddelta)), c(std::cos(dddelta))
 {}
 
 HepRotationZ & HepRotationZ::set ( double dddelta ) {
   d = proper(dddelta);
-  s = sin(d);
-  c = cos(d);
+  s = std::sin(d);
+  c = std::cos(d);
   return *this;
 }
 
@@ -67,16 +65,16 @@ HepEulerAngles HepRotationZ::eulerAngles() const {
 // shown opportunities for significant speed improvement.
 
 double HepRotationZ::phiX() const {
-  return (yx() == 0.0 && xx() == 0.0) ? 0.0 : atan2(yx(),xx());
+  return (yx() == 0.0 && xx() == 0.0) ? 0.0 : std::atan2(yx(),xx());
   		// or ---- return d;
 }
 
 double HepRotationZ::phiY() const {
-  return (yy() == 0.0 && xy() == 0.0) ? 0.0 : atan2(yy(),xy());
+  return (yy() == 0.0 && xy() == 0.0) ? 0.0 : std::atan2(yy(),xy());
 }
 
 double HepRotationZ::phiZ() const {
-  return (yz() == 0.0 && xz() == 0.0) ? 0.0 : atan2(yz(),xz());
+  return (yz() == 0.0 && xz() == 0.0) ? 0.0 : std::atan2(yz(),xz());
 		// or ---- return 0.0;
 }
 
@@ -151,16 +149,16 @@ double HepRotationZ::distance2( const HepBoost & lt ) const {
 }
 
 double HepRotationZ::howNear( const HepRotationZ & r ) const {
-  return sqrt(distance2(r));
+  return std::sqrt(distance2(r));
 }
 double HepRotationZ::howNear( const HepRotation & r ) const {
-  return sqrt(distance2(r));
+  return std::sqrt(distance2(r));
 }
 double HepRotationZ::howNear( const HepBoost & lt ) const {
-  return sqrt(distance2(lt));
+  return std::sqrt(distance2(lt));
 }
 double HepRotationZ::howNear( const HepLorentzRotation & lt ) const {
-  return sqrt(distance2(lt));
+  return std::sqrt(distance2(lt));
 }
 bool HepRotationZ::isNear(const HepRotationZ & r,double epsilon)const {
   return (distance2(r) <= epsilon*epsilon);

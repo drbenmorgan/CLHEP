@@ -73,10 +73,10 @@ int main () {
   if ( !test(d0, 0.0, 0.0, 0.0, 0.0, DEPS) ) exit(1);
   HepLorentzVector d1(d3x, 1.0);
   if ( !test(d1, 1.0, 0.0, 0.0, 1.0, DEPS) ) exit(1);
-  HepLorentzVector d2(d3x + d3y, sqrt(2.0));
-  if ( !test(d2, 1.0, 1.0, 0.0, sqrt(2.0), DEPS) ) exit(1);
-  HepLorentzVector d3(d3z + d2, sqrt(3.0));
-  if ( !test(d3, 1.0, 1.0, 1.0, sqrt(3.0), DEPS) ) exit(1);
+  HepLorentzVector d2(d3x + d3y, std::sqrt(2.0));
+  if ( !test(d2, 1.0, 1.0, 0.0, std::sqrt(2.0), DEPS) ) exit(1);
+  HepLorentzVector d3(d3z + d2, std::sqrt(3.0));
+  if ( !test(d3, 1.0, 1.0, 1.0, std::sqrt(3.0), DEPS) ) exit(1);
   HepLorentzVector d4(0.0, 0.0, 0.0, 1.0);
   if ( !test(d4,0.0, 0.0, 0.0, 1.0, DEPS) ) exit(1);
   HepLorentzVector d5(f3x, f3x.mag()); if ( !test(d5, d1, FEPS) ) exit(1);
@@ -88,10 +88,10 @@ int main () {
   HepLorentzVector f0; if ( !test(f0, 0.0, 0.0, 0.0, 0.0, FEPS) ) exit(1);
   HepLorentzVector f1(f3x, 1.0);
   if ( !test(f1, 1.0, 0.0, 0.0, 1.0, FEPS) ) exit(1);
-  HepLorentzVector f2(f3x + f3y, sqrt(2.0));
-  if ( !test(f2, 1.0, 1.0, 0.0, sqrt(2.0), FEPS) ) exit(1);
-  HepLorentzVector f3(f3z + f2, sqrt(3.0));
-  if ( !test(f3, 1.0, 1.0, 1.0, sqrt(3.0), FEPS) ) exit(1);
+  HepLorentzVector f2(f3x + f3y, std::sqrt(2.0));
+  if ( !test(f2, 1.0, 1.0, 0.0, std::sqrt(2.0), FEPS) ) exit(1);
+  HepLorentzVector f3(f3z + f2, std::sqrt(3.0));
+  if ( !test(f3, 1.0, 1.0, 1.0, std::sqrt(3.0), FEPS) ) exit(1);
   HepLorentzVector f4(0.0, 0.0, 0.0, 1.0);
   if ( !test(f4,0.0, 0.0, 0.0, 1.0, FEPS) ) exit(1);
   HepLorentzVector f5(d3x, d3x.mag()); if ( !test(f5, f1, FEPS) ) exit(1);
@@ -105,9 +105,9 @@ int main () {
   HepLorentzVector f8(f7); if ( !test(f8, d7, FEPS) ) exit(1);
   HepLorentzVector f9(d7); if ( !test(f9, d7, FEPS) ) exit(1);
 
-  HepLorentzVector d10(1.0, 1.0, 1.0, sqrt(3.0));
+  HepLorentzVector d10(1.0, 1.0, 1.0, std::sqrt(3.0));
   if ( !test(d10, d7, FEPS) ) exit(1);
-  HepLorentzVector f10(1.0, 1.0, 1.0, sqrt(3.0));
+  HepLorentzVector f10(1.0, 1.0, 1.0, std::sqrt(3.0));
   if ( !test(f10, f7, FEPS) ) exit(1);
 
   HepLorentzVector d11(d3x+d3y+d3z, 1.0);
@@ -132,19 +132,19 @@ int main () {
   //testing addition and subtraction:
 
   d11 = d3 + d7 + f3;
-  if ( !test(d11, 3.0, 3.0, 3.0, sqrt(27.0), FEPS) ) exit(4);
+  if ( !test(d11, 3.0, 3.0, 3.0, std::sqrt(27.0), FEPS) ) exit(4);
   f11 = d3 + d7 + f3;
-  if ( !test(f11, 3.0, 3.0, 3.0, sqrt(27.0), FEPS) ) exit(4);
+  if ( !test(f11, 3.0, 3.0, 3.0, std::sqrt(27.0), FEPS) ) exit(4);
   d11 += d3;
-  if ( !test(d11, 4.0, 4.0, 4.0, sqrt(48.0), FEPS) ) exit(4);
+  if ( !test(d11, 4.0, 4.0, 4.0, std::sqrt(48.0), FEPS) ) exit(4);
   f11 += f3;
-  if ( !test(f11, 4.0, 4.0, 4.0, sqrt(48.0), FEPS) ) exit(4);
+  if ( !test(f11, 4.0, 4.0, 4.0, std::sqrt(48.0), FEPS) ) exit(4);
   d11 = d3 + d7 - f3;
-  if ( !test(d11, 1.0, 1.0, 1.0, sqrt(3.0), FEPS) ) exit(4);
-  if ( !test(-d11, -1.0, -1.0, -1.0, -sqrt(3.0), FEPS) ) exit(4);
+  if ( !test(d11, 1.0, 1.0, 1.0, std::sqrt(3.0), FEPS) ) exit(4);
+  if ( !test(-d11, -1.0, -1.0, -1.0, -std::sqrt(3.0), FEPS) ) exit(4);
   f11 = d3 + f7 - d3;
-  if ( !test(f11, 1.0, 1.0, 1.0, sqrt(3.0), FEPS) ) exit(4);
-  if ( !test(-f11, -1.0, -1.0, -1.0, -sqrt(3.0), FEPS) ) exit(4);
+  if ( !test(f11, 1.0, 1.0, 1.0, std::sqrt(3.0), FEPS) ) exit(4);
+  if ( !test(-f11, -1.0, -1.0, -1.0, -std::sqrt(3.0), FEPS) ) exit(4);
   d11 -= d3;
   if ( !test(d11, 0.0, 0.0, 0.0, 0.0, FEPS) ) exit(4);
   f11 -= f3;
@@ -160,27 +160,27 @@ int main () {
 
 // testing scalar products:
 
-  if ( !approx(d1 * d2, sqrt(2.0)-1.0, DEPS) ) exit(5);
+  if ( !approx(d1 * d2, std::sqrt(2.0)-1.0, DEPS) ) exit(5);
   if ( !approx(d3.dot(d7), 0.0, FEPS) ) exit(5);
-  if ( !approx(d2 * f1, sqrt(2.0)-1.0, FEPS) ) exit(5);
+  if ( !approx(d2 * f1, std::sqrt(2.0)-1.0, FEPS) ) exit(5);
   if ( !approx(f3.dot(d7), 0.0, FEPS) ) exit(5);
 
 // testing components:
 
-  d11 = HepLorentzVector(1.0, 1.0, 1.0, sqrt(7.0));
+  d11 = HepLorentzVector(1.0, 1.0, 1.0, std::sqrt(7.0));
   if ( !approx(d11.mag2(), 4.0, DEPS) ) exit(6);
   if ( !approx(d11.mag(), 2.0, DEPS) ) exit(6);
   if ( !approx(Hep3Vector(d11).mag2(), 3.0, DEPS) ) exit(6);
-  if ( !approx(Hep3Vector(d11).mag(), sqrt(3.0), DEPS) ) exit(6);
+  if ( !approx(Hep3Vector(d11).mag(), std::sqrt(3.0), DEPS) ) exit(6);
   if ( !approx(d11.perp2(), 2.0, DEPS) ) exit(6);
-  if ( !approx(d11.perp(), sqrt(2.0), DEPS) ) exit(6);
-  f11 = HepLorentzVector(1.0, 1.0, 1.0, sqrt(7.0));
+  if ( !approx(d11.perp(), std::sqrt(2.0), DEPS) ) exit(6);
+  f11 = HepLorentzVector(1.0, 1.0, 1.0, std::sqrt(7.0));
   if ( !approx(f11.mag2(), 4.0, FEPS) ) exit(6);
   if ( !approx(f11.mag(), 2.0, FEPS) ) exit(6);
   if ( !approx(f11.vect().mag2(), 3.0, FEPS) ) exit(6);
-  if ( !approx(f11.vect().mag(), sqrt(3.0), FEPS) ) exit(6);
+  if ( !approx(f11.vect().mag(), std::sqrt(3.0), FEPS) ) exit(6);
   if ( !approx(f11.perp2(), 2.0, FEPS) ) exit(6);
-  if ( !approx(f11.perp(), sqrt(2.0), FEPS) ) exit(6);
+  if ( !approx(f11.perp(), std::sqrt(2.0), FEPS) ) exit(6);
   
 // testing boosts:
 
@@ -202,8 +202,8 @@ int main () {
   r3.rotateY(-theta);
   r4 = r3  * r2 * r1;
   d2 *= r4;
-  if ( !test(d1, 0.0, 0.0, sqrt(p2), sqrt(p2 + sqr(m1)), DEPS) ) exit(7);
-  if ( !test(d2, 0.0, 0.0, -sqrt(p2), sqrt(p2 + sqr(m2)), DEPS) ) exit(7);
+  if ( !test(d1, 0.0, 0.0, std::sqrt(p2), std::sqrt(p2 + sqr(m1)), DEPS) ) exit(7);
+  if ( !test(d2, 0.0, 0.0, -std::sqrt(p2), std::sqrt(p2 + sqr(m2)), DEPS) ) exit(7);
   d1.transform(r4.inverse());
   if ( !test(d1, d3, DEPS) ) exit(7);
   r5 *= r3;
@@ -217,8 +217,8 @@ int main () {
   r4.rotateY(-theta);
   d3 *= r4;
   d4 = r4 * d6;
-  if ( !test(d3, 0.0, 0.0, sqrt(p2), sqrt(p2 + sqr(m1)), DEPS) ) exit(7);
-  if ( !test(d4, 0.0, 0.0, -sqrt(p2), sqrt(p2 + sqr(m2)), DEPS) ) exit(7);
+  if ( !test(d3, 0.0, 0.0, std::sqrt(p2), std::sqrt(p2 + sqr(m1)), DEPS) ) exit(7);
+  if ( !test(d4, 0.0, 0.0, -std::sqrt(p2), std::sqrt(p2 + sqr(m2)), DEPS) ) exit(7);
   r5 = r1.inverse();
   r5 *= r.inverse();
   r5 *= r3.inverse();
@@ -233,8 +233,8 @@ int main () {
   r5.transform(r3);
   d4.transform(r5);
   d3.transform(r5);
-  if ( !test(d3, 0.0, 0.0, sqrt(p2), sqrt(p2 + sqr(m1)), DEPS) ) exit(7);
-  if ( !test(d4, 0.0, 0.0, -sqrt(p2), sqrt(p2 + sqr(m2)), DEPS) ) exit(7);
+  if ( !test(d3, 0.0, 0.0, std::sqrt(p2), std::sqrt(p2 + sqr(m1)), DEPS) ) exit(7);
+  if ( !test(d4, 0.0, 0.0, -std::sqrt(p2), std::sqrt(p2 + sqr(m2)), DEPS) ) exit(7);
 
   return 0;
 }

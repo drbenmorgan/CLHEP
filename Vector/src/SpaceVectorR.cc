@@ -36,8 +36,8 @@ Hep3Vector & Hep3Vector::rotate (const Hep3Vector & axis,
   register double ux = scale*axis.getX();
   register double uy = scale*axis.getY();
   register double uz = scale*axis.getZ();
-  double cd = cos(ddelta);
-  double sd = sin(ddelta);
+  double cd = std::cos(ddelta);
+  double sd = std::sin(ddelta);
   register double ocd = 1 - cd;
   double rx;
   double ry;
@@ -82,9 +82,9 @@ Hep3Vector & Hep3Vector::rotate (double phi1,
   double ry;
   double rz;
 
-  register double sinPhi   = sin( phi1   ), cosPhi   = cos( phi1   );
-  register double sinTheta = sin( theta1 ), cosTheta1 = cos( theta1 );
-  register double sinPsi   = sin( psi1   ), cosPsi   = cos( psi1   );
+  register double sinPhi   = std::sin( phi1   ), cosPhi   = std::cos( phi1   );
+  register double sinTheta = std::sin( theta1 ), cosTheta1 = std::cos( theta1 );
+  register double sinPsi   = std::sin( psi1   ), cosPsi   = std::cos( psi1   );
 
   rx = 	(cosPsi * cosPhi   - cosTheta1 * sinPsi * sinPhi)   * dx  +
 	(cosPsi * sinPhi   + cosTheta1 * sinPsi * cosPhi)   * dy  +
