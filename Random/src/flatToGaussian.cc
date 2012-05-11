@@ -24,8 +24,6 @@
 #include <iostream>
 #include <cmath>
 
-using namespace std;
-
 namespace CLHEP {
 
 double transformSmall (double r);
@@ -226,9 +224,9 @@ double transformSmall (double r) {
 
   // Solve for -v in the asymtotic formula 
   //
-  // errInt (-v) =  exp(-v*v/2)         1     1*3    1*3*5
+  // errInt (-v) =  std::exp(-v*v/2)         1     1*3    1*3*5
   //		   ------------ * (1 - ---- + ---- - ----- + ... )
-  //		   v*sqrt(2*pi)        v**2   v**4   v**6
+  //		   v*std::sqrt(2*pi)        v**2   v**4   v**6
 
   // The value of r (=errInt(-v)) supplied is going to less than 2.0E-13,
   // which is such that v < -7.25.  Since the value of r is meaningful only
@@ -255,8 +253,8 @@ double transformSmall (double r) {
 	      s1 +=         7*5*3 * vn2*vn2*vn2*vn2;
     	      s1 +=          -5*3 * vn2*vn2*vn2;
 	      s1 += 	       3 * vn2*vn2    - vn2  +    1.0;
-    v = sqrt ( 2.0 * log ( s1 / (r*guess*sqrt(CLHEP::twopi)) ) );
-    if ( abs(v-guess) < eps ) break;
+    v = std::sqrt ( 2.0 * std::log ( s1 / (r*guess*std::sqrt(CLHEP::twopi)) ) );
+    if ( std::abs(v-guess) < eps ) break;
     guess = v;
   }
  
@@ -267,9 +265,9 @@ double transformSmall (double r) {
 
 double HepStat::inverseErf (double t) {
 
-  // This uses erf(x) = 2*gaussCDF(sqrt(2)*x) - 1
+  // This uses erf(x) = 2*gaussCDF(std::sqrt(2)*x) - 1
 
-  return sqrt(0.5) * flatToGaussian(.5*(t+1));
+  return std::sqrt(0.5) * flatToGaussian(.5*(t+1));
 
 }
 
@@ -295,11 +293,11 @@ double HepStat::erf (double x) {
 // And the definition of the erf integral makes that derivative trivial.
 // Ultimately,
 //
-// erf(x) = erfQ(x) - (inverseErf(erfQ(x))-x) * exp(-x**2) * 2/sqrt(CLHEP::pi)
+// erf(x) = erfQ(x) - (inverseErf(erfQ(x))-x) * std::exp(-x**2) * 2/std::sqrt(CLHEP::pi)
 //
 
   double t0 = erfQ(x);
-  double deriv = exp(-x*x) * (2.0 / sqrt(CLHEP::pi));
+  double deriv = std::exp(-x*x) * (2.0 / std::sqrt(CLHEP::pi));
 
   return t0 - (inverseErf (t0) - x) * deriv;
 

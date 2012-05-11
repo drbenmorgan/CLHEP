@@ -40,11 +40,11 @@ double RandExponential::operator()( double mean ) {
 }
 
 double RandExponential::shoot() {
-  return -log(HepRandom::getTheEngine()->flat());
+  return -std::log(HepRandom::getTheEngine()->flat());
 }
 
 double RandExponential::shoot(double mean) {
-  return -log(HepRandom::getTheEngine()->flat())*mean;
+  return -std::log(HepRandom::getTheEngine()->flat())*mean;
 }
 
 void RandExponential::shootArray( const int size, double* vect,

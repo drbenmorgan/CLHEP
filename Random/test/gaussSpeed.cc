@@ -38,14 +38,14 @@ double gammln1(double xx) {
   int j;
   double x = xx - 1.0;
   double tmp = x + 5.5;
-  tmp -= (x + 0.5) * log(tmp);
+  tmp -= (x + 0.5) * std::log(tmp);
   double ser = 1.000000000190015;
 
   for ( j = 0; j <= 5; j++ ) {
     x += 1.0;
     ser += cof[j]/x;
   }
-  return -tmp + log(2.5066282746310005*ser);
+  return -tmp + std::log(2.5066282746310005*ser);
 }
 
 double gammln2(double xx) {
@@ -60,14 +60,14 @@ double gammln2(double xx) {
   int j;
   double x = xx - 0.0;
   double tmp = x + 5.5;
-  tmp -= (x + 0.5) * log(tmp);
+  tmp -= (x + 0.5) * std::log(tmp);
   double ser = 1.000000000190015;
 
   for ( j = 0; j <= 5; j++ ) {
     x += 1.0;
     ser += cof[j]/x;
   }
-  return -tmp + log(2.5066282746310005*ser/xx);
+  return -tmp + std::log(2.5066282746310005*ser/xx);
 }
 #include <iomanip>
 
@@ -162,8 +162,8 @@ if (choice==3) {
 
   double x;
   for (x=1; x <= 20; x+=1) {
-    cout << x << std::setprecision(20) << "    " << exp(gammln1(x)) 
-	<< "    " << exp(gammln2(x)) << " difference in gammln2 = " << 
+    cout << x << std::setprecision(20) << "    " << std::exp(gammln1(x)) 
+	<< "    " << std::exp(gammln2(x)) << " difference in gammln2 = " << 
 	gammln1(x)-gammln2(x) << "\n";
   }
 
@@ -172,9 +172,9 @@ if (choice==3) {
 
   for ( x=1; x > .000000001; x *= .9 ) {
     cout << x << std::setprecision(20) << "    " <<
-    1 - exp(gammln1(x)) * exp(gammln1(2-x)) * sin(CLHEP::pi*(1-x)) / (CLHEP::pi*(1-x)) <<
+    1 - std::exp(gammln1(x)) * std::exp(gammln1(2-x)) * std::sin(CLHEP::pi*(1-x)) / (CLHEP::pi*(1-x)) <<
     "    " <<
-    1 - exp(gammln2(x)) * exp(gammln1(2-x)) * sin(CLHEP::pi*(1-x)) / (CLHEP::pi*(1-x)) <<
+    1 - std::exp(gammln2(x)) * std::exp(gammln1(2-x)) * std::sin(CLHEP::pi*(1-x)) / (CLHEP::pi*(1-x)) <<
     "\n";
   }
 #endif // GAMMA

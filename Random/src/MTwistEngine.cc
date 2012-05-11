@@ -13,7 +13,7 @@
 // with a Mersenne-prime period of 2^19937-1, uniform on open interval (0,1)
 // =======================================================================
 // Ken Smith      - Started initial draft:                    14th Jul 1998
-//                - Optimized to get pow() out of flat() method
+//                - Optimized to get std::pow() out of flat() method
 //                - Added conversion operators:                6th Aug 1998
 // J. Marraffino  - Added some explicit casts to deal with
 //                  machines where sizeof(int) != sizeof(long)  22 Aug 1998
@@ -44,9 +44,7 @@
 #include "CLHEP/Random/MTwistEngine.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include <string.h>	// for strcmp
-#include <cstdlib>	// for abs(int)
-
-using namespace std;
+#include <cstdlib>	// for std::abs(int)
 
 namespace CLHEP {
 
@@ -60,8 +58,8 @@ int MTwistEngine::maxIndex = 215;
 MTwistEngine::MTwistEngine() 
 : HepRandomEngine()
 {
-  int cycle = abs(int(numEngines/maxIndex));
-  int curIndex = abs(int(numEngines%maxIndex));
+  int cycle = std::abs(int(numEngines/maxIndex));
+  int curIndex = std::abs(int(numEngines%maxIndex));
   long mask = ((cycle & 0x007fffff) << 8);
   long seedlist[2];
   HepRandom::getTheTableSeeds( seedlist, curIndex );
@@ -85,9 +83,9 @@ MTwistEngine::MTwistEngine(long seed)
 MTwistEngine::MTwistEngine(int rowIndex, int colIndex) 
 : HepRandomEngine()
 {
-  int cycle = abs(int(rowIndex/maxIndex));
-  int row = abs(int(rowIndex%maxIndex));
-  int col = abs(int(colIndex%2));
+  int cycle = std::abs(int(rowIndex/maxIndex));
+  int row = std::abs(int(rowIndex%maxIndex));
+  int col = std::abs(int(colIndex%2));
   long mask = (( cycle & 0x000007ff ) << 20 );
   long seedlist[2];
   HepRandom::getTheTableSeeds( seedlist, row );

@@ -39,7 +39,7 @@
 #include "CLHEP/Random/Hurd288Engine.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include <string.h>	// for strcmp
-#include <cstdlib>	// for abs(int)
+#include <cstdlib>	// for std::abs(int)
 
 using namespace std;
 
@@ -64,8 +64,8 @@ static inline unsigned int f288(unsigned int a, unsigned int b, unsigned int c)
 Hurd288Engine::Hurd288Engine()
 : HepRandomEngine()
 {
-  int cycle    = abs(int(numEngines/maxIndex));
-  int curIndex = abs(int(numEngines%maxIndex));
+  int cycle    = std::abs(int(numEngines/maxIndex));
+  int curIndex = std::abs(int(numEngines%maxIndex));
   long mask = ((cycle & 0x007fffff) << 8);
   long seedlist[2];
   HepRandom::getTheTableSeeds( seedlist, curIndex );
@@ -97,8 +97,8 @@ Hurd288Engine::Hurd288Engine( long seed )
 Hurd288Engine::Hurd288Engine( int rowIndex, int colIndex )
 : HepRandomEngine()
 {
-  int cycle = abs(int(rowIndex/maxIndex));
-  int   row = abs(int(rowIndex%maxIndex));
+  int cycle = std::abs(int(rowIndex/maxIndex));
+  int   row = std::abs(int(rowIndex%maxIndex));
   int   col = colIndex & 0x1;
   long mask = (( cycle & 0x000007ff ) << 20 );
   long seedlist[2];

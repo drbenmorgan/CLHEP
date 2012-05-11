@@ -21,7 +21,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandLandau.h"
 #include <iostream>
-#include <cmath>	// for log()
+#include <cmath>	// for std::log()
 
 namespace CLHEP {
 
@@ -330,13 +330,13 @@ double RandLandau::transform (double r) {
     const double n1 = 34.5213058;	const double d1 = 34.1760202;
     const double n2 = 17.0854528;	const double d2 =  4.01244582;
 
-    double logr = log(r);
+    double logr = std::log(r);
     double x    = 1/logr;
     double x2   = x*x;
 
     double pade = (n0 + n1*x + n2*x2) / (1.0 + d1*x + d2*x2);
 
-    return ( - log ( -.91893853 - logr ) -1 ) * pade;
+    return ( - std::log ( -.91893853 - logr ) -1 ) * pade;
 
   } else if ( index <= 999 ) {			// (D)
 

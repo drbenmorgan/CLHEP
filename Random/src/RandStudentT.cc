@@ -18,7 +18,7 @@
 // =======================================================================
 
 #include <float.h>
-#include <cmath>	// for log() exp()
+#include <cmath>	// for std::log() std::exp()
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandStudentT.h"
 #include "CLHEP/Random/DoubConv.hh"
@@ -78,7 +78,7 @@ double RandStudentT::shoot( double a ) {
  }
  while ((w = u * u + v * v) > 1.0);
 
- return(u * sqrt( a * ( exp(- 2.0 / a * log(w)) - 1.0) / w));
+ return(u * std::sqrt( a * ( std::exp(- 2.0 / a * std::log(w)) - 1.0) / w));
 }
 
 void RandStudentT::shootArray( const int size, double* vect,
@@ -107,7 +107,7 @@ double RandStudentT::fire( double a ) {
  }
  while ((w = u * u + v * v) > 1.0);
 
- return(u * sqrt( a * ( exp(- 2.0 / a * log(w)) - 1.0) / w));
+ return(u * std::sqrt( a * ( std::exp(- 2.0 / a * std::log(w)) - 1.0) / w));
 }
 
 void RandStudentT::fireArray( const int size, double* vect)
@@ -134,7 +134,7 @@ double RandStudentT::shoot( HepRandomEngine *anEngine, double a ) {
  }
  while ((w = u * u + v * v) > 1.0);
 
- return(u * sqrt( a * ( exp(- 2.0 / a * log(w)) - 1.0) / w));
+ return(u * std::sqrt( a * ( std::exp(- 2.0 / a * std::log(w)) - 1.0) / w));
 }
 
 std::ostream & RandStudentT::put ( std::ostream & os ) const {

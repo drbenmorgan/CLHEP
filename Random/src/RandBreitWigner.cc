@@ -26,8 +26,6 @@
 #include <algorithm>	// for min() and max()
 #include <cmath>
 
-using namespace std;
-
 namespace CLHEP {
 
 std::string RandBreitWigner::name() const {return "RandBreitWigner";}
@@ -53,7 +51,7 @@ double RandBreitWigner::shoot(double mean, double gamma)
    double rval, displ;
 
    rval = 2.0*HepRandom::getTheEngine()->flat()-1.0;
-   displ = 0.5*gamma*tan(rval*CLHEP::halfpi);
+   displ = 0.5*gamma*std::tan(rval*CLHEP::halfpi);
 
    return mean + displ;
 }
@@ -63,9 +61,9 @@ double RandBreitWigner::shoot(double mean, double gamma, double cut)
    double val, rval, displ;
 
    if ( gamma == 0.0 ) return mean;
-   val = atan(2.0*cut/gamma);
+   val = std::atan(2.0*cut/gamma);
    rval = 2.0*HepRandom::getTheEngine()->flat()-1.0;
-   displ = 0.5*gamma*tan(rval*val);
+   displ = 0.5*gamma*std::tan(rval*val);
 
    return mean + displ;
 }
@@ -75,11 +73,11 @@ double RandBreitWigner::shootM2(double mean, double gamma )
    double val, rval, displ;
 
    if ( gamma == 0.0 ) return mean;
-   val = atan(-mean/gamma);
+   val = std::atan(-mean/gamma);
    rval = RandFlat::shoot(val, CLHEP::halfpi);
-   displ = gamma*tan(rval);
+   displ = gamma*std::tan(rval);
 
-   return sqrt(mean*mean + mean*displ);
+   return std::sqrt(mean*mean + mean*displ);
 }
 
 double RandBreitWigner::shootM2(double mean, double gamma, double cut )
@@ -88,13 +86,13 @@ double RandBreitWigner::shootM2(double mean, double gamma, double cut )
    double lower, upper, tmp;
 
    if ( gamma == 0.0 ) return mean;
-   tmp = max(0.0,(mean-cut));
-   lower = atan( (tmp*tmp-mean*mean)/(mean*gamma) );
-   upper = atan( ((mean+cut)*(mean+cut)-mean*mean)/(mean*gamma) );
+   tmp = std::max(0.0,(mean-cut));
+   lower = std::atan( (tmp*tmp-mean*mean)/(mean*gamma) );
+   upper = std::atan( ((mean+cut)*(mean+cut)-mean*mean)/(mean*gamma) );
    rval = RandFlat::shoot(lower, upper);
-   displ = gamma*tan(rval);
+   displ = gamma*std::tan(rval);
 
-   return sqrt(max(0.0, mean*mean + mean*displ));
+   return std::sqrt(std::max(0.0, mean*mean + mean*displ));
 }
 
 void RandBreitWigner::shootArray ( const int size, double* vect )
@@ -126,7 +124,7 @@ double RandBreitWigner::shoot(HepRandomEngine* anEngine,
    double rval, displ;
 
    rval = 2.0*anEngine->flat()-1.0;
-   displ = 0.5*gamma*tan(rval*CLHEP::halfpi);
+   displ = 0.5*gamma*std::tan(rval*CLHEP::halfpi);
 
    return mean + displ;
 }
@@ -137,9 +135,9 @@ double RandBreitWigner::shoot(HepRandomEngine* anEngine,
    double val, rval, displ;
 
    if ( gamma == 0.0 ) return mean;
-   val = atan(2.0*cut/gamma);
+   val = std::atan(2.0*cut/gamma);
    rval = 2.0*anEngine->flat()-1.0;
-   displ = 0.5*gamma*tan(rval*val);
+   displ = 0.5*gamma*std::tan(rval*val);
 
    return mean + displ;
 }
@@ -150,11 +148,11 @@ double RandBreitWigner::shootM2(HepRandomEngine* anEngine,
    double val, rval, displ;
 
    if ( gamma == 0.0 ) return mean;
-   val = atan(-mean/gamma);
+   val = std::atan(-mean/gamma);
    rval = RandFlat::shoot(anEngine,val, CLHEP::halfpi);
-   displ = gamma*tan(rval);
+   displ = gamma*std::tan(rval);
 
-   return sqrt(mean*mean + mean*displ);
+   return std::sqrt(mean*mean + mean*displ);
 }
 
 double RandBreitWigner::shootM2(HepRandomEngine* anEngine,
@@ -164,13 +162,13 @@ double RandBreitWigner::shootM2(HepRandomEngine* anEngine,
    double lower, upper, tmp;
 
    if ( gamma == 0.0 ) return mean;
-   tmp = max(0.0,(mean-cut));
-   lower = atan( (tmp*tmp-mean*mean)/(mean*gamma) );
-   upper = atan( ((mean+cut)*(mean+cut)-mean*mean)/(mean*gamma) );
+   tmp = std::max(0.0,(mean-cut));
+   lower = std::atan( (tmp*tmp-mean*mean)/(mean*gamma) );
+   upper = std::atan( ((mean+cut)*(mean+cut)-mean*mean)/(mean*gamma) );
    rval = RandFlat::shoot(anEngine, lower, upper);
-   displ = gamma*tan(rval);
+   displ = gamma*std::tan(rval);
 
-   return sqrt( max(0.0, mean*mean+mean*displ) );
+   return std::sqrt( std::max(0.0, mean*mean+mean*displ) );
 }
 
 void RandBreitWigner::shootArray ( HepRandomEngine* anEngine,
@@ -208,7 +206,7 @@ double RandBreitWigner::fire(double mean, double gamma)
    double rval, displ;
 
    rval = 2.0*localEngine->flat()-1.0;
-   displ = 0.5*gamma*tan(rval*CLHEP::halfpi);
+   displ = 0.5*gamma*std::tan(rval*CLHEP::halfpi);
 
    return mean + displ;
 }
@@ -218,9 +216,9 @@ double RandBreitWigner::fire(double mean, double gamma, double cut)
    double val, rval, displ;
 
    if ( gamma == 0.0 ) return mean;
-   val = atan(2.0*cut/gamma);
+   val = std::atan(2.0*cut/gamma);
    rval = 2.0*localEngine->flat()-1.0;
-   displ = 0.5*gamma*tan(rval*val);
+   displ = 0.5*gamma*std::tan(rval*val);
 
    return mean + displ;
 }
@@ -235,11 +233,11 @@ double RandBreitWigner::fireM2(double mean, double gamma )
    double val, rval, displ;
 
    if ( gamma == 0.0 ) return mean;
-   val = atan(-mean/gamma);
+   val = std::atan(-mean/gamma);
    rval = RandFlat::shoot(localEngine.get(),val, CLHEP::halfpi);
-   displ = gamma*tan(rval);
+   displ = gamma*std::tan(rval);
 
-   return sqrt(mean*mean + mean*displ);
+   return std::sqrt(mean*mean + mean*displ);
 }
 
 double RandBreitWigner::fireM2(double mean, double gamma, double cut )
@@ -248,13 +246,13 @@ double RandBreitWigner::fireM2(double mean, double gamma, double cut )
    double lower, upper, tmp;
 
    if ( gamma == 0.0 ) return mean;
-   tmp = max(0.0,(mean-cut));
-   lower = atan( (tmp*tmp-mean*mean)/(mean*gamma) );
-   upper = atan( ((mean+cut)*(mean+cut)-mean*mean)/(mean*gamma) );
+   tmp = std::max(0.0,(mean-cut));
+   lower = std::atan( (tmp*tmp-mean*mean)/(mean*gamma) );
+   upper = std::atan( ((mean+cut)*(mean+cut)-mean*mean)/(mean*gamma) );
    rval = RandFlat::shoot(localEngine.get(),lower, upper);
-   displ = gamma*tan(rval);
+   displ = gamma*std::tan(rval);
 
-   return sqrt(max(0.0, mean*mean + mean*displ));
+   return std::sqrt(std::max(0.0, mean*mean + mean*displ));
 }
 
 void RandBreitWigner::fireArray ( const int size, double* vect)

@@ -36,7 +36,7 @@
 #include "CLHEP/Random/RandomFunc.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include <string.h>	// for strcmp
-#include <stdlib.h>	// for abs(int)
+#include <stdlib.h>	// for std::abs(int)
 
 //#define TRACE_IO
 

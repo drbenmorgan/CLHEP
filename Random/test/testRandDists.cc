@@ -54,7 +54,6 @@ using std::cin;
 using std::cout;
 using std::cerr;
 using std::endl;
-using std::abs;
 using std::setprecision;
 using namespace CLHEP;
 //#ifndef _WIN32
@@ -105,12 +104,12 @@ double gammln(double x) {
 	 -0.000005395239384953 };
   y = x;
   tmp = x + 5.5;
-  tmp -= (x+.5)*log(tmp);
+  tmp -= (x+.5)*std::log(tmp);
   ser = 1.000000000190015;
   for (int i = 0; i < 6; i++) {
     ser += c[i]/(++y);
   }
-  double ans = (-tmp + log (sqrt(CLHEP::twopi)*ser/x));
+  double ans = (-tmp + std::log (std::sqrt(CLHEP::twopi)*ser/x));
   return ans;
 }
 
@@ -125,12 +124,12 @@ double gser(double a, double x) {
     ap++;
     del *= x/ap;
     sum += del;
-    if (fabs(del) < fabs(sum)*EPS) {
-      return sum*exp(-x+a*log(x)-gammln(a));
+    if (std::fabs(del) < std::fabs(sum)*EPS) {
+      return sum*std::exp(-x+a*std::log(x)-gammln(a));
     }
   }
   cout << "Problem - inaccurate gser " << a << ", " << x << "\n";
-  return sum*exp(-x+a*log(x)-gammln(a));
+  return sum*std::exp(-x+a*std::log(x)-gammln(a));
 }
 
 static
@@ -146,18 +145,18 @@ double gcf(double a, double x) {
     double an = -i*(i-a);
     b += 2;
     d = an*d + b;
-    if (fabs(d) < VERYSMALL) d = VERYSMALL;
+    if (std::fabs(d) < VERYSMALL) d = VERYSMALL;
     c = b + an/c;
-    if (fabs(c) < VERYSMALL) c = VERYSMALL;
+    if (std::fabs(c) < VERYSMALL) c = VERYSMALL;
     d = 1/d;
     double del = d*c;
     h *= del;
-    if (fabs(del-1.0) < EPS) {
-      return exp(-x+a*log(x)-gammln(a))*h;
+    if (std::fabs(del-1.0) < EPS) {
+      return std::exp(-x+a*std::log(x)-gammln(a))*h;
     }
   }
   cout << "Problem - inaccurate gcf " << a << ", " << x << "\n";
-  return exp(-x+a*log(x)-gammln(a))*h;
+  return std::exp(-x+a*std::log(x)-gammln(a))*h;
 }
 
 static
@@ -270,13 +269,13 @@ bool gaussianTest ( HepRandom & dist, double mu,
   // 6th moments are roughly 2/N, 6/N, 96/N, 720/N and 10170/N respectively.  
   // Based on this, we can judge how many sigma a result represents:
   
-  double del1 = sqrt ( (double) nNumbers ) * abs(mean - mu) / sigma;
-  double del2 = sqrt ( nNumbers/2.0 ) * abs(u2 - sigma*sigma) / (sigma*sigma);
-  double del3 = sqrt ( nNumbers/6.0 ) * abs(u3) / (sigma*sigma*sigma);
+  double del1 = std::sqrt ( (double) nNumbers ) * std::abs(mean - mu) / sigma;
+  double del2 = std::sqrt ( nNumbers/2.0 ) * std::abs(u2 - sigma*sigma) / (sigma*sigma);
+  double del3 = std::sqrt ( nNumbers/6.0 ) * std::abs(u3) / (sigma*sigma*sigma);
   double sigma4 = sigma*sigma*sigma*sigma;
-  double del4 = sqrt ( nNumbers/96.0 ) * abs(u4 - 3 * sigma4) / sigma4;
-  double del5 = sqrt ( nNumbers/720.0 ) * abs(u5) / (sigma*sigma4);
-  double del6 = sqrt ( nNumbers/10170.0 ) * abs(u6 - 15*sigma4*sigma*sigma) 
+  double del4 = std::sqrt ( nNumbers/96.0 ) * std::abs(u4 - 3 * sigma4) / sigma4;
+  double del5 = std::sqrt ( nNumbers/720.0 ) * std::abs(u5) / (sigma*sigma4);
+  double del6 = std::sqrt ( nNumbers/10170.0 ) * std::abs(u6 - 15*sigma4*sigma*sigma) 
 				/ (sigma4*sigma*sigma);
 
   cout << "        These represent " << 
@@ -296,7 +295,7 @@ bool gaussianTest ( HepRandom & dist, double mu,
       good = false;
   }
 
-  // The variance of the bin counts is given by a Poisson estimate (sqrt(npq)).
+  // The variance of the bin counts is given by a Poisson estimate (std::sqrt(npq)).
 
   double table[11] = {  // Table of integrated density in each range:
 	.191462, // 0.0 - 0.5 sigma
@@ -314,15 +313,15 @@ bool gaussianTest ( HepRandom & dist, double mu,
 
   for (int m = 0; m < 11; m++) {
     double expect = table[m]*nNumbers;
-    double sig = sqrt ( table[m] * (1.0-table[m]) * nNumbers );
+    double sig = std::sqrt ( table[m] * (1.0-table[m]) * nNumbers );
     cout.precision(oldprecision);
     cout << "Between " << m/2.0 << " sigma and " 
 	<< m/2.0+.5 << " sigma (should be about " << expect << "):\n " 
         << "         "
 	<< ncounts[m] << " negative and " << counts[m] << " positive " << "\n";
     cout.precision(5);
-    double negSigs = abs ( ncounts[m] - expect ) / sig;
-    double posSigs = abs (  counts[m] - expect ) / sig;
+    double negSigs = std::abs ( ncounts[m] - expect ) / sig;
+    double posSigs = std::abs (  counts[m] - expect ) / sig;
     cout << "        These represent " << 
 	negSigs << " and " << posSigs << " sigma from expectations\n";
     if ( negSigs > REJECT || posSigs > REJECT ) {
@@ -371,12 +370,12 @@ bool skewNormalTest ( HepRandom & dist, double k, int nNumbers ) {
   // hack so that gcc 4.3 puts x into memory instead of a register
   volatile double x;
   // calculate mean and sigma
-  double delta = k / sqrt( 1 + k*k );
-  double mu = delta/sqrt(CLHEP::halfpi);
+  double delta = k / std::sqrt( 1 + k*k );
+  double mu = delta/std::sqrt(CLHEP::halfpi);
   double mom2 = 1.;
-  double mom3 = 3*delta*(1-(delta*delta)/3.)/sqrt(CLHEP::halfpi);
+  double mom3 = 3*delta*(1-(delta*delta)/3.)/std::sqrt(CLHEP::halfpi);
   double mom4 = 3.;
-  double mom5 = 15*delta*(1-2.*(delta*delta)/3.+(delta*delta*delta*delta)/5.)/sqrt(CLHEP::halfpi);
+  double mom5 = 15*delta*(1-2.*(delta*delta)/3.+(delta*delta*delta*delta)/5.)/std::sqrt(CLHEP::halfpi);
   double mom6 = 15.;
 
   int ipr = nNumbers / 10 + 1;
@@ -411,12 +410,12 @@ bool skewNormalTest ( HepRandom & dist, double k, int nNumbers ) {
   cout << "Fifth moment (should be close to " << mom5 << "): " << u5 << endl;
   cout << "Sixth moment (should be close to " << mom6 << "): " << u6 << endl;
 
-  double del1 = sqrt ( (double) nNumbers ) * abs(mean - mu);
-  double del2 = sqrt ( nNumbers/2.0 ) * abs(u2 - mom2);
-  double del3 = sqrt ( nNumbers/(15.-mom3*mom3) ) * abs(u3 - mom3 );
-  double del4 = sqrt ( nNumbers/96.0 ) * abs(u4 - mom4);
-  double del5 = sqrt ( nNumbers/(945.-mom5*mom5) ) * abs(u5 - mom5 );
-  double del6 = sqrt ( nNumbers/10170.0 ) * abs(u6 - mom6);
+  double del1 = std::sqrt ( (double) nNumbers ) * std::abs(mean - mu);
+  double del2 = std::sqrt ( nNumbers/2.0 ) * std::abs(u2 - mom2);
+  double del3 = std::sqrt ( nNumbers/(15.-mom3*mom3) ) * std::abs(u3 - mom3 );
+  double del4 = std::sqrt ( nNumbers/96.0 ) * std::abs(u4 - mom4);
+  double del5 = std::sqrt ( nNumbers/(945.-mom5*mom5) ) * std::abs(u5 - mom5 );
+  double del6 = std::sqrt ( nNumbers/10170.0 ) * std::abs(u6 - mom6);
 
   cout << "        These represent " << 
 	del1 << ", " << del2 << ", " << del3 << ", \n" 
@@ -454,8 +453,8 @@ class poisson {
   public:
   poisson(double mu) : mu_(mu) {}
   double operator()(int r) { 
-    double logAnswer = -mu_ + r*log(mu_) - gammln(r+1);
-    return exp(logAnswer);
+    double logAnswer = -mu_ + r*std::log(mu_) - gammln(r+1);
+    return std::exp(logAnswer);
   }
 };
 
@@ -535,14 +534,14 @@ bool poissonTest ( RandPoisson & dist, double mu, int N ) {
 // generated distribution of N numbers matches the proper Poisson distribution.
 //
 // The same test will be applied to the distribution of numbers "clumping"
-// together sqrt(mu) bins.  This will detect small deviations over several 
+// together std::sqrt(mu) bins.  This will detect small deviations over several 
 // touching bins, when mu is not small.
 //
 // The mean and second moment are checked against their theoretical values.
 
   bool good = true;
 
-  int clumping = int(sqrt(mu));
+  int clumping = int(std::sqrt(mu));
   if (clumping <= 1) clumping = 2;
   const int MINBIN  = 20;
   const int MAXBINS = 1000;
@@ -610,9 +609,9 @@ bool poissonTest ( RandPoisson & dist, double mu, int N ) {
   
   // and finally, p.  Since we only care about it for small values, 
   // and never care about it past the 10% level, we can use the approximations
-  // CL(chi^2,n) = 1/sqrt(CLHEP::twopi) * ErrIntC ( y ) with 
-  // y = sqrt(2*chi2) - sqrt(2*n-1) 
-  // errIntC (y) = exp((-y^2)/2)/(y*sqrt(CLHEP::twopi))
+  // CL(chi^2,n) = 1/std::sqrt(CLHEP::twopi) * ErrIntC ( y ) with 
+  // y = std::sqrt(2*chi2) - std::sqrt(2*n-1) 
+  // errIntC (y) = std::exp((-y^2)/2)/(y*std::sqrt(CLHEP::twopi))
 
   double pval;
   pval = 1.0 - gammp ( .5*degFreedom , .5*chi2 );
@@ -643,14 +642,14 @@ bool poissonTest ( RandPoisson & dist, double mu, int N ) {
   // Check out the mean and sigma to apply the third test
 
   double mean = sum / N;
-  double sigma = sqrt( moment / (N-1) );
+  double sigma = std::sqrt( moment / (N-1) );
 
-  double deviationMean  = fabs(mean - mu)/(sqrt(mu/N));
+  double deviationMean  = std::fabs(mean - mu)/(std::sqrt(mu/N));
   double expectedSigma2Variance = (2*N*mu*mu/(N-1) + mu) / N;
-  double deviationSigma = fabs(sigma*sigma-mu)/sqrt(expectedSigma2Variance);
+  double deviationSigma = std::fabs(sigma*sigma-mu)/std::sqrt(expectedSigma2Variance);
 
   cout << "Mean  (should be " << mu << ") is " << mean << "\n";
-  cout << "Sigma (should be " << sqrt(mu) << ") is " << sigma << "\n";
+  cout << "Sigma (should be " << std::sqrt(mu) << ") is " << sigma << "\n";
 
   cout << "These are " << deviationMean << " and " << deviationSigma <<
 	" standard deviations from expected values\n\n";
@@ -1115,7 +1114,7 @@ int testRandGeneral() {
   double x;
   for ( int iBin = 0; iBin < nBins; iBin++ )  {
     x = iBin / (xBins-1);
-    aProbFunc [iBin] = exp ( - (x-mu)*(x-mu) / (2*sigma*sigma) );
+    aProbFunc [iBin] = std::exp ( - (x-mu)*(x-mu) / (2*sigma*sigma) );
   }
   // Note that this pdf is not normalized; RandGeneral does that
 
@@ -1161,7 +1160,7 @@ int testRandGeneral() {
   aProbFunc = new double [nBins];
   for ( int jBin = 0; jBin < nBins; jBin++ )  {
     x = jBin / (xBins-1);
-    aProbFunc [jBin] = exp ( - (x-mu)*(x-mu) / (2*sigma*sigma) );
+    aProbFunc [jBin] = std::exp ( - (x-mu)*(x-mu) / (2*sigma*sigma) );
   }
   // Note that this pdf is not normalized; RandGeneral does that
 

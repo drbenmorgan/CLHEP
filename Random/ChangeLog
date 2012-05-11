@@ -1,3 +1,8 @@
+
+2012-05-11 Lynn Garren <garren@fnal.gov>
+
+	* Random, src, test: use explicit std:: with math functions
+
 ==============================
 14.02.12 Release CLHEP-2.1.2.2
 ==============================

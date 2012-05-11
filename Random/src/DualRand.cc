@@ -29,7 +29,7 @@
 //	Tausworthe
 //	Golomb
 //=========================================================================
-// Ken Smith      - Removed pow() from flat() method:           21 Jul 1998
+// Ken Smith      - Removed std::pow() from flat() method:           21 Jul 1998
 //                - Added conversion operators:                  6 Aug 1998
 // J. Marraffino  - Added some explicit casts to deal with
 //                  machines where sizeof(int) != sizeof(long)  22 Aug 1998
@@ -55,8 +55,6 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include <string.h>	// for strcmp
-
-using namespace std;
 
 namespace CLHEP {
 

@@ -22,8 +22,6 @@
 #include <algorithm>	// for min() and max()
 #include <cmath>	// for exp()
 
-using namespace std;
-
 namespace CLHEP {
 
 std::string RandBinomial::name() const {return "RandBinomial";}
@@ -78,7 +76,7 @@ void RandBinomial::fireArray( const int size, double* vect,
  *                                                                       *
  *  StirlingCorrection()                                                 *
  *                                                                       *
- *  Correction term of the Stirling approximation for log(k!)            *
+ *  Correction term of the Stirling approximation for std::log(k!)            *
  *  (series in 1/k, or table values for small k)                         *
  *  with long int parameter k                                            *
  *                                                                       *
@@ -163,7 +161,7 @@ double RandBinomial::genBinomial( HepRandomEngine *anEngine, long n, double p )
  *                Communications of the ACM 31, 216-222.          *
  * SUBPROGRAMS: - StirlingCorrection()                            *
  *                            ... Correction term of the Stirling *
- *                                approximation for log(k!)       *
+ *                                approximation for std::log(k!)       *
  *                                (series in 1/k or table values  *
  *                                for small k) with long int k    *
  *              - anEngine    ... Pointer to a (0,1)-Uniform      * 
@@ -190,7 +188,7 @@ double RandBinomial::genBinomial( HepRandomEngine *anEngine, long n, double p )
 	{
 	 n_last = n;
 	 p_last = p;
-	 par=min(p,1.0-p);
+	 par=std::min(p,1.0-p);
 	 q=1.0-par;
 	 np = n*par;
 
@@ -202,15 +200,15 @@ double RandBinomial::genBinomial( HepRandomEngine *anEngine, long n, double p )
 	 m  = (long int) rm;                      // mode, integer 
 	 if (np<10)
 	{
-	 p0=exp(n*log(q));                        // Chop-down
-	 bh=(long int)(np+10.0*sqrt(np*q));
-	 b=min(n,bh);
+	 p0=std::exp(n*std::log(q));                        // Chop-down
+	 bh=(long int)(np+10.0*std::sqrt(np*q));
+	 b=std::min(n,bh);
 	}
 	 else
 		 {
 	rc = (n + 1.0) * (pq = par / q);          // recurr. relat.
 	ss = np * q;                              // variance  
-	i  = (long int) (2.195*sqrt(ss) - 4.6*q); // i = p1 - 0.5
+	i  = (long int) (2.195*std::sqrt(ss) - 4.6*q); // i = p1 - 0.5
 	xm = m + 0.5;
 	xl = (double) (m - i);                    // limit left 
 	xr = (double) (m + i + 1L);               // limit right
@@ -260,18 +258,18 @@ double RandBinomial::genBinomial( HepRandomEngine *anEngine, long n, double p )
 	 if (U <= p2)                                // parallelogram
 		{
 		 X = xl + (U - p1)/c;
-		 if ((V = V*c + 1.0 - fabs(xm - X)/p1) >= 1.0)  continue;
+		 if ((V = V*c + 1.0 - std::fabs(xm - X)/p1) >= 1.0)  continue;
 		 K = (long int) X;
 		}
 	 else if (U <= p3)                           // left tail
 		{
-		 if ((X = xl + log(V)/ll) < 0.0)  continue;
+		 if ((X = xl + std::log(V)/ll) < 0.0)  continue;
 		 K = (long int) X;
 		 V *= (U - p2) * ll;
 		}
 	 else                                         // right tail
 		{
-		 if ((K = (long int) (xr - log(V)/lr)) > n)  continue;
+		 if ((K = (long int) (xr - std::log(V)/lr)) > n)  continue;
 		 V *= (U - p3) * lr;
 		}
 
@@ -301,7 +299,7 @@ double RandBinomial::genBinomial( HepRandomEngine *anEngine, long n, double p )
 	 {
 
  // lower and upper squeeze tests, based on lower bounds for log p(K)
-		V = log(V);
+		V = std::log(V);
 		T = - Km * Km / (ss + ss);
 		E =  (Km / ss) * ((Km * (Km * C1_3 + C5_8) + C1_6) / ss + 0.5);
 		if (V <= T - E)  break;
@@ -313,15 +311,15 @@ double RandBinomial::genBinomial( HepRandomEngine *anEngine, long n, double p )
 	  p_prev = par;
 
 	  nm = n - m + 1L;
-	  ch = xm * log((m + 1.0)/(pq * nm)) +
+	  ch = xm * std::log((m + 1.0)/(pq * nm)) +
 	       StirlingCorrection(m + 1L) + StirlingCorrection(nm);
 	 }
 	nK = n - K + 1L;
 
  // computation of log f(K) via Stirling's formula
  // final acceptance-rejection test
-	if (V <= ch + (n + 1.0)*log((double) nm / (double) nK) +
-                 (K + 0.5)*log(nK * pq / (K + 1.0)) -
+	if (V <= ch + (n + 1.0)*std::log((double) nm / (double) nK) +
+                 (K + 0.5)*std::log(nK * pq / (K + 1.0)) -
                  StirlingCorrection(K + 1L) - StirlingCorrection(nK))  break;
 		}
 	 }

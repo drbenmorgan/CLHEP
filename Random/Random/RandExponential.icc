@@ -27,22 +27,22 @@ inline RandExponential::RandExponential(HepRandomEngine * anEngine,
 //-------------
 
 inline double RandExponential::shoot(HepRandomEngine* anEngine) {
-  return -log(anEngine->flat());
+  return -std::log(anEngine->flat());
 }
 
 inline double RandExponential::shoot(HepRandomEngine* anEngine,
                                         double mean) {
-  return -log(anEngine->flat())*mean;
+  return -std::log(anEngine->flat())*mean;
 }
 
 //-------------
 
 inline double RandExponential::fire() {
-  return -log(localEngine->flat())*defaultMean;
+  return -std::log(localEngine->flat())*defaultMean;
 }
 
 inline double RandExponential::fire(double mean) {
-  return -log(localEngine->flat())*mean;
+  return -std::log(localEngine->flat())*mean;
 }
 
 }  // namespace CLHEP

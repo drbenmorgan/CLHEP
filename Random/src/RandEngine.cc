@@ -18,7 +18,7 @@
 // J.Marraffino   - Added stream operators and related constructor.
 //                  Added automatic seed selection from seed table and
 //                  engine counter. Removed RAND_MAX and replaced by
-//                  pow(0.5,32.). Flat() returns now 32 bits values
+//                  std::pow(0.5,32.). Flat() returns now 32 bits values
 //                  obtained by concatenation: 15th Feb 1998
 // Ken Smith      - Added conversion operators:  6th Aug 1998
 // J. Marraffino  - Remove dependence on hepString class  13 May 1999
@@ -86,9 +86,9 @@ RandEngine::RandEngine(int rowIndex, int colIndex)
    long seeds[2];
    long seed;
 
-   int cycle = abs(int(rowIndex/maxIndex));
-   int row = abs(int(rowIndex%maxIndex));
-   int col = abs(int(colIndex%2));
+   int cycle = std::abs(int(rowIndex/maxIndex));
+   int row = std::abs(int(rowIndex%maxIndex));
+   int col = std::abs(int(colIndex%2));
    long mask = ((cycle & 0x000007ff) << 20 );
    HepRandom::getTheTableSeeds( seeds, row );
    seed = (seeds[col])^mask;
@@ -104,8 +104,8 @@ RandEngine::RandEngine()
    long seed;
    int cycle,curIndex;
 
-   cycle = abs(int(numEngines/maxIndex));
-   curIndex = abs(int(numEngines%maxIndex));
+   cycle = std::abs(int(numEngines/maxIndex));
+   curIndex = std::abs(int(numEngines%maxIndex));
    numEngines += 1;
    long mask = ((cycle & 0x007fffff) << 8);
    HepRandom::getTheTableSeeds( seeds, curIndex );
@@ -290,7 +290,7 @@ void RandEngine::showStatus() const
     // generate 32 bits.                                                  
     if ( !prepared ) {                                                    
       fS = (unsigned long)RAND_MAX + 1;                                                  
-      double twoTo32 = ldexp(1.0,32);                                     
+      double twoTo32 = std::ldexp(1.0,32);                                     
       double StoK = fS;                                                   
       for ( iK = 1; StoK < twoTo32; StoK *= fS, iK++ ) { }                
       int m;                                                              

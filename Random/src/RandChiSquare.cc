@@ -18,7 +18,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandChiSquare.h"
 #include "CLHEP/Random/DoubConv.hh"
-#include <cmath>	// for log()
+#include <cmath>	// for std::log()
 
 namespace CLHEP {
 
@@ -105,14 +105,14 @@ double RandChiSquare::genChiSquare( HepRandomEngine *anEngine,
      if (z < 0.0) r = r + zz * z / (3.0 * z);
      if (u < r * 0.3894003915) return(z*z);
      if (zz > (1.036961043 / u + 1.4)) continue;
-     if (2 * log(u) < (- zz * 0.5 )) return(z*z);
+     if (2 * std::log(u) < (- zz * 0.5 )) return(z*z);
      }
    }
  else
   {
    if (a != a_in)
     {
-     b = sqrt(a - 1.0);
+     b = std::sqrt(a - 1.0);
      vm = - 0.6065306597 * (1.0 - 0.25 / (b * b + 1.0));
      vm = (-b > vm)? -b : vm;
      vp = 0.6065306597 * (0.7071067812 + b) / (0.5 + b);
@@ -130,7 +130,7 @@ double RandChiSquare::genChiSquare( HepRandomEngine *anEngine,
      if (z < 0.0) r = r + zz * z / (3.0 * (z + b));
      if (u < r * 0.3894003915) return((z + b)*(z + b));
      if (zz > (1.036961043 / u + 1.4)) continue;
-     if (2 * log(u) < (log(1.0 + z / b) * b * b - zz * 0.5 - z * b)) return((z + b)*(z + b));
+     if (2 * std::log(u) < (std::log(1.0 + z / b) * b * b - zz * 0.5 - z * b)) return((z + b)*(z + b));
      }
    }
 }

@@ -42,14 +42,12 @@
 #include "CLHEP/Random/RanluxEngine.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include <string.h>	// for strcmp
-#include <cstdlib>	// for abs(int)
+#include <cstdlib>	// for std::abs(int)
 
 #ifdef TRACE_IO
   #include "CLHEP/Random/DoubConv.hh"
   bool flat_trace = false;
 #endif
-
-using namespace std;
 
 namespace CLHEP {
 
@@ -85,8 +83,8 @@ RanluxEngine::RanluxEngine()
    long seedlist[2]={0,0};
 
    luxury = 3;
-   int cycle = abs(int(numEngines/maxIndex));
-   int curIndex = abs(int(numEngines%maxIndex));
+   int cycle = std::abs(int(numEngines/maxIndex));
+   int curIndex = std::abs(int(numEngines%maxIndex));
    numEngines +=1;
    long mask = ((cycle & 0x007fffff) << 8);
    HepRandom::getTheTableSeeds( seedlist, curIndex );
@@ -106,9 +104,9 @@ RanluxEngine::RanluxEngine(int rowIndex, int colIndex, int lux)
    long seedlist[2]={0,0};
 
    luxury = lux;
-   int cycle = abs(int(rowIndex/maxIndex));
-   int row = abs(int(rowIndex%maxIndex));
-   int col = abs(int(colIndex%2));
+   int cycle = std::abs(int(rowIndex/maxIndex));
+   int row = std::abs(int(rowIndex%maxIndex));
+   int col = std::abs(int(colIndex%2));
    long mask = (( cycle & 0x000007ff ) << 20 );
    HepRandom::getTheTableSeeds( seedlist, row );
    seed = ( seedlist[col] )^mask;

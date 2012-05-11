@@ -13,8 +13,6 @@
 
 #include "CLHEP/Random/Ranlux64Engine.h"
 
-using namespace std;
-
 int valid_range( )
 {
     std::ofstream output("testBug73093.cout");  
@@ -38,21 +36,21 @@ int valid_range( )
 	const long N = 20;
 
 	rng.setSeed(seed, /*lux*/ 1);
-	output <<  endl;
-	output << "sizeof(long) = " << sizeof(long) << endl;
-	output << "Generating " << N << " random numbers with seed " << seed << endl;
-	output << "Using seed " << seed <<  endl;
+	output <<  std::endl;
+	output << "sizeof(long) = " << sizeof(long) << std::endl;
+	output << "Generating " << N << " random numbers with seed " << seed << std::endl;
+	output << "Using seed " << seed <<  std::endl;
 
 	double sum(0);
 	for (long i=0; i<N; ++i) {
 	  double r = rng.flat();
-	  if( abs(r) > 1.0 ) ++bad;
-	  output << r << endl;
+	  if( std::abs(r) > 1.0 ) ++bad;
+	  output << r << std::endl;
 	  sum += r;
 	}  
 
-	output << "Sum: " << sum << endl;
-	output << "Average: " << sum / N << endl;
+	output << "Sum: " << sum << std::endl;
+	output << "Average: " << sum / N << std::endl;
     }
     
     return bad;
@@ -79,8 +77,8 @@ int check_sequence()
 	double sum(0);
 	for (long i=0; i<N; ++i) {
 	  double r = rng.flat();
-	  if( abs(r) > 1.0 ) ++bad;
-	  output << "[" << il << "][" << i << "] = " << r << ";" << endl;
+	  if( std::abs(r) > 1.0 ) ++bad;
+	  output << "[" << il << "][" << i << "] = " << r << ";" << std::endl;
 	  sum += r;
 	}  
     }

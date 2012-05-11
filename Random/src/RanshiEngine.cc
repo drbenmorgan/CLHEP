@@ -12,7 +12,7 @@
 //
 // =======================================================================
 // Ken Smith      - Created:                                 9th June 1998
-//                - Removed pow() from flat method:          21st Jul 1998
+//                - Removed std::pow() from flat method:          21st Jul 1998
 //                - Added conversion operators:               6th Aug 1998
 // J. Marraffino  - Added some explicit casts to deal with
 //                  machines where sizeof(int) != sizeof(long) 22 Aug 1998
@@ -36,8 +36,6 @@
 #include "CLHEP/Random/RanshiEngine.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include <string.h>	// for strcmp
-
-using namespace std;
 
 namespace CLHEP {
 

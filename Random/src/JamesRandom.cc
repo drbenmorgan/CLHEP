@@ -72,8 +72,8 @@ HepJamesRandom::HepJamesRandom()     	// 15 Feb. 1998  JMM
   long seeds[2];
   long seed;
 
-  int cycle = abs(int(numEngines/maxIndex));
-  int curIndex = abs(int(numEngines%maxIndex));
+  int cycle = std::abs(int(numEngines/maxIndex));
+  int curIndex = std::abs(int(numEngines%maxIndex));
   ++numEngines;
   long mask = ((cycle & 0x007fffff) << 8);
   HepRandom::getTheTableSeeds( seeds, curIndex );
@@ -88,9 +88,9 @@ HepJamesRandom::HepJamesRandom(int rowIndex, int colIndex) // 15 Feb. 1998  JMM
   long seed;
    long seeds[2];
 
-  int cycle = abs(int(rowIndex/maxIndex));
-  int row = abs(int(rowIndex%maxIndex));
-  int col = abs(int(colIndex%2));
+  int cycle = std::abs(int(rowIndex/maxIndex));
+  int row = std::abs(int(rowIndex%maxIndex));
+  int col = std::abs(int(colIndex%2));
   long mask = ((cycle & 0x000007ff) << 20);
   HepRandom::getTheTableSeeds( seeds, row );
   seed = (seeds[col])^mask;

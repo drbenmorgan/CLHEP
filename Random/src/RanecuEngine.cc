@@ -65,8 +65,8 @@ int RanecuEngine::numEngines = 0;
 RanecuEngine::RanecuEngine()
 : HepRandomEngine()
 {
-  int cycle = abs(int(numEngines/maxSeq));
-  seq = abs(int(numEngines%maxSeq));
+  int cycle = std::abs(int(numEngines/maxSeq));
+  seq = std::abs(int(numEngines%maxSeq));
   numEngines += 1;
   theSeed = seq;
   long mask = ((cycle & 0x007fffff) << 8);
@@ -82,8 +82,8 @@ RanecuEngine::RanecuEngine()
 RanecuEngine::RanecuEngine(int index)
 : HepRandomEngine()
 {
-  int cycle = abs(int(index/maxSeq));
-  seq = abs(int(index%maxSeq));
+  int cycle = std::abs(int(index/maxSeq));
+  seq = std::abs(int(index%maxSeq));
   theSeed = seq;
   long mask = ((cycle & 0x000007ff) << 20);
   for (int j=0; j<maxSeq; ++j) {
@@ -105,7 +105,7 @@ RanecuEngine::~RanecuEngine() {}
 
 void RanecuEngine::setSeed(long index, int dum)
 {
-  seq = abs(int(index%maxSeq));
+  seq = std::abs(int(index%maxSeq));
   theSeed = seq;
   HepRandom::getTheTableSeeds(table[seq],seq);
   theSeeds = &table[seq][0];
@@ -116,18 +116,18 @@ void RanecuEngine::setSeed(long index, int dum)
 void RanecuEngine::setSeeds(const long* seeds, int pos)
 {
   if (pos != -1) {
-    seq = abs(int(pos%maxSeq));
+    seq = std::abs(int(pos%maxSeq));
     theSeed = seq;
   }
   // only positive seeds are allowed
-  table[seq][0] = abs(seeds[0])%shift1;
-  table[seq][1] = abs(seeds[1])%shift2;
+  table[seq][0] = std::abs(seeds[0])%shift1;
+  table[seq][1] = std::abs(seeds[1])%shift2;
   theSeeds = &table[seq][0];
 }
 
 void RanecuEngine::setIndex(long index)
 {
-  seq = abs(int(index%maxSeq));
+  seq = std::abs(int(index%maxSeq));
   theSeed = seq;
   theSeeds = &table[seq][0];
 }

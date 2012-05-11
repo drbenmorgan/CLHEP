@@ -16,7 +16,7 @@
 #include "CLHEP/Random/RandGaussQ.h"
 #include "CLHEP/Units/PhysicalConstants.h"
 #include <iostream>
-#include <cmath>	// for log()
+#include <cmath>	// for std::log()
 
 namespace CLHEP {
 
@@ -131,9 +131,9 @@ double RandGaussQ::transformSmall (double r) {
 
   // Solve for -v in the asymtotic formula 
   //
-  // errInt (-v) =  exp(-v*v/2)         1     1*3    1*3*5
+  // errInt (-v) =  std::exp(-v*v/2)         1     1*3    1*3*5
   //		   ------------ * (1 - ---- + ---- - ----- + ... )
-  //		   v*sqrt(2*pi)        v**2   v**4   v**6
+  //		   v*std::sqrt(2*pi)        v**2   v**4   v**6
 
   // The value of r (=errInt(-v)) supplied is going to less than 2.0E-13,
   // which is such that v < -7.25.  Since the value of r is meaningful only
@@ -160,8 +160,8 @@ double RandGaussQ::transformSmall (double r) {
 	      s1 +=         7*5*3 * vn2*vn2*vn2*vn2;
     	      s1 +=          -5*3 * vn2*vn2*vn2;
 	      s1 += 	       3 * vn2*vn2    - vn2  +    1.0;
-    v = sqrt ( 2.0 * log ( s1 / (r*guess*sqrt(CLHEP::twopi)) ) );
-    if ( fabs(v-guess) < eps ) break;
+    v = std::sqrt ( 2.0 * std::log ( s1 / (r*guess*std::sqrt(CLHEP::twopi)) ) );
+    if ( std::fabs(v-guess) < eps ) break;
     guess = v;
   }
   return -v;
