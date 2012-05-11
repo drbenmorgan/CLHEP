@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
+#include <cmath>
 #include <limits>
 
 #include "CLHEP/Evaluator/Evaluator.h"
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 	int err=0;
 	for(unsigned i=0; i<sizeof(tests)/sizeof(Test); ++i) {
 		double v=e.evaluate(tests[i].expr);
-		if(isnan(v) || fabs(v-tests[i].value1) > 1E-12 || !e.isOK()) {
+		if(isnan(v) || std::fabs(v-tests[i].value1) > 1E-12 || !e.isOK()) {
 			printf("%s = %.6f should be %.6f\n",tests[i].expr,
 				e.evaluate(tests[i].expr),tests[i].value1);
 			err = 1;
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 //printf("x=10.0 y=-20.0 z=-30.0\n");
 	for(unsigned i=0; i<sizeof(tests)/sizeof(Test); ++i) {
 		double v=e.evaluate(tests[i].expr);
-		if(isnan(v) || fabs(v-tests[i].value2) > 1E-12 || !e.isOK()) {
+		if(isnan(v) || std::fabs(v-tests[i].value2) > 1E-12 || !e.isOK()) {
 			printf("%s = %.6f should be %.6f\n",tests[i].expr,
 				e.evaluate(tests[i].expr),tests[i].value2);
 			err = 1;

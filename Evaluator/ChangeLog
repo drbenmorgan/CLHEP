@@ -1,3 +1,9 @@
+
+2012-05-11 Lynn Garren <garren@fnal.gov>
+
+	* src/setStdMath.cc, src/Evaluator.cc, test/testBug90848.cc: 
+	  use explicit std:: with math functions
+
 ==============================
 14.02.12 Release CLHEP-2.1.2.2
 ==============================

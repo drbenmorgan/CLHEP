@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <sstream>
-#include <cmath>	// for pow()
+#include <cmath>	// for std::pow()
 #include "stack.src"
 #include "string.src"
 #include "hash_map.src"
@@ -327,7 +327,7 @@ static int maker(int op, stack<double> & val)
     return EVAL::OK;
   case POW:                               // operator '^' (or '**')
     errno = 0;
-    val.top() = pow(val1,val2);
+    val.top() = std::pow(val1,val2);
     if (errno == 0) return EVAL::OK;
   case UNARY_PLUS:                              // unary operator '+'
     val.top() = val1 + val2;			// val1 is zero
