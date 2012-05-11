@@ -170,7 +170,7 @@ namespace HepGeom {
     T perp2() const { return x()*x()+y()*y(); }
     /**
      * Gets transverse component. */
-    T perp() const { return sqrt(perp2()); }
+    T perp() const { return std::sqrt(perp2()); }
     /**
      * Gets rho-component in cylindrical coordinate system */
     T rho() const { return perp(); }
@@ -193,19 +193,19 @@ namespace HepGeom {
     T mag2() const { return x()*x()+y()*y()+z()*z(); }
     /**
      * Gets magnitude of the vector. */
-    T mag() const { return sqrt(mag2()); }
+    T mag() const { return std::sqrt(mag2()); }
     /**
      * Gets r-component in spherical coordinate system */
     T r() const { return mag(); }
     /**
      * Gets azimuth angle. */
     T phi() const {
-      return x() == 0 && y() == 0 ? 0 : atan2(y(),x());
+      return x() == 0 && y() == 0 ? 0 : std::atan2(y(),x());
     }
     /**
      * Gets polar angle. */
     T theta() const {
-      return x() == 0 && y() == 0 && z() == 0 ? 0 : atan2(perp(),z());
+      return x() == 0 && y() == 0 && z() == 0 ? 0 : std::atan2(perp(),z());
     }
     /**
      * Gets cosine of polar angle. */
@@ -234,13 +234,13 @@ namespace HepGeom {
     void setR(T ma) { setMag(ma); }
     /**
      * Sets phi-component in spherical coordinate system. */
-    void setPhi(T ph) { T xy = perp(); setX(xy*cos(ph)); setY(xy*sin(ph)); }
+    void setPhi(T ph) { T xy = perp(); setX(xy*std::cos(ph)); setY(xy*std::sin(ph)); }
     /**
      * Sets theta-component in spherical coordinate system. */
     void setTheta(T th) {
       T ma = mag();
       T ph = phi();
-      set(ma*sin(th)*cos(ph), ma*sin(th)*sin(ph), ma*cos(th));
+      set(ma*std::sin(th)*std::cos(ph), ma*std::sin(th)*std::sin(ph), ma*std::cos(th));
     }
 
     // ---------------
@@ -248,7 +248,7 @@ namespace HepGeom {
     // ---------------
 
     /**
-     * Gets pseudo-rapidity: -ln(tan(theta/2)) */
+     * Gets pseudo-rapidity: -ln(std::tan(theta/2)) */
     T pseudoRapidity() const;
     /**
      * Gets pseudo-rapidity. */
@@ -289,7 +289,7 @@ namespace HepGeom {
     /**
      * Returns transverse component w.r.t. given axis. */
     T perp(const BasicVector3D<T> & v) const {
-      return sqrt(perp2(v));
+      return std::sqrt(perp2(v));
     }
 
     /**

@@ -93,7 +93,7 @@ namespace HepGeom {
     /**
      * Normalization. */
     Plane3D<T> & normalize() {
-      double ll = sqrt(a_*a_ + b_*b_ + c_*c_);
+      double ll = std::sqrt(a_*a_ + b_*b_ + c_*c_);
       if (ll > 0.) { a_ /= ll; b_ /= ll; c_ /= ll, d_ /= ll; }
       return *this;
     }

@@ -12,8 +12,8 @@
 // 24.09.96 E.Chernyaev - initial version
 
 #include <iostream>
-#include <cmath>	// double abs()
-#include <stdlib.h>	// int abs()
+#include <cmath>	// double std::abs()
+#include <stdlib.h>	// int std::abs()
 #include "CLHEP/Geometry/defs.h"
 #include "CLHEP/Geometry/Transform3D.h"
 
@@ -94,11 +94,11 @@ namespace HepGeom {
     cos1 = x1*y1;
     cos2 = x2*y2;
     
-    if (abs(1.0-cos1) <= 0.000001 || abs(1.0-cos2) <= 0.000001) {
+    if (std::abs(1.0-cos1) <= 0.000001 || std::abs(1.0-cos2) <= 0.000001) {
       std::cerr << "Transform3D: zero angle between axes" << std::endl;
       setIdentity();
     }else{
-      if (abs(cos1-cos2) > 0.000001) {
+      if (std::abs(cos1-cos2) > 0.000001) {
 	std::cerr << "Transform3D: angles between axes are not equal"
 		  << std::endl;
       }
@@ -190,9 +190,9 @@ namespace HepGeom {
    *                                                                     *
    ***********************************************************************/
   {
-    double sx = sqrt(xx_*xx_ + yx_*yx_ + zx_*zx_);
-    double sy = sqrt(xy_*xy_ + yy_*yy_ + zy_*zy_);
-    double sz = sqrt(xz_*xz_ + yz_*yz_ + zz_*zz_);
+    double sx = std::sqrt(xx_*xx_ + yx_*yx_ + zx_*zx_);
+    double sy = std::sqrt(xy_*xy_ + yy_*yy_ + zy_*zy_);
+    double sz = std::sqrt(xz_*xz_ + yz_*yz_ + zz_*zz_);
 
     if (xx_*(yy_*zz_-yz_*zy_) -
 	xy_*(yx_*zz_-yz_*zx_) +
@@ -207,18 +207,18 @@ namespace HepGeom {
   // -------------------------------------------------------------------------
   bool Transform3D::isNear(const Transform3D & t, double tolerance) const
   { 
-    return ( (abs(xx_ - t.xx_) <= tolerance) && 
-	     (abs(xy_ - t.xy_) <= tolerance) &&
-	     (abs(xz_ - t.xz_) <= tolerance) &&
-	     (abs(dx_ - t.dx_) <= tolerance) &&
-	     (abs(yx_ - t.yx_) <= tolerance) &&
-	     (abs(yy_ - t.yy_) <= tolerance) &&
-	     (abs(yz_ - t.yz_) <= tolerance) &&
-	     (abs(dy_ - t.dy_) <= tolerance) &&
-	     (abs(zx_ - t.zx_) <= tolerance) &&
-	     (abs(zy_ - t.zy_) <= tolerance) &&
-	     (abs(zz_ - t.zz_) <= tolerance) &&
-	     (abs(dz_ - t.dz_) <= tolerance) );
+    return ( (std::abs(xx_ - t.xx_) <= tolerance) && 
+	     (std::abs(xy_ - t.xy_) <= tolerance) &&
+	     (std::abs(xz_ - t.xz_) <= tolerance) &&
+	     (std::abs(dx_ - t.dx_) <= tolerance) &&
+	     (std::abs(yx_ - t.yx_) <= tolerance) &&
+	     (std::abs(yy_ - t.yy_) <= tolerance) &&
+	     (std::abs(yz_ - t.yz_) <= tolerance) &&
+	     (std::abs(dy_ - t.dy_) <= tolerance) &&
+	     (std::abs(zx_ - t.zx_) <= tolerance) &&
+	     (std::abs(zy_ - t.zy_) <= tolerance) &&
+	     (std::abs(zz_ - t.zz_) <= tolerance) &&
+	     (std::abs(dz_ - t.dz_) <= tolerance) );
   }
 
   // -------------------------------------------------------------------------
@@ -248,11 +248,11 @@ namespace HepGeom {
     if (a == 0) return;
 
     double cx = p2.x()-p1.x(), cy = p2.y()-p1.y(), cz = p2.z()-p1.z();
-    double ll = sqrt(cx*cx + cy*cy + cz*cz); 
+    double ll = std::sqrt(cx*cx + cy*cy + cz*cz); 
     if (ll == 0) {
       std::cerr << "Rotate3D: zero axis" << std::endl;
     }else{
-      double cosa = cos(a), sina = sin(a);
+      double cosa = std::cos(a), sina = std::sin(a);
       cx /= ll; cy /= ll; cz /= ll;   
     
       double txx = cosa + (1-cosa)*cx*cx;

@@ -16,7 +16,7 @@ namespace HepGeom {
     if (ma ==  0)  return  0;
     if (ma ==  dz) return  FLT_MAX;
     if (ma == -dz) return -FLT_MAX;
-    return 0.5*log((ma+dz)/(ma-dz));
+    return 0.5*std::log((ma+dz)/(ma-dz));
   }
 
   //--------------------------------------------------------------------------
@@ -24,12 +24,12 @@ namespace HepGeom {
   void BasicVector3D<float>::setEta(float a) {
     double ma = mag();
     if (ma == 0) return;
-    double tanHalfTheta  = exp(-a);
+    double tanHalfTheta  = std::exp(-a);
     double tanHalfTheta2 = tanHalfTheta * tanHalfTheta;
     double cosTheta1      = (1 - tanHalfTheta2) / (1 + tanHalfTheta2);
-    double rh            = ma * sqrt(1 - cosTheta1*cosTheta1);
+    double rh            = ma * std::sqrt(1 - cosTheta1*cosTheta1);
     double ph            = phi();
-    set(rh*cos(ph), rh*sin(ph), ma*cosTheta1);
+    set(rh*std::cos(ph), rh*std::sin(ph), ma*cosTheta1);
   }
 
   //--------------------------------------------------------------------------
@@ -42,13 +42,13 @@ namespace HepGeom {
       if(cosa >  1) cosa =  1;
       if(cosa < -1) cosa = -1;
     }
-    return acos(cosa);
+    return std::acos(cosa);
   }
 
   //--------------------------------------------------------------------------
   template<>
   BasicVector3D<float> & BasicVector3D<float>::rotateX(float a) {
-    double sina = sin(a), cosa = cos(a), dy = y(), dz = z();
+    double sina = std::sin(a), cosa = std::cos(a), dy = y(), dz = z();
     setY(dy*cosa-dz*sina);
     setZ(dz*cosa+dy*sina);
     return *this;
@@ -57,7 +57,7 @@ namespace HepGeom {
   //--------------------------------------------------------------------------
   template<>
   BasicVector3D<float> & BasicVector3D<float>::rotateY(float a) {
-    double sina = sin(a), cosa = cos(a), dz = z(), dx = x();
+    double sina = std::sin(a), cosa = std::cos(a), dz = z(), dx = x();
     setZ(dz*cosa-dx*sina);
     setX(dx*cosa+dz*sina);
     return *this;
@@ -66,7 +66,7 @@ namespace HepGeom {
   //--------------------------------------------------------------------------
   template<>
   BasicVector3D<float> & BasicVector3D<float>::rotateZ(float a) {
-    double sina = sin(a), cosa = cos(a), dx = x(), dy = y();
+    double sina = std::sin(a), cosa = std::cos(a), dx = x(), dy = y();
     setX(dx*cosa-dy*sina);
     setY(dy*cosa+dx*sina);
     return *this;
@@ -78,12 +78,12 @@ namespace HepGeom {
   BasicVector3D<float>::rotate(float a, const BasicVector3D<float> & v) {
     if (a  == 0) return *this;
     double cx = v.x(), cy = v.y(), cz = v.z();
-    double ll = sqrt(cx*cx + cy*cy + cz*cz);
+    double ll = std::sqrt(cx*cx + cy*cy + cz*cz);
     if (ll == 0) {
       std::cerr << "BasicVector<float>::rotate() : zero axis" << std::endl;
       return *this;
     }
-    double cosa = cos(a), sina = sin(a);
+    double cosa = std::cos(a), sina = std::sin(a);
     cx /= ll; cy /= ll; cz /= ll;   
 
     double xx = cosa + (1-cosa)*cx*cx;
@@ -172,7 +172,7 @@ namespace HepGeom {
     if (ma ==  0)  return  0;
     if (ma ==  dz) return  DBL_MAX;
     if (ma == -dz) return -DBL_MAX;
-    return 0.5*log((ma+dz)/(ma-dz));
+    return 0.5*std::log((ma+dz)/(ma-dz));
   }
 
   //--------------------------------------------------------------------------
@@ -180,12 +180,12 @@ namespace HepGeom {
   void BasicVector3D<double>::setEta(double a) {
     double ma = mag();
     if (ma == 0) return;
-    double tanHalfTheta  = exp(-a);
+    double tanHalfTheta  = std::exp(-a);
     double tanHalfTheta2 = tanHalfTheta * tanHalfTheta;
     double cosTheta1      = (1 - tanHalfTheta2) / (1 + tanHalfTheta2);
-    double rh            = ma * sqrt(1 - cosTheta1*cosTheta1);
+    double rh            = ma * std::sqrt(1 - cosTheta1*cosTheta1);
     double ph            = phi();
-    set(rh*cos(ph), rh*sin(ph), ma*cosTheta1);
+    set(rh*std::cos(ph), rh*std::sin(ph), ma*cosTheta1);
   }
 
   //--------------------------------------------------------------------------
@@ -198,13 +198,13 @@ namespace HepGeom {
       if(cosa >  1) cosa =  1;
       if(cosa < -1) cosa = -1;
     }
-    return acos(cosa);
+    return std::acos(cosa);
   }
 
   //--------------------------------------------------------------------------
   template<>
   BasicVector3D<double> & BasicVector3D<double>::rotateX(double a) {
-    double sina = sin(a), cosa = cos(a), dy = y(), dz = z();
+    double sina = std::sin(a), cosa = std::cos(a), dy = y(), dz = z();
     setY(dy*cosa-dz*sina);
     setZ(dz*cosa+dy*sina);
     return *this;
@@ -213,7 +213,7 @@ namespace HepGeom {
   //--------------------------------------------------------------------------
   template<>
   BasicVector3D<double> & BasicVector3D<double>::rotateY(double a) {
-    double sina = sin(a), cosa = cos(a), dz = z(), dx = x();
+    double sina = std::sin(a), cosa = std::cos(a), dz = z(), dx = x();
     setZ(dz*cosa-dx*sina);
     setX(dx*cosa+dz*sina);
     return *this;
@@ -222,7 +222,7 @@ namespace HepGeom {
   //--------------------------------------------------------------------------
   template<>
   BasicVector3D<double> & BasicVector3D<double>::rotateZ(double a) {
-    double sina = sin(a), cosa = cos(a), dx = x(), dy = y();
+    double sina = std::sin(a), cosa = std::cos(a), dx = x(), dy = y();
     setX(dx*cosa-dy*sina);
     setY(dy*cosa+dx*sina);
     return *this;
@@ -234,12 +234,12 @@ namespace HepGeom {
   BasicVector3D<double>::rotate(double a, const BasicVector3D<double> & v) {
     if (a  == 0) return *this;
     double cx = v.x(), cy = v.y(), cz = v.z();
-    double ll = sqrt(cx*cx + cy*cy + cz*cz);
+    double ll = std::sqrt(cx*cx + cy*cy + cz*cz);
     if (ll == 0) {
       std::cerr << "BasicVector<double>::rotate() : zero axis" << std::endl;
       return *this;
     }
-    double cosa = cos(a), sina = sin(a);
+    double cosa = std::cos(a), sina = std::sin(a);
     cx /= ll; cy /= ll; cz /= ll;   
 
     double xx = cosa + (1-cosa)*cx*cx;

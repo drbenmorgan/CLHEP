@@ -115,13 +115,13 @@ using namespace HepGeom;
                         assert(p50.r()        ==  7);             \
                         assert(p50.getR()     ==  7);             \
   point p51(0,0,1);     assert(p51.phi()      ==  0);             \
-  point p52(2,4,5);     assert(EQUAL(p52.phi()     ,atan2(2.,1.))); \
-                        assert(EQUAL(p52.getPhi()  ,atan2(2.,1.))); \
+  point p52(2,4,5);     assert(EQUAL(p52.phi()     ,std::atan2(2.,1.))); \
+                        assert(EQUAL(p52.getPhi()  ,std::atan2(2.,1.))); \
   point p53(0,0,0);     assert(p53.theta()    ==  0);             \
                         assert(p53.cosTheta() ==  1);             \
-  point p54(3,4,10);    assert(EQUAL(p54.theta()   ,atan2(1.,2.))); \
-                        assert(EQUAL(p54.getTheta(),atan2(1.,2.))); \
-                        assert(EQUAL(p54.cosTheta(),sqrt(0.8)));  \
+  point p54(3,4,10);    assert(EQUAL(p54.theta()   ,std::atan2(1.,2.))); \
+                        assert(EQUAL(p54.getTheta(),std::atan2(1.,2.))); \
+                        assert(EQUAL(p54.cosTheta(),std::sqrt(0.8)));  \
   point p55(2,3,6);                                               \
   p55.setMag(14);       assert(p55 == point(4,6,12));             \
   p55.setR(7);          assert(p55 == point(2,3,6));              \
@@ -159,31 +159,31 @@ using namespace HepGeom;
   point p82 = p80.orthogonal(); assert(EQUAL(p82.dot(p81),0));    \
                                                                   \
   /* Check rotations */                                           \
-  point p90(2,0.5,sqrt(3.)/2);                                     \
+  point p90(2,0.5,std::sqrt(3.)/2);                                     \
   p90.rotateX(CLHEP::pi/6);          assert(p90.x()    == 2);          \
                                 assert(EQUAL(p90.y(),0));         \
                                 assert(EQUAL(p90.z(),1));         \
-  point p91(sqrt(3.)/2,2,0.5);                                     \
+  point p91(std::sqrt(3.)/2,2,0.5);                                     \
   p91.rotateY(CLHEP::pi/6);          assert(EQUAL(p91.x(),1));         \
                                 assert(p91.y()    == 2);          \
                                 assert(EQUAL(p91.z(),0));         \
-  point p92(0.5,sqrt(3.)/2,2);                                     \
+  point p92(0.5,std::sqrt(3.)/2,2);                                     \
   p92.rotateZ(CLHEP::pi/6);          assert(EQUAL(p92.x(),0));         \
                                 assert(EQUAL(p92.y(),1));         \
                                 assert(p92.z()    == 2);          \
-  point p93(1,1,sqrt(2.));                                         \
-  p93.rotate(CLHEP::pi,Vector3D<float>(-1,-1,sqrt(2.)));                \
+  point p93(1,1,std::sqrt(2.));                                         \
+  p93.rotate(CLHEP::pi,Vector3D<float>(-1,-1,std::sqrt(2.)));                \
                                 assert(EQUAL(p93.x(),-1));        \
                                 assert(EQUAL(p93.y(),-1));        \
-                                assert(EQUAL(p93.z(),-sqrt(2.)));  \
+                                assert(EQUAL(p93.z(),-std::sqrt(2.)));  \
                                                                   \
   /* Check transformations */                                     \
-  point p100(1,1,sqrt(2.));                                        \
+  point p100(1,1,std::sqrt(2.));                                        \
   Transform3D m;                                                  \
-  m = Rotate3D(CLHEP::pi,Vector3D<float>(-1,-1,sqrt(2.)));              \
+  m = Rotate3D(CLHEP::pi,Vector3D<float>(-1,-1,std::sqrt(2.)));              \
   p100.transform(m);            assert(EQUAL(p100.x(),-1));       \
                                 assert(EQUAL(p100.y(),-1));       \
-                                assert(EQUAL(p100.z(),-sqrt(2.))); \
+                                assert(EQUAL(p100.z(),-std::sqrt(2.))); \
                                                                   \
   /* Check input/output */                                        \
   point p110;                                                     \

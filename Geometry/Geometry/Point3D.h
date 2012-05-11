@@ -93,12 +93,12 @@ namespace HepGeom {
 
     /**
      * Returns distance to the origin. */
-    float distance() const { return sqrt(distance2()); }
+    float distance() const { return std::sqrt(distance2()); }
 
     /**
      * Returns distance to the point. */
     float distance(const Point3D<float> & p) const {
-      return sqrt(distance2(p));
+      return std::sqrt(distance2(p));
     }
 
     /**
@@ -202,12 +202,12 @@ namespace HepGeom {
 
     /**
      * Returns distance to the origin. */
-    double distance() const { return sqrt(distance2()); }
+    double distance() const { return std::sqrt(distance2()); }
 
     /**
      * Returns distance to the point. */
     double distance(const Point3D<double> & p) const {
-      return sqrt(distance2(p));
+      return std::sqrt(distance2(p));
     }
 
     /**

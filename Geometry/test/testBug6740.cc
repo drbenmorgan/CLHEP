@@ -23,7 +23,7 @@ int main(int, char **) {
   
   float result = Cross.mag();
   float eps = 1.0e-5;
-  if( fabs(result - expected) >  eps ) {
+  if( std::fabs(result - expected) >  eps ) {
     ++numbad;
     std::cout << "Expected " << expected << " got " << result << std::endl;
   }

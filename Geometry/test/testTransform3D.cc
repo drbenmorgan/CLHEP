@@ -65,15 +65,15 @@ int main() {
 
   Point p1 = M * p0;
   Point p2 = R*Hep3Vector(1,1,1) + D;
-  assert( abs(p1.x()-p2.x()) < DEL );
-  assert( abs(p1.y()-p2.y()) < DEL );
-  assert( abs(p1.z()-p2.z()) < DEL );
+  assert( std::abs(p1.x()-p2.x()) < DEL );
+  assert( std::abs(p1.y()-p2.y()) < DEL );
+  assert( std::abs(p1.z()-p2.z()) < DEL );
 
   Vector v1 = M * v0;
   Normal n1 = M * n0;
-  assert( abs(v1.x()-n1.x()) < DEL );
-  assert( abs(v1.y()-n1.y()) < DEL );
-  assert( abs(v1.z()-n1.z()) < DEL );
+  assert( std::abs(v1.x()-n1.x()) < DEL );
+  assert( std::abs(v1.y()-n1.y()) < DEL );
+  assert( std::abs(v1.z()-n1.z()) < DEL );
 
   // Transformation of basis
 
@@ -82,7 +82,7 @@ int main() {
   Transformation T(Point(0,0,0), Point(1,0,0), Point(0,1,0), D, p1, p2);
 
   for (i=0; i<4; i++) {
-    for (k=0; k<4; k++) { assert ( abs(M[i][k] - T[i][k]) < DEL ); }
+    for (k=0; k<4; k++) { assert ( std::abs(M[i][k] - T[i][k]) < DEL ); }
   }
 
   // Set Identity
@@ -106,13 +106,13 @@ int main() {
   assert (T != M);
   T = M * T;
   for (i=0; i<4; i++) {
-    for (k=0; k<4; k++) { assert ( abs(T[i][k] - E[i][k]) < DEL ); }
+    for (k=0; k<4; k++) { assert ( std::abs(T[i][k] - E[i][k]) < DEL ); }
   }
  
   T = M.inverse();
   T = T * M;
   for (i=0; i<4; i++) {
-    for (k=0; k<4; k++) { assert ( abs(T[i][k] - E[i][k]) < DEL ); }
+    for (k=0; k<4; k++) { assert ( std::abs(T[i][k] - E[i][k]) < DEL ); }
   }
 
   // Get Rotation
@@ -146,8 +146,8 @@ int main() {
   T = TT*RR*SS;
   for (i=0; i<4; i++) {
     for (k=0; k<4; k++) {
-      assert ( abs(S[i][k] - SS[i][k]) < DEL );
-      assert ( abs(M[i][k] - T[i][k])  < DEL );
+      assert ( std::abs(S[i][k] - SS[i][k]) < DEL );
+      assert ( std::abs(M[i][k] - T[i][k])  < DEL );
     }
   }
 

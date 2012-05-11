@@ -436,7 +436,7 @@ namespace HepGeom {
     /**
      * Constructs a rotation around x-axis by angle a. */
     RotateX3D(double a) {
-      double cosa = cos(a), sina = sin(a); 
+      double cosa = std::cos(a), sina = std::sin(a); 
       setTransform(1,0,0,0,  0,cosa,-sina,0,  0,sina,cosa,0);
     }
   };
@@ -464,7 +464,7 @@ namespace HepGeom {
     /**
      * Constructs a rotation around y-axis by angle a. */
     RotateY3D(double a) {
-      double cosa = cos(a), sina = sin(a); 
+      double cosa = std::cos(a), sina = std::sin(a); 
       setTransform(cosa,0,sina,0,  0,1,0,0,  -sina,0,cosa,0);
     }
   };
@@ -492,7 +492,7 @@ namespace HepGeom {
     /**
      * Constructs a rotation around z-axis by angle a. */
     RotateZ3D(double a) {
-      double cosa = cos(a), sina = sin(a); 
+      double cosa = std::cos(a), sina = std::sin(a); 
       setTransform(cosa,-sina,0,0,  sina,cosa,0,0,  0,0,1,0);
     }
   };
