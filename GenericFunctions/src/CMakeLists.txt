@@ -1,3 +1,4 @@
+set( GSL_source Psi2Hydrogen.cc )
 set( GenericFunctions_source
 				      Abs.cc
 				      AbsFunctional.cc
@@ -65,7 +66,6 @@ set( GenericFunctions_source
 				      PeriodicRectangular.cc
 				      PhaseSpace.cc
 				      Power.cc
-				      Psi2Hydrogen.cc
 				      PtRelFcn.cc
 				      PuncturedSmearedExp.cc
 				      RCBase.cc
@@ -86,4 +86,8 @@ set( GenericFunctions_source
 				      X.cc
 				      )
 
-clhep_build_library( GenericFunctions ${GenericFunctions_source})
+if( GSL_DIR )
+  clhep_build_library( GenericFunctions ${GenericFunctions_source} ${GSL_source} )
+else()
+  clhep_build_library( GenericFunctions ${GenericFunctions_source} )
+endif()

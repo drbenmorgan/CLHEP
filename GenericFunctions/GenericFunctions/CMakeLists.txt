@@ -13,7 +13,6 @@ set( pkginclude_HEADERS
 			ArrayFunction.hh
 			ASin.hh
 			AssociatedLaguerre.hh
-			AssociatedLegendre.hh
 			ATan.hh
 			Bessel.hh
 			Bessel.icc
@@ -87,7 +86,6 @@ set( pkginclude_HEADERS
 			PeriodicRectangular.hh
 			PhaseSpace.hh
 			Power.hh
-			Psi2Hydrogen.hh
 			PtRelFcn.hh
 			PuncturedSmearedExp.hh
 			RCBase.hh
@@ -116,6 +114,17 @@ set( pkginclude_HEADERS
 			X.hh
 			)
 
+set( gslinclude_HEADERS AssociatedLegendre.hh
+                        AssociatedLegendre.icc
+			Psi2Hydrogen.hh
+			Psi2Hydrogen.icc
+			)
+
 # notice that defs.h is not referenced here
-INSTALL (FILES ${pkginclude_HEADERS}  
-         DESTINATION include/CLHEP/GenericFunctions )
+if( GSL_DIR )
+  INSTALL (FILES ${pkginclude_HEADERS} ${gslinclude_HEADERS} 
+           DESTINATION include/CLHEP/GenericFunctions )
+else()
+  INSTALL (FILES ${pkginclude_HEADERS}  
+           DESTINATION include/CLHEP/GenericFunctions )
+endif()
