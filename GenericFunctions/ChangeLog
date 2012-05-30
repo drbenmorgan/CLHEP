@@ -1,9 +1,9 @@
 
-2012-05-29  Lynn Garren <garren@fnal.gov>
+2012-05-30  Lynn Garren <garren@fnal.gov>
 
-	* AssociatedLegendre.icc references gsl/gsl_sf_legendre.h
-	* cmake build disables AssociatedLegendre and Psi2Hydrogen
-	  unless the $GSL variable is defined
+	* latest changes from Joe Boudreau
+	* GenericFunctions/Psi2Hydrogen.icc: replaces src/Psi2Hydrogen.cc
+	* GenericFunctions/AssociatedLegendre.icc: replaces src/AssociatedLegendre.cc
 
 ==============================
 14.02.12 Release CLHEP-2.1.2.2

@@ -13,12 +13,15 @@ set( pkginclude_HEADERS
 			ArrayFunction.hh
 			ASin.hh
 			AssociatedLaguerre.hh
+			AssociatedLegendre.hh
+			AssociatedLegendre.icc
 			ATan.hh
 			Bessel.hh
 			Bessel.icc
 			BetaDistribution.hh
 			BivariateGaussian.hh
 			ClassicalSolver.hh
+			ClebschGordanCoefficientSet.hh
 			ConstMinusFunction.hh
 			ConstMinusParameter.hh
 			ConstOverFunction.hh
@@ -56,14 +59,18 @@ set( pkginclude_HEADERS
 			FunctionQuotient.hh
 			FunctionSum.hh
 			FunctionTimesParameter.hh
-			GammaDistribution.hh
 			Gamma.hh
+			GammaDistribution.hh
 			Gaussian.hh
 			GenericFunctions.hh
 			IncompleteGamma.hh
 			InterpolatingPolynomial.hh
 			KroneckerDelta.hh
 			Landau.hh
+			LegendreCoefficientSet.hh
+			LegendreCoefficientSet.icc
+			LegendreExpansion.hh
+			LegendreExpansion.icc
 			LegendreFit.hh
 			LegendreFit.icc
 			Legendre.hh
@@ -86,6 +93,8 @@ set( pkginclude_HEADERS
 			PeriodicRectangular.hh
 			PhaseSpace.hh
 			Power.hh
+			Psi2Hydrogen.hh
+			Psi2Hydrogen.icc
 			PtRelFcn.hh
 			PuncturedSmearedExp.hh
 			RCBase.hh
@@ -100,6 +109,10 @@ set( pkginclude_HEADERS
 			SphericalBessel.icc
 			SphericalHarmonicFit.hh
 			SphericalHarmonicFit.icc
+			SphericalHarmonicExpansion.hh
+			SphericalHarmonicExpansion.icc
+			SphericalHarmonicCoefficientSet.hh
+			SphericalHarmonicCoefficientSet.icc
 			SphericalNeumann.hh
 			SphericalNeumann.icc
 			Sqrt.hh
@@ -114,17 +127,5 @@ set( pkginclude_HEADERS
 			X.hh
 			)
 
-set( gslinclude_HEADERS AssociatedLegendre.hh
-                        AssociatedLegendre.icc
-			Psi2Hydrogen.hh
-			Psi2Hydrogen.icc
-			)
-
-# notice that defs.h is not referenced here
-if( GSL_DIR )
-  INSTALL (FILES ${pkginclude_HEADERS} ${gslinclude_HEADERS} 
-           DESTINATION include/CLHEP/GenericFunctions )
-else()
-  INSTALL (FILES ${pkginclude_HEADERS}  
-           DESTINATION include/CLHEP/GenericFunctions )
-endif()
+INSTALL (FILES ${pkginclude_HEADERS}  
+         DESTINATION include/CLHEP/GenericFunctions )
