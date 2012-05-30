@@ -27,21 +27,21 @@ namespace CLHEP {
 // Simple operation for all elements
 
 #define SIMPLE_UOP(OPER)          \
-  register HepMatrix::mIter a=m.begin();            \
-  register HepMatrix::mIter e=m.begin()+num_size(); \
+  HepMatrix::mIter a=m.begin();            \
+  HepMatrix::mIter e=m.begin()+num_size(); \
   for(;a<e; a++) (*a) OPER t;
 
 #define SIMPLE_BOP(OPER)          \
-   register HepMatrix::mIter a=m.begin();            \
-   register HepMatrix::mcIter b=m2.m.begin();         \
-   register HepMatrix::mIter e=m.begin()+num_size(); \
+   HepMatrix::mIter a=m.begin();            \
+   HepMatrix::mcIter b=m2.m.begin();         \
+   HepMatrix::mIter e=m.begin()+num_size(); \
    for(;a<e; a++, b++) (*a) OPER (*b);
 
 #define SIMPLE_TOP(OPER)          \
-   register HepMatrix::mcIter a=m1.m.begin();            \
-   register HepMatrix::mcIter b=m2.m.begin();         \
-   register HepMatrix::mIter t=mret.m.begin();         \
-   register HepMatrix::mcIter e=m1.m.begin()+m1.nrow; \
+   HepMatrix::mcIter a=m1.m.begin();            \
+   HepMatrix::mcIter b=m2.m.begin();         \
+   HepMatrix::mIter t=mret.m.begin();         \
+   HepMatrix::mcIter e=m1.m.begin()+m1.nrow; \
    for( ;a<e; a++, b++, t++) (*t) = (*a) OPER (*b);
 
 #define CHK_DIM_2(r1,r2,c1,c2,fun) \
@@ -184,9 +184,9 @@ HepDiagMatrix HepDiagMatrix::operator- () const
 {
    HepDiagMatrix m2(nrow);
 #endif
-   register HepMatrix::mcIter a=m.begin();
-   register HepMatrix::mIter b=m2.m.begin();
-   register HepMatrix::mcIter e=m.begin()+num_size();
+   HepMatrix::mcIter a=m.begin();
+   HepMatrix::mIter b=m2.m.begin();
+   HepMatrix::mcIter e=m.begin()+num_size();
    for(;a<e; a++, b++) (*b) = -(*a);
    return m2;
 }
@@ -467,8 +467,8 @@ HepMatrix & HepMatrix::operator+=(const HepDiagMatrix &m2)
 HepSymMatrix & HepSymMatrix::operator+=(const HepDiagMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),+=);
-  register HepMatrix::mIter a=m.begin();
-  register HepMatrix::mcIter b=m2.m.begin();
+  HepMatrix::mIter a=m.begin();
+  HepMatrix::mcIter b=m2.m.begin();
   for(int i=1;i<=num_row();i++) {
     *a += *(b++);
     if(i<num_row()) a += (i+1);
@@ -499,8 +499,8 @@ HepMatrix & HepMatrix::operator-=(const HepDiagMatrix &m2)
 HepSymMatrix & HepSymMatrix::operator-=(const HepDiagMatrix &m2)
 {
   CHK_DIM_2(num_row(),m2.num_row(),num_col(),m2.num_col(),+=);
-  register HepMatrix::mIter a=m.begin();
-  register HepMatrix::mcIter b=m2.m.begin();
+  HepMatrix::mIter a=m.begin();
+  HepMatrix::mcIter b=m2.m.begin();
   for(int i=1;i<=num_row();i++) {
     *a -= *(b++);
     if(i<num_row()) a += (i+1);

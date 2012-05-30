@@ -98,7 +98,7 @@ void HepGenMatrix::delete_m(int size, double* m)
    }
 }
 
-double* HepGenMatrix::new_m(int size)
+double* HepGenMatrix::new_m(int )
 {
   /*-ap: data_array is replaced by the std::vector<double>,
    *     so we simply return 0 here

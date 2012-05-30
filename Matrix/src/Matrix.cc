@@ -29,21 +29,21 @@ namespace CLHEP {
 // Simple operation for all elements
 
 #define SIMPLE_UOP(OPER)                            \
-   register mIter a=m.begin();                      \
-   register mIter e=m.end();                        \
+   mIter a=m.begin();                      \
+   mIter e=m.end();                        \
    for(;a!=e; a++) (*a) OPER t;
 
 #define SIMPLE_BOP(OPER)                            \
-   register HepMatrix::mIter a=m.begin();                      \
-   register HepMatrix::mcIter b=m2.m.begin();                  \
-   register HepMatrix::mIter e=m.end();                        \
+   HepMatrix::mIter a=m.begin();                      \
+   HepMatrix::mcIter b=m2.m.begin();                  \
+   HepMatrix::mIter e=m.end();                        \
    for(;a!=e; a++, b++) (*a) OPER (*b);
 
 #define SIMPLE_TOP(OPER)                            \
-   register HepMatrix::mcIter a=m1.m.begin();       \
-   register HepMatrix::mcIter b=m2.m.begin();       \
-   register HepMatrix::mIter t=mret.m.begin();      \
-   register HepMatrix::mcIter e=m1.m.end();         \
+   HepMatrix::mcIter a=m1.m.begin();       \
+   HepMatrix::mcIter b=m2.m.begin();       \
+   HepMatrix::mIter t=mret.m.begin();      \
+   HepMatrix::mcIter e=m1.m.end();         \
    for(;a!=e; a++, b++, t++) (*t) = (*a) OPER (*b);
 
 // Static functions.
@@ -266,9 +266,9 @@ HepMatrix HepMatrix::operator- () const
 {
    HepMatrix m2(nrow, ncol);
 #endif
-   register mcIter a=m.begin();
-   register mIter b=m2.m.begin();
-   register mcIter e=m.end();
+   mcIter a=m.begin();
+   mIter b=m2.m.begin();
+   mcIter e=m.end();
    for(;a<e; a++, b++) (*b) = -(*a);
    return m2;
 }
@@ -367,10 +367,10 @@ HepMatrix operator*(const HepMatrix &m1,const HepMatrix &m2)
      for (int j=0; j<m1cols; j++) 
      {
 	register double temp = m1.m[i*m1cols+j];
-	register HepMatrix::mIter pt = mret.m.begin() + i*m2cols;
+	HepMatrix::mIter pt = mret.m.begin() + i*m2cols;
 	
 	// Loop over k (the column index in matrix m2)
-	register HepMatrix::mcIter pb = m2.m.begin() + m2cols*j;
+	HepMatrix::mcIter pb = m2.m.begin() + m2cols*j;
 	const HepMatrix::mcIter pblast = pb + m2cols;
 	while (pb < pblast)
 	{
@@ -461,8 +461,8 @@ return mret(ncol,nrow);
 {
    HepMatrix mret(ncol,nrow);
 #endif
-   register mcIter pme = m.begin();
-   register mIter pt = mret.m.begin();
+   mcIter pme = m.begin();
+   mIter pt = mret.m.begin();
    for( int nr=0; nr<nrow; ++nr) {
        for( int nc=0; nc<ncol; ++nc) {
           pt = mret.m.begin() + nr + nrow*nc;
@@ -549,8 +549,8 @@ int HepMatrix::dfinv_matrix(int *ir) {
     for (j=1; j<=i;j++) {
       s33 = *mij;
       // change initial definition of mikj to avoid pointing off the end of the storage array
-      register mIter mikj = mi + j - 1;
-      register mIter miik = mii + 1;
+      mIter mikj = mi + j - 1;
+      mIter miik = mii + 1;
       mIter min_end = mi + n;
       for (;miik<min_end;) {
         // iterate by n as we enter the loop to avoid pointing off the end of the storage array

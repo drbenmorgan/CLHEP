@@ -27,21 +27,21 @@ namespace CLHEP {
 // Simple operation for all elements
 
 #define SIMPLE_UOP(OPER)          \
-   register HepMatrix::mIter a=m.begin();            \
-   register HepMatrix::mIter e=m.begin()+num_size(); \
+   HepMatrix::mIter a=m.begin();            \
+   HepMatrix::mIter e=m.begin()+num_size(); \
    for(;a<e; a++) (*a) OPER t;
 
 #define SIMPLE_BOP(OPER)          \
-   register HepMatrix::mIter a=m.begin();            \
-   register HepMatrix::mcIter b=m2.m.begin();         \
-   register HepMatrix::mcIter e=m.begin()+num_size(); \
+   HepMatrix::mIter a=m.begin();            \
+   HepMatrix::mcIter b=m2.m.begin();         \
+   HepMatrix::mcIter e=m.begin()+num_size(); \
    for(;a<e; a++, b++) (*a) OPER (*b);
 
 #define SIMPLE_TOP(OPER)          \
-   register HepMatrix::mcIter a=m1.m.begin();           \
-   register HepMatrix::mcIter b=m2.m.begin();         \
-   register HepMatrix::mIter t=mret.m.begin();         \
-   register HepMatrix::mcIter e=m1.m.begin()+m1.num_size(); \
+   HepMatrix::mcIter a=m1.m.begin();           \
+   HepMatrix::mcIter b=m2.m.begin();         \
+   HepMatrix::mIter t=mret.m.begin();         \
+   HepMatrix::mcIter e=m1.m.begin()+m1.num_size(); \
    for( ;a<e; a++, b++, t++) (*t) = (*a) OPER (*b);
 
 #define CHK_DIM_2(r1,r2,c1,c2,fun) \
@@ -219,9 +219,9 @@ HepSymMatrix HepSymMatrix::operator- () const
 {
    HepSymMatrix m2(nrow);
 #endif
-   register HepMatrix::mcIter a=m.begin();
-   register HepMatrix::mIter b=m2.m.begin();
-   register HepMatrix::mcIter e=m.begin()+num_size();
+   HepMatrix::mcIter a=m.begin();
+   HepMatrix::mIter b=m2.m.begin();
+   HepMatrix::mcIter e=m.begin()+num_size();
    for(;a<e; a++, b++) (*b) = -(*a);
    return m2;
 }

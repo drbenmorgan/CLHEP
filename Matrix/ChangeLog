@@ -1,3 +1,9 @@
+
+2012-05-30 Lynn Garren <garren@fnal.gov> 
+
+	* more cleanup for -Wextra (remove register declaration of iterators)
+	  According to Stroustrup, 2000, use of register is now redundant.
+
 ==============================
 14.02.12 Release CLHEP-2.1.2.2
 ==============================

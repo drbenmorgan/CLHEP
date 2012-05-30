@@ -22,21 +22,21 @@ namespace CLHEP {
 // Simple operation for all elements
 
 #define SIMPLE_UOP(OPER)          \
-   register HepGenMatrix::mIter a=m.begin();            \
-   register HepGenMatrix::mIter e=m.begin()+num_size(); \
+   HepGenMatrix::mIter a=m.begin();            \
+   HepGenMatrix::mIter e=m.begin()+num_size(); \
    for(;a<e; a++) (*a) OPER t;
 
 #define SIMPLE_BOP(OPER)          \
-   register mIter a=m.begin();            \
-   register mcIter b=m2.m.begin();               \
-   register mcIter e=m.begin()+num_size(); \
+   mIter a=m.begin();            \
+   mcIter b=m2.m.begin();               \
+   mcIter e=m.begin()+num_size(); \
    for(;a<e; a++, b++) (*a) OPER (*b);
 
 #define SIMPLE_TOP(OPER)          \
-   register HepGenMatrix::mcIter a=m1.m.begin();            \
-   register HepGenMatrix::mcIter b=m2.m.begin();         \
-   register HepGenMatrix::mIter t=mret.m.begin();         \
-   register HepGenMatrix::mcIter e=m1.m.begin()+m1.num_size(); \
+   HepGenMatrix::mcIter a=m1.m.begin();            \
+   HepGenMatrix::mcIter b=m2.m.begin();         \
+   HepGenMatrix::mIter t=mret.m.begin();         \
+   HepGenMatrix::mcIter e=m1.m.begin()+m1.num_size(); \
    for( ;a<e; a++, b++, t++) (*t) = (*a) OPER (*b);
 
 #define CHK_DIM_2(r1,r2,c1,c2,fun) \
@@ -218,9 +218,9 @@ HepVector HepVector::operator- () const
 {
    HepVector m2(nrow);
 #endif
-   register HepGenMatrix::mcIter a=m.begin();
-   register HepGenMatrix::mIter b=m2.m.begin();
-   register HepGenMatrix::mcIter e=m.begin()+num_size();
+   HepGenMatrix::mcIter a=m.begin();
+   HepGenMatrix::mIter b=m2.m.begin();
+   HepGenMatrix::mcIter e=m.begin()+num_size();
    for(;a<e; a++, b++) (*b) = -(*a);
    return m2;
 }
