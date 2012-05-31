@@ -136,7 +136,7 @@
 
 class CLHEP_vector_exception : public std::exception {
 public:
-    CLHEP_vector_exception ( const std::string & s ) throw();
+    CLHEP_vector_exception ( const std::string & s1 ) throw();
     virtual const char* what() const throw();
     virtual const char* name() const throw() = 0; 
     virtual ~CLHEP_vector_exception() throw() {} 

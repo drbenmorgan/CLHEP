@@ -26,7 +26,7 @@
 #ifndef ENABLE_ZOOM_EXCEPTIONS
 
 CLHEP_vector_exception::CLHEP_vector_exception 
-		( const std::string & s ) throw() : message(s) {}		
+		( const std::string & s1 ) throw() : message(s1) {}		
 
 const char* 
 CLHEP_vector_exception::what() const throw() { 
@@ -38,7 +38,7 @@ CLHEP_vector_exception::what() const throw() {
 }
 
 #define CLHEP_vector_exception_methods(NAME)				    \
-  NAME::NAME(const std::string & s) throw() : CLHEP_vector_exception(s) {}  \
+  NAME::NAME(const std::string & s1) throw() : CLHEP_vector_exception(s1) {}  \
   const char* NAME::name() const throw() {				    \
     return #NAME;							    \
   }

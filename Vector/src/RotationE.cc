@@ -149,25 +149,25 @@ double HepRotation::psi  () const {
 // Helpers for eulerAngles():
 
 static		     
-void correctByPi ( double& psi, double& phi ) {
-  if (psi > 0) {
-    psi -= CLHEP::pi;
+void correctByPi ( double& psi1, double& phi1 ) {
+  if (psi1 > 0) {
+    psi1 -= CLHEP::pi;
   } else {
-    psi += CLHEP::pi;
+    psi1 += CLHEP::pi;
   }
-  if (phi > 0) {
-    phi -= CLHEP::pi;
+  if (phi1 > 0) {
+    phi1 -= CLHEP::pi;
   } else {
-    phi += CLHEP::pi;
+    phi1 += CLHEP::pi;
   }  
 }
 
 static
 void correctPsiPhi ( double rxz, double rzx, double ryz, double rzy, 
-		     double& psi, double& phi ) {
+		     double& psi1, double& phi1 ) {
 
   // set up quatities which would be positive if sin and cosine of
-  // psi and phi were positive:
+  // psi1 and phi1 were positive:
   double w[4];
   w[0] = rxz; w[1] = rzx; w[2] = ryz; w[3] = -rzy;
 
@@ -184,20 +184,20 @@ void correctPsiPhi ( double rxz, double rzx, double ryz, double rzy,
   // different depending on whether a sine or cosine was the determinor: 
   switch (imax) {
     case 0:
-      if (w[0] > 0 && psi < 0)           correctByPi ( psi, phi );
-      if (w[0] < 0 && psi > 0)           correctByPi ( psi, phi );
+      if (w[0] > 0 && psi1 < 0)           correctByPi ( psi1, phi1 );
+      if (w[0] < 0 && psi1 > 0)           correctByPi ( psi1, phi1 );
       break;
     case 1:
-      if (w[1] > 0 && phi < 0)           correctByPi ( psi, phi );
-      if (w[1] < 0 && phi > 0)           correctByPi ( psi, phi );
+      if (w[1] > 0 && phi1 < 0)           correctByPi ( psi1, phi1 );
+      if (w[1] < 0 && phi1 > 0)           correctByPi ( psi1, phi1 );
       break;
     case 2:
-      if (w[2] > 0 && std::abs(psi) > CLHEP::halfpi) correctByPi ( psi, phi );    
-      if (w[2] < 0 && std::abs(psi) < CLHEP::halfpi) correctByPi ( psi, phi );    
+      if (w[2] > 0 && std::abs(psi1) > CLHEP::halfpi) correctByPi ( psi1, phi1 );    
+      if (w[2] < 0 && std::abs(psi1) < CLHEP::halfpi) correctByPi ( psi1, phi1 );    
       break;
     case 3:
-      if (w[3] > 0 && std::abs(phi) > CLHEP::halfpi) correctByPi ( psi, phi );    
-      if (w[3] < 0 && std::abs(phi) < CLHEP::halfpi) correctByPi ( psi, phi );    
+      if (w[3] > 0 && std::abs(phi1) > CLHEP::halfpi) correctByPi ( psi1, phi1 );    
+      if (w[3] < 0 && std::abs(phi1) < CLHEP::halfpi) correctByPi ( psi1, phi1 );    
       break;
   }          
 }

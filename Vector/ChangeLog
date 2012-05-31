@@ -1,9 +1,8 @@
 
 2012-05-31 Lynn Garren <garren@fnal.gov>
 
-	* Vector/TwoVector.icc: fix for shadowing when global units used
-	* Vector/LorentzVector.icc: fix for shadowing when global units used
-	  USING_VISUAL code blocks are no longer needed
+	* Vector, src: fix for shadowing when global units used
+	* Vector/LorentzVector.icc: USING_VISUAL code blocks are no longer needed
 	* test: include CLHEP/Units/GlobalSystemOfUnits.h in tests
 
 

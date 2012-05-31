@@ -46,7 +46,7 @@ HepLorentzVector rotationOf
 HepLorentzVector rotationOf
     ( const HepLorentzVector & vec, const HepAxisAngle & ax );
 HepLorentzVector rotationOf
-    ( const HepLorentzVector & vec, const HepEulerAngles & e );
+    ( const HepLorentzVector & vec, const HepEulerAngles & e1 );
 HepLorentzVector rotationOf
     ( const HepLorentzVector & vec, double phi,
                                     double theta,
@@ -304,7 +304,7 @@ public:
 
 // 0 - Flexible metric convention 
 
-  static ZMpvMetric_t setMetric( ZMpvMetric_t m );
+  static ZMpvMetric_t setMetric( ZMpvMetric_t a1 );
   static ZMpvMetric_t getMetric();
 
 // 1 - Construct and set 4-vectors in various ways 

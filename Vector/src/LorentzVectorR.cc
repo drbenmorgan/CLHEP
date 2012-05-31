@@ -59,9 +59,9 @@ HepLorentzVector rotationOf
 }
 
 HepLorentzVector rotationOf
-	(const HepLorentzVector & vec, const HepEulerAngles &e ) {
+	(const HepLorentzVector & vec, const HepEulerAngles &e1 ) {
   HepLorentzVector vv (vec);
-  return vv.rotate (e);
+  return vv.rotate (e1);
 }
 
 HepLorentzVector rotationOf (const HepLorentzVector & vec, 
