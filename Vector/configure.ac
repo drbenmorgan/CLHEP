@@ -131,12 +131,6 @@ AH_VERBATIM([VERSION],[/* Version number of package */
 #undef VERSION
 #endif])
 
-## Visual C++ compile flag
-AH_VERBATIM([USING_VISUAL],[/* special compile requirements for Visual C++ */
-#ifndef USING_VISUAL
-#undef USING_VISUAL
-#endif])
-
 AH_BOTTOM([#endif  // VECTOR_DEFS_H])
 
 
@@ -299,7 +293,6 @@ cl)
    build_static="no"
    build_shared="yes"
    build_visual="yes"
-   AC_DEFINE([USING_VISUAL], [TRUE], [building with Visual C++])
    CXXFLAGS=" "
    AC_SUBST(CXXFLAGS)
    ;;

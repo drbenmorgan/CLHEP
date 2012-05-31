@@ -9,6 +9,7 @@
 // and the interaction with the HepLorentzRotation class.
 //
 
+#include "CLHEP/Units/GlobalSystemOfUnits.h"	// to see shadowing problems
 #include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/LorentzVector.h"
 #include "CLHEP/Vector/LorentzRotation.h"
@@ -187,9 +188,9 @@ int main () {
   d5 = d3 = d1 = HepLorentzVector(1.0, 2.0, -1.0, 3.0);
   d6 = d4 = d2 = HepLorentzVector(-1.0, 1.0, 2.0, 4.0);
   double M = (d1 + d2).mag();
-  double m1 = d1.mag();
-  double m2 = d2.mag();
-  double p2 = (sqr(M)-sqr(m1+m2))*(sqr(M)-sqr(m1-m2))/(4.0*sqr(M));
+  double dm1 = d1.mag();
+  double dm2 = d2.mag();
+  double p2 = (sqr(M)-sqr(dm1+dm2))*(sqr(M)-sqr(dm1-dm2))/(4.0*sqr(M));
   d30 = -(d1 + d2).boostVector();
   d1.boost(d30);
   double phi = d1.phi();
@@ -202,8 +203,8 @@ int main () {
   r3.rotateY(-theta);
   r4 = r3  * r2 * r1;
   d2 *= r4;
-  if ( !test(d1, 0.0, 0.0, std::sqrt(p2), std::sqrt(p2 + sqr(m1)), DEPS) ) exit(7);
-  if ( !test(d2, 0.0, 0.0, -std::sqrt(p2), std::sqrt(p2 + sqr(m2)), DEPS) ) exit(7);
+  if ( !test(d1, 0.0, 0.0, std::sqrt(p2), std::sqrt(p2 + sqr(dm1)), DEPS) ) exit(7);
+  if ( !test(d2, 0.0, 0.0, -std::sqrt(p2), std::sqrt(p2 + sqr(dm2)), DEPS) ) exit(7);
   d1.transform(r4.inverse());
   if ( !test(d1, d3, DEPS) ) exit(7);
   r5 *= r3;
@@ -217,8 +218,8 @@ int main () {
   r4.rotateY(-theta);
   d3 *= r4;
   d4 = r4 * d6;
-  if ( !test(d3, 0.0, 0.0, std::sqrt(p2), std::sqrt(p2 + sqr(m1)), DEPS) ) exit(7);
-  if ( !test(d4, 0.0, 0.0, -std::sqrt(p2), std::sqrt(p2 + sqr(m2)), DEPS) ) exit(7);
+  if ( !test(d3, 0.0, 0.0, std::sqrt(p2), std::sqrt(p2 + sqr(dm1)), DEPS) ) exit(7);
+  if ( !test(d4, 0.0, 0.0, -std::sqrt(p2), std::sqrt(p2 + sqr(dm2)), DEPS) ) exit(7);
   r5 = r1.inverse();
   r5 *= r.inverse();
   r5 *= r3.inverse();
@@ -233,8 +234,8 @@ int main () {
   r5.transform(r3);
   d4.transform(r5);
   d3.transform(r5);
-  if ( !test(d3, 0.0, 0.0, std::sqrt(p2), std::sqrt(p2 + sqr(m1)), DEPS) ) exit(7);
-  if ( !test(d4, 0.0, 0.0, -std::sqrt(p2), std::sqrt(p2 + sqr(m2)), DEPS) ) exit(7);
+  if ( !test(d3, 0.0, 0.0, std::sqrt(p2), std::sqrt(p2 + sqr(dm1)), DEPS) ) exit(7);
+  if ( !test(d4, 0.0, 0.0, -std::sqrt(p2), std::sqrt(p2 + sqr(dm2)), DEPS) ) exit(7);
 
   return 0;
 }

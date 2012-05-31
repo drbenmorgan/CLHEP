@@ -8,9 +8,11 @@
 // and the interaction with the HepRotation class.
 //
 
+#include "CLHEP/Units/GlobalSystemOfUnits.h"	// to see shadowing problems
+#include "CLHEP/Units/GlobalPhysicalConstants.h"
 #include "CLHEP/Vector/ThreeVector.h"
+#include "CLHEP/Vector/TwoVector.h"
 #include "CLHEP/Vector/Rotation.h"
-#include "CLHEP/Units/PhysicalConstants.h"
 
 #include <cmath>
 #include <iostream>
@@ -33,6 +35,11 @@ test(const Hep3Vector & p, double x, double y, double z,
 		     approx(p.z(), z, eps) );
 }
 
+bool
+test2(const Hep2Vector & p, double x, double y, double eps) {
+  return bool( approx(p.x(), x, eps) && approx(p.y(), y, eps) );
+}
+
 int main () {
 
 // test constructors:
@@ -47,6 +54,8 @@ int main () {
   Hep3Vector f3(1.0, 1.0, 1.0); if ( !test(f3, 1.0, 1.0, 1.0, FEPS) ) exit(1);
   Hep3Vector d4(f3); if ( !test(d4, 1.0, 1.0, 1.0, DEPS) ) exit(1);
   Hep3Vector f4(d3); if ( !test(f4, 1.0, 1.0, 1.0, FEPS) ) exit(1);
+  
+  Hep2Vector t3(d4); if ( !test2(t3, 1.0, 1.0, DEPS) ) exit(1);
 
 // test input/output from a stream
 

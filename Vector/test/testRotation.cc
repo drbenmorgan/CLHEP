@@ -6,10 +6,10 @@
 //
 // This is a test for HepRotation class.
 //
-#include "CLHEP/Vector/defs.h"
+#include "CLHEP/Units/GlobalSystemOfUnits.h"	// to see shadowing problems
+#include "CLHEP/Units/GlobalPhysicalConstants.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Vector/ThreeVector.h"
-#include "CLHEP/Units/PhysicalConstants.h"
 #include <assert.h>
 #include <cmath>
 #include <stdlib.h>

@@ -8,7 +8,7 @@
 //
 
 #include <assert.h>
-#include "CLHEP/Vector/defs.h"
+#include "CLHEP/Units/GlobalSystemOfUnits.h"	// to see shadowing problems
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Vector/LorentzVector.h"

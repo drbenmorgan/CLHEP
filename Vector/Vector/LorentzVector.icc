@@ -144,18 +144,12 @@ inline double HepLorentzVector::angle(const Hep3Vector &v1) const {
 }
 
 inline double HepLorentzVector::mag2() const {
-#if defined USING_VISUAL
-  // kludge for problem building Windows DLL
-  double r = metric*(t()*t() - pp.mag2());
-  return r;
-#else
   return metric*(t()*t() - pp.mag2());
-#endif
 }
 
 inline double HepLorentzVector::mag() const {
-  double mm = m2();
-  return mm < 0.0 ? -std::sqrt(-mm) : std::sqrt(mm);
+  double mmm = m2();
+  return mmm < 0.0 ? -std::sqrt(-mmm) : std::sqrt(mmm);
 }
 
 inline double HepLorentzVector::m2() const { 
@@ -169,8 +163,8 @@ inline double HepLorentzVector::mt2() const {
 }
 
 inline double HepLorentzVector::mt() const {
-  double mm = mt2();
-  return mm < 0.0 ? -std::sqrt(-mm) : std::sqrt(mm);
+  double mmm = mt2();
+  return mmm < 0.0 ? -std::sqrt(-mmm) : std::sqrt(mmm);
 }
 
 inline double HepLorentzVector::et2() const {
@@ -206,13 +200,7 @@ HepLorentzVector::setVectM(const Hep3Vector & spatial, double mass) {
 }
 
 inline double HepLorentzVector::dot(const HepLorentzVector & q) const {
-#if defined USING_VISUAL
-  // kludge for problem building Windows DLL
-  double r = metric*(t()*q.t() - z()*q.z() - y()*q.y() - x()*q.x());
-  return r;
-#else
   return metric*(t()*q.t() - z()*q.z() - y()*q.y() - x()*q.x());
-#endif
 }
 
 inline double
@@ -369,13 +357,7 @@ inline bool  HepLorentzVector::isLightlike(double epsilon) const {
 }
 
 inline double HepLorentzVector::diff2( const HepLorentzVector & w ) const {
-#if defined USING_VISUAL
-    // kludge for problem building Windows DLL
-    double r= metric*( (ee-w.ee)*(ee-w.ee) - (pp-w.pp).mag2() );
-    return r;
-#else
     return metric*( (ee-w.ee)*(ee-w.ee) - (pp-w.pp).mag2() );
-#endif
 }
 
 inline double HepLorentzVector::delta2Euclidean 
