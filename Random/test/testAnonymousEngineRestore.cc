@@ -1,4 +1,5 @@
 // ----------------------------------------------------------------------
+#include "CLHEP/Units/GlobalPhysicalConstants.h"  // used to provoke shadowing warnings
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
 #include "CLHEP/Random/defs.h"

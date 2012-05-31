@@ -36,13 +36,13 @@
 // 
 // ----------------------------------------------------------------------
 
+#include "CLHEP/Units/GlobalPhysicalConstants.h"  // used to provoke shadowing warnings
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/RandGaussQ.h"
 #include "CLHEP/Random/RandGaussT.h"
 #include "CLHEP/Random/RandPoissonQ.h"
 #include "CLHEP/Random/RandPoissonT.h"
 #include "CLHEP/Random/RandSkewNormal.h"
-#include "CLHEP/Units/PhysicalConstants.h"
 #include "CLHEP/Random/defs.h"
 #include <iostream>
 #include <iomanip>

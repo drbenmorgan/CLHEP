@@ -1,6 +1,7 @@
 // -*- C++ -*-
 // $Id: testRandom.cc,v 1.2 2010/06/16 17:24:53 garren Exp $
 // ----------------------------------------------------------------------
+#include "CLHEP/Units/GlobalPhysicalConstants.h"  // used to provoke shadowing warnings
 #include "CLHEP/Random/Randomize.h"
 #include <iostream>
 #include <cstdlib>	// for exit()

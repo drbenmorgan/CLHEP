@@ -9,6 +9,7 @@
 //
 // ======================================================================
 
+#include "CLHEP/Units/GlobalPhysicalConstants.h"  // used to provoke shadowing warnings
 // ----------------------------------------------------------------------
 // Engines:
 #include "CLHEP/Random/DualRand.h"            // CLHEP::DualRand

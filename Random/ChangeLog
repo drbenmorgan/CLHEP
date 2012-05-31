@@ -1,4 +1,12 @@
 
+2012-05-31 Lynn Garren <garren@fnal.gov>
+
+        * Random: fix various shadow warnings
+	* src/RandPoisson.cc: bug fix
+	* test: include CLHEP/Units/GlobalSystemOfUnits.h in tests
+	        to provoke shadow warnings
+
+
 2012-05-11 Lynn Garren <garren@fnal.gov>
 
 	* Random, src, test: use explicit std:: with math functions

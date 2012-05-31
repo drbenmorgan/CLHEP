@@ -71,7 +71,7 @@ public:
 
   static  inline long shootInt( long n );
 
-  static  inline long shootInt( long m, long n );
+  static  inline long shootInt( long a1, long n );
 
   static  inline int shootBit();
 
@@ -91,7 +91,7 @@ public:
                                   double a, double b );
   static  inline long shootInt( HepRandomEngine* anEngine, long n );
   
-  static  inline long shootInt( HepRandomEngine* anEngine, long m, long n );
+  static  inline long shootInt( HepRandomEngine* anEngine, long a1, long n );
   
   static  inline int shootBit( HepRandomEngine* );
 
@@ -113,7 +113,7 @@ public:
 
   inline long fireInt( long n );
 
-  inline long fireInt( long m, long n );
+  inline long fireInt( long a1, long n );
 
   inline int fireBit();
 

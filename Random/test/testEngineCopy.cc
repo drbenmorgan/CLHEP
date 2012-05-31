@@ -1,6 +1,7 @@
 // -*- C++ -*-
 // $Id: testEngineCopy.cc,v 1.2 2010/06/16 17:24:53 garren Exp $
 // ----------------------------------------------------------------------
+#include "CLHEP/Units/GlobalPhysicalConstants.h"  // used to provoke shadowing warnings
 #include "CLHEP/Random/Randomize.h"
 #include "CLHEP/Random/NonRandomEngine.h"
 #include "CLHEP/Random/defs.h"

@@ -117,7 +117,7 @@ long RandPoisson::shoot(double xm) {
     do {
       em += 1.0;
       t *= anEngine->flat();
-    } while( t > g );
+    } while( t > g1 );
   }
   else if ( xm < getMaxMean() ) {
     if ( xm != om ) {
@@ -132,7 +132,7 @@ long RandPoisson::shoot(double xm) {
 	em = sq*y + xm;
       } while( em < 0.0 );
       em = std::floor(em);
-      t = 0.9*(1.0 + y*y)* std::exp(em*alxm - gammln(em + 1.0) - g);
+      t = 0.9*(1.0 + y*y)* std::exp(em*alxm - gammln(em + 1.0) - g1);
     } while( anEngine->flat() > t );
   }
   else {

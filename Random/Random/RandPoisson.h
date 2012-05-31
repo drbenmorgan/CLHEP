@@ -43,8 +43,8 @@ class RandPoisson : public HepRandom {
 
 public:
 
-  inline RandPoisson ( HepRandomEngine& anEngine, double m=1.0 );
-  inline RandPoisson ( HepRandomEngine* anEngine, double m=1.0 );
+  inline RandPoisson ( HepRandomEngine& anEngine, double a1=1.0 );
+  inline RandPoisson ( HepRandomEngine* anEngine, double a1=1.0 );
   // These constructors should be used to instantiate a RandPoisson
   // distribution object defining a local engine for it.
   // The static generator will be skipped using the non-static methods
@@ -107,8 +107,8 @@ protected:
 
   static  double* getPStatus() {return status_st;}
 
-  static void setPStatus(double sq, double alxm, double g) {
-    status_st[0] = sq; status_st[1] = alxm; status_st[2] = g;
+  static void setPStatus(double sq, double alxm, double g1) {
+    status_st[0] = sq; status_st[1] = alxm; status_st[2] = g1;
   }
 
   inline HepRandomEngine* getLocalEngine();

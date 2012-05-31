@@ -7,6 +7,7 @@
 #include <iostream> 
 #include <string>
 #include <vector>
+#include "CLHEP/Units/GlobalPhysicalConstants.h"  // used to provoke shadowing warnings
 #include "CLHEP/Random/RanecuEngine.h"
 #include "CLHEP/Random/Random.h"
 
