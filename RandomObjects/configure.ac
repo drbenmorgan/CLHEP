@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP RandomObjects, 2.1.2.2, http://savannah.cern.ch/projects/clhep/, RandomObjects)
+AC_INIT(CLHEP RandomObjects, 2.1.2.3, http://savannah.cern.ch/projects/clhep/, RandomObjects)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/RandMultiGauss.cc])

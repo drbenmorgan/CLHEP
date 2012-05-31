@@ -1,0 +1,119 @@
+#-------------------------------------------------------------
+#  building CLHEP with configure
+#-------------------------------------------------------------
+
+Although it may be possible to build the HepMC libraries from this directory,
+we recommend that you create a separate build directory and work from there.
+
+Cmake is now the preferred build option - see INSTALL.cmake
+You MUST use cmake when building with clang and other exotic compilers.
+
+The instructions below are for the autoconf/automake build system.
+
+#-------------------------------------------------------------
+#  platform specific issues
+#-------------------------------------------------------------
+
+This package requires autoconf 2.59 or later and automake 1.9.1 or later.
+
+#-------------------------------------------------------------
+#  installing from a source code tar ball
+#-------------------------------------------------------------
+
+Unwind the source code tar ball in some relevant directory.
+
+If you see only configure.ac, and not configure, you need to run 
+autoconf and automake:
+
+cd CLHEP
+./bootstrap
+
+Determine where the files will be installed.
+Create a build directory that is NOT in the source code directory tree.
+
+cd <build_directory>
+<source_code_direcotry>/configure --prefix=<install_dir>
+   (Note that files will be installed under /usr/local if you do not 
+    specify a prefix.)
+make
+   (Build temporary copies of libraries and executables.)
+make check
+   (Run the tests.)
+make install
+   (Copy libraries, headers, executables, etc. to relevant 
+    subdirectories under <install_dir>.)
+
+#-------------------------------------------------------------
+#  configure options
+#-------------------------------------------------------------
+
+A variety of options can be given to configure.  Below is a list 
+of the options that you are likely to find most useful.
+
+  --help                  provides a partial list of options
+  --prefix=PREFIX         install architecture-independent files in PREFIX
+                          [default is /usr/local]
+  --exec-prefix=EPREFIX   install architecture-dependent files in EPREFIX
+                          [default is the same as PREFIX]
+  --disable-shared        build only static libraries
+  --disable-static        build only shared libraries   
+  --enable-exceptions     use the CLHEP/Exceptions package
+  --disable-exceptions    DO NOT use the CLHEP/Exceptions package
+                          [--disable-exceptions is the default] 
+ 
+#-------------------------------------------------------------
+# building documents
+#-------------------------------------------------------------
+
+Documents are neither built nor installed automatically.  
+Use the following commands to build and install documents:
+
+   make docs
+   make install-docs
+
+#-------------------------------------------------------------
+# building from svn
+#-------------------------------------------------------------
+
+You will need current versions of automake, autoconf, and libtool.
+On some machines, you will need to build them.  See building autotools below.
+
+To work with a tagged branch:
+svn co svn+ssh://svn.cern.ch/reps/clhep/tags/CLHEP_2_1_2_2
+
+To work with the head:
+svn co svn+ssh://svn.cern.ch/reps/clhep/trunk CLHEP 
+
+You may also download directly from the online browser
+http://svnweb.cern.ch/world/wsvn/clhep/
+
+Now continue with directions as if you unpacked a source code tarball.
+
+#-------------------------------------------------------------
+# building autotools
+#-------------------------------------------------------------
+
+If you do not have at least autoconf 2.59 and automake 1.9.1, you will 
+need to build autoconf, automake, and libtool.  On some platforms, 
+you may also need to build m4 and texinfo.
+
+Download the relevant tarballs from gnu.org 
+(http://www.gnu.org/software/autoconf/, http://www.gnu.org/software/automake/,
+and http://www.gnu.org/software/libtool/)
+Untar them in a common source code tree.
+Decide whether you want to install them in /usr/local or your own
+install directory.  If you use your own install directory, use
+
+        --prefix=<install_dir> 
+
+with configure.
+
+For each autotool package:
+
+     <source_code_dir>/configure [--prefix=<install_dir>]
+     make
+     make install
+
+Make sure that <install_dir>/bin is at the front of your path.
+
+#-------------------------------------------------------------

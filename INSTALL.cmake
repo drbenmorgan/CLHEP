@@ -5,24 +5,7 @@
 At this time, the cmake build system only supports building 
 CLHEP as a complete package, starting from the top level directory.
 
-#-------------------------------------------------------------
-#  platform specific issues
-#-------------------------------------------------------------
-
 This package requires cmake 2.6 or later.
-
-#-------------------------------------------------------------
-# about linking
-#-------------------------------------------------------------
-
-CLHEP builds libraries for each package in addition to a single CLHEP library.
-This alllows you to link with only the necessary parts of CLHEP.
-We provide a "clheplib" script which gives the list of libraries to link, 
-in the correct order.  The script can be embedded in a makefile.
-
-   clheplib           - provides link list of ALL CLHEP libraries
-   clheplib <package> - provides link list of ONLY those libraries 
-                        needed to use <package>
 
 #-------------------------------------------------------------
 #  installing from a source code tar ball
@@ -56,7 +39,8 @@ make install
 
 -DCMAKE_C_COMPILER=...
 -DCMAKE_CXX_COMPILER=...
- 
+-DCMAKE_CXX_FLAGS="list_of_flags"
+
 #-------------------------------------------------------------
 # building documents
 #-------------------------------------------------------------
@@ -68,11 +52,41 @@ Documents will then be built during the normal build.
 You will need to have latex in your path.
 
 #-------------------------------------------------------------
-# building from cvs
+# building from svn
 #-------------------------------------------------------------
 
-cvs co CLHEP
+To work with a tagged branch:
+svn co svn+ssh://svn.cern.ch/reps/clhep/tags/CLHEP_2_1_2_2
+
+To work with the head:
+svn co svn+ssh://svn.cern.ch/reps/clhep/trunk CLHEP 
+
+You may also download directly from the online browser
+http://svnweb.cern.ch/world/wsvn/clhep/
 
 Now continue with directions as if you unpacked a source code tarball.
+
+
+#-------------------------------------------------------------
+# building cmake
+#-------------------------------------------------------------
+
+cmake 2.6 or later is readily available for Linux,
+although you may need to install it
+
+download the cmake tar file from http://www.cmake.org/cmake/resources/software.html
+You may find a usable binary distribution there.  
+If not, get the source code and proceed as below (for either MacOSX or Linux).
+
+Unwind the source code tarball.  This directory is <cmake_source_dir>.
+Identify a separate build directory and a separate install directory: 
+<cmake_build_dir> and <cmake_install_dir>.
+
+cd <cmake_build_dir>
+<cmake_source_dir>/bootstrap --prefix=<cmake_install_dir>
+make
+make install
+
+Add <cmake_install_dir>/bin to your path.
 
 #-------------------------------------------------------------

@@ -494,7 +494,7 @@ return mret(num_row(),num_col());
 int HepMatrix::dfinv_matrix(int *ir) {
   if (num_col()!=num_row())
     error("dfinv_matrix: Matrix is not NxN");
-  register int n = num_col();
+  int n = num_col();
   if (n==1) return 0;
 
   double s31, s32;
@@ -598,7 +598,7 @@ int HepMatrix::dfact_matrix(double &det, int *ir) {
      error("dfact_matrix: Matrix is not NxN");
 
   int ifail, jfail;
-  register int n = ncol;
+  int n = ncol;
 
   double tf;
   double g1 = 1.0e-19, g2 = 1.0e19;

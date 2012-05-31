@@ -62,7 +62,7 @@ int main() {
 	int err=0;
 	for(unsigned i=0; i<sizeof(tests)/sizeof(Test); ++i) {
 		double v=e.evaluate(tests[i].expr);
-		if(isnan(v) || std::fabs(v-tests[i].value1) > 1E-12 || !e.isOK()) {
+		if(std::isnan(v) || std::fabs(v-tests[i].value1) > 1E-12 || !e.isOK()) {
 			printf("%s = %.6f should be %.6f\n",tests[i].expr,
 				e.evaluate(tests[i].expr),tests[i].value1);
 			err = 1;
@@ -75,7 +75,7 @@ int main() {
 //printf("x=10.0 y=-20.0 z=-30.0\n");
 	for(unsigned i=0; i<sizeof(tests)/sizeof(Test); ++i) {
 		double v=e.evaluate(tests[i].expr);
-		if(isnan(v) || std::fabs(v-tests[i].value2) > 1E-12 || !e.isOK()) {
+		if(std::isnan(v) || std::fabs(v-tests[i].value2) > 1E-12 || !e.isOK()) {
 			printf("%s = %.6f should be %.6f\n",tests[i].expr,
 				e.evaluate(tests[i].expr),tests[i].value2);
 			err = 1;
@@ -83,13 +83,13 @@ int main() {
 	}
 
 	double v=e.evaluate("unknown(0.0)");
-	if(!isnan(v) || e.isOK()) {
+	if(!std::isnan(v) || e.isOK()) {
 		printf("%s succeeded\n","unknown(0.0)");
 		err=1;
 	}
 
 	v = e.evaluate("unknown+0.0");
-	if(!isnan(v) || e.isOK()) {
+	if(!std::isnan(v) || e.isOK()) {
 		printf("%s succeeded\n","unknown+0.0");
 		err=1;
 	}
