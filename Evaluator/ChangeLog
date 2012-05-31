@@ -1,4 +1,8 @@
 
+2012-05-31 Lynn Garren <garren@fnal.gov>
+
+	* test/testBug90848.cc: remove unused variables
+
 2012-05-11 Lynn Garren <garren@fnal.gov>
 
 	* src/setStdMath.cc, src/Evaluator.cc, test/testBug90848.cc: 

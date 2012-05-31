@@ -52,7 +52,7 @@ Test tests[] = {
 	{ "exp(-z*0.2)*exp(0.2*z)",		1.0,		1.0},
 };
 
-int main(int argc, char *argv[]) {
+int main() {
 	MyEvaluator e;
 
 	e.setVariable("x",1.0);
