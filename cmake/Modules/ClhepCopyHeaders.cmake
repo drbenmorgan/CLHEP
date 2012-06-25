@@ -31,10 +31,12 @@ macro (clhep_copy_headers )
      endforeach( defhdr )
 
      foreach( hdr ${headers} )
-       STRING( REGEX REPLACE "^(${CMAKE_CURRENT_SOURCE_DIR})/${package}(.*)$"  "${CLHEP_BINARY_DIR}/CLHEP\\2" output_file "${hdr}")
-       ##message(STATUS "moving ${hdr} to ${output_file}")
+       #STRING( REPLACE ${CMAKE_CURRENT_SOURCE_DIR}/${package}  ${CLHEP_BINARY_DIR}/CLHEP output_file ${hdr})
+       set(output_dir ${CLHEP_BINARY_DIR}/CLHEP/${package})
+       get_filename_component(shorthdr ${hdr} NAME)
+       ##message(STATUS "moving ${shorthdr} to ${output_dir}")
        # this copies the file and creates directories if necessary
-       CONFIGURE_FILE( ${hdr} ${output_file}  COPYONLY)
+       CONFIGURE_FILE( ${hdr} ${output_dir}/${shorthdr}  COPYONLY )
      endforeach( hdr )
   endforeach(package)
   # get ClhepVersion.h
