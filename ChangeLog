@@ -1,4 +1,8 @@
 
+2012-07-09  L. Garren  <garren@fnal.gov>
+
+	* cmake/Modules: enclose CMAKE_COMMAND in quotes when inside execute_process
+
 2012-06-25  L. Garren  <garren@fnal.gov>
 
 	* cmake/Modules: Use newer execute_process instead of exec_program
