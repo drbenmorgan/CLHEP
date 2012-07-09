@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP, 2.1.2.3, http://savannah.cern.ch/projects/clhep/ )
+AC_INIT(CLHEP, 2.1.2.4, http://savannah.cern.ch/projects/clhep/ )
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([Vector/src/AxisAngle.cc])
 AM_INIT_AUTOMAKE(1.9 foreign)

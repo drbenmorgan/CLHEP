@@ -2,9 +2,9 @@
 # @configure_input@
 
 # we include the paths of the original install directories for reference
-orig_prefix=@prefix@
-orig_exec_prefix=@exec_prefix@
-orig_includedir=@includedir@
+orig_prefix="@prefix@"
+orig_exec_prefix="@exec_prefix@"
+orig_includedir="@includedir@"
 
 # use the full name of this script to get the current path
 configpath=`dirname ${0}`
@@ -13,13 +13,13 @@ firstc=`expr ${configpath} : /`
 calldir=`pwd`
 if [ ${firstc} -eq 0 ]
 then
-   cd ${calldir}/${configpath}; newpath=`pwd`
+   cd "${calldir}/${configpath}"; newpath=`pwd`
    binpath=${newpath}
 else
    binpath=${configpath}
 fi
 # OK - now we have to strip the trailing "/bin" out of the path
-prefix=`dirname ${binpath}`
+prefix=`dirname "${binpath}"`
 includedir=${prefix}/include
 libdir=${prefix}/lib
 
@@ -60,7 +60,7 @@ while test $# -gt 0; do
 
     case "$1" in
     --prefix)
-	echo ${prefix}
+	echo \"${prefix}\"
 	;;
 
     --version)
@@ -81,7 +81,7 @@ while test $# -gt 0; do
        	;;
 
     --include)
-       	echo -I${includedir}
+       	echo -I\"${includedir}\"
        	;;
 
     --ldflags)
@@ -89,7 +89,7 @@ while test $# -gt 0; do
        	;;
 
     --libs)
-       	echo -L${libdir} -lCLHEP-@VERSION@ @LIBS@
+       	echo -L\"${libdir}\" -lCLHEP-@VERSION@ @LIBS@
        	;;
 
     *)
