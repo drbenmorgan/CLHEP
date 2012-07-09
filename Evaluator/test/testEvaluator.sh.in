@@ -2,5 +2,5 @@
 # @configure_input@
 
 
-./testEvaluator@EXEEXT@ < @srcdir@/testEvaluator.input \
-  | @DIFF_Q@ - @srcdir@/testEvaluator.output > /dev/null
+./testEvaluator@EXEEXT@ < "@srcdir@/testEvaluator.input" \
+  | @DIFF_Q@ - "@srcdir@/testEvaluator.output" > /dev/null

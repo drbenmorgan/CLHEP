@@ -2,5 +2,5 @@
 # @configure_input@
 
 rm -f testInversion.cout
-@builddir@/testInversion@EXEEXT@ > testInversion.cout
-@DIFF_Q@ testInversion.cout @srcdir@/testInversion.output
+"@builddir@/testInversion@EXEEXT@" > testInversion.cout
+@DIFF_Q@ testInversion.cout "@srcdir@/testInversion.output"

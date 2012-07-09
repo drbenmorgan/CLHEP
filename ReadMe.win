@@ -1,6 +1,6 @@
 #-------------------------------------------------------------
 
-You MUST use cmake to build on a Windows machine.
+You MUST use cmake and nmake to build on a Windows machine.
 
 Work in a DOS window.
 

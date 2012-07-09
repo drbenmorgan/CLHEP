@@ -2,5 +2,5 @@
 # @configure_input@
 
 
-./testThreeVector@EXEEXT@ < @srcdir@/testThreeVector.input \
-  | @DIFF_Q@ - @srcdir@/testThreeVector.output > /dev/null
+./testThreeVector@EXEEXT@ < "@srcdir@/testThreeVector.input" \
+  | @DIFF_Q@ - "@srcdir@/testThreeVector.output" > /dev/null

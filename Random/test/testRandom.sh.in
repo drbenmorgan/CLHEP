@@ -3,4 +3,4 @@
 
 # testRandom has no comparison file
 
-./testRandom@EXEEXT@ < @srcdir@/testRandom.input > testRandom.out
+./testRandom@EXEEXT@ < "@srcdir@/testRandom.input" > testRandom.out

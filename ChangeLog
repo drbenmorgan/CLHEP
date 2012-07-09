@@ -2,6 +2,7 @@
 2012-07-09  L. Garren  <garren@fnal.gov>
 
 	* cmake/Modules: enclose CMAKE_COMMAND in quotes when inside execute_process
+	* test shell scripts: make sure any paths are enclosed in quotes
 
 2012-06-25  L. Garren  <garren@fnal.gov>
 
