@@ -14,6 +14,7 @@ pkginclude_HEADERS = \
 	Abs.hh         \
 	AbsParameter.hh         \
 	ACos.hh         \
+	AdaptiveRKStepper.hh \
 	Airy.hh         \
 	Airy.icc        \
 	AnalyticConvolution.hh         \
@@ -29,6 +30,8 @@ pkginclude_HEADERS = \
 	Bessel.icc	\
 	BetaDistribution.hh \
 	BivariateGaussian.hh         \
+	ButcherTableau.hh \
+	ButcherTableau.icc \
 	ClassicalSolver.hh \
 	ClebschGordanCoefficientSet.hh \
 	ConstMinusFunction.hh         \
@@ -49,9 +52,12 @@ pkginclude_HEADERS = \
 	EfficiencyFunctional.hh \
 	EllipticIntegral.hh         \
 	EllipticIntegral.icc	\
+	EmbeddedRKStepper.hh \
 	Erf.hh         \
 	Exp.hh         \
 	Exponential.hh         \
+	ExtendedButcherTableau.hh \
+	ExtendedButcherTableau.icc \
 	FixedConstant.hh         \
 	FloatingConstant.hh         \
 	FourierFit.hh \
@@ -113,6 +119,7 @@ pkginclude_HEADERS = \
 	RKIntegrator.hh         \
 	RungeKuttaClassicalSolver.hh \
 	Sigma.hh         \
+	SimpleRKStepper.hh \
 	Sin.hh         \
 	SphericalBessel.hh         \
 	SphericalBessel.icc	\
@@ -126,6 +133,7 @@ pkginclude_HEADERS = \
 	SphericalHarmonicCoefficientSet.icc \
 	Sqrt.hh         \
 	Square.hh         \
+	StepDoublingRKStepper.hh \
 	SymToArgAdaptor.hh \
 	SymToArgAdaptor.icc \
 	Tan.hh         \

@@ -47,10 +47,9 @@ namespace Genfun {
     // Some helper classes:
     class RKFunction;
     class RKData;
-    class RKStepper;
 
     // Constructor
-    RKIntegrator(const RKStepper *stepper=NULL);
+    RKIntegrator();
 
     // Destructor
     virtual ~RKIntegrator();
@@ -81,7 +80,7 @@ namespace Genfun {
 
   private:
 
-    // It is illegal to assign an RKIntegrator
+    // It is illegal to assign an adjustable constant
     const RKIntegrator & operator=(const RKIntegrator &right);
 
     // It is illegal to copy an RKIntegrator
@@ -129,7 +128,7 @@ namespace Genfun {
     std::vector<const AbsFunction *>   _diffEqn;
     std::set<Data >                    _fx;
     bool                               _locked;
-    const RKStepper                   *_stepper;
+
   private:
 
     ~RKData();
@@ -165,21 +164,10 @@ namespace Genfun {
     RKData              *_data;
     const  unsigned int  _index;
 
+    void rkstep (const RKData::Data & sdata, RKData::Data & ddata) const;
+    void rkck   (const RKData::Data & sdata, RKData::Data & ddata, std::vector<double> & errors) const;
 };
 
-
-  // An abstract base class for steppers:
-  class RKIntegrator::RKStepper {
-  public:
-
-    virtual ~RKStepper();
-    virtual void step (const RKIntegrator::RKData *data, 
-		       const RKIntegrator::RKData::Data & sdata, 
-		       RKIntegrator::RKData::Data       & ddata, 
-		       double timeLimit=0) const =0;
-    virtual RKStepper *clone() const=0;
-
-  };
 
 } // namespace Genfun
 

@@ -12,6 +12,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	AbsFunction.cc       \
 	AbsParameter.cc       \
 	ACos.cc       \
+	AdaptiveRKStepper.cc  \
 	AnalyticConvolution.cc       \
 	ArrayFunction.cc       \
 	ASin.cc       \
@@ -33,6 +34,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	CumulativeChiSquare.cc       \
 	DefiniteIntegral.cc       \
 	EfficiencyFunctional.cc \
+	EmbeddedRKStepper.cc \
 	Erf.cc       \
 	Exp.cc       \
 	Exponential.cc       \
@@ -82,9 +84,11 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	RKIntegrator.cc       \
 	RungeKuttaClassicalSolver.cc \
 	Sigma.cc	\
+	SimpleRKStepper.cc \
 	Sin.cc       \
 	Sqrt.cc       \
 	Square.cc       \
+	StepDoublingRKStepper.cc \
 	Tan.cc       \
 	Theta.cc       \
 	TrivariateGaussian.cc       \
