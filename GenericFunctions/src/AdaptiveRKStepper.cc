@@ -4,17 +4,25 @@
 #include <stdexcept>
 namespace Genfun {
 
-  AdaptiveRKStepper::AdaptiveRKStepper(double startingStepsize, const EEStepper *stepper):
-    startingStepsize(startingStepsize),
-    stepsize(startingStepsize),
-    eeStepper(stepper ? stepper->clone():new EmbeddedRKStepper())
+  AdaptiveRKStepper::AdaptiveRKStepper(const EEStepper *stepper):
+    eeStepper(stepper ? stepper->clone():new EmbeddedRKStepper()),
+    T(1.0E-6),
+    sStepsize(0.01),
+    S(0.9),
+    Rmin(0.0),
+    Rmax(5.0),
+    stepsize(sStepsize)
   {
   }
 
   AdaptiveRKStepper::AdaptiveRKStepper(const AdaptiveRKStepper & right):
-    startingStepsize(right.startingStepsize),
-    stepsize(right.startingStepsize),
-    eeStepper(right.eeStepper->clone())
+    eeStepper(right.eeStepper->clone()),
+    T(right.T),
+    sStepsize(right.sStepsize),
+    S(right.S),
+    Rmin(right.Rmin),
+    Rmax(right.Rmax),
+    stepsize(right.sStepsize)
   {
   }
 
@@ -27,13 +35,9 @@ namespace Genfun {
     // Adaptive stepsize control
     //
     if (s.time==0.0) {
-      stepsize=startingStepsize;
+      stepsize=sStepsize;
     }
     const unsigned int p = eeStepper->order();  // Order of the stepper
-    const double       T    = 1.0E-6;           // This is the tolerance:
-    const double       S    = 0.9;              // Safety factor;
-    const double       Rmax = 5;                // Maximum growth factor
-    const double       Rmin = 0.0;              // Minimum growth factor
     const double deltaMax = T*pow(S/Rmax, p+1); // Maximum error 4 adjustment.
     const double TINY   = 1.0E-30;              // Denominator regularization
     double hnext;
@@ -94,4 +98,42 @@ namespace Genfun {
 
   AdaptiveRKStepper::EEStepper::~EEStepper() {
   }
+ 
+  double & AdaptiveRKStepper::tolerance(){
+    return T;
+  }
+
+  const double & AdaptiveRKStepper::tolerance() const{
+    return T;
+  }
+  
+  double & AdaptiveRKStepper::startingStepsize(){
+    return sStepsize;
+  }
+  const double & AdaptiveRKStepper::startingStepsize() const{
+    return sStepsize;
+  }
+  
+  double & AdaptiveRKStepper::safetyFactor(){
+    return S;
+  }
+
+  const double & AdaptiveRKStepper::safetyFactor() const{
+    return S;
+  }
+  
+  double & AdaptiveRKStepper::rmin(){
+    return Rmin;
+  }
+  const double & AdaptiveRKStepper::rmin() const{
+    return Rmin;
+  }
+  
+  double & AdaptiveRKStepper::rmax(){
+    return Rmax;
+  }
+  const double & AdaptiveRKStepper::rmax() const{
+    return Rmax;
+  }
+
 }

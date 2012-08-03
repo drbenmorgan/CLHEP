@@ -104,14 +104,14 @@ namespace Genfun {
 
   public:
     
+    // Information about solution at each mesh point.
     struct Data{
 
-      std::vector<double>         variable;
-      mutable std::vector<double> firstDerivative;
-      double time; 
-      mutable bool   dcalc;
+      std::vector<double>         variable;             // Solution
+      mutable std::vector<double> firstDerivative;      // It's first derivative
+      double time;                                      // time
  
-      Data(int size): variable(size), firstDerivative(size), time(0), dcalc(false) {} 
+      Data(int size): variable(size), firstDerivative(size), time(0) {} 
       bool operator <  (const Data & right) const { return time < right.time; }
       bool operator == (const Data & right) const { return time==right.time; } 
     };

@@ -26,10 +26,11 @@ namespace Genfun {
     virtual ~SimpleRKStepper();
 
     // Take a step:
-    virtual void step (const RKIntegrator::RKData       * data, 
-		       const RKIntegrator::RKData::Data & sdata, 
-		       RKIntegrator::RKData::Data       & ddata, 
-		       double                             timeLimit) const ;
+    virtual void step (const RKIntegrator::RKData       * data,  // functions 
+		       const RKIntegrator::RKData::Data & sdata, // start point
+		       RKIntegrator::RKData::Data       & ddata, // end point
+		       double                         timeLimit  // time limit 
+		       ) const ;
     // Clone:
     virtual SimpleRKStepper *clone() const;
     
