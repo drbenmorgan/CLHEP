@@ -67,8 +67,7 @@ if(NOT DEFINED CPACK_SYSTEM_NAME)
       if(LSB_RELEASE_PROGRAM)
         # We have linux, so incorporate Vendor info into package name
         # - Distributor ID
-        ##exec_program(${LSB_RELEASE_PROGRAM} ARGS -s -i OUTPUT_VARIABLE LSB_VENDOR)
-	execute_process(COMMAND ${LSB_RELEASE_PROGRAM} -s -i OUTPUT_VARIABLE LSB_VENDOR)
+	execute_process(COMMAND ${LSB_RELEASE_PROGRAM} -s -i OUTPUT_VARIABLE LSB_VENDOR OUTPUT_STRIP_TRAILING_WHITESPACE)
         string(REGEX REPLACE " " "-" LSB_VENDOR ${LSB_VENDOR})
         string(TOLOWER ${LSB_VENDOR} LSB_VENDOR)
 	if("${LSB_VENDOR}" MATCHES "scientificslf")
@@ -84,8 +83,7 @@ if(NOT DEFINED CPACK_SYSTEM_NAME)
 	endif()
 
         # - Distributor release
-        ##exec_program(${LSB_RELEASE_PROGRAM} ARGS -s -r OUTPUT_VARIABLE LSB_RELEASE)
-	execute_process(COMMAND ${LSB_RELEASE_PROGRAM} -s -r OUTPUT_VARIABLE LSB_RELEASE)
+	execute_process(COMMAND ${LSB_RELEASE_PROGRAM} -s -r OUTPUT_VARIABLE LSB_RELEASE OUTPUT_STRIP_TRAILING_WHITESPACE)
         string(TOLOWER ${LSB_RELEASE} LSB_RELEASE)
 	string(REGEX REPLACE "([0-9])\\.([0-9])?" "\\1" LSB_RELEASE ${LSB_RELEASE})
 
