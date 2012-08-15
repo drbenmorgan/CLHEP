@@ -14,8 +14,8 @@ FUNCTION_OBJECT_IMP(CumulativeChiSquare)
 // terms of the incomplete gamma function.                                         //
 //---------------------------------------------------------------------------------//
 
-CumulativeChiSquare::CumulativeChiSquare(unsigned int nDof):
-  _nDof(nDof)
+CumulativeChiSquare::CumulativeChiSquare(unsigned int ndf):
+  _nDof(ndf)
 {
   create();
 }

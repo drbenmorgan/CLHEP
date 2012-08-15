@@ -1,3 +1,9 @@
+
+2012-08-15  Lynn Garren <garren@fnal.gov>
+
+	* latest changes from Joe Boudreau
+	* change the names of internal variables so -Wshadow does not complain
+
 ==============================
 09.07.12 Release CLHEP-2.1.2.4
 ==============================

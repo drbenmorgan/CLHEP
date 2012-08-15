@@ -5,6 +5,7 @@ set( pkginclude_HEADERS
 			Abs.hh
 			AbsParameter.hh
 			ACos.hh
+			AdaptiveRKStepper.hh
 			Airy.hh
 			Airy.icc
 			AnalyticConvolution.hh
@@ -20,6 +21,8 @@ set( pkginclude_HEADERS
 			Bessel.icc
 			BetaDistribution.hh
 			BivariateGaussian.hh
+			ButcherTableau.hh
+			ButcherTableau.icc
 			ClassicalSolver.hh
 			ClebschGordanCoefficientSet.hh
 			ConstMinusFunction.hh
@@ -40,9 +43,12 @@ set( pkginclude_HEADERS
 			EfficiencyFunctional.hh
 			EllipticIntegral.hh
 			EllipticIntegral.icc
+			EmbeddedRKStepper.hh
 			Erf.hh
 			Exp.hh
 			Exponential.hh
+			ExtendedButcherTableau.hh
+			ExtendedButcherTableau.icc
 			FixedConstant.hh
 			FloatingConstant.hh
 			FourierFit.hh
@@ -59,8 +65,8 @@ set( pkginclude_HEADERS
 			FunctionQuotient.hh
 			FunctionSum.hh
 			FunctionTimesParameter.hh
-			Gamma.hh
 			GammaDistribution.hh
+			Gamma.hh
 			Gaussian.hh
 			GenericFunctions.hh
 			IncompleteGamma.hh
@@ -104,19 +110,21 @@ set( pkginclude_HEADERS
 			RKIntegrator.hh
 			RungeKuttaClassicalSolver.hh
 			Sigma.hh
+			SimpleRKStepper.hh
 			Sin.hh
 			SphericalBessel.hh
 			SphericalBessel.icc
-			SphericalHarmonicFit.hh
-			SphericalHarmonicFit.icc
-			SphericalHarmonicExpansion.hh
-			SphericalHarmonicExpansion.icc
 			SphericalHarmonicCoefficientSet.hh
 			SphericalHarmonicCoefficientSet.icc
+			SphericalHarmonicExpansion.hh
+			SphericalHarmonicExpansion.icc
+			SphericalHarmonicFit.hh
+			SphericalHarmonicFit.icc
 			SphericalNeumann.hh
 			SphericalNeumann.icc
 			Sqrt.hh
 			Square.hh
+			StepDoublingRKStepper.hh
 			SymToArgAdaptor.hh
 			SymToArgAdaptor.icc
 			Tan.hh

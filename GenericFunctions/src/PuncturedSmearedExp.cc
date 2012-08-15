@@ -19,12 +19,12 @@ PuncturedSmearedExp::PuncturedSmearedExp(const PuncturedSmearedExp & right):
 {
 }
 
-void PuncturedSmearedExp::puncture(double min, double max) {
+void PuncturedSmearedExp::puncture(double xmin, double xmax) {
   std::ostringstream mn, mx;
   mn << "Min_" << _punctures.size()/2;
   mx << "Max_" << _punctures.size()/2;
-  _punctures.push_back(Parameter(mn.str(), min, 0.0, 10.0));
-  _punctures.push_back(Parameter(mx.str(), max, 0.0, 10.0));
+  _punctures.push_back(Parameter(mn.str(), xmin, 0.0, 10.0));
+  _punctures.push_back(Parameter(mx.str(), xmax, 0.0, 10.0));
 }
 
 
@@ -71,7 +71,7 @@ double PuncturedSmearedExp::operator() (double argument) const {
   // Fetch the paramters.  This operator does not convolve numerically.
   static const double sqrtTwo = sqrt(2.0);
 
-  double sigma  = _sigma.getValue();
+  double xsigma  = _sigma.getValue();
   double tau    = _lifetime.getValue();
   double x      =  argument;
 
@@ -113,9 +113,9 @@ double PuncturedSmearedExp::operator() (double argument) const {
     double a = punctures[2*i];
     double b = punctures[2*i+1];
 
-    double alpha = (a/sigma + sigma/tau)/sqrtTwo;
-    double beta  = (b/sigma + sigma/tau)/sqrtTwo;
-    double delta = 1/sqrtTwo/sigma;
+    double alpha = (a/xsigma + xsigma/tau)/sqrtTwo;
+    double beta  = (b/xsigma + xsigma/tau)/sqrtTwo;
+    double delta = 1/sqrtTwo/xsigma;
 
        
     norm += 2*tau*exp(1/(4*delta*delta*tau*tau))*(exp(-alpha/(delta*tau)) - exp(-beta/(delta*tau)));

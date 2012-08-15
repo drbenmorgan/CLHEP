@@ -2,9 +2,9 @@
 #include <cmath>
 #include <stdexcept>
 namespace Genfun {
-  SimpleRKStepper::SimpleRKStepper(const ButcherTableau & tableau,double stepsize):
-    tableau(tableau),
-    stepsize(stepsize) 
+  SimpleRKStepper::SimpleRKStepper(const ButcherTableau & mtableau,double xstepsize):
+    tableau(mtableau),
+    stepsize(xstepsize) 
   {
   }
 

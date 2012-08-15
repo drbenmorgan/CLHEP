@@ -8,8 +8,8 @@ namespace Genfun {
   
   FUNCTION_OBJECT_IMP(EnergyFunction)
 
-  EnergyFunction::EnergyFunction(const Classical::Solver & solver):
-  solver(solver)
+  EnergyFunction::EnergyFunction(const Classical::Solver & xsolver):
+  solver(xsolver)
   {}
   
   EnergyFunction::~EnergyFunction() {

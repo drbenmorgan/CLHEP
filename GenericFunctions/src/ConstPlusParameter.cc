@@ -6,11 +6,11 @@
 namespace Genfun {
 PARAMETER_OBJECT_IMP(ConstPlusParameter)
 
-ConstPlusParameter::ConstPlusParameter(double constant, const AbsParameter *parameter):
-  _constant(constant),
-  _parameter(parameter->clone())
+ConstPlusParameter::ConstPlusParameter(double xconstant, const AbsParameter *aparm):
+  _constant(xconstant),
+  _parameter(aparm->clone())
 {
-  if (parameter->parameter() && _parameter->parameter()) _parameter->parameter()->connectFrom(parameter->parameter());
+  if (aparm->parameter() && _parameter->parameter()) _parameter->parameter()->connectFrom(aparm->parameter());
 }
 
 ConstPlusParameter::ConstPlusParameter(const ConstPlusParameter & right) :

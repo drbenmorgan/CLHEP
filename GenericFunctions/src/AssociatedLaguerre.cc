@@ -13,9 +13,9 @@ inline double factorial (int n) {
   else return n*factorial(n-1);
 }
 
-AssociatedLaguerre::AssociatedLaguerre(unsigned int n, unsigned int k):
-  _n(n),
-  _k(k)
+AssociatedLaguerre::AssociatedLaguerre(unsigned int xn, unsigned int xk):
+  _n(xn),
+  _k(xk)
 {
   create();
 }

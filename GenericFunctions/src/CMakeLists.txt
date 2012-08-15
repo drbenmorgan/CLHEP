@@ -4,6 +4,7 @@ set( GenericFunctions_source
 				      AbsFunction.cc
 				      AbsParameter.cc
 				      ACos.cc
+				      AdaptiveRKStepper.cc
 				      AnalyticConvolution.cc
 				      ArrayFunction.cc
 				      ASin.cc
@@ -25,6 +26,7 @@ set( GenericFunctions_source
 				      CumulativeChiSquare.cc
 				      DefiniteIntegral.cc
 				      EfficiencyFunctional.cc
+				      EmbeddedRKStepper.cc
 				      Erf.cc
 				      Exp.cc
 				      Exponential.cc
@@ -74,9 +76,11 @@ set( GenericFunctions_source
 				      RKIntegrator.cc
 				      RungeKuttaClassicalSolver.cc
 				      Sigma.cc
+				      SimpleRKStepper.cc
 				      Sin.cc
 				      Sqrt.cc
 				      Square.cc
+				      StepDoublingRKStepper.cc
 				      Tan.cc
 				      Theta.cc
 				      TrivariateGaussian.cc

@@ -65,18 +65,18 @@ const Parameter & AnalyticConvolution::offset() const {
 double AnalyticConvolution::operator() (double argument) const {
   // Fetch the paramters.  This operator does not convolve numerically.
   static const double sqrtTwo = sqrt(2.0);
-  double sigma  = _sigma.getValue();
+  double xsigma  = _sigma.getValue();
   double tau    = _lifetime.getValue();
-  double offset = _offset.getValue();
-  double x      =  argument-offset;
+  double xoffset = _offset.getValue();
+  double x      =  argument-xoffset;
   double freq   = _frequency.getValue();
  
   // smeared exponential an its asymmetry.
   double expG=0.0, asymm=0.0;  
   
   if (_type==SMEARED_NEG_EXP) {
-    expG = exp((sigma*sigma +2*tau*(/*offset*/x))/(2.0*tau*tau)) * 
-      erfc((sigma*sigma+tau*(/*offset*/x))/(sqrtTwo*sigma*tau))/(2.0*tau);
+    expG = exp((xsigma*xsigma +2*tau*(/*xoffset*/x))/(2.0*tau*tau)) * 
+      erfc((xsigma*xsigma+tau*(/*xoffset*/x))/(sqrtTwo*xsigma*tau))/(2.0*tau);
 #if (defined _WIN32)
     if (!_finite(expG)) {
       expG=0.0;
@@ -89,8 +89,8 @@ double AnalyticConvolution::operator() (double argument) const {
     return expG;
   }
   else {
-    expG = exp((sigma*sigma +2*tau*(/*offset*/-x))/(2.0*tau*tau)) * 
-      erfc((sigma*sigma+tau*(/*offset*/-x))/(sqrtTwo*sigma*tau))/(2.0*tau);
+    expG = exp((xsigma*xsigma +2*tau*(/*xoffset*/-x))/(2.0*tau*tau)) * 
+      erfc((xsigma*xsigma+tau*(/*xoffset*/-x))/(sqrtTwo*xsigma*tau))/(2.0*tau);
   }
   
   // Both sign distribution=> return smeared exponential:
@@ -113,10 +113,10 @@ double AnalyticConvolution::operator() (double argument) const {
   // First, if the mixing frequency is too high compared with the lifetime, we
   // cannot see this oscillation.  We abandon the complicated approach and just do
   // this instead: 
-  if (sigma>6.0*tau) {
+  if (xsigma>6.0*tau) {
     asymm = expG*(1/(1+tau*tau*freq*freq));
   }
-  else if (sigma==0.0) {
+  else if (xsigma==0.0) {
     if (_type==SMEARED_COS_EXP|| _type==MIXED || _type==UNMIXED ) {
       if (x>=0) asymm=  (expG*cos(freq*x));
     }
@@ -125,23 +125,23 @@ double AnalyticConvolution::operator() (double argument) const {
     } 
   }
   else {
-    std::complex<double> z(freq*sigma/sqrtTwo, (sigma/tau-x/sigma)/sqrtTwo);
+    std::complex<double> z(freq*xsigma/sqrtTwo, (xsigma/tau-x/xsigma)/sqrtTwo);
     if (x<0) {
       if (_type==SMEARED_COS_EXP|| _type==MIXED || _type==UNMIXED ) {
-	asymm= 2.0*nwwerf(z).real()/tau/4.0*exp(-x*x/2.0/sigma/sigma);
+	asymm= 2.0*nwwerf(z).real()/tau/4.0*exp(-x*x/2.0/xsigma/xsigma);
       }
       else if (_type==SMEARED_SIN_EXP) {
-	asymm= 2.0*nwwerf(z).imag()/tau/4.0*exp(-x*x/2.0/sigma/sigma);
+	asymm= 2.0*nwwerf(z).imag()/tau/4.0*exp(-x*x/2.0/xsigma/xsigma);
       }
     }
     else {
       if (_type==SMEARED_COS_EXP||_type==MIXED || _type==UNMIXED) {
-	asymm= -2.0*nwwerf(std::conj(z)).real()/tau/4*exp(-x*x/2.0/sigma/sigma) +
-	  exp(sigma*sigma/2 *(1/tau/tau - freq*freq) - x/tau)*(1./tau)*cos(freq*x - freq/tau*sigma*sigma);
+	asymm= -2.0*nwwerf(std::conj(z)).real()/tau/4*exp(-x*x/2.0/xsigma/xsigma) +
+	  exp(xsigma*xsigma/2 *(1/tau/tau - freq*freq) - x/tau)*(1./tau)*cos(freq*x - freq/tau*xsigma*xsigma);
       }
       else if (_type==SMEARED_SIN_EXP) {
-	asymm= +2.0*nwwerf(std::conj(z)).imag()/tau/4*exp(-x*x/2.0/sigma/sigma) +
-	  exp(sigma*sigma/2 *(1/tau/tau - freq*freq) - x/tau)*(1./tau)*sin(freq*x - freq/tau*sigma*sigma);
+	asymm= +2.0*nwwerf(std::conj(z)).imag()/tau/4*exp(-x*x/2.0/xsigma/xsigma) +
+	  exp(xsigma*xsigma/2 *(1/tau/tau - freq*freq) - x/tau)*(1./tau)*sin(freq*x - freq/tau*xsigma*xsigma);
       }
     } 
   }
@@ -155,7 +155,7 @@ double AnalyticConvolution::operator() (double argument) const {
 	<< std::endl;
     if (retVal<0)
       std::cerr
-	<< sigma << ' ' << tau << ' ' << offset << ' '
+	<< xsigma << ' ' << tau << ' ' << xoffset << ' '
 	<< freq << ' '<< argument
 	<< std::endl;
     if (retVal<0)
@@ -170,7 +170,7 @@ double AnalyticConvolution::operator() (double argument) const {
 	<< std::endl;
     if (retVal<0)
       std::cerr
-	<< sigma << ' ' << tau << ' ' << offset << ' '
+	<< xsigma << ' ' << tau << ' ' << xoffset << ' '
 	<< freq << ' ' << argument
 	<< std::endl;
     if (retVal<0)

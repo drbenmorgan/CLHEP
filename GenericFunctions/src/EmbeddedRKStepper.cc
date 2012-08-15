@@ -4,8 +4,8 @@
 namespace Genfun {
 
   
-  EmbeddedRKStepper::EmbeddedRKStepper(const ExtendedButcherTableau & tableau):
-    tableau(tableau){
+  EmbeddedRKStepper::EmbeddedRKStepper(const ExtendedButcherTableau & mtableau):
+    tableau(mtableau){
   }
 
   EmbeddedRKStepper::~EmbeddedRKStepper() {

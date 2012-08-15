@@ -41,17 +41,17 @@ Parameter & IncompleteGamma::a() {
 
 /* ------------------Incomplete gamma function-----------------*/
 /* ------------------via its series representation-------------*/
-double  IncompleteGamma::_gamser(double a, double x, double logGamma) const {
+double  IncompleteGamma::_gamser(double xa, double x, double logGamma) const {
     double n;
     double ap,del,sum;
 
-    ap=a;
-    del=sum=1.0/a;
+    ap=xa;
+    del=sum=1.0/xa;
     for (n=1;n<ITMAX;n++) {
         ++ap;
         del *= x/ap;
         sum += del;
-        if (fabs(del) < fabs(sum)*EPS) return sum*exp(-x + a*log(x) - logGamma);
+        if (fabs(del) < fabs(sum)*EPS) return sum*exp(-x + xa*log(x) - logGamma);
     }
     assert(0);
     return 0;
@@ -60,17 +60,17 @@ double  IncompleteGamma::_gamser(double a, double x, double logGamma) const {
 /* ------------------Incomplete gamma function complement------*/
 /* ------------------via its continued fraction representation-*/
 
-double  IncompleteGamma::_gammcf(double a, double x, double logGamma) const {
+double  IncompleteGamma::_gammcf(double xa, double x, double logGamma) const {
 
     double an,b,c,d,del,h;
     int i;
 
-    b = x + 1.0 -a;
+    b = x + 1.0 -xa;
     c = 1.0/FPMIN;
     d = 1.0/b;
     h = d;
     for (i=1;i<ITMAX;i++) {
-        an = -i*(i-a);
+        an = -i*(i-xa);
         b+=2.0;
         d=an*d+b;
         if (fabs(d) < FPMIN) d = FPMIN;
@@ -79,7 +79,7 @@ double  IncompleteGamma::_gammcf(double a, double x, double logGamma) const {
         d = 1.0/d;
         del=d*c;
         h *= del;
-        if (fabs(del-1.0) < EPS) return exp(-x+a*log(x)-logGamma)*h;  
+        if (fabs(del-1.0) < EPS) return exp(-x+xa*log(x)-logGamma)*h;  
     }
     assert(0);
     return 0;

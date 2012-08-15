@@ -18,8 +18,8 @@ namespace Genfun {
 
     public:
       
-      inline Key(unsigned int l1, unsigned int l2, int m1, int m2, unsigned int L):
-	l1(l1),l2(l2),m1(m1),m2(m2),L(L) {}
+      inline Key(unsigned int xl1, unsigned int xl2, int xm1, int xm2, unsigned int xL):
+	l1(xl1),l2(xl2),m1(xm1),m2(xm2),L(xL) {}
       
       inline bool operator < (const Key & o) const {
 	if ( l1!=o.l1) return l1<o.l1;

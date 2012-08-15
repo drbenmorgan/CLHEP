@@ -4,7 +4,7 @@
 namespace Genfun {
 
   
-  StepDoublingRKStepper::StepDoublingRKStepper(const ButcherTableau & tableau):tableau(tableau) {
+  StepDoublingRKStepper::StepDoublingRKStepper(const ButcherTableau & xtableau):tableau(xtableau) {
   }
 
   StepDoublingRKStepper::~StepDoublingRKStepper() {

@@ -6,7 +6,7 @@ namespace Classical {
   //
   class RungeKuttaSolver::Clockwork {
   public:
-    Clockwork(Genfun::GENFUNCTION H, const PhaseSpace & phaseSpace):H(H),phaseSpace(phaseSpace){}
+    Clockwork(Genfun::GENFUNCTION gH, const PhaseSpace & mphaseSpace):H(gH),phaseSpace(mphaseSpace){}
     Genfun::GENFUNCTION H;
     const Classical::PhaseSpace & phaseSpace;
     Genfun::RKIntegrator          integrator;
@@ -15,7 +15,7 @@ namespace Classical {
     Genfun::EnergyFunction          *energy;
   };
 
-  RungeKuttaSolver::RungeKuttaSolver(Genfun::GENFUNCTION H, const PhaseSpace & phaseSpace):c(new Clockwork(H,phaseSpace)){
+  RungeKuttaSolver::RungeKuttaSolver(Genfun::GENFUNCTION gH, const PhaseSpace & mphaseSpace):c(new Clockwork(gH,mphaseSpace)){
     //
     // Dimension (of coords, or phase space)
     //

@@ -3,6 +3,7 @@
 You MUST use cmake and nmake to build on a Windows machine.
 
 Work in a DOS window.
+You may also have success using the cmake and VC gui interfaces.
 
 #-------------------------------------------------------------
 # setup the compiler

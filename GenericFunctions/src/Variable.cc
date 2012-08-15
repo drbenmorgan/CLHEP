@@ -6,9 +6,9 @@
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Variable)
 
-Variable::Variable(unsigned int selectionIndex, unsigned int dimensionality):
+Variable::Variable(unsigned int selectionIndex, unsigned int dmsnlty):
   _selectionIndex(selectionIndex),
-  _dimensionality(dimensionality)
+  _dimensionality(dmsnlty)
 {}
 
 Variable::Variable(const Variable & right):
@@ -35,8 +35,8 @@ unsigned int Variable::index() const {
 }
 
 
-Derivative Variable::partial(unsigned int index) const {
-  int kroneckerDelta = index==_selectionIndex ? 1 : 0;
+Derivative Variable::partial(unsigned int mindex) const {
+  int kroneckerDelta = mindex==_selectionIndex ? 1 : 0;
 
   const AbsFunction * f= new FixedConstant(kroneckerDelta);
   for (unsigned int i=1;i<_dimensionality;i++) {
