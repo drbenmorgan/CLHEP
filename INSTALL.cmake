@@ -41,6 +41,8 @@ make install
 -DCMAKE_CXX_COMPILER=...
 -DCMAKE_CXX_FLAGS="list_of_flags"
 
+-DLIB_SUFFIX=64 (installs the libraries in a lib64 subdirectory)
+
 #-------------------------------------------------------------
 # building documents
 #-------------------------------------------------------------

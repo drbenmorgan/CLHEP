@@ -15,6 +15,9 @@
 #
 # clhep_config():
 #    processes clhep-config.in
+#
+# clhep_lib_suffix();
+#    check for -DLIB_SUFFIX=xxx and process intelligently
 
 macro( clhep_autoconf_variables )
 
@@ -124,7 +127,7 @@ endmacro( clhep_package_config_no_lib )
 
 macro( clhep_package_config )
   set( ${PACKAGE}_CPPFLAGS "-I${includedir}" )
-  set( ${PACKAGE}_LDFLAGS  "-L\${exec_prefix}/lib" )
+  set( ${PACKAGE}_LDFLAGS  "-L\${exec_prefix}/lib${LIBSUFFIX}" )
   set( ${PACKAGE}_LIBS     "-lCLHEP-${PACKAGE}-${VERSION}" )
   if( ${PACKAGE}_DEPS )
      foreach ( dep ${${PACKAGE}_DEPS} )
@@ -154,3 +157,26 @@ macro( clhep_config )
 	    )
   endif()
 endmacro( clhep_config )
+
+macro( clhep_lib_suffix )
+  if(LIB_SUFFIX)
+    if ( ${LIB_SUFFIX} STREQUAL "64" )
+      if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+	set(LIBSUFFIX ${LIB_SUFFIX})
+      else()
+	  set(LIBSUFFIX "")
+      endif()
+    elseif( ${LIB_SUFFIX} STREQUAL "32" )
+      if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "i686")
+	set(LIBSUFFIX ${LIB_SUFFIX})
+      elseif (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "i386")
+	set(LIBSUFFIX ${LIB_SUFFIX})
+      else()
+	  set(LIBSUFFIX "")
+      endif()
+    else()
+	set(LIBSUFFIX "")
+    endif()
+  endif()
+  message(STATUS "libraries will be installed in $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib${LIBSUFFIX}")
+endmacro( clhep_lib_suffix )

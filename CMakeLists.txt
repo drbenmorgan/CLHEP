@@ -4,6 +4,7 @@
 #        [-DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel]
 #        [-DCMAKE_C_COMPILER=...] [-DCMAKE_CXX_COMPILER=...]
 #        [-DCLHEP_BUILD_DOCS=ON] 
+#        [-DLIB_SUFFIX=64]
 #        /path/to/source
 #  make
 #  make test
@@ -11,6 +12,9 @@
 #
 # mac i386:   -DCMAKE_CXX_FLAGS="-m32" -DCMAKE_OSX_ARCHITECTURES="i386"
 # mac x86_64: -DCMAKE_CXX_FLAGS="-m64" -DCMAKE_OSX_ARCHITECTURES="x86_64"
+#
+# Use -DLIB_SUFFIX=64 to install the libraries in a lib64 subdirectory
+# instead of the default lib subdirectory.  
 #
 # The default CLHEP build type is CMAKE_BUILD_TYPE=RelWithDebInfo,
 # which matches the default CLHEP autoconf flags
@@ -40,11 +44,14 @@ if(CLHEP_BUILD_DOCS)
   message(STATUS "Enabled build and install of documents")
 endif()
 
+# enable use of LIB_SUFFIX
+include(ClhepVariables)
+clhep_lib_suffix()
+
 # CLHEP custom modules
 include(ClhepCopyHeaders)
 include(ClhepBuildTest)
 include(ClhepBuildLibrary)
-include(ClhepVariables)
 include(CheckFunctionExists)
 include(ClhepToolchain)
 
