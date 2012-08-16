@@ -30,6 +30,10 @@
 //
 // ======================================================================
 
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wdelete-non-virtual-dtor"
+#endif
 
 #include "CLHEP/Utility/defs.h"
 #include "CLHEP/Utility/noncopyable.h"
@@ -1650,5 +1654,9 @@ public:  // actually private, but avoids compiler template friendship issues
     }
   }
 };  // enable_shared_from_this2<>
+
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif
 
 #endif  // 0
