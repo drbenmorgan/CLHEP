@@ -311,17 +311,17 @@ bool gaussianTest ( HepRandom & dist, double mu,
 	3.87E-7  // 5.0 sigma and up
 	};
 
-  for (int m = 0; m < 11; m++) {
-    double expect = table[m]*nNumbers;
-    double sig = std::sqrt ( table[m] * (1.0-table[m]) * nNumbers );
+  for (int m1 = 0; m1 < 11; m1++) {
+    double expect = table[m1]*nNumbers;
+    double sig = std::sqrt ( table[m1] * (1.0-table[m1]) * nNumbers );
     cout.precision(oldprecision);
-    cout << "Between " << m/2.0 << " sigma and " 
-	<< m/2.0+.5 << " sigma (should be about " << expect << "):\n " 
+    cout << "Between " << m1/2.0 << " sigma and " 
+	<< m1/2.0+.5 << " sigma (should be about " << expect << "):\n " 
         << "         "
-	<< ncounts[m] << " negative and " << counts[m] << " positive " << "\n";
+	<< ncounts[m1] << " negative and " << counts[m1] << " positive " << "\n";
     cout.precision(5);
-    double negSigs = std::abs ( ncounts[m] - expect ) / sig;
-    double posSigs = std::abs (  counts[m] - expect ) / sig;
+    double negSigs = std::abs ( ncounts[m1] - expect ) / sig;
+    double posSigs = std::abs (  counts[m1] - expect ) / sig;
     cout << "        These represent " << 
 	negSigs << " and " << posSigs << " sigma from expectations\n";
     if ( negSigs > REJECT || posSigs > REJECT ) {

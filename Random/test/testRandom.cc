@@ -53,7 +53,7 @@ void init()
 
 void layout()
 {
-   float m=3.0;
+   float m1=3.0;
    const int size=5;
    double vect[size];
 
@@ -70,7 +70,7 @@ void layout()
    cout << " Wigner2(1,0.2,1)    : " << RandBreitWigner::shootM2(1,0.2,1) << endl;
    cout << " IntFlat [0,99[      : " << RandFlat::shootInt(99) << endl;
    cout << " IntFlat [-99,37[    : " << RandFlat::shootInt(-99,37) << endl;
-   cout << " Poisson (m=3.0)     : " << RandPoisson::shoot(m) << endl;
+   cout << " Poisson (m=3.0)     : " << RandPoisson::shoot(m1) << endl;
    cout << " Binomial(n=1,p=0.5) : " << RandBinomial::shoot() << endl;
    cout << " Binomial(n=-5,p=0.3): " << RandBinomial::shoot(-5,0.3) << endl;
    cout << " ChiSqr (a=1)        : " << RandChiSquare::shoot() << endl;
@@ -89,7 +89,7 @@ void layout()
 
 void dist_layout()
 {
-   float m=3.0;
+   float m1=3.0;
    const int size=5;
    double vect[size];
 
@@ -132,7 +132,7 @@ void dist_layout()
    cout << " Wigner2(1,0.2,1)    : " << aBreitObj.fireM2(1,0.2,1) << endl;
    cout << " IntFlat [0,99[      : " << aFlatObj.fireInt(99) << endl;
    cout << " IntFlat [-99,37[    : " << aFlatObj.fireInt(-99,37) << endl;
-   cout << " Poisson (m=3.0)     : " << aPoissonObj.fire(m) << endl;
+   cout << " Poisson (m=3.0)     : " << aPoissonObj.fire(m1) << endl;
    cout << " Binomial(n=1,p=0.5) : " << aBinomialObj.fire() << endl;
    cout << " Binomial(n=-5,p=0.3): " << aBinomialObj.fire(-5,0.3) << endl;
    cout << " ChiSqr (a=1)        : " << aChiSquareObj.fire() << endl;
@@ -153,7 +153,7 @@ void dist_layout()
 
 void user_layout()
 {
-   float m=3.0;
+   float m1=3.0;
    const int size=5;
    double vect[size];
    char sel;
@@ -240,7 +240,7 @@ void user_layout()
    cout << " Wigner2(1,0.2,1)    : " << RandBreitWigner::shootM2(anEngine,1,0.2,1) << endl;
    cout << " IntFlat [0,99[      : " << RandFlat::shootInt(anEngine,99) << endl;
    cout << " IntFlat [-99,37[    : " << RandFlat::shootInt(anEngine,-99,37) << endl;
-   cout << " Poisson (m=3.0)     : " << RandPoisson::shoot(anEngine,m) << endl;
+   cout << " Poisson (m=3.0)     : " << RandPoisson::shoot(anEngine,m1) << endl;
    cout << " Binomial(n=1,p=0.5) : " << RandBinomial::shoot(anEngine) << endl;
    cout << " Binomial(n=-5,p=0.3): " << RandBinomial::shoot(anEngine,-5,0.3) << endl;
    cout << " ChiSqr (a=1)        : " << RandChiSquare::shoot(anEngine) << endl;

@@ -18,9 +18,19 @@ namespace Genfun {
   const unsigned int ButcherTableau::nSteps() const{
     return _A.size();
   }
-  
-  
-  
+
+// don't generate warnings about intentional shadowing
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 5
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wshadow"
+  #endif
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wshadow"
+#endif
+
   double & ButcherTableau::A(unsigned int i, unsigned int j) {
     
     if (i>=_A.size()) {
@@ -42,6 +52,15 @@ namespace Genfun {
     return _A[i][j];
   }
   
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 5
+    #pragma GCC diagnostic pop
+  #endif
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif
+
   double & ButcherTableau::b(unsigned int i){
     if (i>=_b.size()) _b.resize(i+1);
     return _b[i];

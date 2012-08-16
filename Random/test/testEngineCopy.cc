@@ -152,8 +152,8 @@ int vectorRestore2(E & f, const std::vector<double> & v) {
   output << "First four of k are: " 
     	<< k[0] << ",  " << k[1] << ",  " << k[2] << ",  " << k[3] << "\n";
 #endif
-  for (int m=0; m<25; m++) {
-    if ( v[m] != k[m] ) {
+  for (int m1=0; m1<25; m1++) {
+    if ( v[m1] != k[m1] ) {
       std::cout << "???? Incorrect copy restored value for engine: " 
     		<< E::engineName() << "\n"; 
       #ifdef CLEAN_OUTPUT

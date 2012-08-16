@@ -63,7 +63,7 @@ export(TARGETS CLHEP CLHEPS
 #
 set(CLHEP_PKGCONFIG_PREFIX ${PROJECT_BINARY_DIR})
 set(CLHEP_PKGCONFIG_INCLUDEDIR ${CLHEP_INCLUDE_DIR})
-set(CLHEP_PKGCONFIG_LIBDIR ${PROJECT_BINARY_DIR}/lib${LIBSUFFIX})
+set(CLHEP_PKGCONFIG_LIBDIR ${PROJECT_BINARY_DIR}/lib${LIB_SUFFIX})
 
 configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/clhep.pc.in
   ${PROJECT_BINARY_DIR}/clhep.pc
@@ -84,7 +84,7 @@ set(CLHEP_DEFINITIONS )
 # We use a relative path from the directory where the CLHEPConfig.cmake
 # file is installed to the actual include dir. 
 file(RELATIVE_PATH _relincpath 
-  ${CMAKE_INSTALL_PREFIX}/lib${LIBSUFFIX}/CLHEP-${VERSION}
+  ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/CLHEP-${VERSION}
   ${CMAKE_INSTALL_PREFIX}/include
   )
 set(CLHEP_INCLUDE_DIR "\${_thisdir}/${_relincpath}")
@@ -111,7 +111,7 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfig.cmake.in
 # If you later use GNUInstallDirs.cmake, this would need more work to
 # ensure accurate calculation of the relative path.
 set(CLHEP_PKGCONFIG_PREFIX "\${pcfiledir}/../..")
-set(CLHEP_PKGCONFIG_LIBDIR "\${prefix}/lib${LIBSUFFIX}")
+set(CLHEP_PKGCONFIG_LIBDIR "\${prefix}/lib${LIB_SUFFIX}")
 set(CLHEP_PKGCONFIG_INCLUDEDIR "\${prefix}/include")
 
 configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/clhep.pc.in
@@ -129,16 +129,16 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/clhep.pc.in
 install(FILES
   ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfigVersion.cmake 
   ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfig.cmake 
-  DESTINATION lib${LIBSUFFIX}/CLHEP-${VERSION}
+  DESTINATION lib${LIB_SUFFIX}/CLHEP-${VERSION}
   )
 
-install(EXPORT CLHEPLibraryDepends DESTINATION lib${LIBSUFFIX}/CLHEP-${VERSION})
+install(EXPORT CLHEPLibraryDepends DESTINATION lib${LIB_SUFFIX}/CLHEP-${VERSION})
 
-# Install the pkg-config file. The choice of 'lib${LIBSUFFIX}/pkgconfig' for the 
+# Install the pkg-config file. The choice of 'lib${LIB_SUFFIX}/pkgconfig' for the 
 # installation seems fairly standard.
 install(FILES
   ${PROJECT_BINARY_DIR}/InstallTreeFiles/clhep.pc
-  DESTINATION lib${LIBSUFFIX}/pkgconfig
+  DESTINATION lib${LIB_SUFFIX}/pkgconfig
   )
 
 # - And we should be done...

@@ -30,6 +30,13 @@
 //
 // ======================================================================
 
+// don't generate unnecessary warnings
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 5
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wdelete-non-virtual-dtor"
+  #endif
+#endif 
 #ifdef __clang__
   #pragma clang diagnostic push
   #pragma clang diagnostic ignored "-Wdelete-non-virtual-dtor"
@@ -1479,6 +1486,15 @@ do_nothing_deleter::operator () ( void const * ) const
 }  // namespace CLHEP
 
 
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 5
+    #pragma GCC diagnostic pop
+  #endif
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif
+
 
 
 #endif  // CLHEP_MEMORY_H
@@ -1654,9 +1670,5 @@ public:  // actually private, but avoids compiler template friendship issues
     }
   }
 };  // enable_shared_from_this2<>
-
-#ifdef __clang__
-  #pragma clang diagnostic pop
-#endif
 
 #endif  // 0
