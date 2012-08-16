@@ -38,7 +38,7 @@ namespace Genfun {
       stepsize=sStepsize;
     }
     const unsigned int p = eeStepper->order();  // Order of the stepper
-    const double deltaMax = T*pow(S/Rmax, p+1); // Maximum error 4 adjustment.
+    const double deltaMax = T*std::pow(S/Rmax, (int)(p+1)); // Maximum error 4 adjustment.
     const double TINY   = 1.0E-30;              // Denominator regularization
     double hnext;
     //
@@ -64,7 +64,7 @@ namespace Genfun {
 	//
 	// Bail out and try a smaller step.
 	//
-	h = std::max(S*h*pow(T/(delta + TINY), 1.0/(p+1)),Rmin*h);
+	h = std::max(S*h*std::pow(T/(delta + TINY), 1.0/(p+1)),Rmin*h);
 	if  (!(((float) s.time+h - (float) s.time) > 0) ) {
 	  std::cerr << "Warning, RK Integrator step underflow" << std::endl;
 	}
@@ -74,7 +74,7 @@ namespace Genfun {
       }
       else {
 	if (delta > deltaMax) {
-	  hnext = S*h*pow(T/(delta + TINY),1.0/(p+1));
+	  hnext = S*h*std::pow(T/(delta + TINY),1.0/(p+1));
 	}
 	else {
 	  hnext = Rmax*h;

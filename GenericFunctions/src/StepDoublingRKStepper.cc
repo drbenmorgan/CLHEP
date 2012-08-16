@@ -30,7 +30,7 @@ namespace Genfun {
     for (size_t v=0;v<nvar;v++) errors[v]=fabs(d2.variable[v]-d.variable[v]);
 
     // Final correction:
-    for (size_t v=0;v<nvar;v++) d.variable[v] = d2.variable[v] + ((d2.variable[v]-d.variable[v])/double(pow(2,tableau.order())-1));
+    for (size_t v=0;v<nvar;v++) d.variable[v] = d2.variable[v] + ((d2.variable[v]-d.variable[v])/double(std::pow(2.,(int)(tableau.order())-1)));
 
   }
   
