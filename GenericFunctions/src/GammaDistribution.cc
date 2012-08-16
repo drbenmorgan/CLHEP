@@ -25,8 +25,8 @@ GammaDistribution::~GammaDistribution() {
 }
 
 double GammaDistribution::operator() (double x) const {
-  return pow(x,_alpha.getValue()-1)*
-    exp(-x/_beta.getValue())/pow(_beta.getValue(),(_alpha.getValue()))/
+  return std::pow(x,_alpha.getValue()-1)*
+    exp(-x/_beta.getValue())/std::pow(_beta.getValue(),(_alpha.getValue()))/
     exp(_logGamma(_alpha.getValue()));
 
 }

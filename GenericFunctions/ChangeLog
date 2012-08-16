@@ -1,4 +1,8 @@
 
+2012-08-16  Lynn Garren <garren@fnal.gov>
+
+	* use std::pow() explicitly
+
 2012-08-15  Lynn Garren <garren@fnal.gov>
 
 	* latest changes from Joe Boudreau

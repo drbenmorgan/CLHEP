@@ -51,7 +51,7 @@ double Power::operator() (double x) const {
 	}	    
     }
     else {
-	return pow(x,_doublePower);
+	return std::pow(x,_doublePower);
     }
 
 }

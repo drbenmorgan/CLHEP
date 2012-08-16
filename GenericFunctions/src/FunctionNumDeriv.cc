@@ -63,7 +63,7 @@ double FunctionNumDeriv::operator ()(const Argument & x) const
 double FunctionNumDeriv::numericalDerivative
         ( double (FunctionNumDeriv::*f)(double)const, double x ) const {
 
-  const double h0 = 5 * pow(2.0, -17);
+  const double h0 = 5 * std::pow(2.0, -17);
 
   const double maxErrorA = .0012;    // These are the largest errors in steps 
   const double maxErrorB = .0000026; // A, B consistent with 8-digit accuracy.
@@ -77,22 +77,22 @@ double FunctionNumDeriv::numericalDerivative
   double bestError = 1.0E30;
   double bestAns = 0;
 
-  const double valFactor  = pow(2.0, -16);
+  const double valFactor  = std::pow(2.0, -16);
 
   const double w   = 5.0/8;
   const double wi2 = 64.0/25.0;
   const double wi4 = wi2*wi2;
 
   double size    = fabs((this->*f)(x));
-  if (size==0) size = pow(2.0, -53);
+  if (size==0) size = std::pow(2.0, -53);
 
   const double adjustmentFactor[nItersMax] = {
     1.0,
-    pow(2.0, -17),
-    pow(2.0, +17),
-    pow(2.0, -34),
-    pow(2.0, +34),
-    pow(2.0, -51)  };
+    std::pow(2.0, -17),
+    std::pow(2.0, +17),
+    std::pow(2.0, -34),
+    std::pow(2.0, +34),
+    std::pow(2.0, -51)  };
 
   for ( nIters = 0; nIters < nItersMax; ++nIters ) {
 
