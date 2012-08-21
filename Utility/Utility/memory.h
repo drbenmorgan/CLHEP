@@ -32,7 +32,7 @@
 
 // don't generate unnecessary warnings
 #if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 5
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wdelete-non-virtual-dtor"
   #endif
