@@ -5,7 +5,7 @@
 // 
 // This software written by Nobu Katayama and Mike Smyth, Cornell University.
 //
-
+#include <stdexcept>
 namespace CLHEP {
 
 inline HepDiagMatrix::HepDiagMatrix() 
@@ -114,6 +114,19 @@ inline HepDiagMatrix HepDiagMatrix::inverse(int &ierr) const
 #endif
   mTmp.invert(ierr);
   return mTmp;
+}
+
+inline HepDiagMatrix HepDiagMatrix::inverse() const {
+  int ierr;
+  HepDiagMatrix m=inverse(ierr);
+  if (ierr) throw std::runtime_error("Error in HepDiagMatrix inversion");
+  return m;
+}
+
+inline void HepDiagMatrix::invert() {
+  int ierr;
+  invert(ierr);
+  if (ierr) throw std::runtime_error("Error in HepDiagMatrix inversion");
 }
 
 }  // namespace CLHEP

@@ -8,7 +8,7 @@
 // This is the definitions of the inline member functions of the
 // HepMatrix class
 //
-
+#include <stdexcept>
 namespace CLHEP {
 
 inline HepMatrix::HepMatrix()
@@ -85,6 +85,19 @@ inline void swap(HepMatrix &m1,HepMatrix &m2) {
 #endif
   mTmp.invert(ierr);
   return mTmp;
+}
+
+inline HepMatrix HepMatrix::inverse() const {
+  int ierr;
+  HepMatrix m=inverse(ierr);
+  if (ierr) throw std::runtime_error("Error in HepMatrix inversion");
+  return m;
+}
+
+inline void HepMatrix::invert() {
+  int ierr;
+  invert(ierr);
+  if (ierr) throw std::runtime_error("Error in HepMatrix inversion");
 }
 
 }  // namespace CLHEP

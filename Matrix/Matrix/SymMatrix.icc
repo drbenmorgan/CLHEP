@@ -6,7 +6,7 @@
 // This is the definitions of the inline member functions of the
 // HepSymMatrix class
 //
-
+#include <stdexcept>
 namespace CLHEP {
 
 inline HepSymMatrix::HepSymMatrix() 
@@ -113,6 +113,19 @@ inline HepSymMatrix HepSymMatrix::inverse(int &ifail) const
 #endif
   mTmp.invert(ifail);
   return mTmp;
+}
+
+inline HepSymMatrix HepSymMatrix::inverse() const {
+  int ierr;
+  HepSymMatrix m=inverse(ierr);
+  if (ierr) throw std::runtime_error("Error in HepSymMatrix inversion");
+  return m;
+}
+
+inline void HepSymMatrix::invert() {
+  int ierr;
+  invert(ierr);
+  if (ierr) throw std::runtime_error("Error in HepSymMatrix inversion");
 }
 
 }  // namespace CLHEP

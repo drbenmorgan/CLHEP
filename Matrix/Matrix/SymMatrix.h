@@ -184,6 +184,12 @@ public:
    // Returns ierr = 0 when successful, otherwise non-zero. 
    // This method has less overhead then inverse().
 
+   inline void invert();
+   // Invert a matrix. Throw std::runtime_error on failure.
+
+   inline HepSymMatrix inverse() const;
+   // Invert a matrix. Throw std::runtime_error on failure. 
+
    double determinant() const;
    // calculate the determinant of the matrix.
 
