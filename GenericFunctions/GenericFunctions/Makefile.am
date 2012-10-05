@@ -58,6 +58,7 @@ pkginclude_HEADERS = \
 	Exponential.hh \
 	ExtendedButcherTableau.hh \
 	ExtendedButcherTableau.icc \
+	F1D.hh \
 	FixedConstant.hh \
 	FloatingConstant.hh \
 	FourierFit.hh \
