@@ -1,3 +1,13 @@
+
+2012-09-06  Joe Boudreau <boudreau@cern.ch>
+
+	* MATRIX/DiagMatrix, MATRIX/GenMatrix, MATRIX/SymMatrix: 
+	  Added two methods to [-,Diag,Sym]Matrix to carry out the matrix 
+	  inversion without the users needing to provide an ierr flag. 
+	  These methods are all inline and called invert() and inverse(), 
+	  so they overload the existing inversion routines for the relevant class.  
+	  If an error occurs, then an std::runtime_error is thrown.
+
 ==============================
 16.08.12 Release CLHEP-2.1.2.5
 ==============================
