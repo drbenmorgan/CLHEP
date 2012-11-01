@@ -60,7 +60,7 @@ namespace Genfun {
     
       // Select the largest:
       double delta = (*std::max_element(errors.begin(),errors.end()));
-      if (delta > 1) {
+      if (delta > T) {
 	//
 	// Bail out and try a smaller step.
 	//
