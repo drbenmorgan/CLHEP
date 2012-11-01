@@ -79,6 +79,7 @@ pkginclude_HEADERS = \
 	Gamma.hh \
 	Gaussian.hh \
 	GenericFunctions.hh \
+	HermitePolynomial.hh \
 	IncompleteGamma.hh \
 	InterpolatingPolynomial.hh \
 	KroneckerDelta.hh \

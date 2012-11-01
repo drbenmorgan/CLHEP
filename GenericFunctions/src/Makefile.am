@@ -55,6 +55,7 @@ libCLHEP_GenericFunctions_@VERSION@_a_SOURCES = \
 	Gamma.cc \
 	GammaDistribution.cc \
 	Gaussian.cc \
+	HermitePolynomial.cc \
 	IncompleteGamma.cc \
 	InterpolatingPolynomial.cc \
 	KroneckerDelta.cc \
