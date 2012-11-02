@@ -13,6 +13,7 @@ PuncturedSmearedExp::PuncturedSmearedExp() :
 }
 
 PuncturedSmearedExp::PuncturedSmearedExp(const PuncturedSmearedExp & right):
+  AbsFunction(right),
   _lifetime  (right._lifetime),
   _sigma     (right._sigma),
   _punctures (right._punctures)

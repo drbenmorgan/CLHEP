@@ -16,7 +16,7 @@ namespace Genfun {
   }
   
   EnergyFunction::EnergyFunction(const EnergyFunction & right) 
-    :solver(right.solver)
+    :AbsFunction(right), solver(right.solver)
   {  }
   
   

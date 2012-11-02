@@ -25,6 +25,7 @@ CumulativeChiSquare::~CumulativeChiSquare() {
 }
 
 CumulativeChiSquare::CumulativeChiSquare(const CumulativeChiSquare & right):
+AbsFunction(right),
 _nDof(right._nDof)
 {
   create();

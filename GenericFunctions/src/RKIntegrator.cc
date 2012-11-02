@@ -21,7 +21,8 @@ RKIntegrator::RKFunction::~RKFunction()
 }
 
 RKIntegrator::RKFunction::RKFunction(const RKIntegrator::RKFunction & right)
-  :_data(right._data),
+  :AbsFunction(right),
+   _data(right._data),
    _index(right._index)
 {
   _data->ref();

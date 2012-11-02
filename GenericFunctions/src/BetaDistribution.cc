@@ -16,6 +16,7 @@ BetaDistribution::BetaDistribution():
 {}
 
 BetaDistribution::BetaDistribution(const BetaDistribution & right):
+AbsFunction( right ),
 _alpha(right._alpha),
 _beta (right._beta) 
 {

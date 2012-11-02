@@ -16,6 +16,7 @@ FunctionPlusParameter::FunctionPlusParameter(const AbsParameter *parameter, cons
 }
 
 FunctionPlusParameter::FunctionPlusParameter(const FunctionPlusParameter & right) :
+  AbsFunction(right),
   _function(right._function->clone()),
   _parameter(right._parameter->clone())
 {}

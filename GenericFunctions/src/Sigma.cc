@@ -14,7 +14,7 @@ Sigma::Sigma()
 {
 }
 
-Sigma::Sigma(const Sigma & right)
+Sigma::Sigma(const Sigma & right) : AbsFunction(right)
 {
   for (size_t i=0; i<right._fcn.size();i++) {
     _fcn.push_back(right._fcn[i]->clone());

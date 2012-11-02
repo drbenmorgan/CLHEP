@@ -15,7 +15,7 @@ Erf::Erf()
 }
 
 Erf::Erf(const Erf & right):
-  _incompleteGamma(right._incompleteGamma)
+  AbsFunction(right), _incompleteGamma(right._incompleteGamma)
 {
 }
 

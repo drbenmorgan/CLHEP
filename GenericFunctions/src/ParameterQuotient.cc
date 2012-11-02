@@ -15,6 +15,7 @@ ParameterQuotient::ParameterQuotient(const AbsParameter *arg1, const AbsParamete
 }
 
 ParameterQuotient::ParameterQuotient(const ParameterQuotient & right) :
+AbsParameter(),
 _arg1(right._arg1->clone()),
 _arg2(right._arg2->clone())
 {}

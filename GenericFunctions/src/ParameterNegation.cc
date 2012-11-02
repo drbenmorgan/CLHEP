@@ -13,6 +13,7 @@ ParameterNegation::ParameterNegation(const AbsParameter *arg1):
 }
 
 ParameterNegation::ParameterNegation(const ParameterNegation & right) :
+AbsParameter(),
 _arg1(right._arg1->clone())
 {}
 

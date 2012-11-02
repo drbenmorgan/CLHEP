@@ -118,9 +118,9 @@ inline HepDiagMatrix HepDiagMatrix::inverse(int &ierr) const
 
 inline HepDiagMatrix HepDiagMatrix::inverse() const {
   int ierr;
-  HepDiagMatrix m=inverse(ierr);
+  HepDiagMatrix mt=inverse(ierr);
   if (ierr) throw std::runtime_error("Error in HepDiagMatrix inversion");
-  return m;
+  return mt;
 }
 
 inline void HepDiagMatrix::invert() {

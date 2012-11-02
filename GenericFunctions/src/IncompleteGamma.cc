@@ -19,7 +19,7 @@ IncompleteGamma::IncompleteGamma():
 {}
 
 IncompleteGamma::IncompleteGamma(const IncompleteGamma & right):
-_a(right._a) {
+AbsFunction(right), _a(right._a) {
 }
 
 IncompleteGamma::~IncompleteGamma() {

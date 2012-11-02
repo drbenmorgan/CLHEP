@@ -19,7 +19,7 @@ const double LogGamma::_coefficient[6]={
 LogGamma::LogGamma()
 {}
 
-LogGamma::LogGamma(const LogGamma & right)
+LogGamma::LogGamma(const LogGamma & right) : AbsFunction(right)
 {}
 
 LogGamma::~LogGamma() {

@@ -15,7 +15,7 @@ ArrayFunction::~ArrayFunction(){}
   
 // Copy constructor
 ArrayFunction::ArrayFunction(const ArrayFunction &right):
-  _values(right._values) {}
+  AbsFunction(right), _values(right._values) {}
   
   // Retreive function value
 double ArrayFunction::operator ()(double argument) const {

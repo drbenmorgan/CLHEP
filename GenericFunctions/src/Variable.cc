@@ -12,6 +12,7 @@ Variable::Variable(unsigned int selectionIndex, unsigned int dmsnlty):
 {}
 
 Variable::Variable(const Variable & right):
+  AbsFunction(right),
   _selectionIndex(right._selectionIndex),
   _dimensionality(right._dimensionality)
 {

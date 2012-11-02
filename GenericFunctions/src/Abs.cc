@@ -11,7 +11,7 @@ FUNCTION_OBJECT_IMP(Abs)
 Abs::Abs()
 {}
 
-Abs::Abs(const Abs & right)
+Abs::Abs(const Abs & right) : AbsFunction(right)
 {
 }
 

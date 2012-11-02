@@ -15,6 +15,7 @@ Rectangular::Rectangular():
 {}
 
 Rectangular::Rectangular(const Rectangular & right) :
+AbsFunction(right),
 _x0(right._x0),
 _x1(right._x1),
 _baseline(right._baseline),

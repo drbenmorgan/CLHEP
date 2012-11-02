@@ -17,6 +17,7 @@ FunctionConvolution::FunctionConvolution(const AbsFunction *arg1, const AbsFunct
 }
 
 FunctionConvolution::FunctionConvolution(const FunctionConvolution & right):
+AbsFunction(right),
 _arg1(right._arg1->clone()),
 _arg2(right._arg2->clone()),
 _x0(right._x0),

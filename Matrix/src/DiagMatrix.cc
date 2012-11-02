@@ -107,7 +107,7 @@ HepDiagMatrix::~HepDiagMatrix() {
 }
 
 HepDiagMatrix::HepDiagMatrix(const HepDiagMatrix &m1)
-   : m(m1.nrow), nrow(m1.nrow)
+   : HepGenMatrix(m1), m(m1.nrow), nrow(m1.nrow)
 {
    m = m1.m;
 }

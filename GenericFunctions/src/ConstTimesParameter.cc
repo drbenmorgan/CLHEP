@@ -14,6 +14,7 @@ ConstTimesParameter::ConstTimesParameter(double xconstant, const AbsParameter *a
 }
 
 ConstTimesParameter::ConstTimesParameter(const ConstTimesParameter & right) :
+AbsParameter(),
 _constant(right._constant),
 _parameter(right._parameter->clone())
 {}

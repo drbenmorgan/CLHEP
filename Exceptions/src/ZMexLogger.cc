@@ -44,16 +44,16 @@ ZMexLogBehavior::~ZMexLogBehavior()  { ; }
 ZMexLogBehavior *
 ZMexLogBehavior::clone() const  { return  new ZMexLogBehavior( *this ); }
 
-ZMexLogResult  ZMexLogBehavior::emit( const ZMexception & x )  {
+ZMexLogResult  ZMexLogBehavior::emit( const ZMexception & )  {
   return ZMexNOTLOGGED;
 }
 
 ZMexLogResult  ZMexLogBehavior::emit(
-  const std::string & s
+  const std::string &
 )  {
   //DEBUG  cerr << "ZMexLogBehavior::emit()" << endl;
 
-  // Do nothing with s (but do it well!):
+  // Do nothing with string& (but do it well!):
   return ZMexNOTLOGGED;
 }
 
@@ -73,16 +73,16 @@ ZMexLogNever::~ZMexLogNever()  { ; }
 ZMexLogNever *
 ZMexLogNever::clone() const  { return  new ZMexLogNever( *this ); }
 
-ZMexLogResult  ZMexLogNever::emit( const ZMexception & x )  {
+ZMexLogResult  ZMexLogNever::emit( const ZMexception & )  {
   return  ZMexNOTLOGGED;                                                  //
 }
 
 ZMexLogResult  ZMexLogNever::emit(
-  const std::string & s
+  const std::string &
 )  {
   //DEBUG  cerr << "ZMexLogNever::emit()" << endl;
 
-  // Do nothing with s (but do it well!):
+  // Do nothing with string& (but do it well!):
   return ZMexNOTLOGGED;
 }
 
@@ -182,11 +182,11 @@ ZMexLogViaParent::~ZMexLogViaParent()  { ; }
 ZMexLogViaParent *
 ZMexLogViaParent::clone() const  { return  new ZMexLogViaParent( *this ); }
 
-ZMexLogResult  ZMexLogViaParent::emit( const ZMexception & x )  {
+ZMexLogResult  ZMexLogViaParent::emit( const ZMexception & )  {
   return  ZMexLOGVIAPARENT;                                                 //
 }
 
-ZMexLogResult  ZMexLogViaParent::emit( const std::string & s )  {
+ZMexLogResult  ZMexLogViaParent::emit( const std::string & )  {
   //DEBUG  cerr << "ZMexLogViaParent::emit( \"" << s << "\" )" << endl;
 
   // Bump logging decisions to someone else's logger:

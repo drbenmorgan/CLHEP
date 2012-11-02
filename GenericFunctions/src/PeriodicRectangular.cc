@@ -15,6 +15,7 @@ PeriodicRectangular::PeriodicRectangular():
 {}
 
 PeriodicRectangular::PeriodicRectangular(const PeriodicRectangular & right):
+AbsFunction(right),
 _a(right._a),
 _b(right._b),
 _height(right._height)

@@ -117,9 +117,9 @@ inline HepSymMatrix HepSymMatrix::inverse(int &ifail) const
 
 inline HepSymMatrix HepSymMatrix::inverse() const {
   int ierr;
-  HepSymMatrix m=inverse(ierr);
+  HepSymMatrix mt=inverse(ierr);
   if (ierr) throw std::runtime_error("Error in HepSymMatrix inversion");
-  return m;
+  return mt;
 }
 
 inline void HepSymMatrix::invert() {

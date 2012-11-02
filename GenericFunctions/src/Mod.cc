@@ -11,7 +11,7 @@ Mod::Mod(double y):
 {}
 
 Mod::Mod(const Mod & right)
-  : _y(right._y)
+  : AbsFunction(right), _y(right._y)
 {}
 
 Mod::~Mod() {

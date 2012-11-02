@@ -15,6 +15,7 @@ ConstMinusParameter::ConstMinusParameter(double xconstant, const AbsParameter *a
 }
 
 ConstMinusParameter::ConstMinusParameter(const ConstMinusParameter & right) :
+AbsParameter(right),
 _constant(right._constant),
 _parameter(right._parameter->clone())
 {}

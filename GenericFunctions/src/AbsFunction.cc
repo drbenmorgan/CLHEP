@@ -26,6 +26,9 @@ AbsFunction::AbsFunction() {
 AbsFunction::~AbsFunction() {
 }
 
+AbsFunction::AbsFunction(const AbsFunction &) {
+}
+
 FunctionComposition AbsFunction::operator () (const AbsFunction &function) const {
   return FunctionComposition(this, &function);
 }

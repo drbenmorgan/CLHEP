@@ -16,6 +16,7 @@ FunctionTimesParameter::FunctionTimesParameter(const AbsParameter *parameter, co
 }
 
 FunctionTimesParameter::FunctionTimesParameter(const FunctionTimesParameter & right) :
+  AbsFunction(right),
   _function(right._function->clone()),
   _parameter(right._parameter->clone())
 {}

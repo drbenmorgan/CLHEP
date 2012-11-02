@@ -14,7 +14,7 @@ ATan::ATan()
 ATan::~ATan() {
 }
 
-ATan::ATan(const ATan & right) 
+ATan::ATan(const ATan & right) : AbsFunction(right)
 {  }
 
 

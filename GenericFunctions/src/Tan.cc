@@ -16,7 +16,7 @@ Tan::Tan()
 Tan::~Tan() {
 }
 
-Tan::Tan(const Tan & right) 
+Tan::Tan(const Tan & right) : AbsFunction(right)
 {  }
 
 

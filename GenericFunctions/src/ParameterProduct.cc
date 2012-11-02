@@ -15,6 +15,7 @@ ParameterProduct::ParameterProduct(const AbsParameter *arg1, const AbsParameter 
 }
 
 ParameterProduct::ParameterProduct(const ParameterProduct & right) :
+AbsParameter(),
 _arg1(right._arg1->clone()),
 _arg2(right._arg2->clone())
 {}

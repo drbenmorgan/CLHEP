@@ -15,7 +15,7 @@ ASin::ASin()
 ASin::~ASin() {
 }
 
-ASin::ASin(const ASin & right) 
+ASin::ASin(const ASin & right) : AbsFunction(right)
 {  }
 
 

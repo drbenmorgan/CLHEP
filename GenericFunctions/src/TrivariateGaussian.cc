@@ -32,6 +32,7 @@ TrivariateGaussian::~TrivariateGaussian() {
 }
 
 TrivariateGaussian::TrivariateGaussian(const TrivariateGaussian & right):
+  AbsFunction(right),
   _mean0(right._mean0),
   _mean1(right._mean1),
   _mean2(right._mean2),
@@ -166,7 +167,7 @@ unsigned int TrivariateGaussian::dimensionality() const {
   return 3;
 }
 
-double TrivariateGaussian::operator ()(double x) const
+double TrivariateGaussian::operator ()(double) const
 {
   std::cerr
     << "Warning.  trivariate Gaussian called with scalar argument"

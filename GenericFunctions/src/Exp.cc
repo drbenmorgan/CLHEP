@@ -10,7 +10,7 @@ FUNCTION_OBJECT_IMP(Exp)
 Exp::Exp()
 {}
 
-Exp::Exp(const Exp & right)
+Exp::Exp(const Exp & right) : AbsFunction(right)
 {}
 
 Exp::~Exp() {

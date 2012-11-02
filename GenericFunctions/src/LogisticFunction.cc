@@ -17,6 +17,7 @@ LogisticFunction::~LogisticFunction() {
 }
 
 LogisticFunction::LogisticFunction(const LogisticFunction & right):
+AbsFunction(right),
 _x0(right._x0),
 _a(right._a)
 {

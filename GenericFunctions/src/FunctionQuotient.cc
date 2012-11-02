@@ -19,6 +19,7 @@ FunctionQuotient::FunctionQuotient(const AbsFunction *arg1, const AbsFunction *a
 }
 
 FunctionQuotient::FunctionQuotient( const FunctionQuotient & right) :
+AbsFunction(right),
 _arg1(right._arg1->clone()),
 _arg2(right._arg2->clone())
 {}

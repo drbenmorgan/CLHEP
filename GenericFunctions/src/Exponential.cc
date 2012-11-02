@@ -12,6 +12,7 @@ Exponential::Exponential():
 {}
 
 Exponential::Exponential(const Exponential & right):
+  AbsFunction(right),
   _decayConstant(right._decayConstant)
 {
 }

@@ -90,7 +90,7 @@ inline ZMexAction ZMexIgnoreNextN::takeCareOf( const ZMexception & x ) {
 //
 //********************************
 
-inline ZMexAction ZMexHandleViaParent::takeCareOf( const ZMexception & x ) {
+inline ZMexAction ZMexHandleViaParent::takeCareOf( const ZMexception & ) {
   //DEBUG  cerr << "HandleViaParent::takeCareOf" << endl;
   return ZMexHANDLEVIAPARENT;
 }

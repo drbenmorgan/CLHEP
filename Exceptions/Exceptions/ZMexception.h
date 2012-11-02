@@ -455,8 +455,8 @@ public:
   }
 
   virtual bool isDerivedFrom(
-    const std::string aname
-  , const std::string afacility
+    const std::string 
+  , const std::string 
   ) const {
     return  false;
   }

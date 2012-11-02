@@ -14,7 +14,7 @@ Gamma::Gamma()
 
 {}
 
-Gamma::Gamma(const Gamma & right)
+Gamma::Gamma(const Gamma & right) : AbsFunction(right)
 {
 }
 

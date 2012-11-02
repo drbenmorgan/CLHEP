@@ -26,6 +26,7 @@ BivariateGaussian::~BivariateGaussian() {
 }
 
 BivariateGaussian::BivariateGaussian(const BivariateGaussian & right):
+  AbsFunction(right),
   _mean0(right._mean0),
   _mean1(right._mean1),
   _sigma0(right._sigma0),
@@ -103,7 +104,7 @@ unsigned int BivariateGaussian::dimensionality() const {
   return 2;
 }
 
-double BivariateGaussian::operator ()(double x) const
+double BivariateGaussian::operator ()(double) const
 {
   std::cerr
     << "Warning.  bivariate Gaussian called with scalar argument"

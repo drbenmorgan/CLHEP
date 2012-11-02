@@ -109,7 +109,7 @@ HepMatrix::~HepMatrix() {
 }
 
 HepMatrix::HepMatrix(const HepMatrix &m1)
-   : m(m1.size_), nrow(m1.nrow), ncol(m1.ncol), size_(m1.size_)
+   : HepGenMatrix(m1), m(m1.size_), nrow(m1.nrow), ncol(m1.ncol), size_(m1.size_)
 {
    m = m1.m;
 

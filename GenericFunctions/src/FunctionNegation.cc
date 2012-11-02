@@ -11,6 +11,7 @@ FunctionNegation::FunctionNegation(const AbsFunction *arg1):
 }
 
 FunctionNegation::FunctionNegation(const FunctionNegation & right):
+  AbsFunction(right),
   _arg1(right._arg1->clone())
 {
 }

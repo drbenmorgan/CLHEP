@@ -15,6 +15,7 @@ _n(arg2->dimensionality())
 }
 
 FunctionDirectProduct::FunctionDirectProduct(const FunctionDirectProduct & right):
+AbsFunction(right),
 _arg1(right._arg1->clone()),
 _arg2(right._arg2->clone()),
 _m(right._m),
@@ -54,7 +55,7 @@ unsigned int FunctionDirectProduct::dimensionality() const {
   return _m+_n;
 }
 
-double FunctionDirectProduct::operator ()(double x) const
+double FunctionDirectProduct::operator ()(double) const
 {
   std::cerr
     << "Warning.  direct product called with scalar argument"

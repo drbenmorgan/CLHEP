@@ -15,7 +15,7 @@ ACos::ACos()
 ACos::~ACos() {
 }
 
-ACos::ACos(const ACos & right) 
+ACos::ACos(const ACos & right) : AbsFunction(right)
 {  }
 
 

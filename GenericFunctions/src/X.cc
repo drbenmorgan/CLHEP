@@ -8,7 +8,7 @@ FUNCTION_OBJECT_IMP(X_)
 X_::X_()
 {}
 
-X_::X_(const X_ & right)
+X_::X_(const X_ & right) : AbsFunction(right)
 {
 }
 

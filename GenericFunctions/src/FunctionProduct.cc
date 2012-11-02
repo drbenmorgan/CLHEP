@@ -19,6 +19,7 @@ _arg2(arg2->clone())
 }
 
 FunctionProduct::FunctionProduct(const FunctionProduct & right) :
+  AbsFunction(right),
   _arg1(right._arg1->clone()),
   _arg2(right._arg2->clone())
 {

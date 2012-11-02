@@ -11,6 +11,9 @@ AbsParameter::AbsParameter() {
 AbsParameter::~AbsParameter(){
 }
 
+AbsParameter::AbsParameter(const AbsParameter &)
+{}
+
 AbsParameter *AbsParameter::clone() const {
   return _clone();
 }

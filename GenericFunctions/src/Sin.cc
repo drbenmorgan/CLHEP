@@ -14,7 +14,7 @@ Sin::Sin()
 Sin::~Sin() {
 }
 
-Sin::Sin(const Sin & right) 
+Sin::Sin(const Sin & right) : AbsFunction(right)
 {  }
 
 

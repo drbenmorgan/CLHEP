@@ -12,6 +12,7 @@ ConstTimesFunction::ConstTimesFunction(double constant, const AbsFunction *arg):
 }
 
 ConstTimesFunction::ConstTimesFunction(const ConstTimesFunction & right) :
+AbsFunction(right),
 _constant(right._constant),
 _arg(right._arg->clone())
 {}

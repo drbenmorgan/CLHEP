@@ -12,7 +12,7 @@ Theta::Theta()
 Theta::~Theta() {
 }
 
-Theta::Theta(const Theta & right) 
+Theta::Theta(const Theta & right) : AbsFunction(right)
 {  }
 
 

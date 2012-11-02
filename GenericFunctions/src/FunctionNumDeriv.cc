@@ -16,6 +16,7 @@ FunctionNumDeriv::FunctionNumDeriv(const AbsFunction *arg1, unsigned int index):
 }
 
 FunctionNumDeriv::FunctionNumDeriv(const FunctionNumDeriv & right):
+  AbsFunction(right),
   _arg1(right._arg1->clone()),
   _wrtIndex(right._wrtIndex)
 {

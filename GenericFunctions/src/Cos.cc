@@ -13,7 +13,7 @@ Cos::Cos()
 Cos::~Cos() {
 }
 
-Cos::Cos(const Cos & right) 
+Cos::Cos(const Cos & right) : AbsFunction(right)
 {  }
 
 
@@ -22,7 +22,7 @@ double Cos::operator() (double x) const {
 }
 
 
-Derivative Cos::partial(unsigned int index) const {
+Derivative Cos::partial(unsigned int) const {
   const AbsFunction & fPrime = -Sin();
   return Derivative(& fPrime);
 }

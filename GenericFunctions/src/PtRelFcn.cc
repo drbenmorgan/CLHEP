@@ -29,6 +29,7 @@ PtRelFcn::~PtRelFcn() {
 }
 
 PtRelFcn::PtRelFcn(const PtRelFcn & right):
+AbsFunction(right),
 _p0(right._p0),
 _p1(right._p1),
 _p2(right._p2),

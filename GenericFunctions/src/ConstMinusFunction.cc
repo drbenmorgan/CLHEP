@@ -13,6 +13,7 @@ ConstMinusFunction::ConstMinusFunction(double constant, const AbsFunction *arg):
 }
 
 ConstMinusFunction::ConstMinusFunction(const ConstMinusFunction & right) :
+AbsFunction(right),
 _constant(right._constant),
 _arg(right._arg->clone())
 {}

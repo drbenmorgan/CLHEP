@@ -19,6 +19,7 @@ FunctionSum::FunctionSum(const AbsFunction *arg1, const AbsFunction *arg2):
 }
 
 FunctionSum::FunctionSum(const FunctionSum & right) :
+AbsFunction(right),
 _arg1(right._arg1->clone()),
 _arg2(right._arg2->clone())
 {}

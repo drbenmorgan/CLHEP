@@ -24,6 +24,7 @@ Gaussian::~Gaussian() {
 }
 
 Gaussian::Gaussian(const Gaussian & right):
+AbsFunction(right),
 _mean(right._mean),
 _sigma(right._sigma)
 {

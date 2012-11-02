@@ -22,7 +22,8 @@ Power::Power(double n):
 {}
 
 Power::Power(const Power & right)
-    : _doublePower(right._doublePower),
+    : AbsFunction(right),
+      _doublePower(right._doublePower),
       _intPower(right._intPower),
       _asInteger(right._asInteger)
 {}
@@ -58,7 +59,7 @@ double Power::operator() (double x) const {
 
 
 
-Derivative Power::partial(unsigned int index) const {
+Derivative Power::partial(unsigned int) const {
   if (_asInteger) {
     const AbsFunction & fPrime = _intPower*Power(_intPower-1);
     return Derivative(&fPrime);

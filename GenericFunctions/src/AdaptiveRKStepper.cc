@@ -16,6 +16,7 @@ namespace Genfun {
   }
 
   AdaptiveRKStepper::AdaptiveRKStepper(const AdaptiveRKStepper & right):
+    RKStepper(right),
     eeStepper(right.eeStepper->clone()),
     T(right.T),
     sStepsize(right.sStepsize),

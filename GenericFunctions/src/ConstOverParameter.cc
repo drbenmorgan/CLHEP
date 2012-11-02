@@ -14,6 +14,7 @@ ConstOverParameter::ConstOverParameter(double xconstant, const AbsParameter *apa
 }
 
 ConstOverParameter::ConstOverParameter(const ConstOverParameter & right) :
+AbsParameter(right),
 _constant(right._constant),
 _parameter(right._parameter->clone())
 {}

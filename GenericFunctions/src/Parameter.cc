@@ -103,6 +103,7 @@ void Parameter::connectFrom(const AbsParameter *  source)
 
  
 Parameter::Parameter(const Parameter & right):
+  AbsParameter(right),
   _name(right._name),
   _value(right._value),
   _lowerLimit(right._lowerLimit),

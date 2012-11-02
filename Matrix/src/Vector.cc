@@ -93,7 +93,7 @@ HepVector::~HepVector() {
 }
 
 HepVector::HepVector(const HepVector &m1)
-   : m(m1.nrow), nrow(m1.nrow)
+   : HepGenMatrix(m1), m(m1.nrow), nrow(m1.nrow)
 {
    m = m1.m;
 }

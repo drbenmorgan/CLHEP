@@ -16,6 +16,7 @@ GammaDistribution::GammaDistribution():
 {}
 
 GammaDistribution::GammaDistribution(const GammaDistribution & right):
+AbsFunction(right),
 _alpha(right._alpha),
 _beta (right._beta) 
 {

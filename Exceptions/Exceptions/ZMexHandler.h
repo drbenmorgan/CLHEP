@@ -74,7 +74,7 @@ public:
   }
 
   virtual std::string name() const { return name_; }
-  virtual ZMexAction takeCareOf( const ZMexception & x ) { return ZMexThrowIt; }
+  virtual ZMexAction takeCareOf( const ZMexception & ) { return ZMexThrowIt; }
 
 protected:
   /*virtual void handleLog( ZMexception & x, const int limit );*/

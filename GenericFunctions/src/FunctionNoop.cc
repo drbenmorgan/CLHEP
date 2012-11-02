@@ -13,7 +13,7 @@ FunctionNoop::FunctionNoop(const AbsFunction *arg1):
 }
 
 FunctionNoop::FunctionNoop(const FunctionNoop & right):
-  _arg1(right._arg1->clone())
+  AbsFunction(right), _arg1(right._arg1->clone())
 {
 }
 

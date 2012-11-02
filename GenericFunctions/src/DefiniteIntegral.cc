@@ -28,7 +28,7 @@ namespace Genfun {
       QuadratureRule() {};
       
       // Destructor:
-      ~QuadratureRule() {};
+      virtual ~QuadratureRule() {};
       
       // Integrate at the j^th level of refinement:
       virtual double integrate(const AbsFunction & function, 
@@ -130,7 +130,8 @@ namespace Genfun {
     delete c;
   }
 
-  DefiniteIntegral::DefiniteIntegral(const DefiniteIntegral & right) :c(new Clockwork(*right.c)) {
+  DefiniteIntegral::DefiniteIntegral(const DefiniteIntegral & right) 
+  :AbsFunctional(right), c(new Clockwork(*right.c)) {
   }
 
   DefiniteIntegral & DefiniteIntegral::operator = (const DefiniteIntegral & right) {

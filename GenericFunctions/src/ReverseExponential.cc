@@ -12,6 +12,7 @@ ReverseExponential::ReverseExponential():
 {}
 
 ReverseExponential::ReverseExponential(const ReverseExponential & right) :
+AbsFunction(right),
 _decayConstant(right._decayConstant)
 {
 }

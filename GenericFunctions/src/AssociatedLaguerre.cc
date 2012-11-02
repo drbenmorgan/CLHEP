@@ -25,6 +25,7 @@ AssociatedLaguerre::~AssociatedLaguerre() {
 }
 
 AssociatedLaguerre::AssociatedLaguerre(const AssociatedLaguerre & right):
+AbsFunction(right),
 _n(right._n),
 _k(right._k)
 {

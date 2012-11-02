@@ -12,6 +12,7 @@ ConstOverFunction::ConstOverFunction(double constant, const AbsFunction *arg):
 }
 
 ConstOverFunction::ConstOverFunction(const ConstOverFunction & right) :
+AbsFunction(right),
 _constant(right._constant),
 _arg(right._arg->clone())
 {}

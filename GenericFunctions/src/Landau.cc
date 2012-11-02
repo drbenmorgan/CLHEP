@@ -21,6 +21,7 @@ Landau::~Landau() {
 }
 
 Landau::Landau(const Landau & right):
+AbsFunction(right),
 _peak(right._peak),
 _width(right._width)
 {

@@ -12,14 +12,14 @@ _value(value)
 }
 
 FixedConstant::FixedConstant(const FixedConstant & right):
-_value(right._value) {
+AbsFunction(right), _value(right._value) {
 }
 
 FixedConstant::~FixedConstant()
 {
 }
 
-double FixedConstant::operator ()(double argument) const
+double FixedConstant::operator ()(double) const
 {
   return _value;
 }

@@ -10,7 +10,7 @@ FUNCTION_OBJECT_IMP(Square)
 Square::Square()
 {}
 
-Square::Square(const Square & right)
+Square::Square(const Square & right) : AbsFunction(right)
 {
 }
 

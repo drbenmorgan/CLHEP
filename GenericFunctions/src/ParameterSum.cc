@@ -15,6 +15,7 @@ ParameterSum::ParameterSum(const AbsParameter *arg1, const AbsParameter *arg2):
 }
 
 ParameterSum::ParameterSum(const ParameterSum & right) :
+AbsParameter(),
 _arg1(right._arg1->clone()),
 _arg2(right._arg2->clone())
 {}

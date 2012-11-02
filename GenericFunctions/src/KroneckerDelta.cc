@@ -10,7 +10,7 @@ FUNCTION_OBJECT_IMP(KroneckerDelta)
 KroneckerDelta::KroneckerDelta()
 {}
 
-KroneckerDelta::KroneckerDelta(const KroneckerDelta & right) 
+KroneckerDelta::KroneckerDelta(const KroneckerDelta & right) : AbsFunction(right)
 {
 }
 

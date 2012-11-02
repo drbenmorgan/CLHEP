@@ -89,9 +89,9 @@ inline void swap(HepMatrix &m1,HepMatrix &m2) {
 
 inline HepMatrix HepMatrix::inverse() const {
   int ierr;
-  HepMatrix m=inverse(ierr);
+  HepMatrix mt=inverse(ierr);
   if (ierr) throw std::runtime_error("Error in HepMatrix inversion");
-  return m;
+  return mt;
 }
 
 inline void HepMatrix::invert() {

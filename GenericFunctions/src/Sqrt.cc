@@ -9,7 +9,7 @@ FUNCTION_OBJECT_IMP(Sqrt)
 Sqrt::Sqrt()
 {}
 
-Sqrt::Sqrt(const Sqrt & right)
+Sqrt::Sqrt(const Sqrt & right) : AbsFunction(right)
 {
 }
 

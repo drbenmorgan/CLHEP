@@ -20,6 +20,7 @@ AnalyticConvolution::AnalyticConvolution(AnalyticConvolution::Type          type
 }
 
 AnalyticConvolution::AnalyticConvolution(const AnalyticConvolution & right):
+  AbsFunction(right),
   _lifetime  (right._lifetime),
   _frequency (right._frequency),
   _sigma     (right._sigma),

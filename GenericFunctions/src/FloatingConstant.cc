@@ -13,7 +13,7 @@ FloatingConstant::FloatingConstant(const AbsParameter & p):
 }
 
 FloatingConstant::FloatingConstant(const FloatingConstant & right):
-  _value(right._value->clone()) {
+  AbsFunction(right), _value(right._value->clone()) {
 }
 
 FloatingConstant::~FloatingConstant()
@@ -24,7 +24,7 @@ AbsParameter & FloatingConstant::value() {
   return *_value;
 }
 
-double FloatingConstant::operator ()(double argument) const
+double FloatingConstant::operator ()(double) const
 {
   return _value->getValue();
 }

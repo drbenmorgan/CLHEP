@@ -16,7 +16,7 @@ Ln::Ln()
 Ln::~Ln() {
 }
 
-Ln::Ln(const Ln & right) 
+Ln::Ln(const Ln & right) : AbsFunction(right)
 {  }
 
 
