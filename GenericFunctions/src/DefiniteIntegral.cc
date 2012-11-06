@@ -186,7 +186,7 @@ namespace Genfun {
   void DefiniteIntegral::Clockwork::polint(std::vector<double>::iterator xArray, std::vector<double>::iterator yArray, double x, double & y, double & deltay) const {
     double dif = fabs(x-xArray[1]),dift;
     std::vector<double> c(K+1),d(K+1);
-    int ns=1;
+    unsigned int ns=1;
     for (unsigned int i=1;i<=K;i++) {
       dift=fabs(x-xArray[i]);
       if (dift<dif) {
