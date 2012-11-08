@@ -1487,7 +1487,7 @@ do_nothing_deleter::operator () ( void const * ) const
 
 
 #if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 5
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
     #pragma GCC diagnostic pop
   #endif
 #endif 
