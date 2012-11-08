@@ -2,6 +2,10 @@
 06.11.12 Release CLHEP-2.1.3.0
 ==============================
 
+2012-11-08  Lynn Garren <garren@fnal.gov>
+
+	* creation of symbolic links now respects DESTDIR
+
 2012-09-06  Joe Boudreau <boudreau@cern.ch>
 
 	* MATRIX/DiagMatrix, MATRIX/GenMatrix, MATRIX/SymMatrix: 
