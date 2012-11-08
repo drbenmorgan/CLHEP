@@ -32,13 +32,13 @@ namespace Genfun {
     inline const std::string & name() const;
     
     // Returns the order of the main formula
-    inline const unsigned int order() const;
+    inline unsigned int order() const;
 
     // Returns the order of the controlling formula
-    inline const unsigned int orderHat() const;
+    inline unsigned int orderHat() const;
     
     // Returns the number of steps:
-    inline const unsigned int nSteps() const;
+    inline unsigned int nSteps() const;
     
     // Write access to elements:
     inline double & A(unsigned int i, unsigned int j);

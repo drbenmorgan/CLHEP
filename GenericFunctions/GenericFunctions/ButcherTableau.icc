@@ -9,13 +9,13 @@ namespace Genfun {
   
   
   
-  const unsigned int ButcherTableau::order() const{
+  unsigned int ButcherTableau::order() const{
     return _order;
   }
   
   
   
-  const unsigned int ButcherTableau::nSteps() const{
+  unsigned int ButcherTableau::nSteps() const{
     return _A.size();
   }
 
