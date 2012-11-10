@@ -66,7 +66,7 @@ namespace Genfun {
 
 }
 
-//#include "CLHEP/GenericFunctions/Psi2Hydrogen.icc"
+#include "CLHEP/GenericFunctions/Psi2Hydrogen.icc"
 
 #endif
 
