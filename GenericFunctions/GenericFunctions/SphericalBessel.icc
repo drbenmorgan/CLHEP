@@ -20,19 +20,16 @@ inline
 SphericalBessel::SphericalBessel(unsigned int l):
   _l(l)
 {
-  create();
 }
 
 inline
 SphericalBessel::~SphericalBessel() {
-  delete _function;
 }
 
 inline
 SphericalBessel::SphericalBessel(const SphericalBessel & right):
 _l(right._l)
 {
-  create();
 }
 
 inline
@@ -48,30 +45,11 @@ double SphericalBessel::operator() (double x) const {
     raise(SIGFPE);
   }
   return result.val;
-  //return (*_function)(x);
 }
 
 inline
 unsigned int SphericalBessel::l() const {
   return _l;
 }
-
-inline
-void SphericalBessel::create() {
-  Sin   sine;
-  Cos  cosine;
-  Variable     x;
-  if (_l==0) {
-    _function = (sine/x).clone();
-  }
-  else if (_l==1) {
-    _function = (sine/x/x - cosine/x).clone();
-  }
-  else {
-    SphericalBessel j_minus(_l-1);
-    SphericalBessel j_minus_minus(_l-2);
-    _function = ((2*_l-1)*j_minus/x - j_minus_minus).clone();;
-  }
-} 
 
 } // end namespace Genfun 

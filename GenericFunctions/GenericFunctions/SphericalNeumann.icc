@@ -20,19 +20,16 @@ inline
 SphericalNeumann::SphericalNeumann(unsigned int l):
   _l(l)
 {
-  create();
 }
 
 inline
 SphericalNeumann::~SphericalNeumann() {
-  delete _function;
 }
 
 inline
 SphericalNeumann::SphericalNeumann(const SphericalNeumann & right):
 _l(right._l)
 {
-  create();
 }
 
 inline
@@ -48,30 +45,11 @@ double SphericalNeumann::operator() (double x) const {
     raise(SIGFPE);
   }
   return result.val;
-  //return (*_function)(x);
 }
 
 inline
 unsigned int SphericalNeumann::l() const {
   return _l;
 }
-
-inline
-void SphericalNeumann::create() {
-  Sin   sine;
-  Cos cosine;
-  Variable     x;
-  if (_l==0) {
-    _function = (-cosine/x).clone();
-  }
-  else if (_l==1) {
-    _function = (-cosine/x/x - sine/x).clone();
-  }
-  else {
-    SphericalNeumann j_minus(_l-1);
-    SphericalNeumann j_minus_minus(_l-2);
-    _function = ((2*_l-1)*j_minus/x - j_minus_minus).clone();;
-  }
-} 
 
 } // end of namespace Genfun 

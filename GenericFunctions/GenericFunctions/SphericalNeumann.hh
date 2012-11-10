@@ -40,18 +40,12 @@ namespace Genfun {
 
   private:
 
-    // It is illegal to assign an adjustable constant
+    // It is illegal to assign a spherical neumann
     const SphericalNeumann & operator=(const SphericalNeumann &right);
 
-    // Here is the decay constant
+    // Here is the index
     unsigned int _l;
   
-    // Here is the "work function"
-    const AbsFunction *_function;
-
-    // This function is needed in all constructors:
-    void create(); 
-
   };
 } // namespace Genfun
 #include "CLHEP/GenericFunctions/SphericalNeumann.icc"
