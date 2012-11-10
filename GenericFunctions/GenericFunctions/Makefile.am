@@ -43,6 +43,8 @@ pkginclude_HEADERS = \
 	ConstTimesFunction.hh \
 	ConstTimesParameter.hh \
 	Cos.hh \
+	CubicSplinePolynomial.hh \
+	CubicSplinePolynomial.icc \
 	CumulativeChiSquare.hh \
 	CutBase.hh \
 	CutBase.icc \
