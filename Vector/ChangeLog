@@ -1,3 +1,11 @@
+
+2012-11-14 Lynn Garren <garren@fnal.gov>
+
+	* Vector/Rotation.icc: fix a bug introduced when trying to stop shadowing complaints
+	* RotationX, RotationY, RotationZ: change the names of internal variables to 
+	  avoid possible confusion with Units  
+	  (tested in a controlled environment to avoid introducing any bugs)
+
 ==============================
 06.11.12 Release CLHEP-2.1.3.0
 ==============================
