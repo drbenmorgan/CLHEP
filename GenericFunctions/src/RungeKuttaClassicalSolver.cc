@@ -1,21 +1,25 @@
 #include "CLHEP/GenericFunctions/RungeKuttaClassicalSolver.hh"
 #include "CLHEP/GenericFunctions/RKIntegrator.hh"
+#include "CLHEP/GenericFunctions/AdaptiveRKStepper.hh"
 namespace Classical {
   //
   // This is the private innards of RungeKuttaSolver
   //
   class RungeKuttaSolver::Clockwork {
   public:
-    Clockwork(Genfun::GENFUNCTION gH, const PhaseSpace & mphaseSpace):H(gH),phaseSpace(mphaseSpace){}
+
+    Clockwork(Genfun::GENFUNCTION gH, const PhaseSpace & mphaseSpace):H(gH),phaseSpace(mphaseSpace), integrator(NULL){
+    }
     Genfun::GENFUNCTION H;
     const Classical::PhaseSpace & phaseSpace;
-    Genfun::RKIntegrator          integrator;
+    Genfun::RKIntegrator          *integrator;
     std::vector<Genfun::Parameter*> startingQ;
     std::vector<Genfun::Parameter*> startingP;
     Genfun::EnergyFunction          *energy;
   };
 
-  RungeKuttaSolver::RungeKuttaSolver(Genfun::GENFUNCTION gH, const PhaseSpace & mphaseSpace):c(new Clockwork(gH,mphaseSpace)){
+  RungeKuttaSolver::RungeKuttaSolver(Genfun::GENFUNCTION gH, const PhaseSpace & mphaseSpace, const Genfun::RKIntegrator::RKStepper *stepper):c(new Clockwork(gH,mphaseSpace)){
+    c->integrator=new Genfun::RKIntegrator(stepper);
     //
     // Dimension (of coords, or phase space)
     //
@@ -28,22 +32,23 @@ namespace Classical {
     
     for (unsigned int i=0;i<DIM;i++) {
       Genfun::GENFUNCTION DXDT  =  c->H.partial(P[i].index());
-      c->startingQ.push_back(c->integrator.addDiffEquation(&DXDT,"X",c->phaseSpace.startValue(X[i])));
+      c->startingQ.push_back(c->integrator->addDiffEquation(&DXDT,"X",c->phaseSpace.startValue(X[i])));
     }
     for (unsigned int i=0;i<DIM;i++) {
       Genfun::GENFUNCTION DPDT  = -c->H.partial(X[i].index());
-      c->startingP.push_back(c->integrator.addDiffEquation(&DPDT,"P",c->phaseSpace.startValue(P[i])));
+      c->startingP.push_back(c->integrator->addDiffEquation(&DPDT,"P",c->phaseSpace.startValue(P[i])));
     }
     c->energy=NULL;
     
   }
   RungeKuttaSolver::~RungeKuttaSolver(){
+    delete c->integrator;
     delete c->energy;
     delete c;
   }
 
   Genfun::GENFUNCTION RungeKuttaSolver::equationOf(const Genfun::Variable & v) const {
-    return *c->integrator.getFunction(v.index());
+    return *c->integrator->getFunction(v.index());
   }
   Genfun::GENFUNCTION RungeKuttaSolver::hamiltonian() const {
     return c->H;
@@ -60,7 +65,7 @@ namespace Classical {
 								      double defStartingValue,
 								      double startingValueMin,
 								      double startingValueMax) const {
-    return c->integrator.createControlParameter(variableName, defStartingValue, startingValueMin, startingValueMax) ;
+    return c->integrator->createControlParameter(variableName, defStartingValue, startingValueMin, startingValueMax) ;
   }
       
   Genfun::Parameter *RungeKuttaSolver::takeQ0(unsigned int index) {
