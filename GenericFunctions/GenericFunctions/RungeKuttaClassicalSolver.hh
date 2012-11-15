@@ -11,6 +11,7 @@
 #define _RKClassicalSolver_h__
 #include "CLHEP/GenericFunctions/PhaseSpace.hh"
 #include "CLHEP/GenericFunctions/ClassicalSolver.hh"
+#include "CLHEP/GenericFunctions/RKIntegrator.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include "CLHEP/GenericFunctions/Parameter.hh"
 #include <vector>
@@ -23,7 +24,7 @@ namespace Classical {
     //
     // Constructor--takes a hamiltonian and a point in p-space: 
     //
-    RungeKuttaSolver(Genfun::GENFUNCTION H, const PhaseSpace & phaseSpace);
+    RungeKuttaSolver(Genfun::GENFUNCTION H, const PhaseSpace & phaseSpace, const Genfun::RKIntegrator::RKStepper *stepper=NULL);
     //
     // Destructor:
     //
