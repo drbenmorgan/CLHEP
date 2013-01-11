@@ -43,6 +43,9 @@ make install
 
 -DLIB_SUFFIX=64 (installs the libraries in a lib64 subdirectory)
 
+IMPORTANT:
+If you include -DCLHEP_BUILD_DOCS=ON, do not use "make -jN"
+
 #-------------------------------------------------------------
 # building documents
 #-------------------------------------------------------------
