@@ -66,12 +66,12 @@ inline HepMatrix::HepMatrix_row_const::HepMatrix_row_const
 }
 
 // This function swaps two Matrices without doing a full copy.
-inline void swap(HepMatrix &m1,HepMatrix &m2) {
-  HepGenMatrix::swap(m1.m,m2.m);
+inline void swap(HepMatrix &hm1,HepMatrix &hm2) {
+  HepGenMatrix::swap(hm1.m,hm2.m);
 /*** commented
-  HepGenMatrix::swap(m1.nrow,m2.nrow);
-  HepGenMatrix::swap(m1.ncol,m2.ncol);
-  HepGenMatrix::swap(m1.size_,m2.size_);
+  HepGenMatrix::swap(hm1.nrow,hm2.nrow);
+  HepGenMatrix::swap(hm1.ncol,hm2.ncol);
+  HepGenMatrix::swap(hm1.size_,hm2.size_);
 */
 }
 

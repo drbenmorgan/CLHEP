@@ -50,7 +50,7 @@ public:
 
    HepDiagMatrix(int p, HepRandom &r);
 
-   HepDiagMatrix(const HepDiagMatrix &m1);
+   HepDiagMatrix(const HepDiagMatrix &hm1);
    // Copy constructor.
 
    virtual ~HepDiagMatrix();
@@ -71,13 +71,13 @@ public:
    // Must be row>=col;
    // ** Note that indexing starts from (1,1). **
 
-   void assign(const HepMatrix &m2);
-   // Assigns m2 to d, assuming m2 is a diagnal matrix.
+   void assign(const HepMatrix &hm2);
+   // Assigns hm2 to d, assuming hm2 is a diagnal matrix.
 
-   void assign(const HepSymMatrix &m2);
-   // Assigns m2 to d, assuming m2 is a diagnal matrix.
+   void assign(const HepSymMatrix &hm2);
+   // Assigns hm2 to d, assuming hm2 is a diagnal matrix.
 
-   void assign(const HepDiagMatrix &m2);
+   void assign(const HepDiagMatrix &hm2);
    // Another form of assignment. For consistency.
 
    HepDiagMatrix & operator*=(double t);
@@ -86,11 +86,11 @@ public:
    HepDiagMatrix & operator/=(double t); 
    // Divide a DiagMatrix by a floating number
 
-   HepDiagMatrix & operator+=( const HepDiagMatrix &m2);
-   HepDiagMatrix & operator-=( const HepDiagMatrix &m2);
+   HepDiagMatrix & operator+=( const HepDiagMatrix &hm2);
+   HepDiagMatrix & operator-=( const HepDiagMatrix &hm2);
    // Add or subtract a DiagMatrix.
 
-   HepDiagMatrix & operator=( const HepDiagMatrix &m2);
+   HepDiagMatrix & operator=( const HepDiagMatrix &hm2);
    // Assignment operator. To assign SymMatrix to DiagMatrix, use d<<s.
 
    HepDiagMatrix operator- () const;
@@ -103,10 +103,10 @@ public:
 					       int, int)) const;
    // Apply a function to all elements of the matrix.
 
-   HepSymMatrix similarity(const HepMatrix &m1) const;
-   // Returns m1*s*m1.T().
-   HepSymMatrix similarityT(const HepMatrix &m1) const;
-   // Returns m1.T()*s*m1.
+   HepSymMatrix similarity(const HepMatrix &hm1) const;
+   // Returns hm1*s*hm1.T().
+   HepSymMatrix similarityT(const HepMatrix &hm1) const;
+   // Returns hm1.T()*s*hm1.
 
    double similarity(const HepVector &) const;
    // Returns v.T()*s*v (This is a scaler).
@@ -117,8 +117,8 @@ public:
    // SGI CC bug. I have to have both with/without const. I should not need
    // one without const.
 
-   void sub(int row, const HepDiagMatrix &m1);
-   // Sub matrix of this SymMatrix is replaced with m1.
+   void sub(int row, const HepDiagMatrix &hm1);
+   // Sub matrix of this SymMatrix is replaced with hm1.
 
    HepDiagMatrix inverse(int&ierr) const;
    // Invert a Matrix. The matrix is not changed
@@ -176,15 +176,15 @@ private:
    friend class HepMatrix;
    friend class HepSymMatrix;
 
-   friend HepDiagMatrix operator*(const HepDiagMatrix &m1,
-				   const HepDiagMatrix &m2);
-   friend HepDiagMatrix operator+(const HepDiagMatrix &m1,
-				   const HepDiagMatrix &m2);
-   friend HepDiagMatrix operator-(const HepDiagMatrix &m1,
-				   const HepDiagMatrix &m2);
-   friend HepMatrix operator*(const HepDiagMatrix &m1, const HepMatrix &m2);
-   friend HepMatrix operator*(const HepMatrix &m1, const HepDiagMatrix &m2);
-   friend HepVector operator*(const HepDiagMatrix &m1, const HepVector &m2);
+   friend HepDiagMatrix operator*(const HepDiagMatrix &hm1,
+				   const HepDiagMatrix &hm2);
+   friend HepDiagMatrix operator+(const HepDiagMatrix &hm1,
+				   const HepDiagMatrix &hm2);
+   friend HepDiagMatrix operator-(const HepDiagMatrix &hm1,
+				   const HepDiagMatrix &hm2);
+   friend HepMatrix operator*(const HepDiagMatrix &hm1, const HepMatrix &hm2);
+   friend HepMatrix operator*(const HepMatrix &hm1, const HepDiagMatrix &hm2);
+   friend HepVector operator*(const HepDiagMatrix &hm1, const HepVector &hm2);
 
 #ifdef DISABLE_ALLOC
    std::vector<double > m;
@@ -205,25 +205,25 @@ private:
 std::ostream& operator<<(std::ostream &s, const HepDiagMatrix &q);
 // Write out Matrix, SymMatrix, DiagMatrix and Vector into ostream.
 
-HepMatrix operator*(const HepMatrix &m1, const HepDiagMatrix &m2);
-HepMatrix operator*(const HepDiagMatrix &m1, const HepMatrix &m2);
+HepMatrix operator*(const HepMatrix &hm1, const HepDiagMatrix &hm2);
+HepMatrix operator*(const HepDiagMatrix &hm1, const HepMatrix &hm2);
 HepDiagMatrix operator*(double t, const HepDiagMatrix &d1);
 HepDiagMatrix operator*(const HepDiagMatrix &d1, double t);
 // Multiplication operators
-// Note that m *= m1 is always faster than m = m * m1
+// Note that m *= hm1 is always faster than m = m * hm1
 
-HepDiagMatrix operator/(const HepDiagMatrix &m1, double t);
+HepDiagMatrix operator/(const HepDiagMatrix &hm1, double t);
 // d = d1 / t. (d /= t is faster if you can use it.)
 
-HepMatrix operator+(const HepMatrix &m1, const HepDiagMatrix &d2);
-HepMatrix operator+(const HepDiagMatrix &d1, const HepMatrix &m2);
-HepDiagMatrix operator+(const HepDiagMatrix &m1, const HepDiagMatrix &d2);
+HepMatrix operator+(const HepMatrix &hm1, const HepDiagMatrix &d2);
+HepMatrix operator+(const HepDiagMatrix &d1, const HepMatrix &hm2);
+HepDiagMatrix operator+(const HepDiagMatrix &hm1, const HepDiagMatrix &d2);
 HepSymMatrix operator+(const HepSymMatrix &s1, const HepDiagMatrix &d2);
 HepSymMatrix operator+(const HepDiagMatrix &d1, const HepSymMatrix &s2);
 // Addition operators
 
-HepMatrix operator-(const HepMatrix &m1, const HepDiagMatrix &d2);
-HepMatrix operator-(const HepDiagMatrix &d1, const HepMatrix &m2);
+HepMatrix operator-(const HepMatrix &hm1, const HepDiagMatrix &d2);
+HepMatrix operator-(const HepDiagMatrix &d1, const HepMatrix &hm2);
 HepDiagMatrix operator-(const HepDiagMatrix &d1, const HepDiagMatrix &d2);
 HepSymMatrix operator-(const HepSymMatrix &s1, const HepDiagMatrix &d2);
 HepSymMatrix operator-(const HepDiagMatrix &d1, const HepSymMatrix &s2);

@@ -57,7 +57,7 @@ inline const double & HepDiagMatrix::operator()(int row, int col) const
    return fast(col,row);
 }
 
-inline void HepDiagMatrix::assign(const HepDiagMatrix &m2) {(*this)=m2;}
+inline void HepDiagMatrix::assign(const HepDiagMatrix &hm2) {(*this)=hm2;}
 
 inline HepDiagMatrix HepDiagMatrix::T() const {return HepDiagMatrix(*this);}
 

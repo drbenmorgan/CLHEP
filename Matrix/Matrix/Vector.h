@@ -84,7 +84,7 @@ public:
    HepVector & operator-=( const HepVector &v2);
    // Add or subtract a Vector.
 
-   HepVector & operator=( const HepVector &m2);
+   HepVector & operator=( const HepVector &hm2);
    // Assignment operators.
 
    HepVector& operator=(const HepMatrix &);
@@ -143,10 +143,10 @@ private:
 
    friend HepVector operator+(const HepVector &v1, const HepVector &v2);
    friend HepVector operator-(const HepVector &v1, const HepVector &v2);
-   friend HepVector operator*(const HepSymMatrix &m1, const HepVector &m2);
-   friend HepVector operator*(const HepDiagMatrix &m1, const HepVector &m2);
-   friend HepMatrix operator*(const HepVector &m1, const HepMatrix &m2);
-   friend HepVector operator*(const HepMatrix &m1, const HepVector &m2);
+   friend HepVector operator*(const HepSymMatrix &hm1, const HepVector &hm2);
+   friend HepVector operator*(const HepDiagMatrix &hm1, const HepVector &hm2);
+   friend HepMatrix operator*(const HepVector &hm1, const HepMatrix &hm2);
+   friend HepVector operator*(const HepMatrix &hm1, const HepVector &hm2);
 
    friend HepVector solve(const HepMatrix &a, const HepVector &v);
    friend void tridiagonal(HepSymMatrix *a,HepMatrix *hsm);
@@ -177,7 +177,7 @@ private:
 std::ostream& operator<<(std::ostream &s, const HepVector &v);
 // Write out Matrix, SymMatrix, DiagMatrix and Vector into ostream.
 
-HepVector operator*(const HepMatrix &m1, const HepVector &m2);
+HepVector operator*(const HepMatrix &hm1, const HepVector &hm2);
 HepVector operator*(double t, const HepVector &v1);
 HepVector operator*(const HepVector &v1, double t);
 // Multiplication operators.
@@ -186,13 +186,13 @@ HepVector operator*(const HepVector &v1, double t);
 HepVector operator/(const HepVector &v1, double t);
 // Divide by a real number.
 
-HepVector operator+(const HepMatrix &m1, const HepVector &v2);
-HepVector operator+(const HepVector &v1, const HepMatrix &m2);
+HepVector operator+(const HepMatrix &hm1, const HepVector &v2);
+HepVector operator+(const HepVector &v1, const HepMatrix &hm2);
 HepVector operator+(const HepVector &v1, const HepVector &v2);
 // Addition operators
 
-HepVector operator-(const HepMatrix &m1, const HepVector &v2);
-HepVector operator-(const HepVector &v1, const HepMatrix &m2);
+HepVector operator-(const HepMatrix &hm1, const HepVector &v2);
+HepVector operator-(const HepVector &v1, const HepMatrix &hm2);
 HepVector operator-(const HepVector &v1, const HepVector &v2);
 // subtraction operators
 

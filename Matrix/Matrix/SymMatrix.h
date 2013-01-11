@@ -100,10 +100,10 @@ public:
 
    HepSymMatrix(int p, HepRandom &r);
 
-   HepSymMatrix(const HepSymMatrix &m1);
+   HepSymMatrix(const HepSymMatrix &hm1);
    // Copy constructor.
 
-   HepSymMatrix(const HepDiagMatrix &m1);
+   HepSymMatrix(const HepDiagMatrix &hm1);
    // Constructor from DiagMatrix
 
    virtual ~HepSymMatrix();
@@ -124,10 +124,10 @@ public:
    // Must be row>=col;
    // ** Note that indexing starts from (1,1). **
 
-   void assign(const HepMatrix &m2);
-   // Assigns m2 to s, assuming m2 is a symmetric matrix.
+   void assign(const HepMatrix &hm2);
+   // Assigns hm2 to s, assuming hm2 is a symmetric matrix.
 
-   void assign(const HepSymMatrix &m2);
+   void assign(const HepSymMatrix &hm2);
    // Another form of assignment. For consistency.
 
    HepSymMatrix & operator*=(double t);
@@ -136,14 +136,14 @@ public:
    HepSymMatrix & operator/=(double t); 
    // Divide a SymMatrix by a floating number.
 
-   HepSymMatrix & operator+=( const HepSymMatrix &m2);
-   HepSymMatrix & operator+=( const HepDiagMatrix &m2);
-   HepSymMatrix & operator-=( const HepSymMatrix &m2);
-   HepSymMatrix & operator-=( const HepDiagMatrix &m2);
+   HepSymMatrix & operator+=( const HepSymMatrix &hm2);
+   HepSymMatrix & operator+=( const HepDiagMatrix &hm2);
+   HepSymMatrix & operator-=( const HepSymMatrix &hm2);
+   HepSymMatrix & operator-=( const HepDiagMatrix &hm2);
    // Add or subtract a SymMatrix.
 
-   HepSymMatrix & operator=( const HepSymMatrix &m2);
-   HepSymMatrix & operator=( const HepDiagMatrix &m2);
+   HepSymMatrix & operator=( const HepSymMatrix &hm2);
+   HepSymMatrix & operator=( const HepDiagMatrix &hm2);
    // Assignment operators. Notice that there is no SymMatrix = Matrix.
 
    HepSymMatrix operator- () const;
@@ -155,21 +155,21 @@ public:
    HepSymMatrix apply(double (*f)(double, int, int)) const;
    // Apply a function to all elements of the matrix.
 
-   HepSymMatrix similarity(const HepMatrix &m1) const;
-   HepSymMatrix similarity(const HepSymMatrix &m1) const;
-   // Returns m1*s*m1.T().
+   HepSymMatrix similarity(const HepMatrix &hm1) const;
+   HepSymMatrix similarity(const HepSymMatrix &hm1) const;
+   // Returns hm1*s*hm1.T().
 
-   HepSymMatrix similarityT(const HepMatrix &m1) const;
+   HepSymMatrix similarityT(const HepMatrix &hm1) const;
    // temporary. test of new similarity.
-   // Returns m1.T()*s*m1.
+   // Returns hm1.T()*s*hm1.
 
    double similarity(const HepVector &v) const;
    // Returns v.T()*s*v (This is a scaler).
 
    HepSymMatrix sub(int min_row, int max_row) const;
    // Returns a sub matrix of a SymMatrix.
-   void sub(int row, const HepSymMatrix &m1);
-   // Sub matrix of this SymMatrix is replaced with m1.
+   void sub(int row, const HepSymMatrix &hm1);
+   // Sub matrix of this SymMatrix is replaced with hm1.
    HepSymMatrix sub(int min_row, int max_row);
    // SGI CC bug. I have to have both with/without const. I should not need
    // one without const.
@@ -251,14 +251,14 @@ private:
    friend HepVector house(const HepSymMatrix &a,int row,int col);
    friend void house_with_update2(HepSymMatrix *a,HepMatrix *v,int row,int col);
 
-   friend HepSymMatrix operator+(const HepSymMatrix &m1, 
-				  const HepSymMatrix &m2);
-   friend HepSymMatrix operator-(const HepSymMatrix &m1, 
-				  const HepSymMatrix &m2);
-   friend HepMatrix operator*(const HepSymMatrix &m1, const HepSymMatrix &m2);
-   friend HepMatrix operator*(const HepSymMatrix &m1, const HepMatrix &m2);
-   friend HepMatrix operator*(const HepMatrix &m1, const HepSymMatrix &m2);
-   friend HepVector operator*(const HepSymMatrix &m1, const HepVector &m2);
+   friend HepSymMatrix operator+(const HepSymMatrix &hm1, 
+				  const HepSymMatrix &hm2);
+   friend HepSymMatrix operator-(const HepSymMatrix &hm1, 
+				  const HepSymMatrix &hm2);
+   friend HepMatrix operator*(const HepSymMatrix &hm1, const HepSymMatrix &hm2);
+   friend HepMatrix operator*(const HepSymMatrix &hm1, const HepMatrix &hm2);
+   friend HepMatrix operator*(const HepMatrix &hm1, const HepSymMatrix &hm2);
+   friend HepVector operator*(const HepSymMatrix &hm1, const HepVector &hm2);
    // Multiply a Matrix by a Matrix or Vector.
    
    friend HepSymMatrix vT_times_v(const HepVector &v);
@@ -296,24 +296,24 @@ private:
 std::ostream& operator<<(std::ostream &s, const HepSymMatrix &q);
 // Write out Matrix, SymMatrix, DiagMatrix and Vector into ostream.
 
-HepMatrix operator*(const HepMatrix &m1, const HepSymMatrix &m2);
-HepMatrix operator*(const HepSymMatrix &m1, const HepMatrix &m2);
-HepMatrix operator*(const HepSymMatrix &m1, const HepSymMatrix &m2);
+HepMatrix operator*(const HepMatrix &hm1, const HepSymMatrix &hm2);
+HepMatrix operator*(const HepSymMatrix &hm1, const HepMatrix &hm2);
+HepMatrix operator*(const HepSymMatrix &hm1, const HepSymMatrix &hm2);
 HepSymMatrix operator*(double t, const HepSymMatrix &s1);
 HepSymMatrix operator*(const HepSymMatrix &s1, double t);
 // Multiplication operators.
-// Note that m *= m1 is always faster than m = m * m1
+// Note that m *= hm1 is always faster than m = m * hm1
 
-HepSymMatrix operator/(const HepSymMatrix &m1, double t);
+HepSymMatrix operator/(const HepSymMatrix &hm1, double t);
 // s = s1 / t. (s /= t is faster if you can use it.)
 
-HepMatrix operator+(const HepMatrix &m1, const HepSymMatrix &s2);
-HepMatrix operator+(const HepSymMatrix &s1, const HepMatrix &m2);
+HepMatrix operator+(const HepMatrix &hm1, const HepSymMatrix &s2);
+HepMatrix operator+(const HepSymMatrix &s1, const HepMatrix &hm2);
 HepSymMatrix operator+(const HepSymMatrix &s1, const HepSymMatrix &s2);
 // Addition operators
 
-HepMatrix operator-(const HepMatrix &m1, const HepSymMatrix &s2);
-HepMatrix operator-(const HepSymMatrix &m1, const HepMatrix &m2);
+HepMatrix operator-(const HepMatrix &hm1, const HepSymMatrix &s2);
+HepMatrix operator-(const HepSymMatrix &hm1, const HepMatrix &hm2);
 HepSymMatrix operator-(const HepSymMatrix &s1, const HepSymMatrix &s2);
 // subtraction operators
 

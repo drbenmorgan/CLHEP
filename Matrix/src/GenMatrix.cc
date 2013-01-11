@@ -14,7 +14,6 @@
 #include <cmath>
 #include <stdlib.h>
 
-#include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/GenMatrix.h"
 #include "CLHEP/Matrix/SymMatrix.h"
 #include "CLHEP/Matrix/Matrix.h"
@@ -26,44 +25,44 @@
 namespace CLHEP {
 
 #ifdef HEP_THIS_FUNCTION_IS_NOT_NEEDED
-static void delete_array(double *m)
+static void delete_array(double *hm)
 {
-   delete [] m;
+   delete [] hm;
 }
 #endif
 
-double norm_infinity(const HepGenMatrix &m) {
+double norm_infinity(const HepGenMatrix &hm) {
   double max=0,sum;
-  for(int r=1;r<=m.num_row();r++) {
+  for(int r=1;r<=hm.num_row();r++) {
     sum=0;
-    for(int c=1;c<=m.num_col();c++) {
-      sum+=fabs(m(r,c));
+    for(int c=1;c<=hm.num_col();c++) {
+      sum+=fabs(hm(r,c));
     }
     if(sum>max) max=sum;
   }
   return max;
 }
 
-double norm1(const HepGenMatrix &m) {
+double norm1(const HepGenMatrix &hm) {
   double max=0,sum;
-  for(int c=1;c<=m.num_col();c++) {
+  for(int c=1;c<=hm.num_col();c++) {
     sum=0;
-    for(int r=1;r<=m.num_row();r++)
-      sum+=fabs(m(r,c));
+    for(int r=1;r<=hm.num_row();r++)
+      sum+=fabs(hm(r,c));
     if(sum>max) max=sum;
   }
   return max;
 }
 
-double norm(const HepGenMatrix &m) {
-  HepSymMatrix A(m.num_col(),0);
+double norm(const HepGenMatrix &hm) {
+  HepSymMatrix A(hm.num_col(),0);
 	
-// Calculate m.T*m
+// Calculate hm.T*hm
   int r;	
   for(r=1;r<=A.num_row();r++)
     for(int c=1;c<=r;c++)
-      for(int i=1;i<=m.num_row();i++)
-	A.fast(r,c)=m(i,r)*m(i,c);
+      for(int i=1;i<=hm.num_row();i++)
+	A.fast(r,c)=hm(i,r)*hm(i,c);
   diagonalize(&A);
   double max=fabs(A(1,1));
   for(r=2;r<=A.num_row();r++)
@@ -71,9 +70,9 @@ double norm(const HepGenMatrix &m) {
   return (sqrt(max));
 }
 
-void HepGenMatrix::error(const char *s)
+void HepGenMatrix::error(const char *es)
 {
-  std::cerr << s << std::endl;
+  std::cerr << es << std::endl;
   std::cerr << "---Exiting to System." << std::endl;
   abort();
 }
@@ -89,12 +88,12 @@ bool HepGenMatrix::operator== ( const HepGenMatrix& o) const {
 // implementation using pre-allocated data array
 // -----------------------------------------------------------------
 
-void HepGenMatrix::delete_m(int size, double* m)
+void HepGenMatrix::delete_m(int size, double* hm)
 {
-   if (m)
+   if (hm)
    {
      if(size > size_max)
-       delete [] m;
+       delete [] hm;
    }
 }
 

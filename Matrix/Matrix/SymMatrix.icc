@@ -39,8 +39,8 @@ inline double & HepSymMatrix::operator()(int row, int col)
 inline const double & HepSymMatrix::operator()(int row, int col) const 
     {return (row>=col? fast(row,col) : fast(col,row));}
 
-inline void HepSymMatrix::assign(const HepSymMatrix &m2) 
-  {(*this)=m2;}
+inline void HepSymMatrix::assign(const HepSymMatrix &hm2) 
+  {(*this)=hm2;}
 
 inline HepSymMatrix HepSymMatrix::T() const {return HepSymMatrix(*this);}
 

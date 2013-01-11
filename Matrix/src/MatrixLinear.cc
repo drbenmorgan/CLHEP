@@ -118,7 +118,7 @@ void back_solve(const HepMatrix &R, HepMatrix *b)
    It replaces A with A*G.
    ----------------------------------------------------------------------- */
 
-void col_givens(HepMatrix *A, double c,double s,
+void col_givens(HepMatrix *A, double c,double ds,
 		int k1, int k2, int row_min, int row_max) {
    if (row_max<=0) row_max = A->num_row();
    int n = A->num_col();
@@ -126,7 +126,7 @@ void col_givens(HepMatrix *A, double c,double s,
    HepMatrix::mIter Ajk2 = A->m.begin() + (row_min - 1) * n + k2 - 1;
    for (int j=row_min;j<=row_max;j++) {
       double tau1=(*Ajk1); double tau2=(*Ajk2);
-      (*Ajk1)=c*tau1-s*tau2;(*Ajk2)=s*tau1+c*tau2;
+      (*Ajk1)=c*tau1-ds*tau2;(*Ajk2)=ds*tau1+c*tau2;
       if(j<row_max) {
 	 Ajk1 += n;
 	 Ajk2 += n;
@@ -195,9 +195,9 @@ void col_house(HepMatrix *a,const HepMatrix &v,double vnormsq,
    This finds the condition number of SymMatrix.
    ----------------------------------------------------------------------- */
 
-double condition(const HepSymMatrix &m)
+double condition(const HepSymMatrix &hm)
 {
-   HepSymMatrix mcopy=m;
+   HepSymMatrix mcopy=hm;
    diagonalize(&mcopy);
    double max,min;
    max=min=fabs(mcopy(1,1));
@@ -232,8 +232,8 @@ void diag_step(HepSymMatrix *t,int begin,int end)
    HepMatrix::mIter tkp1k = tkk + begin;
    HepMatrix::mIter tkp2k = tkk + 2 * begin + 1;
    for (int k=begin;k<=end-1;k++) {
-      double c,s;
-      givens(x,z,&c,&s);
+      double c,ds;
+      givens(x,z,&c,&ds);
 
       // This is the result of G.T*t*G, making use of the special structure
       // of t and G. Note that since t is symmetric, only the lower half
@@ -241,19 +241,19 @@ void diag_step(HepSymMatrix *t,int begin,int end)
 
       if (k!=begin)
       {
-	 *(tkk-1)= *(tkk-1)*c-(*(tkp1k-1))*s;
+	 *(tkk-1)= *(tkk-1)*c-(*(tkp1k-1))*ds;
 	 *(tkp1k-1)=0;
       }
       double ap=(*tkk);
       double bp=(*tkp1k);
       double aq=(*tkp1k+1);
-      (*tkk)=ap*c*c-2*c*bp*s+aq*s*s;
-      (*tkp1k)=c*ap*s+bp*c*c-bp*s*s-s*aq*c;
-      (*(tkp1k+1))=ap*s*s+2*c*bp*s+aq*c*c;
+      (*tkk)=ap*c*c-2*c*bp*ds+aq*ds*ds;
+      (*tkp1k)=c*ap*ds+bp*c*c-bp*ds*ds-ds*aq*c;
+      (*(tkp1k+1))=ap*ds*ds+2*c*bp*ds+aq*c*c;
       if (k<end-1)
       {
 	 double bq=(*(tkp2k+1));
-	 (*tkp2k)=-bq*s;
+	 (*tkp2k)=-bq*ds;
 	 (*(tkp2k+1))=bq*c;
 	 x=(*tkp1k);
 	 z=(*tkp2k);
@@ -275,27 +275,27 @@ void diag_step(HepSymMatrix *t,HepMatrix *u,int begin,int end)
    HepMatrix::mIter tkp1k = tkk + begin;
    HepMatrix::mIter tkp2k = tkk + 2 * begin + 1;
    for (int k=begin;k<=end-1;k++) {
-      double c,s;
-      givens(x,z,&c,&s);
-      col_givens(u,c,s,k,k+1);
+      double c,ds;
+      givens(x,z,&c,&ds);
+      col_givens(u,c,ds,k,k+1);
 
       // This is the result of G.T*t*G, making use of the special structure
       // of t and G. Note that since t is symmetric, only the lower half
       // needs to be updated.  Equations were gotten from maple.
 
       if (k!=begin) {
-	 *(tkk-1)= (*(tkk-1))*c-(*(tkp1k-1))*s;
+	 *(tkk-1)= (*(tkk-1))*c-(*(tkp1k-1))*ds;
 	 *(tkp1k-1)=0;
       }
       double ap=(*tkk);
       double bp=(*tkp1k);
       double aq=(*(tkp1k+1));
-      (*tkk)=ap*c*c-2*c*bp*s+aq*s*s;
-      (*tkp1k)=c*ap*s+bp*c*c-bp*s*s-s*aq*c;
-      (*(tkp1k+1))=ap*s*s+2*c*bp*s+aq*c*c;
+      (*tkk)=ap*c*c-2*c*bp*ds+aq*ds*ds;
+      (*tkp1k)=c*ap*ds+bp*c*c-bp*ds*ds-ds*aq*c;
+      (*(tkp1k+1))=ap*ds*ds+2*c*bp*ds+aq*c*c;
       if (k<end-1) {
 	 double bq=(*(tkp2k+1));
-	 (*tkp2k)=-bq*s;
+	 (*tkp2k)=-bq*ds;
 	 (*(tkp2k+1))=bq*c;
 	 x=(*tkp1k);
 	 z=(*(tkp2k));
@@ -312,15 +312,15 @@ void diag_step(HepSymMatrix *t,HepMatrix *u,int begin,int end)
    This subroutine diagonalizes a symmatrix using algorithm 8.2.3 in Golub &
    Van Loan.  It returns the matrix U so that sold = U*sdiag*U.T
    ----------------------------------------------------------------------- */
-HepMatrix diagonalize(HepSymMatrix *s)
+HepMatrix diagonalize(HepSymMatrix *hms)
 {
    const double tolerance = 1e-12;
-   HepMatrix u= tridiagonal(s);
+   HepMatrix u= tridiagonal(hms);
    int begin=1;
-   int end=s->num_row();
+   int end=hms->num_row();
    while(begin!=end)
    {
-      HepMatrix::mIter sii = s->m.begin() + (begin+2)*(begin-1)/2;
+      HepMatrix::mIter sii = hms->m.begin() + (begin+2)*(begin-1)/2;
       HepMatrix::mIter sip1i = sii + begin;
       for (int i=begin;i<=end-1;i++) {
 	 if (fabs(*sip1i)<=
@@ -332,10 +332,10 @@ HepMatrix diagonalize(HepSymMatrix *s)
 	    sip1i += i+2;
 	 }
       }
-      while(begin<end && s->fast(begin+1,begin) ==0) begin++;
-      while(end>begin && s->fast(end,end-1) ==0) end--;
+      while(begin<end && hms->fast(begin+1,begin) ==0) begin++;
+      while(end>begin && hms->fast(end,end-1) ==0) end--;
       if (begin!=end)
-	 diag_step(s,&u,begin,end);
+	 diag_step(hms,&u,begin,end);
    }
    return u;
 }
@@ -581,7 +581,7 @@ HepMatrix qr_decomp(HepMatrix *A)
    are updated.  This is algorithm 5.1.6 in Golub and Van Loan.
    ----------------------------------------------------------------------- */
 
-void row_givens(HepMatrix *A, double c,double s,
+void row_givens(HepMatrix *A, double c,double ds,
 		int k1, int k2, int col_min, int col_max) {
    /* not tested */
    if (col_max==0) col_max = A->num_col();
@@ -590,7 +590,7 @@ void row_givens(HepMatrix *A, double c,double s,
    HepMatrix::mIter Ak2j = A->m.begin() + (k2-1) * n + (col_min-1);
    for (int j=col_min;j<=col_max;j++) {
       double tau1=(*Ak1j); double tau2=(*Ak2j);
-      (*(Ak1j++))=c*tau1-s*tau2;(*(Ak2j++))=s*tau1+c*tau2;
+      (*(Ak1j++))=c*tau1-ds*tau2;(*(Ak2j++))=ds*tau1+c*tau2;
    }
 }
 
@@ -838,10 +838,10 @@ void tridiagonal(HepSymMatrix *a,HepMatrix *hsm)
 	 hsmrptrkp = hsm->m.begin() + k * (nh+1) - 1;
 	 for (r=1;r<=p.num_row();r++) {
 	    int cptr=k+1;
-	    HepMatrix::mIter pc = p.m.begin();
+	    HepMatrix::mIter mpc = p.m.begin();
 	    HepMatrix::mIter hsmcptrkp = hsm->m.begin() + k * (nh+1) - 1;
 	    for (int c=1;c<=r;c++) {
-	       a->fast(rptr,cptr)-= (*hsmrptrkp)*(*(pc++))+(*pr)*(*hsmcptrkp);
+	       a->fast(rptr,cptr)-= (*hsmrptrkp)*(*(mpc++))+(*pr)*(*hsmcptrkp);
 	       cptr++;
 	       if(c<r) hsmcptrkp += nh;
 	    }
@@ -876,18 +876,18 @@ void col_house(HepMatrix *a,const HepMatrix &v,int row,int col,
    col_house(a,v,normsq,row,col,row_start,col_start);
 }
 
-void givens(double a, double b, double *c, double *s) 
+void givens(double a, double b, double *c, double *ds) 
 {
-   if (b ==0) { *c=1; *s=0; }
+   if (b ==0) { *c=1; *ds=0; }
    else {
       if (fabs(b)>fabs(a)) {
 	 double tau=-a/b;
-	 *s=1/sqrt(1+tau*tau);
-	 *c=(*s)*tau;
+	 *ds=1/sqrt(1+tau*tau);
+	 *c=(*ds)*tau;
       } else {
 	 double tau=-b/a;
 	 *c=1/sqrt(1+tau*tau);
-	 *s=(*c)*tau;
+	 *ds=(*c)*tau;
       }
    }
 }

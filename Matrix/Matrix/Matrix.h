@@ -15,15 +15,15 @@
 // You declare a Matrix by saying
 //
 // .ft B
-//       HepMatrix m1(n, m);
+//       HepMatrix hm1(n, m);
 //
-//  To declare a Matrix as a copy of a Matrix m2, say
+//  To declare a Matrix as a copy of a Matrix hm2, say
 //
 // .ft B
-//       HepMatrix m1(m2);
+//       HepMatrix hm1(hm2);
 // or
 // .ft B
-//       HepMatrix m1 = m2;
+//       HepMatrix hm1 = hm2;
 // 
 // You can declare initilizations of a Matrix, by giving it a third
 // integer argument, either 0 or 1. 0 means initialize to 0, one means
@@ -31,7 +31,7 @@
 // is not initialized.
 //
 // .ft B
-//       HepMatrix m1(n, m, 1);
+//       HepMatrix hm1(n, m, 1);
 //
 // ./"This code has been written by Mike Smyth, and the algorithms used are
 // ./"described in the thesis "A Tracking Library for a Silicon Vertex Detector"
@@ -43,22 +43,22 @@
 //  To find the number of rows or number of columns, say 
 //
 // .ft B
-// nr = m1.num_row();
+// nr = hm1.num_row();
 //
 // or
 //
 // .ft B
-// nc = m1.num_col();
+// nc = hm1.num_col();
 //
 // You can print a Matrix by
 //
 // .ft B
-// cout << m1;
+// cout << hm1;
 //
 //  You can add,
 //  subtract, and multiply two Matrices.  You can multiply a Matrix by a
 //  scalar, on the left or the right.  +=, *=, -= act in the obvious way.
-//  m1 *= m2 is as m1 = m1*m2. You can also divide by a scalar on the
+//  hm1 *= hm2 is as hm1 = hm1*hm2. You can also divide by a scalar on the
 //  right, or use /= to do the same thing.  
 // 
 //  You can read or write a Matrix element by saying
@@ -117,20 +117,20 @@
 //  returns the transpose of m. 
 //
 // .ft B
-//  ms = m2.sub(row_min, row_max, col_min, col_max);
+//  ms = hm2.sub(row_min, row_max, col_min, col_max);
 //
 //  returns the subMatrix.
-//  m2(row_min:row_max, col_min:col_max) in matlab terminology.
+//  hm2(row_min:row_max, col_min:col_max) in matlab terminology.
 //  If instead you say
 //
 // .ft B
-//  m2.sub(row, col, m1);
+//  hm2.sub(row, col, hm1);
 //
 //  then the subMatrix
-//  m2(row:row+m1.num_row()-1, col:col+m1.num_col()-1) is replaced with m1.
+//  hm2(row:row+hm1.num_row()-1, col:col+hm1.num_col()-1) is replaced with hm1.
 //
 // .ft B
-// md = dsum(m1,m2);
+// md = dsum(hm1,hm2);
 //
 // returns the direct sum of the two matrices.
 //
@@ -173,9 +173,9 @@
 //  You can do things thinking of a Matrix as a list of numbers.  
 //
 // .ft B
-//  m = m1.apply(HEP_MATRIX_ELEMENT (*f)(HEP_MATRIX_ELEMENT, int r, int c));
+//  m = hm1.apply(HEP_MATRIX_ELEMENT (*f)(HEP_MATRIX_ELEMENT, int r, int c));
 // 
-//  applies f to every element of m1 and places it in m.
+//  applies f to every element of hm1 and places it in m.
 //
 // .SS See Also:
 // SymMatrix[DF].h, GenMatrix[DF].h, DiagMatrix[DF].h Vector[DF].h
@@ -222,12 +222,12 @@ public:
    HepMatrix(int p, int q, HepRandom &r);
    // Constructor with a Random object.
 
-   HepMatrix(const HepMatrix &m1);
+   HepMatrix(const HepMatrix &hm1);
    // Copy constructor.
 
-   HepMatrix(const HepSymMatrix &m1);
-   HepMatrix(const HepDiagMatrix &m1);
-   HepMatrix(const HepVector &m1);
+   HepMatrix(const HepSymMatrix &);
+   HepMatrix(const HepDiagMatrix &);
+   HepMatrix(const HepVector &);
    // Constructors from SymMatrix, DiagMatrix and Vector.
 
    virtual ~HepMatrix();
@@ -250,22 +250,22 @@ public:
    HepMatrix & operator /= (double t); 
    // Divide a Matrix by a floating number.
 
-   HepMatrix & operator += ( const HepMatrix &m2);
-   HepMatrix & operator += ( const HepSymMatrix &m2);
-   HepMatrix & operator += ( const HepDiagMatrix &m2);
-   HepMatrix & operator += ( const HepVector &m2);
-   HepMatrix & operator -= ( const HepMatrix &m2);
-   HepMatrix & operator -= ( const HepSymMatrix &m2);
-   HepMatrix & operator -= ( const HepDiagMatrix &m2);
-   HepMatrix & operator -= ( const HepVector &m2);
+   HepMatrix & operator += ( const HepMatrix &);
+   HepMatrix & operator += ( const HepSymMatrix &);
+   HepMatrix & operator += ( const HepDiagMatrix &);
+   HepMatrix & operator += ( const HepVector &);
+   HepMatrix & operator -= ( const HepMatrix &);
+   HepMatrix & operator -= ( const HepSymMatrix &);
+   HepMatrix & operator -= ( const HepDiagMatrix &);
+   HepMatrix & operator -= ( const HepVector &);
    // Add or subtract a Matrix. 
    // When adding/subtracting Vector, Matrix must have num_col of one.
 
-   HepMatrix & operator = ( const HepMatrix &m2);
-   HepMatrix & operator = ( const HepSymMatrix &m2);
-   HepMatrix & operator = ( const HepDiagMatrix &m2);
-   HepMatrix & operator = ( const HepVector &m2);
-   HepMatrix & operator = ( const HepRotation &m2);
+   HepMatrix & operator = ( const HepMatrix &);
+   HepMatrix & operator = ( const HepSymMatrix &);
+   HepMatrix & operator = ( const HepDiagMatrix &);
+   HepMatrix & operator = ( const HepVector &);
+   HepMatrix & operator = ( const HepRotation &);
    // Assignment operators.
 
    HepMatrix operator- () const;
@@ -280,12 +280,12 @@ public:
    HepMatrix sub(int min_row, int max_row, int min_col, int max_col) const;
    // Returns a sub matrix of a Matrix.
    // WARNING: rows and columns are numbered from 1
-   void sub(int row, int col, const HepMatrix &m1);
-   // Sub matrix of this Matrix is replaced with m1.
+   void sub(int row, int col, const HepMatrix &hm1);
+   // Sub matrix of this Matrix is replaced with hm1.
    // WARNING: rows and columns are numbered from 1
 
-   friend inline void swap(HepMatrix &m1, HepMatrix &m2);
-   // Swap m1 with m2.
+   friend inline void swap(HepMatrix &hm1, HepMatrix &hm2);
+   // Swap hm1 with hm2.
 
    inline HepMatrix inverse(int& ierr) const;
    // Invert a Matrix. Matrix must be square and is not changed.
@@ -349,16 +349,16 @@ private:
    friend class HepDiagMatrix;
    // Friend classes.
 
-   friend HepMatrix operator+(const HepMatrix &m1, const HepMatrix &m2);
-   friend HepMatrix operator-(const HepMatrix &m1, const HepMatrix &m2);
-   friend HepMatrix operator*(const HepMatrix &m1, const HepMatrix &m2);
-   friend HepMatrix operator*(const HepMatrix &m1, const HepSymMatrix &m2);
-   friend HepMatrix operator*(const HepMatrix &m1, const HepDiagMatrix &m2);
-   friend HepMatrix operator*(const HepSymMatrix &m1, const HepMatrix &m2);
-   friend HepMatrix operator*(const HepDiagMatrix &m1, const HepMatrix &m2);
-   friend HepMatrix operator*(const HepVector &m1, const HepMatrix &m2);
-   friend HepVector operator*(const HepMatrix &m1, const HepVector &m2);
-   friend HepMatrix operator*(const HepSymMatrix &m1, const HepSymMatrix &m2);
+   friend HepMatrix operator+(const HepMatrix &hm1, const HepMatrix &hm2);
+   friend HepMatrix operator-(const HepMatrix &hm1, const HepMatrix &hm2);
+   friend HepMatrix operator*(const HepMatrix &hm1, const HepMatrix &hm2);
+   friend HepMatrix operator*(const HepMatrix &hm1, const HepSymMatrix &hm2);
+   friend HepMatrix operator*(const HepMatrix &hm1, const HepDiagMatrix &hm2);
+   friend HepMatrix operator*(const HepSymMatrix &hm1, const HepMatrix &hm2);
+   friend HepMatrix operator*(const HepDiagMatrix &hm1, const HepMatrix &hm2);
+   friend HepMatrix operator*(const HepVector &hm1, const HepMatrix &hm2);
+   friend HepVector operator*(const HepMatrix &hm1, const HepVector &hm2);
+   friend HepMatrix operator*(const HepSymMatrix &hm1, const HepSymMatrix &hm2);
    // Multiply a Matrix by a Matrix or Vector.
 
    friend HepVector solve(const HepMatrix &, const HepVector &);
@@ -407,22 +407,22 @@ private:
 // Operations other than member functions for Matrix
 // implemented in Matrix.cc and Matrix.icc (inline).
 
-HepMatrix operator*(const HepMatrix &m1, const HepMatrix &m2);
-HepMatrix operator*(double t, const HepMatrix &m1);
-HepMatrix operator*(const HepMatrix &m1, double t);
+HepMatrix operator*(const HepMatrix &, const HepMatrix &);
+HepMatrix operator*(double t, const HepMatrix &);
+HepMatrix operator*(const HepMatrix &, double );
 // Multiplication operators
-// Note that m *= m1 is always faster than m = m * m1.
+// Note that m *= hm1 is always faster than m = m * hm1.
 
-HepMatrix operator/(const HepMatrix &m1, double t);
-// m = m1 / t. (m /= t is faster if you can use it.)
+HepMatrix operator/(const HepMatrix &, double );
+// m = hm1 / t. (m /= t is faster if you can use it.)
 
-HepMatrix operator+(const HepMatrix &m1, const HepMatrix &m2);
-// m = m1 + m2;
-// Note that m += m1 is always faster than m = m + m1.
+HepMatrix operator+(const HepMatrix &hm1, const HepMatrix &hm2);
+// m = hm1 + hm2;
+// Note that m += hm1 is always faster than m = m + hm1.
 
-HepMatrix operator-(const HepMatrix &m1, const HepMatrix &m2);
-// m = m1 - m2;
-// Note that m -= m1 is always faster than m = m - m1.
+HepMatrix operator-(const HepMatrix &hm1, const HepMatrix &hm2);
+// m = hm1 - hm2;
+// Note that m -= hm1 is always faster than m = m - hm1.
 
 HepMatrix dsum(const HepMatrix&, const HepMatrix&);
 // Direct sum of two matrices. The direct sum of A and B is the matrix 
