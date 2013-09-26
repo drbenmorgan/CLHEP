@@ -30,6 +30,7 @@ pkginclude_HEADERS = \
 	RandEngine.h	\
 	RandExponential.h	\
 	RandExponential.icc	\
+	RandExpZiggurat.h	\
 	RandFlat.h	\
 	RandFlat.icc	\
 	RandGamma.h	\
@@ -40,6 +41,7 @@ pkginclude_HEADERS = \
 	RandGaussQ.icc	\
 	RandGaussT.h	\
 	RandGaussT.icc	\
+	RandGaussZiggurat.h	\
 	RandGeneral.h	\
 	RandGeneral.icc	\
 	RandLandau.h	\

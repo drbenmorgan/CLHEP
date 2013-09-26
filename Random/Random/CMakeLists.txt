@@ -20,6 +20,7 @@ set( pkginclude_HEADERS DoubConv.hh
 			RandEngine.h
 			RandExponential.h
 			RandExponential.icc
+			RandExpZiggurat.h
 			RandFlat.h
 			RandFlat.icc
 			RandGamma.h
@@ -30,6 +31,7 @@ set( pkginclude_HEADERS DoubConv.hh
 			RandGaussQ.icc
 			RandGaussT.h
 			RandGaussT.icc
+			RandGaussZiggurat.h
 			RandGeneral.h
 			RandGeneral.icc
 			RandLandau.h

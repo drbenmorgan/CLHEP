@@ -23,6 +23,7 @@ set( Random_simple_tests testSaveEngineStatus
 			 testBug73093 
 			 testEngineCopy 
 			 testDistCopy 
+			 testZiggurat
 			 testRanecuSequence )
 endif()
 

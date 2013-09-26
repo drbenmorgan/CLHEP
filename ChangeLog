@@ -1,4 +1,8 @@
 
+2013-09-26 Lynn Garren <garren@fnal.gov> 
+
+	* Random: including RandGaussZiggurat and RandExpZiggurat
+
 2013-01-11 Lynn Garren <garren@fnal.gov> 
 
 	* Matrix: change the names of more internal variables so -Wshadow does not complain

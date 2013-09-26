@@ -26,11 +26,13 @@ libCLHEP_Random_@VERSION@_a_SOURCES = \
 	RandChiSquare.cc	\
 	RandEngine.cc	\
 	RandExponential.cc	\
+	RandExpZiggurat.cc	\
 	RandFlat.cc	\
 	RandGamma.cc	\
 	RandGauss.cc	\
 	RandGaussQ.cc	\
 	RandGaussT.cc	\
+	RandGaussZiggurat.cc	\
 	RandGeneral.cc	\
 	RandLandau.cc	\
 	Random.cc	\
