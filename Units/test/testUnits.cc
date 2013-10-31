@@ -15,6 +15,12 @@
 #include <sstream>
 #include <cmath>
 
+#if (defined __STRICT_ANSI__) || (defined _WIN32)
+#ifndef M_PI
+#define M_PI            3.14159265358979323846
+#endif // M_PI
+#endif // __STRICT_ANSI__
+
 int main() {
 
   int nbad=0;
@@ -42,9 +48,7 @@ int main() {
     nbad++;
     std::cout << "compare --" << os3.str() << "--" << std::endl;
     std::cout << "     to --" << os4.str() << "--" << std::endl;
-#ifndef USING_VISUAL
     std::cout << "M_PI    --" << std::setprecision(16) << M_PI << "--" << std::endl;
-#endif
   }
   
   return nbad;

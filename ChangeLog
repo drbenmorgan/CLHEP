@@ -1,4 +1,11 @@
 
+
+2013-10-31 Lynn Garren <garren@fnal.gov> 
+
+	* Units/test/testUnits.cc: use the same M_PI logic as found elsewhere
+	* clhep-config: fix for OSX
+	* cmake/Modules/ClhepBuildTex.cmake: don't try to install a file that has not been created
+
 2013-09-26 Lynn Garren <garren@fnal.gov> 
 
 	* Random: including RandGaussZiggurat and RandExpZiggurat
