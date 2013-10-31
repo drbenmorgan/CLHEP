@@ -2,6 +2,8 @@
 
 2013-10-31 Lynn Garren <garren@fnal.gov> 
 
+	* Random/src/RandGaussZiggurat.cc - fix potential shadowing issue
+	* Random/src/RandExpZiggurat.cc - fix potential shadowing issue
 	* Units/Units/SystemOfUnits.h: adding definitions for curies
 	* Units/test/testUnits.cc: use the same M_PI logic as found elsewhere
 	* clhep-config: fix for OSX

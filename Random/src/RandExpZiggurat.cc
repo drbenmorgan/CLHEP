@@ -129,47 +129,47 @@ float RandExpZiggurat::ziggurat_efix(unsigned long jz,HepRandomEngine* anEngine)
 
 bool RandExpZiggurat::ziggurat_init()
 {  
-  const double m1 = 2147483648.0, m2 = 4294967296.;
+  const double rzm1 = 2147483648.0, rzm2 = 4294967296.;
   double dn=3.442619855899,tn=dn,vn=9.91256303526217e-3, q;
   double de=7.697117470131487, te=de, ve=3.949659822581572e-3;
   int i;
 
 /* Set up tables for RNOR */
   q=vn/exp(-.5*dn*dn);
-  kn[0]=(unsigned long)((dn/q)*m1);
+  kn[0]=(unsigned long)((dn/q)*rzm1);
   kn[1]=0;
 
-  wn[0]=q/m1;
-  wn[127]=dn/m1;
+  wn[0]=q/rzm1;
+  wn[127]=dn/rzm1;
 
   fn[0]=1.;
   fn[127]=exp(-.5*dn*dn);
 
   for(i=126;i>=1;i--) {
     dn=sqrt(-2.*log(vn/dn+exp(-.5*dn*dn)));
-    kn[i+1]=(unsigned long)((dn/tn)*m1);
+    kn[i+1]=(unsigned long)((dn/tn)*rzm1);
     tn=dn;
     fn[i]=exp(-.5*dn*dn);
-    wn[i]=dn/m1;
+    wn[i]=dn/rzm1;
   }
 
 /* Set up tables for REXP */
   q = ve/exp(-de);
-  ke[0]=(unsigned long)((de/q)*m2);
+  ke[0]=(unsigned long)((de/q)*rzm2);
   ke[1]=0;
 
-  we[0]=q/m2;
-  we[255]=de/m2;
+  we[0]=q/rzm2;
+  we[255]=de/rzm2;
 
   fe[0]=1.;
   fe[255]=exp(-de);
 
   for(i=254;i>=1;i--) {
     de=-log(ve/de+exp(-de));
-    ke[i+1]= (unsigned long)((de/te)*m2);
+    ke[i+1]= (unsigned long)((de/te)*rzm2);
     te=de;
     fe[i]=exp(-de);
-    we[i]=de/m2;
+    we[i]=de/rzm2;
   }
   ziggurat_is_init=true;
   return true;

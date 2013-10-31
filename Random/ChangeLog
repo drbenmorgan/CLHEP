@@ -1,4 +1,9 @@
 
+2013-10-31 Lynn Garren <garren@fnal.gov> 
+
+	* Random/src/RandGaussZiggurat.cc - fix potential shadowing issue
+	* Random/src/RandExpZiggurat.cc - fix potential shadowing issue
+
 2013-09-26 Lynn Garren <garren@fnal.gov> 
 
 	* Random: including RandGaussZiggurat and RandExpZiggurat
