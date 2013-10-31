@@ -1,6 +1,7 @@
 
 2013-10-31 Lynn Garren <garren@fnal.gov> 
 
+	* Units/SystemOfUnits.h: adding definitions for curies
 	* test/testUnits.cc: use the same M_PI logic as found elsewhere
 
 ==============================
