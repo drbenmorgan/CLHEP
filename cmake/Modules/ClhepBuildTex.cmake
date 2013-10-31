@@ -62,8 +62,9 @@ IF(DVIPS_CONVERTER)
     )
     ENDIF(PS2PDF_CONVERTER)
   ENDIF(DVIPS_CONVERTER)
+
+ INSTALL (FILES ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.pdf
+          DESTINATION doc/${package} )
 ENDIF(LATEX_COMPILER)
 
-INSTALL (FILES ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.pdf
-         DESTINATION doc/${package} )
 endmacro( clhep_latex )

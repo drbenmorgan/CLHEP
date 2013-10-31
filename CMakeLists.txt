@@ -3,7 +3,7 @@
 #  cmake [-DCMAKE_INSTALL_PREFIX=/install/path] 
 #        [-DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel]
 #        [-DCMAKE_C_COMPILER=...] [-DCMAKE_CXX_COMPILER=...]
-#        [-DCLHEP_BUILD_DOCS=ON] 
+#        [-DCLHEP_BUILD_DOCS=ON]
 #        [-DLIB_SUFFIX=64]
 #        /path/to/source
 #  make
