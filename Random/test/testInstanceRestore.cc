@@ -99,7 +99,7 @@ int checkEngineInstanceSave(E & e) {
   int pr=output.precision(20);
   double r=0; 
   for (int i=0; i<100; i++) r += e.flat();
-  {std::ofstream os ("engine.save"); os << e;}
+  {std::ofstream os ("instance_engine.save"); os << e;}
   for (int i=0; i<100; i++) r += e.flat();
   double keyValue1 = e.flat();
   double keyValue2 = e.flat();
@@ -107,7 +107,7 @@ int checkEngineInstanceSave(E & e) {
   output << keyValue1 << " " << keyValue2 << "\n";
 #endif
   E e2;
-  {std::ifstream is ("engine.save"); is >> e2;}
+  {std::ifstream is ("instance_engine.save"); is >> e2;}
   for (int i=0; i<100; i++) r += e2.flat();
   double k1 = e2.flat();
   double k2 = e2.flat();
@@ -136,12 +136,12 @@ int checkSaveDistribution(D & d, int nth) {
   r = d();
   double keyValue1, keyValue2, keyValue3, keyValue4;
   for (int i=0; i<nth; i++) r += d();
-  {std::ofstream os ("distribution.save1"); os << d.engine() << d;}
+  {std::ofstream os ("instance_distribution.save"); os << d.engine() << d;}
   keyValue1 = d();
   keyValue2 = d();
   r += d();
   // A second capture will test non-cached if first tested cached case:
-  {std::ofstream os ("distribution.save2"); os << d.engine() << d;}
+  {std::ofstream os ("instance2_distribution.save"); os << d.engine() << d;}
   keyValue3 = d();
   keyValue4 = d();
   int pr = output.precision(20);
@@ -154,10 +154,10 @@ int checkSaveDistribution(D & d, int nth) {
   output.precision(pr);
   E e;
   D d2(e);   
-  { std::ifstream is ("distribution.save1"); is >> e >> d2;}
+  { std::ifstream is ("instance_distribution.save"); is >> e >> d2;}
   double k1 = d2();
   double k2 = d2();
-  { std::ifstream is ("distribution.save2"); is >> e >> d2;}
+  { std::ifstream is ("instance2_distribution.save"); is >> e >> d2;}
   double k3 = d2();
   double k4 = d2();
 #ifdef VERBOSER
@@ -192,12 +192,12 @@ int checkRandGeneralDistribution(RandGeneral & d, int nth) {
   r = d();
   double keyValue1, keyValue2, keyValue3, keyValue4;
   for (int i=0; i<nth; i++) r += d();
-  {std::ofstream os ("distribution.save1"); os << d.engine() << d;}
+  {std::ofstream os ("instance_distribution.save"); os << d.engine() << d;}
   keyValue1 = d();
   keyValue2 = d();
   r += d();
   // A second capture will test non-cached if first tested cached case:
-  {std::ofstream os ("distribution.save2"); os << d.engine() << d;}
+  {std::ofstream os ("instance2_distribution.save"); os << d.engine() << d;}
   keyValue3 = d();
   keyValue4 = d();
   int pr = output.precision(20);
@@ -211,10 +211,10 @@ int checkRandGeneralDistribution(RandGeneral & d, int nth) {
   E e;
   double temp = 1; 
   RandGeneral d2(e, &temp, 1);   
-  { std::ifstream is ("distribution.save1"); is >> e >> d2;}
+  { std::ifstream is ("instance_distribution.save"); is >> e >> d2;}
   double k1 = d2();
   double k2 = d2();
-  { std::ifstream is ("distribution.save2"); is >> e >> d2;}
+  { std::ifstream is ("instance2_distribution.save"); is >> e >> d2;}
   double k3 = d2();
   double k4 = d2();
 #ifdef VERBOSER

@@ -48,7 +48,7 @@ int staticSave(int n) {
   double v1, v2, k1, k2;
   for (i=0; i < n; i++) r += D::shoot();
   {
-    std::ofstream file ("distribution.save1"); 
+    std::ofstream file ("ss1_distribution.save"); 
     D::saveFullState(file);
     v1 = D::shoot();
     D::saveFullState(file);
@@ -61,7 +61,7 @@ int staticSave(int n) {
   }
   for (i=0; i < n; i++) r += D::shoot();
   {
-    std::ifstream file ("distribution.save1"); 
+    std::ifstream file ("ss1_distribution.save"); 
     D::restoreFullState(file);
     k1 = D::shoot();
     for (i=0; i < n; i++) r += D::shoot();
@@ -83,7 +83,7 @@ int staticSave(int n) {
 
   for (i=0; i < n; i++) r += D::shoot();
   {
-    std::ofstream file ("distribution.save2"); 
+    std::ofstream file ("ss2_distribution.save"); 
     D::saveDistState(file) << *D::getTheEngine();
     v1 = D::shoot();
     D::saveDistState(file) << *D::getTheEngine();
@@ -96,7 +96,7 @@ int staticSave(int n) {
   }
   for (i=0; i < n; i++) r += D::shoot();
   {
-    std::ifstream file ("distribution.save2"); 
+    std::ifstream file ("ss2_distribution.save"); 
     D::restoreDistState(file) >> *D::getTheEngine();
     k1 = D::shoot();
     for (i=0; i < n; i++) r += D::shoot();
@@ -130,7 +130,7 @@ int staticSaveShootBit(int n) {
   for (i=0; i < n; i++) r += D::shoot();
   for (i=0; i < n; i++) bit |= D::shootBit();
   {
-    std::ofstream file ("distribution.save1"); 
+    std::ofstream file ("ss1_distribution.save"); 
     D::saveFullState(file);
     v1=0;
     for (i=0; i<25; i++) {
@@ -152,7 +152,7 @@ int staticSaveShootBit(int n) {
   }
   for (i=0; i < n; i++) r += D::shoot();
   {
-    std::ifstream file ("distribution.save1"); 
+    std::ifstream file ("ss1_distribution.save"); 
     D::restoreFullState(file);
     k1=0;
     for (i=0; i<25; i++) {
@@ -183,7 +183,7 @@ int staticSaveShootBit(int n) {
   for (i=0; i < n; i++) r += D::shoot();
   for (i=0; i < n; i++) bit |= D::shootBit();
   {
-    std::ofstream file ("distribution.save2"); 
+    std::ofstream file ("ss2_distribution.save"); 
     D::saveDistState(file) << *D::getTheEngine();
     v1=0;
     for (i=0; i<25; i++) {
@@ -205,7 +205,7 @@ int staticSaveShootBit(int n) {
   }
   for (i=0; i < n; i++) r += D::shoot();
   {
-    std::ifstream file ("distribution.save2"); 
+    std::ifstream file ("ss2_distribution.save"); 
     D::restoreDistState(file) >> *D::getTheEngine();
     k1=0;
     for (i=0; i<25; i++) {
@@ -342,13 +342,13 @@ int main() {
   output << "==============================================\n\n";
  
   randomizeStatics(15);
-  saveStatics("distribution.save");
+  saveStatics("ss_distribution.save");
   output << "Saved all static distributions\n";
   std::vector<double> c = captureStatics();
   output << "Captured output of all static distributions\n";
   randomizeStatics(11);
   output << "Randomized all static distributions\n";
-  restoreStatics("distribution.save");
+  restoreStatics("ss_distribution.save");
   output << "Restored all static distributions to saved state\n";
   std::vector<double> d = captureStatics();
   output << "Captured output of all static distributions\n";

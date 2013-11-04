@@ -80,7 +80,10 @@ EXTRA_DIST = \
 CLEANFILES = testRandom.sh testRandDists.sh  \
 	gaussSpeed.sh gaussSmall.sh testRandom.out \
 	distribution.save distribution.save1 distribution.save2 \
-	engine.save shared.save1 shared.save2 \
+	anon_distribution.save instance_distribution.save instance2_distribution.save \
+	ss1_distribution.save ss2_distribution.save ss_distribution.save \
+	engine.save anon_engine.save instance_engine.save \
+	shared.save1 shared.save2 t1_shared.save t2_shared.save \
 	testSaveEngineStatus.cout testInstanceRestore.cout \
 	testSaveSharedEngines.cout testStaticStreamSave.cout \
 	testAnonymousEngineRestore.cout testVectorSave.cout \

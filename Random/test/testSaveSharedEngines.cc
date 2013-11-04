@@ -51,14 +51,14 @@ int checkSharingDistributions(D1 & d1, D2 & d2, int n1, int n2) {
   double kv21,kv22,kv23,kv24;
   for (int i=0; i<n1; i++) r += d1();
   for (int j=0; j<n2; j++) r += d2();
-  {std::ofstream os ("shared.save1"); os << d1.engine() << d1 << d2;}
+  {std::ofstream os ("t1_shared.save"); os << d1.engine() << d1 << d2;}
   kv11 = d1();
   kv21 = d2();
   kv12 = d1();
   kv22 = d2();
   r += d1() + d2();
   // A second capture will test non-cached if first tested cached case:
-  {std::ofstream os ("shared.save2"); os << d1.engine() << d1 << d2;}
+  {std::ofstream os ("t2_shared.save"); os << d1.engine() << d1 << d2;}
   kv13 = d1();
   kv23 = d2();
   kv14 = d1();
@@ -78,12 +78,12 @@ int checkSharingDistributions(D1 & d1, D2 & d2, int n1, int n2) {
   E e;
   D1 d1r(e);   
   D2 d2r(e);   
-  { std::ifstream is ("shared.save1"); is >> e >> d1r >> d2r;}
+  { std::ifstream is ("t1_shared.save"); is >> e >> d1r >> d2r;}
   double k11 = d1r();
   double k21 = d2r();
   double k12 = d1r();
   double k22 = d2r();
-  { std::ifstream is ("shared.save2"); is >> e >> d1r >> d2r;}
+  { std::ifstream is ("t2_shared.save"); is >> e >> d1r >> d2r;}
   double k13 = d1r();
   double k23 = d2r();
   double k14 = d1r();

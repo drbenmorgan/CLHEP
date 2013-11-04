@@ -198,13 +198,13 @@ int anonymousRestoreStatics1() {
   HepRandom::setTheEngine(e);
   randomizeStatics(15);
   output << "\nRandomized, with theEngine = " << e->name() << "\n";
-  saveStatics("distribution.save");
+  saveStatics("anon_distribution.save");
   output << "Saved all static distributions\n";
   std::vector<double> c = captureStatics();
   output << "Captured output of all static distributions\n";
   randomizeStatics(11);
   output << "Randomized all static distributions\n";
-  restoreStatics("distribution.save");
+  restoreStatics("anon_distribution.save");
   output << "Restored all static distributions to saved state\n";
   std::vector<double> d = captureStatics();
   output << "Captured output of all static distributions\n";
@@ -237,7 +237,7 @@ int anonymousRestoreStatics() {
   HepRandom::setTheEngine(e1);
   randomizeStatics(15);
   output << "\nRandomized, with theEngine = " << e1->name() << "\n";
-  saveStatics("distribution.save");
+  saveStatics("anon_distribution.save");
 #ifdef VERBOSER2
   output << "Saved all static distributions\n";
 #endif
@@ -250,16 +250,16 @@ int anonymousRestoreStatics() {
   HepRandom::setTheEngine(e2);
   output << "Switched to theEngine = " << e2->name() << "\n";
   randomizeStatics(19);
-  { std::ofstream os("engine.save"); os << *e2; }
+  { std::ofstream os("anon_engine.save"); os << *e2; }
   double v1 = e2->flat();
   double v2 = e2->flat();
-  { std::ifstream is("engine.save"); is >> *e2; }
+  { std::ifstream is("anon_engine.save"); is >> *e2; }
 #ifdef VERBOSER2
   output << "Saved the "  << e2->name() << " engine: \n"
          << "Next randoms to be " << v1 << " " << v2 << "\n"
 	 << "Restored the " << e2->name() << " engine to that state\n";
 #endif
-  restoreStatics("distribution.save");
+  restoreStatics("anon_distribution.save");
 #ifdef VERBOSER2
   output << "Restored all static distributions to saved state\n"
          << "This changes the engine type back to " << E1::engineName() << "\n";
