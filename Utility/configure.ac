@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP Utility, 2.1.3.1, http://savannah.cern.ch/projects/clhep/, Utility)
+AC_INIT(CLHEP Utility, 2.1.4.0, http://savannah.cern.ch/projects/clhep/, Utility)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE(1.9 foreign)

@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP Random, 2.1.3.1, http://savannah.cern.ch/projects/clhep/, Random)
+AC_INIT(CLHEP Random, 2.1.4.0, http://savannah.cern.ch/projects/clhep/, Random)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/DRand48Engine.cc])
