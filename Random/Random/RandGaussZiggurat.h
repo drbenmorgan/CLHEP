@@ -24,7 +24,7 @@ for generating random variables", Journ. Statistical Software.
 #ifndef RandGaussZiggurat_h
 #define RandGaussZiggurat_h 1
 
-#include "math.h"
+#include "cmath"
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandGauss.h"
 
@@ -115,7 +115,7 @@ protected:
   static inline float ziggurat_RNOR(HepRandomEngine* anEngine) {
     long hz=(signed)ziggurat_SHR3(anEngine);
     unsigned long iz=hz&127;
-    return (fabs(hz)<kn[iz]) ? hz*wn[iz] : ziggurat_nfix(hz,anEngine);
+    return ((unsigned long)abs(hz)<kn[iz]) ? hz*wn[iz] : ziggurat_nfix(hz,anEngine);
   };
   static float ziggurat_nfix(long hz,HepRandomEngine* anEngine);
   

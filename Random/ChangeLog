@@ -2,6 +2,7 @@
 2013-11-04 Lynn Garren <garren@fnal.gov> 
 
 	* Random/test: make sure all output streams have unique names
+	* Random/RandGaussZiggurat - abs type correctness
 
 2013-10-31 Lynn Garren <garren@fnal.gov> 
 
