@@ -182,7 +182,7 @@ g++)
       AR="ar"; ARFLAGS="cru"
       ;;
    *-*-darwin*) 
-      AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
+      AM_CXXFLAGS="-O -pedantic -Wall"
       MY_SHFLAGS=""; MY_SHLINK="-dynamiclib -single_module -undefined dynamic_lookup"; SHEXT=dylib
       MY_SHNAME="-Wl,-install_name,"; MY_LD="-bind_at_load -Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
@@ -238,7 +238,7 @@ c++)
       AR="ar"; ARFLAGS="cru"
       ;;
    *-*-darwin*) 
-      AM_CXXFLAGS="-O -ansi -pedantic -Wall -D_GNU_SOURCE"
+      AM_CXXFLAGS="-O -pedantic -Wall"
       MY_SHFLAGS=""; MY_SHLINK="-dynamiclib -single_module -undefined dynamic_lookup"; SHEXT=dylib
       MY_SHNAME="-Wl,-install_name,"; MY_LD="-bind_at_load -Wl,--rpath -Wl,"
       AR="ar"; ARFLAGS="cru"
