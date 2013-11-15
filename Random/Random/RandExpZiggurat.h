@@ -29,7 +29,7 @@ for generating random variables", Journ. Statistical Software.
 namespace CLHEP {
 
 /**
- * @author <Gabriele.Cosmo@cern.ch>
+ * @author ATLAS
  * @ingroup random
  */
 class RandExpZiggurat : public HepRandom {
