@@ -1,6 +1,8 @@
 
 2013-11-14 Lynn Garren <garren@fnal.gov> 
 
+	* Random/Random/Randomize.h: include RandExpZiggurat and RandGaussZiggurat
+
 	* configure.ac: change for unsupported Darwin build with autotools
 
 ==============================
