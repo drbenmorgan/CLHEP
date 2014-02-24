@@ -39,6 +39,17 @@ test(const HepLorentzVector & p, double x, double y, double z, double e,
   return t;
 }
 
+// don't generate warnings about unused parameter inside assert
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunused-parameter"
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wunused-parameter"
+#endif
 void conversion_test(Hep3Vector & v3, HepLorentzVector & v4) {
   v3 = Hep3Vector(3.,2.,1.);
   assert (v3.x() == v4.x() && v3.y() == v4.y() && v3.z() == v4.z());
@@ -47,6 +58,14 @@ void conversion_test(Hep3Vector & v3, HepLorentzVector & v4) {
 void conversion_test(const Hep3Vector & v3, const HepLorentzVector & v4) {
   assert (v3.x() == v4.x() && v3.y() == v4.y() && v3.z() == v4.z());
 }
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic pop
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif
 
 bool
 test(const HepLorentzVector & p, const HepLorentzVector & q, double eps) {

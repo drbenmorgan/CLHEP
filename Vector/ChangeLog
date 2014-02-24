@@ -4,6 +4,8 @@
   * remove register declaration of doubles
     use of register is now redundant and ignored by modern compilers
 
+  * test: protect against warnings about variables that are used inside asserts
+
 ==============================
 14.11.13 Release CLHEP-2.1.4.1
 ==============================

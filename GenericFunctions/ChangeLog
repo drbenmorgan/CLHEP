@@ -1,3 +1,8 @@
+
+2014-02-24 Lynn Garren <garren@fnal.gov> 
+
+  * protect against warnings about variables that are used inside asserts
+
 ==============================
 14.11.13 Release CLHEP-2.1.4.1
 ==============================

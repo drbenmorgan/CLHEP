@@ -18,6 +18,7 @@ bool EQUAL(double a, double b) {
 
 using namespace HepGeom;
 
+
 #define CHECK(point,type)                                         \
   /* Check default constructor */                                 \
   point p00;                                                      \
@@ -221,12 +222,31 @@ using namespace HepGeom;
   assert(p121 != Vector3D<type> (2,5,6));                         \
   assert(p121 != Normal3D<type> (2,4,7));                         \
 
+// don't generate warnings about unused variables inside assert
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wunused-but-set-variable"
+#endif
 void CheckPointFloat()   { CHECK(Point3D<float>  , float)  }
 void CheckVectorFloat()  { CHECK(Vector3D<float> , float)  }
 void CheckNormalFloat()  { CHECK(Normal3D<float> , float)  }
 void CheckPointDouble()  { CHECK(Point3D<double> , double) }
 void CheckVectorDouble() { CHECK(Vector3D<double>, double) }
 void CheckNormalDouble() { CHECK(Normal3D<double>, double) }
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic pop
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif
 
 int main()
 {

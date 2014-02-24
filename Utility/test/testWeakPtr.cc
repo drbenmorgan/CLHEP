@@ -992,6 +992,17 @@ void
 namespace n_comparison
 {
 
+// don't generate warnings about unused variable inside assert
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunused-variable"
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wunused-variable"
+#endif
 void
   test()
 {
@@ -1272,6 +1283,14 @@ void
     assert(!(pvy < pvz || pvz < pvy));
   }
 }
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic pop
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif
 
 } // namespace n_comparison
 

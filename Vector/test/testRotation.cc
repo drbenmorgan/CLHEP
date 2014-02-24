@@ -21,6 +21,17 @@ typedef Hep3Vector  Vector;
 
 #define DEL 10.e-16
 
+// don't generate warnings about unused variables inside assert
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunused-variable"
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wunused-variable"
+#endif
 int main() {
   int i,k;  
   double angA=CLHEP::pi/3, angB=CLHEP::pi/4, angC=CLHEP::pi/6; 
@@ -204,3 +215,11 @@ int main() {
 
   return 0;
 }           
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic pop
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif

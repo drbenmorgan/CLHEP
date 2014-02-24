@@ -33,12 +33,30 @@ const Parameter & Exponential::decayConstant() const {
   return _decayConstant;
 }
 
-
+// don't generate warnings about unused parameter inside assert
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunused-parameter"
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wunused-parameter"
+#endif
 Derivative Exponential::partial(unsigned int index) const {
   assert(index==0);
   const AbsFunction & fPrime = -_decayConstant*(*this);
   return Derivative(&fPrime);
 }
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic pop
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif
 
 
 } // namespace Genfun

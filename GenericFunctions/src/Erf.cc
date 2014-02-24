@@ -26,8 +26,17 @@ double Erf::operator() (double x) const {
   return x<0 ? -_incompleteGamma(x*x): _incompleteGamma(x*x);
 }
 
-
-
+// don't generate warnings about unused parameter inside assert
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunused-parameter"
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wunused-parameter"
+#endif
 Derivative Erf::partial(unsigned int index) const {
   assert(index==0);
   Gaussian gauss = Gaussian();
@@ -35,5 +44,13 @@ Derivative Erf::partial(unsigned int index) const {
   const AbsFunction & fPrime = 2.0*gauss;
   return Derivative(& fPrime);
 }
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic pop
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif
 
 } // namespace Genfun

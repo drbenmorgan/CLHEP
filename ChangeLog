@@ -4,13 +4,16 @@
   * Vector, Random, Matrix: remove register declaration of ints and doubles
     use of register is now redundant and ignored by modern compilers
 
+  * GenericFunctions, Geometry/test, Utility/test, Vector/test:
+    protect against warnings about variables that are used inside asserts
+
 ==============================
 18.11.13 Release CLHEP-2.1.4.1
 ==============================
 
 2013-11-18 Lynn Garren <garren@fnal.gov>
 
-	* src/setSystemOfUnits.cc: additional units to match Units
+	* Evaluator/src/setSystemOfUnits.cc: additional units to match Units
 
 2013-11-14 Lynn Garren <garren@fnal.gov> 
 

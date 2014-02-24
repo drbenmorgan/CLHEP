@@ -368,6 +368,17 @@ struct convertible_to_pointer
 typedef const double (UDT::*mp2) ;
 
 
+// don't generate warnings about unused variables inside asserts
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wunused-local-typedefs"
+#endif
 int
   main()
 {
@@ -544,3 +555,11 @@ int
 
   return 0;
 }
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic pop
+  #endif
+#endif
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif
