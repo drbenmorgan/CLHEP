@@ -113,7 +113,7 @@ Hurd288Engine::~Hurd288Engine() { }
 
 void Hurd288Engine::advance() {
 
-     register unsigned int W0, W1, W2, W3, W4, W5, W6, W7, W8;
+     unsigned int W0, W1, W2, W3, W4, W5, W6, W7, W8;
 
      W0 = words[0];
      W1 = words[1];

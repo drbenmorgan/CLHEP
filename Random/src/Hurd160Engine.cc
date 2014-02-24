@@ -104,7 +104,7 @@ Hurd160Engine::Hurd160Engine( int rowIndex, int colIndex )
 Hurd160Engine::~Hurd160Engine() { }
 
 void Hurd160Engine::advance() {
-     register unsigned int W0, W1, W2, W3, W4;
+     unsigned int W0, W1, W2, W3, W4;
 
      W0 = words[0];
      W1 = words[1];

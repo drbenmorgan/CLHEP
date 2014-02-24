@@ -1,3 +1,9 @@
+
+2014-02-24 Lynn Garren <garren@fnal.gov> 
+
+  * Vector, Random, Matrix: remove register declaration of ints and doubles
+    use of register is now redundant and ignored by modern compilers
+
 ==============================
 18.11.13 Release CLHEP-2.1.4.1
 ==============================

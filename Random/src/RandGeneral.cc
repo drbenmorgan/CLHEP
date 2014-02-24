@@ -110,8 +110,8 @@ void RandGeneral::prepareTable(const double* aProbFunc) {
 
   theIntegralPdf.resize(nBins+1);
   theIntegralPdf[0] = 0;
-  register int ptn;
-  register double weight;
+  int ptn;
+  double weight;
 
   for ( ptn = 0; ptn<nBins; ++ptn ) {
     weight = aProbFunc[ptn];
@@ -231,7 +231,7 @@ double RandGeneral::mapRandom(double rand) const {
 void RandGeneral::shootArray( HepRandomEngine* anEngine,
                             const int size, double* vect )
 {
-   register int i;
+   int i;
 
    for (i=0; i<size; ++i) {
      vect[i] = shoot(anEngine);
@@ -240,7 +240,7 @@ void RandGeneral::shootArray( HepRandomEngine* anEngine,
 
 void RandGeneral::fireArray( const int size, double* vect )
 {
-   register int i;
+   int i;
 
   for (i=0; i<size; ++i) {
      vect[i] = fire();
