@@ -104,8 +104,6 @@ public:
 
 private:
 
-  static int numEngines;
-
   // This generator is composed of two others combined:
 
   class Tausworthe {
@@ -135,6 +133,7 @@ private:
     unsigned int state, multiplier, addend;
   }; // IntegerCong
 
+  int numEngines;
   Tausworthe  tausworthe;
   IntegerCong integerCong;
 

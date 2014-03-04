@@ -89,8 +89,6 @@ public:
   static const unsigned int VECTOR_STATE_SIZE = 11;
   
 private:
-  static int numEngines;
-  static int maxIndex;
 
   void advance();
 

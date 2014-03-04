@@ -23,6 +23,7 @@
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/StaticRandomStates.h"
 #include "CLHEP/Utility/memory.h"
+#include "CLHEP/Utility/thread_local.h"
 
 // -----------------------------
 // Static members initialisation
@@ -63,9 +64,9 @@ struct defaults {
 
   inline
   defaults &  theDefaults()  {
-    static  HepRandom       theDefaultGenerator;
-    static  HepJamesRandom  theDefaultEngine;
-    static  defaults theDefaults(theDefaultGenerator, theDefaultEngine);
+    static  CLHEP_THREAD_LOCAL HepRandom       theDefaultGenerator;
+    static  CLHEP_THREAD_LOCAL HepJamesRandom  theDefaultEngine;
+    static  CLHEP_THREAD_LOCAL defaults theDefaults(theDefaultGenerator, theDefaultEngine);
     return theDefaults;
   }
 

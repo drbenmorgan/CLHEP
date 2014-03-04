@@ -95,7 +95,7 @@ double gammln(double x) {
 	// small.  The test for x < 1 is as costly as a divide, but so be it.
 
   double y, tmp, ser;
-  static double c[6] = {
+  static const double c[6] = {
 	 76.18009172947146,
 	-86.50532032941677,
 	 24.01409824083091,

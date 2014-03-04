@@ -68,7 +68,7 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 int RandEngine::numEngines = 0;
 
 // Maximum index into the seed table
-int RandEngine::maxIndex = 215;
+const int RandEngine::maxIndex = 215;
 
 std::string RandEngine::name() const {return "RandEngine";}
 
@@ -241,13 +241,13 @@ void RandEngine::showStatus() const
   template <int> struct RandEngineBuilder {     // RAND_MAX any arbitrary value
   static unsigned int thirtyTwoRandomBits(long& seq) {               
                                                             
-  static bool prepared = false;                             
-  static unsigned int iT;                                   
-  static unsigned int iK;                                   
-  static unsigned int iS;                                   
-  static int iN;                                            
-  static double fS;                                         
-  static double fT;                                         
+  static bool prepared = false;
+  static unsigned int iT;
+  static unsigned int iK;
+  static unsigned int iS;
+  static int iN;
+  static double fS;
+  static double fT;
                                                             
   if ( (RAND_MAX >> 31) > 0 )                               
   {                                                         

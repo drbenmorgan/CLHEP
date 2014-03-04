@@ -49,7 +49,7 @@ int DRand48Engine::numEngines = 0;
 std::string DRand48Engine::name() const {return "DRand48Engine";}
 
 // Maximum index into the seed table
-int DRand48Engine::maxIndex = 215;
+const int DRand48Engine::maxIndex = 215;
 
 DRand48Engine::DRand48Engine(long seed)
 : HepRandomEngine()

@@ -102,8 +102,6 @@ public:
   
 private:
 
-  static int numEngines;
-
 /**
  * @author
  * @ingroup random
@@ -155,6 +153,7 @@ private:
   const IntegerCong   & ConstCong() const;  // necessary for 
   const Hurd288Engine & ConstHurd() const;  // output
 
+  int numEngines;
   Tausworthe    tausworthe;  // Instances of each of the 
   IntegerCong   integerCong; // three engines that combine to make
   Hurd288Engine hurd;        // one TripleRand instance 
