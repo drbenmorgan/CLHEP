@@ -10,6 +10,8 @@
 #  make test
 #  make install
 #
+# to enable thread support: -DCMAKE_CXX_FLAGS="-pthread -std=c++11 -Wno-deprecated-declarations"
+#
 # mac i386:   -DCMAKE_CXX_FLAGS="-m32" -DCMAKE_OSX_ARCHITECTURES="i386"
 # mac x86_64: -DCMAKE_CXX_FLAGS="-m64" -DCMAKE_OSX_ARCHITECTURES="x86_64"
 #
