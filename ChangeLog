@@ -1,4 +1,8 @@
 
+2014-05-04 Lynn Garren <garren@fnal.gov> 
+
+  * Matrix/src/Vector.cc: remove inline - no reason to use it in a cc file
+
 2014-02-24 Lynn Garren <garren@fnal.gov> 
 
   * Vector, Random, Matrix: remove register declaration of ints and doubles
