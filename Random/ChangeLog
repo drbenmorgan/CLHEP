@@ -1,4 +1,8 @@
 
+2014-05-04 Lynn Garren <garren@fnal.gov> 
+
+  * test/testBug58950.cc: accept fix for bug 104289
+
 2014-02-24 Lynn Garren <garren@fnal.gov> 
 
   * remove register declaration of ints and doubles
