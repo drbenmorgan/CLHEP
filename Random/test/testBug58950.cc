@@ -10,6 +10,8 @@
 #include <stdexcept>
 #include <cmath>
 #include <stdlib.h>
+#include <limits>
+#include <complex>
 #include "CLHEP/Random/RanecuEngine.h"
 #include "CLHEP/Random/Random.h"
 #include "pretend.h"
@@ -151,7 +153,8 @@ int main() {
     g->setTheSeeds(seeds);
     for (int i=0; i < nNumbers; ++i) {
         double r = g->flat();
-        if(v[i] != r ) {
+//        if(v[i] != r ) {
+        if(std::abs(v[i] - r) >= std::numeric_limits<double>::epsilon()) {
            ++badcount;
            std::cerr << " rollback fails: i, v[i], r "
                      << i << "  " << v[i] << " " << r << std::endl;

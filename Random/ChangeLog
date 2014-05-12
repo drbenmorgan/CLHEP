@@ -1,7 +1,16 @@
+
 2014-03-04 W. David Dagenhart <wdd@fnal.gov>
 
   * In Random package convert statics and globals to const, thread
     local or atomic to improve thread safety.
+
+==============================
+12.05.14 Release CLHEP-2.1.4.2
+==============================
+
+2014-05-04 Lynn Garren <garren@fnal.gov> 
+
+  * test/testBug58950.cc: accept fix for bug 104289
 
 2014-02-24 Lynn Garren <garren@fnal.gov> 
 
