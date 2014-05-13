@@ -61,7 +61,6 @@ struct defaults {
   shared_ptr<HepRandomEngine>  theEngine;
 };  // defaults
 
-  inline
   defaults &  theDefaults()  {
     static  HepRandom       theDefaultGenerator;
     static  HepJamesRandom  theDefaultEngine;
