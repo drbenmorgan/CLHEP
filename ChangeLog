@@ -1,3 +1,8 @@
+
+2014-05-04 Lynn Garren <garren@fnal.gov> 
+
+  * Random/src/Random.cc: remove unnecessary inline
+  
 ==============================
 12.05.14 Release CLHEP-2.1.4.2
 ==============================

@@ -1,9 +1,13 @@
 
+2014-05-13 Lynn Garren <garren@fnal.gov> 
+
+  * src/Random.cc: remove unnecessary inline
+
 2014-03-04 W. David Dagenhart <wdd@fnal.gov>
 
   * In Random package convert statics and globals to const, thread
     local or atomic to improve thread safety.
-
+  
 ==============================
 12.05.14 Release CLHEP-2.1.4.2
 ==============================
