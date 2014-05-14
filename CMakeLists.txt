@@ -3,14 +3,13 @@
 #  cmake [-DCMAKE_INSTALL_PREFIX=/install/path] 
 #        [-DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel]
 #        [-DCMAKE_C_COMPILER=...] [-DCMAKE_CXX_COMPILER=...]
+#        [-DCLHEP_BUILD_CXXSTD=ON] (c++11 extensions and thread support)
 #        [-DCLHEP_BUILD_DOCS=ON]
 #        [-DLIB_SUFFIX=64]
 #        /path/to/source
 #  make
 #  make test
 #  make install
-#
-# to enable thread support: -DCMAKE_CXX_FLAGS="-pthread -std=c++11 -Wno-deprecated-declarations"
 #
 # mac i386:   -DCMAKE_CXX_FLAGS="-m32" -DCMAKE_OSX_ARCHITECTURES="i386"
 # mac x86_64: -DCMAKE_CXX_FLAGS="-m64" -DCMAKE_OSX_ARCHITECTURES="x86_64"
