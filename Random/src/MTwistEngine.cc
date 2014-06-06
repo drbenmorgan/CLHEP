@@ -220,10 +220,14 @@ void MTwistEngine::showStatus() const
    std::cout << " Initial seed      = " << theSeed << std::endl;
    std::cout << " Current index     = " << count624 << std::endl;
    std::cout << " Array status mt[] = " << std::endl;
-   for (int i=0; i<624; i+=5) {
+   // 2014/06/06  L Garren
+   // the final line has 4 elements, not 5
+   for (int i=0; i<620; i+=5) {
      std::cout << mt[i]   << " " << mt[i+1] << " " << mt[i+2] << " " 
-	       << mt[i+3] << " " << mt[i+4] << std::endl;
+	       << mt[i+3] << " " << mt[i+4] << "\n";
    }
+   std::cout << mt[620]   << " " << mt[621] << " " << mt[622] << " " 
+	     << mt[623]  << std::endl;
    std::cout << "----------------------------------------" << std::endl;
 }
 
