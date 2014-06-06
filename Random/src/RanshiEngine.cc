@@ -29,6 +29,7 @@
 // M. Fischler    - split get() into tag validation and 
 //                  getState() for anonymous restores           12/27/04    
 // M. Fischler    - State-saving using only ints, for portability 4/12/05
+// L. Garren      - use explicit 32bit mask to avoid compiler warnings  6/6/2014  
 //
 // =======================================================================
 
@@ -36,6 +37,7 @@
 #include "CLHEP/Random/RanshiEngine.h"
 #include "CLHEP/Random/engineIDulong.h"
 #include <string.h>	// for strcmp
+#include <iostream>
 
 namespace CLHEP {
 
@@ -52,7 +54,7 @@ RanshiEngine::RanshiEngine()
 {
   int i = 0;
   while (i < numBuff) {    
-    buffer[i] = (unsigned int)(numEngines+19780503L*(i+1));
+    buffer[i] = (unsigned int)((numEngines+19780503L*(i+1))& 0xffffffff);
     ++i;
   }
   theSeed = numEngines+19780503L*++i;
