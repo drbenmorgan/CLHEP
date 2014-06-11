@@ -12,6 +12,7 @@
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Matrix/Vector.h"
 #include "CLHEP/Matrix/Matrix.h"
+#include "CLHEP/Utility/thread_local.h"
 
 #ifdef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/Vector.icc"
@@ -581,8 +582,8 @@ HepVector solve(const HepMatrix &a, const HepVector &v)
 {
   HepVector vret(v);
 #endif
-  static int max_array = 20;
-  static int *ir = new int [max_array+1];
+  static CLHEP_THREAD_LOCAL int max_array = 20;
+  static CLHEP_THREAD_LOCAL int *ir = new int [max_array+1];
 
   if(a.ncol != a.nrow)
      HepGenMatrix::error("Matrix::solve Matrix is not NxN");

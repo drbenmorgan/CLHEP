@@ -19,6 +19,7 @@
 #include "CLHEP/Matrix/SymMatrix.h"
 #include "CLHEP/Matrix/DiagMatrix.h"
 #include "CLHEP/Matrix/Vector.h"
+#include "CLHEP/Utility/thread_local.h"
 
 #ifdef HEP_DEBUG_INLINE
 #include "CLHEP/Matrix/Matrix.icc"
@@ -708,8 +709,8 @@ void HepMatrix::invert(int &ierr) {
   if(ncol != nrow)
      error("HepMatrix::invert: Matrix is not NxN");
 
-  static int max_array = 20;
-  static int *ir = new int [max_array+1];
+  static CLHEP_THREAD_LOCAL int max_array = 20;
+  static CLHEP_THREAD_LOCAL int *ir = new int [max_array+1];
 
   if (ncol > max_array) {
     delete [] ir;
@@ -813,8 +814,8 @@ void HepMatrix::invert(int &ierr) {
 }
 
 double HepMatrix::determinant() const {
-  static int max_array = 20;
-  static int *ir = new int [max_array+1];
+  static CLHEP_THREAD_LOCAL int max_array = 20;
+  static CLHEP_THREAD_LOCAL int *ir = new int [max_array+1];
   if(ncol != nrow)
     error("HepMatrix::determinant: Matrix is not NxN");
   if (ncol > max_array) {
