@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP Cast, 2.2.0.0.b01, http://savannah.cern.ch/projects/clhep/, Cast)
+AC_INIT(CLHEP Cast, 2.2.0.0, http://savannah.cern.ch/projects/clhep/, Cast)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/itos.cc])
