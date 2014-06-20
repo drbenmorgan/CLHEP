@@ -1,0 +1,10 @@
+Makefile.in
+autotools
+configure
+defs.h.in
+aclocal.m4
+autom4te.cache
+config.guess
+config.sub
+install-sh
+missing
