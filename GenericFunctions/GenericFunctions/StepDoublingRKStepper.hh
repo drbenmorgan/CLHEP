@@ -1,4 +1,4 @@
-#ifndef _FelhbergStepper_hh_
+#ifndef _StepDoublingRKStepper_hh_
 #define _StepDoublingRKStepper_hh_
 #include "CLHEP/GenericFunctions/AdaptiveRKStepper.hh"
 #include "CLHEP/GenericFunctions/ButcherTableau.hh"
