@@ -1,3 +1,16 @@
+
+2014-06-20 Lynn Garren <garren@fnal.gov> 
+
+  * Utility/Utility/Makefile.am: install atomic_int.h and thread_local.h
+
+2014-06-20 Lynn Garren <garren@fnal.gov>
+
+  * Geometry/test/testBasicVector3D.cc: pragma fix for modern clang
+
+2014-06-20 Lynn Garren <garren@fnal.gov> 
+
+  * GenericFunctions/GenericFunctions/StepDoublingRKStepper.hh: fix wrapper name
+
 ==============================
 16.06.14 Release CLHEP-2.2.0.0
 ==============================
