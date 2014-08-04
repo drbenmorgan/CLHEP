@@ -99,7 +99,7 @@ while test $# -gt 0; do
        	;;
 
     --libs)
-       	echo @LIBS@ @Utility_LIBS@ -lm
+       	echo @LIBS@ @Utility_LIBS@
        	;;
 
     *)

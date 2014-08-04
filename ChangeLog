@@ -1,4 +1,9 @@
 
+2014-08-04 Lynn Garren <garren@fnal.gov> 
+
+  * Utility/Utility/Utility-config.in: remove unnecessary -lm
+
+
 2014-08-01 Lynn Garren <garren@fnal.gov> 
 
   * Utility/Utility/CMakeLists.txt: install atomic_int.h and thread_local.h
