@@ -1,4 +1,10 @@
 
+2014-08-08 Lynn Garren <garren@fnal.gov> 
+
+  * Units/Units/SystemOfUnits.h, Units/Units/PhysicalConstants.h:
+    move definition of pi into SystemOfUnits so it is not defined twice
+    Note that PhysicalConstants.h includes SystemOfUnits.h.
+
 2014-08-04 Lynn Garren <garren@fnal.gov> 
 
   * Utility/Utility/Utility-config.in: remove unnecessary -lm

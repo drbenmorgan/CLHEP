@@ -1,3 +1,10 @@
+
+2014-08-08 Lynn Garren <garren@fnal.gov> 
+
+  * Units/SystemOfUnits.h, Units/PhysicalConstants.h:
+    move definition of pi into SystemOfUnits so it is not defined twice
+    Note that PhysicalConstants.h includes SystemOfUnits.h.
+
 ==============================
 23.06.14 Release CLHEP-2.2.0.1
 ==============================
