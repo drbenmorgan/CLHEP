@@ -2,6 +2,11 @@
 12.08.14 Release CLHEP-2.2.0.2
 ==============================
 
+2014-08-12 Lynn Garren <garren@fnal.gov> 
+
+  * cmake/Modules/ClhepVariables.cmake: if the user compiles with -std=c++11
+    and does not use -DCLHEP_BUILD_CXXSTD=ON, the required flags will be set.
+
 2014-08-08 Lynn Garren <garren@fnal.gov> 
 
   * Units/Units/SystemOfUnits.h, Units/Units/PhysicalConstants.h:
