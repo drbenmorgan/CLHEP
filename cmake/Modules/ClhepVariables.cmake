@@ -111,7 +111,7 @@ endmacro( _clhep_check_cxxstd )
 
 macro( _clhep_check_for_pthread )
   #message(STATUS "_clhep_check_for_pthread debug: CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
-  if( ${CMAKE_CXX_FLAGS} )
+  if( NOT "${CMAKE_CXX_FLAGS}" STREQUAL "" )
     string(REGEX REPLACE " " ";" flag_list ${CMAKE_CXX_FLAGS})
     FOREACH(flag ${flag_list})    
        #message(STATUS "_clhep_check_for_pthread debug: found flag ${flag}" )
