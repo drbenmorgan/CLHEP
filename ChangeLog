@@ -1,7 +1,11 @@
+==============================
+18.08.14 Release CLHEP-2.2.0.3
+==============================
 
 2014-08-18 Lynn Garren <garren@fnal.gov> 
 
-  * cmake/Modules/ClhepVariables.cmake: DO NOT use  -ftls-model=initial-exec
+  * cmake/Modules/ClhepVariables.cmake: DO NOT use any -ftls-model flags.
+    Except in very specialized cases, the compiler automatically does the right thing.
 
 ==============================
 12.08.14 Release CLHEP-2.2.0.2
