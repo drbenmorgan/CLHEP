@@ -8,12 +8,14 @@ set( Matrix_tests testMatrix
 
 # leak test (bug 7328) does not work on MacOSX or DOS
 if( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
-  set( Matrix_simple_tests testBug6181 )
+  set( Matrix_simple_tests testBug6181
+                           testBug104262 )
 elseif( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
   set( Matrix_simple_tests testBug6181 )
 else()
   set( Matrix_simple_tests testBug6181
-                           testBug7328 )
+                           testBug7328
+                           testBug104262 )
 endif()
 
 foreach ( test ${Matrix_tests} )
