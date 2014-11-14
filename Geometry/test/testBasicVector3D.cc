@@ -230,8 +230,10 @@ using namespace HepGeom;
   #endif
 #endif
 #ifdef __clang__
+  #if __clang_major__ < 4
   #pragma clang diagnostic push
   #pragma clang diagnostic ignored "-Wunused-but-set-variable"
+  #endif
 #endif
 void CheckPointFloat()   { CHECK(Point3D<float>  , float)  }
 void CheckVectorFloat()  { CHECK(Vector3D<float> , float)  }
@@ -245,7 +247,9 @@ void CheckNormalDouble() { CHECK(Normal3D<double>, double) }
   #endif
 #endif
 #ifdef __clang__
+  #if __clang_major__ < 4
   #pragma clang diagnostic pop
+  #endif
 #endif
 
 int main()

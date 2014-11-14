@@ -8,9 +8,11 @@ includedir = $(prefix)/include/CLHEP
 tempincludedir = $(TEMPDIR)/CLHEP/@PACKAGE@
 
 pkginclude_HEADERS =	\
+	atomic_int.h	\
 	keywords.h	\
 	memory.h	\
 	noncopyable.h	\
+	thread_local.h	\
 	type_traits.h	\
 	defs.h
 

@@ -11,7 +11,8 @@ set( Random_simple_tests testSaveEngineStatus
                          testBug73093 
                          testEngineCopy 
                          testDistCopy 
-                         testRanecuSequence )
+                         testRanecuSequence
+                         testThreaded )
 else()
 set( Random_simple_tests testSaveEngineStatus 
                          testInstanceRestore
@@ -24,7 +25,8 @@ set( Random_simple_tests testSaveEngineStatus
                          testEngineCopy 
                          testDistCopy 
                          testZiggurat
-                         testRanecuSequence )
+                         testRanecuSequence
+                         testThreaded )
 endif()
 
 foreach ( test ${Random_tests} )

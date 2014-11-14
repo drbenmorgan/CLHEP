@@ -38,6 +38,8 @@
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/Hurd288Engine.h"
 #include "CLHEP/Random/engineIDulong.h"
+#include "CLHEP/Utility/atomic_int.h"
+
 #include <string.h>	// for strcmp
 #include <cstdlib>	// for std::abs(int)
 
@@ -45,15 +47,17 @@ using namespace std;
 
 namespace CLHEP {
 
-static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
+namespace {
+  // Number of instances with automatic seed selection
+  CLHEP_ATOMIC_INT_TYPE numberOfEngines(0);
+
+  // Maximum index into the seed table
+  const int maxIndex = 215;
+}
+
+static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 
 std::string Hurd288Engine::name() const {return "Hurd288Engine";}
-
-// Number of instances with automatic seed selection
-int Hurd288Engine::numEngines = 0;
-
-// Maximum index into the seed table
-int Hurd288Engine::maxIndex = 215;
 
 static inline unsigned int f288(unsigned int a, unsigned int b, unsigned int c)
 {
@@ -64,6 +68,7 @@ static inline unsigned int f288(unsigned int a, unsigned int b, unsigned int c)
 Hurd288Engine::Hurd288Engine()
 : HepRandomEngine()
 {
+  int numEngines = numberOfEngines++;
   int cycle    = std::abs(int(numEngines/maxIndex));
   int curIndex = std::abs(int(numEngines%maxIndex));
   long mask = ((cycle & 0x007fffff) << 8);
@@ -74,7 +79,7 @@ Hurd288Engine::Hurd288Engine()
   setSeeds(seedlist, 0);
   words[0] ^= 0x1324abcd;        // To make unique vs long or two unsigned
   if (words[0]==0) words[0] = 1; // ints in the constructor
-  ++numEngines;
+
   for( int i=0; i < 100; ++i ) flat();       // warm up just a bit
 }
 

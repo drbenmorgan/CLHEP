@@ -40,9 +40,16 @@
 #include "CLHEP/Random/TripleRand.h"
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/engineIDulong.h"
+#include "CLHEP/Utility/atomic_int.h"
+
 #include <string.h>	// for strcmp
 
 namespace CLHEP {
+
+namespace {
+  // Number of instances with automatic seed selection
+  CLHEP_ATOMIC_INT_TYPE numberOfEngines(0);
+}
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 
 
@@ -50,23 +57,21 @@ static const int MarkerLen = 64; // Enough room to hold a begin or end marker.
 //   TripleRand  
 //********************************************************************
 
-// Number of instances with automatic seed selection
-int TripleRand::numEngines = 0;
-
 std::string TripleRand::name() const {return "TripleRand";}
 
 TripleRand::TripleRand() 
 : HepRandomEngine(),
+  numEngines(numberOfEngines++),
   tausworthe (1234567 + numEngines + 175321),
   integerCong(69607 * tausworthe + 54329, numEngines),
   hurd(19781127 + integerCong)
 {  
   theSeed = 1234567;
-  ++numEngines;
 }
 
 TripleRand::TripleRand(long seed)
 : HepRandomEngine(),
+  numEngines(0),
   tausworthe ((unsigned int)seed + 175321),
   integerCong(69607 * tausworthe + 54329, 1313),
   hurd(19781127 + integerCong)
@@ -75,13 +80,15 @@ TripleRand::TripleRand(long seed)
 }
 
 TripleRand::TripleRand(std::istream & is) 
-: HepRandomEngine()
+  : HepRandomEngine(),
+    numEngines(0)
 {
   is >> *this;
 }
 
 TripleRand::TripleRand(int rowIndex, int colIndex)
 : HepRandomEngine(),
+  numEngines(numberOfEngines),
   tausworthe (rowIndex + numEngines * colIndex + 175321),
   integerCong(69607 * tausworthe + 54329, 19),
   hurd(19781127 + integerCong)
@@ -109,8 +116,8 @@ void TripleRand::flatArray(const int size, double* vect) {
 
 void TripleRand::setSeed(long seed, int) {
   theSeed = seed;
-  tausworthe  = Tausworthe((unsigned int)seed + numEngines + 175321);
-  integerCong = IntegerCong(69607 * tausworthe + 54329, numEngines);
+  tausworthe  = Tausworthe((unsigned int)seed + 175321);
+  integerCong = IntegerCong(69607 * tausworthe + 54329, 1313);
   hurd        = Hurd288Engine( 19781127 + integerCong );
 }
 

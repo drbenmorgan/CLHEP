@@ -42,6 +42,7 @@
 #include "CLHEP/Random/RandGaussQ.h"
 #include "CLHEP/Random/DoubConv.hh"
 #include "CLHEP/Random/Stat.h"
+#include "CLHEP/Utility/thread_local.h"
 #include <cmath>	// for std::pow()
 
 namespace CLHEP {
@@ -145,12 +146,12 @@ long RandPoissonQ::shoot(HepRandomEngine* anEngine, double mean) {
   // last time a large mean was supplied; they obviate certain calculations
   // if consecutive calls use the same mean.
 
-  static double lastLargeMean = -1.;	// Mean from previous shoot 
+  static CLHEP_THREAD_LOCAL double lastLargeMean = -1.;	// Mean from previous shoot
 					// requiring poissonDeviateQuick()
-  static double lastA0;		
-  static double lastA1;		
-  static double lastA2;		
-  static double lastSigma;		
+  static CLHEP_THREAD_LOCAL double lastA0;
+  static CLHEP_THREAD_LOCAL double lastA1;
+  static CLHEP_THREAD_LOCAL double lastA2;
+  static CLHEP_THREAD_LOCAL double lastSigma;
 
   if ( mean < LAST_MU + S ) {
     return poissonDeviateSmall ( anEngine, mean );

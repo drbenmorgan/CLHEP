@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.57)
-AC_INIT(CLHEP Fields, 2.1.4.3, CLHEP@cern.ch, Fields)
+AC_INIT(CLHEP Fields, 2.2.0.3, CLHEP@cern.ch, Fields)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/XF.cc])

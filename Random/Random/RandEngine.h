@@ -12,6 +12,9 @@
 // library to implement the flat() basic distribution and for setting
 // seeds.
 // Copy constructor and operator= are private for objects of this class.
+//
+// WARNING: rand is not thread safe. If you need to use multiple
+// engine objects on different threads concurrently, do not use RandEngine
 
 // =======================================================================
 // Gabriele Cosmo - Created: 5th September 1995
@@ -113,7 +116,7 @@ private:
 
   long seq;
   static int numEngines;
-  static int maxIndex;
+  static const int maxIndex;
 
 };
 
