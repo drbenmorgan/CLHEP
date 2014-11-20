@@ -3,7 +3,7 @@
 
 #include "CLHEP/Matrix/Vector.h"
 
-int main(int argc,char** argv) {
+int main(int, char **) {
 
 CLHEP::HepVector fXVector;
 fXVector = CLHEP::HepVector(32);
