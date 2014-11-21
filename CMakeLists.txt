@@ -3,6 +3,7 @@
 #  cmake [-DCMAKE_INSTALL_PREFIX=/install/path] 
 #        [-DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel]
 #        [-DCMAKE_C_COMPILER=...] [-DCMAKE_CXX_COMPILER=...]
+#        [-DCLHEP_BUILD_CXXSTD=ON] (c++11 extensions and thread support)
 #        [-DCLHEP_BUILD_DOCS=ON]
 #        [-DLIB_SUFFIX=64]
 #        /path/to/source
@@ -29,7 +30,7 @@ cmake_minimum_required(VERSION 2.6)
 
 # project name
 project(CLHEP)
-set( VERSION 2.1.4.3 )
+set( VERSION 2.2.0.4 )
 
 set(CMAKE_MODULE_PATH 
       ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules 

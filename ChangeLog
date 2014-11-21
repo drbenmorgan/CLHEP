@@ -1,4 +1,98 @@
 ==============================
+21.11.14 Release CLHEP-2.2.0.4
+==============================
+
+2014-11-21 Lynn Garren <garren@fnal.gov> 
+
+  * Utility/Utility/memory.h: fix a type mismatch
+  
+  * GenericFunctions/src/DefiniteIntegral.cc: explicit initialization
+
+2014-11-20 Lynn Garren <garren@fnal.gov> 
+
+  * Random/src/RanshiEngine.cc: use a pragma to ignore aggressive 32bit compiler warnings
+
+  * Vector/Vector/ThreeVector.icc: inline Hep3Vector::operator () (int i)
+
+==============================
+18.08.14 Release CLHEP-2.2.0.3
+==============================
+
+2014-08-18 Lynn Garren <garren@fnal.gov> 
+
+  * cmake/Modules/ClhepVariables.cmake: DO NOT use any -ftls-model flags.
+    Except in very specialized cases, the compiler automatically does the right thing.
+
+==============================
+12.08.14 Release CLHEP-2.2.0.2
+==============================
+
+2014-08-12 Lynn Garren <garren@fnal.gov> 
+
+  * cmake/Modules/ClhepVariables.cmake: if the user compiles with -std=c++11
+    and does not use -DCLHEP_BUILD_CXXSTD=ON, the required flags will be set.
+
+2014-08-08 Lynn Garren <garren@fnal.gov> 
+
+  * Units/Units/SystemOfUnits.h, Units/Units/PhysicalConstants.h:
+    move definition of pi into SystemOfUnits so it is not defined twice
+    Note that PhysicalConstants.h includes SystemOfUnits.h.
+
+2014-08-04 Lynn Garren <garren@fnal.gov> 
+
+  * Utility/Utility/Utility-config.in: remove unnecessary -lm
+
+
+2014-08-01 Lynn Garren <garren@fnal.gov> 
+
+  * Utility/Utility/CMakeLists.txt: install atomic_int.h and thread_local.h
+
+==============================
+23.06.14 Release CLHEP-2.2.0.1
+==============================
+
+2014-06-20 Lynn Garren <garren@fnal.gov> 
+
+  * Utility/Utility/Makefile.am: install atomic_int.h and thread_local.h
+
+2014-06-20 Lynn Garren <garren@fnal.gov>
+
+  * Geometry/test/testBasicVector3D.cc: pragma fix for modern clang
+
+2014-06-20 Lynn Garren <garren@fnal.gov> 
+
+  * GenericFunctions/GenericFunctions/StepDoublingRKStepper.hh: fix wrapper name
+
+==============================
+16.06.14 Release CLHEP-2.2.0.0
+==============================
+2014-06-06 Lynn Garren <garren@fnal.gov> 
+
+  * Random/src/RanshiEngine.cc: use explicit 32bit mask to avoid compiler warnings
+  * Random/src/MTwistEngine.cc: make sure we don't go past the end of the 
+                                array in MTwistEngine::showStatus
+ 
+==============================
+14.05.14 Release CLHEP-2.2.0.0.b01
+==============================
+
+2014-05-14 Lynn Garren <garren@fnal.gov> 
+
+  * new cmake option: -DCLHEP_BUILD_CXXSTD=ON
+    Use this to enable the c++11 extenstions.
+    This option adds the following flags:
+    -std=c++11 -ftls-model=initial-exec -pthread -Wno-deprecated-declarations
+
+2014-05-13 Lynn Garren <garren@fnal.gov> 
+
+  * Random/src/Random.cc: remove unnecessary inline
+
+2014-03-04 W. David Dagenhart <wdd@fnal.gov>
+
+  * In Random package convert statics and globals to const, thread
+    local or atomic to improve thread safety.
+ 
+==============================
 14.11.14 Release CLHEP-2.1.4.3
 ==============================
 

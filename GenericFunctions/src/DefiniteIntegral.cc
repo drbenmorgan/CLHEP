@@ -168,7 +168,7 @@ namespace Genfun {
       s[j]=rule->integrate(function, c->a, c->b, j);
       c->nFunctionCalls=rule->numFunctionCalls();
       if (j>=c->K) {
-	double ss, dss;
+	double ss(0.), dss(0.);
 	c->polint(h.begin()+j-c->K,s.begin()+j-c->K,0.0,ss, dss);
 	if (fabs(dss) <= c->EPS*fabs(ss)) {
 	  delete rule;

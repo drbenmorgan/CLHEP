@@ -15,6 +15,9 @@
 // extracted from the GNU C Library 2.0.1 and adapted for the native
 // types.
 // Copy constructor and operator= are private for objects of this class.
+//
+// WARNING: drand48 is not thread safe. If you need to use multiple
+// engine objects on different threads concurrently, do not use DRand48Engine
 
 // =======================================================================
 // G.Cosmo        - Created: 5th September 1995
@@ -106,7 +109,7 @@ public:
 private:
 
   static int  numEngines;
-  static int  maxIndex;
+  static const int  maxIndex;
 
 };
 

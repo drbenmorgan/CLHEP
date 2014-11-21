@@ -32,6 +32,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Utility/memory.h"
+#include "CLHEP/Utility/thread_local.h"
 
 namespace CLHEP {
 
@@ -194,8 +195,8 @@ private:
 
   unsigned long randomInt;
   unsigned long firstUnusedBit;
-  static unsigned long staticRandomInt;
-  static unsigned long staticFirstUnusedBit;
+  static CLHEP_THREAD_LOCAL unsigned long staticRandomInt;
+  static CLHEP_THREAD_LOCAL unsigned long staticFirstUnusedBit;
   
   shared_ptr<HepRandomEngine> localEngine;
   double defaultWidth;

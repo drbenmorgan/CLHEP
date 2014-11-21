@@ -112,9 +112,6 @@ private:
   double randoms[12]; // randoms [i] is the x[n-i] of Luscher's note
   double carry;
 
-  static int numEngines;	
-  static int maxIndex;
-
 }; // Ranlux64Engine
 
 }  // namespace CLHEP
