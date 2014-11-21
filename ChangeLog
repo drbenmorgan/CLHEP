@@ -1,3 +1,10 @@
+
+2014-11-21 Lynn Garren <garren@fnal.gov> 
+
+  * Utility/Utility/memory.h: fix a type mismatch
+  
+  * GenericFunctions/src/DefiniteIntegral.cc: explicit initialization
+
 2014-11-20 Lynn Garren <garren@fnal.gov> 
 
   * Random/src/RanshiEngine.cc: use a pragma to ignore aggressive 32bit compiler warnings

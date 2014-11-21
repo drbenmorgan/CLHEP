@@ -1,3 +1,8 @@
+
+2014-11-21 Lynn Garren <garren@fnal.gov> 
+
+  * Utility/memory.h: fix a type mismatch
+
 ==============================
 18.08.14 Release CLHEP-2.2.0.3
 ==============================
