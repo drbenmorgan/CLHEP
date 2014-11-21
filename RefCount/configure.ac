@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP RefCount, 2.2.0.3, http://savannah.cern.ch/projects/clhep/, RefCount)
+AC_INIT(CLHEP RefCount, 2.2.0.4, http://savannah.cern.ch/projects/clhep/, RefCount)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/ZMuseCount.cc])
