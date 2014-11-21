@@ -1,3 +1,7 @@
+2014-11-20 Lynn Garren <garren@fnal.gov> 
+
+  * Vector/ThreeVector.icc: inline Hep3Vector::operator () (int i)
+
 ==============================
 18.08.14 Release CLHEP-2.2.0.3
 ==============================
