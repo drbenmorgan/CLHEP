@@ -1,3 +1,9 @@
+2014-11-20 Lynn Garren <garren@fnal.gov> 
+
+  * Random/src/RanshiEngine.cc: use a pragma to ignore aggressive 32bit compiler warnings
+
+  * Vector/Vector/ThreeVector.icc: inline Hep3Vector::operator () (int i)
+
 ==============================
 18.08.14 Release CLHEP-2.2.0.3
 ==============================
