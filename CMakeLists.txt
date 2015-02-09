@@ -4,6 +4,7 @@
 #        [-DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel]
 #        [-DCMAKE_C_COMPILER=...] [-DCMAKE_CXX_COMPILER=...]
 #        [-DCLHEP_BUILD_CXXSTD=ON] (c++11 extensions and thread support)
+#        [-DCLHEP_BUILD_CXXSTD="-std=c++NN"] (use specified c++ extension and thread support)
 #        [-DCLHEP_BUILD_DOCS=ON]
 #        [-DLIB_SUFFIX=64]
 #        /path/to/source
