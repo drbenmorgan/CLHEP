@@ -1,3 +1,13 @@
+
+2015-05-27 Lynn Garren <garren@fnal.gov> 
+
+  * use  __attribute__((unused)) for variables only used in assert inside a test
+    affects Geometry, Random, Utility, and Vector
+  * Random/Random/Randomize.h: protect against unused variable warning
+  * Utility/Utility/memory.h: protect against non virtual destructor warning
+  * Random/Random/RandGaussZiggurat.h, Random/src/RandGaussZiggurat.cc: use std::abs
+  * deal with shadowing variables in GenericFunctions, Random/test, and Utility/test 
+
 ==============================
 10.02.15 Release CLHEP-2.2.0.5
 ==============================

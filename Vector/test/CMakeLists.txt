@@ -1,4 +1,6 @@
 
+remove_definitions(-DNDEBUG)
+
 set( Vector_tests testThreeVector 
                   testLorentzVector )
 set( Vector_simple_tests testRotation 

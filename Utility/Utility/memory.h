@@ -36,6 +36,10 @@
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wdelete-non-virtual-dtor"
   #endif
+  #if __GNUC__ > 4 
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wdelete-non-virtual-dtor"
+  #endif
 #endif 
 #ifdef __clang__
   #pragma clang diagnostic push
@@ -1488,6 +1492,9 @@ do_nothing_deleter::operator () ( void const * ) const
 
 #if defined __GNUC__ 
   #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic pop
+  #endif
+  #if __GNUC__ > 4 
     #pragma GCC diagnostic pop
   #endif
 #endif 

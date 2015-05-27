@@ -1,4 +1,6 @@
 
+remove_definitions(-DNDEBUG)
+
 set( Utility_simple_tests testNoncopyable
 			  testPrimaryTraits
 			  testCategories
