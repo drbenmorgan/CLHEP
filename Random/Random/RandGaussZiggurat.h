@@ -103,7 +103,7 @@ protected:
   //static unsigned long iz, kn[128], ke[256];
   //static float wn[128],fn[128], we[256],fe[256];
   //
-  //#define RNOR (hz=SHR3, iz=hz&127, (fabs(hz)<kn[iz])? hz*wn[iz] : nfix())
+  //#define RNOR (hz=SHR3, iz=hz&127, (std::fabs(hz)<kn[iz])? hz*wn[iz] : nfix())
   //#define REXP (jz=SHR3, iz=jz&255, (    jz <ke[iz])? jz*we[iz] : efix())
 
   static CLHEP_THREAD_LOCAL unsigned long kn[128], ke[256];
@@ -117,7 +117,7 @@ protected:
     if(!ziggurat_is_init) ziggurat_init();
     long hz=(signed)ziggurat_SHR3(anEngine);
     unsigned long iz=hz&127;
-    return ((unsigned long)abs(hz)<kn[iz]) ? hz*wn[iz] : ziggurat_nfix(hz,anEngine);
+    return ((unsigned long)std::abs(hz)<kn[iz]) ? hz*wn[iz] : ziggurat_nfix(hz,anEngine);
   };
   static float ziggurat_nfix(long hz,HepRandomEngine* anEngine);
   
