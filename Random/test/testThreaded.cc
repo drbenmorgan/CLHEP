@@ -58,8 +58,8 @@ void testRandGauss(std::vector<double> const& reference, bool& result) {
   // that the second thread is using a different cache when it
   // does not use that cached value.
 
-  long seedL = 100;
-  CLHEP::HepJamesRandom engine(seedL);
+  long seedL1 = 100;
+  CLHEP::HepJamesRandom engine(seedL1);
   CLHEP::RandGauss dist(engine);
 
   result = true;
@@ -75,7 +75,7 @@ void testRandGauss(std::vector<double> const& reference, bool& result) {
   }
 
   // check the shoot method where we pass in an engine
-  CLHEP::HepJamesRandom engine1(seedL);
+  CLHEP::HepJamesRandom engine1(seedL1);
   if (reference[0] != CLHEP::RandGauss::shoot(&engine1) ||
       reference[1] != CLHEP::RandGauss::shoot(&engine1) ||
       reference[2] != CLHEP::RandGauss::shoot(&engine1) ||
@@ -86,7 +86,7 @@ void testRandGauss(std::vector<double> const& reference, bool& result) {
 
   // check the shoot method using the CLHEP thread local
   // engine
-  CLHEP::HepJamesRandom engine2(seedL);
+  CLHEP::HepJamesRandom engine2(seedL1);
   CLHEP::HepRandom::setTheEngine(&engine2);
   // setFlag causes it to not use the cached value
   // and generate a new pair of random numbers
@@ -99,6 +99,21 @@ void testRandGauss(std::vector<double> const& reference, bool& result) {
     result = false;
   }
 }
+
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wshadow"
+  #endif
+  #if __GNUC__ > 4
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wshadow"
+  #endif
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wshadow"
+#endif
 
 int main() {
 
@@ -273,40 +288,40 @@ int main() {
   // Test to reference values determined by running this code once
   // Results should be reproducible so they should not change.
   {
-    long seedL = 100;
-    CLHEP::HepJamesRandom engine(seedL);
+    long seedL2 = 100;
+    CLHEP::HepJamesRandom engine(seedL2);
     if(CLHEP::RandBinomial::shoot(&engine, 50, 0.2) != 12) {
       output << "Error, results changed for RandBinomial.\n";
       return 1;
     }
   }
   {
-    long seedL = 100;
-    CLHEP::HepJamesRandom engine(seedL);
+    long seedL3 = 100;
+    CLHEP::HepJamesRandom engine(seedL3);
     if(std::fabs(CLHEP::RandChiSquare::shoot(&engine) - 0.031799) > epsilon) {
       output << "Error, results changed for RandChiSquared.\n";
       return 1;
     }
   }
   {
-    long seedL = 100;
-    CLHEP::HepJamesRandom engine(seedL);
+    long seedL4 = 100;
+    CLHEP::HepJamesRandom engine(seedL4);
     if(std::fabs(CLHEP::RandExpZiggurat::shoot(&engine) - 1.59601) > epsilon) {
       output << "Error, results changed for RandExpZiggurat.\n";
       return 1;
     }
   }
   {
-    long seedL = 100;
-    CLHEP::HepJamesRandom engine(seedL);
+    long seedL5 = 100;
+    CLHEP::HepJamesRandom engine(seedL5);
     if(std::fabs(CLHEP::RandGamma::shoot(&engine) - 1.25744) > epsilon) {
       output << "Error, results changed for RandGamma.\n";
       return 1;
     }
   }
   {
-    long seedL = 100;
-    CLHEP::HepJamesRandom engine(seedL);
+    long seedL6 = 100;
+    CLHEP::HepJamesRandom engine(seedL6);
     if(std::fabs(CLHEP::RandGaussZiggurat::shoot(&engine) - (-0.138855)) > epsilon) {
       output << "Error, results changed for RandGaussZiggurat.\n";
       return 1;
@@ -315,3 +330,14 @@ int main() {
   return 0;
 #endif
 }
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic pop
+  #endif
+  #if __GNUC__ > 4
+    #pragma GCC diagnostic pop
+  #endif
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif

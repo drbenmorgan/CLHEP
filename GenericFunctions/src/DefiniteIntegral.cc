@@ -185,7 +185,7 @@ namespace Genfun {
   
   void DefiniteIntegral::Clockwork::polint(std::vector<double>::iterator xArray, std::vector<double>::iterator yArray, double x, double & y, double & deltay) const {
     double dif = fabs(x-xArray[1]),dift;
-    std::vector<double> c(K+1),d(K+1);
+    std::vector<double> cc(K+1),d(K+1);
     unsigned int ns=1;
     for (unsigned int i=1;i<=K;i++) {
       dift=fabs(x-xArray[i]);
@@ -193,14 +193,14 @@ namespace Genfun {
 	ns=i;
 	dif=dift;
       }
-      c[i]=d[i]=yArray[i];
+      cc[i]=d[i]=yArray[i];
     }
     y = yArray[ns--];
     for (unsigned int m=1;m<K;m++) {
       for (unsigned int i=1;i<=K-m;i++) {
 	double ho = xArray[i]-x;
 	double hp=  xArray[i+m]-x;
-	double w=c[i+1]-d[i];
+	double w=cc[i+1]-d[i];
 	double den=ho-hp;
 	if (den==0)
 	  std::cerr
@@ -208,9 +208,9 @@ namespace Genfun {
 	    << std::endl;
 	den=w/den;
 	d[i]=hp*den;
-	c[i]=ho*den;
+	cc[i]=ho*den;
       }
-      deltay = 2*ns < (K-m) ? c[ns+1]: d[ns--];
+      deltay = 2*ns < (K-m) ? cc[ns+1]: d[ns--];
       y += deltay;
     }
   }
@@ -220,40 +220,40 @@ namespace Genfun {
   }
 
   // Quadrature rules:
-  double DefiniteIntegral::Clockwork::TrapezoidQuadratureRule::integrate(const AbsFunction & function, double a, double b, unsigned int n) const {
+  double DefiniteIntegral::Clockwork::TrapezoidQuadratureRule::integrate(const AbsFunction & function, double aa, double bb, unsigned int n) const {
     unsigned int it, j;
     if (n==1) {
-      retVal = 0.5*(b-a)*(function(a)+function(b));
+      retVal = 0.5*(bb-aa)*(function(aa)+function(bb));
       nFunctionCalls+=2;
     }
     else { 
       for (it=1,j=1;j<n-1;j++)  it <<=1;
       double tnm=it;
-      double del = (b-a)/tnm;
-      double x=a+0.5*del;
+      double del = (bb-aa)/tnm;
+      double x=aa+0.5*del;
       double sum;
       for (sum=0.0,j=1;j<=it;j++,x+=del) {
 	sum +=function(x);
 	nFunctionCalls++;
       }
-      retVal = 0.5*(retVal+(b-a)*sum/tnm);
+      retVal = 0.5*(retVal+(bb-aa)*sum/tnm);
     }
     return retVal;
   }
 
   // Quadrature rules:
-  double DefiniteIntegral::Clockwork::XtMidpointQuadratureRule::integrate(const AbsFunction & function, double a, double b, unsigned int n) const {
+  double DefiniteIntegral::Clockwork::XtMidpointQuadratureRule::integrate(const AbsFunction & function, double aa, double bb, unsigned int n) const {
     unsigned int it, j;
     if (n==1) {
-      retVal = (b-a)*(function((a+b)/2.0));
+      retVal = (bb-aa)*(function((aa+bb)/2.0));
       nFunctionCalls+=1;
     }
     else { 
       for (it=1,j=1;j<n-1;j++)  it *=3;
       double tnm=it;
-      double del  = (b-a)/(3.0*tnm);
+      double del  = (bb-aa)/(3.0*tnm);
       double ddel = del+del;
-      double x=a+0.5*del;
+      double x=aa+0.5*del;
       double sum=0;
       for (j=1;j<=it;j++) {
 	sum +=function(x);
@@ -262,7 +262,7 @@ namespace Genfun {
 	x+=del;
 	nFunctionCalls+=2;
       }
-      retVal = (retVal+(b-a)*sum/tnm)/3.0;
+      retVal = (retVal+(bb-aa)*sum/tnm)/3.0;
     }
     return retVal;
   }

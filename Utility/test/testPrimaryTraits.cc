@@ -59,7 +59,7 @@ typedef int (UDT::*cmf)(int) const;
 
 typedef int& r_type;
 #if ! defined(_MSC_VER)
-typedef const r_type cr_type;
+typedef r_type cr_type;
 #endif  // _MSC_VER
 
 struct POD_UDT { int x; };

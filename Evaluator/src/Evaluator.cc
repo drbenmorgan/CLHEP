@@ -105,6 +105,18 @@ static int variable(const string & name, double & result,
   }
 }
 
+
+
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+  #endif
+  #if __GNUC__ > 4 
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+  #endif
+#endif 
 static int function(const string & name, stack<double> & par,
 		    double & result, const dic_type & dictionary) 
 /***********************************************************************
@@ -159,6 +171,14 @@ static int function(const string & name, stack<double> & par,
   }
   return (errno == 0) ? EVAL::OK : EVAL::ERROR_CALCULATION_ERROR;
 }
+#if defined __GNUC__ 
+  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
+    #pragma GCC diagnostic pop
+  #endif
+  #if __GNUC__ > 4 
+    #pragma GCC diagnostic pop
+  #endif
+#endif
 
 static int operand(pchar begin, pchar end, double & result,
 		   pchar & endp, const dic_type & dictionary) 

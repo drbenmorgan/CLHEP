@@ -1,4 +1,6 @@
 
+remove_definitions(-DNDEBUG)
+
 set( Random_tests  testRandom
                    testRandDists )
 if( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
