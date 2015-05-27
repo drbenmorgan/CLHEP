@@ -8,6 +8,7 @@
   * Random/Random/RandGaussZiggurat.h, Random/src/RandGaussZiggurat.cc: use std::abs
   * deal with shadowing variables in GenericFunctions, Random/test, and Utility/test 
   * Evaluator/src/Evaluator.cc: protect against maybe-uninitialized warning
+  * GenericFunctions/src/DefiniteIntegral.cc: fix shadowing found by clang
 
 ==============================
 10.02.15 Release CLHEP-2.2.0.5

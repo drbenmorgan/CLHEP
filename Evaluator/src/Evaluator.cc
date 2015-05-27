@@ -117,10 +117,6 @@ static int variable(const string & name, double & result,
     #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
   #endif
 #endif 
-#ifdef __clang__
-  #pragma clang diagnostic push
-  #pragma clang diagnostic ignored "-Wmaybe-uninitialized"
-#endif
 static int function(const string & name, stack<double> & par,
 		    double & result, const dic_type & dictionary) 
 /***********************************************************************
@@ -182,9 +178,6 @@ static int function(const string & name, stack<double> & par,
   #if __GNUC__ > 4 
     #pragma GCC diagnostic pop
   #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic pop
 #endif
 
 static int operand(pchar begin, pchar end, double & result,
