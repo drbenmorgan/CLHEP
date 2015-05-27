@@ -102,7 +102,7 @@ bool
 // ----------------------------------------------------------------------
 // Mask bits to form a word identifying dists that failed their test
 
-static  uint const  success              =  0u;
+//static  uint const  success              =  0u;
 static  uint const  Binomial_failure     =  1u <<  1;
 static  uint const  BreitWigner_failure  =  1u <<  2;
 static  uint const  ChiSquare_failure    =  1u <<  3;
