@@ -38,7 +38,7 @@ using namespace HepGeom;
                                                                   \
   /* Check conversion to array */                                 \
   const point p05(1,2,3);                                         \
-  const type * a = p05;                                           \
+  const type * a __attribute__((unused)) = p05;                                           \
   assert(a[0] == 1 && a[1] == 2 && a[2] == 3);                    \
   point p06(4,5,6);                                               \
   a = p06;                                                        \
@@ -223,34 +223,12 @@ using namespace HepGeom;
   assert(p121 != Normal3D<type> (2,4,7));                         \
 
 // don't generate warnings about unused variables inside assert
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
-  #endif
-#endif
-#ifdef __clang__
-  #if __clang_major__ < 4
-  #pragma clang diagnostic push
-  #pragma clang diagnostic ignored "-Wunused-but-set-variable"
-  #endif
-#endif
 void CheckPointFloat()   { CHECK(Point3D<float>  , float)  }
 void CheckVectorFloat()  { CHECK(Vector3D<float> , float)  }
 void CheckNormalFloat()  { CHECK(Normal3D<float> , float)  }
 void CheckPointDouble()  { CHECK(Point3D<double> , double) }
 void CheckVectorDouble() { CHECK(Vector3D<double>, double) }
 void CheckNormalDouble() { CHECK(Normal3D<double>, double) }
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic pop
-  #endif
-#endif
-#ifdef __clang__
-  #if __clang_major__ < 4
-  #pragma clang diagnostic pop
-  #endif
-#endif
 
 int main()
 {

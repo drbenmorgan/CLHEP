@@ -369,16 +369,6 @@ typedef const double (UDT::*mp2) ;
 
 
 // don't generate warnings about unused variables inside asserts
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-  #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic push
-  #pragma clang diagnostic ignored "-Wunused-local-typedefs"
-#endif
 int
   main()
 {
@@ -397,12 +387,12 @@ int
   assert(evaluate<char    const          >() == cat_int);
   assert(evaluate<char          volatile >() == cat_int);
   assert(evaluate<char    const volatile >() == cat_int);
-  typedef  signed char  schar;
+  typedef  signed char  schar __attribute__((unused));
   assert(evaluate<schar                  >() == cat_int);
   assert(evaluate<schar   const          >() == cat_int);
   assert(evaluate<schar         volatile >() == cat_int);
   assert(evaluate<schar   const volatile >() == cat_int);
-  typedef  unsigned char  uchar;
+  typedef  unsigned char  uchar __attribute__((unused));
   assert(evaluate<uchar                  >() == cat_int);
   assert(evaluate<uchar   const          >() == cat_int);
   assert(evaluate<uchar         volatile >() == cat_int);
@@ -411,7 +401,7 @@ int
   assert(evaluate<short   const          >() == cat_int);
   assert(evaluate<short         volatile >() == cat_int);
   assert(evaluate<short   const volatile >() == cat_int);
-  typedef  unsigned short  ushort;
+  typedef  unsigned short  ushort __attribute__((unused));
   assert(evaluate<ushort                 >() == cat_int);
   assert(evaluate<ushort  const          >() == cat_int);
   assert(evaluate<ushort        volatile >() == cat_int);
@@ -420,7 +410,7 @@ int
   assert(evaluate<int     const          >() == cat_int);
   assert(evaluate<int           volatile >() == cat_int);
   assert(evaluate<int     const volatile >() == cat_int);
-  typedef  unsigned int  uint;
+  typedef  unsigned int  uint __attribute__((unused));
   assert(evaluate<uint                   >() == cat_int);
   assert(evaluate<uint    const          >() == cat_int);
   assert(evaluate<uint          volatile >() == cat_int);
@@ -429,7 +419,7 @@ int
   assert(evaluate<long    const          >() == cat_int);
   assert(evaluate<long          volatile >() == cat_int);
   assert(evaluate<long    const volatile >() == cat_int);
-  typedef  unsigned long  ulong;
+  typedef  unsigned long  ulong __attribute__((unused));
   assert(evaluate<ulong                  >() == cat_int);
   assert(evaluate<ulong   const          >() == cat_int);
   assert(evaluate<ulong         volatile >() == cat_int);
@@ -444,7 +434,7 @@ int
   assert(evaluate<double  const          >() == cat_flt);
   assert(evaluate<double        volatile >() == cat_flt);
   assert(evaluate<double  const volatile >() == cat_flt);
-  typedef  long double  ldouble;
+  typedef  long double  ldouble __attribute__((unused));
   assert(evaluate<ldouble                >() == cat_flt);
   assert(evaluate<ldouble const          >() == cat_flt);
   assert(evaluate<ldouble       volatile >() == cat_flt);
@@ -555,11 +545,3 @@ int
 
   return 0;
 }
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic pop
-  #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic pop
-#endif

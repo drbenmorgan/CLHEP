@@ -42,16 +42,6 @@ int * get_object()
 { return &++cnt; }
 
 // don't generate warnings about unused parameter inside assert
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunused-parameter"
-  #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic push
-  #pragma clang diagnostic ignored "-Wunused-parameter"
-#endif
 void release_object(int * p)
 {
   assert(p == &cnt);
@@ -64,14 +54,6 @@ template< class T >
   assert(p->id() == 1);
   assert((*p).id() == 1);
 }
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic pop
-  #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic pop
-#endif
 
 template< class T >
  void test_is_X(weak_ptr<T> const & p)
@@ -81,30 +63,12 @@ template< class T >
 }
 
 // don't generate warnings about unused parameter inside assert
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunused-parameter"
-  #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic push
-  #pragma clang diagnostic ignored "-Wunused-parameter"
-#endif
 template< class T >
  void test_is_Y(shared_ptr<T> const & p)
 {
   assert(p->id() == 2);
   assert((*p).id() == 2);
 }
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic pop
-  #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic pop
-#endif
 
 template< class T >
  void test_is_Y(weak_ptr<T> const & p)
@@ -115,16 +79,6 @@ template< class T >
 }
 
 // don't generate warnings about unused parameter inside assert
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunused-parameter"
-  #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic push
-  #pragma clang diagnostic ignored "-Wunused-parameter"
-#endif
 template< class T >
  void test_eq(T const & a, T const & b)
 {
@@ -187,26 +141,8 @@ template< class T >
   assert(p? true: false);
   assert(p.get() != 0);
 }
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic pop
-  #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic pop
-#endif
 
 // don't generate warnings about unused variable inside assert
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunused-variable"
-  #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic push
-  #pragma clang diagnostic ignored "-Wunused-variable"
-#endif
 int main()
 {
 
@@ -309,8 +245,8 @@ int main()
 
     weak_ptr<X> wp5;
 
-    bool b1 = wp1 < wp5;
-    bool b2 = wp5 < wp1;
+    bool b1 __attribute__((unused)) = wp1 < wp5;
+    bool b2 __attribute__((unused)) = wp5 < wp1;
 
     p5.reset();
 
@@ -336,11 +272,3 @@ int main()
   return 0;
 
 }  // main()
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic pop
-  #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic pop
-#endif
