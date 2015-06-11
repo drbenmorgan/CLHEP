@@ -19,6 +19,15 @@
 #include <map>
 #include <vector>
 
+#if defined __GNUC__ 
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 
 using namespace CLHEP;
 using CLHEP::shared_ptr;
@@ -1383,3 +1392,10 @@ shared_ptr<incomplete>
   shared_ptr<incomplete> px(new incomplete);
   return px;
 }
+
+#if defined __GNUC__ 
+  #pragma GCC diagnostic pop
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif
