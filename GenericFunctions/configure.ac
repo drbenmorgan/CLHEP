@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP GenericFunctions, 2.2.0.6, http://savannah.cern.ch/projects/clhep/, GenericFunctions)
+AC_INIT(CLHEP GenericFunctions, 2.2.0.7, http://savannah.cern.ch/projects/clhep/, GenericFunctions)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/Abs.cc])
