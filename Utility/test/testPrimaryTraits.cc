@@ -18,6 +18,15 @@
 
 #include <cassert>
 
+#if defined __GNUC__ 
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 
 using namespace CLHEP;
 
@@ -544,3 +553,4 @@ int main()
 
   return 0;
 }
+

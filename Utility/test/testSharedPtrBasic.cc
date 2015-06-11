@@ -18,6 +18,14 @@
 
 #include <cassert>
 
+#if defined __GNUC__ 
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
 
 using namespace CLHEP;
 using CLHEP::shared_ptr;
@@ -245,8 +253,8 @@ int main()
 
     weak_ptr<X> wp5;
 
-    bool b1 __attribute__((unused)) = wp1 < wp5;
-    bool b2 __attribute__((unused)) = wp5 < wp1;
+    bool b1  = wp1 < wp5;
+    bool b2  = wp5 < wp1;
 
     p5.reset();
 
@@ -272,3 +280,10 @@ int main()
   return 0;
 
 }  // main()
+
+#if defined __GNUC__ 
+  #pragma GCC diagnostic pop
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif

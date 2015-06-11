@@ -18,6 +18,7 @@
 #
 # clhep_lib_suffix();
 #    check for -DLIB_SUFFIX=xxx and process intelligently
+#
 
 macro( clhep_autoconf_variables )
 
@@ -180,9 +181,9 @@ macro( _clhep_check_cxxstd )
   ##message(STATUS "_clhep_check_cxxstd debug: CLHEP_BUILD_CXXSTD HAVE_STDCXX: ${CLHEP_BUILD_CXXSTD} ${HAVE_STDCXX}")
   if( DEFINED HAVE_STDCXX )
     if( ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" )
-	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CLHEP_BUILD_CXXSTD} -pthread -Wno-deprecated-declarations" )
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CLHEP_BUILD_CXXSTD} -pthread" )
     elseif(CMAKE_COMPILER_IS_GNUCXX)
-	set( CMAKE_CXX_FLAGS "${CLHEP_BUILD_CXXSTD} -pthread -Wno-deprecated-declarations ${CMAKE_CXX_FLAGS}" )
+	set( CMAKE_CXX_FLAGS "${CLHEP_BUILD_CXXSTD} -pthread ${CMAKE_CXX_FLAGS}" )
     else()
       message(STATUS "clhep_set_compiler_flags: Do not know how to set c++11 extensions for ${CMAKE_CXX_COMPILER_ID}")
     endif()
@@ -190,7 +191,7 @@ macro( _clhep_check_cxxstd )
 endmacro( _clhep_check_cxxstd )
 
 macro( _clhep_check_for_pthread )
-  message(STATUS "_clhep_check_for_pthread debug: CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+  ##message(STATUS "_clhep_check_for_pthread debug: CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
   set( HAVE_STDCXX )
   if( NOT "${CMAKE_CXX_FLAGS}" STREQUAL "" )
     string(REGEX REPLACE " " ";" flag_list ${CMAKE_CXX_FLAGS})
@@ -398,3 +399,9 @@ macro( clhep_lib_suffix )
   endif()
   message(STATUS "libraries will be installed in $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
 endmacro( clhep_lib_suffix )
+
+macro( clhep_enable_asserts )
+  string(REGEX REPLACE "-DNDEBUG" " " CXXFLAGS "${CXXFLAGS}" )
+  string(TOUPPER ${CMAKE_BUILD_TYPE} BTYPE_UC )
+  string(REGEX REPLACE "-DNDEBUG" " " CMAKE_CXX_FLAGS_${BTYPE_UC} "${CMAKE_CXX_FLAGS_${BTYPE_UC}}" )
+endmacro( clhep_enable_asserts )

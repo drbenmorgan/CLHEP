@@ -19,6 +19,15 @@
 #include <map>
 #include <vector>
 
+#if defined __GNUC__ 
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 
 using namespace CLHEP;
 using CLHEP::shared_ptr;
@@ -1018,8 +1027,8 @@ void
     assert(wp < wp2 || wp2 < wp);
     assert(!(wp < wp2 && wp2 < wp));
 
-    bool b1 __attribute__((unused)) = wp < wp2;
-    bool b2 __attribute__((unused)) = wp2 < wp;
+    bool b1  = wp < wp2;
+    bool b2  = wp2 < wp;
 
     {
       weak_ptr<X> wp3(wp);
@@ -1067,8 +1076,8 @@ void
     assert(wp < wp2 || wp2 < wp);
     assert(!(wp < wp2 && wp2 < wp));
 
-    bool b1 __attribute__((unused)) = wp < wp2;
-    bool b2 __attribute__((unused)) = wp2 < wp;
+    bool b1  = wp < wp2;
+    bool b2  = wp2 < wp;
 
     {
       weak_ptr<X> wp3(wp);
@@ -1136,8 +1145,8 @@ void
     assert(!(wp < wp2 || wp2 < wp));
     assert(!(wp < wp2 && wp2 < wp));
 
-    bool b1 __attribute__((unused)) = wp < wp2;
-    bool b2 __attribute__((unused)) = wp2 < wp;
+    bool b1  = wp < wp2;
+    bool b2  = wp2 < wp;
 
     {
       weak_ptr<X> wp3(wp);
@@ -1383,3 +1392,10 @@ shared_ptr<incomplete>
   shared_ptr<incomplete> px(new incomplete);
   return px;
 }
+
+#if defined __GNUC__ 
+  #pragma GCC diagnostic pop
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif

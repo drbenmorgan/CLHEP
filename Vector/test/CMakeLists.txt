@@ -1,5 +1,5 @@
 
-remove_definitions(-DNDEBUG)
+clhep_enable_asserts()
 
 set( Vector_tests testThreeVector 
                   testLorentzVector )

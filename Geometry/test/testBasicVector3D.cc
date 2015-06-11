@@ -38,7 +38,7 @@ using namespace HepGeom;
                                                                   \
   /* Check conversion to array */                                 \
   const point p05(1,2,3);                                         \
-  const type * a __attribute__((unused)) = p05;                                           \
+  const type * a  = p05;                                           \
   assert(a[0] == 1 && a[1] == 2 && a[2] == 3);                    \
   point p06(4,5,6);                                               \
   a = p06;                                                        \

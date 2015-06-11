@@ -19,6 +19,14 @@
 #include <map>
 #include <vector>
 
+#if defined __GNUC__ 
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
 
 using namespace CLHEP;
 using CLHEP::shared_ptr;
@@ -377,7 +385,7 @@ void
 }
 
 void
-  deleter2(int * p __attribute__((unused)))
+  deleter2(int * p )
 {
   assert(p == &m);
   ++*p;
@@ -386,7 +394,7 @@ void
 // don't generate warnings about unused parameter inside assert
 struct deleter3
 {
-  void operator()(incomplete * p __attribute__((unused)))
+  void operator()(incomplete * p )
   {
     assert(p == 0);
   }
@@ -962,7 +970,7 @@ void
 // don't generate warnings about unused variable q
   {
     std::auto_ptr<int> p(new int(7));
-    int * q __attribute__((unused))= p.get();
+    int * q = p.get();
     shared_ptr<int> pi(p);
     assert(pi? true: false);
     assert(!!pi);
@@ -976,7 +984,7 @@ void
 
   {
     std::auto_ptr<int> p(new int(7));
-    int * q __attribute__((unused))= p.get();
+    int * q = p.get();
     shared_ptr<int const> pi(p);
     assert(pi? true: false);
     assert(!!pi);
@@ -990,7 +998,7 @@ void
 
   {
     std::auto_ptr<int> p(new int(7));
-    int * q __attribute__((unused))= p.get();
+    int * q = p.get();
     shared_ptr<void> pv(p);
     assert(pv? true: false);
     assert(!!pv);
@@ -1003,7 +1011,7 @@ void
 
   {
     std::auto_ptr<int> p(new int(7));
-    int * q __attribute__((unused))= p.get();
+    int * q = p.get();
     shared_ptr<void const> pv(p);
     assert(pv? true: false);
     assert(!!pv);
@@ -1018,7 +1026,7 @@ void
 
   {
     std::auto_ptr<X> p(new X);
-    X * q __attribute__((unused)) = p.get();
+    X * q  = p.get();
     shared_ptr<X> px(p);
     assert(px? true: false);
     assert(!!px);
@@ -1034,7 +1042,7 @@ void
 
   {
     std::auto_ptr<X> p(new X);
-    X * q __attribute__((unused)) = p.get();
+    X * q  = p.get();
     shared_ptr<X const> px(p);
     assert(px? true: false);
     assert(!!px);
@@ -1050,7 +1058,7 @@ void
 
   {
     std::auto_ptr<X> p(new X);
-    X * q __attribute__((unused)) = p.get();
+    X * q  = p.get();
     shared_ptr<void> pv(p);
     assert(pv? true: false);
     assert(!!pv);
@@ -1066,7 +1074,7 @@ void
 
   {
     std::auto_ptr<X> p(new X);
-    X * q __attribute__((unused)) = p.get();
+    X * q  = p.get();
     shared_ptr<void const> pv(p);
     assert(pv? true: false);
     assert(!!pv);
@@ -1083,7 +1091,7 @@ void
 
   {
     std::auto_ptr<Y> p(new Y);
-    Y * q __attribute__((unused)) = p.get();
+    Y * q  = p.get();
     shared_ptr<X> px(p);
     assert(px? true: false);
     assert(!!px);
@@ -1101,7 +1109,7 @@ void
 
   {
     std::auto_ptr<Y> p(new Y);
-    Y * q __attribute__((unused)) = p.get();
+    Y * q  = p.get();
     shared_ptr<X const> px(p);
     assert(px? true: false);
     assert(!!px);
@@ -3383,3 +3391,10 @@ shared_ptr<X> createX()
 }
 
 } // namespace n_spt_abstract
+
+#if defined __GNUC__ 
+  #pragma GCC diagnostic pop
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif

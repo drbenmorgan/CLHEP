@@ -9,6 +9,17 @@
 //
 // ======================================================================
 
+// don't generate unnecessary warnings
+#if defined __GNUC__ 
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wdelete-non-virtual-dtor"
+  #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wdelete-non-virtual-dtor"
+  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
 
 #include "CLHEP/Utility/defs.h"
 
@@ -1354,6 +1365,13 @@ template< typename P, typename R >
 // ----------------------------------------------------------------------
 
 }  // namespace CLHEP
+
+#if defined __GNUC__ 
+  #pragma GCC diagnostic pop
+#endif 
+#ifdef __clang__
+  #pragma clang diagnostic pop
+#endif
 
 
 #endif  // CLHEP_TYPE_TRAITS_H
