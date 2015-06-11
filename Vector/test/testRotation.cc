@@ -10,7 +10,7 @@
 #include "CLHEP/Units/GlobalPhysicalConstants.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Vector/ThreeVector.h"
-#include <assert.h>
+#include <cassert>
 #include <cmath>
 #include <stdlib.h>
 
@@ -25,9 +25,9 @@ typedef Hep3Vector  Vector;
 int main() {
   int i,k;  
   double angA=CLHEP::pi/3, angB=CLHEP::pi/4, angC=CLHEP::pi/6; 
-  double cosA __attribute__((unused))=std::cos(angA), sinA __attribute__((unused))=std::sin(angA);
-  double cosB __attribute__((unused))=std::cos(angB), sinB __attribute__((unused))=std::sin(angB);
-  double cosC __attribute__((unused))=std::cos(angC), sinC __attribute__((unused))=std::sin(angC);
+  double cosA =std::cos(angA), sinA =std::sin(angA);
+  double cosB =std::cos(angB), sinB =std::sin(angB);
+  double cosC =std::cos(angC), sinC =std::sin(angC);
 
   Rotation R;                   // default constructor
   assert ( R.xx() == 1 );

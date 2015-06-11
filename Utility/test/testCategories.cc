@@ -387,12 +387,12 @@ int
   assert(evaluate<char    const          >() == cat_int);
   assert(evaluate<char          volatile >() == cat_int);
   assert(evaluate<char    const volatile >() == cat_int);
-  typedef  signed char  schar __attribute__((unused));
+  typedef  signed char  schar ;
   assert(evaluate<schar                  >() == cat_int);
   assert(evaluate<schar   const          >() == cat_int);
   assert(evaluate<schar         volatile >() == cat_int);
   assert(evaluate<schar   const volatile >() == cat_int);
-  typedef  unsigned char  uchar __attribute__((unused));
+  typedef  unsigned char  uchar ;
   assert(evaluate<uchar                  >() == cat_int);
   assert(evaluate<uchar   const          >() == cat_int);
   assert(evaluate<uchar         volatile >() == cat_int);
@@ -401,7 +401,7 @@ int
   assert(evaluate<short   const          >() == cat_int);
   assert(evaluate<short         volatile >() == cat_int);
   assert(evaluate<short   const volatile >() == cat_int);
-  typedef  unsigned short  ushort_local __attribute__((unused));
+  typedef  unsigned short  ushort_local ;
   assert(evaluate<ushort_local                 >() == cat_int);
   assert(evaluate<ushort_local  const          >() == cat_int);
   assert(evaluate<ushort_local        volatile >() == cat_int);
@@ -410,7 +410,7 @@ int
   assert(evaluate<int     const          >() == cat_int);
   assert(evaluate<int           volatile >() == cat_int);
   assert(evaluate<int     const volatile >() == cat_int);
-  typedef  unsigned int  uint_local __attribute__((unused));
+  typedef  unsigned int  uint_local ;
   assert(evaluate<uint_local                   >() == cat_int);
   assert(evaluate<uint_local    const          >() == cat_int);
   assert(evaluate<uint_local          volatile >() == cat_int);
@@ -419,7 +419,7 @@ int
   assert(evaluate<long    const          >() == cat_int);
   assert(evaluate<long          volatile >() == cat_int);
   assert(evaluate<long    const volatile >() == cat_int);
-  typedef  unsigned long  ulong_local __attribute__((unused));
+  typedef  unsigned long  ulong_local ;
   assert(evaluate<ulong_local                  >() == cat_int);
   assert(evaluate<ulong_local   const          >() == cat_int);
   assert(evaluate<ulong_local         volatile >() == cat_int);
@@ -434,7 +434,7 @@ int
   assert(evaluate<double  const          >() == cat_flt);
   assert(evaluate<double        volatile >() == cat_flt);
   assert(evaluate<double  const volatile >() == cat_flt);
-  typedef  long double  ldouble __attribute__((unused));
+  typedef  long double  ldouble ;
   assert(evaluate<ldouble                >() == cat_flt);
   assert(evaluate<ldouble const          >() == cat_flt);
   assert(evaluate<ldouble       volatile >() == cat_flt);

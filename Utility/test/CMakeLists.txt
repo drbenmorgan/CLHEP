@@ -1,5 +1,6 @@
 
-remove_definitions(-DNDEBUG)
+
+clhep_enable_asserts()
 
 set( Utility_simple_tests testNoncopyable
 			  testPrimaryTraits

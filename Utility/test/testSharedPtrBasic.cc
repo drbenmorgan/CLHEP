@@ -245,8 +245,8 @@ int main()
 
     weak_ptr<X> wp5;
 
-    bool b1 __attribute__((unused)) = wp1 < wp5;
-    bool b2 __attribute__((unused)) = wp5 < wp1;
+    bool b1  = wp1 < wp5;
+    bool b2  = wp5 < wp1;
 
     p5.reset();
 

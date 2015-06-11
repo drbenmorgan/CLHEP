@@ -1018,8 +1018,8 @@ void
     assert(wp < wp2 || wp2 < wp);
     assert(!(wp < wp2 && wp2 < wp));
 
-    bool b1 __attribute__((unused)) = wp < wp2;
-    bool b2 __attribute__((unused)) = wp2 < wp;
+    bool b1  = wp < wp2;
+    bool b2  = wp2 < wp;
 
     {
       weak_ptr<X> wp3(wp);
@@ -1067,8 +1067,8 @@ void
     assert(wp < wp2 || wp2 < wp);
     assert(!(wp < wp2 && wp2 < wp));
 
-    bool b1 __attribute__((unused)) = wp < wp2;
-    bool b2 __attribute__((unused)) = wp2 < wp;
+    bool b1  = wp < wp2;
+    bool b2  = wp2 < wp;
 
     {
       weak_ptr<X> wp3(wp);
@@ -1136,8 +1136,8 @@ void
     assert(!(wp < wp2 || wp2 < wp));
     assert(!(wp < wp2 && wp2 < wp));
 
-    bool b1 __attribute__((unused)) = wp < wp2;
-    bool b2 __attribute__((unused)) = wp2 < wp;
+    bool b1  = wp < wp2;
+    bool b2  = wp2 < wp;
 
     {
       weak_ptr<X> wp3(wp);
