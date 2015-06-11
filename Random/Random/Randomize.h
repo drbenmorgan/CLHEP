@@ -61,14 +61,8 @@
 #include "CLHEP/Random/RandStudentT.h"
 
 #if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunused-variable"
-  #endif
-  #if __GNUC__ > 4 
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunused-variable"
-  #endif
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif 
 #ifdef __clang__
   #pragma clang diagnostic push
@@ -86,12 +80,7 @@ static const int HepRandomGenActive = HepRandom::createInstance();
 
 }  // namespace CLHEP
 #if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic pop
-  #endif
-  #if __GNUC__ > 4 
-    #pragma GCC diagnostic pop
-  #endif
+  #pragma GCC diagnostic pop
 #endif
 #ifdef __clang__
   #pragma clang diagnostic pop
