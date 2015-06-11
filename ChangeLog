@@ -5,8 +5,8 @@
   * protect against warnings in Utility/memory.h
   *  __attribute__((unused)) is not recognized by Visual C++
   * Make sure asserts are enabled for tests by removing -DNDEBUG
-    from the compiler flags
-    This solves the unused variable problem.
+    from the compiler flags when building the tests.  This solves 
+    the unused variable problem.
 
 ==============================
 27.05.15 Release CLHEP-2.2.0.6
