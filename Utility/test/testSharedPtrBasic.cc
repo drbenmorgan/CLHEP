@@ -18,11 +18,10 @@
 
 #include <cassert>
 
-#if defined __GNUC__ 
+#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 6)
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif 
-#ifdef __clang__
+#elif __clang__
   #pragma clang diagnostic push
   #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #endif
@@ -281,9 +280,8 @@ int main()
 
 }  // main()
 
-#if defined __GNUC__ 
+#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 6)
   #pragma GCC diagnostic pop
-#endif 
-#ifdef __clang__
+#elif __clang__
   #pragma clang diagnostic pop
 #endif

@@ -58,6 +58,15 @@ double RandGauss::operator()( double mean, double stdDev ) {
   return fire( mean, stdDev );
 }
 
+// implement static methods dealing with static data here 
+bool RandGauss::getFlag() {return set_st;}
+
+void RandGauss::setFlag( bool val ) {set_st = val;}
+
+double RandGauss::getVal() {return nextGauss_st;}
+
+void RandGauss::setVal( double nextVal ) {nextGauss_st = nextVal;}
+
 double RandGauss::shoot()
 {
   // Gaussian random numbers are generated two at the time, so every other
