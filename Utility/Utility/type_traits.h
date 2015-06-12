@@ -10,12 +10,11 @@
 // ======================================================================
 
 // don't generate unnecessary warnings
-#if defined __GNUC__ 
+#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 6)
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wdelete-non-virtual-dtor"
   #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif 
-#ifdef __clang__
+#elif __clang__
   #pragma clang diagnostic push
   #pragma clang diagnostic ignored "-Wdelete-non-virtual-dtor"
   #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -1366,12 +1365,12 @@ template< typename P, typename R >
 
 }  // namespace CLHEP
 
-#if defined __GNUC__ 
+#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 6)
   #pragma GCC diagnostic pop
-#endif 
-#ifdef __clang__
+#elif __clang__
   #pragma clang diagnostic pop
 #endif
+
 
 
 #endif  // CLHEP_TYPE_TRAITS_H
