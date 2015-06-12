@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 AC_PREREQ(2.59)
-AC_INIT(CLHEP Matrix, 2.2.0.7, http://savannah.cern.ch/projects/clhep/, Matrix)
+AC_INIT(CLHEP Matrix, 2.2.0.8, http://savannah.cern.ch/projects/clhep/, Matrix)
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/DiagMatrix.cc])
