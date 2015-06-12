@@ -1,8 +1,18 @@
 
+2015-06-12 Lynn Garren <garren@fnal.gov> 
+
+  * Random/Random/RandGauss.h, Random/src/RandGauss.cc:
+    implement static methods dealing with static data
+    in RandGauss.cc instead of in RandGauss.h
+  * protect against warnings in Utility/memory.h and Utility/type_traits.h
+
+==============================
+27.06.11 Release CLHEP-2.2.0.7
+==============================
+
 2015-06-10 Lynn Garren <garren@fnal.gov> 
 
-  * do not add -Wno-deprecated-declarations when building for c++NN
-  * protect against warnings in Utility/memory.h
+  * do not use -Wno-deprecated-declarations when building for c++NN
   *  __attribute__((unused)) is not recognized by Visual C++
   * Make sure asserts are enabled for tests by removing -DNDEBUG
     from the compiler flags when building the tests.  This solves 
