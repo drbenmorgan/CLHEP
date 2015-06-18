@@ -1,6 +1,10 @@
 ==============================
-12.06.15 Release CLHEP-2.2.0.8
+18.06.15 Release CLHEP-2.2.0.8
 ==============================
+
+2015-06-18 Lynn Garren <garren@fnal.gov> 
+
+  * Random/Random/Randomize.h: use __attribute__((unused)) for gcc
 
 2015-06-12 Lynn Garren <garren@fnal.gov> 
 

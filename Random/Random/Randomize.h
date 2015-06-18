@@ -59,14 +59,6 @@
 #include "CLHEP/Random/RandPoissonT.h"
 #include "CLHEP/Random/RandSkewNormal.h"
 #include "CLHEP/Random/RandStudentT.h"
-
-#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 6)
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wunused-variable"
-#elif __clang__
-  #pragma clang diagnostic push
-  #pragma clang diagnostic ignored "-Wunused-variable"
-#endif
 namespace CLHEP {
 
 #define HepUniformRand() HepRandom::getTheEngine()->flat()
@@ -74,16 +66,13 @@ namespace CLHEP {
 // On some compilers the static instance of the HepRandom generator
 // needs to be created explicitly in the client code (i.e. here).
 
+#if __GNUC__
+static const int HepRandomGenActive __attribute__((unused)) = HepRandom::createInstance();
+#else
 static const int HepRandomGenActive = HepRandom::createInstance();
-
+#endif
 
 }  // namespace CLHEP
-
-#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 6)
-  #pragma GCC diagnostic pop
-#elif __clang__
-  #pragma clang diagnostic pop
-#endif
 
 #ifdef ENABLE_BACKWARDS_COMPATIBILITY
 //  backwards compatibility will be enabled ONLY in CLHEP 1.9
