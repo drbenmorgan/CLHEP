@@ -41,6 +41,9 @@ make install
 -DCMAKE_CXX_COMPILER=...
 -DCMAKE_CXX_FLAGS="list_of_flags"
 
+-DCLHEP_BUILD_CXXSTD=ON (enable c++11 extensions and thread support)
+-DCLHEP_BUILD_CXXSTD="-std=c++NN" (use specified c++ extension and thread support)
+
 -DLIB_SUFFIX=64 (installs the libraries in a lib64 subdirectory)
 
 IMPORTANT:
@@ -57,20 +60,18 @@ Documents will then be built during the normal build.
 You will need to have latex in your path.
 
 #-------------------------------------------------------------
-# building from svn
+# building from git
 #-------------------------------------------------------------
 
-To work with a tagged branch:
-svn co svn+ssh://svn.cern.ch/reps/clhep/tags/CLHEP_2_1_2_2
-
 To work with the head:
-svn co svn+ssh://svn.cern.ch/reps/clhep/trunk CLHEP 
+git clone http://git.cern.ch/pub/CLHEP
 
-You may also download directly from the online browser
-http://svnweb.cern.ch/world/wsvn/clhep/
+To work with a tag:
+git clone http://git.cern.ch/pub/CLHEP
+Use "git tag" to see the available tags.
+git co <tag>
 
 Now continue with directions as if you unpacked a source code tarball.
-
 
 #-------------------------------------------------------------
 # building cmake
