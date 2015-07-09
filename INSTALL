@@ -4,7 +4,7 @@
 
 Cmake is now the only build option.
 
-Please see either INSTALL.cmake for directions.
+Please see INSTALL.cmake for directions.
 
 #-------------------------------------------------------------
 # about linking
