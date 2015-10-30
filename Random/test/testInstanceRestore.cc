@@ -349,6 +349,7 @@ int main() {
   stat |= checkEngineName<Hurd160Engine >("Hurd160Engine");
   stat |= checkEngineName<Hurd288Engine >("Hurd288Engine");
   stat |= checkEngineName<HepJamesRandom>("HepJamesRandom");
+  stat |= checkEngineName<MixMaxRng     >("MixMaxRng");
   stat |= checkEngineName<MTwistEngine  >("MTwistEngine");
   stat |= checkEngineName<RandEngine    >("RandEngine");
   stat |= checkEngineName<RanecuEngine  >("RanecuEngine");
@@ -369,6 +370,7 @@ int main() {
   {Hurd160Engine e(234);    stat |= checkEngineInstanceSave(e);}
   {Hurd288Engine e(234);    stat |= checkEngineInstanceSave(e);}
   {HepJamesRandom e(234);   stat |= checkEngineInstanceSave(e);}
+  {MixMaxRng e(234);        stat |= checkEngineInstanceSave(e);}
   {MTwistEngine e(234);     stat |= checkEngineInstanceSave(e);}
   {RandEngine e(234);	    stat |= checkEngineInstanceSave(e);}
   {RanecuEngine e(234);     stat |= checkEngineInstanceSave(e);}
@@ -386,6 +388,7 @@ int main() {
   stat |= checkDistributions<Hurd160Engine>();
   stat |= checkDistributions<Hurd288Engine>();
   stat |= checkDistributions<HepJamesRandom>();
+  stat |= checkDistributions<MixMaxRng>();
   stat |= checkDistributions<MTwistEngine>();
   stat |= checkDistributions<Ranlux64Engine>();
   stat |= checkDistributions<RanluxEngine>();

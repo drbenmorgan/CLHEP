@@ -31,6 +31,7 @@
 #include "CLHEP/Random/Hurd160Engine.h"
 #include "CLHEP/Random/Hurd288Engine.h"
 #include "CLHEP/Random/JamesRandom.h"
+#include "CLHEP/Random/MixMaxRng.h"
 #include "CLHEP/Random/MTwistEngine.h"
 #include "CLHEP/Random/RandEngine.h"
 #include "CLHEP/Random/RanecuEngine.h"

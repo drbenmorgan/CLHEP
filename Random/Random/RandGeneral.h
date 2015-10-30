@@ -129,7 +129,7 @@ public:
 
 private:
 
-  shared_ptr<HepRandomEngine> localEngine;
+  std::shared_ptr<HepRandomEngine> localEngine;
   std::vector<double> theIntegralPdf;
   int nBins;
   double oneOverNbins;

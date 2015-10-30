@@ -319,6 +319,7 @@ int main() {
   stat |= anonymousRestore<Hurd160Engine>(15);
   stat |= anonymousRestore<Hurd288Engine>(16);
   stat |= anonymousRestore<HepJamesRandom>(17);
+  stat |= anonymousRestore<MixMaxRng>(49);
   stat |= anonymousRestore<MTwistEngine>(18);
   stat |= anonymousRestore<RandEngine>(29);
   stat |= anonymousRestore<RanecuEngine>(39);
@@ -349,6 +350,7 @@ int main() {
   stat |= anonymousRestoreStatics<HepJamesRandom, Ranlux64Engine> ( ); 
   stat |= anonymousRestoreStatics<TripleRand,     TripleRand>     ( );
   stat |= anonymousRestoreStatics<HepJamesRandom, HepJamesRandom> ( );
+  stat |= anonymousRestoreStatics<MixMaxRng,      MixMaxRng>      ( );
 #endif
 
 

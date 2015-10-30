@@ -108,7 +108,7 @@ protected:
 
 private:
 
-  shared_ptr<HepRandomEngine> localEngine;
+  std::shared_ptr<HepRandomEngine> localEngine;
 
 };
 

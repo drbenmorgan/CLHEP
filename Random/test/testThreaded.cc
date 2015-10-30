@@ -2,6 +2,7 @@
 #include "CLHEP/Random/Hurd160Engine.h"
 #include "CLHEP/Random/Hurd288Engine.h"
 #include "CLHEP/Random/JamesRandom.h"
+#include "CLHEP/Random/MixMaxRng.h"
 #include "CLHEP/Random/MTwistEngine.h"
 #include "CLHEP/Random/RandEngine.h"
 #include "CLHEP/Random/RanecuEngine.h"
@@ -215,6 +216,17 @@ int main() {
        std::fabs(engine4.flat() - 0.846736) > epsilon ||
        std::fabs(engine5.flat() - 0.608056) > epsilon) {
       output << "Error, default seeds changed for HepJamesRandom random engine.\n";
+      return 1;
+    }
+  }
+  {
+    CLHEP::MixMaxRng engine1;
+    CLHEP::MixMaxRng engine2;
+    CLHEP::MixMaxRng engine3;
+    if(std::fabs(engine1.flat() - 0.925809) > epsilon ||
+       std::fabs(engine2.flat() - 0.918272) > epsilon ||
+       std::fabs(engine3.flat() - 0.0354222) > epsilon) {
+      output << "Error, default seeds changed for MixMaxRng random engine.\n";
       return 1;
     }
   }
