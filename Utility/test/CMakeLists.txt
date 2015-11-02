@@ -3,10 +3,6 @@
 clhep_enable_asserts()
 
 set( Utility_simple_tests testNoncopyable
-			  testPrimaryTraits
-			  testCategories
-			  testIsSame
-			  testIsConvertible
 			  testSharedPtrConvertible )
 
 foreach ( test ${Utility_simple_tests} )
