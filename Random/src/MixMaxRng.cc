@@ -155,10 +155,9 @@ void MixMaxRng::setSeeds(const long* Seeds, int seedNum)
 {
    unsigned long seed0, seed1= 0, seed2= 0, seed3= 0;
 
-   if( seedNum < 1 ) {
-       std::cerr << "MixMaxRng:setSeeds - ERROR: no seeds provided: seedNum= "
-                 << seedNum << std::endl;
-       return;
+   if( seedNum < 1 ) {  // Assuming at least 2 seeds in vector...
+       seed0= static_cast<unsigned long>(Seeds[0]) & MASK32;
+       seed1= static_cast<unsigned long>(Seeds[1]) & MASK32;
    } 
    else
    {
