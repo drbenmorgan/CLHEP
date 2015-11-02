@@ -184,8 +184,8 @@ rng_state_t*  rng_copy(myuint *Y)
 
 void seed_vielbein(rng_state_t* X, unsigned int index)	
 {
-int i;
-	if (index<N){
+        int i;
+	if ((int)index<N){
 		for (i=0; i < N; i++){
 			X->V[i] = 0;
 		}
@@ -315,7 +315,7 @@ void read_state(rng_state_t* X, const char filename[] ){
     
     unsigned int counter;
     if (!fscanf( fin, "}; counter=%u; ", &counter)){fprintf(stderr, "mixmax -> read_state: error reading counter from file %s\n", filename); exit(ERROR_READING_STATE_FILE);}
-    if( counter <= N ) {
+    if( (int)counter <= N ) {
         X->counter= counter;
     }else{
         fprintf(stderr, "mixmax -> read_state: Invalid counter = %d"
