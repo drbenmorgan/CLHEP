@@ -1,6 +1,16 @@
+
+2015-10-30 Lynn Garren <garren@fnal.gov> 
+
+  * A compiler which supports at least -std=c++11 is now required.
+    Older compilers are no longer supported.
+    In the case of gcc, gcc 4.8.1 or later is required.
+
 ==============================
 09.07.15 Release CLHEP-2.3.0.0
 ==============================
+
+  * cmake is now the only build option
+
 ==============================
 18.06.15 Release CLHEP-2.2.0.8
 ==============================
