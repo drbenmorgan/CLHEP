@@ -1,3 +1,27 @@
+
+2015-10-30 Lynn Garren <garren@fnal.gov> 
+
+  * A compiler which supports at least -std=c++11 is now required.
+    Older compilers are no longer supported.
+    In the case of gcc, gcc 4.8.1 or later is required.
+
+2015-10-05 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+  * Utility/Utility/memory.h is now a simple wrapper.
+    Typedef-ed shared_ptr and unique_ptr to standard types.
+  * Utility: Remove no longer necessary Utility/type_traits.h.
+  * Units/Units/SystemOfUnits.h: add liter and its sub-units.
+  * Random: use std::shared_ptr instead of CLHEP::shared_ptr
+  * Random/RandExpZiggurat: use std::shared_ptr instead of bare pointer
+  * Random: Added MixMax random engine classes to the Random module, implementing the
+    “Matrix Generator of Pseudorandom Numbers", as described in J. Compt. Phy. 97, 573 (1991).
+
+==============================
+09.07.15 Release CLHEP-2.3.0.0
+==============================
+
+  * cmake is now the only build option
+
 ==============================
 18.06.15 Release CLHEP-2.2.0.8
 ==============================

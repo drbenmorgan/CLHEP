@@ -309,6 +309,7 @@ int missingFile() {
   stat |= fileNotThereEngine<Hurd160Engine>();
   stat |= fileNotThereEngine<Hurd288Engine>();
   stat |= fileNotThereEngine<HepJamesRandom>();
+  stat |= fileNotThereEngine<MixMaxRng>();
   stat |= fileNotThereEngine<MTwistEngine>();
   stat |= fileNotThereEngine<RandEngine>();
   stat |= fileNotThereEngine<RanecuEngine>();
@@ -430,6 +431,7 @@ int main() {
   stat |= saveEngine<Hurd160Engine, RandPoisson>("Hurd160Engine.oldsav");
   stat |= saveEngine<Hurd288Engine, RandPoisson>("Hurd288Engine.oldsav");
   stat |= saveEngine<HepJamesRandom,RandPoisson>("HepJamesRandom.oldsav");
+  stat |= saveEngine<MixMaxRng,     RandPoisson>("MixMaxRng.oldsav");
   stat |= saveEngine<MTwistEngine,  RandPoisson>("MTwistEngine.oldsav");
   stat |= saveEngine<RanecuEngine,  RandPoisson>("RanecuEngine.oldsav");
   stat |= saveEngine<Ranlux64Engine,RandPoisson>("Ranlux64Engine.oldsav");
@@ -450,6 +452,7 @@ int main() {
   stat |= checkSaveEngine<Hurd160Engine, RandPoisson>("Hurd160Engine.oldsav");
   stat |= checkSaveEngine<Hurd288Engine, RandPoisson>("Hurd288Engine.oldsav");
   stat |= checkSaveEngine<HepJamesRandom,RandPoisson>("HepJamesRandom.oldsav");
+  stat |= checkSaveEngine<MixMaxRng,     RandPoisson>("MixMaxRng.oldsav");
   stat |= checkSaveEngine<MTwistEngine,  RandPoisson>("MTwistEngine.oldsav");
   stat |= checkSaveEngine<Ranlux64Engine,RandPoisson>("Ranlux64Engine.oldsav");
   stat |= checkSaveEngine<RanluxEngine,  RandPoisson>("RanluxEngine.oldsav");

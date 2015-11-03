@@ -1,3 +1,11 @@
+
+2015-10-05 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+  * Units/SystemOfUnits.h: add liter and its sub-units.
+
+==============================
+09.07.15 Release CLHEP-2.3.0.0
+==============================
 ==============================
 12.06.15 Release CLHEP-2.2.0.8
 ==============================

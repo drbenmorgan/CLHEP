@@ -19,6 +19,7 @@ Ranlux64Engine theRanlux64Engine;
 RanecuEngine theRanecuEngine;
 Hurd160Engine theHurd160Engine;
 Hurd288Engine theHurd288Engine;
+MixMaxRng theMixMaxEngine;
 MTwistEngine theMTwistEngine;
 RanshiEngine theRanshiEngine;
 DualRand theDualRandEngine;
@@ -41,6 +42,7 @@ void init()
    cout << "   > Ranecu" << endl;
    cout << "   > Hurd160" << endl;
    cout << "   > Hurd288" << endl;
+   cout << "   > MixMax" << endl;
    cout << "   > MTwist" << endl;
    cout << "   > Ranshi" << endl;
    cout << "   > DualRand" << endl;
@@ -100,12 +102,14 @@ void dist_layout()
    Ranlux64Engine aRanlux64Engine;
    RanecuEngine aRanecuEngine;
    Hurd288Engine aHurd288Engine;
+   MixMaxRng aMixMaxEngine;
    MTwistEngine aMTwistEngine;
    RanshiEngine aRanshiEngine;
    TripleRand aTripleRandEngine;
 
    RandFlat aFlatObj(aJamesEngine);
    RandExponential anExponentialObj(aRandEngine);
+   RandExpZiggurat anExpZigguratObj(aMixMaxEngine);
    RandGauss aGaussObj(aDRand48Engine);
    RandBreitWigner aBreitObj(aRanluxEngine);
    RandPoisson aPoissonObj(aRanecuEngine);
@@ -124,6 +128,8 @@ void dist_layout()
    cout << " Flat ]-5,3[         : " << aFlatObj.fire(-5,3) << endl;
    cout << " Exp (m=1)           : " << anExponentialObj.fire() << endl;
    cout << " Exp (m=3)           : " << anExponentialObj.fire(3) << endl;
+   cout << " ExpZig (m=1)        : " << anExpZigguratObj.fire() << endl;
+   cout << " ExpZig (m=3)        : " << anExpZigguratObj.fire(3) << endl;
    cout << " Gauss (m=1)         : " << aGaussObj.fire() << endl;
    cout << " Gauss (m=3,v=1)     : " << aGaussObj.fire(3,1) << endl;
    cout << " Wigner(1,0.2)       : " << aBreitObj.fire(1,0.2) << endl;
@@ -174,13 +180,14 @@ void user_layout()
    cout << "   i. MTwist" << endl;
    cout << "   j. Ranshi" << endl;
    cout << "   k. DualRand" << endl;
-   cout << "   l. TripleRand" << endl << endl;
+   cout << "   l. TripleRand" << endl;
+   cout << "   m. MixMax" << endl << endl;
    cout << " > ";
    cin >> sel;
    while ((sel!='a')&&(sel!='b')&&(sel!='c')&&(sel!='d')&&(sel!='e')&&
           (sel!='f')&&(sel!='g')&&(sel!='h')&&(sel!='i')&&(sel!='j')&&
-          (sel!='k')&&(sel!='l')) {
-     cout << endl << " >>> Choice not legal !!  [a..l]<<<" << endl;
+          (sel!='k')&&(sel!='l')&&(sel!='m')) {
+     cout << endl << " >>> Choice not legal !!  [a..m]<<<" << endl;
      cin >> sel;
    }
 
@@ -220,6 +227,9 @@ void user_layout()
        break;
      case 'l':
        anEngine = &theTripleRandEngine;
+       break;
+     case 'm':
+       anEngine = &theMixMaxEngine;
        break;
      default:
        anEngine = &theJamesEngine;
@@ -310,6 +320,13 @@ void start_test()
    cout << "-------------------------  Test on Hurd288Engine ------------------------------" << endl;
    cout << endl;
    HepRandom::setTheEngine(&theHurd288Engine);
+   layout();
+   cout << "                   -----  Press <ENTER> to continue  -----";
+   if ( cin.get() != '\n') exit(0);
+   cout << endl;
+   cout << "--------------------------  Test on MixMaxEngine ------------------------------" << endl;
+   cout << endl;
+   HepRandom::setTheEngine(&theMixMaxEngine);
    layout();
    cout << "                   -----  Press <ENTER> to continue  -----";
    if ( cin.get() != '\n') exit(0);

@@ -2,16 +2,9 @@
 #  building CLHEP
 #-------------------------------------------------------------
 
-You may build CLHEP as a complete package, starting from this 
-top level directory, or you may build any package separately.
+Cmake is now the only build option.
 
-Cmake is now the preferred build option.
-Building with autotools and configure is deprecated.
-Although it may be possible to build with autotools, 
-we strongly recommend building with cmake. 
-You MUST use cmake when building with clang and other exotic compilers.
-
-Please see either INSTALL.cmake or INSTALL.autotools for directions.
+Please see INSTALL.cmake for directions.
 
 #-------------------------------------------------------------
 # about linking

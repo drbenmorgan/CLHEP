@@ -299,6 +299,7 @@ int missingFile() {
   stat |= fileNotThereEngine<Hurd160Engine>();
   stat |= fileNotThereEngine<Hurd288Engine>();
   stat |= fileNotThereEngine<HepJamesRandom>();
+  stat |= fileNotThereEngine<MixMaxRng>();
   stat |= fileNotThereEngine<MTwistEngine>();
   stat |= fileNotThereEngine<RandEngine>();
   stat |= fileNotThereEngine<RanecuEngine>();
@@ -1285,6 +1286,7 @@ int main() {
   stat |= saveEngine<Hurd160Engine, RandPoisson>("Hurd160Engine.oldsav");
   stat |= saveEngine<Hurd288Engine, RandPoisson>("Hurd288Engine.oldsav");
   stat |= saveEngine<HepJamesRandom,RandPoisson>("HepJamesRandom.oldsav");
+  stat |= saveEngine<MixMaxRng,     RandPoisson>("MixMaxRng.oldsav");
   stat |= saveEngine<MTwistEngine,  RandPoisson>("MTwistEngine.oldsav");
   stat |= saveEngine<RanecuEngine,  RandPoisson>("RanecuEngine.oldsav");
   stat |= saveEngine<Ranlux64Engine,RandPoisson>("Ranlux64Engine.oldsav");
@@ -1305,6 +1307,7 @@ int main() {
   stat |= checkSaveEngine<Hurd160Engine, RandPoisson>("Hurd160Engine.oldsav");
   stat |= checkSaveEngine<Hurd288Engine, RandPoisson>("Hurd288Engine.oldsav");
   stat |= checkSaveEngine<HepJamesRandom,RandPoisson>("HepJamesRandom.oldsav");
+  stat |= checkSaveEngine<MixMaxRng,     RandPoisson>("MixMaxRng.oldsav");
   stat |= checkSaveEngine<MTwistEngine,  RandPoisson>("MTwistEngine.oldsav");
   stat |= checkSaveEngine<Ranlux64Engine,RandPoisson>("Ranlux64Engine.oldsav");
   stat |= checkSaveEngine<RanluxEngine,  RandPoisson>("RanluxEngine.oldsav");
@@ -1324,6 +1327,7 @@ int main() {
   stat |= checkEngineName<Hurd160Engine >("Hurd160Engine");
   stat |= checkEngineName<Hurd288Engine >("Hurd288Engine");
   stat |= checkEngineName<HepJamesRandom>("HepJamesRandom");
+  stat |= checkEngineName<MixMaxRng     >("MixMaxRng");
   stat |= checkEngineName<MTwistEngine  >("MTwistEngine");
   stat |= checkEngineName<RandEngine    >("RandEngine");
   stat |= checkEngineName<RanecuEngine  >("RanecuEngine");
@@ -1344,6 +1348,7 @@ int main() {
   {Hurd160Engine e(234);	stat |= checkEngineInstanceSave(e);}
   {Hurd288Engine e(234);	stat |= checkEngineInstanceSave(e);}
   {HepJamesRandom e(234);	stat |= checkEngineInstanceSave(e);}
+  {MixMaxRng e(234);		stat |= checkEngineInstanceSave(e);}
   {MTwistEngine e(234);		stat |= checkEngineInstanceSave(e);}
   {RandEngine e(234);		stat |= checkEngineInstanceSave(e);}
   {RanecuEngine e(234);		stat |= checkEngineInstanceSave(e);}
@@ -1361,6 +1366,7 @@ int main() {
   stat |= checkDistributions<Hurd160Engine>();
   stat |= checkDistributions<Hurd288Engine>();
   stat |= checkDistributions<HepJamesRandom>();
+  stat |= checkDistributions<MixMaxRng>();
   stat |= checkDistributions<MTwistEngine>();
   stat |= checkDistributions<Ranlux64Engine>();
   stat |= checkDistributions<RanluxEngine>();
@@ -1380,6 +1386,7 @@ int main() {
   stat |= checkSharing<Hurd160Engine>();
   stat |= checkSharing<Hurd288Engine>();
   stat |= checkSharing<HepJamesRandom>();
+  stat |= checkSharing<MixMaxRng>();
   stat |= checkSharing<MTwistEngine>();
   stat |= checkSharing<Ranlux64Engine>();
   stat |= checkSharing<RanluxEngine>();
@@ -1454,6 +1461,7 @@ int main() {
   stat |= anonymousRestore<Hurd160Engine>(15);
   stat |= anonymousRestore<Hurd288Engine>(16);
   stat |= anonymousRestore<HepJamesRandom>(17);
+  stat |= anonymousRestore<MixMaxRng>(49);
   stat |= anonymousRestore<MTwistEngine>(18);
   stat |= anonymousRestore<RandEngine>(29);
   stat |= anonymousRestore<RanecuEngine>(39);
@@ -1484,6 +1492,7 @@ int main() {
   stat |= anonymousRestoreStatics<HepJamesRandom, Ranlux64Engine> ( ); 
   stat |= anonymousRestoreStatics<TripleRand,     TripleRand>     ( );
   stat |= anonymousRestoreStatics<HepJamesRandom, HepJamesRandom> ( );
+  stat |= anonymousRestoreStatics<MixMaxRng,      MixMaxRng>      ( );
 #endif
 
 #ifdef TEST_VECTOR_ENGINE_RESTORE
@@ -1497,6 +1506,7 @@ int main() {
   stat |= vectorRestore<Hurd160Engine>(115);
   stat |= vectorRestore<Hurd288Engine>(116);
   stat |= vectorRestore<HepJamesRandom>(117);
+  stat |= vectorRestore<MixMaxRng>(149);
   stat |= vectorRestore<MTwistEngine>(118);
   stat |= vectorRestore<RanecuEngine>(139);
   stat |= vectorRestore<Ranlux64Engine>(119);

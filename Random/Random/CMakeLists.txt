@@ -7,6 +7,7 @@ set( pkginclude_HEADERS DoubConv.hh
 			Hurd160Engine.h
 			Hurd288Engine.h
 			JamesRandom.h
+			MixMaxRng.h
 			MTwistEngine.h
 			NonRandomEngine.h
 			RandBinomial.h
@@ -59,7 +60,9 @@ set( pkginclude_HEADERS DoubConv.hh
 			SeedTable.h
 			Stat.h
 			StaticRandomStates.h
-			TripleRand.h )
+			TripleRand.h
+			mixmax.h
+			mixmax_skip_N256.icc )
 
 # notice that defs.h is not referenced here
 INSTALL (FILES ${pkginclude_HEADERS}  

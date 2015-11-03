@@ -1,3 +1,14 @@
+
+2015-10-05 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+  * use std::shared_ptr instead of CLHEP::shared_ptr
+  * RandExpZiggurat: use std::shared_ptr instead of bare pointer
+  * Added MixMax random engine classes to the Random module, implementing the
+    “Matrix Generator of Pseudorandom Numbers", as described in J. Compt. Phy. 97, 573 (1991).
+
+==============================
+09.07.15 Release CLHEP-2.3.0.0
+==============================
 ==============================
 12.06.15 Release CLHEP-2.2.0.8
 ==============================
