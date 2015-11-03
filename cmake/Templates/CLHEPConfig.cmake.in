@@ -4,38 +4,74 @@
 #  CLHEP_DEFINITIONS  - compile definitions needed to use CLHEP
 #  CLHEP_LIBRARIES    - libraries to link against
 #
-# CLHEP is built concurrently as a single library and as a set of component
-# libraries. At present, this config file is only designed to configure
-# the single main library in static or shared mode.
+# You may supply a version number through find_package which will be checked
+# against the version of this build. Standard CMake logic is used so that
+# the EXACT flag may be passed, and otherwise this build will report itself
+# as compatible with the requested version if:
 #
-# The following per-component variables are set:
+#  VERSION_OF_THIS_BUILD >= VERSION_REQUESTED
 #
-#  CLHEP_${COMPONENT}_FOUND    True if CLHEP library mode "component"
-#                              was found
+# CLHEP is built concurrently as a complete library and as a set of
+# component libraries. In each case, shared and static variants are
+# always built. By default, this module populates CLHEP_LIBRARIES with
+# the single,shared library. Thus
 #
-#  CLHEP_${COMPONENT}_LIBRARY  Contains the library for specified mode
-#                              "component"
+#  find_package(CLHEP)
 #
-# CLHEP current only supports two components: static and shared, which
-# represent the two possible library modes that the main CLHEP library
-# is built in.
+#  include_directories(${CLHEP_INCLUDE_DIRS})
+#  add_executable(MyProgram ...sources...)
+#  target_link_libraries(MyProgram ${CLHEP_LIBRARIES})
 #
-# You can call find_package with 'static' or 'shared' as component arguments 
-# to pick a particular library mode of CLHEP. For example
+# would link 'MyProgram' with the complete, shared CLHEP library
+#
+# By passing 'COMPONENT' arguments to find_package, you may select between
+# static, shared and component libraries. For example, to select linking
+# with the complete, static CLHEP library:
 #
 #  find_package(CLHEP REQUIRED static)
 #
-# will set CLHEP_LIBRARIES to the CLHEP static library.
+# This will populate CLHEP_LIBRARIES with the requested static variant.
+# To select CLHEP component libraries, pass their names as COMPONENT
+# arguments. For example:
 #
-# If you do not specify a shared or static component argument, shared
-# libraries will be selected by default.
+#  find_package(CLHEP REQUIRED Vector Matrix)
 #
+# would populate CLHEP_LIBRARIES with the shared variants of the Vector
+# and Matrix component libraries. Note that CMake will take care of
+# any dependencies between components at the linking stage, so you only
+# need to list those you wish to use directly. Static component libraries
+# may also be selected by using the same `static` component name, so that
+#
+#  find_package(CLHEP REQUIRED static Vector Matrix)
+#
+# would populate CLHEP_LIBRARIES with the shared variants of the Vector
+# and Matrix component libraries. Note that the order of component
+# arguments does not matter, so
+#
+#  find_package(CLHEP REQUIRED Vector static Matrix)
+#
+# would work just as well. Mixtures of static and shared components are
+# not allowed. The complete list of CLHEP component names which may be
+# passed is:
+#
+#  Vector             CLHEP Vector component library (SHARED)
+#  Evaluator          CLHEP Evaluator component library (SHARED)
+#  GenericFunctions   CLHEP GenericFunctions component library (SHARED)
+#  Geometry           CLHEP Geometry component library (SHARED)
+#  Random             CLHEP Random component library (SHARED)
+#  Matrix             CLHEP Matrix component library (SHARED)
+#  RandomObjects      CLHEP RandomObjects component library (SHARED)
+#  Cast               CLHEP Cast component library (SHARED)
+#  RefCount           CLHEP RefCount component library (SHARED)
+#  Exceptions         CLHEP Exceptions component library (SHARED)
+#
+
 # ===========================================================================
 # Variables used by this module which can change the default behaviour of
 # this module. They need to be set prior to the call to find_package
 #
 # CLHEP_CONFIG_DEBUG - If set, this will enable some output from this module
-#                      to help in debugging it behaviour
+#                      to help in debugging its behaviour
 #
 #----------------------------------------------------------------------------
 
@@ -86,28 +122,46 @@ set(CLHEP_DEFINITIONS @CLHEP_DEFINITIONS@)
 #
 include("${_thisdir}/CLHEPLibraryDepends.cmake")
 
-
-#----------------------------------------------------------------------------
-# Whilst the export file lists usable CMake targets, we also create
-# standard style _LIBRAR{Y|IES} so usage is transparent. This is also
-# useful later if we want to introduce component libraries.
-#
-set(CLHEP_shared_LIBRARY CLHEP)
-set(CLHEP_shared_FOUND 1)
-
-set(CLHEP_static_LIBRARY CLHEPS)
-set(CLHEP_static_FOUND 1)
-
-
+#----------------------------------------------------------------------
 # - Handle shared vs static - default to shared if user didn't specify
 #   This is actually very simple because we always build both!
-if(CLHEP_FIND_REQUIRED_shared)
-  set(CLHEP_LIBRARIES CLHEP)
-elseif(CLHEP_FIND_REQUIRED_static)
-  set(CLHEP_LIBRARIES CLHEPS)
-else()
-  set(CLHEP_LIBRARIES CLHEP)
-endif()  
+set(CLHEP_KNOWN_COMPONENTS "@CLHEP_libraries@")
 
+# Only allow single library variant to be used to populate CLHEP_LIBRARIES
+if(DEFINED CLHEP_FIND_REQUIRED_static AND NOT CLHEP_LIBRARIES)
+  list(REMOVE_ITEM CLHEP_FIND_COMPONENTS static)
+  set(__clhep_lib_suffix "S")
+endif()
+
+foreach(__clhep_component_lib ${CLHEP_KNOWN_COMPONENTS})
+  if(DEFINED CLHEP_FIND_REQUIRED_${__clhep_component_lib})
+    list(REMOVE_ITEM CLHEP_FIND_COMPONENTS ${__clhep_component_lib})
+    list(APPEND CLHEP_LIBRARIES CLHEP::${__clhep_component_lib}${__clhep_lib_suffix})
+  endif()
+endforeach()
+
+# If CLHEP_LIBRARIES is empty at this point, then the complete lib is
+# needed
+if(NOT CLHEP_LIBRARIES)
+  set(CLHEP_LIBRARIES CLHEP::CLHEP${__clhep_lib_suffix})
+endif()
+
+#-----------------------------------------------------------------------
+# Finally, handle any remaining components.
+# We should have dealt with all available components above, except for
+# ui_all and vis_all, and removed them from the list of FIND_COMPONENTS
+# so any left  we either didn't find or don't know about. Emit a warning
+# if REQUIRED isn't set, or FATAL_ERROR otherwise
+#
+list(REMOVE_DUPLICATES CLHEP_FIND_COMPONENTS)
+
+foreach(_remaining ${CLHEP_FIND_COMPONENTS})
+  if(CLHEP_FIND_REQUIRED)
+    message(FATAL_ERROR "CLHEP component ${_remaining} not found")
+  elseif(NOT CLHEP_FIND_QUIETLY)
+    message(WARNING "CLHEP component ${_remaining} not found")
+  endif()
+  unset(CLHEP_FIND_REQUIRED_${_remaining})
+endforeach()
 
 # And we should be good to go...

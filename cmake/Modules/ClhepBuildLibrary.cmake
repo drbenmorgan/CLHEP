@@ -20,10 +20,12 @@ macro(clhep_build_library package)
 
   # check for dependencies
   set( package_library_list )
+  set(package_library_list_static)
   if( ${PACKAGE}_DEPS )
      foreach ( dep ${${PACKAGE}_DEPS} )
         ##message( STATUS "clhep_build_library ${package} will use ${dep}")
 	list(APPEND package_library_list ${dep})
+	list(APPEND package_library_list_static ${dep}S)
      endforeach()
   endif()
 
@@ -42,10 +44,11 @@ macro(clhep_build_library package)
       )
 
   target_link_libraries(${package}  ${package_library_list} )
-  target_link_libraries(${package}S ${package_library_list} )
+  target_link_libraries(${package}S ${package_library_list_static} )
 
   # Install the libraries
   INSTALL (TARGETS ${package} ${package}S
+      EXPORT CLHEPLibraryDepends
       RUNTIME DESTINATION bin
       LIBRARY DESTINATION lib${LIB_SUFFIX}
       ARCHIVE DESTINATION lib${LIB_SUFFIX}
