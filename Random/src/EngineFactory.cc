@@ -19,6 +19,7 @@
 #include "CLHEP/Random/Hurd288Engine.h"
 #include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/JamesRandom.h"
+#include "CLHEP/Random/MixMaxRng.h"
 #include "CLHEP/Random/MTwistEngine.h"
 #include "CLHEP/Random/RandEngine.h"
 #include "CLHEP/Random/RanecuEngine.h"
@@ -62,6 +63,7 @@ HepRandomEngine* EngineFactory::newEngine(std::istream& is) {
   eptr = makeAnEngine <HepJamesRandom>  (tag, is); if (eptr) return eptr;
   eptr = makeAnEngine <RanecuEngine>    (tag, is); if (eptr) return eptr;
   eptr = makeAnEngine <Ranlux64Engine>  (tag, is); if (eptr) return eptr;
+  eptr = makeAnEngine <MixMaxRng>       (tag, is); if (eptr) return eptr;
   eptr = makeAnEngine <MTwistEngine>    (tag, is); if (eptr) return eptr;
   eptr = makeAnEngine <DRand48Engine>   (tag, is); if (eptr) return eptr;
   eptr = makeAnEngine <TripleRand>      (tag, is); if (eptr) return eptr;
@@ -86,6 +88,7 @@ EngineFactory::newEngine(std::vector<unsigned long> const & v) {
   eptr = makeAnEngine <HepJamesRandom>  (v); if (eptr) return eptr;
   eptr = makeAnEngine <RanecuEngine>    (v); if (eptr) return eptr;
   eptr = makeAnEngine <Ranlux64Engine>  (v); if (eptr) return eptr;
+  eptr = makeAnEngine <MixMaxRng>       (v); if (eptr) return eptr;
   eptr = makeAnEngine <MTwistEngine>    (v); if (eptr) return eptr;
   eptr = makeAnEngine <DRand48Engine>   (v); if (eptr) return eptr;
   eptr = makeAnEngine <TripleRand>      (v); if (eptr) return eptr;

@@ -134,7 +134,7 @@ public:
          
 private:
 
-  shared_ptr<HepRandomEngine> localEngine;
+  std::shared_ptr<HepRandomEngine> localEngine;
   double defaultA;
   double defaultB;
 

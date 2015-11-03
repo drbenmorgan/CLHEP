@@ -1,3 +1,10 @@
+
+2015-10-05 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+  * Utility/memory.h is now a simple wrapper.
+    Typedef-ed shared_ptr and unique_ptr to standard types.
+  * Remove no longer necessary Utility/type_traits.h.
+
 ==============================
 09.07.15 Release CLHEP-2.3.0.0
 ==============================

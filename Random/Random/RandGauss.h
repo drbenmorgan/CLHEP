@@ -153,7 +153,7 @@ protected:
   double defaultMean;
   double defaultStdDev;
 
-  shared_ptr<HepRandomEngine> localEngine;
+  std::shared_ptr<HepRandomEngine> localEngine;
 
 private:
 

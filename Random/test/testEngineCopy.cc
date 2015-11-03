@@ -199,6 +199,7 @@ int main() {
   stat |= vectorRestore<Hurd160Engine>(115);
   stat |= vectorRestore<Hurd288Engine>(116);
   stat |= vectorRestore<HepJamesRandom>(117);
+  stat |= vectorRestore<MixMaxRng>(149);
   stat |= vectorRestore<MTwistEngine>(118);
   stat |= vectorRestore<RanecuEngine>(139);
   stat |= vectorRestore<Ranlux64Engine>(119);
