@@ -52,12 +52,22 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfig.cmake.in
 
 # We 'export' the main CLHEP library targets from the build tree.
 # This file is include()d by CLHEPConfig.cmake
-export(TARGETS CLHEP CLHEPS 
+# First build up list of all modular targets, static and shared
+set(CLHEP_libraries_all ${CLHEP_libraries})
+foreach(_lib ${CLHEP_libraries})
+  list(APPEND CLHEP_libraries_all "${_lib}S")
+endforeach()
+
+export(TARGETS CLHEP CLHEPS ${CLHEP_libraries_all}
+  NAMESPACE "CLHEP::"
   FILE ${PROJECT_BINARY_DIR}/CLHEPLibraryDepends.cmake
   )
 
 
-# Now we configure clhep.pc.
+#-----------------------------------------------------------------------
+# Pkg-config setup
+ 
+# Full clhep.pc.
 # In the build tree we hardcode all paths, as we never need to relocate
 # a build tree
 #
@@ -70,6 +80,23 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/clhep.pc.in
   @ONLY
   )
 
+# Messy deps for now (can't extract them from lower down the build tree)]
+set(CLHEP_PC_Exceptions_REQUIRES "clhep-cast = ${CLHEP_VERSION}, clhep-refcount = ${CLHEP_VERSION}")
+set(CLHEP_PC_Geometry_REQUIRES "clhep-vector = ${CLHEP_VERSION}")
+set(CLHEP_PC_Matrix_REQUIRES "clhep-random = ${CLHEP_VERSION}, clhep-vector = ${CLHEP_VERSION}")
+set(CLHEP_PC_RandomObjects_REQUIRES = "clhep-random = ${CLHEP_VERSION}, clhep-matrix = ${CLHEP_VERSION}, clhep-vector = ${CLHEP_VERSION}")
+
+# Now the components
+foreach(_lib ${CLHEP_libraries})
+  set(CLHEP_PC_COMPONENT  ${_lib})
+  string(TOLOWER ${CLHEP_PC_COMPONENT} _pcfilename)
+  set(CLHEP_PC_COMPONENT_REQUIRES "${CLHEP_PC_${_lib}_REQUIRES}")
+
+  configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/clhep-component.pc.in
+    ${PROJECT_BINARY_DIR}/clhep-${_pcfilename}.pc
+    @ONLY
+    )
+endforeach()
 
 #----------------------------------------------------------------------------
 # - Now we handle the installation tree
@@ -102,7 +129,7 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfig.cmake.in
   @ONLY
   )
 
-# Also configure the pkgconfig file, again outputting to a directory under
+# Also configure the pkgconfig files, again outputting to a directory under
 # the build directory ready for installation
 # Now we use the 'pcfiledir' variable of pkg-config - this tells us the
 # directory where clhep.pc is located. Since we know we'll install clhep.pc
@@ -119,6 +146,18 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/clhep.pc.in
   @ONLY
   )
 
+# Now the components
+foreach(_lib ${CLHEP_libraries})
+  set(CLHEP_PC_COMPONENT  ${_lib})
+  string(TOLOWER ${CLHEP_PC_COMPONENT} _pcfilename)
+  set(CLHEP_PC_COMPONENT_REQUIRES "${CLHEP_PC_${_lib}_REQUIRES}")
+
+  configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/clhep-component.pc.in
+    ${PROJECT_BINARY_DIR}/InstallTreeFiles/clhep-${_pcfilename}.pc
+    @ONLY
+    )
+endforeach()
+
 # - Install the config files, and 'install export' the library depends file
 #   The choice of 'lib/CLHEP-<VERSION>' is based on the recommendations
 #   in the CMake documentation for find_package on UNIX so that 
@@ -132,7 +171,9 @@ install(FILES
   DESTINATION lib${LIB_SUFFIX}/CLHEP-${VERSION}
   )
 
-install(EXPORT CLHEPLibraryDepends DESTINATION lib${LIB_SUFFIX}/CLHEP-${VERSION})
+install(EXPORT CLHEPLibraryDepends 
+        NAMESPACE "CLHEP::"
+        DESTINATION lib${LIB_SUFFIX}/CLHEP-${VERSION})
 
 # Install the pkg-config file. The choice of 'lib${LIB_SUFFIX}/pkgconfig' for the 
 # installation seems fairly standard.
@@ -140,6 +181,14 @@ install(FILES
   ${PROJECT_BINARY_DIR}/InstallTreeFiles/clhep.pc
   DESTINATION lib${LIB_SUFFIX}/pkgconfig
   )
+ 
+foreach(_lib ${CLHEP_libraries})
+  string(TOLOWER ${_lib} _pcfilename)
+  install(FILES
+    ${PROJECT_BINARY_DIR}/InstallTreeFiles/clhep-${_pcfilename}.pc
+    DESTINATION lib${LIB_SUFFIX}/pkgconfig
+    )
+endforeach()
 
 # - And we should be done...
 
