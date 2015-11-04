@@ -31,7 +31,7 @@ cmake_minimum_required(VERSION 2.6)
 
 # project name
 project(CLHEP)
-set( VERSION 2.3.0.0 )
+set( VERSION 2.3.1.0 )
 
 # If Policy CMP0042 exists, use OLD to prefer the use of install names
 # instead of the new @rpath default. 
