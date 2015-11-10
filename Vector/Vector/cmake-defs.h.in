@@ -3,42 +3,27 @@
 #ifndef @UPACKAGE@_DEFS_H
 #define @UPACKAGE@_DEFS_H
 
-/* Name of package */
-#ifndef PACKAGE
-#define PACKAGE "@PACKAGE@"
-#endif
-
 /* Define to the address where bug reports for this package should be sent. */
-#ifndef PACKAGE_BUGREPORT
-#define PACKAGE_BUGREPORT "http://savannah.cern.ch/projects/clhep/"
+#ifndef CLHEP_@UPACKAGE@_BUGREPORT
+#define CLHEP_@UPACKAGE@_BUGREPORT "http://proj-clhep.web.cern.ch/proj-clhep/"
 #endif
 
 /* Define to the full name of this package. */
-#ifndef PACKAGE_NAME
-#define PACKAGE_NAME "@PROJECT_NAME@ @PACKAGE@"
+#ifndef CLHEP_@UPACKAGE@_NAME
+#define CLHEP_@UPACKAGE@_NAME "@PROJECT_NAME@ @PACKAGE@"
 #endif
 
 /* Define to the full name and version of this package. */
-#ifndef PACKAGE_STRING
-#define PACKAGE_STRING "@PROJECT_NAME@ @PACKAGE@ @VERSION@"
-#endif
-
-/* Define to the one symbol short name of this package. */
-#ifndef PACKAGE_TARNAME
-#define PACKAGE_TARNAME "@PACKAGE@"
+#ifndef CLHEP_@UPACKAGE@_STRING
+#define CLHEP_@UPACKAGE@_STRING "@PROJECT_NAME@ @PACKAGE@ @VERSION@"
 #endif
 
 /* Define to the version of this package. */
-#ifndef PACKAGE_VERSION
-#define PACKAGE_VERSION "@VERSION@"
+#ifndef CLHEP_@UPACKAGE@_VERSION
+#define CLHEP_@UPACKAGE@_VERSION "@VERSION@"
 #endif
 
 /* building with Visual C++ */
 /* #undef USING_VISUAL */
-
-/* Version number of package */
-#ifndef VERSION
-#define VERSION "@VERSION@"
-#endif
 
 #endif  // @UPACKAGE@_DEFS_H
