@@ -1,5 +1,5 @@
 #
-# clhep_set_compiler_flags() 
+# clhep_set_compiler_flags()
 #    sets the default compiler flags
 #    calls clhep_autoconf_variables
 #
@@ -50,11 +50,11 @@ macro( clhep_autoconf_variables )
   #   CXXFLAGS = -g -O2
   #   CXX = g++
   #   CXXCPP = g++ -E
-  #   CPPFLAGS = 
+  #   CPPFLAGS =
   #   CXXLD = $(CXX)
-  #   AM_LDFLAGS = 
-  #   LDFLAGS = 
-  #   LIBS = 
+  #   AM_LDFLAGS =
+  #   LDFLAGS =
+  #   LIBS =
 
   # automake/autoconf variables
   set( prefix      ${CMAKE_INSTALL_PREFIX} )
@@ -223,7 +223,7 @@ macro( _clhep_check_for_pthread )
   set( HAVE_STDCXX )
   if( NOT "${CMAKE_CXX_FLAGS}" STREQUAL "" )
     string(REGEX REPLACE " " ";" flag_list ${CMAKE_CXX_FLAGS})
-    FOREACH(flag ${flag_list})    
+    FOREACH(flag ${flag_list})
        #message(STATUS "_clhep_check_for_pthread debug: found flag ${flag}" )
        if( ${flag} STREQUAL "-std=c++0x" )
          _clhep_verify_cxx0x( )
@@ -310,11 +310,11 @@ endmacro( clhep_package_config_no_lib )
 macro( clhep_package_config )
   set( ${PACKAGE}_CPPFLAGS "-I${includedir}" )
   set( ${PACKAGE}_LDFLAGS  "-L\${exec_prefix}/lib${LIB_SUFFIX}" )
-  set( ${PACKAGE}_LIBS     "-lCLHEP-${PACKAGE}-${VERSION}" )
+  set( ${PACKAGE}_LIBS     "-lCLHEP-${PACKAGE}-${CLHEP_VERSION}" )
   if( ${PACKAGE}_DEPS )
      foreach ( dep ${${PACKAGE}_DEPS} )
         message( STATUS "${PACKAGE} depends on ${dep}")
-	set( ${PACKAGE}_LIBS     "${${PACKAGE}_LIBS} -lCLHEP-${dep}-${VERSION}" )
+        set( ${PACKAGE}_LIBS     "${${PACKAGE}_LIBS} -lCLHEP-${dep}-${CLHEP_VERSION}" )
      endforeach()
   endif()
   configure_file ( ${CLHEP_SOURCE_DIR}/${PACKAGE}/${PACKAGE}-config.in

@@ -1,6 +1,6 @@
 # Create the tests
 #
-# clhep_test( testname 
+# clhep_test( testname
 #                [LIBS] <library_list>
 #                [DEPENDS] <another_testname>
 #                [SIMPLE] - this test does not require a shell script
@@ -19,7 +19,7 @@ include(ClhepParseArgs)
 macro( clhep_test testname )
   clhep_parse_args( CTST "LIBS;DEPENDS" "SIMPLE;FAIL;NOLIB" ${ARGN})
 
-  # automake/autoconf variables for ${testname}.sh.in 
+  # automake/autoconf variables for ${testname}.sh.in
   set(srcdir ${CMAKE_CURRENT_SOURCE_DIR})
   set(builddir ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -27,14 +27,12 @@ macro( clhep_test testname )
     set(package_library_list)
   else()
     set( package_library_list ${PACKAGE}S)
-    #set( package_library_list ${PROJECT_BINARY_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}CLHEP-${PACKAGE}-${VERSION}${CMAKE_STATIC_LIBRARY_SUFFIX} )
   endif()
 
   if( ${PACKAGE}_DEPS )
      foreach ( dep ${${PACKAGE}_DEPS} )
         ##message( STATUS "clhep_test ${testname} will use ${dep}")
 	list(APPEND package_library_list ${PACKAGE}S)
-	#list(APPEND package_library_list  ${PROJECT_BINARY_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}CLHEP-${dep}-${VERSION}${CMAKE_STATIC_LIBRARY_SUFFIX} )
      endforeach()
   endif()
 
@@ -56,7 +54,7 @@ macro( clhep_test testname )
     if( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
       message( STATUS "skipping ${testname}.sh on ${CMAKE_SYSTEM_NAME}")
     else()
-      configure_file( ${testname}.sh.in 
+      configure_file( ${testname}.sh.in
                       ${CMAKE_CURRENT_BINARY_DIR}/${testname}.sh  @ONLY )
       add_test( ${testname}.sh ${CMAKE_CURRENT_BINARY_DIR}/${testname}.sh )
       if( CTST_FAIL )
@@ -67,5 +65,5 @@ macro( clhep_test testname )
       endif( CTST_DEPENDS )
     endif()
   endif()
-  
+
 endmacro( clhep_test )

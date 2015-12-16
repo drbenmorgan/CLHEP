@@ -4,8 +4,6 @@
 # Recommended use:
 # clhep_copy_headers( <package_list> )
 
-include(ClhepParseVersion)
-
 macro (clhep_copy_headers )
   foreach( package ${ARGN} )
      message(STATUS "checking for headers in ${package}")
@@ -16,7 +14,7 @@ macro (clhep_copy_headers )
      else()
        set( DRAND48_DEF "#undef HAVE_DRAND48" )
      endif()
-     FILE( GLOB headers 
+     FILE( GLOB headers
                 ${CLHEP_SOURCE_DIR}/${package}/${package}/*.h
                 ${CLHEP_SOURCE_DIR}/${package}/${package}/*.hh
                 ${CLHEP_SOURCE_DIR}/${package}/${package}/*.icc )
@@ -40,10 +38,9 @@ macro (clhep_copy_headers )
      endforeach( hdr )
   endforeach(package)
   # get ClhepVersion.h
-  parse_version( CLHEP ${VERSION} )
-  CONFIGURE_FILE( ${CLHEP_SOURCE_DIR}/cmake/Templates/ClhepVersion.h.in 
+  CONFIGURE_FILE( ${CLHEP_SOURCE_DIR}/cmake/Templates/ClhepVersion.h.in
                   ${CLHEP_BINARY_DIR}/CLHEP/ClhepVersion.h  @ONLY )
   INSTALL (FILES ${CLHEP_BINARY_DIR}/CLHEP/ClhepVersion.h
            DESTINATION include/CLHEP )
-  
+
 endmacro (clhep_copy_headers)

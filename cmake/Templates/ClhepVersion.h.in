@@ -14,11 +14,11 @@ namespace CLHEP {
 
   struct Version {
 
-    static std::string String() { return "@VERSION@"; }
-    static int Major()          { return @CLHEP_Major@; }
-    static int SubMajor()       { return @CLHEP_SubMajor@; }
-    static int Minor()          { return @CLHEP_Minor@; }
-    static int SubMinor()       { return @CLHEP_SubMinor@; }
+    static std::string String() { return "@CLHEP_VERSION@"; }
+    static int Major()          { return @CLHEP_VERSION_MAJOR@; }
+    static int SubMajor()       { return @CLHEP_VERSION_MINOR@; }
+    static int Minor()          { return @CLHEP_VERSION_PATCH@; }
+    static int SubMinor()       { return @CLHEP_VERSION_TWEAK@; }
 
   };
 

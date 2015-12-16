@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------
 # Top Level CMakeLists.txt for CLHEP
-#  cmake [-DCMAKE_INSTALL_PREFIX=/install/path] 
+#  cmake [-DCMAKE_INSTALL_PREFIX=/install/path]
 #        [-DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel]
 #        [-DCMAKE_C_COMPILER=...] [-DCMAKE_CXX_COMPILER=...]
 #        [-DCLHEP_BUILD_CXXSTD="-std=c++NN"] (use specified c++ extension and thread support)
@@ -16,7 +16,7 @@
 # mac x86_64: -DCMAKE_CXX_FLAGS="-m64" -DCMAKE_OSX_ARCHITECTURES="x86_64"
 #
 # Use -DLIB_SUFFIX=64 to install the libraries in a lib64 subdirectory
-# instead of the default lib subdirectory.  
+# instead of the default lib subdirectory.
 #
 # The default CLHEP build type is CMAKE_BUILD_TYPE=RelWithDebInfo,
 # which matches the default CLHEP autoconf flags
@@ -26,21 +26,20 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/ClhepOutOfSourceBuild.cmake)
 clhep_ensure_out_of_source_build()
 
-# use cmake 2.6 or later
-cmake_minimum_required(VERSION 2.6)
+# use cmake 3.2 or later
+cmake_minimum_required(VERSION 3.2)
 
 # project name
-project(CLHEP)
-set( VERSION 2.3.1.1 )
+project(CLHEP VERSION 2.3.1.1)
 
 # If Policy CMP0042 exists, use OLD to prefer the use of install names
-# instead of the new @rpath default. 
+# instead of the new @rpath default.
 if(POLICY CMP0042)
   cmake_policy(SET CMP0042 OLD)
 endif()
 
-set(CMAKE_MODULE_PATH 
-      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules 
+set(CMAKE_MODULE_PATH
+      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules
       ${CMAKE_MODULE_PATH}
       )
 
@@ -123,16 +122,16 @@ set( CLHEP_libraries
 clhep_copy_headers( ${CLHEP_subdirs} )
 
 add_subdirectory(Units)
-add_subdirectory(Utility) 
-add_subdirectory(Vector) 
-add_subdirectory(Evaluator) 
-add_subdirectory(GenericFunctions) 
-add_subdirectory(Geometry) 
-add_subdirectory(Random) 
-add_subdirectory(Matrix) 
-add_subdirectory(RandomObjects) 
-add_subdirectory(Cast) 
-add_subdirectory(RefCount) 
+add_subdirectory(Utility)
+add_subdirectory(Vector)
+add_subdirectory(Evaluator)
+add_subdirectory(GenericFunctions)
+add_subdirectory(Geometry)
+add_subdirectory(Random)
+add_subdirectory(Matrix)
+add_subdirectory(RandomObjects)
+add_subdirectory(Cast)
+add_subdirectory(RefCount)
 add_subdirectory(Exceptions)
 
 # libCLHEP.a and libCLHEP.so

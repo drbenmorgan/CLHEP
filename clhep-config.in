@@ -64,7 +64,7 @@ while test $# -gt 0; do
 	;;
 
     --version)
-	echo CLHEP @VERSION@
+	echo CLHEP @CLHEP_VERSION@
 	exit 0
 	;;
 

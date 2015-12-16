@@ -11,7 +11,7 @@
 #                      /bin
 #                      /lib
 #                      /doc (optional)
-# basically, the tarball should mirror the install directory, 
+# basically, the tarball should mirror the install directory,
 # but with the appropriate top level directory
 # tarball names: clhep-2.1.1.0-x86_64-slc5-gcc46-opt.tgz
 #                clhep-2.1.1.0-x86_64-slc5-gcc41-opt.tgz
@@ -36,7 +36,7 @@ endif()
 #----------------------------------------------------------------------------
 # General packaging setup - variables relevant to all package formats
 # CLHEP use of version variables is non-standard
-set(CPACK_PACKAGE_VERSION ${VERSION})
+set(CPACK_PACKAGE_VERSION ${CLHEP_VERSION})
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Class Library for High Energy Physics")
 set(CPACK_PACKAGE_VENDOR "CLHEP Project")
@@ -49,7 +49,7 @@ set( CPACK_PACKAGE_NAME clhep )
 clhep_package_compiler()
 
 #----------------------------------------------------------------------------
-# Set name of CPACK_SYSTEM_NAME based on platform and architecture where 
+# Set name of CPACK_SYSTEM_NAME based on platform and architecture where
 # needed. We do this because we may want to produce packages for, say,
 # 32 and 64 bit arches on linux.
 #
@@ -88,7 +88,7 @@ if(NOT DEFINED CPACK_SYSTEM_NAME)
 	string(REGEX REPLACE "([0-9])\\.([0-9])?" "\\1" LSB_RELEASE ${LSB_RELEASE})
 
         # Cache the vendor tag, because users might want to edit it
-        set(LSB_VENDOR_TAG ${LSB_VENDOR}${LSB_RELEASE} 
+        set(LSB_VENDOR_TAG ${LSB_VENDOR}${LSB_RELEASE}
           CACHE STRING "LSB vendor tag for use in packaging")
 
 	if( NOT CPack_COMPILER_STRING )
@@ -151,7 +151,7 @@ else()
       set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-opt )
    else()
       set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-${CMAKE_BUILD_TYPE_TOLOWER} )
-   endif()   
+   endif()
 endif()
 
 message(STATUS "clhep CPACK_PACKAGE_NAME:    ${CPACK_PACKAGE_NAME} " )

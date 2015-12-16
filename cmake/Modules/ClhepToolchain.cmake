@@ -8,7 +8,7 @@
 #
 # We only do this for the main CLHEP library to illustrate the basic
 # pattern. It can be extended to handle the component packages, but this
-# is more complex and would hide the basic concepts. 
+# is more complex and would hide the basic concepts.
 #
 # Both are fully relocatable, like clhep-config, so can be distributed in
 # relocatable binary packages.
@@ -24,14 +24,13 @@ macro(clhep_toolchain)
 # application using CLHEP works with different versions/tag sets.
 #
 # First we set the needed variables
-set(CLHEP_VERSION ${VERSION})
 set(CLHEP_DEFINITIONS )
 set(CLHEP_INCLUDE_DIR ${PROJECT_BINARY_DIR})
 
 # Now we configure the CLHEPConfig and CLHEPConfigVersion file templates,
 # outputting to the top level of the build tree.
 # This allows users to 'point' CMake to the build by something like
-#  
+#
 #  # Some CMakeLists.txt
 #  ...
 #  find_package(CLHEP 2.1.0.1 REQUIRED)
@@ -41,12 +40,12 @@ set(CLHEP_INCLUDE_DIR ${PROJECT_BINARY_DIR})
 #  cmake -DCLHEP_DIR=/path/to/clhep/build  /path/to/source/of/app
 #
 configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfigVersion.cmake.in
-  ${PROJECT_BINARY_DIR}/CLHEPConfigVersion.cmake 
+  ${PROJECT_BINARY_DIR}/CLHEPConfigVersion.cmake
   @ONLY
   )
 
 configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfig.cmake.in
-  ${PROJECT_BINARY_DIR}/CLHEPConfig.cmake 
+  ${PROJECT_BINARY_DIR}/CLHEPConfig.cmake
   @ONLY
   )
 
@@ -66,7 +65,7 @@ export(TARGETS CLHEP CLHEPS ${CLHEP_libraries_all}
 
 #-----------------------------------------------------------------------
 # Pkg-config setup
- 
+
 # Full clhep.pc.
 # In the build tree we hardcode all paths, as we never need to relocate
 # a build tree
@@ -103,29 +102,28 @@ endforeach()
 #
 # Again we set the needed variable first. Not all have actually changed,
 # but we set again for clarity and just to be sure.
-set(CLHEP_VERSION ${VERSION})
 set(CLHEP_DEFINITIONS )
 
 # The setup of the include dir is slightly different because we want
 # to make the install relocatable (Current CLHEP setup *is* relocatable).
 # We use a relative path from the directory where the CLHEPConfig.cmake
-# file is installed to the actual include dir. 
-file(RELATIVE_PATH _relincpath 
-  ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/CLHEP-${VERSION}
+# file is installed to the actual include dir.
+file(RELATIVE_PATH _relincpath
+  ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/CLHEP-${CLHEP_VERSION}
   ${CMAKE_INSTALL_PREFIX}/include
   )
 set(CLHEP_INCLUDE_DIR "\${_thisdir}/${_relincpath}")
 
 # Now we configure the CLHEPConfig and CLHEPConfigVersion file templates,
 # outputting to a directory in the build directory. This is simply a
-# placeholder to store them until we install later.  
+# placeholder to store them until we install later.
 configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfigVersion.cmake.in
-  ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfigVersion.cmake 
+  ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfigVersion.cmake
   @ONLY
   )
 
 configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfig.cmake.in
-  ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfig.cmake 
+  ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfig.cmake
   @ONLY
   )
 
@@ -160,28 +158,28 @@ endforeach()
 
 # - Install the config files, and 'install export' the library depends file
 #   The choice of 'lib/CLHEP-<VERSION>' is based on the recommendations
-#   in the CMake documentation for find_package on UNIX so that 
+#   in the CMake documentation for find_package on UNIX so that
 #   CMake can potentially find the Config file automatically. We don't
 #   consider the Apple case because we don't (yet) build CLHEP as a Framework.
 #   The Windows case can be easily added later.
 #   The location can of course be modified if you wish.
 install(FILES
-  ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfigVersion.cmake 
-  ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfig.cmake 
-  DESTINATION lib${LIB_SUFFIX}/CLHEP-${VERSION}
+  ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfigVersion.cmake
+  ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfig.cmake
+  DESTINATION lib${LIB_SUFFIX}/CLHEP-${CLHEP_VERSION}
   )
 
-install(EXPORT CLHEPLibraryDepends 
+install(EXPORT CLHEPLibraryDepends
         NAMESPACE "CLHEP::"
-        DESTINATION lib${LIB_SUFFIX}/CLHEP-${VERSION})
+        DESTINATION lib${LIB_SUFFIX}/CLHEP-${CLHEP_VERSION})
 
-# Install the pkg-config file. The choice of 'lib${LIB_SUFFIX}/pkgconfig' for the 
+# Install the pkg-config file. The choice of 'lib${LIB_SUFFIX}/pkgconfig' for the
 # installation seems fairly standard.
 install(FILES
   ${PROJECT_BINARY_DIR}/InstallTreeFiles/clhep.pc
   DESTINATION lib${LIB_SUFFIX}/pkgconfig
   )
- 
+
 foreach(_lib ${CLHEP_libraries})
   string(TOLOWER ${_lib} _pcfilename)
   install(FILES
