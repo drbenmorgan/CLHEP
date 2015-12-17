@@ -15,8 +15,10 @@
 #
 include(ClhepParseArgs)
 
+file(WRITE "${PROJECT_BINARY_DIR}/testWorkingDirMarker.cc" "int main(){return 0;}")
+add_executable(testWorkingDirMarker ${PROJECT_BINARY_DIR}/testWorkingDirMarker.cc)
 
-macro( clhep_test testname )
+macro(clhep_test testname)
   clhep_parse_args( CTST "LIBS;DEPENDS" "SIMPLE;FAIL;NOLIB" ${ARGN})
 
   # automake/autoconf variables for ${testname}.sh.in
@@ -36,34 +38,34 @@ macro( clhep_test testname )
      endforeach()
   endif()
 
-  link_libraries( ${package_library_list} )
-  ##message( STATUS "building ${testname} from ${CMAKE_CURRENT_SOURCE_DIR} in ${CMAKE_CURRENT_BINARY_DIR}" )
+  add_executable(${testname} ${testname}.cc)
+  target_link_libraries(${testname} ${package_library_list})
 
-  ADD_EXECUTABLE(${testname} ${testname}.cc)
-
-  if( CTST_SIMPLE )
-    add_test( ${testname} ${CMAKE_CURRENT_BINARY_DIR}/${testname} )
-    if( CTST_FAIL )
-      set_tests_properties( ${testname} PROPERTIES WILL_FAIL TRUE )
+  if(CTST_SIMPLE)
+    add_test(NAME ${testname} COMMAND ${testname})
+    if(CTST_FAIL)
+      set_tests_properties(${testname} PROPERTIES WILL_FAIL TRUE)
     endif()
-    if( CTST_DEPENDS )
-      set_tests_properties( ${testname} PROPERTIES DEPENDS ${CTST_DEPENDS} )
-      #message(STATUS "clhep_test: ${testname} depends on ${CTST_DEPENDS}")
-    endif( CTST_DEPENDS )
+    if(CTST_DEPENDS)
+      set_tests_properties(${testname} PROPERTIES DEPENDS ${CTST_DEPENDS})
+    endif()
   else()
-    if( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
+    if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
       message( STATUS "skipping ${testname}.sh on ${CMAKE_SYSTEM_NAME}")
     else()
-      configure_file( ${testname}.sh.in
-                      ${CMAKE_CURRENT_BINARY_DIR}/${testname}.sh  @ONLY )
-      add_test( ${testname}.sh ${CMAKE_CURRENT_BINARY_DIR}/${testname}.sh )
-      if( CTST_FAIL )
-        set_tests_properties( ${testname}.sh PROPERTIES WILL_FAIL TRUE )
+      configure_file(${testname}.sh.in
+                     ${CMAKE_CURRENT_BINARY_DIR}/${testname}.sh  @ONLY
+                     )
+      add_test(NAME ${testname}.sh
+        COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${testname}.sh
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:testWorkingDirMarker>
+        )
+      if(CTST_FAIL)
+        set_tests_properties(${testname}.sh PROPERTIES WILL_FAIL TRUE)
       endif()
-      if( CTST_DEPENDS )
-	add_custom_target(check COMMAND ${testname} DEPENDS ${CTST_DEPENDS} )
-      endif( CTST_DEPENDS )
+      if(CTST_DEPENDS)
+        add_custom_target(check COMMAND ${testname} DEPENDS ${CTST_DEPENDS})
+      endif()
     endif()
   endif()
-
-endmacro( clhep_test )
+endmacro()

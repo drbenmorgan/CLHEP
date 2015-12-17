@@ -55,6 +55,50 @@ endif()
 include(ClhepVariables)
 clhep_lib_suffix()
 
+# TEMPORARY HACK - set CMAKE_INSTALL_{BIN,LIB,INCLUDE}DIR directly instead
+# of using GNUInstallDirs (UNTIL: work out how/where install is used)
+set(CMAKE_INSTALL_BINDIR bin)
+set(CMAKE_INSTALL_LIBDIR "lib${LIB_SUFFIX}")
+set(CMAKE_INSTALL_INCLUDEDIR "include")
+
+# Configure output directories
+# Put all library build products in standard locations under build tree
+# - Single root dir of all products
+set(BASE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/BuildProducts")
+
+# - Default outputs for different products, will be used by single mode
+#   generators. Creates the structure:
+# BuildProducts/
+# +- bin/
+# +- lib/
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${BASE_OUTPUT_DIRECTORY}/${CMAKE_INSTALL_BINDIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${BASE_OUTPUT_DIRECTORY}/${CMAKE_INSTALL_LIBDIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${BASE_OUTPUT_DIRECTORY}/${CMAKE_INSTALL_LIBDIR}")
+
+# - For multiconfig generators, we create the same structure once for each
+#   mode. Results in the structure:
+# BuildProducts/
+# +- Release/
+# |  +- bin/
+# |  +- lib/
+# +- Debug/
+# |  +- bin/
+# |  +- lib/
+# | ...
+#
+foreach(_conftype ${CMAKE_CONFIGURATION_TYPES})
+  string(TOUPPER ${_conftype} _conftype_uppercase)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_conftype_uppercase}
+    "${BASE_OUTPUT_DIRECTORY}/${_conftype}/${CMAKE_INSTALL_BINDIR}"
+    )
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${_conftype_uppercase}
+    "${BASE_OUTPUT_DIRECTORY}/${_conftype}/${CMAKE_INSTALL_LIBDIR}"
+    )
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${_conftype_uppercase}
+    "${BASE_OUTPUT_DIRECTORY}/${_conftype}/${CMAKE_INSTALL_LIBDIR}"
+    )
+endforeach()
+
 # CLHEP custom modules
 include(ClhepCopyHeaders)
 include(ClhepBuildTest)
@@ -68,11 +112,6 @@ ENABLE_TESTING()
 include_directories ("${PROJECT_BINARY_DIR}")
 # add CLHEP/Random to search path so we find gaussTables.cdat
 include_directories ("${CMAKE_SOURCE_DIR}/Random")
-
-# Put all library build products in standard locations under build tree
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-
 # define common flags
 set( CMAKE_INCLUDE_PATH  ${CLHEP_BINARY_DIR} )
 
