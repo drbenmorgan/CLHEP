@@ -32,10 +32,10 @@ cmake_minimum_required(VERSION 3.2)
 # project name
 project(CLHEP VERSION 2.3.1.1)
 
-# If Policy CMP0042 exists, use OLD to prefer the use of install names
-# instead of the new @rpath default.
+# If Policy CMP0042 exists, use NEW to prefer the use of @rpath on
+# OS X
 if(POLICY CMP0042)
-  cmake_policy(SET CMP0042 OLD)
+  cmake_policy(SET CMP0042 NEW)
 endif()
 
 set(CMAKE_MODULE_PATH
@@ -61,10 +61,6 @@ include(ClhepBuildTest)
 include(ClhepBuildLibrary)
 include(CheckFunctionExists)
 include(ClhepToolchain)
-
-# because we want to move these libraries about,
-# do not embed full path in shared libraries or executables
-set(CMAKE_SKIP_RPATH)
 
 ENABLE_TESTING()
 
