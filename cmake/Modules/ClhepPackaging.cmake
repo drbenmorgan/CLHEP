@@ -26,14 +26,14 @@
 
 include(ClhepPackageCompiler)
 
-#----------------------------------------------------------------------------
+#-----------------------------------------------------------------------
 # Package up needed system libraries - seems to only be needed on Windows
 #
 if("${CPACK_SYSTEM_NAME}" MATCHES Windows)
   include(InstallRequiredSystemLibraries)
 endif()
 
-#----------------------------------------------------------------------------
+#-----------------------------------------------------------------------
 # General packaging setup - variables relevant to all package formats
 # CLHEP use of version variables is non-standard
 set(CPACK_PACKAGE_VERSION ${CLHEP_VERSION})
@@ -42,13 +42,13 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Class Library for High Energy Physics")
 set(CPACK_PACKAGE_VENDOR "CLHEP Project")
 
 # add a top level directory with the same name as the package tarball
-set( CPACK_INCLUDE_TOPLEVEL_DIRECTORY 1 )
-set( CPACK_GENERATOR TGZ )
-set( CPACK_PACKAGE_NAME clhep )
+set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY 1 )
+set(CPACK_GENERATOR TGZ )
+set(CPACK_PACKAGE_NAME clhep)
 
 clhep_package_compiler()
 
-#----------------------------------------------------------------------------
+#-----------------------------------------------------------------------
 # Set name of CPACK_SYSTEM_NAME based on platform and architecture where
 # needed. We do this because we may want to produce packages for, say,
 # 32 and 64 bit arches on linux.
@@ -67,37 +67,37 @@ if(NOT DEFINED CPACK_SYSTEM_NAME)
       if(LSB_RELEASE_PROGRAM)
         # We have linux, so incorporate Vendor info into package name
         # - Distributor ID
-	execute_process(COMMAND ${LSB_RELEASE_PROGRAM} -s -i OUTPUT_VARIABLE LSB_VENDOR OUTPUT_STRIP_TRAILING_WHITESPACE)
+        execute_process(COMMAND ${LSB_RELEASE_PROGRAM} -s -i OUTPUT_VARIABLE LSB_VENDOR OUTPUT_STRIP_TRAILING_WHITESPACE)
         string(REGEX REPLACE " " "-" LSB_VENDOR ${LSB_VENDOR})
         string(TOLOWER ${LSB_VENDOR} LSB_VENDOR)
-	if("${LSB_VENDOR}" MATCHES "scientificslf")
-	   set(LSB_VENDOR "slf")
-	elseif("${LSB_VENDOR}" MATCHES "scientificfermilts")
-	   set(LSB_VENDOR "slf")
-	elseif("${LSB_VENDOR}" MATCHES "scientificfermi")
-	   set(LSB_VENDOR "slf")
-	elseif("${LSB_VENDOR}" MATCHES "scientificcernslc")
-	   set(LSB_VENDOR "slc")
-	else()
-	   set(LSB_VENDOR ${LSB_VENDOR})
-	endif()
+
+        if("${LSB_VENDOR}" MATCHES "scientificslf")
+          set(LSB_VENDOR "slf")
+        elseif("${LSB_VENDOR}" MATCHES "scientificfermilts")
+          set(LSB_VENDOR "slf")
+        elseif("${LSB_VENDOR}" MATCHES "scientificfermi")
+          set(LSB_VENDOR "slf")
+        elseif("${LSB_VENDOR}" MATCHES "scientificcernslc")
+          set(LSB_VENDOR "slc")
+        else()
+          set(LSB_VENDOR ${LSB_VENDOR})
+        endif()
 
         # - Distributor release
-	execute_process(COMMAND ${LSB_RELEASE_PROGRAM} -s -r OUTPUT_VARIABLE LSB_RELEASE OUTPUT_STRIP_TRAILING_WHITESPACE)
+        execute_process(COMMAND ${LSB_RELEASE_PROGRAM} -s -r OUTPUT_VARIABLE LSB_RELEASE OUTPUT_STRIP_TRAILING_WHITESPACE)
         string(TOLOWER ${LSB_RELEASE} LSB_RELEASE)
-	string(REGEX REPLACE "([0-9])\\.([0-9])?" "\\1" LSB_RELEASE ${LSB_RELEASE})
+        string(REGEX REPLACE "([0-9])\\.([0-9])?" "\\1" LSB_RELEASE ${LSB_RELEASE})
 
         # Cache the vendor tag, because users might want to edit it
         set(LSB_VENDOR_TAG ${LSB_VENDOR}${LSB_RELEASE}
           CACHE STRING "LSB vendor tag for use in packaging")
 
-	if( NOT CPack_COMPILER_STRING )
-          set(CPACK_SYSTEM_NAME
-            ${CMAKE_SYSTEM_PROCESSOR}-${LSB_VENDOR_TAG})
-	else()
-          set(CPACK_SYSTEM_NAME
-            ${CMAKE_SYSTEM_PROCESSOR}-${LSB_VENDOR_TAG}${CPack_COMPILER_STRING})
-	endif()
+        if(NOT CPack_COMPILER_STRING)
+          set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_PROCESSOR}-${LSB_VENDOR_TAG})
+	      else()
+          set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_PROCESSOR}-${LSB_VENDOR_TAG}${CPack_COMPILER_STRING})
+        endif()
+
         mark_as_advanced(LSB_RELEASE_PROGRAM LSB_VENDOR_TAG)
       else()
         # Fallback to using NAME-ARCH on other UNICES other than Apple
@@ -141,24 +141,24 @@ if("${CPACK_SYSTEM_NAME}" MATCHES Windows)
 endif()
 
 # check for extra qualifiers
-if( NOT  CMAKE_BUILD_TYPE )
-   SET( CMAKE_BUILD_TYPE_TOLOWER default )
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE_TOLOWER default)
 else()
-   STRING(TOLOWER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_TOLOWER)
-   if( ${CMAKE_BUILD_TYPE_TOLOWER} MATCHES "debug")
-      set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-debug )
-   elseif( ${CMAKE_BUILD_TYPE_TOLOWER} MATCHES "relwithdebinfo")
-      set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-opt )
-   else()
-      set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-${CMAKE_BUILD_TYPE_TOLOWER} )
-   endif()
+  string(TOLOWER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_TOLOWER)
+  if(${CMAKE_BUILD_TYPE_TOLOWER} MATCHES "debug")
+    set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-debug )
+  elseif(${CMAKE_BUILD_TYPE_TOLOWER} MATCHES "relwithdebinfo")
+    set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-opt )
+  else()
+    set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME}-${CMAKE_BUILD_TYPE_TOLOWER})
+  endif()
 endif()
 
-message(STATUS "clhep CPACK_PACKAGE_NAME:    ${CPACK_PACKAGE_NAME} " )
-message(STATUS "clhep CPACK_PACKAGE_VERSION: ${CPACK_PACKAGE_VERSION} " )
-message(STATUS "clhep CPACK_SYSTEM_NAME:     ${CPACK_SYSTEM_NAME}" )
+message(STATUS "clhep CPACK_PACKAGE_NAME:    ${CPACK_PACKAGE_NAME}")
+message(STATUS "clhep CPACK_PACKAGE_VERSION: ${CPACK_PACKAGE_VERSION}")
+message(STATUS "clhep CPACK_SYSTEM_NAME:     ${CPACK_SYSTEM_NAME}")
 
-#----------------------------------------------------------------------------
+#-----------------------------------------------------------------------
 # Finally, include the base CPack configuration
 #
 include(CPack)

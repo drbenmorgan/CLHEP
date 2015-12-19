@@ -38,10 +38,7 @@ if(POLICY CMP0042)
   cmake_policy(SET CMP0042 NEW)
 endif()
 
-set(CMAKE_MODULE_PATH
-      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules
-      ${CMAKE_MODULE_PATH}
-      )
+list(INSERT CMAKE_MODULE_PATH 0 "${PROJECT_SOURCE_DIR}/cmake/Modules")
 
 # CLHEP_BUILD_DOCS is OFF (false) by default
 option(CLHEP_BUILD_DOCS "Build and install CLHEP documentation" OFF)
@@ -106,14 +103,14 @@ include(ClhepBuildLibrary)
 include(CheckFunctionExists)
 include(ClhepToolchain)
 
-ENABLE_TESTING()
+enable_testing()
 
 # include search path
-include_directories ("${PROJECT_BINARY_DIR}")
+include_directories("${PROJECT_BINARY_DIR}")
 # add CLHEP/Random to search path so we find gaussTables.cdat
-include_directories ("${CMAKE_SOURCE_DIR}/Random")
+include_directories("${CMAKE_SOURCE_DIR}/Random")
 # define common flags
-set( CMAKE_INCLUDE_PATH  ${CLHEP_BINARY_DIR} )
+set(CMAKE_INCLUDE_PATH "${CLHEP_BINARY_DIR}")
 
 # set our preferred compiler flags
 clhep_set_compiler_flags()
@@ -122,17 +119,17 @@ clhep_set_compiler_flags()
 clhep_config()
 
 # check for required functions
-CHECK_FUNCTION_EXISTS(drand48 found_drand48)
+check_function_exists(drand48 found_drand48)
 
 # all the packages
-set( CLHEP_subdirs
-        Units
+set(CLHEP_subdirs
+  Units
 	Utility
 	Vector
 	Evaluator
 	GenericFunctions
 	Geometry
-        Random
+  Random
 	Matrix
 	RandomObjects
 	Cast
@@ -141,20 +138,20 @@ set( CLHEP_subdirs
 	)
 
 # The Units and Utility packages are just headers.
-set( CLHEP_libraries
-       Vector
-       Evaluator
-       GenericFunctions
-       Geometry
-       Random
-       Matrix
-       RandomObjects
-       Cast
-       RefCount
-       Exceptions
-       )
+set(CLHEP_libraries
+  Vector
+  Evaluator
+  GenericFunctions
+  Geometry
+  Random
+  Matrix
+  RandomObjects
+  Cast
+  RefCount
+  Exceptions
+  )
 
-clhep_copy_headers( ${CLHEP_subdirs} )
+clhep_copy_headers(${CLHEP_subdirs})
 
 add_subdirectory(Units)
 add_subdirectory(Utility)
@@ -170,7 +167,7 @@ add_subdirectory(RefCount)
 add_subdirectory(Exceptions)
 
 # libCLHEP.a and libCLHEP.so
-clhep_build_libclhep( ${CLHEP_libraries} )
+clhep_build_libclhep(${CLHEP_libraries})
 
 # provide tools for other packages to include CLHEP easily
 clhep_toolchain()

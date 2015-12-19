@@ -6,100 +6,95 @@
 #
 
 macro(clhep_build_library package)
-  set( CLHEP_${package}_SOURCES ${ARGN} )
+  set(CLHEP_${package}_SOURCES ${ARGN})
 
   # build up the source list for CLHEP
-  set( CLHEP_${package}_list CACHE INTERNAL "${package} sources" FORCE )
-  foreach( file ${ARGN} )
-    set( CLHEP_${package}_list
-         ${CLHEP_${package}_list} ${CMAKE_CURRENT_SOURCE_DIR}/${file}
-         CACHE INTERNAL "${package} sources"
-	 )
-  endforeach(file)
-  ##message( STATUS "in ${package}, clheplib source list ${CLHEP_${package}_list}" )
+  set(CLHEP_${package}_list CACHE INTERNAL "${package} sources" FORCE)
+  foreach(file ${ARGN})
+    set(CLHEP_${package}_list
+        ${CLHEP_${package}_list} ${CMAKE_CURRENT_SOURCE_DIR}/${file}
+        CACHE INTERNAL "${package} sources"
+        )
+  endforeach()
 
   # check for dependencies
-  set( package_library_list )
+  set(package_library_list)
   set(package_library_list_static)
-  if( ${PACKAGE}_DEPS )
-     foreach ( dep ${${PACKAGE}_DEPS} )
-        ##message( STATUS "clhep_build_library ${package} will use ${dep}")
-	list(APPEND package_library_list ${dep})
-	list(APPEND package_library_list_static ${dep}S)
+  if(${PACKAGE}_DEPS)
+    foreach(dep ${${PACKAGE}_DEPS})
+      list(APPEND package_library_list ${dep})
+      list(APPEND package_library_list_static ${dep}S)
      endforeach()
   endif()
 
   # Add the libraries and set properties
-  ADD_LIBRARY(${package}  SHARED ${CLHEP_${package}_SOURCES})
-  ADD_LIBRARY(${package}S STATIC ${CLHEP_${package}_SOURCES})
-  SET_TARGET_PROPERTIES (${package}
-      PROPERTIES
+  add_library(${package}  SHARED ${CLHEP_${package}_SOURCES})
+  add_library(${package}S STATIC ${CLHEP_${package}_SOURCES})
+  set_target_properties(${package}
+    PROPERTIES
       OUTPUT_NAME CLHEP-${package}-${CLHEP_VERSION}
-	CLEAN_DIRECT_OUTPUT 1
+	    CLEAN_DIRECT_OUTPUT 1
       )
-  SET_TARGET_PROPERTIES(${package}S
-      PROPERTIES
+  set_target_properties(${package}S
+    PROPERTIES
       OUTPUT_NAME CLHEP-${package}-${CLHEP_VERSION}
-	CLEAN_DIRECT_OUTPUT 1
+	    CLEAN_DIRECT_OUTPUT 1
       )
 
-  target_link_libraries(${package}  ${package_library_list} )
-  target_link_libraries(${package}S ${package_library_list_static} )
+  target_link_libraries(${package}  ${package_library_list})
+  target_link_libraries(${package}S ${package_library_list_static})
 
   # Install the libraries
-  INSTALL (TARGETS ${package} ${package}S
-      EXPORT CLHEPLibraryDepends
-      RUNTIME DESTINATION bin
-      LIBRARY DESTINATION lib${LIB_SUFFIX}
-      ARCHIVE DESTINATION lib${LIB_SUFFIX}
-      )
-endmacro(clhep_build_library)
+  install(TARGETS ${package} ${package}S
+    EXPORT CLHEPLibraryDepends
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib${LIB_SUFFIX}
+    ARCHIVE DESTINATION lib${LIB_SUFFIX}
+    )
+endmacro()
 
-macro(clhep_build_libclhep )
-  foreach( pkg ${ARGN} )
-     ##message( STATUS "${pkg} sources are ${CLHEP_${pkg}_list}" )
-     list(APPEND CLHEP_DEPS ${LIBRARY_OUTPUT_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}CLHEP-${pkg}-${CLHEP_VERSION}${CMAKE_STATIC_LIBRARY_SUFFIX} )
-     list(APPEND clhep_sources ${CLHEP_${pkg}_list} )
+
+macro(clhep_build_libclhep)
+  foreach(pkg ${ARGN})
+    list(APPEND CLHEP_DEPS ${LIBRARY_OUTPUT_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}CLHEP-${pkg}-${CLHEP_VERSION}${CMAKE_STATIC_LIBRARY_SUFFIX})
+    list(APPEND clhep_sources ${CLHEP_${pkg}_list})
   endforeach()
-  ##message( STATUS "clheplib source list ${clhep_sources}" )
 
-  ADD_LIBRARY (CLHEP  SHARED ${clhep_sources})
-  ADD_LIBRARY (CLHEPS STATIC ${clhep_sources})
+  add_library(CLHEP  SHARED ${clhep_sources})
+  add_library(CLHEPS STATIC ${clhep_sources})
 
-  SET_TARGET_PROPERTIES(CLHEP
-      PROPERTIES
+  set_target_properties(CLHEP
+    PROPERTIES
       OUTPUT_NAME CLHEP-${CLHEP_VERSION}
-        CLEAN_DIRECT_OUTPUT 1
+      CLEAN_DIRECT_OUTPUT 1
       )
-  SET_TARGET_PROPERTIES(CLHEPS
-      PROPERTIES
+  set_target_properties(CLHEPS
+    PROPERTIES
       OUTPUT_NAME CLHEP-${CLHEP_VERSION}
-        CLEAN_DIRECT_OUTPUT 1
+      CLEAN_DIRECT_OUTPUT 1
       )
 
   # export creates library dependency files for CLHEPConfig.cmake
-  INSTALL(TARGETS CLHEP CLHEPS
-      EXPORT CLHEPLibraryDepends
-      RUNTIME DESTINATION bin
-      LIBRARY DESTINATION lib${LIB_SUFFIX}
-      ARCHIVE DESTINATION lib${LIB_SUFFIX}
-      )
+  install(TARGETS CLHEP CLHEPS
+    EXPORT CLHEPLibraryDepends
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib${LIB_SUFFIX}
+    ARCHIVE DESTINATION lib${LIB_SUFFIX}
+    )
 
-  if( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
-      # copy
-      file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/clhep_static_symlink
+  if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/clhep_static_symlink
         "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E copy ${CMAKE_STATIC_LIBRARY_PREFIX}CLHEP-${CLHEP_VERSION}${CMAKE_STATIC_LIBRARY_SUFFIX} ${CMAKE_STATIC_LIBRARY_PREFIX}CLHEP${CMAKE_STATIC_LIBRARY_SUFFIX} WORKING_DIRECTORY \"$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}\" )" )
-      file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/clhep_shared_symlink
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/clhep_shared_symlink
         "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E copy ${CMAKE_SHARED_LIBRARY_PREFIX}CLHEP-${CLHEP_VERSION}${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CLHEP${CMAKE_SHARED_LIBRARY_SUFFIX} WORKING_DIRECTORY \"$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin\" )" )
   else()
-      # create the symbolic links
-      file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/clhep_static_symlink
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/clhep_static_symlink
         "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink ${CMAKE_STATIC_LIBRARY_PREFIX}CLHEP-${CLHEP_VERSION}${CMAKE_STATIC_LIBRARY_SUFFIX} ${CMAKE_STATIC_LIBRARY_PREFIX}CLHEP${CMAKE_STATIC_LIBRARY_SUFFIX} WORKING_DIRECTORY \"\$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}\" )" )
-      file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/clhep_shared_symlink
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/clhep_shared_symlink
         "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink ${CMAKE_SHARED_LIBRARY_PREFIX}CLHEP-${CLHEP_VERSION}${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CLHEP${CMAKE_SHARED_LIBRARY_SUFFIX} WORKING_DIRECTORY \"\$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}\" )" )
   endif()
 
-  INSTALL(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/clhep_static_symlink )
-  INSTALL(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/clhep_shared_symlink )
+  install(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/clhep_static_symlink)
+  install(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/clhep_shared_symlink)
+endmacro()
 
-endmacro(clhep_build_libclhep )

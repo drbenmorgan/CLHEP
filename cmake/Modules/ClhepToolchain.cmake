@@ -189,5 +189,4 @@ foreach(_lib ${CLHEP_libraries})
 endforeach()
 
 # - And we should be done...
-
-endmacro(clhep_toolchain)
+endmacro()
