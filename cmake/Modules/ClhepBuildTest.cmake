@@ -15,7 +15,7 @@
 #
 include(ClhepParseArgs)
 
-file(WRITE "${PROJECT_BINARY_DIR}/testWorkingDirMarker.cc" "int main(){return 0;}")
+file(WRITE "${PROJECT_BINARY_DIR}/testWorkingDirMarker.cc" "int main(){return 0;}\n")
 add_executable(testWorkingDirMarker ${PROJECT_BINARY_DIR}/testWorkingDirMarker.cc)
 
 macro(clhep_test testname)
