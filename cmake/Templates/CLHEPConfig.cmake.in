@@ -96,7 +96,7 @@ endif() # end of debugging
 # Locate ourselves, since all our config files should have been installed
 # alongside us...
 #
-get_filename_component(_thisdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+get_filename_component(_clhep_cmakedir "${CMAKE_CURRENT_LIST_FILE}" PATH)
 
 
 #----------------------------------------------------------------------------
@@ -115,12 +115,15 @@ set(CLHEP_INCLUDE_DIRS ${CLHEP_INCLUDE_DIR})
 # We don't really need this for now.
 set(CLHEP_DEFINITIONS @CLHEP_DEFINITIONS@)
 
+#-----------------------------------------------------------------------
+# Include compile features file for Intel
+include("${_clhep_cmakedir}/IntelCompileFeatures.cmake")
 
 #----------------------------------------------------------------------------
 # Include the file listing all the imported targets.
 # This is installed in the same location as us...
 #
-include("${_thisdir}/CLHEPLibraryDepends.cmake")
+include("${_clhep_cmakedir}/CLHEPLibraryDepends.cmake")
 
 #----------------------------------------------------------------------
 # - Handle shared vs static - default to shared if user didn't specify

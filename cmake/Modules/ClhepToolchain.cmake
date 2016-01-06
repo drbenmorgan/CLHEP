@@ -163,9 +163,12 @@ endforeach()
 #   consider the Apple case because we don't (yet) build CLHEP as a Framework.
 #   The Windows case can be easily added later.
 #   The location can of course be modified if you wish.
+#   Also install the CompileFeatures file for Intel so that clients
+#   without CMake support for this can use Intel.
 install(FILES
   ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfigVersion.cmake
   ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfig.cmake
+  ${PROJECT_SOURCE_DIR}/cmake/Modules/IntelCompileFeatures.cmake
   DESTINATION lib${LIB_SUFFIX}/CLHEP-${CLHEP_VERSION}
   )
 

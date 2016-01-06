@@ -19,6 +19,105 @@
 # clhep_lib_suffix();
 #    check for -DLIB_SUFFIX=xxx and process intelligently
 #
+# CMake Extensions
+# ----------------
+# macro set_ifnot(<var> <value>)
+#       If variable var is not set, set its value to that provided
+#
+# function enum_option(<option>
+#                      VALUES <value1> ... <valueN>
+#                      TYPE   <valuetype>
+#                      DOC    <docstring>
+#                      [DEFAULT <elem>]
+#                      [CASE_INSENSITIVE])
+#          Declare a cache variable <option> that can only take values
+#          listed in VALUES. TYPE may be FILEPATH, PATH or STRING.
+#          <docstring> should describe that option, and will appear in
+#          the interactive CMake interfaces. If DEFAULT is provided,
+#          <elem> will be taken as the zero-indexed element in VALUES
+#          to which the value of <option> should default to if not
+#          provided. Otherwise, the default is taken as the first
+#          entry in VALUES. If CASE_INSENSITIVE is present, then
+#          checks of the value of <option> against the allowed values
+#          will ignore the case when performing string comparison.
+#
+
+include(CMakeParseArguments)
+include(CheckCXXSourceCompiles)
+include(IntelCompileFeatures)
+
+#-----------------------------------------------------------------------
+# macro set_ifnot(<var> <value>)
+#       If variable var is not set, set its value to that provided
+#
+macro(set_ifnot _var _value)
+  if(NOT ${_var})
+    set(${_var} ${_value})
+  endif()
+endmacro()
+
+#-----------------------------------------------------------------------
+# function enum_option(<option>
+#                      VALUES <value1> ... <valueN>
+#                      TYPE   <valuetype>
+#                      DOC    <docstring>
+#                      [DEFAULT <elem>]
+#                      [CASE_INSENSITIVE])
+#          Declare a cache variable <option> that can only take values
+#          listed in VALUES. TYPE may be FILEPATH, PATH or STRING.
+#          <docstring> should describe that option, and will appear in
+#          the interactive CMake interfaces. If DEFAULT is provided,
+#          <elem> will be taken as the zero-indexed element in VALUES
+#          to which the value of <option> should default to if not
+#          provided. Otherwise, the default is taken as the first
+#          entry in VALUES. If CASE_INSENSITIVE is present, then
+#          checks of the value of <option> against the allowed values
+#          will ignore the case when performing string comparison.
+#
+function(enum_option _var)
+  set(options CASE_INSENSITIVE)
+  set(oneValueArgs DOC TYPE DEFAULT)
+  set(multiValueArgs VALUES)
+  cmake_parse_arguments(_ENUMOP "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+  # - Validation as needed arguments
+  if(NOT _ENUMOP_VALUES)
+    message(FATAL_ERROR "enum_option must be called with non-empty VALUES\n(Called for enum_option '${_var}')")
+  endif()
+
+  # - Set argument defaults as needed
+  if(_ENUMOP_CASE_INSENSITIVE)
+    set(_ci_values )
+    foreach(_elem ${_ENUMOP_VALUES})
+      string(TOLOWER "${_elem}" _ci_elem)
+      list(APPEND _ci_values "${_ci_elem}")
+    endforeach()
+    set(_ENUMOP_VALUES ${_ci_values})
+  endif()
+
+  set_ifnot(_ENUMOP_TYPE STRING)
+  set_ifnot(_ENUMOP_DEFAULT 0)
+  list(GET _ENUMOP_VALUES ${_ENUMOP_DEFAULT} _default)
+
+  if(NOT DEFINED ${_var})
+    set(${_var} ${_default} CACHE ${_ENUMOP_TYPE} "${_ENUMOP_DOC} (${_ENUMOP_VALUES})")
+  else()
+    set(_var_tmp ${${_var}})
+    if(_ENUMOP_CASE_INSENSITIVE)
+      string(TOLOWER ${_var_tmp} _var_tmp)
+    endif()
+
+    list(FIND _ENUMOP_VALUES ${_var_tmp} _elem)
+    if(_elem LESS 0)
+      message(FATAL_ERROR "Value '${${_var}}' for variable ${_var} is not allowed\nIt must be selected from the set: ${_ENUMOP_VALUES} (DEFAULT: ${_default})\n")
+    else()
+      # - convert to lowercase
+      if(_ENUMOP_CASE_INSENSITIVE)
+        set(${_var} ${_var_tmp} CACHE ${_ENUMOP_TYPE} "${_ENUMOP_DOC} (${_ENUMOP_VALUES})" FORCE)
+      endif()
+    endif()
+  endif()
+endfunction()
 
 #-----------------------------------------------------------------------
 # - Print info on variables
@@ -81,105 +180,6 @@ macro(clhep_autoconf_variables)
   endif()
 endmacro()
 
-# - Check c++0x support
-macro(_clhep_verify_cxx0x)
-  message(FATAL_ERROR "The c++0x extension is no longer supported.  Please use c++11 or later.")
-  if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 2.9 )
-      message(FATAL_ERROR "c++0x extension is not available for ${CMAKE_CXX_COMPILER_ID}${CMAKE_CXX_COMPILER_VERSION}")
-    else()
-      set(HAVE_STDCXX true)
-    endif()
-  elseif(CMAKE_COMPILER_IS_GNUCXX)
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.3)
-      message(FATAL_ERROR "c++0x extension is not available for ${CMAKE_CXX_COMPILER}")
-    else()
-      set(HAVE_STDCXX true)
-    endif()
-  else()
-    message(STATUS "clhep_set_compiler_flags: Do not know how to set c++11 extensions for ${CMAKE_CXX_COMPILER_ID}")
-  endif()
-endmacro()
-
-#-----------------------------------------------------------------------
-# - Check c++11 compiler support
-macro(_clhep_verify_cxx11)
-  if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.3)
-      message(FATAL_ERROR "c++11 extension is not available for ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
-    else()
-      set(HAVE_STDCXX true)
-    endif()
-  elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 14.0)
-      message(FATAL_ERROR "c++11 extension is not available for ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
-    else()
-      set(HAVE_STDCXX true)
-    endif()
-  elseif(CMAKE_COMPILER_IS_GNUCXX)
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.7)
-      message(FATAL_ERROR "c++11 extension is not available for ${CMAKE_CXX_COMPILER}")
-    elseif(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
-      message(FATAL_ERROR "CLHEP now requires gcc 4.8 or later")
-    else()
-      set(HAVE_STDCXX true)
-    endif()
-  else()
-    message(STATUS "clhep_set_compiler_flags: Do not know how to set c++11 extensions for ${CMAKE_CXX_COMPILER_ID}")
-  endif()
-endmacro()
-
-#-----------------------------------------------------------------------
-# - Check c++1y compiler support
-macro(_clhep_verify_cxx1y)
-  if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.5)
-      message(FATAL_ERROR "c++1y extension is not available for ${CMAKE_CXX_COMPILER_ID}${CMAKE_CXX_COMPILER_VERSION}")
-    else()
-      set(HAVE_STDCXX true)
-    endif()
-  elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 15.0)
-      message(FATAL_ERROR "c++11 extension is not available for ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
-    else()
-      set(HAVE_STDCXX true)
-    endif()
-  elseif(CMAKE_COMPILER_IS_GNUCXX)
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
-      message(FATAL_ERROR "c++1y extension is not available for ${CMAKE_CXX_COMPILER}")
-    else()
-      set(HAVE_STDCXX true)
-    endif()
-  else()
-    message(STATUS "clhep_set_compiler_flags: Do not know how to set c++1y extensions for ${CMAKE_CXX_COMPILER_ID}")
-  endif()
-endmacro()
-
-#-----------------------------------------------------------------------
-# - Check cxx14 compiler support
-macro(_clhep_verify_cxx14)
-  if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.5)
-      message(FATAL_ERROR "c++14 extension is not available for ${CMAKE_CXX_COMPILER_ID}${CMAKE_CXX_COMPILER_VERSION}")
-    else()
-      set(HAVE_STDCXX true)
-    endif()
-  elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16.0)
-      message(FATAL_ERROR "c++14 extension is not available for ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
-    else()
-      set(HAVE_STDCXX true)
-    endif()
-  elseif(CMAKE_COMPILER_IS_GNUCXX)
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
-      message(FATAL_ERROR "c++14 extension is not available for ${CMAKE_CXX_COMPILER}")
-    else()
-      set(HAVE_STDCXX true)
-    endif()
-  else()
-    message(STATUS "clhep_set_compiler_flags: Do not know how to set c++14 extensions for ${CMAKE_CXX_COMPILER_ID}")
-  endif()
-endmacro()
 
 #-----------------------------------------------------------------------
 # -
@@ -192,62 +192,64 @@ macro(_clhep_check_cxxstd)
     message(STATUS "_clhep_check_cxxstd debug: CLHEP_BUILD_CXXSTD: ${CLHEP_BUILD_CXXSTD}")
   endif()
 
-  set(HAVE_STDCXX)
-  if("${CLHEP_BUILD_CXXSTD}" STREQUAL "-std=c++0x")
-    message(FATAL_ERROR "The c++0x extension is no longer supported.  Please use c++11 or later.")
-  elseif("${CLHEP_BUILD_CXXSTD}" STREQUAL "-std=c++11")
-    _clhep_verify_cxx11()
-  elseif("${CLHEP_BUILD_CXXSTD}" STREQUAL "-std=c++1y")
-    _clhep_verify_cxx1y()
-  elseif("${CLHEP_BUILD_CXXSTD}" STREQUAL "-std=c++14")
-    _clhep_verify_cxx14()
-  elseif(DEFINED CLHEP_BUILD_CXXSTD)
-    message(FATAL_ERROR "${CLHEP_BUILD_CXXSTD} is not supported.  Supported extensions are c++11, c++1y, and c++14.")
-  else()
-    # presume -std=c++11
-    set(CLHEP_BUILD_CXXSTD "-std=c++11")
-    _clhep_verify_cxx11( )
-  endif()
+  enum_option(CLHEP_BUILD_CXXSTD
+    DOC "C++ Standard to compile against"
+    VALUES 11 14 c++11 c++14
+    CASE_INSENSITIVE
+    )
 
-  if(DEFINED HAVE_STDCXX)
-    if( ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" )
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CLHEP_BUILD_CXXSTD} -pthread")
-    elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CLHEP_BUILD_CXXSTD} -pthread")
-    elseif(CMAKE_COMPILER_IS_GNUCXX)
-      set(CMAKE_CXX_FLAGS "${CLHEP_BUILD_CXXSTD} -pthread ${CMAKE_CXX_FLAGS} -D_GNU_SOURCE")
+  string(REGEX REPLACE "^c\\+\\+" "" CLHEP_BUILD_CXXSTD "${CLHEP_BUILD_CXXSTD}")
+  mark_as_advanced(CLHEP_BUILD_CXXSTD)
+
+  # - Language features
+  set(CMAKE_CXX_EXTENSIONS OFF)
+  set(CLHEP_CXX_COMPILE_FEATURES
+    # Not completely clear what is used yet, so just most common
+    cxx_alias_templates
+    cxx_auto_type
+    cxx_lambdas
+    cxx_nullptr
+    cxx_range_for
+    cxx_strong_enums
+    )
+
+  # - If a higher standard than the default is requested, check that
+  #   compile features are available for that standard and add them
+  #   to the list
+  if(CLHEP_BUILD_CXXSTD GREATER 11)
+    if(CMAKE_CXX${CLHEP_BUILD_CXXSTD}_COMPILE_FEATURES)
+      list(APPEND CLHEP_CXX_COMPILE_FEATURES ${CMAKE_CXX${CLHEP_BUILD_CXXSTD}_COMPILE_FEATURES})
     else()
-      message(STATUS "clhep_set_compiler_flags: Do not know how to set ${CLHEP_BUILD_CXXSTD} extensions for ${CMAKE_CXX_COMPILER_ID}")
+      message(FATAL_ERROR "CLHEP requested to be compiled against C++ Standard '${CLHEP_BUILD_CXXSTD}'\nbut detected compiler '${CMAKE_CXX_COMPILER_ID}', version '${CMAKE_CXX_COMPILER_VERSION}'\ndoes not support any features of that standard")
     endif()
   endif()
-endmacro()
 
-#-----------------------------------------------------------------------
-# - Deprecated?
-macro(_clhep_check_for_pthread)
-  message(FATAL_ERROR "_clhep_check_for_pthread should no longer be used. CLHEP now requires gcc 4.8 or later with c++11 or later.")
 
-  set(HAVE_STDCXX)
-  if(NOT "${CMAKE_CXX_FLAGS}" STREQUAL "")
-    string(REGEX REPLACE " " ";" flag_list ${CMAKE_CXX_FLAGS})
-    foreach(flag ${flag_list})
-       if(${flag} STREQUAL "-std=c++0x")
-         _clhep_verify_cxx0x()
-       elseif(${flag} STREQUAL "-std=c++11")
-         _clhep_verify_cxx11()
-       elseif(${flag} STREQUAL "-std=c++1y")
-         _clhep_verify_cxx1y()
-       elseif(${flag} STREQUAL "-std=c++14")
-         _clhep_verify_cxx14()
-       endif()
-       message(STATUS "${flag} ${HAVE_STDCXX}")
-    endforeach()
-
-    if(DEFINED HAVE_STDCXX)
-      set(CMAKE_CXX_FLAGS "-pthread ${CMAKE_CXX_FLAGS}")
-    endif()
-    message(STATUS "_clhep_check_for_pthread debug: CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+  # - Stdlib features
+  set(CMAKE_REQUIRED_FLAGS "${CMAKE_CXX${CLHEP_BUILD_CXXSTD}_STANDARD_COMPILE_OPTION}")
+  # - std::shared_ptr
+  check_cxx_source_compiles("
+  #include <memory>
+  int main() {std::shared_ptr<int> foo(new int(42)); return 0;}
+  "
+  HAVE_CXX_MEMORY_SHARED_PTR
+  )
+  if(NOT HAVE_CXX_MEMORY_SHARED_PTR)
+    message(FATAL_ERROR "${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION} does not provide std::shared_ptr in linked C++ Standard Library")
   endif()
+
+  # - std::weak_ptr
+  check_cxx_source_compiles("
+  #include <memory>
+  int main() {std::weak_ptr<int> foo; return 0;}
+  "
+  HAVE_CXX_MEMORY_WEAK_PTR
+  )
+  if(NOT HAVE_CXX_MEMORY_WEAK_PTR)
+    message(FATAL_ERROR "${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION} does not provide std::weak_ptr in linked C++ Standard Library")
+  endif()
+
+  unset(CMAKE_REQUIRED_FLAGS)
 endmacro()
 
 
@@ -262,44 +264,31 @@ macro(clhep_set_compiler_flags)
   endif()
 
   _clhep_check_cxxstd()
-  message(STATUS "enable c++11 extensions: ${CMAKE_CXX_FLAGS}")
 
   if(CLHEP_DEBUG_MESSAGES)
     message(STATUS "clhep_set_compiler_flags debug: CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
     message(STATUS "clhep_set_compiler_flags debug: cmake compilers ${CMAKE_CXX_COMPILER} ${CMAKE_C_COMPILER}")
   endif()
 
-  get_filename_component(clhep_cxx_compiler ${CMAKE_CXX_COMPILER} NAME)
-  get_filename_component(clhep_c_compiler ${CMAKE_C_COMPILER} NAME)
-
-  if(CLHEP_DEBUG_MESSAGES)
-    message(STATUS "using compilers ${clhep_cxx_compiler} ${clhep_c_compiler}")
-  endif()
-
-  if(${clhep_c_compiler} STREQUAL "clang")
-    set(CMAKE_C_FLAGS "-O -pedantic -Wall ${CMAKE_C_FLAGS}")
-  elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
-    set(CMAKE_C_FLAGS "-O -ansi -pedantic -Wall ${CMAKE_C_FLAGS}")
-    set(CMAKE_CXX_FLAGS "-O -ansi -pedantic -Wall ${CMAKE_CXX_FLAGS}")
+  if(${CMAKE_C_COMPILER_ID} MATCHES "(Apple)?Clang")
+    set(CMAKE_C_FLAGS "-O -pedantic -Wall -pthread ${CMAKE_C_FLAGS}")
+  elseif(${CMAKE_C_COMPILER_ID} STREQUAL "Intel")
+    set(CMAKE_C_FLAGS "-O -ansi -pedantic -Wall -pthread ${CMAKE_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "-O -ansi -pedantic -Wall -pthread ${CMAKE_CXX_FLAGS}")
   elseif(CMAKE_COMPILER_IS_GNUCC)
-    set(CMAKE_C_FLAGS "-O -ansi -pedantic -Wall -D_GNU_SOURCE ${CMAKE_C_FLAGS}")
+    set(CMAKE_C_FLAGS "-O -ansi -pedantic -Wall -D_GNU_SOURCE -pthread ${CMAKE_C_FLAGS}")
   endif()
 
-  if(${clhep_cxx_compiler} STREQUAL "clang++")
-    set(CMAKE_CXX_FLAGS "-O -pedantic -Wall ${CMAKE_CXX_FLAGS}")
+  if(${CMAKE_CXX_COMPILER_ID} MATCHES "(Apple)?Clang")
+    set(CMAKE_CXX_FLAGS "-O -pedantic -Wall -pthread ${CMAKE_CXX_FLAGS}")
   elseif(CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_CXX_FLAGS "-O -ansi -pedantic -Wall -D_GNU_SOURCE ${CMAKE_CXX_FLAGS}")
-  endif()
-
-  if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    if(${CMAKE_BASE_NAME} MATCHES "cl")
-      set(CMAKE_C_FLAGS "/EHsc /nologo /GR /MD /D USING_VISUAL")
-      set(CMAKE_CXX_FLAGS "/EHsc /nologo /GR /MD /D USING_VISUAL")
-    endif()
+    set(CMAKE_CXX_FLAGS "-O -ansi -pedantic -Wall -D_GNU_SOURCE -pthread ${CMAKE_CXX_FLAGS}")
+  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(CMAKE_C_FLAGS "/EHsc /nologo /GR /MD /D USING_VISUAL")
+    set(CMAKE_CXX_FLAGS "/EHsc /nologo /GR /MD /D USING_VISUAL")
   endif()
 
   clhep_autoconf_variables()
-  message( STATUS "compiling with ${clhep_cxx_compiler} ${CMAKE_CXX_FLAGS} ${CXXFLAGS}")
 endmacro()
 
 #-----------------------------------------------------------------------
@@ -458,6 +447,10 @@ endmacro()
 # - Strip debugs
 macro(clhep_enable_asserts)
   string(REGEX REPLACE "-DNDEBUG" " " CXXFLAGS "${CXXFLAGS}")
-  string(TOUPPER ${CMAKE_BUILD_TYPE} BTYPE_UC)
-  string(REGEX REPLACE "-DNDEBUG" " " CMAKE_CXX_FLAGS_${BTYPE_UC} "${CMAKE_CXX_FLAGS_${BTYPE_UC}}")
+  list(APPEND CLHEP_BUILD_TYPES ${CMAKE_BUILD_TYPE} ${CMAKE_CONFIGURATION_TYPES})
+
+  foreach(_btype ${CLHEP_BUILD_TYPES})
+    string(TOUPPER ${_btype} BTYPE_UC)
+    string(REGEX REPLACE "-DNDEBUG" " " CMAKE_CXX_FLAGS_${BTYPE_UC} "${CMAKE_CXX_FLAGS_${BTYPE_UC}}")
+  endforeach()
 endmacro()

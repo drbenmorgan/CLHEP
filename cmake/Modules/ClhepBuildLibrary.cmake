@@ -30,15 +30,12 @@ macro(clhep_build_library package)
   # Add the libraries and set properties
   add_library(${package}  SHARED ${CLHEP_${package}_SOURCES})
   add_library(${package}S STATIC ${CLHEP_${package}_SOURCES})
-  set_target_properties(${package}
+
+  set_target_properties(${package} ${package}S
     PROPERTIES
       OUTPUT_NAME CLHEP-${package}-${CLHEP_VERSION}
-	    CLEAN_DIRECT_OUTPUT 1
-      )
-  set_target_properties(${package}S
-    PROPERTIES
-      OUTPUT_NAME CLHEP-${package}-${CLHEP_VERSION}
-	    CLEAN_DIRECT_OUTPUT 1
+      COMPILE_FEATURES "${CLHEP_CXX_COMPILE_FEATURES}"
+      INTERFACE_COMPILE_FEATURES "${CLHEP_CXX_COMPILE_FEATURES}"
       )
 
   target_link_libraries(${package}  ${package_library_list})
@@ -63,15 +60,11 @@ macro(clhep_build_libclhep)
   add_library(CLHEP  SHARED ${clhep_sources})
   add_library(CLHEPS STATIC ${clhep_sources})
 
-  set_target_properties(CLHEP
+  set_target_properties(CLHEP CLHEPS
     PROPERTIES
+      COMPILE_FEATURES "${CLHEP_CXX_COMPILE_FEATURES}"
+      INTERFACE_COMPILE_FEATURES "${CLHEP_CXX_COMPILE_FEATURES}"
       OUTPUT_NAME CLHEP-${CLHEP_VERSION}
-      CLEAN_DIRECT_OUTPUT 1
-      )
-  set_target_properties(CLHEPS
-    PROPERTIES
-      OUTPUT_NAME CLHEP-${CLHEP_VERSION}
-      CLEAN_DIRECT_OUTPUT 1
       )
 
   # export creates library dependency files for CLHEPConfig.cmake

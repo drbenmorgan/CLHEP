@@ -15,6 +15,10 @@
 #
 include(ClhepParseArgs)
 
+# - Create "dummy" target so we can use a generator expression to
+# determine working directory for shell script based tests. This works
+# for all build tools, and guarantees the correct executable is
+# run when working with multimode tools like Xcode/MSVC
 file(WRITE "${PROJECT_BINARY_DIR}/testWorkingDirMarker.cc" "int main(){return 0;}\n")
 add_executable(testWorkingDirMarker ${PROJECT_BINARY_DIR}/testWorkingDirMarker.cc)
 
@@ -31,13 +35,8 @@ macro(clhep_test testname)
     set(package_library_list ${PACKAGE}S)
   endif()
 
-  if(${PACKAGE}_DEPS)
-    foreach(dep ${${PACKAGE}_DEPS})
-      list(APPEND package_library_list ${PACKAGE}S)
-    endforeach()
-  endif()
-
   add_executable(${testname} ${testname}.cc)
+  target_compile_features(${testname} PRIVATE ${CLHEP_CXX_COMPILE_FEATURES})
   target_link_libraries(${testname} ${package_library_list})
 
   if(CTST_SIMPLE)
