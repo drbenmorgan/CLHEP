@@ -117,7 +117,7 @@ clhep_set_compiler_flags()
 clhep_config()
 
 # check for required functions
-check_function_exists(drand48 found_drand48)
+check_function_exists(drand48 HAVE_DRAND48)
 
 # all the packages
 set(CLHEP_subdirs

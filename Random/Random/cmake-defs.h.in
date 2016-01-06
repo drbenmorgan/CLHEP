@@ -4,7 +4,7 @@
 #define @UPACKAGE@_DEFS_H
 
 /* Define to 1 if you have the `drand48' function. */
-@DRAND48_DEF@
+#cmakedefine HAVE_DRAND48
 
 /* Define to the address where bug reports for this package should be sent. */
 #ifndef CLHEP_@UPACKAGE@_BUGREPORT

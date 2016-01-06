@@ -10,12 +10,6 @@ macro(clhep_copy_headers)
     string(TOUPPER ${package} UPACKAGE)
     set(PACKAGE ${package})
 
-    if(found_drand48 )
-      set(DRAND48_DEF "#define HAVE_DRAND48 1")
-    else()
-      set(DRAND48_DEF "#undef HAVE_DRAND48")
-    endif()
-
     file(GLOB headers
       ${CLHEP_SOURCE_DIR}/${package}/${package}/*.h
       ${CLHEP_SOURCE_DIR}/${package}/${package}/*.hh
