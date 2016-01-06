@@ -105,12 +105,10 @@ include(ClhepToolchain)
 
 enable_testing()
 
-# include search path
-include_directories("${PROJECT_BINARY_DIR}")
-# add CLHEP/Random to search path so we find gaussTables.cdat
-include_directories("${CMAKE_SOURCE_DIR}/Random")
-# define common flags
-set(CMAKE_INCLUDE_PATH "${CLHEP_BINARY_DIR}")
+# Create general build include paths
+# - Headers are copied to binary dir
+# - Random dir of source tree must be present so gaussTables.cdat is found
+include_directories("${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}/Random")
 
 # set our preferred compiler flags
 clhep_set_compiler_flags()
