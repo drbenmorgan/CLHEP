@@ -2,12 +2,15 @@
 
 include(ClhepBuildTex)
 
-clhep_latex( Vector eulerAngleComputation )
-clhep_latex( Vector VectorDefs )
+clhep_latex(Vector eulerAngleComputation)
+clhep_latex(Vector VectorDefs)
 
-
-INSTALL (FILES keyMergeIssues.doc
-               merge-details.doc
-	       minorMergeIssues.doc
-         DESTINATION doc/Vector )
+install(
+  FILES
+    keyMergeIssues.doc
+    merge-details.doc
+    minorMergeIssues.doc
+  DESTINATION
+    ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/doc/Vector
+  )
 

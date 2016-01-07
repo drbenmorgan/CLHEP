@@ -71,7 +71,7 @@ macro(clhep_latex package main_tex_file)
     endif()
 
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.pdf
-            DESTINATION doc/${package})
+      DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/CLHEP/doc/${package}/)
   endif()
 endmacro()
 

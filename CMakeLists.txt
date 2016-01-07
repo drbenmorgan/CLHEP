@@ -40,14 +40,6 @@ endif()
 
 list(INSERT CMAKE_MODULE_PATH 0 "${PROJECT_SOURCE_DIR}/cmake/Modules")
 
-# CLHEP_BUILD_DOCS is OFF (false) by default
-option(CLHEP_BUILD_DOCS "Build and install CLHEP documentation" OFF)
-if(CLHEP_BUILD_DOCS)
-  # backwards compatibility variable
-  set(build_docs ON)
-  message(STATUS "Enabled build and install of documents")
-endif()
-
 # enable use of LIB_SUFFIX
 include(ClhepVariables)
 clhep_lib_suffix()
@@ -57,6 +49,34 @@ clhep_lib_suffix()
 set(CMAKE_INSTALL_BINDIR bin)
 set(CMAKE_INSTALL_LIBDIR "lib${LIB_SUFFIX}")
 set(CMAKE_INSTALL_INCLUDEDIR "include")
+set(CMAKE_INSTALL_DATAROOTDIR "share")
+
+#-----------------------------------------------------------------------
+# Build docs
+# Doxygen here, modules may install additional docs, so perform
+# option here before build recurses into these
+option(CLHEP_BUILD_DOCS "Build and install CLHEP documentation" OFF)
+if(CLHEP_BUILD_DOCS)
+  # Build Doxygen
+  # Require 1.8.8 or better to allow use of MD file as mainpage
+  find_package(Doxygen 1.8.8 REQUIRED)
+  configure_file(doxygen.conf "${PROJECT_BINARY_DIR}/doxygen.conf" @ONLY)
+  add_custom_command(
+    OUTPUT "${PROJECT_BINARY_DIR}/Doxygen/html/index.html"
+    COMMAND ${DOXYGEN_EXECUTABLE} "${PROJECT_BINARY_DIR}/doxygen.conf"
+    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
+    DEPENDS
+    "${PROJECT_BINARY_DIR}/doxygen.conf"
+    CLHEP
+    "${PROJECT_SOURCE_DIR}/README.md"
+    COMMENT "Generating Doxygen docs for CLHEP"
+    )
+  add_custom_target(doc ALL DEPENDS "${PROJECT_BINARY_DIR}/Doxygen/html/index.html")
+
+  install(DIRECTORY ${PROJECT_BINARY_DIR}/Doxygen
+    DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/CLHEP/doc"
+    )
+endif()
 
 # Configure output directories
 # Put all library build products in standard locations under build tree
