@@ -1,3 +1,16 @@
+
+2016-03-25 W. David Dagenhart <wdd@fnal.gov>
+
+  * src/MixMaxRng.cc: The uncorrected code might not always yield independent seeds.
+    If two threads execute numberOfEngines++ and after both finish that both 
+    execute setSeed, then they will have the same seed. Fixed.
+  * src/Random.cc: There is a thread local variable of the type "defaults"
+    that contains two shared_ptr's in Random.cc.  This causes an intermittent
+    problem on OSX.  The complex objects containing the shared_ptr's have been
+    moved into a list of objects and the now the thread_local only contains a 
+    simple pointer now that points into the list.
+    Use the new Utility/use_atomic.h header.
+
 ==============================
 10.11.15 Release CLHEP-2.3.1.1
 ==============================
