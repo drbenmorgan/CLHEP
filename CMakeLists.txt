@@ -3,7 +3,8 @@
 #  cmake [-DCMAKE_INSTALL_PREFIX=/install/path] 
 #        [-DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel]
 #        [-DCMAKE_C_COMPILER=...] [-DCMAKE_CXX_COMPILER=...]
-#        [-DCLHEP_BUILD_CXXSTD="-std=c++NN"] (use specified c++ extension and thread support)
+#        [-DCMAKE_CXX_FLAGS=...]
+#        [-DCLHEP_BUILD_CXXSTD="-std=c++NN"] (use specified c++ extension)
 #        [-DCLHEP_DEBUG_MESSAGES=ON] (see more verbose output)
 #        [-DCLHEP_BUILD_DOCS=ON]
 #        [-DLIB_SUFFIX=64]
@@ -26,12 +27,12 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/ClhepOutOfSourceBuild.cmake)
 clhep_ensure_out_of_source_build()
 
-# use cmake 2.6 or later
-cmake_minimum_required(VERSION 2.6)
+# use cmake 3.2 or later
+cmake_minimum_required(VERSION 3.2)
 
 # project name
 project(CLHEP)
-set( VERSION 2.3.1.1 )
+set( VERSION 2.3.2.1 )
 
 # If Policy CMP0042 exists, use OLD to prefer the use of install names
 # instead of the new @rpath default. 

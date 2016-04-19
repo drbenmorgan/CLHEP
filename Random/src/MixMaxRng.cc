@@ -54,9 +54,9 @@ std::string MixMaxRng::name() const { return "MixMaxRng"; } // N=" + N
 MixMaxRng::MixMaxRng()
 : HepRandomEngine()
 {
-   numberOfEngines++;
+   int numEngines = ++numberOfEngines;
    fRngState= rng_alloc();
-   setSeed(static_cast<long>(numberOfEngines));
+   setSeed(static_cast<long>(numEngines));
 }
 
 MixMaxRng::MixMaxRng(long seed)

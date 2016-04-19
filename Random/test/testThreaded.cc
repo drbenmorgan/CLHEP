@@ -88,6 +88,7 @@ void testRandGauss(std::vector<double> const& reference, bool& result) {
   // check the shoot method using the CLHEP thread local
   // engine
   CLHEP::HepJamesRandom engine2(seedL1);
+  CLHEP::HepRandomEngine* savedEngine = CLHEP::HepRandom::getTheEngine();
   CLHEP::HepRandom::setTheEngine(&engine2);
   // setFlag causes it to not use the cached value
   // and generate a new pair of random numbers
@@ -99,6 +100,7 @@ void testRandGauss(std::vector<double> const& reference, bool& result) {
       reference[4] != CLHEP::RandGauss::shoot()) {
     result = false;
   }
+  CLHEP::HepRandom::setTheEngine(savedEngine);
 }
 
 #if defined __GNUC__ 

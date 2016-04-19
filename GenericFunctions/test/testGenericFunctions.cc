@@ -49,11 +49,3 @@ int  main(int, char **) {
   std::cout << "GenericFunctions autotest has passed" << std::endl;
   return 0;
 }
-#if defined __GNUC__ 
-  #if __GNUC__ > 3 && __GNUC_MINOR__ > 6
-    #pragma GCC diagnostic pop
-  #endif
-#endif
-#ifdef __clang__
-  #pragma clang diagnostic pop
-#endif
