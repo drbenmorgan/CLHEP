@@ -458,7 +458,7 @@ class poisson {
   }
 };
 
-double* createRefDist ( poisson pdist, int N,
+double* createRefDist ( poisson pdist, int N1,
 				int MINBIN, int MAXBINS, int clumping, 
 				int& firstBin, int& lastBin ) {
 
@@ -482,13 +482,13 @@ double* createRefDist ( poisson pdist, int N,
   double binc;
   while ( c < MAXBINS ) {
     for ( ic=0, binc=0; ic < clumping; ic++, r++ ) {
-      binc += pdist(r) * N;
+      binc += pdist(r) * N1;
     }
     start += binc;
     if (binc >= MINBIN) break;
     c++;
     if ( c > MAXBINS/3 ) {
-      cout << "The number of samples supplied " << N << 
+      cout << "The number of samples supplied " << N1 << 
 	" is too small to set up a chi^2 to test this distribution.\n";
       exit(-1);
     }
@@ -501,7 +501,7 @@ double* createRefDist ( poisson pdist, int N,
   double next = 0;
   while ( c < MAXBINS ) {
     for ( ic=0, binc=0; ic < clumping; ic++, r++ ) {
-      binc += pdist(r) * N;
+      binc += pdist(r) * N1;
     }
     next = binc;
     if (next < MINBIN) break;
@@ -514,7 +514,7 @@ double* createRefDist ( poisson pdist, int N,
   next += refdist[lastBin];
   while ( c < MAXBINS ) {
     for ( ic=0, binc=0; ic < clumping; ic++, r++ ) {
-      binc += pdist(r) * N;
+      binc += pdist(r) * N1;
     }
     next += binc;
     c++;
@@ -526,12 +526,12 @@ double* createRefDist ( poisson pdist, int N,
 } // createRefDist()
 
 
-bool poissonTest ( RandPoisson & dist, double mu, int N ) {
+bool poissonTest ( RandPoisson & dist, double mu, int N2 ) {
 
 // Three tests will be done:
 //
 // A chi-squared test will be used to test the hypothesis that the 
-// generated distribution of N numbers matches the proper Poisson distribution.
+// generated distribution of N2 numbers matches the proper Poisson distribution.
 //
 // The same test will be applied to the distribution of numbers "clumping"
 // together std::sqrt(mu) bins.  This will detect small deviations over several 
@@ -552,9 +552,9 @@ bool poissonTest ( RandPoisson & dist, double mu, int N ) {
 
   poisson pdist(mu);
 
-  double* refdist  = createRefDist( pdist, N,
+  double* refdist  = createRefDist( pdist, N2,
 			MINBIN, MAXBINS, 1, firstBin, lastBin);
-  double* refdist2 = createRefDist( pdist, N,
+  double* refdist2 = createRefDist( pdist, N2,
 			MINBIN, MAXBINS, clumping, firstBin2, lastBin2);
 
   // Now roll the random dists, treating the tails in the same way as we go.
@@ -572,7 +572,7 @@ bool poissonTest ( RandPoisson & dist, double mu, int N ) {
 
   int r1;
   int r2;
-  for (int i = 0; i < N; i++) {
+  for (int i = 0; i < N2; i++) {
     r = dist.fire();
     sum += r;
     moment += (r - mu)*(r - mu);
@@ -641,11 +641,11 @@ bool poissonTest ( RandPoisson & dist, double mu, int N ) {
 
   // Check out the mean and sigma to apply the third test
 
-  double mean = sum / N;
-  double sigma = std::sqrt( moment / (N-1) );
+  double mean = sum / N2;
+  double sigma = std::sqrt( moment / (N2-1) );
 
-  double deviationMean  = std::fabs(mean - mu)/(std::sqrt(mu/N));
-  double expectedSigma2Variance = (2*N*mu*mu/(N-1) + mu) / N;
+  double deviationMean  = std::fabs(mean - mu)/(std::sqrt(mu/N2));
+  double expectedSigma2Variance = (2*N2*mu*mu/(N2-1) + mu) / N2;
   double deviationSigma = std::fabs(sigma*sigma-mu)/std::sqrt(expectedSigma2Variance);
 
   cout << "Mean  (should be " << mu << ") is " << mean << "\n";

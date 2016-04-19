@@ -1,4 +1,8 @@
 
+2016-04-19 Lynn Garren <garren@fnal.gov> 
+
+  * test/testRandDists.cc: found another shadowed variable
+
 2016-03-25 W. David Dagenhart <wdd@fnal.gov>
 
   * src/MixMaxRng.cc: The uncorrected code might not always yield independent seeds.
