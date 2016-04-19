@@ -1,8 +1,10 @@
 
-2016-04-18 Lynn Garren <garren@fnal.gov> 
+2016-04-19 Lynn Garren <garren@fnal.gov> 
 
-  * Remove obsolete cmake macros
   * Be explicit about only supporting gcc 4.8 or better and clang 3.5 or better
+  * cmake: Remove obsolete cmake macros
+  * cmake: Set CMAKE_SHARED_LINKER_FLAGS
+  * cmake: Use find_package(Threads)
 
 2016-03-25 W. David Dagenhart <wdd@fnal.gov>
 
