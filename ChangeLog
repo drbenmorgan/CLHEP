@@ -1,4 +1,12 @@
 ==============================
+22.04.16 Release CLHEP-2.3.2.2
+==============================
+
+2016-04-21 Lynn Garren <garren@fnal.gov> 
+
+  * cmake: need to recognize both Clang and AppleClang
+
+==============================
 19.04.16 Release CLHEP-2.3.2.1
 ==============================
 
