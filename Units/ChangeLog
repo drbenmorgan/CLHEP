@@ -1,3 +1,9 @@
+
+2016-04-22 Lynn Garren <garren@fnal.gov> 
+
+  * Units/SystemOfUnits.h, Units/PhysicalConstants.h:
+    use static constexpr instead of static const
+
 ==============================
 22.04.16 Release CLHEP-2.3.2.2
 ==============================
