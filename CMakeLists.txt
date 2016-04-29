@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------
 # Top Level CMakeLists.txt for CLHEP
-#  cmake [-DCMAKE_INSTALL_PREFIX=/install/path] 
+#  cmake [-DCMAKE_INSTALL_PREFIX=/install/path]
 #        [-DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel]
 #        [-DCMAKE_C_COMPILER=...] [-DCMAKE_CXX_COMPILER=...]
 #        [-DCMAKE_CXX_FLAGS=...]
@@ -17,7 +17,7 @@
 # mac x86_64: -DCMAKE_CXX_FLAGS="-m64" -DCMAKE_OSX_ARCHITECTURES="x86_64"
 #
 # Use -DLIB_SUFFIX=64 to install the libraries in a lib64 subdirectory
-# instead of the default lib subdirectory.  
+# instead of the default lib subdirectory.
 #
 # The default CLHEP build type is CMAKE_BUILD_TYPE=RelWithDebInfo,
 # which matches the default CLHEP autoconf flags
@@ -27,23 +27,16 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/ClhepOutOfSourceBuild.cmake)
 clhep_ensure_out_of_source_build()
 
-# use cmake 3.2 or later
+# Project setup
 cmake_minimum_required(VERSION 3.2)
+project(CLHEP VERSION 2.3.2.2)
+# - needed for (temporary) back compatibility
+set(VERSION 2.3.2.2)
 
-# project name
-project(CLHEP)
-set( VERSION 2.3.2.2 )
-
-# If Policy CMP0042 exists, use OLD to prefer the use of install names
-# instead of the new @rpath default. 
-if(POLICY CMP0042)
-  cmake_policy(SET CMP0042 OLD)
-endif()
-
-set(CMAKE_MODULE_PATH 
-      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules 
-      ${CMAKE_MODULE_PATH}
-      )
+set(CMAKE_MODULE_PATH
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules
+  ${CMAKE_MODULE_PATH}
+  )
 
 # CLHEP_BUILD_DOCS is OFF (false) by default
 option(CLHEP_BUILD_DOCS "Build and install CLHEP documentation" OFF)
@@ -64,23 +57,16 @@ include(ClhepBuildLibrary)
 include(CheckFunctionExists)
 include(ClhepToolchain)
 
-# because we want to move these libraries about,
-# do not embed full path in shared libraries or executables
-set(CMAKE_SKIP_RPATH)
-
-ENABLE_TESTING()
+enable_testing()
 
 # include search path
-include_directories ("${PROJECT_BINARY_DIR}")
+include_directories("${PROJECT_BINARY_DIR}")
 # add CLHEP/Random to search path so we find gaussTables.cdat
-include_directories ("${CMAKE_SOURCE_DIR}/Random")
+include_directories("${CMAKE_SOURCE_DIR}/Random")
 
 # Put all library build products in standard locations under build tree
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-
-# define common flags
-set( CMAKE_INCLUDE_PATH  ${CLHEP_BINARY_DIR} )
 
 # set our preferred compiler flags
 clhep_set_compiler_flags()
@@ -89,55 +75,45 @@ clhep_set_compiler_flags()
 clhep_config()
 
 # check for required functions
-CHECK_FUNCTION_EXISTS(drand48 found_drand48)
+check_function_exists(drand48 found_drand48)
 
 # all the packages
-set( CLHEP_subdirs
-        Units
-	Utility
-	Vector
-	Evaluator
-	GenericFunctions
-	Geometry
-        Random
-	Matrix
-	RandomObjects
-	Cast
-	RefCount
-	Exceptions
-	)
+set(CLHEP_subdirs
+  Units
+  Utility
+  Vector
+  Evaluator
+  GenericFunctions
+  Geometry
+  Random
+  Matrix
+  RandomObjects
+  Cast
+  RefCount
+  Exceptions
+  )
 
 # The Units and Utility packages are just headers.
-set( CLHEP_libraries
-       Vector
-       Evaluator
-       GenericFunctions
-       Geometry
-       Random
-       Matrix
-       RandomObjects
-       Cast
-       RefCount
-       Exceptions
-       )
+set(CLHEP_libraries
+  Vector
+  Evaluator
+  GenericFunctions
+  Geometry
+  Random
+  Matrix
+  RandomObjects
+  Cast
+  RefCount
+  Exceptions
+  )
+clhep_copy_headers(${CLHEP_subdirs})
 
-clhep_copy_headers( ${CLHEP_subdirs} )
-
-add_subdirectory(Units)
-add_subdirectory(Utility) 
-add_subdirectory(Vector) 
-add_subdirectory(Evaluator) 
-add_subdirectory(GenericFunctions) 
-add_subdirectory(Geometry) 
-add_subdirectory(Random) 
-add_subdirectory(Matrix) 
-add_subdirectory(RandomObjects) 
-add_subdirectory(Cast) 
-add_subdirectory(RefCount) 
-add_subdirectory(Exceptions)
+foreach(_clhepdir ${CLHEP_subdirs})
+  add_subdirectory(${_clhepdir})
+endforeach()
 
 # libCLHEP.a and libCLHEP.so
-clhep_build_libclhep( ${CLHEP_libraries} )
+clhep_build_libclhep(${CLHEP_libraries})
 
 # provide tools for other packages to include CLHEP easily
 clhep_toolchain()
