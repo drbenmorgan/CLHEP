@@ -46,6 +46,7 @@ include(CMakeParseArguments)
 include(CheckCXXSourceCompiles)
 include(IntelCompileFeatures)
 
+
 #-----------------------------------------------------------------------
 # macro set_ifnot(<var> <value>)
 #       If variable var is not set, set its value to that provided
@@ -110,6 +111,7 @@ function(enum_option _var)
     list(FIND _ENUMOP_VALUES ${_var_tmp} _elem)
     if(_elem LESS 0)
       message(FATAL_ERROR "Value '${${_var}}' for variable ${_var} is not allowed\nIt must be selected from the set: ${_ENUMOP_VALUES} (DEFAULT: ${_default})\n")
+
     else()
       # - convert to lowercase
       if(_ENUMOP_CASE_INSENSITIVE)
@@ -168,6 +170,7 @@ macro(clhep_autoconf_variables)
   set(CXXCPP "${CXX} -E")
   if(CMAKE_BUILD_TYPE)
     set(CXXFLAGS "${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}}")
+
   endif()
 
   set(AM_CXXFLAGS  ${CMAKE_CXX_FLAGS} )
@@ -177,6 +180,7 @@ macro(clhep_autoconf_variables)
 
   if(CLHEP_DEBUG_MESSAGES)
     clhep_check_variable_names()
+
   endif()
 endmacro()
 
@@ -219,6 +223,7 @@ macro(_clhep_check_cxxstd)
   if(CLHEP_BUILD_CXXSTD GREATER 11)
     if(CMAKE_CXX${CLHEP_BUILD_CXXSTD}_COMPILE_FEATURES)
       list(APPEND CLHEP_CXX_COMPILE_FEATURES ${CMAKE_CXX${CLHEP_BUILD_CXXSTD}_COMPILE_FEATURES})
+
     else()
       message(FATAL_ERROR "CLHEP requested to be compiled against C++ Standard '${CLHEP_BUILD_CXXSTD}'\nbut detected compiler '${CMAKE_CXX_COMPILER_ID}', version '${CMAKE_CXX_COMPILER_VERSION}'\ndoes not support any features of that standard")
     endif()
@@ -286,6 +291,7 @@ macro(clhep_set_compiler_flags)
   elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(CMAKE_C_FLAGS "/EHsc /nologo /GR /MD /D USING_VISUAL")
     set(CMAKE_CXX_FLAGS "/EHsc /nologo /GR /MD /D USING_VISUAL")
+
   endif()
 
   clhep_autoconf_variables()

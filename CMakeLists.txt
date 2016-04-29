@@ -3,7 +3,8 @@
 #  cmake [-DCMAKE_INSTALL_PREFIX=/install/path]
 #        [-DCMAKE_BUILD_TYPE=Debug|Release|RelWithDebInfo|MinSizeRel]
 #        [-DCMAKE_C_COMPILER=...] [-DCMAKE_CXX_COMPILER=...]
-#        [-DCLHEP_BUILD_CXXSTD="-std=c++NN"] (use specified c++ extension and thread support)
+#        [-DCMAKE_CXX_FLAGS=...]
+#        [-DCLHEP_BUILD_CXXSTD="-std=c++NN"] (use specified c++ extension)
 #        [-DCLHEP_DEBUG_MESSAGES=ON] (see more verbose output)
 #        [-DCLHEP_BUILD_DOCS=ON]
 #        [-DLIB_SUFFIX=64]
