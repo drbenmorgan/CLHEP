@@ -1,42 +1,61 @@
-# - Config file for the CLHEP package
-# It defines the following variables
-#  CLHEP_INCLUDE_DIRS - include directories for CLHEP
-#  CLHEP_DEFINITIONS  - compile definitions needed to use CLHEP
-#  CLHEP_LIBRARIES    - libraries to link against
+# CLHEPConfig
+# -----------
+# CMake find_package CONFIG mode file for the CLHEP headers and libraries
 #
-# You may supply a version number through find_package which will be checked
-# against the version of this build. Standard CMake logic is used so that
-# the EXACT flag may be passed, and otherwise this build will report itself
-# as compatible with the requested version if:
+# CLHEP may be located using this file by invoking find_package with the form:
 #
-#  VERSION_OF_THIS_BUILD >= VERSION_REQUESTED
+#  find_package(CLHEP
+#    [version] [EXACT]              # Miniumum or EXACT version, e.g. 2.3.2.2
+#    [REQUIRED]                     # Fail with error if CLHEP is not found
+#    [COMPONENTS static <libs>...]  # CLHEP link mode and list of component libraries
+#    )
 #
 # CLHEP is built concurrently as a complete library and as a set of
-# component libraries. In each case, shared and static variants are
-# always built. By default, this module populates CLHEP_LIBRARIES with
-# the single,shared library. Thus
+# component libraries in both shared and static variants. When found
+# by find_package, this module creates the following IMPORTED targets:
 #
-#  find_package(CLHEP)
+#  CLHEP::CLHEP  - Full shared CLHEP library
+#  CLHEP::CLHEPS - Full static CLHEP library
+#  CLHEP::<C>    - Shared library for CLHEP Component <C> library
+#  CLHEP::<C>S   - Static library for CLHEP Component <C> library
 #
-#  include_directories(${CLHEP_INCLUDE_DIRS})
-#  add_executable(MyProgram ...sources...)
-#  target_link_libraries(MyProgram ${CLHEP_LIBRARIES})
+# The complete list of CLHEP component <C> names are
 #
-# would link 'MyProgram' with the complete, shared CLHEP library
+#  Vector             CLHEP Vector component library
+#  Evaluator          CLHEP Evaluator component library
+#  GenericFunctions   CLHEP GenericFunctions component library
+#  Geometry           CLHEP Geometry component library
+#  Random             CLHEP Random component library
+#  Matrix             CLHEP Matrix component library
+#  RandomObjects      CLHEP RandomObjects component library
+#  Cast               CLHEP Cast component library
+#  RefCount           CLHEP RefCount component library
+#  Exceptions         CLHEP Exceptions component library
 #
-# By passing 'COMPONENT' arguments to find_package, you may select between
-# static, shared and component libraries. For example, to select linking
-# with the complete, static CLHEP library:
+# In addition to imported targets, the following variables are defined:
+#
+#  CLHEP_INCLUDE_DIRS - include directories for CLHEP
+#  CLHEP_LIBRARIES    - libraries to link against
+#
+# By passing 'COMPONENT' arguments to find_package, you may select how
+# ``CLHEP_LIBRARIES`` is populated with static, shared and component libraries.
+#
+# By default, calling find_package as
+#
+#  find_package(CLHEP REQUIRED)
+#
+# will populate ``CLHEP_LIBRARIES`` with the full shared CLHEP library, whilst
 #
 #  find_package(CLHEP REQUIRED static)
 #
-# This will populate CLHEP_LIBRARIES with the requested static variant.
-# To select CLHEP component libraries, pass their names as COMPONENT
-# arguments. For example:
+# would populate it with the full static variant.
+#
+# To populate ``CLHEP_LIBRARIES`` with component libraries, pass their names
+# as COMPONENT arguments. For example:
 #
 #  find_package(CLHEP REQUIRED Vector Matrix)
 #
-# would populate CLHEP_LIBRARIES with the shared variants of the Vector
+# would populate ``CLHEP_LIBRARIES`` with the shared variants of the Vector
 # and Matrix component libraries. Note that CMake will take care of
 # any dependencies between components at the linking stage, so you only
 # need to list those you wish to use directly. Static component libraries
@@ -44,53 +63,15 @@
 #
 #  find_package(CLHEP REQUIRED static Vector Matrix)
 #
-# would populate CLHEP_LIBRARIES with the shared variants of the Vector
+# would populate ``CLHEP_LIBRARIES`` with the shared variants of the Vector
 # and Matrix component libraries. Note that the order of component
 # arguments does not matter, so
 #
 #  find_package(CLHEP REQUIRED Vector static Matrix)
 #
 # would work just as well. Mixtures of static and shared components are
-# not allowed. The complete list of CLHEP component names which may be
-# passed is:
+# not allowed.
 #
-#  Vector             CLHEP Vector component library (SHARED)
-#  Evaluator          CLHEP Evaluator component library (SHARED)
-#  GenericFunctions   CLHEP GenericFunctions component library (SHARED)
-#  Geometry           CLHEP Geometry component library (SHARED)
-#  Random             CLHEP Random component library (SHARED)
-#  Matrix             CLHEP Matrix component library (SHARED)
-#  RandomObjects      CLHEP RandomObjects component library (SHARED)
-#  Cast               CLHEP Cast component library (SHARED)
-#  RefCount           CLHEP RefCount component library (SHARED)
-#  Exceptions         CLHEP Exceptions component library (SHARED)
-#
-
-# ===========================================================================
-# Variables used by this module which can change the default behaviour of
-# this module. They need to be set prior to the call to find_package
-#
-# CLHEP_CONFIG_DEBUG - If set, this will enable some output from this module
-#                      to help in debugging its behaviour
-#
-#----------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------------
-# Print out values of the variables that we expect find_package to have passed
-# to us. This is useful for developers of CLHEPConfig!
-#
-if(CLHEP_CONFIG_DEBUG)
-  message(STATUS "CLHEPDebug : CLHEP_VERSION         = ${CLHEP_VERSION}")
-  message(STATUS "CLHEPDebug : CLHEP_FIND_VERSION    = ${CLHEP_FIND_VERSION}")
-  message(STATUS "CLHEPDebug : CLHEP_FIND_REQUIRED   = ${CLHEP_FIND_REQUIRED}")
-  message(STATUS "CLHEPDebug : CLHEP_FIND_QUIETLY    = ${CLHEP_FIND_QUIETLY}")
-
-  message(STATUS "CLHEPDebug : CLHEP_FIND_COMPONENTS = ${CLHEP_FIND_COMPONENTS}")
-
-  foreach(_cpt ${CLHEP_FIND_COMPONENTS})
-      message(STATUS "CLHEPDebug : CLHEP_FIND_REQUIRED_${_cpt} = ${CLHEP_FIND_REQUIRED_${_cpt}}")
-  endforeach()
-endif() # end of debugging
 
 #----------------------------------------------------------------------------
 # Locate ourselves, since all our config files should have been installed
@@ -109,12 +90,6 @@ set(CLHEP_INCLUDE_DIR @CLHEP_INCLUDE_DIR@)
 # Construct the overall include path for using CLHEP
 #
 set(CLHEP_INCLUDE_DIRS ${CLHEP_INCLUDE_DIR})
-
-#----------------------------------------------------------------------------
-# Set the compile definitions required to use CLHEP
-# We don't really need this for now.
-set(CLHEP_DEFINITIONS @CLHEP_DEFINITIONS@)
-
 
 #----------------------------------------------------------------------------
 # Include the file listing all the imported targets.
