@@ -24,7 +24,7 @@
 // as it is needed for conversion factor : positron charge = e_SI (coulomb)
 //
 // The others physical constants are defined in the header file :
-//PhysicalConstants.h
+// PhysicalConstants.h
 //
 // Authors: M.Maire, S.Giani
 //
@@ -41,6 +41,7 @@
 // 29.04.08   use PDG 2006 value of e_SI
 // 03.11.08   use PDG 2008 value of e_SI
 // 19.08.15   added liter and its sub units (mma)
+// 12.01.16   added symbols for microsecond (us) and picosecond (ps) (mma)
 
 #ifndef HEP_SYSTEM_OF_UNITS_H
 #define HEP_SYSTEM_OF_UNITS_H
@@ -149,6 +150,8 @@ namespace CLHEP {
   static constexpr double ns = nanosecond;
   static constexpr double  s = second;
   static constexpr double ms = millisecond;
+  static constexpr double us = microsecond;
+  static constexpr double ps = picosecond;
 
   //
   // Electric charge [Q]

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// $Id: setSystemOfUnits.cc,v 1.2 2003/08/13 20:00:10 garren Exp $
+// $Id:$
 // ----------------------------------------------------------------------
 
 #include "CLHEP/Evaluator/defs.h"
@@ -325,9 +325,11 @@ void Evaluator::setSystemOfUnits(double meter,
   setVariable("millisecond", milli_ * s);
   setVariable("ms",          milli_ * s);
   setVariable("microsecond", micro_ * s);
+  setVariable("us",          micro_ * s);
   setVariable("nanosecond",  nano_  * s);
   setVariable("ns",          nano_  * s);
   setVariable("picosecond",  pico_  * s);
+  setVariable("ps",          pico_  * s);
 
   // Current
 
