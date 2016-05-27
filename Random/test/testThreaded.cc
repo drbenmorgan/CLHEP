@@ -225,9 +225,9 @@ int main() {
     CLHEP::MixMaxRng engine1;
     CLHEP::MixMaxRng engine2;
     CLHEP::MixMaxRng engine3;
-    if(std::fabs(engine1.flat() - 0.925809) > epsilon ||
-       std::fabs(engine2.flat() - 0.918272) > epsilon ||
-       std::fabs(engine3.flat() - 0.0354222) > epsilon) {
+    if(std::fabs(engine1.flat() - 0.13049) > epsilon ||
+       std::fabs(engine2.flat() - 0.519572) > epsilon ||
+       std::fabs(engine3.flat() - 0.840834) > epsilon) {
       output << "Error, default seeds changed for MixMaxRng random engine.\n";
       return 1;
     }

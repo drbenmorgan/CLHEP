@@ -62,6 +62,8 @@ set( pkginclude_HEADERS DoubConv.hh
 			StaticRandomStates.h
 			TripleRand.h
 			mixmax.h
+			mixmax_skip_N8.icc
+			mixmax_skip_N17.icc
 			mixmax_skip_N256.icc )
 
 # notice that defs.h is not referenced here

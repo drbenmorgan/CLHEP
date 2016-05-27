@@ -1,4 +1,21 @@
 
+2016-05-10 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+  * SystemOfUnits.h, PhysicalConstants.h: converted all symbols and
+    constants from "static const" to "static constexpr".
+    Added symbols 'us' and 'ps' for microsecond and picosecond respectively;
+    updated Evaluator/src/setSystemOfUnits.cc accordingly.
+  * mixmax.[h,cc]: changed default number of N in mixmax generator to 17
+    (was 256). Removed use of obsolete 'register' keyword.
+  * Provided new skipping coefficients for the new value of N and for the
+    case N=8.
+  * MixMaxRng.[h,cc]: use simple loop for flatArray(); engine built-in
+    function turns out to be extremely slow and unefficient.
+    Use seed_spbox() for seeding MixMax with single seed.
+    Avoid hard-coded constant for initialisation of VECTOR_STATE_SIZE in
+    MixMaxRng, to directly use actual value of "N" from mixmax generator.
+    Corrected check for counter range in method getState().
+
 2016-04-22 Lynn Garren <garren@fnal.gov> 
 
   * Units/SystemOfUnits.h, Units/PhysicalConstants.h:
