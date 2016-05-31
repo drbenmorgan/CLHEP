@@ -6,7 +6,7 @@
 FIND_PACKAGE(LATEX)
 
 macro( clhep_latex package main_tex_file )
-IF(LATEX_COMPILER)
+IF(PDFLATEX_COMPILER)
    FOREACH(arg ${ARGN})  
      CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/${arg} 
                      ${CMAKE_CURRENT_BINARY_DIR}/${arg}  COPYONLY)
@@ -15,56 +15,31 @@ IF(LATEX_COMPILER)
    ##message(STATUS "${package} ${main_tex_file} depends on ${depend_list}" )
    ADD_CUSTOM_COMMAND( 
     OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.aux
-    COMMAND   ${LATEX_COMPILER}
+    COMMAND   ${PDFLATEX_COMPILER}
               -interaction=batchmode ${CMAKE_CURRENT_SOURCE_DIR}/${main_tex_file}
     DEPENDS   ${CMAKE_CURRENT_SOURCE_DIR}/${main_tex_file}.tex ${depend_list}
     COMMENT   "Latex - first pass"
   )
    ADD_CUSTOM_COMMAND( 
-    OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.dvi
-    COMMAND   ${LATEX_COMPILER}
+    OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.log
+    COMMAND   ${PDFLATEX_COMPILER}
               -interaction=batchmode ${CMAKE_CURRENT_SOURCE_DIR}/${main_tex_file}
     DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.aux
     COMMENT   "Latex - second pass"
   )
    ADD_CUSTOM_COMMAND( 
-    OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.log
-    COMMAND   ${LATEX_COMPILER}
+    OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.pdf
+    COMMAND   ${PDFLATEX_COMPILER}
               -interaction=batchmode ${CMAKE_CURRENT_SOURCE_DIR}/${main_tex_file}
-    DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.dvi
+    DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.log
     COMMENT   "Latex - third pass"
   )
   ADD_CUSTOM_TARGET(${main_tex_file} ALL echo
-    DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.log
+    DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.pdf
     )
-
-IF(DVIPS_CONVERTER)
-    ADD_CUSTOM_COMMAND( 
-      OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.ps
-      COMMAND   ${DVIPS_CONVERTER}
-                ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.dvi
-                -o ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.ps
-      DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.dvi
-      COMMENT   "dvi2ps"
-   )
-
- IF(PS2PDF_CONVERTER)
-    ADD_CUSTOM_COMMAND( 
-      OUTPUT    ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.pdf
-      COMMAND   ${PS2PDF_CONVERTER}
-                ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.ps
-      DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.ps
-      COMMENT   "ps2pdf"
-    )
-
- ADD_CUSTOM_TARGET( ${package}${main_tex_file}Document ALL echo
-      DEPENDS   ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.pdf
-    )
-    ENDIF(PS2PDF_CONVERTER)
-  ENDIF(DVIPS_CONVERTER)
 
  INSTALL (FILES ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.pdf
           DESTINATION doc/${package} )
-ENDIF(LATEX_COMPILER)
+ENDIF(PDFLATEX_COMPILER)
 
 endmacro( clhep_latex )
