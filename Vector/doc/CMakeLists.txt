@@ -9,5 +9,5 @@ clhep_latex( Vector VectorDefs )
 INSTALL (FILES keyMergeIssues.doc
                merge-details.doc
 	       minorMergeIssues.doc
-         DESTINATION doc/Vector )
+         DESTINATION share/doc/CLHEP/Vector )
 

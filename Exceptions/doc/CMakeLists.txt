@@ -15,4 +15,4 @@ INSTALL (FILES ex-design-1
 	       reply-pcanal-2
 	       whyZMthrowRethrows.txt
 	       ZMthrow_event_sequence.txt
-         DESTINATION doc/Exceptions )
+         DESTINATION share/doc/CLHEP/Exceptions )

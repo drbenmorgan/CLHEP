@@ -39,7 +39,7 @@ IF(PDFLATEX_COMPILER)
     )
 
  INSTALL (FILES ${CMAKE_CURRENT_BINARY_DIR}/${main_tex_file}.pdf
-          DESTINATION doc/${package} )
+          DESTINATION share/doc/CLHEP/${package} )
 ENDIF(PDFLATEX_COMPILER)
 
 endmacro( clhep_latex )

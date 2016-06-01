@@ -5,4 +5,4 @@ INSTALL (FILES Random.html
 	       JamesRandomSeeding.txt
 	       html/CLHEP-random.html
                html/onSavingRandomStates.html
-         DESTINATION doc/Random )
+         DESTINATION share/doc/CLHEP/Random )
