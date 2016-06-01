@@ -1,7 +1,6 @@
 # - Config file for the CLHEP package
 # It defines the following variables
 #  CLHEP_INCLUDE_DIRS - include directories for CLHEP
-#  CLHEP_DEFINITIONS  - compile definitions needed to use CLHEP
 #  CLHEP_LIBRARIES    - libraries to link against
 #
 # You may supply a version number through find_package which will be checked
@@ -109,12 +108,6 @@ set(CLHEP_INCLUDE_DIR @CLHEP_INCLUDE_DIR@)
 # Construct the overall include path for using CLHEP
 #
 set(CLHEP_INCLUDE_DIRS ${CLHEP_INCLUDE_DIR})
-
-#----------------------------------------------------------------------------
-# Set the compile definitions required to use CLHEP
-# We don't really need this for now.
-set(CLHEP_DEFINITIONS @CLHEP_DEFINITIONS@)
-
 
 #----------------------------------------------------------------------------
 # Include the file listing all the imported targets.

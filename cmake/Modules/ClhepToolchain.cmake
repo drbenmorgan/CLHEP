@@ -25,7 +25,6 @@ macro(clhep_toolchain)
 #
 # First we set the needed variables
 set(CLHEP_VERSION ${VERSION})
-set(CLHEP_DEFINITIONS )
 set(CLHEP_INCLUDE_DIR ${PROJECT_BINARY_DIR})
 
 # Now we configure the CLHEPConfig and CLHEPConfigVersion file templates,
@@ -104,7 +103,6 @@ endforeach()
 # Again we set the needed variable first. Not all have actually changed,
 # but we set again for clarity and just to be sure.
 set(CLHEP_VERSION ${VERSION})
-set(CLHEP_DEFINITIONS )
 
 # The setup of the include dir is slightly different because we want
 # to make the install relocatable (Current CLHEP setup *is* relocatable).
