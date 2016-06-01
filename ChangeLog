@@ -1,4 +1,33 @@
 ==============================
+31.05.16 Release CLHEP-2.3.3.0
+==============================
+
+2016-05-31 Ben Morgan <Ben.Morgan@warwick.ac.uk> 
+           and Lynn Garren <garren@fnal.gov>
+
+  * cmake: Use features of CMake 3.x. Update documentation of CLHEPConfig. 
+    Add INCLUDES destination to install of libraries so that imported
+    targets have INTERFACE_INCLUDE_DIRECTORIES set.
+  * provide a full doxygen build when -DCLHEP_BUILD_DOCS is set to ON.
+
+2016-05-10 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+  * Units/SystemOfUnits.h, Units/PhysicalConstants.h: converted all symbols and
+    constants from "static const" to "static constexpr".
+    Added symbols 'us' and 'ps' for microsecond and picosecond respectively;
+    updated Evaluator/src/setSystemOfUnits.cc accordingly.
+  * Random/mixmax.[h,cc]: changed default number of N in mixmax generator to 17
+    (was 256). Removed use of obsolete 'register' keyword.
+    Provided new skipping coefficients for the new value of N and for the
+    case N=8.
+  * Random/MixMaxRng.[h,cc]: use simple loop for flatArray(); engine built-in
+    function turns out to be extremely slow and unefficient.
+    Use seed_spbox() for seeding MixMax with single seed.
+    Avoid hard-coded constant for initialisation of VECTOR_STATE_SIZE in
+    MixMaxRng, to directly use actual value of "N" from mixmax generator.
+    Corrected check for counter range in method getState().
+
+==============================
 22.04.16 Release CLHEP-2.3.2.2
 ==============================
 
