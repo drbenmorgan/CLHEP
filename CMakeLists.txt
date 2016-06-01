@@ -29,29 +29,15 @@ clhep_ensure_out_of_source_build()
 
 # use cmake 3.2 or later
 cmake_minimum_required(VERSION 3.2)
-
-# project name
-project(CLHEP)
-set( VERSION 2.3.2.2 )
-
-# If Policy CMP0042 exists, use OLD to prefer the use of install names
-# instead of the new @rpath default. 
-if(POLICY CMP0042)
-  cmake_policy(SET CMP0042 OLD)
-endif()
+# Project setup
+project(CLHEP VERSION 2.3.2.2)
+# - needed for (temporary) back compatibility
+set(VERSION ${PROJECT_VERSION})
 
 set(CMAKE_MODULE_PATH 
       ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules 
       ${CMAKE_MODULE_PATH}
       )
-
-# CLHEP_BUILD_DOCS is OFF (false) by default
-option(CLHEP_BUILD_DOCS "Build and install CLHEP documentation" OFF)
-if(CLHEP_BUILD_DOCS)
-  # backwards compatibility variable
-  set(build_docs ON)
-  message(STATUS "Enabled build and install of documents")
-endif()
 
 # enable use of LIB_SUFFIX
 include(ClhepVariables)
@@ -64,23 +50,16 @@ include(ClhepBuildLibrary)
 include(CheckFunctionExists)
 include(ClhepToolchain)
 
-# because we want to move these libraries about,
-# do not embed full path in shared libraries or executables
-set(CMAKE_SKIP_RPATH)
-
 ENABLE_TESTING()
 
 # include search path
 include_directories ("${PROJECT_BINARY_DIR}")
 # add CLHEP/Random to search path so we find gaussTables.cdat
-include_directories ("${CMAKE_SOURCE_DIR}/Random")
+include_directories ("${PROJECT_SOURCE_DIR}/Random")
 
 # Put all library build products in standard locations under build tree
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-
-# define common flags
-set( CMAKE_INCLUDE_PATH  ${CLHEP_BINARY_DIR} )
 
 # set our preferred compiler flags
 clhep_set_compiler_flags()
@@ -141,6 +120,33 @@ clhep_build_libclhep( ${CLHEP_libraries} )
 
 # provide tools for other packages to include CLHEP easily
 clhep_toolchain()
+
+# CLHEP_BUILD_DOCS is OFF (false) by default
+option(CLHEP_BUILD_DOCS "Build and install CLHEP documentation" OFF)
+
+# - Build docucumentation if required
+if(CLHEP_BUILD_DOCS)
+  message(STATUS "Enabled build and install of documents")
+  # Build Doxygen
+  # Require 1.8.8 or better to allow use of MD file as mainpage
+  find_package(Doxygen 1.8.8 REQUIRED)
+  configure_file(doxygen.conf.in "${PROJECT_BINARY_DIR}/doxygen.conf" @ONLY)
+  add_custom_command(
+    OUTPUT "${PROJECT_BINARY_DIR}/Doxygen/html/index.html"
+    COMMAND ${DOXYGEN_EXECUTABLE} "${PROJECT_BINARY_DIR}/doxygen.conf"
+    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
+    DEPENDS
+    "${PROJECT_BINARY_DIR}/doxygen.conf"
+    CLHEP
+    "${PROJECT_SOURCE_DIR}/README.md"
+    COMMENT "Generating Doxygen docs for CLHEP"
+    )
+  add_custom_target(doc ALL DEPENDS "${PROJECT_BINARY_DIR}/Doxygen/html/index.html")
+
+  install(DIRECTORY ${PROJECT_BINARY_DIR}/Doxygen
+    DESTINATION "share/doc/CLHEP"
+    )
+endif()
 
 # Custom Packaging
 include(ClhepPackaging)
