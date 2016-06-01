@@ -15,7 +15,7 @@ macro(clhep_build_library package)
          ${CLHEP_${package}_list} ${CMAKE_CURRENT_SOURCE_DIR}/${file}
          CACHE INTERNAL "${package} sources" 
 	 )
-  endforeach(file)
+  endforeach()
   ##message( STATUS "in ${package}, clheplib source list ${CLHEP_${package}_list}" )
 
   # check for dependencies
@@ -35,12 +35,10 @@ macro(clhep_build_library package)
   SET_TARGET_PROPERTIES (${package}
       PROPERTIES 
         OUTPUT_NAME CLHEP-${package}-${VERSION}
-	CLEAN_DIRECT_OUTPUT 1
       )
   SET_TARGET_PROPERTIES(${package}S
       PROPERTIES 
         OUTPUT_NAME CLHEP-${package}-${VERSION}
-	CLEAN_DIRECT_OUTPUT 1
       )
 
   target_link_libraries(${package}  ${package_library_list} )
@@ -52,6 +50,7 @@ macro(clhep_build_library package)
       RUNTIME DESTINATION bin
       LIBRARY DESTINATION lib${LIB_SUFFIX}
       ARCHIVE DESTINATION lib${LIB_SUFFIX}
+      INCLUDES DESTINATION include
       ) 
 endmacro(clhep_build_library)
 
@@ -69,12 +68,10 @@ macro(clhep_build_libclhep )
   SET_TARGET_PROPERTIES(CLHEP
       PROPERTIES 
         OUTPUT_NAME CLHEP-${VERSION}
-        CLEAN_DIRECT_OUTPUT 1
       )
   SET_TARGET_PROPERTIES(CLHEPS
       PROPERTIES 
         OUTPUT_NAME CLHEP-${VERSION}
-        CLEAN_DIRECT_OUTPUT 1
       )
 
   # export creates library dependency files for CLHEPConfig.cmake
@@ -83,6 +80,7 @@ macro(clhep_build_libclhep )
       RUNTIME DESTINATION bin
       LIBRARY DESTINATION lib${LIB_SUFFIX}
       ARCHIVE DESTINATION lib${LIB_SUFFIX}
+      INCLUDES DESTINATION include
       ) 
 
   if( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
