@@ -113,6 +113,10 @@ void testRandGauss(std::vector<double> const& reference, bool& result) {
     #pragma GCC diagnostic ignored "-Wshadow"
   #endif
 #endif 
+#if defined  __INTEL_COMPILER
+  #pragma warning push
+  #pragma warning disable 1599
+#endif
 #ifdef __clang__
   #pragma clang diagnostic push
   #pragma clang diagnostic ignored "-Wshadow"
@@ -352,6 +356,9 @@ int main() {
     #pragma GCC diagnostic pop
   #endif
 #endif 
+#if defined  __INTEL_COMPILER
+  #pragma warning pop
+#endif
 #ifdef __clang__
   #pragma clang diagnostic pop
 #endif
