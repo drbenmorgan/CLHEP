@@ -2,7 +2,7 @@ CLHEP C++ Class Library for High Energy Physics
 ===============================================
 
 - [CLHEP Home Page](http://proj-clhep.web.cern.ch/proj-clhep/)
-- [Git Repository] (http://git.cern.ch/pubweb/CLHEP.git)
+- [Git Repository] (https://gitlab.cern.ch/CLHEP/CLHEP.git)
 - [Bug Reports and Feature Requests](https://its.cern.ch/jira/browse/CLHEP/)
 
 Installing CLHEP
