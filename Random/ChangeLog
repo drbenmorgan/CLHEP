@@ -1,4 +1,11 @@
 ==============================
+21.06.16 Release CLHEP-2.3.3.1
+==============================
+
+  * Random/src/RandPoisson.cc: fix a shadowing problem
+  * Random/test/testThreaded.cc: ignore warnings from -Wshadow from the Intel compiler
+
+==============================
 31.05.16 Release CLHEP-2.3.3.0
 ==============================
 

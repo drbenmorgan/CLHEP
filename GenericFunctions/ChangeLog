@@ -1,4 +1,11 @@
 ==============================
+21.06.16 Release CLHEP-2.3.3.1
+==============================
+
+  * GenericFunctions/ButcherTableau.icc, GenericFunctions/ExtendedButcherTableau.icc:
+    fix problems found when using -Wshadow with the Intel compiler
+
+==============================
 31.05.16 Release CLHEP-2.3.3.0
 ==============================
 ==============================

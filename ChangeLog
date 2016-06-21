@@ -1,4 +1,11 @@
 ==============================
+21.06.16 Release CLHEP-2.3.3.1
+==============================
+
+  * fix problems found when using -Wshadow with the Intel compiler
+  * cmake/Modules/ClhepVariables.cmake: fix a typo
+
+==============================
 31.05.16 Release CLHEP-2.3.3.0
 ==============================
 
