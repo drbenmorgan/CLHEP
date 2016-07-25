@@ -38,7 +38,7 @@ namespace Genfun {
       return (*p)(x);
     }
 
-    virtual double operator ()(const Argument & a) const {return operator() (a[0]);}
+    virtual double operator ()(const Argument & a) const override {return operator() (a[0]);}
 
   private:
 

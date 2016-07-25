@@ -53,11 +53,11 @@ namespace Genfun {
     virtual ~SymToArgAdaptor();
 
     // Retreive function value
-    virtual double operator ()(double argument) const;    // Gives an error.
-    virtual double operator ()(const Argument & a) const; // Must use this one
+    virtual double operator ()(double argument) const override;    // Gives an error.
+    virtual double operator ()(const Argument & a) const override; // Must use this one
 
     // Dimensionality
-    virtual unsigned int dimensionality() const;
+    virtual unsigned int dimensionality() const override;
 
   private:
 

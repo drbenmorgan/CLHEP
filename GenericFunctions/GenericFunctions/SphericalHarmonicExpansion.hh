@@ -37,11 +37,11 @@ namespace Genfun {
     virtual ~SphericalHarmonicExpansion();
   
     // Dimensionality=2.  They are; cosTheta (not theta) and phi
-    virtual unsigned int dimensionality() const {return 2;}
+    virtual unsigned int dimensionality() const override {return 2;}
 
     // Retreive function value
-    virtual double operator ()(double argument) const;    // Gives an error.
-    virtual double operator ()(const Argument & a) const; // Must use this one
+    virtual double operator ()(double argument) const override;    // Gives an error.
+    virtual double operator ()(const Argument & a) const override; // Must use this one
 
     // Get the expansion coefficients:
     SphericalHarmonicCoefficientSet & coefficientSet();

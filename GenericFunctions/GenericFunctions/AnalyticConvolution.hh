@@ -47,8 +47,8 @@ namespace Genfun {
     virtual ~AnalyticConvolution();
 
     // Retreive function value
-    virtual double operator ()(double argument) const;
-    virtual double operator ()(const Argument & a) const {return operator() (a[0]);}
+    virtual double operator ()(double argument) const override;
+    virtual double operator ()(const Argument & a) const override {return operator() (a[0]);}
   
     // Frequency of oscillation
     Parameter & frequency();
