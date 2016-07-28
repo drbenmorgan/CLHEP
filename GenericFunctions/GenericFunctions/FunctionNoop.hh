@@ -32,17 +32,17 @@ namespace Genfun {
     virtual ~FunctionNoop();
   
     // Retreive function value
-    virtual double operator ()(double argument) const;
-    virtual double operator ()(const Argument & a) const;
+    virtual double operator ()(double argument) const override;
+    virtual double operator ()(const Argument & a) const override;
   
     // Dimensionality 
-    virtual unsigned int dimensionality() const;
+    virtual unsigned int dimensionality() const override;
 
     // Derivative.  
-    Derivative partial (unsigned int) const;
+    Derivative partial (unsigned int) const override;
 
     // Does this function have an analytic derivative?
-    virtual bool hasAnalyticDerivative() const {return true;}
+    virtual bool hasAnalyticDerivative() const override {return true;}
 
   private:
   

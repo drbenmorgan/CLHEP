@@ -59,7 +59,7 @@ namespace Genfun {
     virtual ~AbsFunction();
   
     // Function value:  N-dimensional functions must override these:
-    virtual unsigned int dimensionality() const ;      // returns 1;
+    virtual unsigned int dimensionality() const;      // returns 1;
 
     // Function value
     virtual double operator() (double argument)          const=0;   
@@ -129,39 +129,24 @@ typedef const AbsFunction & GENFUNCTION;
 
 //----------------------------------------------------------------------------
 //
-// This macro does all the ugly boilerplate.  For reference I will lis what
-// it is doing:
+// These macros do all the ugly boilerplate.  
 //
-// 1).  It uses the base class function composition operator.  It would be
-//      nice to just use the 
-// 
-//        using AbsFunction::operator();
-//      
-//      directive but unfortunately this is compiler-dependent!
-//
+//----------------------------------------------------------------------------
 
+
+
+
+
+
+// A more modern way to accomplish this, which is slicker:
 
 #define FUNCTION_OBJECT_DEF(classname) \
 public:                                \
-  virtual FunctionComposition  operator()(const AbsFunction  &function) const; \
-  virtual ParameterComposition operator()(const AbsParameter &p) const; \
-  virtual classname *clone() const;            \
+ using Genfun::AbsFunction::operator();			\
+ virtual classname *clone() const override;		\
 private:                               
 
-//----------------------------------------------------------------------------
-//
-//  This macro implements the ugly boilerplate
-//
-  
 #define FUNCTION_OBJECT_IMP(classname)       \
-inline FunctionComposition classname::operator()(const AbsFunction & function) const\
-{                                            \
-  return AbsFunction::operator() (function); \
-}                                            \
-inline ParameterComposition classname::operator()(const AbsParameter & p) const\
-{                                            \
-  return AbsFunction::operator() (p);        \
-}                                            \
 inline classname *classname::clone() const          \
 {                                            \
   return new classname(*this);               \

@@ -32,11 +32,11 @@ namespace Genfun {
     virtual ~FunctionNumDeriv();
   
     // Retreive function value
-    virtual double operator ()(double argument) const;
-    virtual double operator ()(const Argument & a) const;
+    virtual double operator ()(double argument) const override;
+    virtual double operator ()(const Argument & a) const override;
   
     // Dimensionality 
-    virtual unsigned int dimensionality() const;
+    virtual unsigned int dimensionality() const override;
 
   private:
   

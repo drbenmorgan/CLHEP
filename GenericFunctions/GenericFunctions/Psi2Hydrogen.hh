@@ -31,8 +31,8 @@ namespace Genfun {
     virtual ~Psi2Hydrogen();
   
     // Retreive function value
-    virtual double operator ()(double argument) const;   // Gives an error
-    virtual double operator ()(const Argument & a) const;// Must use this one
+    virtual double operator ()(double argument) const override;   // Gives an error
+    virtual double operator ()(const Argument & a) const override;// Must use this one
   
     // Get the integer variable n
     unsigned int n() const;

@@ -38,8 +38,8 @@ namespace Genfun {
     virtual ~FunctionConvolution();
   
     // Retrieve function value
-    virtual double operator ()(double argument) const;
-    virtual double operator ()(const Argument & a) const {return operator() (a[0]);}
+    virtual double operator ()(double argument) const override;
+    virtual double operator ()(const Argument & argument) const override {return operator() (argument[0]);}
   
   private:
 
