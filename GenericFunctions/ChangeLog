@@ -1,4 +1,12 @@
 ==============================
+26.08.16 Release CLHEP-2.3.3.2
+==============================
+
+2016-07-25 Joe Boudreau <boudreau@pitt.edu>
+
+  * Adding override keyword to functions overriding virtual functions in the base class
+
+==============================
 21.06.16 Release CLHEP-2.3.3.1
 ==============================
 
