@@ -1,3 +1,9 @@
+
+2016-11-11 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+  * Evaluator.cc: fixed array initialisation in Evaluator static method
+    function().
+
 ==============================
 26.08.16 Release CLHEP-2.3.3.2
 ==============================

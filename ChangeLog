@@ -1,3 +1,11 @@
+
+2016-11-11 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+  * Random/Random/mixmax.h: corrected value of SPECIALMUL in mixmax.h to correspond to
+    exact formula for N=17 (m=2^36+1).
+  * Evaluator/src/Evaluator.cc: fixed array initialisation in Evaluator static method
+    function().
+
 ==============================
 26.08.16 Release CLHEP-2.3.3.2
 ==============================
