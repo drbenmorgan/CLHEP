@@ -1,3 +1,9 @@
+
+2016-11-18 Lynn Garren <garren@fnal.gov> 
+
+  * Utility/thread_local.h will be generated as part 
+    of enabling either a single or multi threaded build
+
 ==============================
 26.08.16 Release CLHEP-2.3.3.2
 ==============================
