@@ -5,6 +5,7 @@
 #        [-DCMAKE_C_COMPILER=...] [-DCMAKE_CXX_COMPILER=...]
 #        [-DCMAKE_CXX_FLAGS=...]
 #        [-DCLHEP_BUILD_CXXSTD="-std=c++NN"] (use specified c++ extension)
+#        [-DCLHEP_SINGLE_THREAD=ON] (disable multi threading)
 #        [-DCLHEP_DEBUG_MESSAGES=ON] (see more verbose output)
 #        [-DCLHEP_BUILD_DOCS=ON]
 #        [-DLIB_SUFFIX=64]
@@ -120,9 +121,6 @@ clhep_build_libclhep( ${CLHEP_libraries} )
 
 # provide tools for other packages to include CLHEP easily
 clhep_toolchain()
-
-# CLHEP_BUILD_DOCS is OFF (false) by default
-option(CLHEP_BUILD_DOCS "Build and install CLHEP documentation" OFF)
 
 # - Build docucumentation if required
 if(CLHEP_BUILD_DOCS)

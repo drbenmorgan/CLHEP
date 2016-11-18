@@ -13,8 +13,7 @@ set( Random_simple_tests testSaveEngineStatus
                          testBug73093 
                          testEngineCopy 
                          testDistCopy 
-                         testRanecuSequence
-                         testThreaded )
+                         testRanecuSequence )
 else()
 set( Random_simple_tests testSaveEngineStatus 
                          testInstanceRestore
@@ -27,8 +26,10 @@ set( Random_simple_tests testSaveEngineStatus
                          testEngineCopy 
                          testDistCopy 
                          testZiggurat
-                         testRanecuSequence
-                         testThreaded )
+                         testRanecuSequence )
+endif()
+if( NOT CLHEP_SINGLE_THREAD )
+  set( Random_simple_tests ${Random_simple_tests} testThreaded )
 endif()
 
 foreach ( test ${Random_tests} )

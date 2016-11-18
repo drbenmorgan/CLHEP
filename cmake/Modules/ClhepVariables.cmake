@@ -20,6 +20,12 @@
 #    check for -DLIB_SUFFIX=xxx and process intelligently
 #
 
+# CLHEP_SINGLE_THREAD is OFF (false) by default
+option(CLHEP_SINGLE_THREAD "Build without multithreading" OFF)
+
+# CLHEP_BUILD_DOCS is OFF (false) by default
+option(CLHEP_BUILD_DOCS "Build and install CLHEP documentation" OFF)
+
 macro( clhep_check_variable_names )
   # useful if you need to check a variable
   message( STATUS "clhep_check_variable_names: CMAKE_SYSTEM_NAME is ${CMAKE_SYSTEM_NAME}" )
@@ -223,17 +229,22 @@ macro( clhep_set_compiler_flags )
   if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "" FORCE)
   endif()
-  # find pthread
-  set(THREADS_PREFER_PTHREAD_FLAG ON)
-  find_package(Threads)
-  ##message(STATUS "clhep_set_compiler_flags debug: CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
-  message(STATUS "cmake build type is ${CMAKE_BUILD_TYPE}")
   _clhep_check_cxxstd()
-  if(THREADS_HAVE_PTHREAD_ARG) 
-    set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread" )
-  elseif(CMAKE_COMPILER_IS_GNUCXX)
-    # needed when building with gcc on OSX
-    set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread" )
+  # find pthread
+  if(CLHEP_SINGLE_THREAD)
+    set(CLHEP_THREAD_DEFINITION "#define CLHEP_THREAD_LOCAL")
+  else()
+    set(CLHEP_THREAD_DEFINITION "#define CLHEP_THREAD_LOCAL thread_local")
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads)
+    ##message(STATUS "clhep_set_compiler_flags debug: CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+    message(STATUS "cmake build type is ${CMAKE_BUILD_TYPE}")
+    if(THREADS_HAVE_PTHREAD_ARG) 
+      set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread" )
+    elseif(CMAKE_COMPILER_IS_GNUCXX)
+      # needed when building with gcc on OSX
+      set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread" )
+    endif()
   endif()
   if( CLHEP_DEBUG_MESSAGES )
     message(STATUS "enable c++11 extensions: ${CMAKE_CXX_FLAGS}")
