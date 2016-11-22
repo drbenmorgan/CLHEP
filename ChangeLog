@@ -1,4 +1,15 @@
 ==============================
+22.11.16 Release CLHEP-2.3.4.1
+==============================
+
+2016-11-22 Lynn Garren <garren@fnal.gov>
+
+  * cmake: bug fix for Apple Clang
+    Multithreading will be enabled when building with gcc,
+    Multithreading will be enabled for Apple Clang is 8.0 or later.
+    Multithreading will be enabled for Clang is 3.5 or later.
+
+==============================
 18.11.16 Release CLHEP-2.3.4.0
 ==============================
 
