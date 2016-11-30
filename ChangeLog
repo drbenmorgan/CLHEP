@@ -1,4 +1,12 @@
 ==============================
+30.11.16 Release CLHEP-2.3.4.3
+==============================
+
+2016-11-30 Lynn Garren <garren@fnal.gov>
+
+  * cmake: bug fix for the Intel compiler to allow multithreading
+
+==============================
 23.11.16 Release CLHEP-2.3.4.2
 ==============================
 ==============================
