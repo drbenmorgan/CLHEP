@@ -1,6 +1,9 @@
 
 2017-03-21 Lynn Garren <garren@fnal.gov>
 
+  * cmake/Modules/ClhepOutOfSourceBuild.cmake: fix CLHEP-137
+  * cmake/Modules/ClhepRegexEscape.cmake: regex escape function
+
   * Vector/src/RotationA.cc:
     fix for CLHEP-141 supplied by Evgueni Tcherniaev
   * Vector/test/testRotationAxis.cc:
