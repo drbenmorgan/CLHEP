@@ -1,3 +1,11 @@
+
+2017-03-21 Lynn Garren <garren@fnal.gov>
+
+  * src/RotationA.cc:
+    fix for CLHEP-141 supplied by Evgueni Tcherniaev
+  * test/testRotationAxis.cc:
+    test for CLHEP-141 supplied by Evgueni Tcherniaev
+
 ==============================
 30.11.16 Release CLHEP-2.3.4.3
 ==============================
