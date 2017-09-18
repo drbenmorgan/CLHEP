@@ -1,3 +1,8 @@
+
+2017-09-18 Lynn Garren <garren@fnal.gov> 
+
+* test: remove unused test .cc files to avoid confusion
+
 ==============================
 21.03.17 Release CLHEP-2.3.4.4
 ==============================
