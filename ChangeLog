@@ -1,4 +1,13 @@
 ==============================
+18.09.17 Release CLHEP-2.3.4.5
+==============================
+
+2017-09-18 Lynn Garren <garren@fnal.gov>
+
+* support c++17 and c++1z (see CLHEP-144)
+  code contributed by Chris Green
+
+==============================
 21.03.17 Release CLHEP-2.3.4.4
 ==============================
 

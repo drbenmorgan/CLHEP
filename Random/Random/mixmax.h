@@ -97,8 +97,8 @@ void seed_vielbein(rng_state_t* X, unsigned int i); // seeds with the i-th unit 
 //   FUNCTIONS FOR GETTING RANDOM NUMBERS
 
 #ifdef __MIXMAX_C
-	myuint get_next(rng_state_t* X);         // returns 64-bit int, which is between 1 and 2^61-1 inclusive
-	double get_next_float(rng_state_t* X);   // returns double precision floating point number in (0,1]
+	myuint clhep_get_next(rng_state_t* X);         // returns 64-bit int, which is between 1 and 2^61-1 inclusive
+	double clhep_get_next_float(rng_state_t* X);   // returns double precision floating point number in (0,1]
 #endif  //__MIXMAX_C
 
 void fill_array(rng_state_t* X, unsigned int n, double *array); // fastest method: set n to a multiple of N (e.g. n=256)
@@ -166,8 +166,8 @@ void branch_inplace( rng_state_t* Xin, myID_t* ID ); // almost the same as apply
 
 #ifndef __MIXMAX_C // c++ can put code into header files, why cant we? (with the inline declaration, should be safe from duplicate-symbol error)
 	
-#define get_next(X) GET_BY_MACRO(X)
-#define get_next_float(X) get_next_float_BY_MACRO(X)
+#define clhep_get_next(X) GET_BY_MACRO(X)
+#define clhep_get_next_float(X) clhep_get_next_float_BY_MACRO(X)
 
 #endif // __MIXMAX_C
 
@@ -186,8 +186,8 @@ inline 	myuint GET_BY_MACRO(rng_state_t* X) {
 }
 
 	
-inline double get_next_float_BY_MACRO(rng_state_t* X){
-        int64_t Z=(int64_t)get_next(X);
+inline double clhep_get_next_float_BY_MACRO(rng_state_t* X){
+        int64_t Z=(int64_t)clhep_get_next(X);
 #if defined(__x86_64__) && defined(__SSE__) && defined(__AVX__) && defined(USE_INLINE_ASM)
     double F;
         __asm__ __volatile__(  "pxor %0, %0;"
@@ -236,12 +236,12 @@ static const gsl_rng_type mixmax_type =
 
 unsigned long gsl_get_next(void *vstate) {
     rng_state_t* X= (rng_state_t*)vstate;
-    return (unsigned long)get_next(X);
+    return (unsigned long)clhep_get_next(X);
 }
 
 double gsl_get_next_float(void *vstate) {
     rng_state_t* X= (rng_state_t*)vstate;
-    return ( (double)get_next(X)) * INV_MERSBASE;
+    return ( (double)clhep_get_next(X)) * INV_MERSBASE;
 }
 
 void seed_for_gsl(void *vstate, unsigned long seed){

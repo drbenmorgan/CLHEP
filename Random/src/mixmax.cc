@@ -79,12 +79,12 @@ myuint iterate_raw_vec(myuint* Y, myuint sumtotOld){
 	return MOD_MERSENNE(MOD_MERSENNE(sumtot) + (ovflow <<3 ));
 }
 
-myuint get_next(rng_state_t* X) {
+myuint clhep_get_next(rng_state_t* X) {
     return GET_BY_MACRO(X);
 }
 
-double get_next_float(rng_state_t* X){
-    return get_next_float_BY_MACRO(X);
+double clhep_get_next_float(rng_state_t* X){
+    return clhep_get_next_float_BY_MACRO(X);
 }
 
 void fill_array(rng_state_t* X, unsigned int n, double *array)
@@ -167,7 +167,7 @@ rng_state_t*  rng_copy(myuint *Y)
 	/* copy the vector stored at Y, and return pointer to the newly allocated and initialized state.  
 	 It is the user's responsibility  to make sure that Y is properly allocated with rng_alloc, 
 	 then pass Y->V or it can also be an array -- such as myuint Y[N+1] and Y[1]...Y[N] have been set to legal values [0 .. MERSBASE-1]
-	 Partial sums on this new state are recalculated, and counter set to zero, so that when get_next is called, 
+	 Partial sums on this new state are recalculated, and counter set to zero, so that when clhep_get_next is called, 
 	 it will output the initial vector before any new numbers are produced, call iterate(X) if you want to advance right away */
 	rng_state_t* X = rng_alloc();
     myuint sumtot=0,ovflow=0;

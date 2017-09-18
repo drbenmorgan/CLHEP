@@ -180,7 +180,7 @@ void MixMaxRng::setSeeds(const long* Seeds, int seedNum)
 
 double MixMaxRng::flat()
 {
-   return get_next_float(fRngState);
+   return clhep_get_next_float(fRngState);
 }
 
 void MixMaxRng::flatArray(const int size, double* vect )
@@ -191,8 +191,8 @@ void MixMaxRng::flatArray(const int size, double* vect )
 
 MixMaxRng::operator unsigned int()
 {
-   return static_cast<unsigned int>(get_next(fRngState));
-   // get_next returns a 64-bit integer, of which the lower 61 bits
+   return static_cast<unsigned int>(clhep_get_next(fRngState));
+   // clhep_get_next returns a 64-bit integer, of which the lower 61 bits
    // are random and upper 3 bits are zero
 }
 
