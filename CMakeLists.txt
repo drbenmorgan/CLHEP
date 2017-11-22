@@ -31,7 +31,7 @@ clhep_ensure_out_of_source_build()
 # use cmake 3.2 or later
 cmake_minimum_required(VERSION 3.2)
 # Project setup
-project(CLHEP VERSION 2.3.5.0)
+project(CLHEP VERSION 2.3.4.5)
 # - needed for (temporary) back compatibility
 set(VERSION ${PROJECT_VERSION})
 
