@@ -1,3 +1,12 @@
+
+2017-11-22 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+* Updated MixMaxRng class to include latest C++ revision by K.Savvidy of
+  the MixMax generator, based on MixMax-2.0.
+* Replaced skipping coefficients optional set for N=256 with N=240.
+* Removed old C implementation files.
+* Set MixMax as the default random number generator in HepRandom.
+
 ==============================
 18.09.17 Release CLHEP-2.3.4.5
 ==============================
