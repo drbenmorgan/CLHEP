@@ -217,7 +217,6 @@ void MixMaxRng::showStatus() const
    std::cout << "------- MixMaxRng engine status -------" << std::endl;
 
    std::cout << " Current state vector is:" << std::endl;
-   //S.fh=stdout;
    print_state();
    std::cout << "---------------------------------------" << std::endl;
 }
@@ -726,15 +725,15 @@ myuint_t MixMaxRng::modadd(myuint_t foo, myuint_t bar)
 void MixMaxRng::print_state() const
 {
    int j;
-   fprintf(stdout, "mixmax state, file version 1.0\n" );
-   fprintf(stdout, "N=%u; V[N]={", rng_get_N() );
+   std::cout << "mixmax state, file version 1.0\n";
+   std::cout << "N=" << rng_get_N() << "; V[N]={";
    for (j=0; (j< (rng_get_N()-1) ); j++) {
-     fprintf(stdout, "%llu, ", S.V[j] );
+     std::cout << S.V[j] << ", ";
    }
-   fprintf(stdout, "%llu", S.V[rng_get_N()-1] );
-   fprintf(stdout, "}; " );
-   fprintf(stdout, "counter=%u; ", S.counter );
-   fprintf(stdout, "sumtot=%llu;\n", S.sumtot );
+   std::cout << S.V[rng_get_N()-1];
+   std::cout << "}; ";
+   std::cout << "counter= " << S.counter;
+   std::cout << "sumtot= " << S.sumtot << "\n";
 }
 
 MixMaxRng MixMaxRng::Branch()
