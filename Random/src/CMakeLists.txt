@@ -7,7 +7,6 @@ clhep_build_library( Random DoubConv.cc
 			    erfQ.cc
 			    flatToGaussian.cc
 			    gammln.cc
-			    mixmax.cc
 			    Hurd160Engine.cc
 			    Hurd288Engine.cc
 			    JamesRandom.cc

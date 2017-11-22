@@ -218,9 +218,9 @@ int main() {
     CLHEP::HepJamesRandom engine3;
     CLHEP::HepJamesRandom engine4;
     CLHEP::HepJamesRandom engine5;
-    if(std::fabs(engine3.flat() - 0.837788) > epsilon ||
-       std::fabs(engine4.flat() - 0.846736) > epsilon ||
-       std::fabs(engine5.flat() - 0.608056) > epsilon) {
+    if(std::fabs(engine3.flat() - 0.286072) > epsilon ||
+       std::fabs(engine4.flat() - 0.233610) > epsilon ||
+       std::fabs(engine5.flat() - 0.837788) > epsilon) {
       output << "Error, default seeds changed for HepJamesRandom random engine.\n";
       return 1;
     }
@@ -229,9 +229,9 @@ int main() {
     CLHEP::MixMaxRng engine1;
     CLHEP::MixMaxRng engine2;
     CLHEP::MixMaxRng engine3;
-    if(std::fabs(engine1.flat() - 0.13049) > epsilon ||
-       std::fabs(engine2.flat() - 0.519572) > epsilon ||
-       std::fabs(engine3.flat() - 0.840834) > epsilon) {
+    if(std::fabs(engine1.flat() - 0.840834) > epsilon ||
+       std::fabs(engine2.flat() - 0.338951) > epsilon ||
+       std::fabs(engine3.flat() - 0.840794) > epsilon) {
       output << "Error, default seeds changed for MixMaxRng random engine.\n";
       return 1;
     }
