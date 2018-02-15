@@ -48,10 +48,10 @@ int main() {
 	std::ifstream in("/dev/urandom", std::ios::in | std::ios::binary);
 	if(in.is_open()) {
 		in.read((char *)(&rvals), 2*sizeof(long));
-		in.close();
 		if(in.fail()) {
 			throw std::runtime_error("File read error");
 		}
+		in.close();
 	} else throw std::runtime_error("File open error");
     } catch(std::runtime_error e) {
 	std::ostringstream dStr;
@@ -201,7 +201,7 @@ int main() {
     // Loop as long as the values are bad.
     double r;
     unsigned int low = ~0;
-    unsigned long mask = (~0) << 31;
+    unsigned long mask = (~0u) << 31;
     unsigned long skipcount = 0;
     output << "low = " << low << "  mask = " << mask << std::endl;
     do {
