@@ -1,3 +1,9 @@
+
+2018-03-13 Lynn Garren <garren@fnal.gov> 
+
+* Utility/use_atomic.h: WIN32 supports atomic
+* Utility/atomic_int.h: WIN32 supports atomic
+
 ==============================
 15.02.18 Release CLHEP-2.4.0.2
 ==============================

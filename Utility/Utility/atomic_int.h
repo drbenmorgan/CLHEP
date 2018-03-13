@@ -9,10 +9,11 @@
 
 #if __cplusplus >= 201103L
 
-  #if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 7)
+  #if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 7) || WIN32
     #include <atomic>
     #define CLHEP_ATOMIC_INT_TYPE std::atomic<int>
   #elif __clang__
+    # on macOS, atomic is available starting with Sierra (Darwin 16)
     #if __has_feature(c_atomic)
       #include <atomic>
       #define CLHEP_ATOMIC_INT_TYPE std::atomic<int>
