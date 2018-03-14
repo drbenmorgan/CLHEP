@@ -1,3 +1,8 @@
+
+2018-03-14 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+* src/Ranlux64Engine.cc: bug fix
+
 ==============================
 15.02.18 Release CLHEP-2.4.0.2
 ==============================
