@@ -5,6 +5,7 @@
 //
 // Use std::atomic when the compiler declares it uses the C++11 standard
 //
+// on macOS, atomic is available starting with Sierra (Darwin 16)
 // ======================================================================
 
 #if __cplusplus >= 201103L
@@ -13,7 +14,6 @@
     #include <atomic>
     #define CLHEP_USE_ATOMIC
   #elif __clang__
-    # on macOS, atomic is available starting with Sierra (Darwin 16)
     #if __has_feature(c_atomic)
       #include <atomic>
       #define CLHEP_USE_ATOMIC
