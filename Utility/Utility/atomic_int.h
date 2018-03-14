@@ -9,7 +9,7 @@
 
 #if __cplusplus >= 201103L
 
-  #if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 7) || WIN32
+  #if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 7) || USING_VISUAL
     #include <atomic>
     #define CLHEP_ATOMIC_INT_TYPE std::atomic<int>
   #elif __clang__
