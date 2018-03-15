@@ -1,4 +1,18 @@
 ==============================
+15.03.18 Release CLHEP-2.4.0.3
+==============================
+
+2018-03-14 Lynn Garren <garren@fnal.gov> 
+
+* Utility/Utility/use_atomic.h: allow atomic with Windows VC++
+* Utility/Utility/atomic_int.h: allow atomic with Windows VC++
+
+2018-03-14 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+* cmake/Modules/ClhepVariables.cmake: allow thread local with Windows VC++
+* Random/src/Ranlux64Engine.cc: bug fix
+
+==============================
 15.02.18 Release CLHEP-2.4.0.2
 ==============================
 
