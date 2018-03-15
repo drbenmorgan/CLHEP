@@ -1,4 +1,13 @@
 ==============================
+15.03.18 Release CLHEP-2.4.0.3
+==============================
+
+2018-03-14 Lynn Garren <garren@fnal.gov> 
+
+* Utility/use_atomic.h: allow atomic with Windows VC++
+* Utility/atomic_int.h: allow atomic with Windows VC++
+
+==============================
 15.02.18 Release CLHEP-2.4.0.2
 ==============================
 ==============================
