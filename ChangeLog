@@ -2,10 +2,11 @@
 15.03.18 Release CLHEP-2.4.0.3
 ==============================
 
-2018-03-14 Lynn Garren <garren@fnal.gov> 
+2018-03-15 Lynn Garren <garren@fnal.gov> 
 
-* Utility/Utility/use_atomic.h: allow atomic with Windows VC++
-* Utility/Utility/atomic_int.h: allow atomic with Windows VC++
+* Utility/Utility/use_atomic.h, Utility/Utility/atomic_int.h: 
+  allow atomic with Windows VC++ 
+  make sure modern clang compilers use atomic as intended
 
 2018-03-14 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
 
