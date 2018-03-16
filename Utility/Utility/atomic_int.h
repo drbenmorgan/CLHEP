@@ -8,17 +8,22 @@
 // on macOS, atomic is available starting with Sierra (Darwin 16)
 // ======================================================================
 
-#if __cplusplus >= 201103L
+#if USING_VISUAL
+    #include <atomic>
+    #define CLHEP_ATOMIC_INT_TYPE std::atomic<int>
+#else
+  #if __cplusplus >= 201103L
 
-  #if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 7) || __clang__ || USING_VISUAL
+  #if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 7) || __clang__
     #include <atomic>
     #define CLHEP_ATOMIC_INT_TYPE std::atomic<int>
   #else
     #define CLHEP_ATOMIC_INT_TYPE int
   #endif
 
-#else
-  #define CLHEP_ATOMIC_INT_TYPE int
+  #else
+    #define CLHEP_ATOMIC_INT_TYPE int
+  #endif
 #endif
 
 #endif
