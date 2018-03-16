@@ -1,3 +1,9 @@
+
+2018-03-16 Lynn Garren <garren@fnal.gov> 
+
+* Utility/Utility/use_atomic.h, Utility/Utility/atomic_int.h: 
+  Windows does not recognize the __cplusplus check
+
 ==============================
 15.03.18 Release CLHEP-2.4.0.3
 ==============================
