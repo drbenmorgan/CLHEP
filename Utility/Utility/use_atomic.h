@@ -8,7 +8,7 @@
 // on macOS, atomic is available starting with Sierra (Darwin 16)
 // ======================================================================
 
-#if USING_VISUAL
+#if _WIN32
     #include <atomic>
     #define CLHEP_USE_ATOMIC
 #else
