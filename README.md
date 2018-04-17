@@ -70,13 +70,13 @@ Building CLHEP from Git
 To work with the head:
 
 ```
-$ git clone http://git.cern.ch/pub/CLHEP
+$ git clone https://gitlab.cern.ch/CLHEP/CLHEP.git
 ```
 
 To work with a tag:
 
 ```
-$ git clone http://git.cern.ch/pub/CLHEP
+$ git clone https://gitlab.cern.ch/CLHEP/CLHEP.git
 ... Use "git tag" to see the available tags.
 $ git co <tag>
 ```
