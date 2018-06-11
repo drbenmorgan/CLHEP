@@ -365,6 +365,14 @@ void RandEngine::flatArray(const int size, double* vect)
      vect[i]=flat();
 }
 
+RandEngine::operator double() {
+  return flat();
+}
+
+RandEngine::operator float() {
+  return float( flat() );
+}
+
 RandEngine::operator unsigned int() {
   return RandEngineBuilder<RAND_MAX>::thirtyTwoRandomBits(seq);
 }

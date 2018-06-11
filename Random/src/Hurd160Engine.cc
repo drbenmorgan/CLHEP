@@ -243,6 +243,10 @@ void Hurd160Engine::showStatus() const {
   std::cout.precision(pr);
 }
 
+Hurd160Engine::operator double() {
+  return flat();
+}
+
 Hurd160Engine::operator float() {
   if( wordIndex <= 1 ) {        // MF 9/15/98:  skip word 0
     advance();

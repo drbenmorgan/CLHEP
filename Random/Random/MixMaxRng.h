@@ -91,6 +91,10 @@ public:
   void showStatus() const;
   // Dumps the engine status on the screen.
 
+  operator double();
+  // Returns same as flat()
+  operator float();
+  // less precise flat, faster if possible
   operator unsigned int();
   // 32-bit flat
 
@@ -179,7 +183,7 @@ private:
   typedef struct rng_state_st rng_state_t;     // struct alias
   rng_state_t S;
 };
-    
+
 }  // namespace CLHEP
 
 #endif

@@ -72,8 +72,9 @@ public:
   void showStatus() const;
   // Dumps the engine status on the screen
 
-  operator float();      // flat value, without worrying about filling bits
-  operator unsigned int();  // 32-bit flat value, quickest of all
+  operator double();       // Returns same as flat()
+  operator float();        // flat value, without worrying about filling bits
+  operator unsigned int(); // 32-bit flat value, quickest of all
 
   virtual std::ostream & put (std::ostream & os) const;
   virtual std::istream & get (std::istream & is);
