@@ -263,6 +263,10 @@ void Hurd288Engine::showStatus() const {
   std::cout << "-------------------------------------------" << std::endl;
 }
 
+Hurd288Engine::operator double() {
+  return flat();
+}
+
 Hurd288Engine::operator float() {
   if( wordIndex <= 1 ) {	// MF 9/15/98:  skip word 0
     advance();
