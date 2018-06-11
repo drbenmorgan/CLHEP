@@ -89,31 +89,31 @@ Hep3Vector HepRotation::axis () const {
     double cosdelta = (rxx + ryy + rzz - 1.0) / 2.0;
     if (cosdelta > 0.0) return Hep3Vector(0,0,1); // angle = 0, any axis is good
 
-    double xx = (rxx + 1)/2;
-    double yy = (ryy + 1)/2;
-    double zz = (rzz + 1)/2;
-    double xy = (rxy + ryx)/4;
-    double xz = (rxz + rzx)/4;
-    double yz = (ryz + rzy)/4;
+    double xxt = (rxx + 1)/2;
+    double yyt = (ryy + 1)/2;
+    double zzt = (rzz + 1)/2;
+    double xyt = (rxy + ryx)/4;
+    double xzt = (rxz + rzx)/4;
+    double yzt = (ryz + rzy)/4;
     double x, y, z;
 
-    if (xx > ryy && xx > rzz) {
-      x = std::sqrt(xx);
+    if (xxt > ryy && xxt > rzz) {
+      x = std::sqrt(xxt);
       if (rzy - ryz < 0) x = -x;
-      y = xy/x;
-      z = xz/x;
+      y = xyt/x;
+      z = xzt/x;
       return  Hep3Vector( x, y, z ).unit();
-    } else if (yy > zz) {
-      y = std::sqrt(yy);
+    } else if (yyt > zzt) {
+      y = std::sqrt(yyt);
       if (rxz - rzx < 0) y = -y;
-      x = xy/y;
-      z = yz/y;
+      x = xyt/y;
+      z = yzt/y;
       return  Hep3Vector( x, y, z ).unit();
     } else {
-      z = std::sqrt(zz);
+      z = std::sqrt(zzt);
       if (ryx - rxy < 0) z = -z;
-      x = xz/z;
-      y = yz/z;
+      x = xzt/z;
+      y = yzt/z;
       return  Hep3Vector( x, y, z ).unit();
     }
   } else {
