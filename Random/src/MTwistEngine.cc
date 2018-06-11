@@ -231,6 +231,10 @@ void MTwistEngine::showStatus() const
    std::cout << "----------------------------------------" << std::endl;
 }
 
+MTwistEngine::operator double() {
+  return flat();
+}
+
 MTwistEngine::operator float() {
   unsigned int y;
 

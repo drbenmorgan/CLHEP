@@ -23,10 +23,6 @@ void DoubConv::fill_byte_order () {
     z *= 256;
   }
   // x, in IEEE format, would now be 0x4330060504030201
-  union DB8 {
-    unsigned char b[8];
-    double d;
-  };
   DB8 xb;
   xb.d = x;
   int n;
@@ -121,4 +117,4 @@ double DoubConv::longs2double (const std::vector<unsigned long> & v) {
   return db.d;
 }
 
-} // end namespace HepMC
+} // end namespace CLHEP

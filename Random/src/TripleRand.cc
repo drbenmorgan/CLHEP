@@ -203,6 +203,10 @@ void TripleRand::showStatus() const {
 								<< std::endl;
 }
 
+TripleRand::operator double() {
+  return flat();
+}
+
 TripleRand::operator float() {
   return (float)
     ( ( integerCong ^ tausworthe ^ (unsigned int)hurd ) * twoToMinus_32() 
