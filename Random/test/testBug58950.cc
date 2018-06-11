@@ -53,7 +53,7 @@ int main() {
 		}
 		in.close();
 	} else throw std::runtime_error("File open error");
-    } catch(std::runtime_error e) {
+    } catch(std::runtime_error &e) {
 	std::ostringstream dStr;
 	dStr << "Error: " << e.what() 
 	<< " processing seed from file \"" << "/dev/urandom" << "\"."; 
