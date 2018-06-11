@@ -28,10 +28,10 @@ int main()  {
     cerr << "Got past:  ZMthrow( Oops(\"Ouch\") ) -- not good!" << endl;
 #ifndef DEFECT_NO_EXCEPTIONS
   }
-  catch ( const Oops egad )  {
+  catch ( const Oops &egad )  {
     cerr << "Caught:  Oops" << endl;
   }
-  catch ( const ZMexception egad )  {
+  catch ( const ZMexception &egad )  {
     cerr << "Caught:  ZMexception" << endl;
   }
   catch ( ... )  {
