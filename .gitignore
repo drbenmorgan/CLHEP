@@ -8,3 +8,6 @@ config.guess
 config.sub
 install-sh
 missing
+*.orig
+*.rej
+*.patch
