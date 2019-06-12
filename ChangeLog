@@ -1,3 +1,10 @@
+
+2019-06-11  Lynn Garren <garren@fnal.gov>
+
+  * RandomObjects/src/RandMultiGauss.cc:
+    initialize sigmas before calling prepareUsigmas
+  * for CLHEP-154
+
 ==============================
 11.06.18 Release CLHEP-2.4.1.0
 ==============================
