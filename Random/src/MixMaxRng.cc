@@ -588,11 +588,11 @@ void MixMaxRng::seed_spbox(myuint_t seed)
    int i;
             
    myuint_t sumtot=0,ovflow=0;
-   if (seed == 0)
-   {
-     fprintf(stderr, " try seeding with nonzero seed next time!\n");
-     exit(MIXMAX_SEED_WAS_ZERO);
-   }
+   if (seed == 0) throw std::runtime_error("try seeding with nonzero seed next time");
+//   {
+     //fprintf(stderr, " try seeding with nonzero seed next time!\n");
+     //exit(MIXMAX_SEED_WAS_ZERO);
+//   }
             
    myuint_t l = seed;
             
