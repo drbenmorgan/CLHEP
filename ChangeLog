@@ -1,3 +1,11 @@
+==============================
+19.06.19 Release CLHEP-2.4.1.1
+==============================
+
+2010-06-19 Lynn Garren <garren@fnal.gov>
+
+  * Random/src/MixMaxRng.cc: throw if seed is zero
+  * for CLHEP-155
 
 2019-06-11  Lynn Garren <garren@fnal.gov>
 
