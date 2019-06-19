@@ -23,6 +23,7 @@ set( Random_simple_tests testSaveEngineStatus
                          testVectorSave
                          testBug58950 
                          testBug73093 
+                         testCLHEP155
                          testEngineCopy 
                          testDistCopy 
                          testZiggurat
