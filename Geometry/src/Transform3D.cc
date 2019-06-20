@@ -13,11 +13,8 @@
 
 #include <iostream>
 #include <cmath>	// double std::abs()
-#include <stdlib.h>	// int std::abs()
 #include "CLHEP/Geometry/defs.h"
 #include "CLHEP/Geometry/Transform3D.h"
-
-using std::abs;
 
 namespace HepGeom {
 
@@ -47,7 +44,7 @@ namespace HepGeom {
       if (j == 2) { return 0.0; } 
       if (j == 3) { return 1.0; } 
     } 
-    std::cerr << "Transform3D subscripting: bad indeces "
+    std::cerr << "Transform3D subscripting: bad indices "
 	      << "(" << i << "," << j << ")" << std::endl;
     return 0.0;
   }

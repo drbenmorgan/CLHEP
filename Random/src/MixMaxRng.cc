@@ -119,12 +119,6 @@ void MixMaxRng::saveStatus( const char filename[] ) const
    }
 }
 
-#define MIXMAX_ARRAY_INDEX_OUT_OF_BOUNDS   0xFF01
-#define MIXMAX_SEED_WAS_ZERO               0xFF02
-#define MIXMAX_ERROR_READING_STATE_FILE    0xFF03
-#define MIXMAX_ERROR_READING_STATE_COUNTER       0xFF04
-#define MIXMAX_ERROR_READING_STATE_CHECKSUM      0xFF05
-
 void MixMaxRng::restoreStatus( const char filename[] )
 {
    // a function for reading the state from a file
@@ -140,7 +134,7 @@ void MixMaxRng::restoreStatus( const char filename[] )
    else
    {
       fprintf(stderr, "mixmax -> read_state: error reading file %s\n", filename);
-      exit(MIXMAX_ERROR_READING_STATE_FILE);
+      throw std::runtime_error("Error in reading state file");
    }
     
    myuint_t vecVal;
@@ -148,7 +142,7 @@ void MixMaxRng::restoreStatus( const char filename[] )
    if (!fscanf(fin, "%llu", &S.V[0]) )
    {
      fprintf(stderr, "mixmax -> read_state: error reading file %s\n", filename);
-     exit(MIXMAX_ERROR_READING_STATE_FILE);
+     throw std::runtime_error("Error in reading state file");
    }
 
    int i;
@@ -157,7 +151,7 @@ void MixMaxRng::restoreStatus( const char filename[] )
      if (!fscanf(fin, ", %llu", &vecVal) )
      {
        fprintf(stderr, "mixmax -> read_state: error reading vector component i=%d from file %s\n", i, filename);
-       exit(MIXMAX_ERROR_READING_STATE_FILE);
+       throw std::runtime_error("Error in reading state file");
      }
      if(  vecVal <= MixMaxRng::M61 )
      {
@@ -176,7 +170,7 @@ void MixMaxRng::restoreStatus( const char filename[] )
    if (!fscanf( fin, "}; counter=%i; ", &counter))
    {
      fprintf(stderr, "mixmax -> read_state: error reading counter from file %s\n", filename);
-     exit(MIXMAX_ERROR_READING_STATE_FILE);
+     throw std::runtime_error("Error in reading state file");
    }
    if( counter <= rng_get_N() )
    {
@@ -187,29 +181,23 @@ void MixMaxRng::restoreStatus( const char filename[] )
      fprintf(stderr, "mixmax -> read_state: Invalid counter = %d"
              "  Must be 0 <= counter < %u\n" , counter, rng_get_N());
      print_state();
-     exit(MIXMAX_ERROR_READING_STATE_COUNTER);
+     throw std::runtime_error("Error in reading state counter");
    }
    precalc();
    myuint_t sumtot;
    if (!fscanf( fin, "sumtot=%llu\n", &sumtot))
    {
      fprintf(stderr, "mixmax -> read_state: error reading checksum from file %s\n", filename);
-     exit(MIXMAX_ERROR_READING_STATE_FILE);
+     throw std::runtime_error("Error in reading state file");
    }
 
    if (S.sumtot != sumtot)
    {
      fprintf(stderr, "mixmax -> checksum error while reading state from file %s - corrupted?\n", filename);
-     exit(MIXMAX_ERROR_READING_STATE_CHECKSUM);
+     throw std::runtime_error("Error in reading state checksum");
    }
    fclose(fin);
 }
-
-#undef MIXMAX_ARRAY_INDEX_OUT_OF_BOUNDS
-#undef MIXMAX_SEED_WAS_ZERO
-#undef MIXMAX_ERROR_READING_STATE_FILE
-#undef MIXMAX_ERROR_READING_STATE_COUNTER
-#undef MIXMAX_ERROR_READING_STATE_CHECKSUM
 
 void MixMaxRng::showStatus() const
 {
@@ -577,8 +565,6 @@ void MixMaxRng::seed_vielbein(unsigned int index)
    S.counter = N;  // set the counter to N if iteration should happen right away
    S.sumtot = 1;
 }
-        
-#define MIXMAX_SEED_WAS_ZERO 0xFF02
 
 void MixMaxRng::seed_spbox(myuint_t seed)
 {
@@ -589,10 +575,6 @@ void MixMaxRng::seed_spbox(myuint_t seed)
             
    myuint_t sumtot=0,ovflow=0;
    if (seed == 0) throw std::runtime_error("try seeding with nonzero seed next time");
-//   {
-     //fprintf(stderr, " try seeding with nonzero seed next time!\n");
-     //exit(MIXMAX_SEED_WAS_ZERO);
-//   }
             
    myuint_t l = seed;
             
@@ -604,8 +586,6 @@ void MixMaxRng::seed_spbox(myuint_t seed)
    S.counter = N;  // set the counter to N if iteration should happen right away
    S.sumtot = MIXMAX_MOD_MERSENNE(MIXMAX_MOD_MERSENNE(sumtot) + (ovflow <<3 ));
 }
-
-#undef MIXMAX_SEED_WAS_ZERO
 
 void MixMaxRng::seed_uniquestream( myID_t clusterID, myID_t machineID, myID_t runID, myID_t  streamID )
 {

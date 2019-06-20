@@ -1,3 +1,14 @@
+
+2019-06-20 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+  * Random/Random/MixMaxRng.h: removed not implemented constructor declaration.
+  * Random/src/MixMaxRng.cc: use throw instead of exit()
+  * Geometry/Geometry/BasicVector3D.h, Geometry/Geometry/Plane3D.h:
+    defaulted operator=(); fixing deprecation warnings on gcc-9.1.
+  * Geometry/Geometry/Transform3D.h, icc: fixed shadowing compilation
+    warnings as reported on gcc-9.1.
+  * Geometry/src/Transform3D.cc: fixed typo in printout.
+
 ==============================
 19.06.19 Release CLHEP-2.4.1.1
 ==============================
