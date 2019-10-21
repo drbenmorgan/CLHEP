@@ -1,3 +1,8 @@
+2019-10-18 Evgueni Tcherniaev <evgueni.tcherniaev.@cern.ch>
+
+  * Vector/Vector/*.h: added move constructor and move assignment
+  * Geometry/Geometry/*.h: added move constructor and move assignment
+
 ==============================
 20.06.19 Release CLHEP-2.4.1.2
 ==============================
