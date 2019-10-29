@@ -49,18 +49,18 @@ double Hep3Vector::gamma() const {
 }
 
 double Hep3Vector::rapidity() const {
-  if (std::fabs(dz) == 1) {
+  if (std::fabs(z()) == 1) {
     ZMthrowC (ZMxpvTachyonic(
       "Rapidity in Z direction taken for Hep3Vector with |Z| = 1 -- \n"
       "the log should return infinity"));
   }
-  if (std::fabs(dz) > 1) {
+  if (std::fabs(z()) > 1) {
     ZMthrowA (ZMxpvTachyonic(
       "Rapidity in Z direction taken for Hep3Vector with |Z| > 1 -- \n"
       "the log would return a NAN" ));
   }
-  // Want inverse std::tanh(dz):
-  return (.5 * std::log((1+dz)/(1-dz)) );
+  // Want inverse std::tanh(z()):
+  return (.5 * std::log((1+z())/(1-z())) );
 }
 
 double Hep3Vector::coLinearRapidity() const {
