@@ -21,32 +21,32 @@ namespace CLHEP {
 inline double & Hep3Vector::operator[] (int i)       { return operator()(i); }
 inline double   Hep3Vector::operator[] (int i) const { return operator()(i); }
 
-inline double Hep3Vector::x() const { return dx; }
-inline double Hep3Vector::y() const { return dy; }
-inline double Hep3Vector::z() const { return dz; }
+inline double Hep3Vector::x() const { return (*this)[X]; }
+inline double Hep3Vector::y() const { return (*this)[Y]; }
+inline double Hep3Vector::z() const { return (*this)[Z]; }
 
-inline double Hep3Vector::getX() const { return dx; }
-inline double Hep3Vector::getY() const { return dy; }
-inline double Hep3Vector::getZ() const { return dz; }
+inline double Hep3Vector::getX() const { return (*this)[X]; }
+inline double Hep3Vector::getY() const { return (*this)[Y]; }
+inline double Hep3Vector::getZ() const { return (*this)[Z]; }
 
-inline void Hep3Vector::setX(double x1) { dx = x1; }
-inline void Hep3Vector::setY(double y1) { dy = y1; }
-inline void Hep3Vector::setZ(double z1) { dz = z1; }
+inline void Hep3Vector::setX(double x) { (*this)[X] = x; }
+inline void Hep3Vector::setY(double y) { (*this)[Y] = y; }
+inline void Hep3Vector::setZ(double z) { (*this)[Z] = z; }
 
-inline void Hep3Vector::set(double x1, double y1, double z1) { 
-  dx = x1; 
-  dy = y1; 
-  dz = z1; 
+inline void Hep3Vector::set(double x, double y, double z) {
+  (*this)[X] = x;
+  (*this)[Y] = y;
+  (*this)[Z] = z;
 }
 
 inline double Hep3Vector::operator () (int i) const {
   switch(i) {
   case X:
-    return x();
+    return dx;
   case Y:
-    return y();
+    return dy;
   case Z:
-    return z();
+    return dz;
   default:
     return 0.;
   }
@@ -193,8 +193,8 @@ inline double Hep3Vector::getEta() const { return pseudoRapidity();}
 inline void Hep3Vector::setPerp(double r1) {
   double p = perp();
   if (p != 0.0) {
-    dx *= r1/p;
-    dy *= r1/p;
+    (*this)[X] *= r1/p;
+    (*this)[Y] *= r1/p;
   }
 }
 inline void Hep3Vector::setRho(double rho1) { setPerp (rho1); }
@@ -220,16 +220,16 @@ inline double Hep3Vector::getTolerance () {
 // ----------
 
 inline Hep3Vector& Hep3Vector::operator += (const Hep3Vector & p) {
-  dx += p.x();
-  dy += p.y();
-  dz += p.z();
+  (*this)[X] += p.x();
+  (*this)[Y] += p.y();
+  (*this)[Z] += p.z();
   return *this;
 }
 
 inline Hep3Vector& Hep3Vector::operator -= (const Hep3Vector & p) {
-  dx -= p.x();
-  dy -= p.y();
-  dz -= p.z();
+  (*this)[X] -= p.x();
+  (*this)[Y] -= p.y();
+  (*this)[Z] -= p.z();
   return *this;
 }
 
@@ -238,9 +238,9 @@ inline Hep3Vector Hep3Vector::operator - () const {
 }
 
 inline Hep3Vector& Hep3Vector::operator *= (double a) {
-  dx *= a;
-  dy *= a;
-  dz *= a;
+  (*this)[X] *= a;
+  (*this)[Y] *= a;
+  (*this)[Z] *= a;
   return *this;
 }
 
