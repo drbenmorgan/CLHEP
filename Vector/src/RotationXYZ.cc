@@ -7,10 +7,6 @@
 // along with HepRotation.
 //
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #if 0
 
 #include "CLHEP/Vector/defs.h"

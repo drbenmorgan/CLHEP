@@ -11,10 +11,6 @@
 //                   answers in the case where theta is near 0 of pi, and
 //                   the matrix is not a perfect rotation (due to roundoff).
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Vector/EulerAngles.h"

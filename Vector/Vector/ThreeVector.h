@@ -21,10 +21,6 @@
 #ifndef HEP_THREEVECTOR_H
 #define HEP_THREEVECTOR_H
 
-#ifdef GNUPRAGMA
-#pragma interface
-#endif
-
 #include <iostream>
 #include "CLHEP/Vector/defs.h" 
 

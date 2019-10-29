@@ -8,10 +8,6 @@
 // were present in the original CLHEP before the merge with ZOOM PhysicsVectors.
 //
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/Rotation.h"
 #include "CLHEP/Units/PhysicalConstants.h"

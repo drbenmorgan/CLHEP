@@ -6,10 +6,6 @@
 // This is the implementation of the HepGenMatrix class.
 //
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include <string.h>
 #include <cmath>
 #include <stdlib.h>

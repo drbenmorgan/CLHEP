@@ -8,10 +8,6 @@
 // and Hep3RotationInterface classes which are neither inline nor pure virtual.
 //
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/RotationInterfaces.h"
 

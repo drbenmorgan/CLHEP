@@ -6,10 +6,6 @@
 // This is the implementation of the HepBoostX class.
 //
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/BoostX.h"
 #include "CLHEP/Vector/Boost.h"

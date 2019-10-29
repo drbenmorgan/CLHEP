@@ -10,10 +10,6 @@
 // intrinsic properties or propeties relative to a second vector.
 //
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/ZMxpv.h"

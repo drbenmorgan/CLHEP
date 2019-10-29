@@ -1,10 +1,6 @@
 // -*- C++ -*-
 // ---------------------------------------------------------------------------
 //
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include <string.h>
 
 #include "CLHEP/Matrix/defs.h"

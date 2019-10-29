@@ -7,10 +7,6 @@
 // which is concerned with setting or constructing the transformation based 
 // on 4 supplied columns or rows.
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/LorentzRotation.h"
 #include "CLHEP/Vector/LorentzVector.h"

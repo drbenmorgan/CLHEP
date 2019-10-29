@@ -8,10 +8,6 @@
 // kinematic properties.
 //
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/LorentzVector.h"
 #include "CLHEP/Vector/ZMxpv.h"

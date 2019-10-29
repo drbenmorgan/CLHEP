@@ -10,10 +10,6 @@
 // would couple in all the HepRotation methods.
 //
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/ZMxpv.h"

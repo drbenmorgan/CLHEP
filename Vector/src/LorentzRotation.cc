@@ -9,10 +9,6 @@
 // Some ZOOM methods involving construction from columns and decomposition 
 // into boost*rotation are split off into LorentzRotationC and LorentzRotationD
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/LorentzRotation.h"
 #include "CLHEP/Vector/ZMxpv.h"

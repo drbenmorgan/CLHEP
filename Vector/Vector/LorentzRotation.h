@@ -23,10 +23,6 @@
 #ifndef HEP_LORENTZROTATION_H
 #define HEP_LORENTZROTATION_H
 
-#ifdef GNUPRAGMA
-#pragma interface
-#endif
-
 #include "CLHEP/Vector/defs.h" 
 #include "CLHEP/Vector/RotationInterfaces.h"
 #include "CLHEP/Vector/Rotation.h" 

@@ -4,10 +4,6 @@
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
 //
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include "CLHEP/Matrix/defs.h"
 #include "CLHEP/Matrix/Matrix.h"
 #include "CLHEP/Vector/Rotation.h"

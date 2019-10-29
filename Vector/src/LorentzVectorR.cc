@@ -8,10 +8,6 @@
 // of the Rotation.cc code module.
 //
 
-#ifdef GNUPRAGMA
-#pragma implementation
-#endif
-
 #include "CLHEP/Vector/defs.h"
 #include "CLHEP/Vector/LorentzVector.h"
 
