@@ -390,9 +390,7 @@ protected:
 
 protected:
 
-  double dx;
-  double dy;
-  double dz;
+  double data[3];
   // The components.
 
   static double tolerance;

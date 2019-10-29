@@ -18,8 +18,8 @@ namespace CLHEP {
 
 // x, y, z
 
-inline double & Hep3Vector::operator[] (int i)       { return operator()(i); }
-inline double   Hep3Vector::operator[] (int i) const { return operator()(i); }
+inline double & Hep3Vector::operator[] (int i)       { return data[i]; }
+inline double   Hep3Vector::operator[] (int i) const { return data[i]; }
 
 inline double Hep3Vector::x() const { return (*this)[X]; }
 inline double Hep3Vector::y() const { return (*this)[Y]; }
@@ -40,30 +40,11 @@ inline void Hep3Vector::set(double x, double y, double z) {
 }
 
 inline double Hep3Vector::operator () (int i) const {
-  switch(i) {
-  case X:
-    return dx;
-  case Y:
-    return dy;
-  case Z:
-    return dz;
-  default:
-    return 0.;
-  }
+  return data[i];
 }
 
 inline double & Hep3Vector::operator () (int i) {
-  static double dummy;
-  switch(i) {
-  case X:
-    return dx;
-  case Y:
-    return dy;
-  case Z:
-    return dz;
-  default:
-    return dummy;
-  }
+  return data[i];
 }
 
 // --------------
@@ -114,16 +95,16 @@ inline void Hep3Vector::setRhoPhiZ
 // ------------
 
 inline Hep3Vector::Hep3Vector()
-  : dx(0.), dy(0.), dz(0.) {}
-inline Hep3Vector::Hep3Vector(double x1)
-  : dx(x1), dy(0.), dz(0.) {}
-inline Hep3Vector::Hep3Vector(double x1, double y1)
-  : dx(x1), dy(y1), dz(0.) {}
-inline Hep3Vector::Hep3Vector(double x1, double y1, double z1)
-  : dx(x1), dy(y1), dz(z1) {}
+  : data{0.0, 0.0, 0.0} {}
+inline Hep3Vector::Hep3Vector(double x)
+  : data{ x , 0.0, 0.0} {}
+inline Hep3Vector::Hep3Vector(double x, double y)
+  : data{ x ,  y , 0.0} {}
+inline Hep3Vector::Hep3Vector(double x, double y, double z)
+  : data{ x ,  y ,  z } {}
 
 inline Hep3Vector::Hep3Vector(const Hep3Vector & p)
-: dx(p.dx), dy(p.dy), dz(p.dz) {}
+  : data{p.x(), p.y(), p.z()} {}
 
 inline Hep3Vector::~Hep3Vector() {}
 
