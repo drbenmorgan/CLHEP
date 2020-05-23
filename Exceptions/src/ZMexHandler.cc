@@ -17,11 +17,17 @@
 
 #include "CLHEP/Exceptions/ZMexHandler.h"
 
+#include "CLHEP/Exceptions/ZMexAction.h"
 #include "CLHEP/Exceptions/ZMexception.h"
+#include "CLHEP/Exceptions/ZMexLogResult.h"
+#include "CLHEP/Exceptions/ZMexSeverity.h"
+
+#include <string>
 
 
 namespace zmex  {
 
+ZMexHandler::~ZMexHandler() { }
 
 //******************************************
 //

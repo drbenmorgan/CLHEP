@@ -2,13 +2,15 @@
 // $Id: testBasicVector3D.cc,v 1.5 2010/06/16 16:21:27 garren Exp $
 // ---------------------------------------------------------------------------
 
-#include <iostream>
-#include <assert.h>
 #include "CLHEP/Geometry/Point3D.h"
 #include "CLHEP/Geometry/Vector3D.h"
 #include "CLHEP/Geometry/Normal3D.h"
 #include "CLHEP/Geometry/Transform3D.h"
 #include "CLHEP/Units/PhysicalConstants.h"
+
+#include <assert.h>
+#include <cmath>
+#include <iostream>
 
 bool EQUAL(double a, double b) {
   double del = a - b;

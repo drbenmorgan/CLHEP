@@ -1,6 +1,9 @@
 // -*- C++ -*-
 // $Id: 
+#include "CLHEP/GenericFunctions/AbsFunction.hh"
 #include "CLHEP/GenericFunctions/ArrayFunction.hh"
+
+#include <vector>
 
 namespace Genfun {
 

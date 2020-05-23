@@ -30,7 +30,10 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandFlat.h"
 #include "CLHEP/Random/DoubConv.hh"
+#include <iostream>
+#include <string>
 #include <string.h>	// for strcmp
+#include <vector>
 
 namespace CLHEP {
 

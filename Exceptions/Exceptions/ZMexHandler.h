@@ -103,7 +103,7 @@ public:
     ZMhandleTo<ZMexHandlerBehavior>( behaviorWanted )
   { }
 
-  virtual ~ZMexHandler() { }
+  virtual ~ZMexHandler();
 
   std::string name() const {
     return  rep_->name();

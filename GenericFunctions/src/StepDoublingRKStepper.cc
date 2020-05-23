@@ -1,6 +1,7 @@
 #include "CLHEP/GenericFunctions/StepDoublingRKStepper.hh"
 #include <stdexcept>
 #include <cmath>
+#include <vector>
 namespace Genfun {
 
   

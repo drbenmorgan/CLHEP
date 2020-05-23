@@ -2,6 +2,8 @@
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/Rotation.h"
 #include <assert.h>
+#include <cmath>
+#include <iostream>
 
 bool equal(double a, double b) {
   const double eps = 1e-9;

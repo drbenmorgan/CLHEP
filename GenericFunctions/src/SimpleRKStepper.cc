@@ -1,6 +1,8 @@
 #include "CLHEP/GenericFunctions/SimpleRKStepper.hh"
 #include <cmath>
 #include <stdexcept>
+#include <vector>
+
 namespace Genfun {
   SimpleRKStepper::SimpleRKStepper(const ButcherTableau & mtableau,double xstepsize):
     tableau(mtableau),

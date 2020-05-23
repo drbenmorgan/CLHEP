@@ -41,6 +41,13 @@ macro(clhep_build_library package)
         OUTPUT_NAME CLHEP-${package}-${VERSION}
       )
 
+  # Do not add -Dname_EXPORTS to the command-line when building files in this
+  # target. Doing so is actively harmful for the modules build because it
+  # creates extra module variants, and not useful because we don't use these
+  # macros.
+  SET_TARGET_PROPERTIES(${package} PROPERTIES DEFINE_SYMBOL "")
+  SET_TARGET_PROPERTIES(${package}S PROPERTIES DEFINE_SYMBOL "")
+
   target_link_libraries(${package}  ${package_library_list} )
   target_link_libraries(${package}S ${package_library_list_static} )
 
@@ -73,6 +80,12 @@ macro(clhep_build_libclhep )
       PROPERTIES 
         OUTPUT_NAME CLHEP-${VERSION}
       )
+  # Do not add -Dname_EXPORTS to the command-line when building files in this
+  # target. Doing so is actively harmful for the modules build because it
+  # creates extra module variants, and not useful because we don't use these
+  # macros.
+  SET_TARGET_PROPERTIES(CLHEP PROPERTIES DEFINE_SYMBOL "")
+  SET_TARGET_PROPERTIES(CLHEPS PROPERTIES DEFINE_SYMBOL "")
 
   # export creates library dependency files for CLHEPConfig.cmake
   INSTALL(TARGETS CLHEP CLHEPS

@@ -2,7 +2,7 @@
 // $Id: 
 #include "CLHEP/GenericFunctions/Sigma.hh"
 #include <assert.h>
-
+#include <vector>
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Sigma)
 

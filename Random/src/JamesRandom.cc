@@ -43,9 +43,13 @@
 #include "CLHEP/Random/DoubConv.hh"
 #include "CLHEP/Utility/atomic_int.h"
 
-#include <string.h>	// for strcmp
+#include <atomic>
 #include <cmath>
 #include <cstdlib>
+#include <iostream>
+#include <string.h>	// for strcmp
+#include <string>
+#include <vector>
 
 //#define TRACE_IO
 

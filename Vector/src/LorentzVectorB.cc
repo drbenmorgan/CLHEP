@@ -14,6 +14,8 @@
 #include "CLHEP/Vector/LorentzVector.h"
 #include "CLHEP/Vector/ZMxpv.h"
 
+#include <cmath>
+#include <iostream>
 namespace CLHEP  {
 
 //-*********

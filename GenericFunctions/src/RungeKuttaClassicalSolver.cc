@@ -1,6 +1,10 @@
 #include "CLHEP/GenericFunctions/RungeKuttaClassicalSolver.hh"
 #include "CLHEP/GenericFunctions/RKIntegrator.hh"
 #include "CLHEP/GenericFunctions/AdaptiveRKStepper.hh"
+
+#include <iostream>
+#include <vector>
+
 namespace Classical {
   //
   // This is the private innards of RungeKuttaSolver

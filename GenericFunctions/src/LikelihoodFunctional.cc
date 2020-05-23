@@ -7,6 +7,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <cmath>      // for log()
+#include <vector>
 
 namespace Genfun {
 LikelihoodFunctional::LikelihoodFunctional(const ArgumentList & aList):

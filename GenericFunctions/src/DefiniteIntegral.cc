@@ -1,12 +1,13 @@
 // -*- C++ -*-
 // $Id: DefiniteIntegral.cc,v 1.6 2010/06/16 18:22:01 garren Exp $
 
+#include "CLHEP/GenericFunctions/AbsFunction.hh"
+#include "CLHEP/GenericFunctions/DefiniteIntegral.hh"
+
 #include <cmath>
+#include <iostream>
 #include <vector>
 #include <stdexcept>
-#include "CLHEP/GenericFunctions/DefiniteIntegral.hh"
-#include "CLHEP/GenericFunctions/AbsFunction.hh"
-
 
 namespace Genfun {
 

@@ -16,6 +16,9 @@
 
 #include "CLHEP/Exceptions/ZMexClassInfo.h"
 
+#include "CLHEP/Exceptions/ZMexSeverity.h"
+
+#include <string>
 
 namespace zmex  {
 

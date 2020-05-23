@@ -4,6 +4,8 @@
 #include "CLHEP/GenericFunctions/GammaDistribution.hh"
 #include <assert.h>
 #include <cmath>
+#include <iostream>
+
 using namespace std;
 
 namespace Genfun {

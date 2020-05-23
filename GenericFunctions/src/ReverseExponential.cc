@@ -3,6 +3,7 @@
 #include "CLHEP/GenericFunctions/ReverseExponential.hh"
 #include <assert.h>
 #include <cmath>      // for exp()
+#include <iostream>
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(ReverseExponential)

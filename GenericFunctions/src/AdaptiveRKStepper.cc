@@ -1,7 +1,10 @@
 #include "CLHEP/GenericFunctions/AdaptiveRKStepper.hh"
 #include "CLHEP/GenericFunctions/EmbeddedRKStepper.hh"
+
 #include <cmath>
 #include <stdexcept>
+#include <vector>
+
 namespace Genfun {
 
   AdaptiveRKStepper::AdaptiveRKStepper(const EEStepper *stepper):

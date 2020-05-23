@@ -36,8 +36,11 @@
 #include "CLHEP/Random/engineIDulong.h"
 #include "CLHEP/Utility/atomic_int.h"
 
-#include <string.h>        // for strcmp
+#include <atomic>
 #include <cmath>
+#include <iostream>
+#include <string.h>        // for strcmp
+#include <vector>
 
 const unsigned long MASK32=0xffffffff;
 

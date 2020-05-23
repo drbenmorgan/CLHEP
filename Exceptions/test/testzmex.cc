@@ -20,6 +20,9 @@
 
 #include "CLHEP/Exceptions/ZMthrow.h"
 #include "CLHEP/Exceptions/ZMexception.h"
+#include "CLHEP/Exceptions/ZMexAction.h"
+#include "CLHEP/Exceptions/ZMexClassInfo.h"
+#include "CLHEP/Exceptions/ZMexSeverity.h"
 #include "CLHEP/Exceptions/ZMerrno.h"
 
 

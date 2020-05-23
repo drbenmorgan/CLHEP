@@ -2,6 +2,7 @@
 // $Id: FunctionConvolution.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
 #include "CLHEP/GenericFunctions/FunctionConvolution.hh"
 #include <assert.h>
+#include <iostream>
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(FunctionConvolution)

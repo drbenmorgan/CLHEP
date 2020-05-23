@@ -3,6 +3,8 @@
 
 #include "CLHEP/Matrix/Vector.h"
 
+#include <iostream>
+
 int main(int, char **) {
 
 CLHEP::HepVector fXVector;

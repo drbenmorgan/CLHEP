@@ -17,6 +17,7 @@
 #include "CLHEP/Random/StaticRandomStates.h"
 #include "CLHEP/Random/RandGauss.h"
 #include "CLHEP/Random/RandFlat.h"
+#include <iostream>
 #include <string>
 #include <sstream>
 

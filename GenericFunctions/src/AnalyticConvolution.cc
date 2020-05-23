@@ -1,5 +1,6 @@
 // -*- C++ -*-
 // $Id: AnalyticConvolution.cc,v 1.8 2010/07/22 21:55:10 garren Exp $
+#include "CLHEP/GenericFunctions/AbsFunction.hh"
 #include "CLHEP/GenericFunctions/AnalyticConvolution.hh"
 #include "CLHEP/GenericFunctions/Gaussian.hh"
 #include "CLHEP/GenericFunctions/Exponential.hh"
@@ -7,6 +8,8 @@
 #if (defined _WIN32)
 #include <float.h> //  Visual C++ _finite
 #endif
+#include <iostream>
+
 namespace Genfun {
 FUNCTION_OBJECT_IMP(AnalyticConvolution)
 

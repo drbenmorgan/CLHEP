@@ -6,6 +6,7 @@
 // This is the implementation of the HepGenMatrix class.
 //
 
+#include <iostream>
 #include <string.h>
 #include <cmath>
 #include <stdlib.h>

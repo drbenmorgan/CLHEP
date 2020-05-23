@@ -29,6 +29,10 @@
 #include "CLHEP/Random/RandPoissonQ.h"
 #include "CLHEP/Random/DoubConv.hh"
 
+#include <iostream>
+#include <string>
+#include <vector>
+
 //
 // Constructors and destructors:
 //

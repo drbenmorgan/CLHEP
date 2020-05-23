@@ -8,6 +8,8 @@
 #include "CLHEP/Matrix/Matrix.h"
 #include "CLHEP/Vector/Rotation.h"
 
+#include <iostream>
+
 namespace CLHEP {
 
 HepMatrix & HepMatrix::operator=(const HepRotation &hm1) {

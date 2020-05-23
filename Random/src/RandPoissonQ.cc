@@ -44,6 +44,9 @@
 #include "CLHEP/Random/Stat.h"
 #include "CLHEP/Utility/thread_local.h"
 #include <cmath>	// for std::pow()
+#include <iostream>
+#include <string>
+#include <vector>
 
 namespace CLHEP {
 

@@ -37,7 +37,7 @@
 // Standard library:
 #include <sstream>  // for ostringstream
 #include <string>   // for string
-
+#include <vector>
 
 using namespace CLHEP;
 typedef  unsigned int  uint;

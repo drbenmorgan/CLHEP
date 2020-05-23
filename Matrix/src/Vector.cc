@@ -1,6 +1,8 @@
 // -*- C++ -*-
 // ---------------------------------------------------------------------------
 //
+
+#include <iostream>
 #include <string.h>
 
 #include "CLHEP/Matrix/defs.h"

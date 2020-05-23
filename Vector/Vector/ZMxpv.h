@@ -121,8 +121,9 @@
 //	If CLHEP ever embraces the ZOOM Exceptions mechanism, we will simply
 //	modify this file.
 
-#include <string>
 #include <exception>
+#include <iostream> // for std::cerr
+#include <string>
 
 #define ZMthrowA(A) do { std::cerr << A.name() << " thrown:\n" 	   \
              <<   A.what() << "\n" 					   \

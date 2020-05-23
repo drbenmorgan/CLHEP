@@ -22,7 +22,10 @@
 
 #include "CLHEP/Exceptions/ZMexLogger.h"
 #include "CLHEP/Exceptions/ZMexception.h"
+#include "CLHEP/RefCount/ZMhandleTo.h"
 
+#include <iostream>
+#include <string>
 
 // ----------------------------------------------------------------------
 

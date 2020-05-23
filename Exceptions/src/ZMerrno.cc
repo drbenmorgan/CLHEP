@@ -26,6 +26,7 @@
 
 #include "CLHEP/Exceptions/ZMexception.h"
 
+#include <string>
 
 namespace zmex  {
 

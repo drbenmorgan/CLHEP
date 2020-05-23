@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <cmath>	// for pow() and exp() and isfinite()
 #include <float.h>
+#include <iostream>
 
 #if (defined __STRICT_ANSI__) || (defined _WIN32)
 #ifndef M_PI

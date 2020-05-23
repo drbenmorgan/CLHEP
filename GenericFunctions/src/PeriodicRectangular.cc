@@ -4,6 +4,7 @@
 #include "CLHEP/GenericFunctions/FixedConstant.hh"
 #include <assert.h>
 #include <cmath>      // for floor()
+#include <iostream>
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(PeriodicRectangular)

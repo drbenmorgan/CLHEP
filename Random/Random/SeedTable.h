@@ -20,6 +20,7 @@
 #define SeedTable_h 1
 
 #include "CLHEP/Random/defs.h"
+#include "CLHEP/Random/Random.h"
 
 namespace CLHEP {
 

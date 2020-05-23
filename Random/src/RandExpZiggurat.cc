@@ -14,8 +14,9 @@
 
 #include "CLHEP/Random/RandExpZiggurat.h"
 
-#include <iostream>
 #include <cmath>	// for std::log()
+#include <iostream>
+#include <vector>
 
 namespace CLHEP {
 

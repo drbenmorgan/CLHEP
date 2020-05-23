@@ -12,6 +12,7 @@
 #include "CLHEP/GenericFunctions/AbsFunction.hh"
 
 namespace Genfun {
+  class Argument;
 
   /**
    * @author

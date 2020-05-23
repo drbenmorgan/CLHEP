@@ -1,3 +1,4 @@
+#include <ostream> // for std::endl
 namespace Genfun {
   ExtendedButcherTableau::ExtendedButcherTableau(const std::string &mname, 
 						 unsigned int xorder,

@@ -18,10 +18,14 @@
 // =======================================================================
 
 #include <float.h>
-#include <cmath>	// for std::log() std::exp()
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandStudentT.h"
 #include "CLHEP/Random/DoubConv.hh"
+
+#include <cmath>	// for std::log() std::exp()
+#include <iostream>
+#include <string>
+#include <vector>
 
 namespace CLHEP {
 

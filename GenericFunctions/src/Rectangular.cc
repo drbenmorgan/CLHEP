@@ -3,6 +3,7 @@
 #include "CLHEP/GenericFunctions/Rectangular.hh"
 #include "CLHEP/GenericFunctions/FixedConstant.hh"
 #include <assert.h>
+#include <iostream>
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(Rectangular)

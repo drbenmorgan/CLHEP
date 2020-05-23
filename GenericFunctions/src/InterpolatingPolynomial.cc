@@ -4,6 +4,9 @@
 #include <cassert>
 #include <cmath>
 #include <cfloat>
+#include <iostream>
+#include <vector>
+
 namespace Genfun {
   FUNCTION_OBJECT_IMP(InterpolatingPolynomial)
   

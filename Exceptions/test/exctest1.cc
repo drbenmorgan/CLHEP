@@ -4,6 +4,9 @@ using std::endl;
 
 
 #include "CLHEP/Exceptions/ZMexception.h"
+#include "CLHEP/Exceptions/ZMexAction.h"
+#include "CLHEP/Exceptions/ZMexClassInfo.h"
+#include "CLHEP/Exceptions/ZMexSeverity.h"
 #include "CLHEP/Exceptions/ZMthrow.h"
 using namespace zmex;
 

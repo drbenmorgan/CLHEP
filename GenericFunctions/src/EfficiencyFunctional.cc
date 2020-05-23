@@ -5,6 +5,7 @@
 #include "CLHEP/GenericFunctions/AbsFunction.hh"
 #include <iostream>
 #include <cmath>      // for log()
+#include <vector>
 
 namespace Genfun {
 EfficiencyFunctional::EfficiencyFunctional(const ArgumentList & aList):

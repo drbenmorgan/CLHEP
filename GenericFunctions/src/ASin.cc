@@ -1,5 +1,6 @@
 // -*- C++ -*-
 // $Id: ASin.cc,v 1.4 2003/10/10 17:40:39 garren Exp $
+#include "CLHEP/GenericFunctions/AbsFunction.hh"
 #include "CLHEP/GenericFunctions/ASin.hh"
 #include "CLHEP/GenericFunctions/Sqrt.hh"
 #include "CLHEP/GenericFunctions/Square.hh"

@@ -3,6 +3,8 @@
 #include "CLHEP/GenericFunctions/PuncturedSmearedExp.hh"
 #include <sstream>
 #include <cmath>
+#include <vector>
+
 namespace Genfun {
 FUNCTION_OBJECT_IMP(PuncturedSmearedExp)
 

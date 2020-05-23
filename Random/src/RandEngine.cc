@@ -42,8 +42,12 @@
 #include "CLHEP/Random/RandEngine.h"
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include <string.h>	// for strcmp
+#include <cmath>
 #include <cstdlib>	// for int()
+#include <iostream>
+#include <string>
+#include <string.h>	// for strcmp
+#include <vector>
 
 namespace CLHEP {
 

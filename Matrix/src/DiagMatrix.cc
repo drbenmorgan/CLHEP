@@ -4,6 +4,7 @@
 // This file is a part of the CLHEP - a Class Library for High Energy Physics.
 //
 
+#include <iostream>
 #include <string.h>
 #include <cmath>
 

@@ -40,6 +40,11 @@
 
 //#define TRACE_IO
 
+#include <ostream>
+#include <string>
+#include <vector>
+#include <iostream>
+
 namespace CLHEP {
 
 static const int MarkerLen = 64; // Enough room to hold a begin or end marker. 

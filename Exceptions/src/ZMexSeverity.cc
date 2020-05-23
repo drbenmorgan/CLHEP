@@ -12,6 +12,10 @@
 
 #include "CLHEP/Exceptions/ZMexSeverity.h"
 
+#include "CLHEP/Exceptions/ZMerrno.h"
+
+#include <string>
+
 
 namespace zmex  {
 

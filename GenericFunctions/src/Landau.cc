@@ -6,6 +6,7 @@
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include <cmath>
 #include <assert.h>
+#include <iostream>
 
 using namespace std;
 

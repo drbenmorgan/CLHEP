@@ -48,6 +48,7 @@
 #include "CLHEP/RandomObjects/RandMultiGauss.h"
 #include "CLHEP/RandomObjects/defs.h"
 #include <cmath>	// for log()
+#include <iostream>
 
 namespace CLHEP {
 

@@ -4,7 +4,10 @@
 #include "CLHEP/GenericFunctions/AdaptiveRKStepper.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include <climits>
+#include <memory>
 #include <stdexcept>
+#include <vector>
+
 namespace Genfun {
 FUNCTION_OBJECT_IMP(RKIntegrator::RKFunction)
 

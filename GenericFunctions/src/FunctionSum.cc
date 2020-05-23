@@ -2,6 +2,7 @@
 // $Id: FunctionSum.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
 #include "CLHEP/GenericFunctions/FunctionSum.hh"
 #include <assert.h>
+#include <iostream>
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(FunctionSum)

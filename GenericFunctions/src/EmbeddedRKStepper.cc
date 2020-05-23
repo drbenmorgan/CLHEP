@@ -1,6 +1,8 @@
 #include "CLHEP/GenericFunctions/EmbeddedRKStepper.hh"
 #include "CLHEP/GenericFunctions/ExtendedButcherTableau.hh"
 #include <stdexcept>
+#include <vector>
+
 namespace Genfun {
 
   

@@ -16,6 +16,11 @@
 #include "CLHEP/Random/RandGaussT.h"
 #include "CLHEP/Random/DoubConv.hh"
 
+#include <cmath>
+#include <iostream>
+#include <string>
+#include <vector>
+
 namespace CLHEP {
 
 std::string RandSkewNormal::name() const {return "RandSkewNormal";}

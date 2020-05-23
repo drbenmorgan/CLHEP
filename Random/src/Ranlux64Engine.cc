@@ -60,9 +60,12 @@
 #include "CLHEP/Random/DoubConv.hh"
 #include "CLHEP/Utility/atomic_int.h"
 
-#include <string.h>	// for strcmp
+#include <atomic>
 #include <cstdlib>	// for std::abs(int)
+#include <iostream>
 #include <limits>	// for numeric_limits
+#include <string.h>	// for strcmp
+#include <vector>
 
 namespace CLHEP {
 

@@ -3,6 +3,9 @@
 #include "CLHEP/GenericFunctions/LogisticFunction.hh"
 #include "CLHEP/GenericFunctions/Variable.hh"
 #include <assert.h>
+#include <iostream>
+#include <vector>
+
 #define MAXRANGE 1000
 
 namespace Genfun {

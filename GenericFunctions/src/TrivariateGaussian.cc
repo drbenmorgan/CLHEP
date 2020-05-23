@@ -6,6 +6,7 @@
 #include "CLHEP/GenericFunctions/TrivariateGaussian.hh"
 #include <assert.h>
 #include <cmath>      // for exp()
+#include <iostream>
 
 #if (defined __STRICT_ANSI__) || (defined _WIN32)
 #ifndef M_PI

@@ -4,6 +4,7 @@
 #include "CLHEP/GenericFunctions/BetaDistribution.hh"
 #include <assert.h>
 #include <cmath>
+#include <iostream>
 using namespace std;
 
 namespace Genfun {

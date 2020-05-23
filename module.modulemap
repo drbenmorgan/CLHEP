@@ -1,0 +1,121 @@
+module clhep {
+  export *
+  requires cplusplus
+  umbrella "CLHEP"
+  module * { export *}
+
+  // The headers in this module are semantically one translation unit.
+  // The main header is AbsFunction.hh which then defines the rest
+  // implementing a PP macro-based covariant return type.
+  module CLHEP_AbsFunction_hh {
+    export *
+    header "CLHEP/GenericFunctions/AbsFunction.hh"
+
+    header "CLHEP/GenericFunctions/ConstMinusFunction.hh"
+    header "CLHEP/GenericFunctions/ConstOverFunction.hh"
+    header "CLHEP/GenericFunctions/ConstPlusFunction.hh"
+    header "CLHEP/GenericFunctions/ConstTimesFunction.hh"
+    header "CLHEP/GenericFunctions/FunctionComposition.hh"
+    header "CLHEP/GenericFunctions/FunctionConvolution.hh"
+    header "CLHEP/GenericFunctions/FunctionDifference.hh"
+    header "CLHEP/GenericFunctions/FunctionDirectProduct.hh"
+    header "CLHEP/GenericFunctions/FunctionNegation.hh"
+    header "CLHEP/GenericFunctions/FunctionNoop.hh"
+    header "CLHEP/GenericFunctions/FunctionPlusParameter.hh"
+    header "CLHEP/GenericFunctions/FunctionProduct.hh"
+    header "CLHEP/GenericFunctions/FunctionQuotient.hh"
+    header "CLHEP/GenericFunctions/FunctionSum.hh"
+    header "CLHEP/GenericFunctions/FunctionTimesParameter.hh"
+    header "CLHEP/GenericFunctions/ParameterComposition.hh"
+  }
+
+  // The headers in this module are semantically one translation unit.
+  // The main header is AbsParameter.hh which then defines the rest
+  // implementing a PP macro-based covariant return type.
+  module CLHEP_AbsParameter_hh {
+    export *
+    header "CLHEP/GenericFunctions/AbsParameter.hh"
+
+    header "CLHEP/GenericFunctions/ConstMinusParameter.hh"
+    header "CLHEP/GenericFunctions/ConstOverParameter.hh"
+    header "CLHEP/GenericFunctions/ConstPlusParameter.hh"
+    header "CLHEP/GenericFunctions/ConstTimesParameter.hh"
+    header "CLHEP/GenericFunctions/ParameterDifference.hh"
+    header "CLHEP/GenericFunctions/ParameterNegation.hh"
+    header "CLHEP/GenericFunctions/ParameterProduct.hh"
+    header "CLHEP/GenericFunctions/ParameterQuotient.hh"
+    header "CLHEP/GenericFunctions/ParameterSum.hh"
+  }
+
+  // FIXME: Exclude these headers they seem to implement a more
+  // complicated covariant return type mechanism. They should be
+  // exported from either AbsParameter.hh or AbsFunction.hh module
+  // context but seems not possible. Needs further investigation.
+  exclude header "CLHEP/GenericFunctions/DoubleParamToArgAdaptor.hh"
+  exclude header "CLHEP/GenericFunctions/DoubleParamToArgAdaptor.icc"
+  exclude header "CLHEP/GenericFunctions/ParamToArgAdaptor.hh"
+  exclude header "CLHEP/GenericFunctions/ParamToArgAdaptor.icc"
+  exclude header "CLHEP/GenericFunctions/SymToArgAdaptor.icc"
+  exclude header "CLHEP/GenericFunctions/SymToArgAdaptor.hh"
+
+  exclude header "CLHEP/RefCount/ZMuseCount.icc"
+
+  // For ZMthrowA macro
+  textual header "CLHEP/Vector/ZMxpv.h"
+}
+
+module clhep_gsl {
+  export *
+
+  module "GenericFunctions/SphericalHarmonicFit.hh" {
+    export *
+    header "CLHEP/GenericFunctions/SphericalHarmonicFit.hh"
+  }
+  module "GenericFunctions/Legendre.hh" {
+    export *
+    header "CLHEP/GenericFunctions/Legendre.hh"
+  }
+  module "GenericFunctions/Airy.hh" {
+    export *
+    header "CLHEP/GenericFunctions/Airy.hh"
+  }
+  module "GenericFunctions/SphericalNeumann.hh" {
+    export *
+    header "CLHEP/GenericFunctions/SphericalNeumann.hh"
+  }
+  module "GenericFunctions/Bessel.hh" {
+    export *
+    header "CLHEP/GenericFunctions/Bessel.hh"
+  }
+  module "GenericFunctions/LegendreExpansion.hh" {
+    export *
+    header "CLHEP/GenericFunctions/LegendreExpansion.hh"
+  }
+  module "GenericFunctions/AssociatedLegendre.hh" {
+    export *
+    header "CLHEP/GenericFunctions/AssociatedLegendre.hh"
+  }
+  module "GenericFunctions/SphericalBessel.hh" {
+    export *
+    header "CLHEP/GenericFunctions/SphericalBessel.hh"
+  }
+  module "GenericFunctions/SphericalHarmonicExpansion.hh" {
+    export *
+    header "CLHEP/GenericFunctions/SphericalHarmonicExpansion.hh"
+  }
+  module "GenericFunctions/LegendreFit.hh" {
+    export *
+    header "CLHEP/GenericFunctions/LegendreFit.hh"
+  }
+  module "GenericFunctions/Psi2Hydrogen.hh" {
+    export *
+    header "CLHEP/GenericFunctions/Psi2Hydrogen.hh"
+  }
+  module "GenericFunctions/EllipticIntegral.hh" {
+    export *
+    header "CLHEP/GenericFunctions/EllipticIntegral.hh"
+  }
+
+
+}
+

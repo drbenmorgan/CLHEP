@@ -2,6 +2,7 @@
 // $Id: FunctionComposition.cc,v 1.3 2003/09/06 14:04:14 boudreau Exp $
 #include "CLHEP/GenericFunctions/FunctionComposition.hh"
 #include <assert.h>
+#include <iostream>
 
 namespace Genfun {
 FUNCTION_OBJECT_IMP(FunctionComposition)
