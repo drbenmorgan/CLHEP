@@ -1,3 +1,6 @@
+==============================
+09.11.20 Release CLHEP-2.4.2.0
+==============================
 2019-10-29  Guilherme Amadio <amadio@cern.ch>
 
 * Matrix, Vector: Remove obsolete #pragma interface/implementation
