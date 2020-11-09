@@ -1,3 +1,20 @@
+
+2020-05-23: Vassil Vassilev <v.g.vassilev@gmail.com>
+
+* Enable C++ modules for CLHEP
+  The C++ modules feature as described in https://clang.llvm.org/docs/Modules.html
+  allow producing a binary header representation to avoid redundant header reparsing.
+  This feature is used in ROOT's dictionary system since ROOT v6.20:
+    https://github.com/root-project/root/blob/master/README/README.CXXMODULES.md
+  Dictionaries which transiently include clhep can be further optimized by
+  building a separate module for CLHEP which this MR aims for.
+  The current patch introduces a module.modulemap file containing a mapping between
+  a binary artifact (a module or a pcm file) and a set of header files. 
+  The C++ modules are more picky on translation unit encapsulation and thus require
+  all headers which a translation unit uses to be included.  In addition to the
+  missing include we outline a few virtual destructors to avoid pollution of .o files
+  with weak virtual tables.
+
 ==============================
 09.11.20 Release CLHEP-2.4.2.0
 ==============================
