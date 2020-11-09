@@ -1,3 +1,10 @@
+
+2019-10-29  Guilherme Amadio <amadio@cern.ch>
+
+* Matrix, Vector: Remove obsolete #pragma interface/implementation
+  These pragmas are obsolete since GCC 2.7.2.
+  https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Interface.html.
+
 ==============================
 21.10.19 Release CLHEP-2.4.1.3
 ==============================

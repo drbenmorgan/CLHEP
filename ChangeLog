@@ -1,3 +1,24 @@
+2019-10-29  Guilherme Amadio <amadio@cern.ch>
+
+* Matrix, Vector: Remove obsolete #pragma interface/implementation
+  These pragmas are obsolete since GCC 2.7.2.
+  https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Interface.html.
+* Remove executable bit from source code and text files
+* Update doxygen configuration file
+  - Run doxygen -u doxygen.conf.in
+  - Map .icc file extension to C++
+  - Add custom FILE_PATTERNS to process *.icc inline headers
+* Vector:     
+  Get rid of switch statement in operator()/operator[] of Hep3Vector
+  Replace dx/dy/dz with operator[] in Hep3Vector
+    Note: The substitution of x()/y()/z() in operator() is necessary to
+          avoid infinite recursion, as x()/y()/z() are now defined in terms of
+          operator[] instead.
+  Replace private dx/dy/dz with public x()/y()/z() in Hep3Vector
+    This is in preparation to change the data layout of Hep3Vector
+    by replacing the private dx/dy/dz members with a vector, data[3],
+    to allow us to remove the inefficient switch from operator[]().
+
 ==============================
 21.10.19 Release CLHEP-2.4.1.3
 ==============================
