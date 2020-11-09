@@ -1,3 +1,20 @@
+
+14 July 2020 - K.Savvidis, G.Cosmo
+
+* Random: Use 32-bit internal seeds types coherently in MixMaxRng.
+           Addressing CLHEP JIRA ticket #156.
+
+2020-07-20 Gabriele Cosmo <Gabriele.Cosmo@cern.ch>
+
+* Units: Updated values in SystemOfUnits.h and PhysicalConstants.h for:
+           e_SI, electron charge
+           h_Planck, Planck constant
+           Avogadro, Avogadro constant
+           k_Boltzmann, Boltzmann constant
+         based on May 2019 redefinition of SI units. References:
+           https://en.wikipedia.org/wiki/2019_redefinition_of_the_SI_base_units
+           https://www.britannica.com/science/electron-charge.
+
 ==============================
 09.11.20 Release CLHEP-2.4.3.0
 ==============================
