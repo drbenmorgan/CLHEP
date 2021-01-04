@@ -83,7 +83,7 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/clhep.pc.in
 set(CLHEP_PC_Exceptions_REQUIRES "clhep-cast = ${CLHEP_VERSION}, clhep-refcount = ${CLHEP_VERSION}")
 set(CLHEP_PC_Geometry_REQUIRES "clhep-vector = ${CLHEP_VERSION}")
 set(CLHEP_PC_Matrix_REQUIRES "clhep-random = ${CLHEP_VERSION}, clhep-vector = ${CLHEP_VERSION}")
-set(CLHEP_PC_RandomObjects_REQUIRES = "clhep-random = ${CLHEP_VERSION}, clhep-matrix = ${CLHEP_VERSION}, clhep-vector = ${CLHEP_VERSION}")
+set(CLHEP_PC_RandomObjects_REQUIRES  "clhep-random = ${CLHEP_VERSION}, clhep-matrix = ${CLHEP_VERSION}, clhep-vector = ${CLHEP_VERSION}")
 
 # Now the components
 foreach(_lib ${CLHEP_libraries})
