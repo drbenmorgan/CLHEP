@@ -65,23 +65,38 @@ void testRandGauss(std::vector<double> const& reference, bool& result) {
 
   result = true;
 
+  std::vector<double> v;
+  v.push_back(dist.fire());
+  v.push_back(dist.fire());
+  v.push_back(dist.fire());
+  v.push_back(dist.fire());
+  v.push_back(dist.fire());
+
   // Just a sanity check first. The fire method reproduces
   // itself.
-  if (reference[0] != dist.fire() ||
-      reference[1] != dist.fire() ||
-      reference[2] != dist.fire() ||
-      reference[3] != dist.fire() ||
-      reference[4] != dist.fire()) {
+  if (reference[0] != v[0] ||
+      reference[1] != v[1] ||
+      reference[2] != v[2] ||
+      reference[3] != v[3] ||
+      reference[4] != v[4]) {
     result = false;
   }
 
   // check the shoot method where we pass in an engine
   CLHEP::HepJamesRandom engine1(seedL1);
-  if (reference[0] != CLHEP::RandGauss::shoot(&engine1) ||
-      reference[1] != CLHEP::RandGauss::shoot(&engine1) ||
-      reference[2] != CLHEP::RandGauss::shoot(&engine1) ||
-      reference[3] != CLHEP::RandGauss::shoot(&engine1) ||
-      reference[4] != CLHEP::RandGauss::shoot(&engine1)) {
+
+  v.clear();
+  v.push_back(CLHEP::RandGauss::shoot(&engine1));
+  v.push_back(CLHEP::RandGauss::shoot(&engine1));
+  v.push_back(CLHEP::RandGauss::shoot(&engine1));
+  v.push_back(CLHEP::RandGauss::shoot(&engine1));
+  v.push_back(CLHEP::RandGauss::shoot(&engine1));
+
+  if (reference[0] != v[0] ||
+      reference[1] != v[1] ||
+      reference[2] != v[2] ||
+      reference[3] != v[3] ||
+      reference[4] != v[4]) {
     result = false;
   }
 
@@ -93,11 +108,19 @@ void testRandGauss(std::vector<double> const& reference, bool& result) {
   // setFlag causes it to not use the cached value
   // and generate a new pair of random numbers
   CLHEP::RandGauss::setFlag(false);
-  if (reference[0] != CLHEP::RandGauss::shoot() ||
-      reference[1] != CLHEP::RandGauss::shoot() ||
-      reference[2] != CLHEP::RandGauss::shoot() ||
-      reference[3] != CLHEP::RandGauss::shoot() ||
-      reference[4] != CLHEP::RandGauss::shoot()) {
+
+  v.clear();
+  v.push_back(CLHEP::RandGauss::shoot());
+  v.push_back(CLHEP::RandGauss::shoot());
+  v.push_back(CLHEP::RandGauss::shoot());
+  v.push_back(CLHEP::RandGauss::shoot());
+  v.push_back(CLHEP::RandGauss::shoot());
+
+  if (reference[0] != v[0] ||
+      reference[1] != v[1] ||
+      reference[2] != v[2] ||
+      reference[3] != v[3] ||
+      reference[4] != v[4]) {
     result = false;
   }
   CLHEP::HepRandom::setTheEngine(savedEngine);
