@@ -1,4 +1,4 @@
-// $Id: NonRandomEngine.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
+//
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -21,7 +21,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/NonRandomEngine.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include "CLHEP/Random/DoubConv.hh"
+#include "CLHEP/Random/DoubConv.h"
 #include <cassert>
 #include <cstdlib>
 #include <iostream>

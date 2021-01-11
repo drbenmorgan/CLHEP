@@ -1,5 +1,5 @@
 
-set( pkginclude_HEADERS DoubConv.hh
+set( pkginclude_HEADERS DoubConv.h
 			DRand48Engine.h
 			DualRand.h
 			EngineFactory.h

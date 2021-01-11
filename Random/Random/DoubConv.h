@@ -1,5 +1,13 @@
-#ifndef DOUBCONV_HH
-#define DOUBCONV_HH
+// -*- C++ -*-
+//
+// -----------------------------------------------------------------------
+//                           Hep Random
+//                        --- DoubConv ---
+//                        class header file
+// -----------------------------------------------------------------------
+//                                                                      
+#ifndef DOUBCONV_H
+#define DOUBCONV_H
 
 #include <string>
 #include <vector>
@@ -61,4 +69,4 @@ private:
 
 }
 
-#endif // DOUBCONV_HH
+#endif // DOUBCONV_H

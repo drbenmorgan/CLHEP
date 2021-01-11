@@ -1,4 +1,4 @@
-// $Id: RandBinomial.cc,v 1.5 2010/06/16 17:24:53 garren Exp $
+//
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -18,7 +18,7 @@
 
 #include "CLHEP/Random/RandBinomial.h"
 #include "CLHEP/Random/defs.h"
-#include "CLHEP/Random/DoubConv.hh"
+#include "CLHEP/Random/DoubConv.h"
 #include "CLHEP/Utility/thread_local.h"
 #include <algorithm>	// for min() and max()
 #include <cmath>	// for exp()

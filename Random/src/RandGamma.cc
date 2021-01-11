@@ -1,4 +1,4 @@
-// $Id: RandGamma.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
+//
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -17,7 +17,7 @@
 
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandGamma.h"
-#include "CLHEP/Random/DoubConv.hh"
+#include "CLHEP/Random/DoubConv.h"
 #include "CLHEP/Utility/thread_local.h"
 #include <cmath>	// for std::log()
 #include <iostream>

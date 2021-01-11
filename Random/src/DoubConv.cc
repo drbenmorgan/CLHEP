@@ -1,4 +1,11 @@
-#include "CLHEP/Random/DoubConv.hh"
+// -*- C++ -*-
+// -----------------------------------------------------------------------
+//                             HEP Random
+//                          --- DoubConv ---
+//                      class implementation file
+// -----------------------------------------------------------------------
+
+#include "CLHEP/Random/DoubConv.h"
 
 #include <sstream>
 #include <iomanip>

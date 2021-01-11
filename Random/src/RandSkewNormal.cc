@@ -1,4 +1,4 @@
-// $Id: RandSkewNormal.cc,v 1.1 2011/05/27 20:36:57 garren Exp $
+//
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -14,7 +14,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandSkewNormal.h"
 #include "CLHEP/Random/RandGaussT.h"
-#include "CLHEP/Random/DoubConv.hh"
+#include "CLHEP/Random/DoubConv.h"
 
 #include <cmath>
 #include <iostream>

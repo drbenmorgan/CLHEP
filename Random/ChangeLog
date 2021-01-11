@@ -1,3 +1,7 @@
+08 January 2021 - G.Cosmo
+
+* Renamed DoubConv.hh header coherently to DoubConv.h.
+
 ==============================
 09.11.20 Release CLHEP-2.4.4.0
 ==============================

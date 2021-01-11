@@ -1,4 +1,4 @@
-// $Id: RandBreitWigner.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
+//
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -22,7 +22,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandBreitWigner.h"
 #include "CLHEP/Units/PhysicalConstants.h"
-#include "CLHEP/Random/DoubConv.hh"
+#include "CLHEP/Random/DoubConv.h"
 #include <algorithm>	// for min() and max()
 #include <cmath>
 #include <iostream>
