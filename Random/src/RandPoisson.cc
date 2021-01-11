@@ -1,4 +1,4 @@
-// $Id: RandPoisson.cc,v 1.7 2010/06/16 17:24:53 garren Exp $
+//
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -28,7 +28,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandPoisson.h"
 #include "CLHEP/Units/PhysicalConstants.h"
-#include "CLHEP/Random/DoubConv.hh"
+#include "CLHEP/Random/DoubConv.h"
 #include <cmath>	// for std::floor()
 #include <iostream>
 #include <string>

@@ -1,4 +1,4 @@
-// $Id: RandPoissonQ.cc,v 1.7 2010/06/16 17:24:53 garren Exp $
+//
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -40,7 +40,7 @@
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandPoissonQ.h"
 #include "CLHEP/Random/RandGaussQ.h"
-#include "CLHEP/Random/DoubConv.hh"
+#include "CLHEP/Random/DoubConv.h"
 #include "CLHEP/Random/Stat.h"
 #include "CLHEP/Utility/thread_local.h"
 #include <cmath>	// for std::pow()

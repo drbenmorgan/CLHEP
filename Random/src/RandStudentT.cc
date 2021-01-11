@@ -1,4 +1,4 @@
-// $Id: RandStudentT.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
+//
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -20,7 +20,7 @@
 #include <float.h>
 #include "CLHEP/Random/defs.h"
 #include "CLHEP/Random/RandStudentT.h"
-#include "CLHEP/Random/DoubConv.hh"
+#include "CLHEP/Random/DoubConv.h"
 
 #include <cmath>	// for std::log() std::exp()
 #include <iostream>

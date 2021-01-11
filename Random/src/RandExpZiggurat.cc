@@ -1,4 +1,4 @@
-// $Id:$
+//
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -10,7 +10,7 @@
 // =======================================================================
 
 #include "CLHEP/Random/defs.h"
-#include "CLHEP/Random/DoubConv.hh"
+#include "CLHEP/Random/DoubConv.h"
 
 #include "CLHEP/Random/RandExpZiggurat.h"
 

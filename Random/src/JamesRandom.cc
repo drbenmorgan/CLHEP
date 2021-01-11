@@ -1,4 +1,4 @@
-// $Id: JamesRandom.cc,v 1.6 2010/06/16 17:24:53 garren Exp $
+//
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -40,7 +40,7 @@
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include "CLHEP/Random/DoubConv.hh"
+#include "CLHEP/Random/DoubConv.h"
 #include "CLHEP/Utility/atomic_int.h"
 
 #include <atomic>

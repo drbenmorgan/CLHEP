@@ -1,4 +1,4 @@
-// $Id: Ranlux64Engine.cc,v 1.7 2010/10/21 21:32:02 garren Exp $
+//
 // -*- C++ -*-
 //
 // -----------------------------------------------------------------------
@@ -57,7 +57,7 @@
 #include "CLHEP/Random/Random.h"
 #include "CLHEP/Random/Ranlux64Engine.h"
 #include "CLHEP/Random/engineIDulong.h"
-#include "CLHEP/Random/DoubConv.hh"
+#include "CLHEP/Random/DoubConv.h"
 #include "CLHEP/Utility/atomic_int.h"
 
 #include <atomic>
