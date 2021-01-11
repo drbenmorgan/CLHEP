@@ -49,6 +49,6 @@ macro (clhep_copy_headers )
   # handle the module.modulemap file
   CONFIGURE_FILE( ${CLHEP_SOURCE_DIR}/module.modulemap ${CLHEP_BINARY_DIR}/module.modulemap COPYONLY )
   INSTALL (FILES ${CLHEP_BINARY_DIR}/module.modulemap
-           DESTINATION include/CLHEP )
+           DESTINATION include )
   
 endmacro (clhep_copy_headers)
