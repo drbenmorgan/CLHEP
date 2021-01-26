@@ -1,6 +1,19 @@
 ==============================
 19.01.21 Release CLHEP-2.4.4.1
 ==============================
+
+12 January 2021 - Vassil Vassilev <v.g.vassilev@gmail.com>
+
+*  Rename modulemap name to avoid name clashes.
+
+08 January 2021 - G.Cosmo
+
+* Random: Renamed DoubConv.hh header coherently to DoubConv.h.
+
+18 November 2020 - Guilherme Amadio <amadio@cern.ch>
+
+* Random: Fix testThreaded on x86
+
 ==============================
 09.11.20 Release CLHEP-2.4.4.0
 ==============================
