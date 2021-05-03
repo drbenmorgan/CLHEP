@@ -32,8 +32,6 @@ Known values for OPTION are:
   --prefix              show installation prefix
   --cxx                 print C++ compilation command
   --cpp                 print pre-processor commands
-  --cppflags            print pre-processor flags
-  --cxxflags            print C++ compiler flags
   --ldflags             print linker flags
   --libs                print libraries to link against
   --help                display this help and exit
@@ -82,14 +80,6 @@ while test $# -gt 0; do
 
     --cpp)
        	echo @CXXCPP@ @CPPFLAGS@ @Matrix_CPPFLAGS@
-       	;;
-
-    --cppflags)
-       	echo @CPPFLAGS@ @Matrix_CPPFLAGS@
-       	;;
-
-    --cxxflags)
-       	echo @AM_CXXFLAGS@ @CXXFLAGS@
        	;;
 
     --ldflags)
