@@ -1,3 +1,15 @@
+
+3 May 2021 - Lynn Garren
+
+* update all *-config.in files to handle LIB_SUFFIX
+* use @CMAKE_CXX_FLAGS@ instead of @AM_CXXFLAGS@ in config files
+* remove cppflags and cxxflags from *-config.in to match clhep-config.in
+
+3 May 2021 - Andrii Verbytskyi
+
+* update clhep-config.in to handle LIB_SUFFIX
+* cleanup unused flags from autotools
+
 ==============================
 19.01.21 Release CLHEP-2.4.4.1
 ==============================
