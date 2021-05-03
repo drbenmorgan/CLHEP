@@ -22,7 +22,7 @@ fi
 # OK - now we have to strip the trailing "/bin" out of the path
 prefix=`dirname "${binpath}"`
 includedir=${prefix}/include
-libdir=${prefix}/lib
+libdir=${prefix}/lib@LIB_SUFFIX@
 
 usage()
 {
