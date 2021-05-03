@@ -54,13 +54,11 @@ macro( clhep_autoconf_variables )
 
   # these variables are used by <package>-config.in
   # typical values from autoconf:
-  #   AM_CXXFLAGS = -O -ansi -pedantic -Wall -D_GNU_SOURCE
   #   CXXFLAGS = -g -O2
   #   CXX = g++
   #   CXXCPP = g++ -E
   #   CPPFLAGS = 
   #   CXXLD = $(CXX)
-  #   AM_LDFLAGS = 
   #   LDFLAGS = 
   #   LIBS = 
 
@@ -83,7 +81,6 @@ macro( clhep_autoconf_variables )
      set( CXXFLAGS  ${CMAKE_CXX_FLAGS_MINSIZEREL} )
   endif()
   ##message( STATUS "build type ${CMAKE_BUILD_TYPE} has ${CXXFLAGS}")
-  set( AM_CXXFLAGS  ${CMAKE_CXX_FLAGS} )
   set( LDFLAGS      ${CMAKE_MODULE_LINKER_FLAGS} )
   set( LIBS         "" )
   set( DIFF_Q       "diff -q -b" )
