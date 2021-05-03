@@ -85,7 +85,7 @@ while test $# -gt 0; do
        	;;
 
     --ldflags)
-       	echo  @AM_LDFLAGS@ @LDFLAGS@ @RandomObjects_LDFLAGS@
+       	echo  @LDFLAGS@ @RandomObjects_LDFLAGS@
        	;;
 
     --libs)

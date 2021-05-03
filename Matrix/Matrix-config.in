@@ -83,7 +83,7 @@ while test $# -gt 0; do
        	;;
 
     --ldflags)
-       	echo  @AM_LDFLAGS@ @LDFLAGS@ @Matrix_LDFLAGS@
+       	echo  @LDFLAGS@ @Matrix_LDFLAGS@
        	;;
 
     --libs)
