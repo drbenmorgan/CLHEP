@@ -73,7 +73,7 @@ while test $# -gt 0; do
 	;;
 
     --cxx)
-       	echo @CXX@ @CPPFLAGS@ @CXXFLAGS@
+       	echo @CXX@ @CPPFLAGS@ @CXXFLAGS@ @CMAKE_CXX_FLAGS@
        	;;
 
     --cpp)
