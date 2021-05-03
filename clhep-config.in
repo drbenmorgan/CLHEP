@@ -21,7 +21,7 @@ fi
 # OK - now we have to strip the trailing "/bin" out of the path
 prefix=`dirname "${binpath}"`
 includedir=${prefix}/include
-libdir=${prefix}/lib
+libdir=${prefix}/lib@LIB_SUFFIX@
 
 usage()
 {
@@ -73,7 +73,7 @@ while test $# -gt 0; do
 	;;
 
     --cxx)
-       	echo @CXX@ @CPPFLAGS@ @AM_CXXFLAGS@ @CXXFLAGS@
+       	echo @CXX@ @CPPFLAGS@ @CXXFLAGS@
        	;;
 
     --cpp)
@@ -85,7 +85,7 @@ while test $# -gt 0; do
        	;;
 
     --ldflags)
-       	echo  @AM_LDFLAGS@ @LDFLAGS@ 
+       	echo   @LDFLAGS@ 
        	;;
 
     --libs)
