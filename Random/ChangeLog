@@ -1,3 +1,7 @@
+18 May 2021 - G.Cosmo
+
+* Fixed compilation warnings on gcc-11 for shadowing in Random headers.
+
 ==============================
 19.01.21 Release CLHEP-2.4.4.1
 ==============================
