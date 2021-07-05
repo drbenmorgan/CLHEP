@@ -254,7 +254,7 @@ void Ranlux64Engine::update() {
 
   // Now when we return, there are 12 fresh usable numbers in s[11] ... s[0]
 
-  index = 11;
+  index = 12;
 
 } // update()
 
