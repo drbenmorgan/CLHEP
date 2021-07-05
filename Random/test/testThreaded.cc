@@ -285,9 +285,9 @@ int main() {
     CLHEP::Ranlux64Engine engine1;
     CLHEP::Ranlux64Engine engine2;
     CLHEP::Ranlux64Engine engine3;
-    if(std::fabs(engine1.flat() - 0.214757) > epsilon ||
-       std::fabs(engine2.flat() - 0.517081) > epsilon ||
-       std::fabs(engine3.flat() - 0.464734) > epsilon) {
+    if(std::fabs(engine1.flat() - 0.136516) > epsilon ||
+       std::fabs(engine2.flat() - 0.939692) > epsilon ||
+       std::fabs(engine3.flat() - 0.212809) > epsilon) {
       output << "Error, default seeds changed for Ranlux64Engine random engine.\n";
       return 1;
     }
