@@ -217,7 +217,7 @@ Enter nBins for stepwise pdf test: 10000
 Instantiating distribution utilizing Ranlux64 engine...
 
  Sample fire(): 
-0.4408
+0.471
  Testing operator() ... 
 0
 50001
@@ -229,55 +229,55 @@ Instantiating distribution utilizing Ranlux64 engine...
 350007
 400008
 450009
-Mean (should be close to 0.5): 0.49988
-Second moment (should be close to 0.0036): 0.0035996
-Third  moment (should be close to zero): 5.2049e-07
-Fourth moment (should be close to 3.888e-05): 3.9082e-05
-Fifth moment (should be close to zero): 2.4841e-08
-Sixth moment (should be close to 6.9984e-07): 7.1025e-07
-        These represent 1.3553, 0.056148, 0.69561, 
-                        1.1263, 0.84186, 1.5638
+Mean (should be close to 0.5): 0.49995
+Second moment (should be close to 0.0036): 0.0035999
+Third  moment (should be close to zero): 7.7374e-07
+Fourth moment (should be close to 3.888e-05): 3.9076e-05
+Fifth moment (should be close to zero): 2.511e-08
+Sixth moment (should be close to 6.9984e-07): 7.1026e-07
+        These represent 0.59802, 0.0073728, 1.0341, 
+                        1.0894, 0.85095, 1.5658
                          standard deviations from expectations
 Between 0 sigma and 0.5 sigma (should be about 95731):
-          95879 negative and 95631 positive 
-        These represent 0.53197 and 0.35944 sigma from expectations
+          95903 negative and 95608 positive 
+        These represent 0.61823 and 0.44211 sigma from expectations
 Between 0.5 sigma and 1 sigma (should be about 74941):
-          74863 negative and 75293 positive 
-        These represent 0.30903 and 1.3946 sigma from expectations
+          74808 negative and 75299 positive 
+        These represent 0.52693 and 1.4184 sigma from expectations
 Between 1 sigma and 1.5 sigma (should be about 45924):
-          46032 negative and 45416 positive 
-        These represent 0.52884 and 2.4875 sigma from expectations
+          46060 negative and 45471 positive 
+        These represent 0.66595 and 2.2182 sigma from expectations
 Between 1.5 sigma and 2 sigma (should be about 22028.5):
-          22020 negative and 21866 positive 
-        These represent 0.058575 and 1.1198 sigma from expectations
+          21982 negative and 21938 positive 
+        These represent 0.32044 and 0.62365 sigma from expectations
 Between 2 sigma and 2.5 sigma (should be about 8270):
-          8381 negative and 8344 positive 
-        These represent 1.2308 and 0.82054 sigma from expectations
+          8295 negative and 8396 positive 
+        These represent 0.27721 and 1.3971 sigma from expectations
 Between 2.5 sigma and 3 sigma (should be about 2430):
-          2423 negative and 2472 positive 
-        These represent 0.14235 and 0.85409 sigma from expectations
+          2405 negative and 2456 positive 
+        These represent 0.50839 and 0.52872 sigma from expectations
 Between 3 sigma and 3.5 sigma (should be about 558.5):
-          574 negative and 556 positive 
-        These represent 0.65624 and 0.10585 sigma from expectations
+          577 negative and 552 positive 
+        These represent 0.78325 and 0.2752 sigma from expectations
 Between 3.5 sigma and 4 sigma (should be about 100.5):
           101 negative and 114 positive 
         These represent 0.04988 and 1.3468 sigma from expectations
 Between 4 sigma and 4.5 sigma (should be about 14.15):
-          10 negative and 19 positive 
-        These represent 1.1033 and 1.2893 sigma from expectations
+          9 negative and 19 positive 
+        These represent 1.3691 and 1.2893 sigma from expectations
 Between 4.5 sigma and 5 sigma (should be about 1.555):
-          4 negative and 1 positive 
-        These represent 1.9607 and 0.44507 sigma from expectations
+          5 negative and 1 positive 
+        These represent 2.7626 and 0.44507 sigma from expectations
 Between 5 sigma and 5.5 sigma (should be about 0.1935):
           1 negative and 0 positive 
         These represent 1.8334 and 0.43989 sigma from expectations
 
- The worst deviation encountered (out of about 25) was 2.4875 sigma 
+ The worst deviation encountered (out of about 25) was 2.7626 sigma 
 
 Enter nBins for linearized pdf test: 1000
 
  Sample operator(): 
-0.463128
+0.559996
  Testing operator() ... 
 0
 50001
@@ -289,42 +289,42 @@ Enter nBins for linearized pdf test: 1000
 350007
 400008
 450009
-Mean (should be close to 0.5): 0.50006
-Second moment (should be close to 0.0036): 0.0036028
-Third  moment (should be close to zero): -4.7605e-07
-Fourth moment (should be close to 3.888e-05): 3.8957e-05
-Fifth moment (should be close to zero): -2.1491e-08
-Sixth moment (should be close to 6.9984e-07): 6.9999e-07
-        These represent 0.6852, 0.39504, 0.63622, 
-                        0.42945, 0.72832, 0.02247
+Mean (should be close to 0.5): 0.50013
+Second moment (should be close to 0.0036): 0.0036066
+Third  moment (should be close to zero): -6.8585e-07
+Fourth moment (should be close to 3.888e-05): 3.9013e-05
+Fifth moment (should be close to zero): -3.2444e-08
+Sixth moment (should be close to 6.9984e-07): 7.0085e-07
+        These represent 1.5115, 0.92051, 0.91661, 
+                        0.73826, 1.0995, 0.1516
                          standard deviations from expectations
 Between 0 sigma and 0.5 sigma (should be about 95731):
-          95333 negative and 96081 positive 
-        These represent 1.4306 and 1.258 sigma from expectations
+          95365 negative and 95791 positive 
+        These represent 1.3155 and 0.21566 sigma from expectations
 Between 0.5 sigma and 1 sigma (should be about 74941):
-          74969 negative and 75075 positive 
-        These represent 0.11093 and 0.53089 sigma from expectations
+          74956 negative and 75283 positive 
+        These represent 0.059428 and 1.355 sigma from expectations
 Between 1 sigma and 1.5 sigma (should be about 45924):
-          45820 negative and 45766 positive 
-        These represent 0.50925 and 0.77367 sigma from expectations
+          45617 negative and 45825 positive 
+        These represent 1.5033 and 0.48477 sigma from expectations
 Between 1.5 sigma and 2 sigma (should be about 22028.5):
-          21895 negative and 22076 positive 
-        These represent 0.91997 and 0.32733 sigma from expectations
+          21987 negative and 22131 positive 
+        These represent 0.28598 and 0.70634 sigma from expectations
 Between 2 sigma and 2.5 sigma (should be about 8270):
-          8310 negative and 8421 positive 
-        These represent 0.44354 and 1.6743 sigma from expectations
+          8325 negative and 8480 positive 
+        These represent 0.60986 and 2.3286 sigma from expectations
 Between 2.5 sigma and 3 sigma (should be about 2430):
-          2475 negative and 2443 positive 
-        These represent 0.9151 and 0.26436 sigma from expectations
+          2449 negative and 2446 positive 
+        These represent 0.38637 and 0.32537 sigma from expectations
 Between 3 sigma and 3.5 sigma (should be about 558.5):
-          560 negative and 545 positive 
-        These represent 0.063507 and 0.57156 sigma from expectations
+          556 negative and 563 positive 
+        These represent 0.10585 and 0.19052 sigma from expectations
 Between 3.5 sigma and 4 sigma (should be about 100.5):
-          108 negative and 91 positive 
-        These represent 0.74821 and 0.94773 sigma from expectations
+          112 negative and 81 positive 
+        These represent 1.1473 and 1.9453 sigma from expectations
 Between 4 sigma and 4.5 sigma (should be about 14.15):
-          11 negative and 17 positive 
-        These represent 0.83741 and 0.75766 sigma from expectations
+          12 negative and 17 positive 
+        These represent 0.57157 and 0.75766 sigma from expectations
 Between 4.5 sigma and 5 sigma (should be about 1.555):
           2 negative and 2 positive 
         These represent 0.35686 and 0.35686 sigma from expectations
@@ -332,7 +332,7 @@ Between 5 sigma and 5.5 sigma (should be about 0.1935):
           0 negative and 0 positive 
         These represent 0.43989 and 0.43989 sigma from expectations
 
- The worst deviation encountered (out of about 25) was 1.6743 sigma 
+ The worst deviation encountered (out of about 25) was 2.3286 sigma 
 
 
 --------------------------------------------
