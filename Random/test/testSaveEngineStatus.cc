@@ -315,6 +315,7 @@ int missingFile() {
   stat |= fileNotThereEngine<RanecuEngine>();
   stat |= fileNotThereEngine<Ranlux64Engine>();
   stat |= fileNotThereEngine<RanluxEngine>();
+  stat |= fileNotThereEngine<RanluxppEngine>();
   stat |= fileNotThereEngine<RanshiEngine>();
   stat |= fileNotThereEngine<TripleRand>();
   return stat;
@@ -436,6 +437,7 @@ int main() {
   stat |= saveEngine<RanecuEngine,  RandPoisson>("RanecuEngine.oldsav");
   stat |= saveEngine<Ranlux64Engine,RandPoisson>("Ranlux64Engine.oldsav");
   stat |= saveEngine<RanluxEngine,  RandPoisson>("RanluxEngine.oldsav");
+  stat |= saveEngine<RanluxppEngine,RandPoisson>("RanluxppEngine.oldsav");
   stat |= saveEngine<RanshiEngine,  RandPoisson>("RanshiEngine.oldsav");
   stat |= saveEngine<TripleRand,    RandPoisson>("TripleRand.oldsav");
 #endif
@@ -456,6 +458,7 @@ int main() {
   stat |= checkSaveEngine<MTwistEngine,  RandPoisson>("MTwistEngine.oldsav");
   stat |= checkSaveEngine<Ranlux64Engine,RandPoisson>("Ranlux64Engine.oldsav");
   stat |= checkSaveEngine<RanluxEngine,  RandPoisson>("RanluxEngine.oldsav");
+  stat |= checkSaveEngine<RanluxppEngine,RandPoisson>("RanluxppEngine.oldsav");
   stat |= checkSaveEngine<RanshiEngine,  RandPoisson>("RanshiEngine.oldsav");
   stat |= checkSaveEngine<TripleRand,    RandPoisson>("TripleRand.oldsav");
   stat |= checkSaveEngine<RanecuEngine,  RandPoisson>("RanecuEngine.oldsav");

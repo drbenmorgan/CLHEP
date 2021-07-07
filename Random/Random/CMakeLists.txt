@@ -56,6 +56,7 @@ set( pkginclude_HEADERS DoubConv.h
 			RanecuEngine.h
 			Ranlux64Engine.h
 			RanluxEngine.h
+			RanluxppEngine.h
 			RanshiEngine.h
 			SeedTable.h
 			Stat.h

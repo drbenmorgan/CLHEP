@@ -38,6 +38,7 @@ clhep_build_library( Random DoubConv.cc
 			    RanecuEngine.cc
 			    Ranlux64Engine.cc
 			    RanluxEngine.cc
+			    RanluxppEngine.cc
 			    RanshiEngine.cc
 			    StaticRandomStates.cc
 			    TripleRand.cc )

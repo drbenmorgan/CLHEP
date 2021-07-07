@@ -16,6 +16,7 @@ RandEngine theRandEngine;
 DRand48Engine theDRand48Engine;
 RanluxEngine theRanluxEngine(19780503,4);
 Ranlux64Engine theRanlux64Engine;
+RanluxppEngine theRanluxppEngine;
 RanecuEngine theRanecuEngine;
 Hurd160Engine theHurd160Engine;
 Hurd288Engine theHurd288Engine;
@@ -39,6 +40,7 @@ void init()
    cout << "   > DRand48" << endl;
    cout << "   > Ranlux" << endl;
    cout << "   > Ranlux64" << endl;
+   cout << "   > Ranluxpp" << endl;
    cout << "   > Ranecu" << endl;
    cout << "   > Hurd160" << endl;
    cout << "   > Hurd288" << endl;
@@ -100,6 +102,7 @@ void dist_layout()
    DRand48Engine aDRand48Engine;
    RanluxEngine aRanluxEngine(19780503,4);
    Ranlux64Engine aRanlux64Engine;
+   RanluxppEngine aRanluxppEngine;
    RanecuEngine aRanecuEngine;
    Hurd288Engine aHurd288Engine;
    MixMaxRng aMixMaxEngine;
@@ -299,6 +302,13 @@ void start_test()
    cout << "-------------------------  Test on Ranlux64Engine -----------------------------" << endl;
    cout << endl;
    HepRandom::setTheEngine(&theRanlux64Engine);
+   layout();
+   cout << "                   -----  Press <ENTER> to continue  -----";
+   if ( cin.get() != '\n') exit(0);
+   cout << endl;
+   cout << "-------------------------  Test on RanluxppEngine -----------------------------" << endl;
+   cout << endl;
+   HepRandom::setTheEngine(&theRanluxppEngine);
    layout();
    cout << "                   -----  Press <ENTER> to continue  -----";
    if ( cin.get() != '\n') exit(0);

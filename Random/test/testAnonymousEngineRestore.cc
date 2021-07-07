@@ -325,6 +325,7 @@ int main() {
   stat |= anonymousRestore<RanecuEngine>(39);
   stat |= anonymousRestore<Ranlux64Engine>(19);
   stat |= anonymousRestore<RanluxEngine>(20);
+  stat |= anonymousRestore<RanluxppEngine>(59);
   stat |= anonymousRestore<RanshiEngine>(21);
   stat |= anonymousRestore<TripleRand>(22);
   stat |= anonymousRestore<NonRandomEngine>(22);
@@ -348,6 +349,7 @@ int main() {
   stat |= anonymousRestoreStatics<Hurd160Engine,  HepJamesRandom> ( );
   stat |= anonymousRestoreStatics<Hurd288Engine,  RanecuEngine>   ( );
   stat |= anonymousRestoreStatics<HepJamesRandom, Ranlux64Engine> ( ); 
+  stat |= anonymousRestoreStatics<HepJamesRandom, RanluxppEngine> ( ); 
   stat |= anonymousRestoreStatics<TripleRand,     TripleRand>     ( );
   stat |= anonymousRestoreStatics<HepJamesRandom, HepJamesRandom> ( );
   stat |= anonymousRestoreStatics<MixMaxRng,      MixMaxRng>      ( );

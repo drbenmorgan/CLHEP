@@ -305,6 +305,7 @@ int missingFile() {
   stat |= fileNotThereEngine<RanecuEngine>();
   stat |= fileNotThereEngine<Ranlux64Engine>();
   stat |= fileNotThereEngine<RanluxEngine>();
+  stat |= fileNotThereEngine<RanluxppEngine>();
   stat |= fileNotThereEngine<RanshiEngine>();
   stat |= fileNotThereEngine<TripleRand>();
   return stat;
@@ -1290,6 +1291,7 @@ int main() {
   stat |= saveEngine<MTwistEngine,  RandPoisson>("MTwistEngine.oldsav");
   stat |= saveEngine<RanecuEngine,  RandPoisson>("RanecuEngine.oldsav");
   stat |= saveEngine<Ranlux64Engine,RandPoisson>("Ranlux64Engine.oldsav");
+  stat |= saveEngine<RanluxppEngine,RandPoisson>("RanluxppEngine.oldsav");
   stat |= saveEngine<RanluxEngine,  RandPoisson>("RanluxEngine.oldsav");
   stat |= saveEngine<RanshiEngine,  RandPoisson>("RanshiEngine.oldsav");
   stat |= saveEngine<TripleRand,    RandPoisson>("TripleRand.oldsav");
@@ -1311,6 +1313,7 @@ int main() {
   stat |= checkSaveEngine<MTwistEngine,  RandPoisson>("MTwistEngine.oldsav");
   stat |= checkSaveEngine<Ranlux64Engine,RandPoisson>("Ranlux64Engine.oldsav");
   stat |= checkSaveEngine<RanluxEngine,  RandPoisson>("RanluxEngine.oldsav");
+  stat |= checkSaveEngine<RanluxppEngine,RandPoisson>("RanluxppEngine.oldsav");
   stat |= checkSaveEngine<RanshiEngine,  RandPoisson>("RanshiEngine.oldsav");
   stat |= checkSaveEngine<TripleRand,    RandPoisson>("TripleRand.oldsav");
   stat |= checkSaveEngine<RanecuEngine,  RandPoisson>("RanecuEngine.oldsav");
@@ -1333,6 +1336,7 @@ int main() {
   stat |= checkEngineName<RanecuEngine  >("RanecuEngine");
   stat |= checkEngineName<Ranlux64Engine>("Ranlux64Engine");
   stat |= checkEngineName<RanluxEngine  >("RanluxEngine");
+  stat |= checkEngineName<RanluxppEngine>("RanluxppEngine");
   stat |= checkEngineName<RanshiEngine  >("RanshiEngine");
   stat |= checkEngineName<TripleRand    >("TripleRand");
 #endif
@@ -1354,6 +1358,7 @@ int main() {
   {RanecuEngine e(234);		stat |= checkEngineInstanceSave(e);}
   {Ranlux64Engine e(234);	stat |= checkEngineInstanceSave(e);}
   {RanluxEngine e(234);		stat |= checkEngineInstanceSave(e);}
+  {RanluxppEngine e(234);	stat |= checkEngineInstanceSave(e);}
   {RanshiEngine e(234);		stat |= checkEngineInstanceSave(e);}
   {TripleRand e(234);		stat |= checkEngineInstanceSave(e);}
   
@@ -1370,6 +1375,7 @@ int main() {
   stat |= checkDistributions<MTwistEngine>();
   stat |= checkDistributions<Ranlux64Engine>();
   stat |= checkDistributions<RanluxEngine>();
+  stat |= checkDistributions<RanluxppEngine>();
   stat |= checkDistributions<RanshiEngine>();
   stat |= checkDistributions<TripleRand>();
 
@@ -1390,6 +1396,7 @@ int main() {
   stat |= checkSharing<MTwistEngine>();
   stat |= checkSharing<Ranlux64Engine>();
   stat |= checkSharing<RanluxEngine>();
+  stat |= checkSharing<RanluxppEngine>();
   stat |= checkSharing<RanshiEngine>();
   stat |= checkSharing<TripleRand>();
 #endif
@@ -1467,6 +1474,7 @@ int main() {
   stat |= anonymousRestore<RanecuEngine>(39);
   stat |= anonymousRestore<Ranlux64Engine>(19);
   stat |= anonymousRestore<RanluxEngine>(20);
+  stat |= anonymousRestore<RanluxppEngine>(19);
   stat |= anonymousRestore<RanshiEngine>(21);
   stat |= anonymousRestore<TripleRand>(22);
   stat |= anonymousRestore<NonRandomEngine>(22);
@@ -1490,6 +1498,7 @@ int main() {
   stat |= anonymousRestoreStatics<Hurd160Engine,  HepJamesRandom> ( );
   stat |= anonymousRestoreStatics<Hurd288Engine,  RanecuEngine>   ( );
   stat |= anonymousRestoreStatics<HepJamesRandom, Ranlux64Engine> ( ); 
+  stat |= anonymousRestoreStatics<HepJamesRandom, RanluxppEngine> ( ); 
   stat |= anonymousRestoreStatics<TripleRand,     TripleRand>     ( );
   stat |= anonymousRestoreStatics<HepJamesRandom, HepJamesRandom> ( );
   stat |= anonymousRestoreStatics<MixMaxRng,      MixMaxRng>      ( );
@@ -1510,6 +1519,8 @@ int main() {
   stat |= vectorRestore<MTwistEngine>(118);
   stat |= vectorRestore<RanecuEngine>(139);
   stat |= vectorRestore<Ranlux64Engine>(119);
+  stat |= vectorRestore<RanluxEngine>(120);
+  stat |= vectorRestore<RanluxppEngine>(159);
   stat |= vectorRestore<RanluxEngine>(120);
   stat |= vectorRestore<RanshiEngine>(121);
   stat |= vectorRestore<TripleRand>(122);
