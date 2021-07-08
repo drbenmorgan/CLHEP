@@ -1,3 +1,7 @@
+18 May 2021 - G.Cosmo
+
+* Fixed more compilation warnings on gcc-11 for shadowing in RandPoissonT.h.
+
 ==============================
 28.05.21 Release CLHEP-2.4.4.2
 ==============================
