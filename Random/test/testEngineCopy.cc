@@ -204,6 +204,7 @@ int main() {
   stat |= vectorRestore<RanecuEngine>(139);
   stat |= vectorRestore<Ranlux64Engine>(119);
   stat |= vectorRestore<RanluxEngine>(120);
+  stat |= vectorRestore<RanluxppEngine>(119);
   stat |= vectorRestore<RanshiEngine>(121);
   stat |= vectorRestore<TripleRand>(122);
   stat |= vectorRestore<NonRandomEngine>(123);
