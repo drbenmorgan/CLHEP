@@ -81,9 +81,9 @@ public:
   bool getState(const std::vector<unsigned long> &v) override;
 
   // Save and restore to/from streams
-  operator double() { return flat(); }
-  operator float() { return float(flat()); }
-  operator unsigned int() { return (unsigned int)nextRandomBits(); }
+  operator double() override { return flat(); }
+  operator float() override { return float(flat()); }
+  operator unsigned int() override { return (unsigned int)nextRandomBits(); }
 
   // 1 value for the engine ID, 2 * 9 values for the state, and 2 more values
   // for the carry bit and the position.
