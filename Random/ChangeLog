@@ -1,3 +1,14 @@
+==============================
+30.08.21 Release CLHEP-2.4.5.0
+==============================
+
+30 July 2021 Jonas Hahnfel
+
+* Implement RanluxppEngine 
+** RANLUX++ is an extension of RANLUX and uses the equivalent LCG to
+   offer a much higher luxury level at better performance. It inherits
+   the excellent statistical properties and passes the full BigCrush.
+
 18 May 2021 - G.Cosmo
 
 * Fixed more compilation warnings on gcc-11 for shadowing in RandPoissonT.h.
