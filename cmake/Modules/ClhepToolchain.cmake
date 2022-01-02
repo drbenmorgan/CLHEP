@@ -26,7 +26,11 @@ macro(clhep_toolchain)
 # First we set the needed variables
 set(CLHEP_VERSION ${VERSION})
 set(CLHEP_DEFINITIONS )
-set(CLHEP_INCLUDE_DIR ${PROJECT_BINARY_DIR})
+set(CLHEP_INCLUDE_DIR "${PROJECT_BINARY_DIR}")
+set(CLHEP_INCLUDE_DIR_SETUP "
+# CLHEP configured for use from the build tree - absolute paths are used.
+set(CLHEP_INCLUDE_DIR \"${CLHEP_INCLUDE_DIR}\")
+")
 
 # Now we configure the CLHEPConfig and CLHEPConfigVersion file templates,
 # outputting to the top level of the build tree.
@@ -114,7 +118,10 @@ file(RELATIVE_PATH _relincpath
   ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/CLHEP-${VERSION}
   ${CMAKE_INSTALL_PREFIX}/include
   )
-set(CLHEP_INCLUDE_DIR "\${_thisdir}/${_relincpath}")
+set(CLHEP_INCLUDE_DIR_SETUP "
+# CLHEP configured for the install with relative paths, so use these
+get_filename_component(CLHEP_INCLUDE_DIR \"\${_thisdir}/${_relincpath}\" ABSOLUTE)
+  ")
 
 # Now we configure the CLHEPConfig and CLHEPConfigVersion file templates,
 # outputting to a directory in the build directory. This is simply a
