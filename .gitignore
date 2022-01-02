@@ -8,3 +8,4 @@ config.guess
 config.sub
 install-sh
 missing
+/build

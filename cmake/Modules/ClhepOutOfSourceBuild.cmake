@@ -1,12 +1,10 @@
-# Throw a fatal error if cmake is invoked from within the source code directory tree
+# Throw a fatal error if cmake is invoked from the source code directory tree
 # clhep_ensure_out_of_source_build()
 #
 
 macro (clhep_ensure_out_of_source_build)
 
-  string(COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}" in_source)
-  string( REGEX MATCH "${CMAKE_SOURCE_DIR}/" in_source_subdir "${CMAKE_BINARY_DIR}")
-  if (in_source OR in_source_subdir)
+  if (CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
   message(FATAL_ERROR "
 ERROR: In source builds of this project are not allowed.
 A separate build directory is required.
