@@ -15,6 +15,8 @@
 
 # code supplied by Ben Morgan Ben.Morgan@warwick.ac.uk
 
+include(CMakePackageConfigHelpers)
+
 macro(clhep_toolchain)
 
 #----------------------------------------------------------------------------
@@ -44,9 +46,10 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfigVersion.cmake.in
   @ONLY
   )
 
-configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfig.cmake.in
-  ${PROJECT_BINARY_DIR}/CLHEPConfig.cmake 
-  @ONLY
+configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfig.cmake.in
+  ${PROJECT_BINARY_DIR}/CLHEPConfig.cmake
+  INSTALL_DESTINATION ${PROJECT_BINARY_DIR}
+  PATH_VARS CLHEP_INCLUDE_DIR
   )
 
 # We 'export' the main CLHEP library targets from the build tree.
@@ -100,19 +103,10 @@ endforeach()
 #----------------------------------------------------------------------------
 # - Now we handle the installation tree
 #
-# Again we set the needed variable first. Not all have actually changed,
+# Again we set the needed variables first. Not all have actually changed,
 # but we set again for clarity and just to be sure.
 set(CLHEP_VERSION ${VERSION})
-
-# The setup of the include dir is slightly different because we want
-# to make the install relocatable (Current CLHEP setup *is* relocatable).
-# We use a relative path from the directory where the CLHEPConfig.cmake
-# file is installed to the actual include dir. 
-file(RELATIVE_PATH _relincpath 
-  ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/CLHEP-${VERSION}
-  ${CMAKE_INSTALL_PREFIX}/include
-  )
-set(CLHEP_INCLUDE_DIR "\${_thisdir}/${_relincpath}")
+set(CLHEP_INCLUDE_DIR include)
 
 # Now we configure the CLHEPConfig and CLHEPConfigVersion file templates,
 # outputting to a directory in the build directory. This is simply a
@@ -122,9 +116,10 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfigVersion.cmake.in
   @ONLY
   )
 
-configure_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfig.cmake.in
-  ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfig.cmake 
-  @ONLY
+configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/Templates/CLHEPConfig.cmake.in
+  ${PROJECT_BINARY_DIR}/InstallTreeFiles/CLHEPConfig.cmake
+  INSTALL_DESTINATION lib${LIB_SUFFIX}/CLHEP-${VERSION} 
+  PATH_VARS CLHEP_INCLUDE_DIR
   )
 
 # Also configure the pkgconfig files, again outputting to a directory under
