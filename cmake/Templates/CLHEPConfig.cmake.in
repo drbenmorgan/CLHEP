@@ -73,33 +73,23 @@
 # not allowed.
 #
 
+@PACKAGE_INIT@
+
 #----------------------------------------------------------------------------
-# Locate ourselves, since all our config files should have been installed
-# alongside us...
+# Configure the non-target paths to the CLHEP headers
 #
-get_filename_component(_thisdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
-
-
-#----------------------------------------------------------------------------
-# Configure the path to the CLHEP headers, using a relative path if possible.
-# This is only known at CMake time, so expand a CMake supplied variable
-# CLHEP has a nice simple header structure.
-set(CLHEP_INCLUDE_DIR @CLHEP_INCLUDE_DIR@)
-
-#----------------------------------------------------------------------------
-# Construct the overall include path for using CLHEP
-#
+set_and_check(CLHEP_INCLUDE_DIR "@PACKAGE_CLHEP_INCLUDE_DIR@")
 set(CLHEP_INCLUDE_DIRS ${CLHEP_INCLUDE_DIR})
 
 #----------------------------------------------------------------------------
 # Include the file listing all the imported targets.
-# This is installed in the same location as us...
 #
-include("${_thisdir}/CLHEPLibraryDepends.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/CLHEPLibraryDepends.cmake")
 
 #----------------------------------------------------------------------
-# - Handle shared vs static - default to shared if user didn't specify
-#   This is actually very simple because we always build both!
+# Handle shared vs static to fill the CLHEP_LIBRARIES variable
+# Default to shared if user didn't specify which. We always build
+# both types, so don't need to specify _FOUND vars. 
 set(CLHEP_KNOWN_COMPONENTS "@CLHEP_libraries@")
 
 # Only allow single library variant to be used to populate CLHEP_LIBRARIES
@@ -115,18 +105,16 @@ foreach(__clhep_component_lib ${CLHEP_KNOWN_COMPONENTS})
   endif()
 endforeach()
 
-# If CLHEP_LIBRARIES is empty at this point, then the complete lib is
-# needed
+# If CLHEP_LIBRARIES is empty here, then the complete lib is wanted
 if(NOT CLHEP_LIBRARIES)
   set(CLHEP_LIBRARIES CLHEP::CLHEP${__clhep_lib_suffix})
 endif()
 
 #-----------------------------------------------------------------------
-# Finally, handle any remaining components.
-# We should have dealt with all available components above, except for
-# ui_all and vis_all, and removed them from the list of FIND_COMPONENTS
-# so any left  we either didn't find or don't know about. Emit a warning
-# if REQUIRED isn't set, or FATAL_ERROR otherwise
+# Finally, handle any remaining components. As we've handled all known
+# ones above, any left we don't know about. Emit a warning
+# if REQUIRED isn't set, or FATAL_ERROR otherwise. We don't use the
+# CMake check_required_components macro to provide more info.
 #
 list(REMOVE_DUPLICATES CLHEP_FIND_COMPONENTS)
 
@@ -138,5 +126,3 @@ foreach(_remaining ${CLHEP_FIND_COMPONENTS})
   endif()
   unset(CLHEP_FIND_REQUIRED_${_remaining})
 endforeach()
-
-# And we should be good to go...
